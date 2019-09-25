@@ -8,8 +8,7 @@
   },
   "license": "UNLICENSED",
   "scripts": {
-    "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback",
-    "eric": "BABEL_ENV=browser webpack-dev-server --display-error-details"
+    "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",

@@ -36,6 +36,10 @@ switch (env) {
             'last 2 versions',
           ],
         },
+        exclude: [
+          'babel-plugin-transform-classes',
+          '@babel/plugin-transform-classes',
+        ],
         modules: false,
         corejs: '3.0.0',
       },
