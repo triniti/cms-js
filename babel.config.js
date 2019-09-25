@@ -1,8 +1,4 @@
-const { resolve } = require('path');
-
 const env = process.env.BABEL_ENV || 'test';
-
-const root = resolve(__dirname, '');
 
 const presets = [
   '@babel/preset-react',
@@ -12,7 +8,10 @@ const plugins = [
   [
     'babel-plugin-module-resolver',
     {
-      root: [`${root}/`],
+      root: ['./src'],
+      alias: {
+        '@triniti/cms': `./src`,
+      },
     },
   ],
   '@babel/plugin-syntax-dynamic-import',
@@ -24,7 +23,7 @@ const plugins = [
 ];
 
 switch (env) {
-  case 'eslint':
+  case 'cjs':
     presets.push([
       '@babel/preset-env',
       {
@@ -36,25 +35,23 @@ switch (env) {
         corejs: '3.0.0',
       },
     ]);
-
-    plugins.push('@babel/plugin-transform-modules-commonjs');
     break;
 
-  case 'test':
+  case 'es6':
     presets.push([
       '@babel/preset-env',
       {
         targets: {
           node: 'current',
         },
-        modules: 'commonjs',
+        modules: false,
         useBuiltIns: 'usage',
         corejs: '3.0.0',
       },
     ]);
 
-    plugins.push('@babel/plugin-transform-modules-commonjs');
-    plugins.push('dynamic-import-node');
+    plugins.push('lodash');
+    plugins.push('./use-lodash-es');
     break;
 
   default:
