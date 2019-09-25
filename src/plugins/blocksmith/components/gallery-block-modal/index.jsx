@@ -1,0 +1,310 @@
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+
+import createDelegateFactory from '@triniti/app/createDelegateFactory';
+import GalleryGrid from '@triniti/cms/plugins/curator/components/gallery-grid';
+import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import {
+  Modal,
+  ModalBody,
+  ScrollableContainer,
+  Spinner,
+} from '@triniti/admin-ui-plugin/components';
+
+import './styles.scss';
+import changedDate from '../../utils/changedDate';
+import changedTime from '../../utils/changedTime';
+import CustomizeOptions from './CustomizeOptions';
+import delegateFactory from './delegate';
+import Footer from './Footer';
+import Header from './Header';
+import SearchBar from '../search-bar';
+import selector from './selector';
+
+class GalleryBlockModal extends React.Component {
+  static propTypes = {
+    block: PropTypes.instanceOf(Message).isRequired,
+    galleries: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
+    gallery: PropTypes.instanceOf(Message),
+    image: PropTypes.instanceOf(Message),
+    isFreshBlock: PropTypes.bool.isRequired,
+    isGallerySearchRequestFulfilled: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool,
+    node: PropTypes.instanceOf(Message),
+    onAddBlock: PropTypes.func.isRequired,
+    onEditBlock: PropTypes.func.isRequired,
+    toggle: PropTypes.func.isRequired,
+    delegate: PropTypes.shape({
+      handleClearGalleryChannel: PropTypes.func.isRequired,
+      handleSearchGalleries: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  static defaultProps = {
+    gallery: null,
+    image: null,
+    node: null,
+    isOpen: false,
+  };
+
+  constructor(props) {
+    super(props);
+    const { block, gallery, image } = props;
+    this.state = {
+      activeStep: 0,
+      galleryQ: '',
+      hasUpdatedDate: block.has('updated_date'),
+      startsAtPoster: block.get('start_at_poster'),
+      isAssetPickerModalOpen: false,
+      isReadyToDisplay: false,
+      launchText: block.get('launch_text') || '',
+      selectedGallery: gallery || null,
+      selectedImage: image || null,
+      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+    };
+    this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
+    this.handleChangeStartAtPoster = this.handleChangeStartAtPoster.bind(this);
+    this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
+    this.handleChangeQ = this.handleChangeQ.bind(this);
+    this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleClearImage = this.handleClearImage.bind(this);
+    this.handleDecrementStep = this.handleDecrementStep.bind(this);
+    this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleIncrementStep = this.handleIncrementStep.bind(this);
+    this.handleSearchGalleries = this.handleSearchGalleries.bind(this);
+    this.handleSelectGallery = this.handleSelectGallery.bind(this);
+    this.handleSelectImage = this.handleSelectImage.bind(this);
+    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+  }
+
+  componentDidMount() {
+    const { delegate } = this.props;
+    delegate.handleSearchGalleries();
+  }
+
+  componentWillReceiveProps({ isGallerySearchRequestFulfilled }) {
+    const { isReadyToDisplay } = this.state;
+    if (!isReadyToDisplay && isGallerySearchRequestFulfilled) {
+      this.setState({ isReadyToDisplay: true });
+    }
+  }
+
+  componentWillUnmount() {
+    const { delegate } = this.props;
+    delegate.handleClearGalleryChannel();
+  }
+
+  setBlock() {
+    const {
+      hasUpdatedDate,
+      startsAtPoster,
+      launchText,
+      selectedImage,
+      selectedGallery,
+      updatedDate,
+    } = this.state;
+    const { block } = this.props;
+    return block
+      .schema()
+      .createMessage()
+      .set('node_ref', selectedGallery.get('_id').toNodeRef())
+      .set('launch_text', launchText || null)
+      .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('start_at_poster', startsAtPoster);
+  }
+
+  handleAddBlock() {
+    const { onAddBlock, toggle } = this.props;
+    onAddBlock(this.setBlock());
+    toggle();
+  }
+
+  handleChangeLaunchText({ target: { value: launchText } }) {
+    this.setState({ launchText });
+  }
+
+  handleChangeHasUpdatedDate() {
+    this.setState(({ hasUpdatedDate }) => ({
+      hasUpdatedDate: !hasUpdatedDate,
+    }));
+  }
+
+  handleChangeStartAtPoster() {
+    this.setState(({ startsAtPoster }) => ({
+      startsAtPoster: !startsAtPoster,
+    }));
+  }
+
+  handleChangeDate(date) {
+    this.setState(changedDate(date));
+  }
+
+  handleChangeTime({ target: { value: time } }) {
+    this.setState(changedTime(time));
+  }
+
+  handleChangeQ({ target: { value: galleryQ } }) {
+    this.setState({ galleryQ }, this.handleSearchGalleries);
+  }
+
+  handleDecrementStep() {
+    this.setState(({ activeStep }) => ({ activeStep: activeStep - 1 }));
+  }
+
+  handleIncrementStep() {
+    this.setState(({ activeStep }) => ({ activeStep: activeStep + 1 }));
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle } = this.props;
+    onEditBlock(this.setBlock());
+    toggle();
+  }
+
+  handleClearImage() {
+    this.setState({ selectedImage: null }, this.refocusModal);
+  }
+
+  handleSearchGalleries() {
+    const { galleryQ } = this.state;
+    const { delegate } = this.props;
+    this.setState({ isReadyToDisplay: false }, () => {
+      delegate.handleSearchGalleries({ q: galleryQ });
+    });
+  }
+
+  handleSelectGallery(gallery) {
+    this.setState({ selectedGallery: gallery });
+  }
+
+  handleSelectImage(image) {
+    this.setState({ selectedImage: image });
+  }
+
+  handleToggleAssetPickerModal() {
+    this.setState(({ isAssetPickerModalOpen }) => ({
+      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+    }), () => {
+      const { isAssetPickerModalOpen } = this.state;
+      if (!isAssetPickerModalOpen) {
+        this.refocusModal();
+      }
+    });
+  }
+
+  /**
+   * Needs to return the focus to an element else pressing "ESC" to close the modal won't work
+   */
+  refocusModal() {
+    this.button.focus();
+  }
+
+  render() {
+    const {
+      activeStep,
+      galleryQ,
+      hasUpdatedDate,
+      isAssetPickerModalOpen,
+      isReadyToDisplay,
+      launchText,
+      selectedGallery,
+      selectedImage,
+      updatedDate,
+      startsAtPoster,
+    } = this.state;
+    const { isOpen, isFreshBlock, toggle, galleries, node } = this.props;
+
+    return (
+      <Modal
+        autoFocus={false}
+        centered
+        isOpen={isOpen}
+        toggle={toggle}
+        size="xxl"
+        keyboard={!isAssetPickerModalOpen}
+      >
+        <Header activeStep={activeStep} isFreshBlock={isFreshBlock} toggle={toggle} />
+        <ModalBody className="p-0">
+          {activeStep === 0 && (
+            <SearchBar
+              onChangeQ={this.handleChangeQ}
+              onClick={this.handleSearchGalleries}
+              placeholder="Search galleries..."
+              value={galleryQ}
+            />
+          )}
+          {
+            <ScrollableContainer
+              className="bg-gray-400"
+              style={{
+                height: `calc(100vh - ${activeStep === 0 ? 212 : 167}px)`,
+              }}
+            >
+              {isReadyToDisplay && activeStep === 0 && !!galleries.length && (
+                <GalleryGrid
+                  galleries={galleries}
+                  onSelectGallery={this.handleSelectGallery}
+                  selectedGalleries={selectedGallery ? [selectedGallery] : []}
+                />
+              )}
+              {activeStep === 1 && (
+                <CustomizeOptions
+                  block={this.setBlock()}
+                  hasUpdatedDate={hasUpdatedDate}
+                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageSelected={!!selectedImage}
+                  launchText={launchText}
+                  node={node}
+                  onChangeDate={this.handleChangeDate}
+                  onChangeHasUpdatedDate={this.handleChangeHasUpdatedDate}
+                  onChangeStartAtPoster={this.handleChangeStartAtPoster}
+                  onChangeLaunchText={this.handleChangeLaunchText}
+                  onChangeTime={this.handleChangeTime}
+                  onClearImage={this.handleClearImage}
+                  onSelectImage={this.handleSelectImage}
+                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  selectedGallery={selectedGallery}
+                  selectedImage={selectedImage}
+                  updatedDate={updatedDate}
+                  startsAtPoster={startsAtPoster}
+                />
+              )}
+              {isReadyToDisplay && activeStep === 0 && !galleries.length && (
+                <div className="not-found-message">
+                  <p>No galleries found that match your search.</p>
+                </div>
+              )}
+              {!isReadyToDisplay && activeStep === 0 && (
+                <Spinner centered style={activeStep === 1 ? { height: 'auto' } : {}} />
+              )}
+            </ScrollableContainer>
+          }
+        </ModalBody>
+        <Footer
+          activeStep={activeStep}
+          innerRef={(el) => {
+            this.button = el;
+          }}
+          isFreshBlock={isFreshBlock}
+          isNextButtonDisabled={(activeStep === 0 && !selectedGallery) || activeStep === 1}
+          onAddBlock={this.handleAddBlock}
+          onDecrementStep={this.handleDecrementStep}
+          onEditBlock={this.handleEditBlock}
+          onIncrementStep={this.handleIncrementStep}
+          toggle={toggle}
+        />
+      </Modal>
+    );
+  }
+}
+
+export default connect(
+  selector,
+  createDelegateFactory(delegateFactory),
+)(GalleryBlockModal);
