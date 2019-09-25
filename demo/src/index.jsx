@@ -8,18 +8,22 @@ import { setInstance } from '@triniti/app';
 // // important:: load main scss BEFORE App
 // import 'assets/styles/main.scss';
 //
-// import './config/uriTemplates';
+import './config/uriTemplates';
 import App from './App';
-// import preloadedState from './config/preloadedState';
-// import Root from './Root';
+import preloadedState from './config/preloadedState';
+import Root from './Root';
 //
-const app = new App();
+const app = new App(preloadedState);
 setInstance(app);
 app.start();
 
 const MOUNT_NODE = document.getElementById('root');
 render(
-  <div>what</div>,
+  <Root
+    store={app.getStore()}
+    routes={app.getRoutes()}
+    baseUrl={app.getContainer().get('app_base_url')}
+  />,
   MOUNT_NODE,
 );
 

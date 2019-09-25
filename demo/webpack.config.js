@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const webpack = require('webpack');
+const { resolve } = require('path');
 
 /**
  * This block of code grabs the .env variables and overwrites them
@@ -31,6 +32,9 @@ module.exports = (webpackEnv = {}) => {
       javascript: './index.jsx',
       html: './index.html',
     },
+    resolve: {
+      extensions: ['*', '.js', '.jsx', '.json'],
+    },
     module: {
       rules: [
         {
@@ -39,9 +43,46 @@ module.exports = (webpackEnv = {}) => {
           loaders: ['babel-loader'],
         },
         {
+          test: /\.svg$/,
+          use: [
+            'raw-loader',
+          ],
+        },
+        {
           test: /\.html$/,
           loaders: ['file-loader?name=[name].[ext]'],
-        }
+        },
+        {
+          test: /\.scss$/,
+          use: [
+            {
+              loader: 'style-loader',
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 3,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: resolve(__dirname, 'postcss.config.js'),
+                },
+              },
+            },
+            {
+              loader: 'sass-loader',
+            },
+            {
+              loader: 'sass-resources-loader',
+              options: {
+                resources: resolve(__dirname, 'src/assets/styles/_variables.scss'),
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: [
