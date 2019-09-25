@@ -1,6 +1,7 @@
 # Node App Files #
 ############
 /node_modules/
+demo/node_modules/
 /dist/
 
 # Deployment/IDE Tools #

@@ -11,12 +11,12 @@ const plugins = [
       root: ['./src']
     }
   ],
-  [
-    'babel-plugin-transform-builtin-extend',
-    {
-      globals: ['Error']
-    }
-  ],
+  // [
+  //   'babel-plugin-transform-builtin-extend',
+  //   {
+  //     globals: ['Error']
+  //   }
+  // ],
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-transform-async-to-generator',
   '@babel/plugin-proposal-class-properties',

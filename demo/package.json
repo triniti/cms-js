@@ -8,9 +8,10 @@
   },
   "license": "UNLICENSED",
   "scripts": {
-    "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
+    "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback",
+    "eric": "BABEL_ENV=browser webpack-dev-server --display-error-details"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -31,38 +32,39 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@triniti/app": "^0.4.4",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^3.2.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
-    "file-loader": "^4.2.0",
-    "prop-types": "^15.7.2",
-    "react-dom": "^16.9.0",
-    "react-redux": "^7.1.1",
-    "react": "^16.9.0",
-    "redux": "^4.0.4",
-    "url-loader": "^2.1.0",
-    "whatwg-fetch": "^3.0.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^9.6.1",
-    "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "dotenv": "^8.1.0",
+    "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
+    "prop-types": "^15.7.2",
     "raw-loader": "^3.1.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-masonry-css": "^1.0.12",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "sass-loader": "^8.0.0",
     "sass-resources-loader": "^2.0.1",
     "style-loader": "^1.0.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0",
-    "webpack": "^4.39.3"
+    "whatwg-fetch": "^3.0.0"
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "dependencies": {
+    "react-hot-loader": "^4.12.14"
+  }
 }
