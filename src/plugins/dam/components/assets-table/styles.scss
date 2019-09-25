@@ -1,0 +1,38 @@
+// Temporary styles for icon-toggle
+
+// todo: remove this once latest admin-ui 0.4.9 is pushed
+
+.icon-toggle:first-child {
+
+  .btn-outline-light & {
+    opacity: 0.4;
+  }
+
+  .btn-hover & {
+    opacity: 1;
+  }
+
+  .btn.active &,
+  .btn:active & {
+    display: none;
+  }
+}
+
+.icon-toggle:last-child {
+  display: none;
+
+  .btn:active &,
+  .btn.active & {
+    display: inline-flex;
+  }
+  .btn-outline-light:active  & {
+    opacity: 0.4;
+  }
+  .btn-outline-light.active  & {
+    opacity: 1;
+  }
+
+  .btn-hover & {
+    opacity: 1;
+  }
+}
