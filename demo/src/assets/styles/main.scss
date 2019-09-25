@@ -1,0 +1,333 @@
+/*!
+ * Bootstrap v4.1.2 (https://getbootstrap.com/)
+ * Copyright 2011-2018 The Bootstrap Authors
+ * Copyright 2011-2018 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+@import "variables";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/print";
+
+
+// todo: add items for next admin-ui release 0.5.9 or higher
+
+.card-header {
+
+  .screen-body-content > .card > &,
+  .screen-body-content > div:not(.card) > .card > & {
+    min-height: 57px;
+  }
+}
+
+// media-body hide
+
+.media-body p:empty {
+  display: none;
+}
+
+.btn-usernav {
+  margin: 0 !important;
+}
+
+
+@media (min-width: 1025px) {
+  .navbar-main-brand.navbar-brand {
+    margin-right: 1.25rem !important;
+  }
+}
+
+@media (min-width: 1140px) and (max-width: 1300px) {
+  .main-nav .navbar-nav .nav-link {
+    font-size: .8rem !important;
+    padding: 1.25rem .5rem !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .main-nav .navbar-nav .nav-link {
+    padding: 1.5rem 1rem 1.5rem 1rem !important;
+  }
+}
+
+// mobile form classes
+
+.modal-body-blocksmith {
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+
+  @media (max-width: 479px) {
+    padding: 1rem 1rem 0 1rem;
+  }
+  @media (max-width: 359px) {
+    padding: .75rem .75rem 0 .75rem;
+  }
+}
+
+.gallery-grid-container {
+  padding: .5rem 0;
+
+  @media (min-width: 360px) {
+    padding: 1rem .5rem;
+  }
+  @media (min-width: 480px) {
+    padding: 1rem;
+  }
+}
+
+.form-group-mobile.form-inline > .form-group,
+.form-group-mobile > .form-group {
+
+  @media (max-width: 575px) {
+    width: 100%;
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+}
+
+.modal-footer {
+
+  @media(max-width: 575px) {
+    padding: .5rem !important;
+  }
+}
+
+// col-auto fixes
+
+.col-auto {
+  flex-grow: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+
+// fix for .hide and toggle buttons
+
+.hide {
+  pointer-events: auto !important;
+}
+
+.hide:not(.fade) {
+  pointer-events: none !important;
+}
+
+
+// sidebar popover mobile widths
+
+.popover.sidebar-scrollable {
+
+  @media(max-width: 359px) {
+    width: 240px !important;
+  }
+  @media(min-width: 360px) and (max-width: 399px) {
+    width: 346px !important;
+  }
+  @media(min-width: 360px) and (max-width: 399px) {
+    margin-left: 9px !important;
+    margin-right: 0 !important;
+
+    & > .arrow {
+      display: none;
+    }
+  }
+}
+
+// darken modal backdrop - need to add to variables
+
+.modal-backdrop.show {
+  opacity: 0.6;
+}
+
+
+// height resets
+
+.h-x-md-auto {
+
+  @media (max-width: 767px) {
+    height: auto !important;
+  }
+}
+
+
+// usernav button position
+
+.dropdown-usernav {
+  right: .5rem !important;
+
+  @media (min-width: 1025px) {
+    right: .75rem !important;
+  }
+  @media (min-width: 1400px) {
+    right: 1rem !important;
+  }
+}
+
+
+// nav spacing
+
+@media (min-width: 1025px) and (max-width: 1050px) {
+  .navbar-main-brand.navbar-brand {
+    margin-right: .25rem !important;
+  }
+}
+
+
+// check label
+
+.form-check-label > label {
+  margin-bottom: 0;
+  font-size: 0.825rem;
+  text-transform: none;
+  opacity: 1;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: #29292b;
+}
+
+
+// increase right margin of form-check-inline
+
+.form-check-inline {
+  margin-right: 1.5rem;
+}
+
+// form-check bottom margin
+
+.form-check {
+  margin-bottom: 1.5rem;
+}
+
+// notification send status colors
+.status-failed {
+  background-color: #ffd1d1 !important;
+}
+
+tr.status-failed {
+  box-shadow: inset 3px 0 0 indianred;
+}
+
+tr.status-sent {
+  background-color: #fff !important;
+  box-shadow: inset 3px 0 0 #04c5a2;
+}
+
+.status-sent {
+  background-color: #e1f6f3 !important;
+}
+
+.form-control {
+  max-width: 100%;
+  resize: both;
+}
+
+// fix for keyValuesFields getting larger when validated
+.form-inline .form-control {
+  padding-right: 2.4025rem;
+}
+
+.icon-no-events {
+  pointer-events: none;
+}
+
+
+// fixme: use Bachelor Nation logo instead of Triniti
+.navbar-main-brand {
+  margin: 0;
+  width: 101px !important;
+  background-size: 101px 24px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='101' height='24' viewBox='0 0 1406 335' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3clinearGradient x1='0%25' y1='50%25' y2='50%25' id='a'%3e%3cstop stop-color='%23EAA63C' offset='0%25'/%3e%3cstop stop-color='%23FFFB6A' offset='100%25'/%3e%3c/linearGradient%3e%3clinearGradient x1='50%25' y1='37.3%25' x2='50%25' y2='100%25' id='b'%3e%3cstop stop-color='%23E5AE37' offset='0%25'/%3e%3cstop stop-color='%2377521F' offset='100%25'/%3e%3c/linearGradient%3e%3clinearGradient x1='50%25' y1='0%25' x2='50%25' y2='57.2%25' id='c'%3e%3cstop stop-color='%23A87222' offset='0%25'/%3e%3cstop stop-color='%23E8B23F' offset='100%25'/%3e%3c/linearGradient%3e%3c/defs%3e%3cg fill='none' fill-rule='evenodd'%3e%3cpath d='M1045.2 92a91.8 91.8 0 1 1 183.6 0 91.8 91.8 0 0 1-183.6 0zm91.8 71.5a71.5 71.5 0 1 0 0-143 71.5 71.5 0 0 0 0 143z' stroke='%238E5726' stroke-width='2' fill='url(%23a)' fill-rule='nonzero' transform='translate(0 1)'/%3e%3cpath d='M1053.3 117.7c11 26.5 28.1 45.6 55 54.8 14.9 5.1 35.4 5.1 46.1.1-23 3.5-44.2-.7-63.2-14.1l28 12.1.7-1.3-.5-1c11 .2 22.4 1.3 33.7.3 7-.6 14.3-3.5 20.6-7.1 29.3-16.8 45-42.2 43.4-76.4-1.1-23.5-13.3-41.8-31.5-56.2l-6.3-4.8v-1a74.4 74.4 0 0 1 29.8 30.1c6.9 12.6 9 26.6 11.8 40.4 3.4-11.6 2.5-23-1.7-34.3 11.7 21 9.8 57.5-7.9 84.1a90.3 90.3 0 0 1-92.8 37.2c-31.7-6.8-59.3-28.7-65.2-62.9z' fill='url(%23b)' fill-rule='nonzero' transform='translate(0 1)'/%3e%3cpath d='M1067.8 42.3c27.3-37.7 78-43.2 107-20.9a78.2 78.2 0 0 0-58.3-5.6l11.4-1.2a78.5 78.5 0 0 1 86.3 67.6c2.5 19-2.4 36.4-13.7 51.8-1.1 1.5-4.2 1.4-6.6 1.5a86.3 86.3 0 0 0 13.7-34.3 72 72 0 0 0-68.5-81.3 72.1 72.1 0 0 0-74.4 77.6c.2 3 1 5.9 1.2 8.9.1 2.3-.3 4.6-1 6.9a68.8 68.8 0 0 1-2-40.2c-.7.6-1.2.8-1.4 1.1l-.8 1.3c.1-10 8.8-25.6 23.8-42.8l-3.7-2.9-11.9 13.7a6 6 0 0 1-1.1-1.2z' fill='url(%23c)' fill-rule='nonzero' transform='translate(0 1)'/%3e%3cpath d='M1202.1 33.6a83.8 83.8 0 0 0-62.3-26l9.1-1.4V4.9l-28.2-1.4c25.6-7 68.6 10.2 81.4 30.1z' fill='%23EBA141' fill-rule='nonzero'/%3e%3cpath d='M1058.7 115a67.7 67.7 0 0 1-2.7-31.3l2.7 31.3z' fill='%23FFB24C' fill-rule='nonzero'/%3e%3cpath d='M1053 63c4-15 22-50 69-59a140.3 140.3 0 0 0-46.2 27.2A244.5 244.5 0 0 0 1053 63' fill='%23FFF'/%3e%3cpath d='M1069.3 42c-9.8 10.4-35 59-1.3 102a80.4 80.4 0 0 0 89.3 28.5c-41 4.7-69-8.3-85-30.3S1046 89 1069.3 42' fill='%23FFF'/%3e%3cg fill='%23fff' fill-rule='nonzero'%3e%3cpath d='M.1 14.9h115.6c22.4 0 43.3 10.3 43.3 38.8 0 11.9-6 26.3-20.5 30.8v.4c17.9 3 27.4 20.7 27.4 37.3 0 20.5-9.5 46.6-56.1 46.6H.1V14.9zm41.8 61.3h58.2c9.7 0 15.7-5.2 15.7-16.6 0-9.7-4.3-16.6-21.6-16.6H41.8v33.2h.1zm0 63.3h61.7c12.9 0 17.9-8.4 17.9-18.1 0-12.1-7.5-18.5-22.2-18.5H42v36.6h-.1zM293.4 137.2h-70.7l-12.5 31.7h-45.1L232.8 15h50.4l67.7 153.9h-45.1l-12.4-31.7zM258 48.1l-24.1 61h48.3l-24.2-61zM482.6 73.1c-3.9-22.2-22.2-33.2-44-33.2-39.7 0-48.1 31-48.1 52 0 20.9 8.4 52 48.1 52 20.3 0 39.9-9.7 44-34.1H528c-5.2 44.8-42 63.4-91 63.4-56.1 0-91-24.1-91-81.3 0-57.2 34.9-81.3 91-81.3 37.1 0 84.3 9.5 90.5 62.5h-44.9zM548.1 14.9h41.8v57.8h86.7V14.9h41.8v153.9h-41.8V102h-86.7v66.8h-41.8zM742.7 14.9h143.8v29.3h-102v31.9h96.8v28h-96.8v35.4h102.8v29.3H742.7zM906.4 14.9h41.8v123.3h93.8v30.6H906.4zM1239.4 14.9h111.9c42.7 0 49.8 26.1 49.8 41.8 0 18.8-7.5 30.8-25 37.1v.4c18.3 2.8 21.1 26.1 21.1 41.2 0 7.5.6 25.7 8 33.4h-45.7c-3.9-7.1-4.1-13.4-4.1-29.5 0-21.6-9.3-26.9-22.2-26.9h-52v56.5h-41.8v-154zm41.8 68.2h55.4c9.3 0 20-5.2 20-19.6 0-15.3-12.1-19.2-22.2-19.2h-53.2v38.8zM365.7 233.3h-.3v97.9h-18.3V208.1h21.2l79.1 97.9h.3v-97.9H466v123.1h-21.2zM574.9 295.3h-60.3l-15.7 35.9h-19.7L535 208.1h20.9l55.7 123.1h-20.9l-15.8-35.9zM544.6 225l-23.1 54.5h46.7L544.6 225zM648 224h-46.5v-15.9h111.4V224h-46.5v107.2H648zM727.8 208.1h18.3v123.1h-18.3zM835.9 205c49.5 0 68.4 33.1 68.4 64.6 0 31.5-19 64.6-68.4 64.6-49.4 0-68.4-33.1-68.4-64.6 0-31.5 19-64.6 68.4-64.6zm0 15.9c-28.1 0-50.2 16.2-50.2 48.8 0 32.6 22.1 48.8 50.2 48.8s50.2-16.2 50.2-48.8c0-32.6-22.1-48.8-50.2-48.8zM943.5 233.3h-.3v97.9h-18.3V208.1h21.2l79.1 97.9h.3v-97.9h18.3v123.1h-21.2z'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e");
+
+  @media (min-width: 1025px) {
+    margin-left: 1.25rem;
+    background-position: left center;
+  }
+  & svg {
+    display: none;
+  }
+}
+
+// todo: move this to admin ui, change 1500px to 1400px
+@media (min-width: 1400px) {
+  .main-nav .is-current .nav-link::after {
+    bottom: .9rem !important;
+    margin: 0 1rem !important;
+  }
+}
+
+// todo: temporary save and publish action button style, should move this to admin ui
+.btn-action-save-publish:not(.disabled) {
+  color: #fff;
+  background: #08a0e8;
+  border-color: #08a0e8;
+}
+
+.btn-action-save-publish:not(.disabled):hover,
+.btn-action-save-publish:not(.disabled):focus {
+  color: #fff;
+  background: #0676aa;
+  border-color: #0676aa;
+  border-bottom-color: #0676bb;
+}
+
+.input-group > .input-group-prepend:first-child > .btn.dropdown-toggle-save-options {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  &.show {
+    transform: translate3d(-45px, 40px, 0px);
+  }
+
+  &:after {
+    border-top: 0.4em solid;
+    border-right: 0.4em solid transparent;
+    border-left: 0.4em solid transparent;
+    margin-left: 0;
+    margin-top: 0.2em;
+  }
+
+  &:not(.disabled) {
+    color: #fff;
+    background: #04c5a2;
+    border-color: #03ac8d;
+    border-bottom-color: #039479;
+  }
+}
+
+.dropdown-menu-save-options {
+  > .btn-action {
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  &:after {
+    left: auto;
+    content: '';
+    position: absolute;
+    right: 9px;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent rgba(255, 255, 255, 1) transparent;
+    pointer-events: none;
+  }
+}
+
+.select__control.select__control--is-disabled {
+  background-color: #fafafc;
+  border: 1px solid #efeff1;
+  cursor: not-allowed;
+}

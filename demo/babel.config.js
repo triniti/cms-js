@@ -1,15 +1,20 @@
-const env = process.env.BABEL_ENV || 'cjs';
+const { resolve } = require('path');
 
+const env = process.env.BABEL_ENV || 'cjs';
+const root = resolve(`${__dirname}/../`);
 const presets = [
-  '@babel/preset-react'
+  '@babel/preset-react',
 ];
 
 const plugins = [
   [
     'babel-plugin-module-resolver',
     {
-      root: ['./src']
-    }
+      root: [`${root}demo/src`],
+      alias: {
+        '@triniti/cms': `${root}/src`,
+      },
+    },
   ],
   // [
   //   'babel-plugin-transform-builtin-extend',
@@ -20,10 +25,10 @@ const plugins = [
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-transform-async-to-generator',
   '@babel/plugin-proposal-class-properties',
-  ['@babel/plugin-proposal-decorators', { 'legacy': true }],
+  ['@babel/plugin-proposal-decorators', { legacy: true }],
   '@babel/plugin-proposal-object-rest-spread',
   '@babel/plugin-transform-regenerator',
-  '@babel/plugin-transform-runtime'
+  '@babel/plugin-transform-runtime',
 ];
 
 switch (env) {

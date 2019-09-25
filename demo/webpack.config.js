@@ -10,7 +10,7 @@ const { resolve } = require('path');
  *
  * @return {Object}
  */
-const compileEnvVars = webpackEnv => Object.entries(process.env).reduce((acc, pair) => {
+const compileEnvVars = (webpackEnv) => Object.entries(process.env).reduce((acc, pair) => {
   const [key, value] = pair;
   if (typeof acc[key] === 'undefined') {
     return acc;
@@ -18,16 +18,16 @@ const compileEnvVars = webpackEnv => Object.entries(process.env).reduce((acc, pa
 
   acc[key.toUpperCase()] = value;
   return acc;
-}, Object.assign({
-  NODE_ENV: 'development',
+}, { NODE_ENV: 'development',
   APP_BASE_URL: '/',
   ASSET_PATH: '/',
-}, webpackEnv, dotenv.config().parsed));
+  ...webpackEnv,
+  ...dotenv.config().parsed });
 
 module.exports = (webpackEnv = {}) => {
   const env = compileEnvVars(webpackEnv);
   return {
-    context: __dirname + "/src",
+    context: `${__dirname}/src`,
     entry: {
       javascript: './index.jsx',
       html: './index.html',
@@ -54,6 +54,9 @@ module.exports = (webpackEnv = {}) => {
         },
         {
           test: /\.scss$/,
+          resolve: {
+            extensions: ['.scss', '.sass'],
+          },
           use: [
             {
               loader: 'style-loader',
@@ -93,8 +96,8 @@ module.exports = (webpackEnv = {}) => {
       }, {})),
     ],
     output: {
-      filename: "[name].js",
-      path: __dirname + "/dist",
+      filename: '[name].js',
+      path: `${__dirname}/dist`,
     },
   };
-}
+};

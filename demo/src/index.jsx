@@ -6,7 +6,7 @@ import pbj from '@gdbots/pbj';
 import schemas from '@bachelornation/schemas';
 import { setInstance } from '@triniti/app';
 // // important:: load main scss BEFORE App
-// import 'assets/styles/main.scss';
+import './assets/styles/main.scss';
 //
 import './config/uriTemplates';
 import App from './App';

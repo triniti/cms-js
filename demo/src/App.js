@@ -22,7 +22,7 @@ import TrinitiApp from '@triniti/app/App';
 // import { actionTypes as ravenActionTypes } from '@triniti/cms/plugins/raven/constants';
 // import { configure as configureLocalization } from '@triniti/cms/plugins/utils/services/Localization';
 
-// import DashboardPlugin from 'plugins/dashboard';
+// import DashboardPlugin from './plugins/dashboard';
 // import NcrPlugin from 'plugins/ncr';
 // import localizationMap from './config/localizationMap';
 
