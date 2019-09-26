@@ -6,7 +6,7 @@
   "module": "./index.js",
   "jsnext:main": "./index.js",
   "scripts": {
-    "build": "npm run clean && npm run lint && npm run test && npm run build:babel && npm run build:prepub && npm run build:rm-scripts",
+    "build": "npm run clean && npm run lint && npm run test && npm run build:babel && npm run build:prepub",
     "build:babel": "BABEL_ENV=es6 babel src --out-dir ./dist",
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg}' ./dist",
     "clean": "rimraf ./dist",
@@ -106,6 +106,7 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
+    "cpx": "^1.5.0",
     "decorate-component-with-props": "^1.1.0",
     "deep-freeze": "^0.0.1",
     "enzyme": "^3.10.0",
