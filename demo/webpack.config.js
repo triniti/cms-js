@@ -32,6 +32,12 @@ module.exports = (webpackEnv = {}) => {
       javascript: './index.jsx',
       html: './index.html',
     },
+    output: {
+      filename: '[name].js',
+      chunkFilename: 'chunks/[name].js',
+      path: `${resolve(__dirname, 'dist')}${env.ASSET_PATH}`,
+      publicPath: env.ASSET_PATH,
+    },
     resolve: {
       extensions: ['*', '.js', '.jsx', '.json'],
     },
@@ -120,10 +126,7 @@ module.exports = (webpackEnv = {}) => {
         acc[key] = JSON.stringify(value);
         return acc;
       }, {})),
+      new webpack.HotModuleReplacementPlugin(),
     ],
-    output: {
-      filename: '[name].js',
-      path: `${__dirname}/dist`,
-    },
   };
 };
