@@ -4,8 +4,9 @@ import createLazyComponent from '@triniti/admin-ui-plugin/components/createLazyC
 
 /**
  * Gets all of the block buttons currently supported - used to populate the editor sidebar plugin.
- * Each import that needs to be overridden at the site level with babel cannot use a template
- * literal. see https://github.com/tleunen/babel-plugin-module-resolver/issues/291
+ * This cannot usetemplate literals or other expressions because of the module resolver.
+ *
+ * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
  * @returns {Array} the sidebar buttons.
  */
@@ -94,7 +95,10 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
 }, []);
 
 /**
- * Gets the modal for a specific block type
+ * Gets the modal for a specific block type. This cannot usetemplate literals or other
+ * expressions because of the module resolver.
+ *
+ * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
  * @param {String} message - A triniti curie message
  *
@@ -154,9 +158,10 @@ export const getModalComponent = (message) => {
 };
 
 /**
- * Gets the placeholder for a specific block type. Each import that needs to be overridden at the
- * site level with babel cannot use a template literal.
- * see https://github.com/tleunen/babel-plugin-module-resolver/issues/291
+ * Gets the placeholder for a specific block type. This cannot usetemplate literals or other
+ * expressions because of the module resolver.
+ *
+ * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
  * @param {string} type - a block type eg 'code-block'
  *                        or canvasBlock.generateMessageRef().getCurie().getMessage()
@@ -239,7 +244,10 @@ export const getPlaceholder = (type, decorator, props = {}) => {
 };
 
 /**
- * Gets the preview for a specific block type
+ * Gets the preview for a specific block type. This cannot usetemplate literals or other
+ * expressions because of the module resolver.
+ *
+ * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
  * @param {String} message - A triniti curie message
  *

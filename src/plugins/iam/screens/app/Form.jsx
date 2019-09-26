@@ -1,23 +1,47 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import memoize from 'lodash/memoize';
 import { reduxForm } from 'redux-form';
-
 import createLazyComponent from '@triniti/admin-ui-plugin/components/createLazyComponent';
 import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
+import React from 'react';
 import RolesList from '@triniti/cms/plugins/iam/components/roles-list';
 import RolesPicker from '@triniti/cms/plugins/iam/components/roles-picker';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
-
 import schemas from './schemas';
 
-// fixme: replace template literal
-// const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/iam/components/${type}-fields`)));
+/**
+ * This cannot use template literals or other expressions because of the module resolver.
+ *
+ * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
+ *
+ * @param {string} type
+ */
+const getFieldsComponent = (type) => {
+  switch (type) {
+    case 'alexa-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/alexa-app-fields'));
+    case 'android-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/android-app-fields'));
+    case 'apple-news-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/apple-news-app-fields'));
+    case 'browser-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/browser-app-fields'));
+    case 'email-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/email-app-fields'));
+    case 'ios-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/ios-app-fields'));
+    case 'slack-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/slack-app-fields'));
+    case 'sms-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/sms-app-fields'));
+    default:
+      return null;
+  }
+};
 
 const Form = ({ node, tab, type, isEditMode }) => {
-  const AppFields = type ? null : null;
+  const AppFields = type ? getFieldsComponent(type) : null;
   const streamId = StreamId.fromString(`${type}.history:${node.get('_id')}`);
 
   switch (tab) {
