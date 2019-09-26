@@ -1,7 +1,7 @@
 import test from 'tape';
 import deepFreeze from 'deep-freeze';
 import { convertFromHTML, ContentState, EditorState } from 'draft-js';
-import reducer, { initialState } from '.';
+import reducer, { initialState } from './';
 import cleanEditor from '../actions/cleanEditor';
 import destroyEditor from '../actions/destroyEditor';
 import dirtyEditor from '../actions/dirtyEditor';

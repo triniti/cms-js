@@ -1,4 +1,7 @@
+const { resolve } = require('path');
+
 const env = process.env.BABEL_ENV || 'test';
+const root = resolve(__dirname);
 
 const presets = [
   '@babel/preset-react',
@@ -10,7 +13,7 @@ const plugins = [
     {
       root: ['./src'],
       alias: {
-        '@triniti/cms': `./src`,
+        '@triniti/cms': `${root}/src`,
       },
     },
   ],

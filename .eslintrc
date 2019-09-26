@@ -37,5 +37,12 @@
     "react/no-unused-state": "warn",
     "react/static-property-placement": "off",
     "react/prop-types": "warn"
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {
+        "@triniti/cms": "./src"
+      }
+    }
   }
 }

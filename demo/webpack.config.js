@@ -35,6 +35,15 @@ module.exports = (webpackEnv = {}) => {
     resolve: {
       extensions: ['*', '.js', '.jsx', '.json'],
     },
+    devServer: {
+      port: 3000,
+      https: true,
+      hot: true,
+      // contentBase: resolve(__dirname, 'public'),
+      watchOptions: {
+        ignored: /\/node_modules\/.*/,
+      },
+    },
     module: {
       rules: [
         {

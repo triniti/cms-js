@@ -13,10 +13,11 @@ import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
-const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/iam/components/${type}-fields`)));
+// fixme: replace template literal
+// const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/iam/components/${type}-fields`)));
 
 const Form = ({ node, tab, type, isEditMode }) => {
-  const AppFields = type ? getFieldsComponent(type) : null;
+  const AppFields = type ? null : null;
   const streamId = StreamId.fromString(`${type}.history:${node.get('_id')}`);
 
   switch (tab) {
