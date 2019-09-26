@@ -15,6 +15,7 @@ const plugins = [
         '@triniti/cms': `${root}/src`,
         '@triniti/admin-ui-plugin': `${root}/node_modules/@triniti/admin-ui-plugin`,
         config: `${root}/demo/src/config`,
+        assets: `${root}/demo/src/assets`,
       },
     },
   ],
