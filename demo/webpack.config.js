@@ -53,6 +53,21 @@ module.exports = (webpackEnv = {}) => {
           loaders: ['file-loader?name=[name].[ext]'],
         },
         {
+          test: /\.css$/,
+          loader: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: resolve(__dirname, 'postcss.config.js'),
+                },
+              },
+            },
+          ],
+        },
+        {
           test: /\.scss$/,
           resolve: {
             extensions: ['.scss', '.sass'],

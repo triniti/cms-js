@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
 import Message from '@gdbots/pbj/Message';
 import { Card, CardBody, ListGroup, ListGroupItem } from '@triniti/admin-ui-plugin/components';
-
 import selector from './selector';
 
 const NodeStatus = ({ node, updatedAgo, user }) => (

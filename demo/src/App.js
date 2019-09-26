@@ -8,7 +8,7 @@ import TrinitiApp from '@triniti/app/App';
 // import CommonPlugin from '@triniti/cms/plugins/common';
 // import CuratorPlugin from '@triniti/cms/plugins/curator';
 // import DamPlugin from '@triniti/cms/plugins/dam';
-// import IamPlugin from '@triniti/cms/plugins/iam';
+import IamPlugin from '@triniti/cms/plugins/iam';
 // import NewsPlugin from '@triniti/cms/plugins/news';
 // import NotifyPlugin from '@triniti/cms/plugins/notify';
 // import OvpPlugin from '@triniti/cms/plugins/ovp';
@@ -22,7 +22,7 @@ import TrinitiApp from '@triniti/app/App';
 // import { actionTypes as ravenActionTypes } from '@triniti/cms/plugins/raven/constants';
 // import { configure as configureLocalization } from '@triniti/cms/plugins/utils/services/Localization';
 
-// import DashboardPlugin from './plugins/dashboard';
+import DashboardPlugin from './plugins/dashboard';
 // import NcrPlugin from 'plugins/ncr';
 // import localizationMap from './config/localizationMap';
 
@@ -38,8 +38,8 @@ export default class App extends TrinitiApp {
         // new CommonPlugin(),
         // new CuratorPlugin(),
         // new DamPlugin(),
-        // new DashboardPlugin(),
-        // new IamPlugin(),
+        new DashboardPlugin(),
+        new IamPlugin(),
         // new NcrPlugin(),
         // new NewsPlugin(),
         // new NotifyPlugin(),

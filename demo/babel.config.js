@@ -13,6 +13,7 @@ const plugins = [
       root: [`${root}demo/src`],
       alias: {
         '@triniti/cms': `${root}/src`,
+        '@triniti/admin-ui-plugin': `${root}/node_modules/@triniti/admin-ui-plugin`,
       },
     },
   ],
