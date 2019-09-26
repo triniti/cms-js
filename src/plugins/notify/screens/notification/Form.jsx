@@ -11,9 +11,11 @@ import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
-const getFieldComponent = memoize((type) => createLazyComponent(
-  import(`@triniti/cms/plugins/notify/components/${type}-fields`),
-));
+// fixme: replace template literall
+// const getFieldComponent = memoize((type) => createLazyComponent(
+//   import(`@triniti/cms/plugins/notify/components/${type}-fields`),
+// ));
+const getFieldComponent = () => null;
 
 const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
   const streamId = StreamId.fromString(

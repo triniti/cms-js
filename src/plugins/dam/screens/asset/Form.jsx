@@ -12,10 +12,11 @@ import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fi
 
 import schemas from './schemas';
 
-const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/dam/components/${type}-fields`)));
+// fixme: replace template literal
+// const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/dam/components/${type}-fields`)));
 
 const Form = ({ node: asset, tab, isEditMode, type }) => {
-  const AssetFields = type ? getFieldsComponent(type) : null;
+  const AssetFields = type ? null : null;
   const streamId = StreamId.fromString(`${asset.schema().getCurie().getMessage()}.history:${asset.get('_id')}`);
   const Variants = createLazyComponent(import('@triniti/cms/plugins/dam/components/variants'));
   schemas.node = schemas.nodes.find((schema) => schema.getCurie().getMessage() === type);

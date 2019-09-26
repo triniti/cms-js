@@ -15,10 +15,11 @@ import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 
 import schemas from './schemas';
 
-const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/curator/components/${type}-fields`)));
+// fixme: replace template literal
+// const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/curator/components/${type}-fields`)));
 
 const Form = ({ node, tab, type, isEditMode }) => {
-  const TeaserFields = type ? getFieldsComponent(type) : null;
+  const TeaserFields = type ? null : null;
   const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   schemas.node = node.schema();
 

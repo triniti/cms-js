@@ -19,9 +19,10 @@ class Delegate extends AbstractDelegate {
    * @returns {Promise<void>}
    */
   async handleSubmit(data, formDispatch, formProps) {
-    await super.handleSubmit(data, formDispatch, formProps);
-    const { nodeRef } = this.component.props;
-    this.dispatch(clearResponse(schemas.getNodeRequest.getCurie(), nodeRef.getId().toString()));
+    // fixme: figure out what is killing babel here
+    // await super.handleSubmit(data, formDispatch, formProps);
+    // const { nodeRef } = this.component.props;
+    // this.dispatch(clearResponse(schemas.getNodeRequest.getCurie(), nodeRef.getId().toString()));
   }
 }
 

@@ -16,11 +16,13 @@ const teaserFieldsComponents = {};
 function getFieldsComponent(type) {
   if (schemas.nodes.find((node) => node.getCurie().getMessage() === type).fields.has('target_ref')) {
     // this weirdness prevents another bug where the selectorRef in the picker is undefined
-    return createLazyComponent(import(`@triniti/cms/plugins/curator/components/create-${type}-fields`));
+    // fixme: replace template literal
+    // return createLazyComponent(import(`@triniti/cms/plugins/curator/components/create-${type}-fields`));
   }
   if (!teaserFieldsComponents[type]) {
     // this weirdness prevents this bug: https://stackoverflow.com/questions/39839051/using-redux-form-im-losing-focus-after-typing-the-first-character
-    teaserFieldsComponents[type] = createLazyComponent(import(`@triniti/cms/plugins/curator/components/create-${type}-fields`));
+    // fixme: replace template literal
+    // teaserFieldsComponents[type] = createLazyComponent(import(`@triniti/cms/plugins/curator/components/create-${type}-fields`));
   }
   return teaserFieldsComponents[type];
 }

@@ -35,10 +35,11 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'video-block':
     case 'vimeo-video-block':
     case 'youtube-video-block':
-      acc.push({
-        Button: createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${schema.getCurie().getMessage()}-sidebar-button`)),
-        schema,
-      });
+      // fixme: replace template literal
+      // acc.push({
+      //   Button: createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${schema.getCurie().getMessage()}-sidebar-button`)),
+      //   schema,
+      // });
       return acc;
     default:
       return acc;
@@ -52,8 +53,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
  *
  * @returns {?Component} a React component that is intended to go inside a Modal
  */
-export const getModalComponent = memoize((message) => createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${message}-modal`)));
-
+// fixme: replace template literal
+// export const getModalComponent = memoize((message) => createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${message}-modal`)));
+export const getModalComponent = () => null;
 /**
  * Gets the placeholder for a specific block type. Each import that needs to be overridden at the
  * site level with babel cannot use a template literal.
@@ -64,14 +66,17 @@ export const getModalComponent = memoize((message) => createLazyComponent(import
  *
  * @returns {?Component} a React component that is intended to go inside the DraftJs editor
  */
-export const getPlaceholder = memoize((
-  type,
-  decorator,
-  props = {},
-) => decorator(decorateComponentWithProps(
-  createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${type}-placeholder`)),
-  props,
-)));
+// fixme: replace template literal
+// export const getPlaceholder = memoize((
+//   type,
+//   decorator,
+//   props = {},
+// ) => decorator(decorateComponentWithProps(
+//   createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${type}-placeholder`)),
+//   props,
+// )));
+
+export const getPlaceholder = () => null;
 
 /**
  * Gets the preview for a specific block type
@@ -80,4 +85,6 @@ export const getPlaceholder = memoize((
  *
  * @returns {?Component} a React component that is intended to go inside a Modal
  */
-export const getPreview = memoize((message) => createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${message}-preview`)));
+// fixme: replace template literal
+// export const getPreview = memoize((message) => createLazyComponent(import(`@triniti/cms/plugins/blocksmith/components/${message}-preview`)));
+export const getPreview = () => null;

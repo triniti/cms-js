@@ -12,11 +12,12 @@ import WidgetCodeFields from '@triniti/cms/plugins/curator/components/widget-cod
 import WidgetHasSearchRequestFields from '@triniti/cms/plugins/curator/components/widget-has-search-request-fields';
 import schemas from './schemas';
 
-const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/curator/components/${type}-fields`)));
+// fixme: replace template literal
+// const getFieldsComponent = memoize((type) => createLazyComponent(import(`@triniti/cms/plugins/curator/components/${type}-fields`)));
 const getNodeSchema = memoize((type, node) => node.schema());
 
 const Form = ({ form, isEditMode, node, tab, type }) => {
-  const WidgetFields = type ? getFieldsComponent(type) : null;
+  const WidgetFields = type ? null : null;
   const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   schemas.node = getNodeSchema(type, node);
 
