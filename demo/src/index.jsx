@@ -3,8 +3,8 @@ import 'whatwg-fetch';
 import React from 'react';
 import { render } from 'react-dom';
 import pbj from '@gdbots/pbj';
-import schemas from '@bachelornation/schemas';
 import { setInstance } from '@triniti/app';
+import schemas from '../schemas';
 // // important:: load main scss BEFORE App
 import './assets/styles/main.scss';
 //

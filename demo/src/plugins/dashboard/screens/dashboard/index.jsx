@@ -15,14 +15,14 @@ const Dashboard = ({ location }) => (
           <Col lg="6">
             <TopArticles
               location={location}
-              title="Bachelor Nation Homepage Published"
+              title="Homepage Published"
               search={{ count: 40, status: NodeStatus.PUBLISHED, slotting_key: 'home' }}
             />
           </Col>
           <Col lg="6">
             <TopArticles
               location={location}
-              title="Bachelor Nation Homepage Draft"
+              title="Homepage Draft"
               search={{ count: 10, status: NodeStatus.DRAFT, q: '+is_homepage_news:true' }}
             />
           </Col>

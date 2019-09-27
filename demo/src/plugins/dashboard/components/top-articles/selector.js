@@ -1,6 +1,6 @@
 import createSlug from '@gdbots/common/createSlug';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
-import SearchArticlesRequestV1 from '@bachelornation/schemas/bachelornation/news/request/SearchArticlesRequestV1';
+import { SearchArticlesRequest } from '../../../../../schemas';
 
 /**
  * @param {Object} state
@@ -9,5 +9,5 @@ import SearchArticlesRequestV1 from '@bachelornation/schemas/bachelornation/news
  * @returns {Object}
  */
 export default (state, { title }) => getRequest(
-  state, SearchArticlesRequestV1.schema().getCurie(), `dashboard-${createSlug(title)}`,
+  state, SearchArticlesRequest.schema().getCurie(), `dashboard-${createSlug(title)}`,
 );

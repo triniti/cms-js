@@ -9,7 +9,7 @@ const tld = API_ENDPOINT.split('://').pop().split('/').shift()
   .join('.');
 
 const defaultBaseUrl = `https://dam.${APP_ENV === 'prod' ? '' : `${APP_ENV}.`}${tld}/`;
-const imageBaseUrl = `https://bachelornation-images${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}akamaized.net/`;
+const imageBaseUrl = `https://${APP_VENDOR}-images${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}akamaized.net/`;
 
 /**
  * @param {NodeRef|AssetId|Message|string} id

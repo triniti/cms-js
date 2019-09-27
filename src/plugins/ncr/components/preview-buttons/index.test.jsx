@@ -8,7 +8,7 @@ import PreviewButtons from './index';
 
 const mockNode = ArticleV1Mixin.findOne().createMessage().set('slug', 'test');
 registerTemplates({
-  'bachelornation:article.canonical': 'http://test.com/{slug}/',
+  'acme:article.canonical': 'http://test.com/{slug}/',
 });
 
 const wrapper = shallow(<PreviewButtons

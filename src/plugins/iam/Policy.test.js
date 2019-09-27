@@ -1,9 +1,7 @@
-// fixme: use triniti acme schemas for these tests before moving to separate repo
 import test from 'tape';
 import RoleId from '@gdbots/schemas/gdbots/iam/RoleId';
-import Role from '@bachelornation/schemas/bachelornation/iam/node/RoleV1';
+import Role from '@triniti/acme-schemas/acme/iam/node/RoleV1';
 import Policy from './Policy';
-
 
 test('Policy isGranted tests', (t) => {
   const samples = [

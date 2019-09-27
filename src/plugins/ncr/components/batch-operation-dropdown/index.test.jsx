@@ -38,7 +38,7 @@ test('BatchOperationDropdown render[no nodeRefs]', (t) => {
 });
 
 test('BatchOperationDropdown render[with nodeRefs]', (t) => {
-  const fakeNodeRef1 = NodeRef.fromString('bachelornation:news:111');
+  const fakeNodeRef1 = NodeRef.fromString('acme:news:111');
   wrapper.setProps({ nodeRefs: [fakeNodeRef1] });
   wrapper.update();
 

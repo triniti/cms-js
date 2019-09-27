@@ -38,7 +38,7 @@ const handleResumeBatchOperation = sinon.spy();
 const fakeBatchOpsMessage = {
   message: 'test message',
   messageId: 'Test Id',
-  nodeRef: NodeRef.fromString('bachelornation:news:111'),
+  nodeRef: NodeRef.fromString('acme:news:111'),
   title: 'Test Title',
   type: CONFIRMATION,
 };

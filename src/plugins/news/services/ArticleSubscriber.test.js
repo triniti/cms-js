@@ -46,7 +46,7 @@ test('ArticleSubscriber onInitForm', (t) => {
     'it should set the correct value for _id field');
   t.equal(data.title, 'fake-title', 'it should set the correct value for title field');
   t.equal(data.imageRef.toString(),
-    'bachelornation:image-asset:image_jpg_20151201_cb9c3c8c5c88453b960933a59ede6502',
+    'acme:image-asset:image_jpg_20151201_cb9c3c8c5c88453b960933a59ede6502',
     'it should set the correct value for image_ref field');
   t.equal(data.isHomepageNews, true, 'it should set the correct value for isHomepageNews field');
   t.equal(data.showRelatedArticles,
@@ -108,7 +108,7 @@ test('ArticleSubscriber onSubmitForm', (t) => {
     'it should set the correct node\'s _id');
   t.equal(node.get('title'), 'fake-title', 'it should set the correct node\'s title');
   t.equal(node.get('image_ref').toString(),
-    'bachelornation:image-asset:image_jpg_20151201_cb9c3c8c5c88453b960933a59ede6502',
+    'acme:image-asset:image_jpg_20151201_cb9c3c8c5c88453b960933a59ede6502',
     'it should set the correct imageRef value');
   t.equal(node.get('is_homepage_news'), true, 'it should set the correct isHomepageNews value');
   t.equal(node.get('show_related_articles'),

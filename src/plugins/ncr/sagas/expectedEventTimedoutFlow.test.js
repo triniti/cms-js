@@ -15,7 +15,7 @@ const article = ArticleV1Mixin.findOne().createMessage({ updater_ref: MessageRef
 const articleUpdated = resolveSchema(ArticleV1Mixin, 'event', 'article-updated');
 const getArticleRequest = resolveSchema(ArticleV1Mixin, 'request', 'get-article-request');
 
-const fakeNodeRef = NodeRef.fromString('bachelornation:news:123');
+const fakeNodeRef = NodeRef.fromString('acme:news:123');
 const request = getArticleRequest.createMessage({ node_ref: fakeNodeRef });
 const expectedEvent = articleUpdated.getCurie().toString();
 

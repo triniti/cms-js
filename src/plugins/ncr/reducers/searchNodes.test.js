@@ -12,14 +12,14 @@ test('SearchNodes:reducer:onViewChanged', (t) => {
 
   // test if the slot does exist
   let fakeSearchNode = {
-    'bachelornation:news:request:search-articles-request': {
+    'acme:news:request:search-articles-request': {
       view: 'table',
     },
   };
   deepFreeze(fakeSearchNode);
   let actual = reducer(fakeSearchNode, searchNodesViewChanged(curie, 'list'));
   let expected = {
-    'bachelornation:news:request:search-articles-request': {
+    'acme:news:request:search-articles-request': {
       view: 'list',
     },
   };
@@ -27,14 +27,14 @@ test('SearchNodes:reducer:onViewChanged', (t) => {
 
   // test if the slot does not exist yet
   fakeSearchNode = {
-    'bachelornation:news:request:search-articles-request': {
+    'acme:news:request:search-articles-request': {
       view: 'table',
     },
   };
   deepFreeze(fakeSearchNode);
   actual = reducer(fakeSearchNode, searchNodesViewChanged('test-slot', 'list'));
   expected = {
-    'bachelornation:news:request:search-articles-request': {
+    'acme:news:request:search-articles-request': {
       view: 'table',
     },
     'test-slot': {

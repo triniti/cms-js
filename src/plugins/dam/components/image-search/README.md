@@ -54,7 +54,7 @@ filter out any existing associated images so that the user doesn't attempt to
 associate the same image a second time with the same node.
 
 + An `excludeRef` use case:
-Don't return images already linked to the article with nodeRef bachelornation:article:12345,
+Don't return images already linked to the article with nodeRef acme:article:12345,
 but return all images not linked to that article.  The returned results could contain
 images already linked to a different article, or not linked to any article.
 

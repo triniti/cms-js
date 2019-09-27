@@ -16,4 +16,4 @@ Although this is not currently used outside of Blocksmith, it could be used to e
 
 ### FYI
 + See the [Triniti heading block mixin](https://github.com/triniti/schemas/tree/master/schemas/triniti/canvas/mixin/heading-block).
-+ See the schema in `https://schemas.bachelornation.com/json-schema/bachelornation/canvas/block/heading-block/`.
++ See the schema in `https://acme-schemas.triniti.io/json-schema/acme/canvas/block/heading-block/`.

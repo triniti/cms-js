@@ -9,7 +9,6 @@ import convertToEditorState from './convertToEditorState';
 
 // eslint-disable-next-line max-len
 // fixme: something truly unholy is happening here. can't really add more configs, or certain fields to configs, because of an immutable bug that only happens during testing.
-// it worked before https://github.com/wb-apps/bachelornation/commit/fa50ed1ed50a91236443f35a598d9ee987b3269c
 
 test('Blocksmith:util:convert', (t) => {
   const canvasBlockConfigs = [
@@ -23,14 +22,14 @@ test('Blocksmith:util:convert', (t) => {
     {
       mixin: TextBlockV1Mixin,
       data: {
-        text: '<p><a href="http://www.bachelornation.com/" rel="noopener noreferrer" target="_blank">bachelornation</a> <del>yo</del></p>',
+        text: '<p><a href="http://www.acme.com/" rel="noopener noreferrer" target="_blank">acme</a> <del>yo</del></p>',
       },
     },
     {
       mixin: ImageBlockV1Mixin,
       data: {
         isNsfw: false,
-        nodeRef: NodeRef.fromString('bachelornation:image-asset:image_gif_20180508_8f1a4389056843548bfa9689e790ae72'),
+        nodeRef: NodeRef.fromString('acme:image-asset:image_gif_20180508_8f1a4389056843548bfa9689e790ae72'),
         updatedDate: new Date(),
       },
     },

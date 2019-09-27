@@ -1,3 +1,5 @@
+/* globals APP_VENDOR */
+
 export default [
   {
     navType: 'item',
@@ -17,7 +19,7 @@ export default [
       {
         modal: import('../../../src/plugins/news/components/create-article-modal/Modal'),
         linkTitle: 'Create Article',
-        permission: 'bachelornation:news:command:create-article',
+        permission: `${APP_VENDOR}:news:command:create-article`,
       },
       {
         to: '/curator/galleries',

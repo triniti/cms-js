@@ -49,7 +49,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
 
   fakeState = {
     root: {
-      'bachelornation:news:request:search-articles-request': {
+      'acme:news:request:search-articles-request': {
         request: ['test'],
       },
     },
@@ -75,7 +75,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
 
   fakeState = {
     test: {
-      'bachelornation:news:request:search-articles-request': {
+      'acme:news:request:search-articles-request': {
         request: [{ a: 'content1' }, { b: 'content2' }],
         response: ['test'],
         status: 'fulfilled',
@@ -88,7 +88,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
   actual = reducer(fakeState, clearResponse(curie, 'test'));
   expected = {
     test: {
-      'bachelornation:news:request:search-articles-request': {
+      'acme:news:request:search-articles-request': {
         request: [{ a: 'content1' }, { b: 'content2' }],
         response: null,
         status: 'none',
@@ -100,7 +100,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
 
   fakeState = {
     root: {
-      'bachelornation:news:request:search-articles-request': {
+      'acme:news:request:search-articles-request': {
         response: ['test'],
         status: 'fulfilled',
       },
@@ -110,7 +110,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
   actual = reducer(fakeState, clearResponse(curie));
   expected = {
     root: {
-      'bachelornation:news:request:search-articles-request': {
+      'acme:news:request:search-articles-request': {
         response: null,
         status: 'none',
       },

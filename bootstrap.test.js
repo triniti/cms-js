@@ -1,13 +1,14 @@
-global.API_ENDPOINT = 'https://api.triniti.com';
+global.API_ENDPOINT = 'https://api.acme.com';
 global.APP_ENV = 'prod';
+global.APP_VENDOR = 'acme';
 
 require('ignore-styles');
 
 require('@babel/register')({
-  ignore: [/node_modules\/(?!@gdbots|@bachelornation|@triniti|lodash-es)/],
+  ignore: [/node_modules\/(?!@gdbots|@triniti|lodash-es)/],
 });
 
-require('@bachelornation/schemas');
+require('@triniti/acme-schemas');
 
 require.extensions['.svg'] = () => null;
 

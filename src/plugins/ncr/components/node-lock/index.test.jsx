@@ -10,7 +10,7 @@ import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV
 import { NodeLock } from './index';
 
 registerTemplates({
-  'bachelornation:article.canonical': '/',
+  'acme:article.canonical': '/',
 });
 
 const handleLock = sinon.spy();
