@@ -21,5 +21,3 @@ const Root = ({ store, routes, baseUrl }) => (
 );
 
 export default hot(module)(Root);
-
-// export default () => <div>boy howdy</div>;
