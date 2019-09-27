@@ -20,7 +20,7 @@
     "@gdbots/schemas": "^1.5.13",
     "@triniti/admin-ui-plugin": "git+https://github.com/triniti/admin-ui-plugin-js.git#upgrade-babel-packages",
     "@triniti/app": "~0.4 || ^1.0",
-    "@triniti/schemas": "^1.0.6",
+    "@triniti/schemas": "^1.0.7",
     "animate.css": "^3.6.1",
     "auth0-lock": "^11.7.2",
     "aws-sdk": "^2.531.0",

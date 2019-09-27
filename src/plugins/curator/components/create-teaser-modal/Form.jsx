@@ -13,19 +13,60 @@ const typeOptions = schemas.nodes.map((schema) => ({
 }));
 
 const teaserFieldsComponents = {};
-function getFieldsComponent(type) {
-  if (schemas.nodes.find((node) => node.getCurie().getMessage() === type).fields.has('target_ref')) {
-    // this weirdness prevents another bug where the selectorRef in the picker is undefined
-    // fixme: replace template literal
-    // return createLazyComponent(import(`@triniti/cms/plugins/curator/components/create-${type}-fields`));
+/**
+ * Stores components because otherwise redux form loses focus as you type.
+ *
+ * @link https://stackoverflow.com/questions/39839051/using-redux-form-im-losing-focus-after-typing-the-first-character
+ *
+ * This cannot use template literals or other expressions because of the module resolver.
+ *
+ * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
+ *
+ * @param {string} type
+ */
+const getFieldsComponent = (type) => {
+  if (teaserFieldsComponents[type]) {
+    return teaserFieldsComponents[type];
   }
-  if (!teaserFieldsComponents[type]) {
-    // this weirdness prevents this bug: https://stackoverflow.com/questions/39839051/using-redux-form-im-losing-focus-after-typing-the-first-character
-    // fixme: replace template literal
-    // teaserFieldsComponents[type] = createLazyComponent(import(`@triniti/cms/plugins/curator/components/create-${type}-fields`));
+  switch (type) {
+    case 'article-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-article-teaser-fields'));
+      break;
+    case 'category-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-category-teaser-fields'));
+      break;
+    case 'channel-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-channel-teaser-fields'));
+      break;
+    case 'gallery-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-gallery-teaser-fields'));
+      break;
+    case 'link-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-link-teaser-fields'));
+      break;
+    case 'page-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-page-teaser-fields'));
+      break;
+    case 'person-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-person-teaser-fields'));
+      break;
+    case 'poll-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-poll-teaser-fields'));
+      break;
+    case 'timeline-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-timeline-teaser-fields'));
+      break;
+    case 'video-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-video-teaser-fields'));
+      break;
+    case 'youtube-video-teaser':
+      teaserFieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/create-youtube-video-teaser-fields'));
+      break;
+    default:
+      return null;
   }
   return teaserFieldsComponents[type];
-}
+};
 
 const Form = ({ formValues, onKeyDown: handleKeyDown, onReset: handleReset }) => {
   const type = get(formValues, 'type.value');
