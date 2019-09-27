@@ -26,6 +26,7 @@ const plugins = [
 ];
 
 switch (env) {
+  case 'test':
   case 'cjs':
     presets.push([
       '@babel/preset-env',

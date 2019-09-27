@@ -1,7 +1,10 @@
+global.API_ENDPOINT = 'https://api.triniti.com';
+global.APP_ENV = 'prod';
+
 require('ignore-styles');
 
-require('babel-register')({
-  ignore: /node_modules\/(?!@gdbots|@bachelornation|@triniti|lodash-es)/,
+require('@babel/register')({
+  ignore: [/node_modules\/(?!@gdbots|@bachelornation|@triniti|lodash-es)/],
 });
 
 require('@bachelornation/schemas');

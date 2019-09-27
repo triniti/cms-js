@@ -55,6 +55,7 @@ switch (env) {
 
     break;
 
+  case 'test':
   case 'cjs':
     presets.push([
       '@babel/preset-env',
