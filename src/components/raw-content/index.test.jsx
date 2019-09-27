@@ -3,7 +3,7 @@ import test from 'tape';
 import { shallow } from 'enzyme';
 import Card from '@triniti/admin-ui-plugin/components/card';
 import UserV1Mixin from '@gdbots/schemas/gdbots/iam/mixin/user/UserV1Mixin';
-import RawContent from '.';
+import RawContent from './index';
 
 const UserSchema = UserV1Mixin.findOne();
 const node = UserSchema.createMessage({ first_name: 'test', last_name: 'last_name_test' });

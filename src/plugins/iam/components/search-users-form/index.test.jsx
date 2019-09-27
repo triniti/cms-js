@@ -12,7 +12,7 @@ import {
   InputGroupAddon,
 } from '@triniti/admin-ui-plugin/components';
 import LegendSelect from '@triniti/cms/components/legend-select';
-import SearchUsersForm from '.';
+import SearchUsersForm from './index';
 
 const q = '';
 const inputRef = sinon.spy();
