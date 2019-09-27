@@ -7,8 +7,10 @@ const presets = [
   '@babel/preset-react',
 ];
 
-const plugins = [
-  [
+const plugins = [];
+
+if (env !== 'build') {
+  plugins.push([
     'babel-plugin-module-resolver',
     {
       root: ['./src'],
@@ -16,14 +18,17 @@ const plugins = [
         '@triniti/cms': `${root}/src`,
       },
     },
-  ],
+  ]);
+}
+
+[
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-transform-async-to-generator',
   ['@babel/plugin-proposal-class-properties', { loose: false }],
   '@babel/plugin-proposal-object-rest-spread',
   ['@babel/plugin-transform-runtime', { regenerator: true }],
   'react-hot-loader/babel',
-];
+].forEach((plugin) => plugins.push(plugin));
 
 switch (env) {
   case 'test':
@@ -36,11 +41,12 @@ switch (env) {
         },
         modules: 'commonjs',
         useBuiltIns: 'usage',
-        corejs: '3.0.0',
+        corejs: 3,
       },
     ]);
     break;
 
+  case 'build':
   case 'es6':
     presets.push([
       '@babel/preset-env',
@@ -50,7 +56,7 @@ switch (env) {
         },
         modules: false,
         useBuiltIns: 'usage',
-        corejs: '3.0.0',
+        corejs: 3,
       },
     ]);
 

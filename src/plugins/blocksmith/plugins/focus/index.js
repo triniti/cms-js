@@ -10,7 +10,7 @@ import createDecorator from './createDecorator';
 import createBlockKeyStore from './utils/createBlockKeyStore';
 import blockInSelection from './utils/blockInSelection';
 import getBlockMapKeys from './utils/getBlockMapKeys';
-import defaultTheme from './style.css';
+import defaultTheme from './style.scss';
 
 const focusableBlockIsSelected = (editorState, blockKeyStore) => {
   const selection = editorState.getSelection();

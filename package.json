@@ -7,7 +7,7 @@
   "jsnext:main": "./index.js",
   "scripts": {
     "build": "npm run clean && npm run lint && npm run test && npm run build:babel && npm run build:prepub",
-    "build:babel": "BABEL_ENV=es6 babel src --out-dir ./dist",
+    "build:babel": "BABEL_ENV=build babel src --out-dir ./dist",
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg}' ./dist",
     "clean": "rimraf ./dist",
     "lint": "BABEL_ENV=eslint eslint src",

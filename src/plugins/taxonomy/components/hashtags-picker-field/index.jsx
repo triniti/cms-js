@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import delegateFactory from './delegate';
 import selector from './selector';
-import './style.css';
+import './style.scss';
 
 const HashtagsPickerField = ({
   delegate,
