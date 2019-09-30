@@ -19,6 +19,7 @@ if (env !== 'build') {
       },
     },
   ]);
+  plugins.push('react-hot-loader/babel');
 }
 
 [
@@ -37,7 +38,6 @@ if (env !== 'build') {
       regenerator: true,
     },
   ],
-  'react-hot-loader/babel',
 ].forEach((plugin) => plugins.push(plugin));
 
 switch (env) {
@@ -82,4 +82,3 @@ module.exports = {
   presets,
   plugins,
 };
-
