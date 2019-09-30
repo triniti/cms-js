@@ -18,6 +18,7 @@ const sortOptions = humanizeEnums(SearchSortEnum, {
   value: upperCase(value).replace(/\s/g, '_'),
 }));
 
+// fixme: slotting must be configurable at the site level
 const slottingKeyOptions = [
   {
     label: 'home',

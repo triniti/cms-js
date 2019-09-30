@@ -13,7 +13,7 @@ $ git clone git@github.com:triniti/cms-js.git
 + Run `$ nvm use`
 + Run `$ npm install`
 + Run `$ npm start`
-+ Open <https://localhost:8080> in a browser.
++ Open <https://localhost:3000> in a browser.
 
 
 ## example `.env` file:

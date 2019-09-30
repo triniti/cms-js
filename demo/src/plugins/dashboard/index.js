@@ -4,7 +4,7 @@ import routes from './routes';
 
 export default class DashboardPlugin extends Plugin {
   constructor() {
-    super('app', 'dashboard', '0.1.0');
+    super('acme', 'dashboard', '0.1.0');
   }
 
   configure(app, bottle) {

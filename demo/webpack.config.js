@@ -18,11 +18,13 @@ const compileEnvVars = (webpackEnv) => Object.entries(process.env).reduce((acc, 
 
   acc[key.toUpperCase()] = value;
   return acc;
-}, { NODE_ENV: 'development',
+}, {
+  NODE_ENV: 'development',
   APP_BASE_URL: '/',
   ASSET_PATH: '/',
   ...webpackEnv,
-  ...dotenv.config().parsed });
+  ...dotenv.config().parsed
+});
 
 module.exports = (webpackEnv = {}) => {
   const env = compileEnvVars(webpackEnv);
