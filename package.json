@@ -11,6 +11,7 @@
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg}' ./dist",
     "clean": "rimraf ./dist",
     "lint": "BABEL_ENV=eslint eslint src",
+    "pub": "npm run build && cd dist && npm publish --access public",
     "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "dependencies": {
