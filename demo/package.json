@@ -1,0 +1,33 @@
+{
+  "name": "demo",
+  "version": "0.1.0",
+  "description": "The demo for triniti cms-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/triniti/cms-js"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
+  },
+  "devDependencies": {
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "dotenv": "^8.1.0",
+    "file-loader": "^4.2.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "prop-types": "^15.7.2",
+    "raw-loader": "^3.1.0",
+    "react-hot-loader": "^4.12.14",
+    "sass-loader": "^8.0.0",
+    "sass-resources-loader": "^2.0.1",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

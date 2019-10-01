@@ -1,0 +1,88 @@
+
+.draggable-roles-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  padding: 1rem;
+  height: 100%;
+  background-color: $gray-100;
+}
+
+.draggable-roles-title {
+  margin-bottom: .75rem;
+  padding: 0 .5rem;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: .0125em;
+}
+
+.draggable-roles-list-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin-bottom: 0;
+  padding: .25rem;
+  border: transparent 1px solid;
+}
+
+.draggable-roles-list-group:hover {
+  padding: .25rem;
+  border: $gray-700 1px dashed;
+}
+
+.draggable-roles-list-group-item {
+  position: relative;
+  margin-bottom: .5rem;
+  display: inline-block;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid $gray-700;
+  padding: 1rem 1rem;
+  font-size: 0.825rem;
+  border-radius: 0.125rem;
+  font-weight: 700;
+  cursor: move;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $body-bg;
+  transition: all $transition;
+}
+
+.draggable-roles-list-group-item:last-child {
+  margin-bottom: 0;
+}
+
+.draggable-roles-list-group-item:hover {
+  border-color: $gray-rgba-500;
+  background-color: $gray-700;
+}
+
+.draggable-roles-list-group-item.active {
+  border-color: theme-color("primary");
+  background-color: theme-color("primary");
+  color: $white;
+  text-shadow: 0 1px 0 $gray-rgba-600;
+
+}
+
+.draggable-roles-list-group-item::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: calc(100% - 1.25rem);
+  margin-left: .75rem;
+  content: '';
+}
+
+.draggable-roles-list-group-item-title {
+  margin-bottom: 0;
+}

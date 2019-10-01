@@ -1,0 +1,35 @@
+.block-preview-audio {
+  min-height: 54px;
+
+  .player-text-wrapper {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+
+    .react-player {
+      background-color: #f1f3f4;
+    }
+
+    .launch-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      background-color: #CF0000;
+      width: 100%;
+      font-style: italic;
+      text-transform: uppercase;
+      font-weight: bold;
+
+      p {
+        margin: 0 0 0 0.75rem
+      }
+
+      .icon {
+        background-color: white;
+        margin: 0.25rem;
+        flex-shrink: 0;
+      }
+    }
+  }
+}

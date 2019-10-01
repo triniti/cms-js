@@ -1,0 +1,76 @@
+.placeholder-label-holder {
+  vertical-align: top;
+  display: inline-block;
+
+  .label {
+    word-spacing: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    user-select: none; // selecting this text opens the inline toolbar
+  }
+}
+
+.blocksmith-image-preview {
+  #dismiss-preview {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    box-shadow: none;
+    color: #efeff1;
+    z-index: 1;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .img-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid #d9d9de;
+    padding: 5px;
+    max-width: 100%;
+    max-height: 400px;
+    min-width: 105px;
+    min-height: 100px;
+    background: #efeff1;
+    box-shadow: inset 0 0 0 5px #fff;
+
+    &:after, &:before {
+      top: 100%;
+      left: 4.9375rem;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &:after {
+      border-color: transparent;
+      border-top-color: #fff;
+      border-width: 10px;
+      margin-left: -10px;
+    }
+
+    &:before {
+      border-color: transparent;
+      border-top-color: #d9d9de;
+      border-width: 11px;
+      margin-left: -11px;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 388px;
+      object-fit: contain;
+    }
+  }
+}

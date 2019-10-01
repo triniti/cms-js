@@ -1,0 +1,26 @@
+.emoji-option-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.emoji-option {
+  font-size: 2.25em;
+  min-width: 1.5em;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+
+  &.selected {
+    border-color: $primary;
+  }
+}
+
+.emoji-info {
+  font-size: 2.25em;
+
+  span.emoji-info--name {
+    font-size: 0.75em;
+    color: $gray-800;
+  }
+}
