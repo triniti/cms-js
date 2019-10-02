@@ -11,6 +11,7 @@
     "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
   },
   "devDependencies": {
+    "@toofab/schemas": "^0.1.5",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "dotenv": "^8.1.0",

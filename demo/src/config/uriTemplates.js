@@ -112,4 +112,5 @@ registerTemplates({
   [`${APP_VENDOR}:video-teaser.cms`]: '/curator/teasers/video-teaser/{_id}',
   [`${APP_VENDOR}:youtube-video-teaser.canonical`]: '{+web_base_url}t/youtube-video/{_id}/',
   [`${APP_VENDOR}:youtube-video-teaser.cms`]: '/curator/teasers/youtube-video-teaser/{_id}',
+  [`${APP_VENDOR}:asset-teaser.cms`]: '/curator/teasers/asset-teaser/{_id}',
 });

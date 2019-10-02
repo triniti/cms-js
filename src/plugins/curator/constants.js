@@ -10,6 +10,7 @@ export const serviceIds = {
   AD_WIDGET_SUBSCRIBER: t('ad_widget_subscriber'),
   ALERT_WIDGET_SUBSCRIBER: t('alert_widget_subscriber'),
   ARTICLE_TEASER_SUBSCRIBER: t('article_teaser_subscriber'),
+  ASSET_TEASER_SUBSCRIBER: t('asset_teaser_subscriber'),
   BLOGROLL_WIDGET_SUBSCRIBER: t('blogroll_widget_subscriber'),
   CAROUSEL_WIDGET_SUBSCRIBER: t('carousel_widget_subscriber'),
   CATEGORY_TEASER_SUBSCRIBER: t('category_teaser_subscriber'),
