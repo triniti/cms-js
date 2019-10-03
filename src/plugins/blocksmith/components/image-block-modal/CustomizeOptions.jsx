@@ -52,6 +52,7 @@ const CustomizeOptions = ({
   selectedImage,
   updatedDate,
   url,
+  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <ImageBlockPreview className="my-4" block={block} />
@@ -156,6 +157,14 @@ const CustomizeOptions = ({
         </FormGroup>
         )}
       </FormGroup>
+      <FormGroup className="mb-4">
+        <FormGroup check className="d-flex align-items-center mr-2">
+          <Label check>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} />
+            Aside
+          </Label>
+        </FormGroup>
+      </FormGroup>
     </div>
   </div>
 );
@@ -183,6 +192,7 @@ CustomizeOptions.propTypes = {
   selectedImage: PropTypes.instanceOf(Message),
   updatedDate: PropTypes.instanceOf(moment).isRequired,
   url: PropTypes.string.isRequired,
+  aside: PropTypes.bool.isRequired,
 };
 
 CustomizeOptions.defaultProps = {

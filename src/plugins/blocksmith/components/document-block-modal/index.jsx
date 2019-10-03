@@ -67,6 +67,7 @@ class DocumentBlockModal extends React.Component {
       selectedDocumentNode: documentNode || null,
       selectedImageNode: imageNode || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -84,6 +85,7 @@ class DocumentBlockModal extends React.Component {
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -110,13 +112,15 @@ class DocumentBlockModal extends React.Component {
       selectedDocumentNode,
       selectedImageNode,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -127,6 +131,10 @@ class DocumentBlockModal extends React.Component {
 
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {
@@ -229,6 +237,7 @@ class DocumentBlockModal extends React.Component {
       selectedDocumentNode,
       selectedImageNode,
       updatedDate,
+      aside,
     } = this.state;
     const {
       documentAssetNodes,
@@ -313,8 +322,10 @@ class DocumentBlockModal extends React.Component {
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
+                  onChangeAside={this.handleChangeAside}
                   onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
                   updatedDate={updatedDate}
+                  aside={aside}
                 />
               )
             }

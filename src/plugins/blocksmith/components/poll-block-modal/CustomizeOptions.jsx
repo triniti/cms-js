@@ -20,8 +20,10 @@ const CustomizeOptions = ({
   hasUpdatedDate,
   onChangeDate: handleChangeDate,
   onChangeHasUpdatedDAte: handleChangeHasUpdatedDate,
+  onChangeAside: handleChangeAside,
   onChangeTime: handleChangeTime,
   updatedDate,
+  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <PollBlockPreview block={block} />
@@ -29,6 +31,9 @@ const CustomizeOptions = ({
       <FormGroup className="mr-4">
         <Checkbox size="sd" checked={hasUpdatedDate} onChange={handleChangeHasUpdatedDate}>
           Is update
+        </Checkbox>
+        <Checkbox size="sd" checked={aside} onChange={handleChangeAside} className="ml-3">
+          Aside
         </Checkbox>
       </FormGroup>
     </FormGroup>
@@ -70,8 +75,10 @@ CustomizeOptions.propTypes = {
   hasUpdatedDate: PropTypes.bool.isRequired,
   onChangeDate: PropTypes.func.isRequired,
   onChangeHasUpdatedDAte: PropTypes.func.isRequired,
+  onChangeAside: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
+  aside: PropTypes.bool.isRequired,
 };
 
 export default CustomizeOptions;

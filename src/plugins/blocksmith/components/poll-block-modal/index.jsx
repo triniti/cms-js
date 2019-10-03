@@ -56,6 +56,7 @@ class PollBlockModal extends React.Component {
       q: '',
       selectedPoll: poll || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -66,6 +67,7 @@ class PollBlockModal extends React.Component {
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSelectPoll = this.handleSelectPoll.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -86,11 +88,12 @@ class PollBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, selectedPoll, updatedDate } = this.state;
+    const { hasUpdatedDate, selectedPoll, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('node_ref', selectedPoll.get('_id').toNodeRef())
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -101,6 +104,10 @@ class PollBlockModal extends React.Component {
 
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeDate(date) {
@@ -145,6 +152,7 @@ class PollBlockModal extends React.Component {
       q,
       selectedPoll,
       updatedDate,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle, sort, polls } = this.props;
 
@@ -205,6 +213,8 @@ class PollBlockModal extends React.Component {
                   onChangeDate={this.handleChangeDate}
                   onChangeHasUpdatedDAte={this.handleChangeHasUpdatedDate}
                   onChangeTime={this.handleChangeTime}
+                  onChangeAside={this.handleChangeAside}
+                  aside={aside}
                   updatedDate={updatedDate}
                 />
               )

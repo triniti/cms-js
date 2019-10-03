@@ -29,8 +29,10 @@ const CustomizeOptions = ({
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
+  onChangeAside: handleChangeAside,
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   updatedDate,
+  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <DocumentBlockPreview
@@ -59,6 +61,11 @@ const CustomizeOptions = ({
     <FormGroup className="mr-4">
       <Checkbox size="sd" checked={hasUpdatedDate} onChange={handleChangeHasUpdatedDate}>
         Is update
+      </Checkbox>
+    </FormGroup>
+    <FormGroup className="mr-4">
+      <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeAside}>
+        Aside
       </Checkbox>
     </FormGroup>
     {
@@ -106,9 +113,11 @@ CustomizeOptions.propTypes = {
   onChangeLaunchText: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
+  onChangeAside: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
+  aside: PropTypes.bool.isRequired,
 };
 
 export default CustomizeOptions;

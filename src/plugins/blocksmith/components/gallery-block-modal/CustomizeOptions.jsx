@@ -28,12 +28,14 @@ const CustomizeOptions = ({
   onChangeStartAtPoster: handleChangeStartAtPoster,
   onChangeLaunchText: handleChangeLaunchText,
   onChangeTime: handleChangeTime,
+  onChangeAside: handleChangeAside,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   selectedGallery,
   selectedImage,
   updatedDate,
+  aside,
   startsAtPoster,
 }) => (
   <div className="modal-body-blocksmith">
@@ -69,6 +71,9 @@ const CustomizeOptions = ({
       <FormGroup className="mr-4">
         <Checkbox size="sd" checked={hasUpdatedDate} onChange={handleChangeHasUpdatedDate}>
           Is update
+        </Checkbox>
+        <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeAside} className="ml-3">
+          Aside
         </Checkbox>
         <Checkbox
           size="sd"

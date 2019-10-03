@@ -31,6 +31,7 @@ const CustomizeOptions = ({
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   updatedDate,
   willShowMoreVideos,
+  aside,
 }) => (
   <div className="modal-body-blocksmith video-block-preview-wrapper">
     <VideoBlockPreview
@@ -109,6 +110,13 @@ const CustomizeOptions = ({
           </div>
         )
       }
+      <FormGroup className="d-flex mb-2">
+        <FormGroup check>
+          <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
+            Aside
+          </Checkbox>
+        </FormGroup>
+      </FormGroup>
     </div>
   </div>
 );
@@ -132,6 +140,7 @@ CustomizeOptions.propTypes = {
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   willShowMoreVideos: PropTypes.bool.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
+  aside: PropTypes.bool.isRequired,
 };
 
 CustomizeOptions.defaultProps = {
