@@ -63,6 +63,7 @@ class SoundcloudAudioBlockModal extends React.Component {
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       willHideRelated: block.get('hide_related'),
       willShowComments: block.get('show_comments'),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -74,6 +75,7 @@ class SoundcloudAudioBlockModal extends React.Component {
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -90,6 +92,7 @@ class SoundcloudAudioBlockModal extends React.Component {
       updatedDate,
       willHideRelated,
       willShowComments,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -99,7 +102,8 @@ class SoundcloudAudioBlockModal extends React.Component {
       .set('track_id', trackId || null)
       .set('show_comments', willShowComments)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -128,6 +132,10 @@ class SoundcloudAudioBlockModal extends React.Component {
 
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTextArea(event) {
@@ -221,6 +229,7 @@ class SoundcloudAudioBlockModal extends React.Component {
       updatedDate,
       willHideRelated,
       willShowComments,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, node, toggle } = this.props;
 
@@ -303,6 +312,11 @@ class SoundcloudAudioBlockModal extends React.Component {
           <FormGroup>
             <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
               Is update
+            </Checkbox>
+          </FormGroup>
+          <FormGroup>
+            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+              Aside
             </Checkbox>
           </FormGroup>
           {

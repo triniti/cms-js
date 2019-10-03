@@ -28,6 +28,7 @@ const CustomizeOptions = ({
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   showImage,
   updatedDate,
+  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <ArticleBlockPreview
@@ -68,6 +69,9 @@ const CustomizeOptions = ({
         <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
           Is update
         </Checkbox>
+        <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
+          Aside
+        </Checkbox>
       </FormGroup>
     </FormGroup>
     {
@@ -99,6 +103,7 @@ CustomizeOptions.propTypes = {
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   showImage: PropTypes.bool.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
+  aside: PropTypes.bool.isRequired,
 };
 
 export default CustomizeOptions;

@@ -64,6 +64,7 @@ class YouTubeVideoBlockModal extends React.Component {
       touched: false,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       url: id ? `https://www.youtube.com/watch?v=${id}` : '',
+      aside: block.get('aside'),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -78,6 +79,7 @@ class YouTubeVideoBlockModal extends React.Component {
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleChangeStartAt = this.handleChangeStartAt.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   setBlock() {
@@ -88,6 +90,7 @@ class YouTubeVideoBlockModal extends React.Component {
       selectedImageNode,
       startAt,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -95,7 +98,8 @@ class YouTubeVideoBlockModal extends React.Component {
       .set('id', id || null)
       .set('start_at', startAt || null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -120,6 +124,10 @@ class YouTubeVideoBlockModal extends React.Component {
 
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeAutoplay(event) {
@@ -229,6 +237,7 @@ class YouTubeVideoBlockModal extends React.Component {
       touched,
       updatedDate,
       url,
+      aside,
     } = this.state;
 
     const { isFreshBlock, isOpen, node, toggle } = this.props;
@@ -299,6 +308,11 @@ class YouTubeVideoBlockModal extends React.Component {
           <FormGroup>
             <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
               Is update
+            </Checkbox>
+          </FormGroup>
+          <FormGroup>
+            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+              Aside
             </Checkbox>
           </FormGroup>
           {

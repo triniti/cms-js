@@ -67,6 +67,7 @@ class FacebookVideoBlockModal extends React.Component {
       showCaptions: block.get('show_captions'),
       showText: block.get('show_text'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -76,6 +77,7 @@ class FacebookVideoBlockModal extends React.Component {
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
   }
 
@@ -88,6 +90,7 @@ class FacebookVideoBlockModal extends React.Component {
       showCaptions,
       showText,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -96,7 +99,8 @@ class FacebookVideoBlockModal extends React.Component {
       .set('show_captions', showCaptions)
       .set('show_text', showText)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -175,6 +179,10 @@ class FacebookVideoBlockModal extends React.Component {
     });
   }
 
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
+  }
+
   /**
    * Needs to return the focus to an element else pressing "ESC" to close the modal won't work
    */
@@ -193,6 +201,7 @@ class FacebookVideoBlockModal extends React.Component {
       showCaptions,
       showText,
       updatedDate,
+      aside,
     } = this.state;
 
     const { isOpen, isFreshBlock, node, toggle } = this.props;
@@ -247,6 +256,9 @@ class FacebookVideoBlockModal extends React.Component {
           </FormGroup>
           <FormGroup check>
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>Is update</Checkbox>
+          </FormGroup>
+          <FormGroup check>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>Aside</Checkbox>
           </FormGroup>
           {
             hasUpdatedDate

@@ -76,6 +76,7 @@ class VimeoVideoBlockModal extends React.Component {
       willShowByline: block.get('show_byline'),
       willShowPortrait: block.get('show_portrait'),
       willShowTitle: block.get('show_title'),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -103,6 +104,7 @@ class VimeoVideoBlockModal extends React.Component {
       willShowByline,
       willShowPortrait,
       willShowTitle,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -117,7 +119,8 @@ class VimeoVideoBlockModal extends React.Component {
       .set('user_id', userId || null)
       .set('user_name', userName || null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -281,6 +284,7 @@ class VimeoVideoBlockModal extends React.Component {
       willShowByline,
       willShowPortrait,
       willShowTitle,
+      aside,
     } = this.state;
 
     const { isFreshBlock, isOpen, node, toggle } = this.props;
@@ -379,6 +383,16 @@ class VimeoVideoBlockModal extends React.Component {
               size="sd"
             >
               Is update
+            </Checkbox>
+          </FormGroup>
+          <FormGroup>
+            <Checkbox
+              checked={aside}
+              id="aside"
+              onChange={this.handleChangeCheckbox}
+              size="sd"
+            >
+              Aside
             </Checkbox>
           </FormGroup>
           {

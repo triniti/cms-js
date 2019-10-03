@@ -48,6 +48,7 @@ class QuoteBlockModal extends React.Component {
       sourceUrl: block.get('source_url'),
       text: block.get('text') || '',
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -58,6 +59,7 @@ class QuoteBlockModal extends React.Component {
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -65,14 +67,15 @@ class QuoteBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate } = this.state;
+    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('is_pull_quote', isPullQuote)
       .set('source', source || null)
       .set('source_url', sourceUrl ? prependHttp(sourceUrl, { https: true }) : null)
       .set('text', text || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -103,6 +106,10 @@ class QuoteBlockModal extends React.Component {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
+  }
+
   handleChangeInput({ target: { id, value } }) {
     this.setState({ [id]: value });
   }
@@ -123,6 +130,7 @@ class QuoteBlockModal extends React.Component {
       sourceUrl,
       text,
       updatedDate,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -176,6 +184,11 @@ class QuoteBlockModal extends React.Component {
             <FormGroup>
               <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
                 Is update
+              </Checkbox>
+            </FormGroup>
+            <FormGroup>
+              <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+                Aside
               </Checkbox>
             </FormGroup>
             {

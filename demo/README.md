@@ -8,12 +8,11 @@ $ git clone git@github.com:triniti/cms-js.git
 ```
 + Open terminal and `cd cms-js/demo`
 + Create a `.env` file with the desired vendor env information
++ Create a `schemas.js` file that imports and exports your vendor schemas.
 + Return to the **root** of the project to install your vendor schemas. 
     - Protip: you can install your vendor schemas with the `--no-save` flag to prevent them being added to `package.json`
     - example: `npm install @acme/schemas --no-save`
-+ CD back into **demo route** by running `cd cms-js/demo`
-+ Create a `schemas.js` file that imports and exports your vendor schemas.
-+ In the **_route_** of the project as well as the **_demo path_**: 
++ In the **_root_** of the project as well as the **_demo path_**: 
 + Run `$ nvm use`
 + Run `$ npm install`
 + Run `$ npm start`

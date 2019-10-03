@@ -70,6 +70,7 @@ class ArticleBlockModal extends React.Component {
       selectedArticleNode: articleNode || null,
       selectedImageRef: imageRef || null,
       showImage: block.get('show_image'),
+      aside: block.get('aside'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -85,6 +86,7 @@ class ArticleBlockModal extends React.Component {
     this.handleSearchArticles = this.handleSearchArticles.bind(this);
     this.handleSelectArticle = this.handleSelectArticle.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
   }
 
@@ -112,6 +114,7 @@ class ArticleBlockModal extends React.Component {
       selectedImageRef,
       showImage,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -119,7 +122,8 @@ class ArticleBlockModal extends React.Component {
       .set('show_image', !!showImage)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('image_ref', selectedImageRef || null)
-      .set('link_text', linkText || null);
+      .set('link_text', linkText || null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -146,6 +150,10 @@ class ArticleBlockModal extends React.Component {
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleEditBlock() {
@@ -226,6 +234,7 @@ class ArticleBlockModal extends React.Component {
       selectedImageRef,
       showImage,
       updatedDate,
+      aside,
     } = this.state;
     const {
       articleNodes,
@@ -306,6 +315,7 @@ class ArticleBlockModal extends React.Component {
                   onChangeLinkText={this.handleChangeLinkText}
                   showImage={showImage}
                   updatedDate={updatedDate}
+                  aside={aside}
                 />
               )
             }

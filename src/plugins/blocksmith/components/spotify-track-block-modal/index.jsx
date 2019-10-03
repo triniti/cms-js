@@ -48,6 +48,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
       touched: false,
       trackId: block.get('track_id'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -55,6 +56,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
     this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -66,11 +68,13 @@ export default class SpotifyTrackBlockModal extends React.Component {
     const { hasUpdatedDate,
       trackId,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('track_id', trackId || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -99,6 +103,10 @@ export default class SpotifyTrackBlockModal extends React.Component {
 
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTextArea(event) {
@@ -139,6 +147,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
       touched,
       trackId,
       updatedDate,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -163,6 +172,11 @@ export default class SpotifyTrackBlockModal extends React.Component {
           <FormGroup>
             <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
               Is update
+            </Checkbox>
+          </FormGroup>
+          <FormGroup>
+            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+              Aside
             </Checkbox>
           </FormGroup>
           {

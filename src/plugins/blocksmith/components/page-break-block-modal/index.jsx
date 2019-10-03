@@ -44,12 +44,14 @@ class PageBreakBlockModal extends React.Component {
     this.state = {
       hasUpdatedDate: block.has('updated_date'),
       readMoreText: block.get('read_more_text') || '',
+      aside: block.get('aside'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -62,11 +64,12 @@ class PageBreakBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const { hasUpdatedDate, readMoreText, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('read_more_text', readMoreText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -87,6 +90,10 @@ class PageBreakBlockModal extends React.Component {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
+  }
+
   handleChangeInput({ target: { value: readMoreText } }) {
     this.setState({ readMoreText });
   }
@@ -98,7 +105,7 @@ class PageBreakBlockModal extends React.Component {
   }
 
   render() {
-    const { readMoreText, hasUpdatedDate, updatedDate } = this.state;
+    const { readMoreText, hasUpdatedDate, updatedDate, aside } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
     return (
@@ -122,6 +129,9 @@ class PageBreakBlockModal extends React.Component {
           <FormGroup>
             <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
               Is update
+            </Checkbox>
+            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside} className="ml-3">
+              Aside
             </Checkbox>
           </FormGroup>
           {

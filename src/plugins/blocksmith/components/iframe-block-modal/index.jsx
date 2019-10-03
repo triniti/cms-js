@@ -77,6 +77,7 @@ export default class IframeBlockModal extends React.Component {
       src: block.get('src'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       width: block.has('width') ? Number(block.get('width').replace('px', '')) : null,
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -106,6 +107,7 @@ export default class IframeBlockModal extends React.Component {
       src,
       updatedDate,
       width,
+      aside,
     } = this.state;
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
@@ -113,7 +115,8 @@ export default class IframeBlockModal extends React.Component {
       .set('height', hasManualDimensions && height ? `${height}px` : null)
       .set('src', src || null)
       .set('width', hasManualDimensions && width ? `${width}px` : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
 
     setBlock.clear('data');
     Object.entries(data).forEach(([key, value]) => {
@@ -243,6 +246,7 @@ export default class IframeBlockModal extends React.Component {
       src,
       updatedDate,
       width,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
     const isValid = isValidUrl(src);
@@ -330,6 +334,11 @@ export default class IframeBlockModal extends React.Component {
             <FormGroup className="mr-4">
               <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
+              </Checkbox>
+            </FormGroup>
+            <FormGroup className="mr-4">
+              <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
+                Aside
               </Checkbox>
             </FormGroup>
             {

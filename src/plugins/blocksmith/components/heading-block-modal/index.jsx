@@ -47,6 +47,7 @@ class HeadingBlockModal extends React.Component {
       size: block.get('size'),
       url: block.get('url'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -57,6 +58,7 @@ class HeadingBlockModal extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -64,13 +66,14 @@ class HeadingBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, text, size, url, updatedDate } = this.state;
+    const { hasUpdatedDate, text, size, url, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('text', text)
       .set('size', parseInt(size, 10))
       .set('url', url ? prependHttp(url, { https: true }) : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -101,6 +104,10 @@ class HeadingBlockModal extends React.Component {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
+  }
+
   handleChangeInput({ target: { id, value } }) {
     this.setState({ [id]: value });
   }
@@ -120,6 +127,7 @@ class HeadingBlockModal extends React.Component {
       size,
       url,
       updatedDate,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -170,6 +178,9 @@ class HeadingBlockModal extends React.Component {
             <FormGroup>
               <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
                 Is update
+              </Checkbox>
+              <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside} className="ml-3">
+                Aside
               </Checkbox>
             </FormGroup>
             {

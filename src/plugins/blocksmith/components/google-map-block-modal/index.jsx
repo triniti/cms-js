@@ -58,6 +58,7 @@ export default class GoogleMapBlockModal extends React.Component {
       touched: false,
       zoom: block.get('zoom'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAutoZoom = this.handleChangeAutoZoom.bind(this);
@@ -68,6 +69,7 @@ export default class GoogleMapBlockModal extends React.Component {
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleChangeZoom = this.handleChangeZoom.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleToggleDropDown = this.handleToggleDropDown.bind(this);
   }
 
@@ -78,13 +80,14 @@ export default class GoogleMapBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
+    const { hasUpdatedDate, mapType, q, updatedDate, zoom, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('maptype', mapType || null)
       .set('q', q || null)
       .set('zoom', zoom || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -112,6 +115,10 @@ export default class GoogleMapBlockModal extends React.Component {
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -163,6 +170,7 @@ export default class GoogleMapBlockModal extends React.Component {
       touched,
       updatedDate,
       zoom,
+      aside
     } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
 
@@ -226,6 +234,9 @@ export default class GoogleMapBlockModal extends React.Component {
           <FormGroup className="mr-4">
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
               Is update
+            </Checkbox>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeAside} className="ml-3">
+              Aside
             </Checkbox>
           </FormGroup>
           {
