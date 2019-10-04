@@ -64,6 +64,7 @@ class AudioBlockModal extends React.Component {
       selectedAudioNode: audioNode || null,
       selectedImageNode: imageNode || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -80,6 +81,7 @@ class AudioBlockModal extends React.Component {
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -105,13 +107,15 @@ class AudioBlockModal extends React.Component {
       selectedAudioNode,
       selectedImageNode,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('node_ref', NodeRef.fromNode(selectedAudioNode))
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('launch_text', launchText || null);
+      .set('launch_text', launchText || null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -126,6 +130,10 @@ class AudioBlockModal extends React.Component {
 
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeQ({ target: { value: q } }) {
@@ -217,6 +225,7 @@ class AudioBlockModal extends React.Component {
       selectedAudioNode,
       selectedImageNode,
       updatedDate,
+      aside,
     } = this.state;
     const {
       isFreshBlock,
@@ -296,12 +305,14 @@ class AudioBlockModal extends React.Component {
                   node={node}
                   onChangeDate={this.handleChangeDate}
                   onChangeHasUpdatedDate={this.handleChangeHasUpdatedDate}
+                  onChangeAside={this.handleChangeAside}
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
                   onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
                   updatedDate={updatedDate}
+                  aside={aside}
                 />
               )
             }
