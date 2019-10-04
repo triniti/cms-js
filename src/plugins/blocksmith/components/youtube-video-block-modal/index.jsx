@@ -14,6 +14,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Icon,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import YoutubeVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/youtube-video-block-preview';
@@ -314,6 +316,8 @@ class YouTubeVideoBlockModal extends React.Component {
             <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
               Aside
             </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

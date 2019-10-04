@@ -19,6 +19,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 
 import changedDate from '../../utils/changedDate';
@@ -173,6 +174,8 @@ export default class InstagramMediaBlockModal extends React.Component {
             <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

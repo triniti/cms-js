@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
-import { Button, Checkbox, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter } from '@triniti/admin-ui-plugin/components';
+import { Button, Checkbox, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter, Icon, UncontrolledTooltip } from '@triniti/admin-ui-plugin/components';
 import TwitterTweetBlockPreview from '@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 
@@ -190,6 +190,8 @@ export default class TwitterTweetBlockModal extends React.Component {
             <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
               Aside
             </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

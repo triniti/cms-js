@@ -15,6 +15,8 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Icon,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import QuoteBlockPreview from '@triniti/cms/plugins/blocksmith/components/quote-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
@@ -190,6 +192,8 @@ class QuoteBlockModal extends React.Component {
               <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
                 Aside
               </Checkbox>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+              <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

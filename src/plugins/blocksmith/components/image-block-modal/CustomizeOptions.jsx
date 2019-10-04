@@ -12,6 +12,7 @@ import {
   InputGroupText,
   Label,
   Select,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
@@ -163,6 +164,8 @@ const CustomizeOptions = ({
             <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} />
             Aside
           </Label>
+          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+          <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
         </FormGroup>
       </FormGroup>
     </div>

@@ -7,6 +7,8 @@ import {
   FormGroup,
   Label,
   Input,
+  Icon,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import VideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/video-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
@@ -115,6 +117,8 @@ const CustomizeOptions = ({
           <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
             Aside
           </Checkbox>
+          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+          <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
         </FormGroup>
       </FormGroup>
     </div>

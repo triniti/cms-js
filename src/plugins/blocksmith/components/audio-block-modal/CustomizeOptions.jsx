@@ -12,6 +12,7 @@ import {
   Icon,
   InputGroup,
   InputGroupAddon,
+  UncontrolledTooltip,
   InputGroupText,
 } from '@triniti/admin-ui-plugin/components';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
@@ -66,6 +67,8 @@ const CustomizeOptions = ({
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeAside} className="ml-3">
           Aside
         </Checkbox>
+        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+        <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
       </FormGroup>
     </FormGroup>
     {

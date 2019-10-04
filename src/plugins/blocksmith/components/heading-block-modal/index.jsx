@@ -14,7 +14,10 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader, Select,
+  ModalHeader,
+  Select,
+  Icon,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import HeadingBlockPreview from '@triniti/cms/plugins/blocksmith/components/heading-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
@@ -182,6 +185,8 @@ class HeadingBlockModal extends React.Component {
               <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside} className="ml-3">
                 Aside
               </Checkbox>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+              <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

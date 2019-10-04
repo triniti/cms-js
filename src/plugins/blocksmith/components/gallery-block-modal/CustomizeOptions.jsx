@@ -11,6 +11,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 import GalleryBlockPreview from '@triniti/cms/plugins/blocksmith/components/gallery-block-preview';
@@ -75,6 +76,8 @@ const CustomizeOptions = ({
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeAside} className="ml-3">
           Aside
         </Checkbox>
+        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+        <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
         <Checkbox
           size="sd"
           checked={startsAtPoster}

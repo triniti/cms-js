@@ -17,6 +17,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import CodeBlockPreview from '@triniti/cms/plugins/blocksmith/components/code-block-preview';
 
@@ -126,6 +127,8 @@ export default class CodeBlockModal extends React.Component {
             <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside} className="ml-3">
               Aside
             </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
+            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
           hasUpdatedDate
