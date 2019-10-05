@@ -23,6 +23,8 @@ const getFieldsComponent = (type) => {
   switch (type) {
     case 'article-teaser':
       return createLazyComponent(import('@triniti/cms/plugins/curator/components/article-teaser-fields'));
+    case 'asset-teaser':
+      return createLazyComponent(import('@triniti/cms/plugins/curator/components/asset-teaser-fields'));
     case 'category-teaser':
       return createLazyComponent(import('@triniti/cms/plugins/curator/components/category-teaser-fields'));
     case 'channel-teaser':
