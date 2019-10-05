@@ -22,6 +22,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'code-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/code-block-sidebar-button'));
       break;
+    case 'divider-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/divider-block-sidebar-button'));
+      break;
     case 'document-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-sidebar-button'));
       break;

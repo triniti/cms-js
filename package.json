@@ -15,13 +15,14 @@
     "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "dependencies": {
+    "@tmz/schemas": "1.1.0",
     "@gdbots/common": "^1.0.0",
     "@gdbots/pbj": "^1.0.0",
     "@gdbots/pbjx": "^1.0.0",
-    "@gdbots/schemas": "^1.5.13",
+    "@gdbots/schemas": "^1.6.0",
     "@triniti/admin-ui-plugin": "^1.0.0",
     "@triniti/app": "~0.4 || ^1.0",
-    "@triniti/schemas": "^1.0.7",
+    "@triniti/schemas": "^1.1.0",
     "animate.css": "^3.6.1",
     "auth0-lock": "^11.7.2",
     "aws-sdk": "^2.539.0",
