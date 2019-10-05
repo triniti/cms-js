@@ -39,6 +39,7 @@ registerTemplates({
   [`${APP_VENDOR}:article.preview`]: '{+web_base_url}_/preview/article/{_id}/',
   [`${APP_VENDOR}:article-teaser.canonical`]: '{+web_base_url}t/article/{_id}/',
   [`${APP_VENDOR}:article-teaser.cms`]: '/curator/teasers/article-teaser/{_id}',
+  [`${APP_VENDOR}:asset-teaser.cms`]: '/curator/teasers/asset-teaser/{_id}',
   [`${APP_VENDOR}:audio-asset.cms`]: '/dam/assets/audio-asset/{_id}',
   [`${APP_VENDOR}:blogroll-widget.cms`]: '/curator/widgets/blogroll-widget/{_id}',
   [`${APP_VENDOR}:browser-app.cms`]: '/iam/apps/browser-app/{_id}',
@@ -112,5 +113,4 @@ registerTemplates({
   [`${APP_VENDOR}:video-teaser.cms`]: '/curator/teasers/video-teaser/{_id}',
   [`${APP_VENDOR}:youtube-video-teaser.canonical`]: '{+web_base_url}t/youtube-video/{_id}/',
   [`${APP_VENDOR}:youtube-video-teaser.cms`]: '/curator/teasers/youtube-video-teaser/{_id}',
-  [`${APP_VENDOR}:asset-teaser.cms`]: '/curator/teasers/asset-teaser/{_id}',
 });
