@@ -55,6 +55,7 @@ class GalleryBlockModal extends React.Component {
     const { block, gallery, image } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       galleryQ: '',
       hasUpdatedDate: block.has('updated_date'),
       startsAtPoster: block.get('start_at_poster'),
@@ -66,8 +67,8 @@ class GalleryBlockModal extends React.Component {
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeStartAtPoster = this.handleChangeStartAtPoster.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
@@ -101,6 +102,7 @@ class GalleryBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       startsAtPoster,
       launchText,
@@ -116,7 +118,8 @@ class GalleryBlockModal extends React.Component {
       .set('launch_text', launchText || null)
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('start_at_poster', startsAtPoster);
+      .set('start_at_poster', startsAtPoster)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -125,14 +128,12 @@ class GalleryBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeLaunchText({ target: { value: launchText } }) {
-    this.setState({ launchText });
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({
-      hasUpdatedDate: !hasUpdatedDate,
-    }));
+  handleChangeLaunchText({ target: { value: launchText } }) {
+    this.setState({ launchText });
   }
 
   handleChangeStartAtPoster() {
@@ -207,6 +208,7 @@ class GalleryBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       activeStep,
       galleryQ,
       hasUpdatedDate,
@@ -255,14 +257,15 @@ class GalleryBlockModal extends React.Component {
               )}
               {activeStep === 1 && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   isImageSelected={!!selectedImage}
                   launchText={launchText}
                   node={node}
+                  onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDate={this.handleChangeHasUpdatedDate}
                   onChangeStartAtPoster={this.handleChangeStartAtPoster}
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
@@ -273,6 +276,7 @@ class GalleryBlockModal extends React.Component {
                   selectedImage={selectedImage}
                   updatedDate={updatedDate}
                   startsAtPoster={startsAtPoster}
+                  
                 />
               )}
               {isReadyToDisplay && activeStep === 0 && !galleries.length && (

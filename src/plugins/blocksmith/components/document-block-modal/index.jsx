@@ -58,6 +58,7 @@ class DocumentBlockModal extends React.Component {
     const { block, imageNode, documentNode } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       documentQ: '',
       hasUpdatedDate: block.has('updated_date'),
       isAssetPickerModalOpen: false,
@@ -69,8 +70,8 @@ class DocumentBlockModal extends React.Component {
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
@@ -105,6 +106,7 @@ class DocumentBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       launchText,
       selectedDocumentNode,
@@ -116,7 +118,8 @@ class DocumentBlockModal extends React.Component {
       .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -125,8 +128,8 @@ class DocumentBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {
@@ -220,6 +223,7 @@ class DocumentBlockModal extends React.Component {
   render() {
     const {
       activeStep,
+      aside,
       documentQ,
       hasUpdatedDate,
       isAssetPickerModalOpen,
@@ -301,18 +305,19 @@ class DocumentBlockModal extends React.Component {
               activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   launchText={launchText}
                   node={node}
-                  onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDAte={this.handleChangeHasUpdatedDate}
+                  onChangeCheckBox={this.handleChangeCheckbox}
+                  onChangeDate={this.handleChangeDate}                  
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
-                  onSelectImage={this.handleSelectImage}
+                  onSelectImage={this.handleSelectImage}                  
                   onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
                   updatedDate={updatedDate}
                 />

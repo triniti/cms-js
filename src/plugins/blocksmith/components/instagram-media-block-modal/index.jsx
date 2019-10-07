@@ -20,6 +20,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -46,6 +47,7 @@ export default class InstagramMediaBlockModal extends React.Component {
     const { block } = props;
     const id = block.get('id');
     this.state = {
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       hideCaption: block.get('hidecaption'),
@@ -70,12 +72,13 @@ export default class InstagramMediaBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, hideCaption, id, updatedDate } = this.state;
+    const { hasUpdatedDate, hideCaption, id, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('hidecaption', hideCaption)
       .set('id', id)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -88,6 +91,10 @@ export default class InstagramMediaBlockModal extends React.Component {
     const { onEditBlock, toggle } = this.props;
     onEditBlock(this.setBlock());
     toggle();
+  }
+
+  handleChangeCheckbox({ target: { checked, id } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
@@ -120,12 +127,10 @@ export default class InstagramMediaBlockModal extends React.Component {
     });
   }
 
-  handleChangeCheckbox({ target: { checked, id } }) {
-    this.setState({ [id]: checked });
-  }
 
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       hideCaption,
@@ -165,6 +170,13 @@ export default class InstagramMediaBlockModal extends React.Component {
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+          </FormGroup>
+          <FormGroup className="mr-4">
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

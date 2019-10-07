@@ -15,16 +15,18 @@ import {
 import Message from '@gdbots/pbj/Message';
 import GalleryBlockPreview from '@triniti/cms/plugins/blocksmith/components/gallery-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
+  aside,
   block,
   hasUpdatedDate,
   isAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
+  onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
-  onChangeHasUpdatedDate: handleChangeHasUpdatedDate,
   onChangeStartAtPoster: handleChangeStartAtPoster,
   onChangeLaunchText: handleChangeLaunchText,
   onChangeTime: handleChangeTime,
@@ -67,9 +69,14 @@ const CustomizeOptions = ({
         </Label>
       </FormGroup>
       <FormGroup className="mr-4">
-        <Checkbox size="sd" checked={hasUpdatedDate} onChange={handleChangeHasUpdatedDate}>
+        <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
           Is update
         </Checkbox>
+        <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
+          Aside
+        </Checkbox>
+        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+        <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
         <Checkbox
           size="sd"
           checked={startsAtPoster}
@@ -109,14 +116,15 @@ const CustomizeOptions = ({
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
   isAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
+  onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
-  onChangeHasUpdatedDate: PropTypes.func.isRequired,
   onChangeStartAtPoster: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,

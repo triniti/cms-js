@@ -24,6 +24,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -48,21 +49,22 @@ export default class GoogleMapBlockModal extends React.Component {
     super(props);
     const { block } = props;
     this.state = {
-      q: block.get('q') || '',
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       isAutoZoom: block.get('zoom') === 0,
       isDropdownOpen: false,
       isValid: block.has('q') || block.has('center'),
       mapType: block.get('maptype'),
+      q: block.get('q') || '',
       touched: false,
-      zoom: block.get('zoom'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      zoom: block.get('zoom'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAutoZoom = this.handleChangeAutoZoom.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeLocation = this.handleChangeLocation.bind(this);
     this.handleChangeMapType = this.handleChangeMapType.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
@@ -78,13 +80,14 @@ export default class GoogleMapBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
+    const { aside, hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('maptype', mapType || null)
       .set('q', q || null)
       .set('zoom', zoom || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -106,12 +109,20 @@ export default class GoogleMapBlockModal extends React.Component {
     }));
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -153,6 +164,7 @@ export default class GoogleMapBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       isAutoZoom,
@@ -224,9 +236,14 @@ export default class GoogleMapBlockModal extends React.Component {
             </Dropdown>
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

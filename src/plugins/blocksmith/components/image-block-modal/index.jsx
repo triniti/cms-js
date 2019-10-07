@@ -53,6 +53,7 @@ class ImageBlockModal extends React.Component {
       selectedImage: image || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       url: block.get('url') || '',
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAspectRatio = this.handleChangeAspectRatio.bind(this);
@@ -79,6 +80,7 @@ class ImageBlockModal extends React.Component {
       selectedImage,
       updatedDate,
       url,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -87,7 +89,8 @@ class ImageBlockModal extends React.Component {
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
+      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -172,6 +175,7 @@ class ImageBlockModal extends React.Component {
       selectedImage,
       updatedDate,
       url,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, node, toggle } = this.props;
 
@@ -214,6 +218,7 @@ class ImageBlockModal extends React.Component {
               selectedImage={selectedImage}
               updatedDate={updatedDate}
               url={url}
+              aside={aside}
             />
           </ScrollableContainer>
         </ModalBody>

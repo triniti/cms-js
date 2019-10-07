@@ -70,6 +70,7 @@ class ArticleBlockModal extends React.Component {
       selectedArticleNode: articleNode || null,
       selectedImageRef: imageRef || null,
       showImage: block.get('show_image'),
+      aside: block.get('aside'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -106,6 +107,7 @@ class ArticleBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       linkText,
       selectedArticleNode,
@@ -119,13 +121,22 @@ class ArticleBlockModal extends React.Component {
       .set('show_image', !!showImage)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('image_ref', selectedImageRef || null)
-      .set('link_text', linkText || null);
+      .set('link_text', linkText || null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
     const { onAddBlock, toggle } = this.props;
     onAddBlock(this.setBlock());
     toggle();
+  }
+
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
+  handleChangeDate(date) {
+    this.setState(changedDate(date));
   }
 
   handleChangeLinkText({ target: { value: linkText } }) {
@@ -136,13 +147,6 @@ class ArticleBlockModal extends React.Component {
     this.setState({ articleQ }, this.handleSearchArticles);
   }
 
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
@@ -218,6 +222,7 @@ class ArticleBlockModal extends React.Component {
     const {
       activeStep,
       articleQ,
+      aside,
       hasUpdatedDate,
       isAssetPickerModalOpen,
       isReadyToDisplay,
@@ -290,6 +295,7 @@ class ArticleBlockModal extends React.Component {
               activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   node={node}
                   onClearImage={this.handleClearImage}

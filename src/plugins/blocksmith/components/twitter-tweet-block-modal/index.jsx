@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
-import { Button, Checkbox, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter } from '@triniti/admin-ui-plugin/components';
+import { Button, Checkbox, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter, Icon, UncontrolledTooltip } from '@triniti/admin-ui-plugin/components';
 import TwitterTweetBlockPreview from '@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 
@@ -32,6 +32,7 @@ export default class TwitterTweetBlockModal extends React.Component {
     const tweetId = block.get('tweet_id');
     const screenName = block.get('screen_name');
     this.state = {
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       hideMedia: block.get('hide_media'),
@@ -50,6 +51,7 @@ export default class TwitterTweetBlockModal extends React.Component {
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -58,6 +60,7 @@ export default class TwitterTweetBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       hideMedia,
       hideThread,
@@ -73,7 +76,8 @@ export default class TwitterTweetBlockModal extends React.Component {
       .set('screen_name', screenName || null)
       .set('tweet_id', tweetId || null)
       .set('tweet_text', tweetText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -86,6 +90,10 @@ export default class TwitterTweetBlockModal extends React.Component {
     const { onEditBlock, toggle } = this.props;
     onEditBlock(this.setBlock());
     toggle();
+  }
+
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
@@ -124,12 +132,9 @@ export default class TwitterTweetBlockModal extends React.Component {
     });
   }
 
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
-  }
-
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       hideMedia,
@@ -176,6 +181,13 @@ export default class TwitterTweetBlockModal extends React.Component {
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+          </FormGroup>
+          <FormGroup>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

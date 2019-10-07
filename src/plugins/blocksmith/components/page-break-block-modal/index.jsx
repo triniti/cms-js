@@ -19,6 +19,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -42,14 +43,15 @@ class PageBreakBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       readMoreText: block.get('read_more_text') || '',
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -62,17 +64,22 @@ class PageBreakBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const { aside, hasUpdatedDate, readMoreText, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('read_more_text', readMoreText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
     const { onAddBlock, toggle } = this.props;
     onAddBlock(this.setBlock());
     toggle();
+  }
+
+  handleChangeCheckbox({ target: { checked, id } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
@@ -83,9 +90,6 @@ class PageBreakBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
 
   handleChangeInput({ target: { value: readMoreText } }) {
     this.setState({ readMoreText });
@@ -98,7 +102,7 @@ class PageBreakBlockModal extends React.Component {
   }
 
   render() {
-    const { readMoreText, hasUpdatedDate, updatedDate } = this.state;
+    const { aside, hasUpdatedDate, readMoreText, updatedDate } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
     return (
@@ -120,9 +124,14 @@ class PageBreakBlockModal extends React.Component {
             />
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate
