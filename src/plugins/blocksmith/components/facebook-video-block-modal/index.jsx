@@ -18,12 +18,12 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader,
-  UncontrolledTooltip,
+  ModalHeader, 
 } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import FacebookVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-video-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -59,6 +59,7 @@ class FacebookVideoBlockModal extends React.Component {
     super(props);
     const { block, imageNode } = props;
     this.state = {
+      aside: block.get('aside'),
       autoplay: block.get('autoplay'),
       hasUpdatedDate: block.has('updated_date'),
       href: block.get('href'),
@@ -68,7 +69,6 @@ class FacebookVideoBlockModal extends React.Component {
       showCaptions: block.get('show_captions'),
       showText: block.get('show_text'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -85,13 +85,13 @@ class FacebookVideoBlockModal extends React.Component {
   setBlock() {
     const {
       autoplay,
+      aside,
       hasUpdatedDate,
       href,
       selectedImageNode,
       showCaptions,
       showText,
       updatedDate,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -194,6 +194,7 @@ class FacebookVideoBlockModal extends React.Component {
   render() {
     const {
       autoplay,
+      aside,
       hasUpdatedDate,
       href,
       isAssetPickerModalOpen,
@@ -202,7 +203,6 @@ class FacebookVideoBlockModal extends React.Component {
       showCaptions,
       showText,
       updatedDate,
-      aside,
     } = this.state;
 
     const { isOpen, isFreshBlock, node, toggle } = this.props;
@@ -260,8 +260,8 @@ class FacebookVideoBlockModal extends React.Component {
           </FormGroup>
           <FormGroup check>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>Aside</Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

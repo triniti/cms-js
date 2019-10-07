@@ -14,12 +14,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Icon,
-  UncontrolledTooltip,
+  Icon,  
 } from '@triniti/admin-ui-plugin/components';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import SoundcloudAudioBlockPreview from '@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -55,6 +55,7 @@ class SoundcloudAudioBlockModal extends React.Component {
     const { block, imageNode } = props;
     this.state = {
       autoplay: block.get('auto_play'),
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       isValid: block.has('track_id'),
@@ -65,19 +66,16 @@ class SoundcloudAudioBlockModal extends React.Component {
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       willHideRelated: block.get('hide_related'),
       willShowComments: block.get('show_comments'),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +84,7 @@ class SoundcloudAudioBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       autoplay,
       hasUpdatedDate,
       isVisual,
@@ -94,7 +93,6 @@ class SoundcloudAudioBlockModal extends React.Component {
       updatedDate,
       willHideRelated,
       willShowComments,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -120,24 +118,16 @@ class SoundcloudAudioBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTextArea(event) {
@@ -219,6 +209,7 @@ class SoundcloudAudioBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       autoplay,
       errorMsg,
       hasUpdatedDate,
@@ -231,7 +222,6 @@ class SoundcloudAudioBlockModal extends React.Component {
       updatedDate,
       willHideRelated,
       willShowComments,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, node, toggle } = this.props;
 
@@ -312,16 +302,26 @@ class SoundcloudAudioBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox
+              size="sd"
+              checked={hasUpdatedDate}
+              id="hasUpdatedDate"
+              onChange={this.handleChangeCheckbox}
+            >
               Is update
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+            <Checkbox
+              size="sd"
+              checked={aside}
+              id="aside"
+              onChange={this.handleChangeCheckbox}
+            >
               Aside
             </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

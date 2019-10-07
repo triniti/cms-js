@@ -12,28 +12,27 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import DocumentBlockPreview from '@triniti/cms/plugins/blocksmith/components/document-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
+  aside,
   block,
   hasUpdatedDate,
   isAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
+  onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
-  onChangeHasUpdatedDAte: handleChangeHasUpdatedDate,
   onChangeLaunchText: handleChangeLaunchText,
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
-  onChangeAside: handleChangeAside,
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   updatedDate,
-  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <DocumentBlockPreview
@@ -60,16 +59,16 @@ const CustomizeOptions = ({
       </Label>
     </FormGroup>
     <FormGroup className="mr-4">
-      <Checkbox size="sd" checked={hasUpdatedDate} onChange={handleChangeHasUpdatedDate}>
+      <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
         Is update
       </Checkbox>
     </FormGroup>
     <FormGroup className="mr-4">
-      <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeAside}>
+      <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
         Aside
       </Checkbox>
-      <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-      <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+      <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+      <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
     </FormGroup>
     {
       hasUpdatedDate
@@ -105,22 +104,21 @@ const CustomizeOptions = ({
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
   isAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
+  onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
-  onChangeHasUpdatedDAte: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
-  onChangeAside: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
-  aside: PropTypes.bool.isRequired,
 };
 
 export default CustomizeOptions;

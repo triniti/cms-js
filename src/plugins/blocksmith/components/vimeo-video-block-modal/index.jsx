@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
 import he from 'he';
-import { Button, Checkbox, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter, Icon, UncontrolledTooltip } from '@triniti/admin-ui-plugin/components';
+import { Button, Checkbox, FormGroup, Icon, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter } from '@triniti/admin-ui-plugin/components';
 import VimeoVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/vimeo-video-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 
 import changedDate from '../../utils/changedDate';
@@ -60,6 +61,7 @@ class VimeoVideoBlockModal extends React.Component {
     super(props);
     const { block, imageNode } = props;
     this.state = {
+      aside: block.get('aside'),
       autoplay: block.get('autoplay'),
       description: block.get('description'),
       errorMsg: '',
@@ -76,7 +78,6 @@ class VimeoVideoBlockModal extends React.Component {
       willShowByline: block.get('show_byline'),
       willShowPortrait: block.get('show_portrait'),
       willShowTitle: block.get('show_title'),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -91,6 +92,7 @@ class VimeoVideoBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       autoplay,
       description,
       hasUpdatedDate,
@@ -104,7 +106,6 @@ class VimeoVideoBlockModal extends React.Component {
       willShowByline,
       willShowPortrait,
       willShowTitle,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -135,16 +136,16 @@ class VimeoVideoBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
   }
 
   handleChangeTextArea(event) {
@@ -271,6 +272,7 @@ class VimeoVideoBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       autoplay,
       errorMsg,
       hasUpdatedDate,
@@ -284,7 +286,6 @@ class VimeoVideoBlockModal extends React.Component {
       willShowByline,
       willShowPortrait,
       willShowTitle,
-      aside,
     } = this.state;
 
     const { isFreshBlock, isOpen, node, toggle } = this.props;
@@ -394,8 +395,8 @@ class VimeoVideoBlockModal extends React.Component {
             >
               Aside
             </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

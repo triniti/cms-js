@@ -32,6 +32,7 @@ export default class TwitterTweetBlockModal extends React.Component {
     const tweetId = block.get('tweet_id');
     const screenName = block.get('screen_name');
     this.state = {
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       hideMedia: block.get('hide_media'),
@@ -43,7 +44,6 @@ export default class TwitterTweetBlockModal extends React.Component {
       tweetText: block.get('tweet_text'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       url: tweetId && screenName ? `https://twitter.com/${screenName}/status/${tweetId}` : '',
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -60,6 +60,7 @@ export default class TwitterTweetBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       hideMedia,
       hideThread,
@@ -67,7 +68,6 @@ export default class TwitterTweetBlockModal extends React.Component {
       tweetId,
       tweetText,
       updatedDate,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -92,16 +92,16 @@ export default class TwitterTweetBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTextarea(event) {
@@ -132,12 +132,9 @@ export default class TwitterTweetBlockModal extends React.Component {
     });
   }
 
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
-  }
-
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       hideMedia,
@@ -148,7 +145,6 @@ export default class TwitterTweetBlockModal extends React.Component {
       tweetId,
       updatedDate,
       url,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
     const displayUrl = isValid ? `https://twitter.com/${screenName}/status/${tweetId}` : url;
@@ -187,11 +183,11 @@ export default class TwitterTweetBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

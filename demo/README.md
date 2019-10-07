@@ -2,21 +2,32 @@ cms-js DEMO
 =======================
 
 ## Installation
-+ Git clone the project to your computer:
-```
-$ git clone git@github.com:triniti/cms-js.git
-```
-+ Open terminal and `cd cms-js/demo`
-+ Create a `.env` file with the desired vendor env information
-+ Create a `schemas.js` file that imports and exports your vendor schemas.
-+ Return to the **root** of the project to install your vendor schemas. 
-    - Protip: you can install your vendor schemas with the `--no-save` flag to prevent them being added to `package.json`
-    - example: `npm install @acme/schemas --no-save`
-+ In the **_root_** of the project as well as the **_demo path_**: 
++ Enter the repo `$ cd cms-js`
 + Run `$ nvm use`
++ Go to the demo directory `$ cd demo`
++ Create a `.env` file with the desired vendor env information (see example below)
++ Create a `schemas.js` file that imports and exports your vendor schemas (see example below)
++ Return to the root of the project `$ cd ..`
++ Install your vendor schemas. ex: `$ npm install @acme/schemas --no-save` (the `--no-save` flag prevents them from being added to `package.json`)
++ Run `$ npm install`
++ Go to the demo directory `$ cd demo`
 + Run `$ npm install`
 + Run `$ npm start`
 + Open <https://localhost:3000> in a browser.
+
+the directory structure should look like this
+
+```
+root
+│   node_modules (includes vendor shemas)
+│   ...rest
+│
+└───demo
+│   │   node_modules
+│   │   .env
+│   │   schemas.js
+│   │   ...rest
+```
 
 
 ## example `.env` file:
@@ -52,3 +63,5 @@ import SearchArticlesRequestV1 from '@acme/schemas/acme/news/request/SearchArtic
 export default schemas;
 export const SearchArticlesRequest = SearchArticlesRequestV1;
 ```
+
+

@@ -41,15 +41,15 @@ class PollGridBlockModal extends React.Component {
 
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       selectedPollRefs: pollRefs || [],
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeStep = this.handleChangeStep.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -58,11 +58,10 @@ class PollGridBlockModal extends React.Component {
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleReorder = this.handleReorder.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   setBlock() {
-    const { hasUpdatedDate, selectedPollRefs, updatedDate, aside } = this.state;
+    const { aside, hasUpdatedDate, selectedPollRefs, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .addToList('node_refs', selectedPollRefs)
@@ -82,20 +81,16 @@ class PollGridBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeStep() {
@@ -181,7 +176,7 @@ class PollGridBlockModal extends React.Component {
   }
 
   render() {
-    const { activeStep, hasUpdatedDate, selectedPollRefs, updatedDate, aside } = this.state;
+    const { activeStep, aside, hasUpdatedDate, selectedPollRefs, updatedDate } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
     return (
@@ -215,13 +210,12 @@ class PollGridBlockModal extends React.Component {
                 activeStep === 1
                 && (
                   <CustomizeOptions
-                    hasUpdatedDate={hasUpdatedDate}
-                    onChangeDate={this.handleChangeDate}
-                    onChangeHasUpdatedDAte={this.handleChangeHasUpdatedDate}
-                    onChangeTime={this.handleChangeTime}
-                    onChangeAside={this.handleChangeAside}
-                    updatedDate={updatedDate}
                     aside={aside}
+                    hasUpdatedDate={hasUpdatedDate}
+                    onChangeCheckBox={this.handleChangeCheckbox}
+                    onChangeDate={this.handleChangeDate}
+                    onChangeTime={this.handleChangeTime}
+                    updatedDate={updatedDate}
                   />
                 )
               }

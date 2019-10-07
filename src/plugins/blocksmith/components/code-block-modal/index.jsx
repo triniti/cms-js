@@ -17,9 +17,10 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import CodeBlockPreview from '@triniti/cms/plugins/blocksmith/components/code-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -49,11 +50,10 @@ export default class CodeBlockModal extends React.Component {
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -83,6 +83,14 @@ export default class CodeBlockModal extends React.Component {
     toggle();
   }
 
+  handleChange({ target: { value: code } }) {
+    this.setState({ code });
+  }
+
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
@@ -91,20 +99,8 @@ export default class CodeBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
-  }
-
-  handleChange({ target: { value: code } }) {
-    this.setState({ code });
-  }
-
   render() {
-    const { code, hasUpdatedDate, updatedDate, aside } = this.state;
+    const { aside, code, hasUpdatedDate, updatedDate } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
 
     return (
@@ -121,14 +117,14 @@ export default class CodeBlockModal extends React.Component {
             />
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdateDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
-            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside} className="ml-3">
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
               Aside
             </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
           hasUpdatedDate

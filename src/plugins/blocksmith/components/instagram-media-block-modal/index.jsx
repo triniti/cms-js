@@ -19,8 +19,8 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -47,6 +47,7 @@ export default class InstagramMediaBlockModal extends React.Component {
     const { block } = props;
     const id = block.get('id');
     this.state = {
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       hideCaption: block.get('hidecaption'),
@@ -55,7 +56,6 @@ export default class InstagramMediaBlockModal extends React.Component {
       touched: false,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       url: id ? `https://www.instagram.com/p/${id}/` : '',
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -93,6 +93,10 @@ export default class InstagramMediaBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { checked, id } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
@@ -123,12 +127,10 @@ export default class InstagramMediaBlockModal extends React.Component {
     });
   }
 
-  handleChangeCheckbox({ target: { checked, id } }) {
-    this.setState({ [id]: checked });
-  }
 
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       hideCaption,
@@ -137,7 +139,6 @@ export default class InstagramMediaBlockModal extends React.Component {
       touched,
       updatedDate,
       url,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
     const displayUrl = isValid ? `https://www.instagram.com/p/${id}/` : url;
@@ -171,11 +172,11 @@ export default class InstagramMediaBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

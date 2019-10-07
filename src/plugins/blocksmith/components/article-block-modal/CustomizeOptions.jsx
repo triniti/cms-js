@@ -4,15 +4,15 @@ import moment from 'moment';
 import {
   Checkbox,
   FormGroup,
+  Icon,
   Input,
   Label,
-  Icon,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 import ArticleBlockPreview from '@triniti/cms/plugins/blocksmith/components/article-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
   block,
@@ -74,8 +74,8 @@ const CustomizeOptions = ({
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
           Aside
         </Checkbox>
-        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-        <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+        <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
       </FormGroup>
     </FormGroup>
     {
@@ -92,6 +92,7 @@ const CustomizeOptions = ({
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
   isAssetPickerModalOpen: PropTypes.bool.isRequired,
@@ -107,7 +108,6 @@ CustomizeOptions.propTypes = {
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   showImage: PropTypes.bool.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
-  aside: PropTypes.bool.isRequired,
 };
 
 export default CustomizeOptions;

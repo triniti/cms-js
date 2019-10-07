@@ -11,15 +11,14 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  Select,
-  UncontrolledTooltip,
+  Select, 
 } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -31,6 +30,7 @@ const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
 }));
 
 const CustomizeOptions = ({
+  aside,
   block,
   aspectRatio,
   caption,
@@ -53,7 +53,6 @@ const CustomizeOptions = ({
   selectedImage,
   updatedDate,
   url,
-  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <ImageBlockPreview className="my-4" block={block} />
@@ -164,8 +163,8 @@ const CustomizeOptions = ({
             <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} />
             Aside
           </Label>
-          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-          <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+          <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
         </FormGroup>
       </FormGroup>
     </div>
@@ -173,6 +172,7 @@ const CustomizeOptions = ({
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
   caption: PropTypes.string.isRequired,
@@ -195,7 +195,6 @@ CustomizeOptions.propTypes = {
   selectedImage: PropTypes.instanceOf(Message),
   updatedDate: PropTypes.instanceOf(moment).isRequired,
   url: PropTypes.string.isRequired,
-  aside: PropTypes.bool.isRequired,
 };
 
 CustomizeOptions.defaultProps = {

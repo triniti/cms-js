@@ -86,7 +86,6 @@ class ArticleBlockModal extends React.Component {
     this.handleSearchArticles = this.handleSearchArticles.bind(this);
     this.handleSelectArticle = this.handleSelectArticle.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
   }
 
@@ -108,13 +107,13 @@ class ArticleBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       linkText,
       selectedArticleNode,
       selectedImageRef,
       showImage,
       updatedDate,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -132,14 +131,6 @@ class ArticleBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeLinkText({ target: { value: linkText } }) {
-    this.setState({ linkText });
-  }
-
-  handleChangeQ({ target: { value: articleQ } }) {
-    this.setState({ articleQ }, this.handleSearchArticles);
-  }
-
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
   }
@@ -148,12 +139,17 @@ class ArticleBlockModal extends React.Component {
     this.setState(changedDate(date));
   }
 
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
+  handleChangeLinkText({ target: { value: linkText } }) {
+    this.setState({ linkText });
   }
 
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
+  handleChangeQ({ target: { value: articleQ } }) {
+    this.setState({ articleQ }, this.handleSearchArticles);
+  }
+
+
+  handleChangeTime({ target: { value: time } }) {
+    this.setState(changedTime(time));
   }
 
   handleEditBlock() {
@@ -226,6 +222,7 @@ class ArticleBlockModal extends React.Component {
     const {
       activeStep,
       articleQ,
+      aside,
       hasUpdatedDate,
       isAssetPickerModalOpen,
       isReadyToDisplay,
@@ -234,7 +231,6 @@ class ArticleBlockModal extends React.Component {
       selectedImageRef,
       showImage,
       updatedDate,
-      aside,
     } = this.state;
     const {
       articleNodes,
@@ -299,6 +295,7 @@ class ArticleBlockModal extends React.Component {
               activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   node={node}
                   onClearImage={this.handleClearImage}
@@ -315,7 +312,6 @@ class ArticleBlockModal extends React.Component {
                   onChangeLinkText={this.handleChangeLinkText}
                   showImage={showImage}
                   updatedDate={updatedDate}
-                  aside={aside}
                 />
               )
             }

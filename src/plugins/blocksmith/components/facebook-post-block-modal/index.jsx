@@ -17,9 +17,10 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import FacebookPostBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-post-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -130,7 +131,7 @@ export default class FacebookPostBlockModal extends React.Component {
 
 
   render() {
-    const { hasUpdatedDate, href, isValid, showText, updatedDate, aside } = this.state;
+    const { aside, hasUpdatedDate, href, isValid, showText, updatedDate } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
 
     return (
@@ -159,8 +160,8 @@ export default class FacebookPostBlockModal extends React.Component {
           </FormGroup>
           <FormGroup check>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeAside}>Aside</Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

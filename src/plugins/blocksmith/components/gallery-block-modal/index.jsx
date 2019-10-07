@@ -55,6 +55,7 @@ class GalleryBlockModal extends React.Component {
     const { block, gallery, image } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       galleryQ: '',
       hasUpdatedDate: block.has('updated_date'),
       startsAtPoster: block.get('start_at_poster'),
@@ -64,11 +65,10 @@ class GalleryBlockModal extends React.Component {
       selectedGallery: gallery || null,
       selectedImage: image || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeStartAtPoster = this.handleChangeStartAtPoster.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
@@ -81,7 +81,6 @@ class GalleryBlockModal extends React.Component {
     this.handleSelectGallery = this.handleSelectGallery.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -103,13 +102,13 @@ class GalleryBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       startsAtPoster,
       launchText,
       selectedImage,
       selectedGallery,
       updatedDate,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block
@@ -129,18 +128,13 @@ class GalleryBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+    console.log(checked);
+  }
+
   handleChangeLaunchText({ target: { value: launchText } }) {
     this.setState({ launchText });
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({
-      hasUpdatedDate: !hasUpdatedDate,
-    }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeStartAtPoster() {
@@ -215,6 +209,7 @@ class GalleryBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       activeStep,
       galleryQ,
       hasUpdatedDate,
@@ -225,7 +220,6 @@ class GalleryBlockModal extends React.Component {
       selectedImage,
       updatedDate,
       startsAtPoster,
-      aside,
     } = this.state;
     const { isOpen, isFreshBlock, toggle, galleries, node } = this.props;
 
@@ -264,18 +258,18 @@ class GalleryBlockModal extends React.Component {
               )}
               {activeStep === 1 && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   isImageSelected={!!selectedImage}
                   launchText={launchText}
                   node={node}
+                  onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDate={this.handleChangeHasUpdatedDate}
                   onChangeStartAtPoster={this.handleChangeStartAtPoster}
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
-                  onChangeAside={this.handleChangeAside}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
                   onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
@@ -283,7 +277,7 @@ class GalleryBlockModal extends React.Component {
                   selectedImage={selectedImage}
                   updatedDate={updatedDate}
                   startsAtPoster={startsAtPoster}
-                  aside={aside}
+                  
                 />
               )}
               {isReadyToDisplay && activeStep === 0 && !galleries.length && (

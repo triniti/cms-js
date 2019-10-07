@@ -24,8 +24,8 @@ import {
   ModalFooter,
   ModalHeader,
   Select,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -71,6 +71,7 @@ export default class IframeBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       align: block.get('align'),
+      aside: block.get('aside'),
       data: block.get('data') || {},
       hasManualDimensions: block.has('height') && block.has('width'),
       hasUpdatedDate: block.has('updated_date'),
@@ -78,7 +79,6 @@ export default class IframeBlockModal extends React.Component {
       src: block.get('src'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       width: block.has('width') ? Number(block.get('width').replace('px', '')) : null,
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -101,6 +101,7 @@ export default class IframeBlockModal extends React.Component {
   setBlock() {
     const {
       align,
+      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -108,7 +109,6 @@ export default class IframeBlockModal extends React.Component {
       src,
       updatedDate,
       width,
-      aside,
     } = this.state;
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
@@ -240,6 +240,7 @@ export default class IframeBlockModal extends React.Component {
   render() {
     const {
       align,
+      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -247,7 +248,6 @@ export default class IframeBlockModal extends React.Component {
       src,
       updatedDate,
       width,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
     const isValid = isValidUrl(src);
@@ -341,8 +341,8 @@ export default class IframeBlockModal extends React.Component {
               <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
                 Aside
               </Checkbox>
-              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-              <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

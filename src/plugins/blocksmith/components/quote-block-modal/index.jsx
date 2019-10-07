@@ -9,17 +9,17 @@ import {
   Button,
   Checkbox,
   FormGroup,
+  Icon,
   Input,
   Label,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Icon,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import QuoteBlockPreview from '@triniti/cms/plugins/blocksmith/components/quote-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -55,13 +55,11 @@ class QuoteBlockModal extends React.Component {
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeSourceUrl = this.handleChangeSourceUrl.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -100,16 +98,8 @@ class QuoteBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleChangeCheckbox() {
-    this.setState(({ isPullQuote }) => ({ isPullQuote: !isPullQuote }));
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeInput({ target: { id, value } }) {
@@ -177,6 +167,7 @@ class QuoteBlockModal extends React.Component {
             <FormGroup>
               <Checkbox
                 checked={isPullQuote}
+                id="isPullQuote"
                 onChange={this.handleChangeCheckbox}
                 size="sd"
               >
@@ -184,16 +175,16 @@ class QuoteBlockModal extends React.Component {
               </Checkbox>
             </FormGroup>
             <FormGroup>
-              <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
             </FormGroup>
             <FormGroup>
-              <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+              <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
                 Aside
               </Checkbox>
-              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-              <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

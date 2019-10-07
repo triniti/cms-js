@@ -17,10 +17,10 @@ import {
   ModalHeader,
   Select,
   Icon,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import HeadingBlockPreview from '@triniti/cms/plugins/blocksmith/components/heading-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -44,24 +44,23 @@ class HeadingBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       isValid: true,
       text: block.get('text') || '',
       size: block.get('size'),
       url: block.get('url'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -69,7 +68,7 @@ class HeadingBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, text, size, url, updatedDate, aside } = this.state;
+    const { aside, hasUpdatedDate, text, size, url, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('text', text)
@@ -85,10 +84,8 @@ class HeadingBlockModal extends React.Component {
     toggle();
   }
 
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
@@ -103,13 +100,6 @@ class HeadingBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
-  }
 
   handleChangeInput({ target: { id, value } }) {
     this.setState({ [id]: value });
@@ -122,15 +112,21 @@ class HeadingBlockModal extends React.Component {
     });
   }
 
+  handleEditBlock() {
+    const { onEditBlock, toggle } = this.props;
+    onEditBlock(this.setBlock());
+    toggle();
+  }
+
   render() {
     const {
+      aside,
       hasUpdatedDate,
       isValid,
       text,
       size,
       url,
       updatedDate,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -179,14 +175,15 @@ class HeadingBlockModal extends React.Component {
             />
             {!isValid && <p className="text-danger">please enter a valid URL</p>}
             <FormGroup>
-              <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>              
                 Is update
               </Checkbox>
-              <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside} className="ml-3">
+              <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
+              
                 Aside
               </Checkbox>
-              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-              <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

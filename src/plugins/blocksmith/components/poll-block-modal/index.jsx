@@ -51,23 +51,22 @@ class PollBlockModal extends React.Component {
     const { block, poll } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       isReadyToDisplay: false,
       q: '',
       selectedPoll: poll || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleChangeStep = this.handleChangeStep.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSelectPoll = this.handleSelectPoll.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -102,12 +101,8 @@ class PollBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
@@ -147,12 +142,12 @@ class PollBlockModal extends React.Component {
   render() {
     const {
       activeStep,
+      aside,
       hasUpdatedDate,
       isReadyToDisplay,
       q,
       selectedPoll,
       updatedDate,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle, sort, polls } = this.props;
 
@@ -208,13 +203,12 @@ class PollBlockModal extends React.Component {
               activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
+                  onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDAte={this.handleChangeHasUpdatedDate}
                   onChangeTime={this.handleChangeTime}
-                  onChangeAside={this.handleChangeAside}
-                  aside={aside}
                   updatedDate={updatedDate}
                 />
               )

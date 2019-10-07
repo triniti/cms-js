@@ -6,15 +6,16 @@ import {
   Checkbox,
   FormGroup,
   Label,
-  Input,
   Icon,
-  UncontrolledTooltip,
+  Input,
 } from '@triniti/admin-ui-plugin/components';
 import VideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/video-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
+  aside,
   autoplay,
   block,
   handleChangeLaunchText,
@@ -33,7 +34,6 @@ const CustomizeOptions = ({
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   updatedDate,
   willShowMoreVideos,
-  aside,
 }) => (
   <div className="modal-body-blocksmith video-block-preview-wrapper">
     <VideoBlockPreview
@@ -117,8 +117,8 @@ const CustomizeOptions = ({
           <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
             Aside
           </Checkbox>
-          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-          <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+          <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
         </FormGroup>
       </FormGroup>
     </div>
@@ -126,6 +126,7 @@ const CustomizeOptions = ({
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   autoplay: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   handleChangeLaunchText: PropTypes.func.isRequired,
@@ -144,7 +145,6 @@ CustomizeOptions.propTypes = {
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   willShowMoreVideos: PropTypes.bool.isRequired,
   updatedDate: PropTypes.instanceOf(moment).isRequired,
-  aside: PropTypes.bool.isRequired,
 };
 
 CustomizeOptions.defaultProps = {

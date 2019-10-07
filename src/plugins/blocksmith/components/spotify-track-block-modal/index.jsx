@@ -13,10 +13,10 @@ import {
   ModalBody,
   ModalFooter,
   Icon,
-  UncontrolledTooltip,
 } from '@triniti/admin-ui-plugin/components';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import SpotifyTrackBlockPreview from '@triniti/cms/plugins/blocksmith/components/spotify-track-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -44,21 +44,19 @@ export default class SpotifyTrackBlockModal extends React.Component {
     super(props);
     const { block } = props;
     this.state = {
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       isValid: block.has('track_id'),
       touched: false,
       trackId: block.get('track_id'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -103,14 +101,6 @@ export default class SpotifyTrackBlockModal extends React.Component {
     this.setState({ [id]: checked });
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAside() {
-    this.setState(({ aside }) => ({ aside: !aside }));
-  }
-
   handleChangeTextArea(event) {
     let { errorMsg, isValid, trackId } = this.state;
     const input = event.target.value;
@@ -143,13 +133,13 @@ export default class SpotifyTrackBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       isValid,
       touched,
       trackId,
       updatedDate,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -172,16 +162,16 @@ export default class SpotifyTrackBlockModal extends React.Component {
             && <p className="text-danger">{errorMsg}</p>
           }
           <FormGroup>
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={aside} onChange={this.handleChangeAside}>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" style={{ marginLeft: '0.3rem' }} />
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate
