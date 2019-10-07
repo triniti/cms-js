@@ -5,6 +5,7 @@ import SeoSubscriber from '@triniti/cms/plugins/common/services/SeoSubscriber';
 import AdWidgetSubscriber from './services/AdWidgetSubscriber';
 import AlertWidgetSubscriber from './services/AlertWidgetSubscriber';
 import ArticleTeaserSubscriber from './services/ArticleTeaserSubscriber';
+import AssetTeaserSubscriber from './services/AssetTeaserSubscriber';
 import BlogrollWidgetSubscriber from './services/BlogrollWidgetSubscriber';
 import CarouselWidgetSubscriber from './services/CarouselWidgetSubscriber';
 import CategoryTeaserSubscriber from './services/CategoryTeaserSubscriber';
@@ -42,6 +43,7 @@ export default class CuratorPlugin extends Plugin {
     bottle.service(serviceIds.AD_WIDGET_SUBSCRIBER, AdWidgetSubscriber);
     bottle.service(serviceIds.ALERT_WIDGET_SUBSCRIBER, AlertWidgetSubscriber);
     bottle.service(serviceIds.ARTICLE_TEASER_SUBSCRIBER, ArticleTeaserSubscriber);
+    bottle.service(serviceIds.ASSET_TEASER_SUBSCRIBER, AssetTeaserSubscriber);
     bottle.service(serviceIds.BLOGROLL_WIDGET_SUBSCRIBER, BlogrollWidgetSubscriber);
     bottle.service(serviceIds.CAROUSEL_WIDGET_SUBSCRIBER, CarouselWidgetSubscriber);
     bottle.service(serviceIds.CATEGORY_TEASER_SUBSCRIBER, CategoryTeaserSubscriber);
@@ -77,6 +79,7 @@ export default class CuratorPlugin extends Plugin {
       serviceIds.AD_WIDGET_SUBSCRIBER,
       serviceIds.ALERT_WIDGET_SUBSCRIBER,
       serviceIds.ARTICLE_TEASER_SUBSCRIBER,
+      serviceIds.ASSET_TEASER_SUBSCRIBER,
       serviceIds.BLOGROLL_WIDGET_SUBSCRIBER,
       serviceIds.CAROUSEL_WIDGET_SUBSCRIBER,
       serviceIds.CATEGORY_TEASER_SUBSCRIBER,

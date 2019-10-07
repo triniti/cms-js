@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import { getFormValues } from 'redux-form';
 import createNodeModalSelector from '@triniti/cms/plugins/ncr/components/create-node-modal/selector';
 import ArticleTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/article-teaser/ArticleTeaserV1Mixin';
+import AssetTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/asset-teaser/AssetTeaserV1Mixin';
 import CategoryTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/category-teaser/CategoryTeaserV1Mixin';
 import ChannelTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/channel-teaser/ChannelTeaserV1Mixin';
 import GalleryTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/gallery-teaser/GalleryTeaserV1Mixin';
@@ -43,6 +44,10 @@ export default (state, ownProps) => {
       break;
     case LinkTeaserV1Mixin.findOne().getCurie().getMessage():
       requiredFields = ['linkUrl', 'title'];
+      break;
+    case AssetTeaserV1Mixin.findOne().getCurie().getMessage():
+      targetRef = get(formValues, 'targetRef');
+      requiredFields = ['targetRef'];
       break;
     default:
       break;
