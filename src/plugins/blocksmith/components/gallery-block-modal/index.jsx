@@ -130,7 +130,6 @@ class GalleryBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
-    console.log(checked);
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {
