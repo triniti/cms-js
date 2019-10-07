@@ -283,7 +283,10 @@ export default class IframeBlockModal extends React.Component {
                 id="align"
                 name="align"
                 onChange={this.handleChangeSelect}
-                value={align || ''}
+                value={!align ? null : {
+                  label: align,
+                  value: align,
+                }}
                 options={[
                   { label: 'left', value: 'left' },
                   { label: 'center', value: 'center' },
