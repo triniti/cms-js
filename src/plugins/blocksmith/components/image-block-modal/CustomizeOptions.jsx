@@ -11,7 +11,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  Select, 
+  Select,
 } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
@@ -77,7 +77,10 @@ const CustomizeOptions = ({
         <Label>Aspect Ratio</Label>
         <Select
           onChange={handleChangeAspectRatio}
-          value={aspectRatio.value}
+          value={!aspectRatio.value ? null : {
+            label: aspectRatio.value.replace('by', ' by '),
+            value: aspectRatio.value,
+          }}
           options={aspectRatioOptions}
         />
       </FormGroup>

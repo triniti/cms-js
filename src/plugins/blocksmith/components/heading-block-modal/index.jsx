@@ -154,7 +154,10 @@ class HeadingBlockModal extends React.Component {
               id="size"
               name="size"
               onChange={this.handleChangeSelect}
-              value={size || ''}
+              value={!size ? null : {
+                label: `h${size}`,
+                value: size,
+              }}
               options={[
                 { label: 'h1', value: '1' },
                 { label: 'h2', value: '2' },
@@ -175,11 +178,11 @@ class HeadingBlockModal extends React.Component {
             />
             {!isValid && <p className="text-danger">please enter a valid URL</p>}
             <FormGroup>
-              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>              
+              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
               <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
-              
+
                 Aside
               </Checkbox>
               <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
