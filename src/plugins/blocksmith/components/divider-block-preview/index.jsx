@@ -12,7 +12,7 @@ const DividerBlockPreview = ({ className, block }) => (
         height: '6px',
         width: '300px',
         margin: '12px 0px 10px 6px',
-        borderTopStyle: block.get('stroke_style') || 'solid',
+        borderTopStyle: block.get('stroke_style'),
       }}
     />
   </div>

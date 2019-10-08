@@ -15,9 +15,9 @@ const PreviewComponent = ({ node }) => (
         className="divider__bar"
         style={{
           height: '6px',
-          width: '360px',
+          width: '380px',
           margin: '10px 0px 10px 6px',
-          borderTopStyle: node.get('stroke_style') || 'solid',
+          borderTopStyle: node.get('stroke_style'),
         }}
       />
     </div>
