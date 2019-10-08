@@ -25,6 +25,7 @@ import {
   ModalHeader,
   Select,
 } from '@triniti/admin-ui-plugin/components';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -70,6 +71,7 @@ export default class IframeBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       align: block.get('align'),
+      aside: block.get('aside'),
       data: block.get('data') || {},
       hasManualDimensions: block.has('height') && block.has('width'),
       hasUpdatedDate: block.has('updated_date'),
@@ -99,6 +101,7 @@ export default class IframeBlockModal extends React.Component {
   setBlock() {
     const {
       align,
+      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -113,7 +116,8 @@ export default class IframeBlockModal extends React.Component {
       .set('height', hasManualDimensions && height ? `${height}px` : null)
       .set('src', src || null)
       .set('width', hasManualDimensions && width ? `${width}px` : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
 
     setBlock.clear('data');
     Object.entries(data).forEach(([key, value]) => {
@@ -236,6 +240,7 @@ export default class IframeBlockModal extends React.Component {
   render() {
     const {
       align,
+      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -278,7 +283,10 @@ export default class IframeBlockModal extends React.Component {
                 id="align"
                 name="align"
                 onChange={this.handleChangeSelect}
-                value={align || ''}
+                value={!align ? null : {
+                  label: align,
+                  value: align,
+                }}
                 options={[
                   { label: 'left', value: 'left' },
                   { label: 'center', value: 'center' },
@@ -331,6 +339,13 @@ export default class IframeBlockModal extends React.Component {
               <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
+            </FormGroup>
+            <FormGroup className="mr-4">
+              <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
+                Aside
+              </Checkbox>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

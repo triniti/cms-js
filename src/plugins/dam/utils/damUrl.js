@@ -1,4 +1,4 @@
-/* globals APP_ENV, API_ENDPOINT, APP_VENDOR */
+/* globals APP_ENV, API_ENDPOINT */
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -8,8 +8,10 @@ const tld = API_ENDPOINT.split('://').pop().split('/').shift()
   .slice(-2)
   .join('.');
 
-const defaultBaseUrl = `https://dam.${APP_ENV === 'prod' ? '' : `${APP_ENV}.`}${tld}/`;
-const imageBaseUrl = `https://${APP_VENDOR}-images${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}akamaized.net/`;
+export const baseUrls = {
+  dfault: `https://dam.${APP_ENV === 'prod' ? '' : `${APP_ENV}.`}${tld}/`,
+  image: `https://images${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}${tld}/`,
+};
 
 /**
  * @param {NodeRef|AssetId|Message|string} id
@@ -24,23 +26,24 @@ export default (id, version = 'o', quality) => {
   }
 
   if (id instanceof NodeRef) {
-    const baseUrl = id.getLabel() === 'image-asset' ? imageBaseUrl : defaultBaseUrl;
-    return `${baseUrl}${AssetId.fromString(id.getId()).toFilePath(version, quality)}`;
+    const assetId = AssetId.fromString(id.getId());
+    const baseUrl = baseUrls[assetId.getType()] || baseUrls.dfault;
+    return `${baseUrl}${assetId.toFilePath(version, quality)}`;
   }
 
   if (id instanceof AssetId) {
-    const baseUrl = id.getType() === 'image' ? imageBaseUrl : defaultBaseUrl;
+    const baseUrl = baseUrls[id.getType()] || baseUrls.dfault;
     return `${baseUrl}${id.toFilePath(version, quality)}`;
   }
 
   if (id instanceof Message) {
-    const baseUrl = id.get('_id').getType() === 'image' ? imageBaseUrl : defaultBaseUrl;
+    const baseUrl = baseUrls[id.get('_id').getType()] || baseUrls.dfault;
     return `${baseUrl}${id.get('_id').toFilePath(version, quality)}`;
   }
 
   try {
-    const assetId = AssetId.fromString(String(id));
-    const baseUrl = assetId.getType() === 'image' ? imageBaseUrl : defaultBaseUrl;
+    const assetId = AssetId.fromString(`${id}`);
+    const baseUrl = baseUrls[assetId.getType()] || baseUrls.dfault;
     return `${baseUrl}${assetId.toFilePath(version, quality)}`;
   } catch (e) {
     return null;

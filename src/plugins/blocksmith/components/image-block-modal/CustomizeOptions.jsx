@@ -18,7 +18,7 @@ import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -30,6 +30,7 @@ const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
 }));
 
 const CustomizeOptions = ({
+  aside,
   block,
   aspectRatio,
   caption,
@@ -76,7 +77,10 @@ const CustomizeOptions = ({
         <Label>Aspect Ratio</Label>
         <Select
           onChange={handleChangeAspectRatio}
-          value={aspectRatio.value}
+          value={!aspectRatio.value ? null : {
+            label: aspectRatio.value.replace('by', ' by '),
+            value: aspectRatio.value,
+          }}
           options={aspectRatioOptions}
         />
       </FormGroup>
@@ -156,11 +160,22 @@ const CustomizeOptions = ({
         </FormGroup>
         )}
       </FormGroup>
+      <FormGroup className="mb-4">
+        <FormGroup check className="d-flex align-items-center mr-2">
+          <Label check>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} />
+            Aside
+          </Label>
+          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+          <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+        </FormGroup>
+      </FormGroup>
     </div>
   </div>
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
   caption: PropTypes.string.isRequired,

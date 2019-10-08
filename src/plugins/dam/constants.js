@@ -61,13 +61,6 @@ export const utilityTypes = {
   GALLERY_SEQUENCE_COUNTER: t('uploaderGallerySequence'),
 };
 
-/**
- * Suffixes are typically used by {@see Pbjx.trigger}
- *
- * @see {FormEvent}
- */
-export const SUFFIX_INIT_FORM = 'init_form';
-
 export const DATE_FIELD_QUICK_SELECT_OPTIONS = [
   {
     amount: 5,

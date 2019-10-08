@@ -8,6 +8,7 @@ import {
   Button,
   Checkbox,
   FormGroup,
+  Icon,
   Input,
   Label,
   Modal,
@@ -19,6 +20,7 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import YoutubeVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/youtube-video-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -53,6 +55,7 @@ class YouTubeVideoBlockModal extends React.Component {
     const id = block.get('id');
 
     this.state = {
+      aside: block.get('aside'),
       autoplay: block.get('autoplay'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
@@ -67,12 +70,11 @@ class YouTubeVideoBlockModal extends React.Component {
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
-    this.handleChangeAutoplay = this.handleChangeAutoplay.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeId = this.handleChangeId.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
@@ -82,6 +84,7 @@ class YouTubeVideoBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       autoplay,
       hasUpdatedDate,
       id,
@@ -95,7 +98,8 @@ class YouTubeVideoBlockModal extends React.Component {
       .set('id', id || null)
       .set('start_at', startAt || null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -110,22 +114,16 @@ class YouTubeVideoBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
-
-  handleChangeAutoplay(event) {
-    this.setState({
-      autoplay: event.target.checked,
-    });
   }
 
   handleChangeStartAt(event) {
@@ -218,6 +216,7 @@ class YouTubeVideoBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       autoplay,
       errorMsg,
       hasUpdatedDate,
@@ -292,14 +291,21 @@ class YouTubeVideoBlockModal extends React.Component {
             />
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={autoplay} onChange={this.handleChangeAutoplay} disabled={!!selectedImageNode}>
+            <Checkbox size="sd" id="autoplay" checked={autoplay} onChange={this.handleChangeCheckbox} disabled={!!selectedImageNode}>
               Autoplay
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+          </FormGroup>
+          <FormGroup>
+            <Checkbox size="sd" id ="aside" checked={aside} onChange={this.handleChangeCheckbox}>
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

@@ -9,6 +9,7 @@ import {
   Button,
   Checkbox,
   FormGroup,
+  Icon,
   Input,
   Label,
   Modal,
@@ -18,6 +19,7 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import QuoteBlockPreview from '@triniti/cms/plugins/blocksmith/components/quote-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -48,11 +50,11 @@ class QuoteBlockModal extends React.Component {
       sourceUrl: block.get('source_url'),
       text: block.get('text') || '',
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeSourceUrl = this.handleChangeSourceUrl.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -65,14 +67,15 @@ class QuoteBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate } = this.state;
+    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('is_pull_quote', isPullQuote)
       .set('source', source || null)
       .set('source_url', sourceUrl ? prependHttp(sourceUrl, { https: true }) : null)
       .set('text', text || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -95,12 +98,8 @@ class QuoteBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleChangeCheckbox() {
-    this.setState(({ isPullQuote }) => ({ isPullQuote: !isPullQuote }));
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeInput({ target: { id, value } }) {
@@ -123,6 +122,7 @@ class QuoteBlockModal extends React.Component {
       sourceUrl,
       text,
       updatedDate,
+      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -167,6 +167,7 @@ class QuoteBlockModal extends React.Component {
             <FormGroup>
               <Checkbox
                 checked={isPullQuote}
+                id="isPullQuote"
                 onChange={this.handleChangeCheckbox}
                 size="sd"
               >
@@ -174,9 +175,16 @@ class QuoteBlockModal extends React.Component {
               </Checkbox>
             </FormGroup>
             <FormGroup>
-              <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
+            </FormGroup>
+            <FormGroup>
+              <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
+                Aside
+              </Checkbox>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {
               hasUpdatedDate

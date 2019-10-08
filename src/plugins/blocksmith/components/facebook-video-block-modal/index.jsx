@@ -18,11 +18,12 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader,
+  ModalHeader, 
 } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import FacebookVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-video-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -58,6 +59,7 @@ class FacebookVideoBlockModal extends React.Component {
     super(props);
     const { block, imageNode } = props;
     this.state = {
+      aside: block.get('aside'),
       autoplay: block.get('autoplay'),
       hasUpdatedDate: block.has('updated_date'),
       href: block.get('href'),
@@ -76,12 +78,14 @@ class FacebookVideoBlockModal extends React.Component {
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
   }
 
   setBlock() {
     const {
       autoplay,
+      aside,
       hasUpdatedDate,
       href,
       selectedImageNode,
@@ -96,7 +100,8 @@ class FacebookVideoBlockModal extends React.Component {
       .set('show_captions', showCaptions)
       .set('show_text', showText)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -175,6 +180,10 @@ class FacebookVideoBlockModal extends React.Component {
     });
   }
 
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
+  }
+
   /**
    * Needs to return the focus to an element else pressing "ESC" to close the modal won't work
    */
@@ -185,6 +194,7 @@ class FacebookVideoBlockModal extends React.Component {
   render() {
     const {
       autoplay,
+      aside,
       hasUpdatedDate,
       href,
       isAssetPickerModalOpen,
@@ -247,6 +257,11 @@ class FacebookVideoBlockModal extends React.Component {
           </FormGroup>
           <FormGroup check>
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>Is update</Checkbox>
+          </FormGroup>
+          <FormGroup check>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>Aside</Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {
             hasUpdatedDate

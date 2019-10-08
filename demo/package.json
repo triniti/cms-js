@@ -8,7 +8,7 @@
   },
   "license": "UNLICENSED",
   "scripts": {
-    "start": "BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
+    "start": "cd .. && npm run init-git-hooks && cd demo/ && BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
   },
   "devDependencies": {
     "babel-loader": "^8.0.6",

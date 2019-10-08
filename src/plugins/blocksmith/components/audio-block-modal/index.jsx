@@ -55,6 +55,7 @@ class AudioBlockModal extends React.Component {
     const { block, imageNode, audioNode } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       q: '',
       hasUpdatedDate: block.has('updated_date'),
       isAssetPickerModalOpen: false,
@@ -66,8 +67,8 @@ class AudioBlockModal extends React.Component {
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
@@ -105,13 +106,15 @@ class AudioBlockModal extends React.Component {
       selectedAudioNode,
       selectedImageNode,
       updatedDate,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('node_ref', NodeRef.fromNode(selectedAudioNode))
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('launch_text', launchText || null);
+      .set('launch_text', launchText || null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -120,21 +123,22 @@ class AudioBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeLaunchText({ target: { value: launchText } }) {
     this.setState({ launchText });
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  handleChangeDate(date) {
+    this.setState(changedDate(date));
   }
 
   handleChangeQ({ target: { value: q } }) {
     this.setState({ q }, this.handleSearchAudioAssets);
   }
 
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
@@ -208,6 +212,7 @@ class AudioBlockModal extends React.Component {
   render() {
     const {
       activeStep,
+      aside,
       isReadyToDisplay,
       launchText,
       q,
@@ -288,14 +293,15 @@ class AudioBlockModal extends React.Component {
               activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   launchText={launchText}
                   node={node}
+                  onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDate={this.handleChangeHasUpdatedDate}
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}

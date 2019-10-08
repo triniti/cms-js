@@ -68,6 +68,7 @@ class VideoBlockModal extends React.Component {
       selectedVideo: video || null,
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       willShowMoreVideos: block.get('show_more_videos'),
+      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -105,6 +106,7 @@ class VideoBlockModal extends React.Component {
       selectedVideo,
       updatedDate,
       willShowMoreVideos,
+      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -114,7 +116,8 @@ class VideoBlockModal extends React.Component {
       .set('node_ref', selectedVideo.get('_id').toNodeRef())
       .set('show_more_videos', willShowMoreVideos)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -213,6 +216,7 @@ class VideoBlockModal extends React.Component {
       selectedVideo,
       updatedDate,
       willShowMoreVideos,
+      aside,
     } = this.state;
 
     const {
@@ -300,6 +304,7 @@ class VideoBlockModal extends React.Component {
                   onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
                   updatedDate={updatedDate}
                   willShowMoreVideos={willShowMoreVideos}
+                  aside={aside}
                 />
               )
             }

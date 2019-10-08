@@ -51,6 +51,7 @@ class PollBlockModal extends React.Component {
     const { block, poll } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       isReadyToDisplay: false,
       q: '',
@@ -58,8 +59,8 @@ class PollBlockModal extends React.Component {
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleChangeStep = this.handleChangeStep.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
@@ -86,11 +87,12 @@ class PollBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, selectedPoll, updatedDate } = this.state;
+    const { hasUpdatedDate, selectedPoll, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('node_ref', selectedPoll.get('_id').toNodeRef())
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -99,8 +101,8 @@ class PollBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
@@ -140,6 +142,7 @@ class PollBlockModal extends React.Component {
   render() {
     const {
       activeStep,
+      aside,
       hasUpdatedDate,
       isReadyToDisplay,
       q,
@@ -200,10 +203,11 @@ class PollBlockModal extends React.Component {
               activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
+                  onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDAte={this.handleChangeHasUpdatedDate}
                   onChangeTime={this.handleChangeTime}
                   updatedDate={updatedDate}
                 />
