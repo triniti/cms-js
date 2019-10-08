@@ -19,7 +19,6 @@ import { STATUS_FAILED, STATUS_REJECTED } from '@triniti/app/constants';
 
 import delegateFactory from './delegate';
 import selector from './selector';
-import './styles.scss';
 
 class PicklistPicker extends React.Component {
   static propTypes = {
