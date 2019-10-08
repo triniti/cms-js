@@ -43,7 +43,7 @@ class DividerBlockModal extends React.Component {
       hasUpdatedDate: block.has('updated_date'),
       text: block.get('text') || '',
       strokeColor: block.get('stroke_color'),
-      strokeStyle: block.get('stroke_style'),
+      strokeStyle: block.get('stroke_style', 'solid'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
       isValid: true,
     };
@@ -137,8 +137,9 @@ class DividerBlockModal extends React.Component {
               placeholder="Enter heading text here"
               type="textarea"
               value={text || ''}
+              required={false}
             />
-            <PicklistPicker label="Stroke Color" name="strokeColor" picklistId="divider-block-colors" onChange={this.handleChangeStrokeColor} value={strokeColor} isEditMode />
+            <PicklistPicker label="Stroke Color" name="strokeColor" picklistId="divider-block-colors" onChange={this.handleChangeStrokeColor} value={{ label: strokeColor, value: strokeColor }} isEditMode />
             {!isValid && <p className="text-danger">please enter a valid color with no spaces</p>}
             <Label>Stroke Style</Label>
             <Select
@@ -146,7 +147,7 @@ class DividerBlockModal extends React.Component {
               id="size"
               name="strokeStyle"
               onChange={this.handleChangeStrokeStyle}
-              value={strokeStyle || ''}
+              value={{ label: strokeStyle, value: strokeStyle }}
               options={[
                 { label: 'solid (default)', value: 'solid' },
                 { label: 'dotted', value: 'dotted' },
@@ -178,7 +179,7 @@ class DividerBlockModal extends React.Component {
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
           <Button
-            disabled={!text || !isValid}
+            disabled={!isValid}
             onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
           >
             {isFreshBlock ? 'Add' : 'Update'}

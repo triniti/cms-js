@@ -115,6 +115,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/audio-block-modal'));
     case 'code-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/code-block-modal'));
+    case 'divider-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/divider-block-modal'));
     case 'document-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-modal'));
     case 'facebook-post-block':
@@ -182,6 +184,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
       break;
     case 'code-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/code-block-placeholder'));
+      break;
+    case 'divider-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/divider-block-placeholder'));
       break;
     case 'document-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-placeholder'));
@@ -264,6 +269,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/audio-block-preview'));
     case 'code-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/code-block-preview'));
+    case 'divider-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/divider-block-preview'));
     case 'document-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-preview'));
     case 'facebook-post-block':
