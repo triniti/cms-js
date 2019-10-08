@@ -16,4 +16,3 @@ Although this is not currently used outside of Blocksmith, it could be used to e
 
 ### FYI
 + See the [Triniti divider block mixin](https://github.com/triniti/schemas/tree/master/schemas/triniti/canvas/mixin/divider-block).
-+ See the schema in `https://schemas.tmz.com/json-schema/tmz/canvas/block/divider-block/`.

@@ -3,7 +3,7 @@
 
 ## vN.N.N
 * Add divider block into blocksmith
-* added fire emoji
+* Add fire emoji
 * Adjust URLs so it auto adjusts uppercase character to lowercase
 * issue #4: Set up CMS to handle new type: asset-teaser.
 * Expose `baseUrls` in `plugins/dam/utils/damUrl.js` so sites can customize the urls.
