@@ -25,6 +25,7 @@ const emojis = {
   ':exclamation_mark:': '❗',
   ':eyes:': '👀',
   ':face_with_tears_of_joy:': '😂',
+  ':fire': '🔥',
   ':flexed_biceps_medium_skin_tone:': '💪🏽',
   ':four_leaf_clover:': '🍀',
   ':gem_stone:': '💎',
