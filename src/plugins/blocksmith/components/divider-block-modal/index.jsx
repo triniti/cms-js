@@ -66,11 +66,16 @@ class DividerBlockModal extends React.Component {
   setBlock() {
     const { hasUpdatedDate, text, strokeColor, strokeStyle, updatedDate } = this.state;
     const { block } = this.props;
-    return block.schema().createMessage()
+    const setBlock = block.schema().createMessage()
       .set('text', text)
-      .set('stroke_color', strokeColor)
       .set('stroke_style', strokeStyle)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+
+    if (strokeColor) {
+      setBlock.set('stroke_color', strokeColor.replace(/\s/g, '-').replace(/[A-Z]/g, (m) => m.toLowerCase()));
+    }
+
+    return setBlock;
   }
 
   handleAddBlock() {

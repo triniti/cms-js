@@ -4,15 +4,16 @@ import React from 'react';
 import Message from '@gdbots/pbj/Message';
 
 const DividerBlockPreview = ({ className, block }) => (
-  <div className={classNames('divider-preview', 'px-4', className)} role="presentation" style={{ display: 'flex' }}>
-    <h3 style={{ color: block.get('stroke_color') }}>{block.get('text')}</h3>
+  <div className={classNames('divider-preview', 'px-4', block.get('stroke_color'), className)} role="presentation" style={{ display: 'flex' }}>
+    <h3>{block.get('text')}</h3>
     <div
-      className="bar"
+      className="divider__bar"
       style={{
         height: '6px',
         width: '300px',
-        margin: '10px 0px 10px 6px',
-        borderTop: `5px ${block.get('stroke_style') || 'solid'} ${block.get('stroke_color') || 'black'}` }}
+        margin: '12px 0px 10px 6px',
+        borderTopStyle: block.get('stroke_style') || 'solid',
+      }}
     />
   </div>
 );

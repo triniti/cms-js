@@ -329,3 +329,18 @@ tr.status-sent {
   border: 1px solid #efeff1;
   cursor: not-allowed;
 }
+
+.toofab-red {
+  .divider__bar {
+    border-top-color: red;
+    border-top-width: 5px;
+  }
+
+  h3 {
+    color: red;
+  }
+
+  p {
+    color: red;
+  }
+}
