@@ -112,7 +112,7 @@
     "deep-freeze": "^0.0.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "~6.4.0",
+    "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-import-resolver-babel-module": "^5.1.0",
     "eslint-plugin-import": "^2.18.2",
