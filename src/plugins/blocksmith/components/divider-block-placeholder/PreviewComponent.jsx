@@ -8,10 +8,10 @@ import './styles.scss';
 
 const PreviewComponent = ({ node }) => (
   <div role="presentation" className="divider__container">
-    <p className="divider__title">{localize(DividerBlockV1Mixin.findOne().getQName().getVendor())} Divider Block</p>
+    <p className={`divider__title ${!node.has('text') && 'divider__title_without_text'}`}>{localize(DividerBlockV1Mixin.findOne().getQName().getVendor())} Divider Block</p>
     <div className={`divider__preview ${node.get('stroke_color')}`}>
       <p>{node.get('text')}</p>
-      <div className="divider__bar" style={{ borderTopStyle: node.get('stroke_style') }} />
+      <div className={`divider__bar ${node.has('text') && 'divider__bar_with_text'}`} style={{ borderTopStyle: node.get('stroke_style') }} />
     </div>
   </div>
 );

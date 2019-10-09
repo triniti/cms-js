@@ -45,6 +45,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
     draggable: PropTypes.bool,
     label: PropTypes.string,
     showTitle: PropTypes.bool,
+    isDividerBlock: PropTypes.bool,
     targetNode: PropTypes.instanceOf(Message),
   };
 
@@ -59,6 +60,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
     label: null,
     showTitle: false,
     targetNode: null,
+    isDividerBlock: false,
   };
 
   constructor() {
@@ -84,6 +86,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
       contentState,
       showTitle,
       targetNode,
+      isDividerBlock,
       ...rest
     } = this.props;
     const { imagePreviewSrc } = this.state;
@@ -163,6 +166,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
         </>
+        { !isDividerBlock && (
         <div
           className="placeholder-label-holder ml-2 mt-1"
           style={{ width: `calc(100% - ${labelOffset}px)` }}
@@ -171,6 +175,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
             <i>{label || config.label}{title}</i>
           </p>
         </div>
+        )}
       </div>
     );
   }

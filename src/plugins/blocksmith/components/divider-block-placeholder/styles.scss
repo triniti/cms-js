@@ -1,26 +1,41 @@
 .divider__container {
   display: inline-block;
   position: relative;
-  top: 10px;
+  top: 8px;
   margin-left: 8px;
+  max-height: 33px;
 }
 
 .divider__title {
   font-style: italic;
   margin-bottom: 0px;
+  position: absolute;
+  bottom: 18px;
+}
+
+.divider__title_without_text {
+  position: relative;
+  bottom: 8px;
 }
 
 .divider__preview {
   display: flex;
+  position: relative;
+  top: 4px;
 
   p {
     font-size: 14px;
+    margin-bottom: 0;
   }
 }
 
 .divider__bar {
-  height: 6px;
   width: 380px;
-  margin: 10px 0px 10px 6px;
+}
+
+.divider__bar_with_text {
+  position: relative;
+  top: 10px;
+  margin-left: 4px;
 }
 
