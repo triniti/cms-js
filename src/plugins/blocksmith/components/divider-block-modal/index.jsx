@@ -17,9 +17,9 @@ import {
 import DividerBlockPreview from '@triniti/cms/plugins/blocksmith/components/divider-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 
+import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-import PicklistPicker from '../../../sys/components/picklist-picker';
 
 class DividerBlockModal extends React.Component {
   static propTypes = {
@@ -45,7 +45,6 @@ class DividerBlockModal extends React.Component {
       strokeColor: block.get('stroke_color'),
       strokeStyle: block.get('stroke_style', 'solid'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      isValid: true,
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -117,7 +116,6 @@ class DividerBlockModal extends React.Component {
   render() {
     const {
       hasUpdatedDate,
-      isValid,
       text,
       strokeColor,
       strokeStyle,
@@ -144,13 +142,16 @@ class DividerBlockModal extends React.Component {
               value={text || ''}
               required={false}
             />
-            <PicklistPicker label="Stroke Color" name="strokeColor" picklistId="divider-block-colors" onChange={this.handleChangeStrokeColor} value={{ label: strokeColor, value: strokeColor }} isEditMode />
-            {!isValid && <p className="text-danger">please enter a valid color with no spaces</p>}
+            <PicklistPicker
+              label="Stroke Color"
+              picklistId="divider-block-stroke-colors"
+              onChange={this.handleChangeStrokeColor}
+              value={{ label: strokeColor, value: strokeColor }}
+              isEditMode
+            />
             <Label>Stroke Style</Label>
             <Select
               className="mb-3"
-              id="size"
-              name="strokeStyle"
               onChange={this.handleChangeStrokeStyle}
               value={{ label: strokeStyle, value: strokeStyle }}
               options={[
@@ -177,16 +178,11 @@ class DividerBlockModal extends React.Component {
               )
             }
           </FormGroup>
-          {
-            isValid && <DividerBlockPreview block={this.setBlock()} />
-          }
+          <DividerBlockPreview block={this.setBlock()} />
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
-          <Button
-            disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
-          >
+          <Button onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}>
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>
         </ModalFooter>

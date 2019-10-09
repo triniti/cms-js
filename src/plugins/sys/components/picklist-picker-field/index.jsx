@@ -10,7 +10,7 @@ const PicklistPickerField = (props) => {
   const {
     label,
     isEditMode,
-    meta,
+    meta: { error, warning, touched },
     picklistId,
     input,
     ...rest
@@ -19,7 +19,9 @@ const PicklistPickerField = (props) => {
   return (
     <FormGroup>
       <PicklistPicker
-        meta={meta}
+        error={error}
+        warning={warning}
+        touched={touched}
         picklistId={picklistId}
         label={label}
         isEditMode={isEditMode}

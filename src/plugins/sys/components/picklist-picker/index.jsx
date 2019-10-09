@@ -23,12 +23,17 @@ import selector from './selector';
 class PicklistPicker extends React.Component {
   static propTypes = {
     allowOther: PropTypes.bool,
+    error: PropTypes.string,
     isEditMode: PropTypes.bool,
     label: PropTypes.string,
     input: PropTypes.object, // eslint-disable-line
     meta: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     multi: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
     picklistId: PropTypes.string.isRequired,
+    touched: PropTypes.bool,
+    value: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    warning: PropTypes.string,
     delegate: PropTypes.shape({
       getPicklist: PropTypes.func.isRequired,
     }).isRequired,
@@ -52,6 +57,9 @@ class PicklistPicker extends React.Component {
     multi: false,
     node: null,
     meta: {},
+    error: '',
+    touched: false,
+    warning: '',
   };
 
   componentDidMount() {
@@ -72,8 +80,8 @@ class PicklistPicker extends React.Component {
       options,
       picklistId,
       value,
-      touched,
       error,
+      touched,
       warning,
       onChange,
       ...rest
@@ -99,8 +107,8 @@ class PicklistPicker extends React.Component {
         <Label>{label}</Label>
         <Select
           creatable={allowOther}
-          disabled={!isEditMode}
-          multi={multi}
+          isDisabled={!isEditMode}
+          isMulti={multi}
           onChange={onChange}
           options={options}
           value={value}

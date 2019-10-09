@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add divider block into blocksmith
+* Add fix for cutting and pasting a text block
 * Add fire emoji
 * Adjust URLs so it auto adjusts uppercase character to lowercase
 * issue #4: Set up CMS to handle new type: asset-teaser.

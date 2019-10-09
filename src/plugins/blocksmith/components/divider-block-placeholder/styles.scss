@@ -5,7 +5,22 @@
   margin-left: 8px;
 }
 
+.divider__title {
+  font-style: italic;
+  margin-bottom: 0px;
+}
+
 .divider__preview {
   display: flex;
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.divider__bar {
+  height: 6px;
+  width: 380px;
+  margin: 10px 0px 10px 6px;
 }
 
