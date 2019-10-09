@@ -19,4 +19,4 @@ const config = {
   },
 };
 
-export default (props) => <GenericBlockPlaceholder config={config} {...props} isDividerBlock />;
+export default (props) => <GenericBlockPlaceholder config={config} {...props} />;

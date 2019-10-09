@@ -45,13 +45,12 @@ class GenericBlockPlaceholder extends React.PureComponent {
     draggable: PropTypes.bool,
     label: PropTypes.string,
     showTitle: PropTypes.bool,
-    isDividerBlock: PropTypes.bool,
     targetNode: PropTypes.instanceOf(Message),
   };
 
   static defaultProps = {
     config: {
-      label: 'Default Block Placeholder',
+      label: null,
       icon: {
         imgSrc: 'full-screen',
       },
@@ -60,7 +59,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
     label: null,
     showTitle: false,
     targetNode: null,
-    isDividerBlock: false,
   };
 
   constructor() {
@@ -81,12 +79,10 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const {
       config,
       draggable,
-      label,
       block,
       contentState,
       showTitle,
       targetNode,
-      isDividerBlock,
       ...rest
     } = this.props;
     const { imagePreviewSrc } = this.state;
@@ -166,13 +162,13 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
         </>
-        { !isDividerBlock && (
+        { config.label && (
         <div
           className="placeholder-label-holder ml-2 mt-1"
           style={{ width: `calc(100% - ${labelOffset}px)` }}
         >
           <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-            <i>{label || config.label}{title}</i>
+            <i>{config.label || config.label}{title}</i>
           </p>
         </div>
         )}
