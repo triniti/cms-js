@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import JSONTree from 'react-json-tree';
 import { getBase16Theme } from 'react-base16-styling';
-import { jsonTreeValueRenderer, jsonTreeLabelRenderer } from './jsonTreeRenderer';
+import { valueRenderer, labelRenderer } from './dataRenderer';
 
 const EventJsonTree = ({ data, color }) => (
   <JSONTree

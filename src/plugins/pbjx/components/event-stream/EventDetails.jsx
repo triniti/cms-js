@@ -1,27 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListGroupItem } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
-import findDiff from './findDiff';
+import eventRenderer from './eventRenderer';
 
 class EventDetails extends React.Component {
   constructor(props) {
     super(props);
 
     const { event } = props;
-    const visualDiff = findDiff(event);
+    const eventContent = eventRenderer(event);
 
     this.state = {
-      collapseContent: visualDiff,
+      eventContent,
     };
   }
 
   render() {
-    const { collapseContent } = this.state;
+    const { eventContent } = this.state;
 
     return (
       <div className="mb-0">
-        {collapseContent}
+        {eventContent}
       </div>
     );
   }

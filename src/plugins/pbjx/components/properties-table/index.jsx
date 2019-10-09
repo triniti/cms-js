@@ -8,7 +8,7 @@ import TableRow from './TableRow';
 // import TableBody from './TableBody';
 // import EventJsonTree from "../event-stream/EventJsonTree";
 
-const EventsTable = ({ data }) => {
+const PropertiesTable = ({ data }) => {
   const properties = Object.entries(data);
   return (
     <Card>
@@ -27,7 +27,6 @@ const EventsTable = ({ data }) => {
           {properties.map((property, idx) => (
             <TableRow
               key={idx}
-              idx={idx}
               property={property}
             />
           ))}
@@ -37,8 +36,8 @@ const EventsTable = ({ data }) => {
   );
 }
 
-EventsTable.propTypes = {
+PropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default EventsTable;
+export default PropertiesTable;

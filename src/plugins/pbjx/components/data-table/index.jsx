@@ -1,15 +1,9 @@
 import React from 'react';
-// import Message from '@gdbots/pbj/Message';
-// import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import { Card, Table } from '@triniti/admin-ui-plugin/components';
+import { Table } from '@triniti/admin-ui-plugin/components';
 import PropTypes from 'prop-types';
-
 import TableRow from './TableRow';
-import Message from "@gdbots/pbj/Message";
-// import TableBody from './TableBody';
-// import EventJsonTree from "../event-stream/EventJsonTree";
 
-const ObjectTable = ({ data }) => {
+const DataTable = ({ data }) => {
   const properties = Object.entries(data);
   return (
     <Table className="table-bordered table-sm">
@@ -17,7 +11,6 @@ const ObjectTable = ({ data }) => {
         {properties.map((property, idx) => (
           <TableRow
             key={idx}
-            idx={idx}
             property={property}
           />
         ))}
@@ -26,8 +19,8 @@ const ObjectTable = ({ data }) => {
   );
 }
 
-ObjectTable.propTypes = {
+DataTable.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default ObjectTable;
+export default DataTable;
