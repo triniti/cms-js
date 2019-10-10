@@ -137,7 +137,7 @@ class DividerBlockModal extends React.Component {
               innerRef={(el) => { this.textElement = el; }}
               name="content"
               onChange={this.handleChangeInput}
-              placeholder="Enter heading text here"
+              placeholder="Enter divider text here"
               type="textarea"
               value={text || ''}
               required={false}
