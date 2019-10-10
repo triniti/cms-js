@@ -10,7 +10,7 @@ const CustomOption = ({ innerProps, data, selectProps, isSelected }) => (
     <div
       role="presentation"
       className={selectProps.block.get('stroke_color')}
-      style={{ borderTopStyle: selectProps.block.get('stroke_style'), borderTopColor: data.value }}
+      style={{ borderTopStyle: selectProps.block.get('stroke_style') }}
     />
   </div>
 );
