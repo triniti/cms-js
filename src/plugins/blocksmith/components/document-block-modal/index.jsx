@@ -285,7 +285,7 @@ class DocumentBlockModal extends React.Component {
           }
           <ScrollableContainer
             className="bg-gray-400"
-            style={{ height: `calc(100vh - ${activeStep === 0 ? 212 : 167}px)` }}
+            style={{ height: `calc(100vh - ${activeStep === 0 ? 275 : 167}px)` }}
           >
             {
               !isReadyToDisplay && activeStep !== 1
