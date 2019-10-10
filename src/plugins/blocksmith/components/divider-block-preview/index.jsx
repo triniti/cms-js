@@ -11,7 +11,7 @@ const DividerBlockPreview = ({ className, block }) => (
       className={classNames('divider__preview', block.get('stroke_color'), className)}
       style={{ borderTopStyle: block.get('stroke_style') }}
     >
-      <h5>{block.get('text')}</h5>
+      <h5 className={block.get('stroke_color')}>{block.get('text')}</h5>
     </div>
   </div>
 );
