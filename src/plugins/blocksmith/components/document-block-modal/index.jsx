@@ -33,7 +33,7 @@ class DocumentBlockModal extends React.Component {
     documentAssetNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     documentAssetSort: PropTypes.string.isRequired,
     documentNode: PropTypes.instanceOf(Message),
-    getCurrentPage: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isDocumentAssetSearchFulfilled: PropTypes.bool.isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
@@ -41,6 +41,7 @@ class DocumentBlockModal extends React.Component {
     node: PropTypes.instanceOf(Message),
     onAddBlock: PropTypes.func.isRequired,
     onEditBlock: PropTypes.func.isRequired,
+    requestVal: PropTypes.instanceOf(Message),
     toggle: PropTypes.func.isRequired,
     delegate: PropTypes.shape({
       handleClearDocumentAssetChannel: PropTypes.func.isRequired,
@@ -53,6 +54,7 @@ class DocumentBlockModal extends React.Component {
     imageNode: null,
     isOpen: false,
     node: null,
+    requestVal: null,
   };
 
   constructor(props) {
@@ -148,8 +150,9 @@ class DocumentBlockModal extends React.Component {
   }
 
   handleChangeSearchParam(key, value) {
-    const { delegate, getRequestVal } = this.props;
-    const newRequest = { ...getRequestVal.toObject(), [key]: value };
+    const { delegate, requestVal } = this.props;
+
+    const newRequest = { ...requestVal.toObject(), [key]: value };
 
     delete newRequest.request_id;
     delegate.handleSearchDocumentAssets(newRequest);
@@ -248,7 +251,7 @@ class DocumentBlockModal extends React.Component {
     const {
       documentAssetNodes,
       documentAssetSort,
-      getCurrentPage,
+      currentPage,
       isFreshBlock,
       isOpen,
       node,
@@ -342,7 +345,7 @@ class DocumentBlockModal extends React.Component {
               && (
                 <Pagination
                   className="justify-content-center d-flex mt-2"
-                  currentPage={getCurrentPage}
+                  currentPage={currentPage}
                   key="pager"
                   onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
                   total={documentAssetNodes.length}

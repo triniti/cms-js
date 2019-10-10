@@ -46,7 +46,7 @@ const Pagination = ({
   }
 
   return (
-    <div className={`${className}`}>
+    <div className={className}>
       <PaginationComponent>
         { first && currentPage > 1
         && <Pager text="first" onClick={() => onChangePage(1)} />}
