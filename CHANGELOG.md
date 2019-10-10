@@ -1,5 +1,5 @@
 # CHANGELOG
-
+* Fixed search bar bug by overriding bootstraps css 
 
 ## vN.N.N
 * issue #4: Set up CMS to handle new type: asset-teaser.
