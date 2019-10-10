@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormGroup } from '@triniti/admin-ui-plugin/components';
 
-import PicklistPicker from '../picklist-picker/index';
+import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
 import './styles.scss';
 
 const PicklistPickerField = (props) => {

@@ -6,14 +6,18 @@ import React from 'react';
 import './styles.scss';
 
 
-const PreviewComponent = ({ node }) => (
-  <div role="presentation" className="divider__container">
-    <p className={`divider__title ${!node.has('text') && 'divider__title_without_text'}`}>{localize(DividerBlockV1Mixin.findOne().getQName().getVendor())} Divider Block</p>
-    <div className={`divider__preview ${node.get('stroke_color')}`} style={{ borderTopStyle: node.get('stroke_style') }}>
-      <h5>{node.get('text')}</h5>
+const PreviewComponent = ({ node }) => {
+  const strokeColor = node.get('stroke_color');
+
+  return (
+    <div role="presentation" className="divider__container">
+      <p className="divider__title">{localize(DividerBlockV1Mixin.findOne().getQName().getVendor())} Divider Block</p>
+      <div className={`divider__preview ${strokeColor}`} style={{ borderTopStyle: node.get('stroke_style') }}>
+        <h5 className={strokeColor}>{node.get('text')}</h5>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 PreviewComponent.propTypes = {
   node: PropTypes.instanceOf(Message),

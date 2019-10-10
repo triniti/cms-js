@@ -1,3 +1,4 @@
+import dividerBlockConfig from 'config/dividerBlockConfig'; // eslint-disable-line import/no-unresolved
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -16,10 +17,10 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import DividerBlockPreview from '@triniti/cms/plugins/blocksmith/components/divider-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-
-import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
-import changedDate from '../../utils/changedDate';
+import CustomOption from './CustomOption';
 import changedTime from '../../utils/changedTime';
+import changedDate from '../../utils/changedDate';
+
 
 class DividerBlockModal extends React.Component {
   static propTypes = {
@@ -138,16 +139,17 @@ class DividerBlockModal extends React.Component {
               name="content"
               onChange={this.handleChangeInput}
               placeholder="Enter divider text here"
-              type="textarea"
               value={text || ''}
-              required={false}
             />
-            <PicklistPicker
-              label="Stroke Color"
-              picklistId="divider-block-stroke-colors"
+            <Label>Stroke Color</Label>
+            <Select
+              className="mb-3"
               onChange={this.handleChangeStrokeColor}
               value={{ label: strokeColor, value: strokeColor }}
-              isEditMode
+              options={dividerBlockConfig}
+              isSelected={!!strokeColor}
+              block={this.setBlock()}
+              components={{ Option: CustomOption }}
             />
             <Label>Stroke Style</Label>
             <Select
