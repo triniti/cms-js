@@ -6,7 +6,7 @@ import TableRow from './TableRow';
 const DataTable = ({ data }) => {
   const properties = Object.entries(data);
   return (
-    <Table className="table-bordered table-sm">
+    <Table className="table-sm table-borderless">
       <tbody>
         {properties.map((property, idx) => (
           <TableRow

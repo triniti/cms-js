@@ -14,13 +14,10 @@ export const valueRenderer = (field, value, color) => {
     const id = nodeRef.getId();
     const templateId = `${nodeRef.getQName()}.cms`;
     const url = expand(templateId, { _id: id });
-    return <RouterLink to={url} target="_black">{value}</RouterLink>;
+    return <strong className={`${color} text-black-50 pl-2 pr-2`}><RouterLink to={url} target="_black">{value}</RouterLink></strong>;
   }
   if (value instanceof Object) {
     return <DataTable data={value} />;
-  }
-  if (value === 'null') {
-    return undefined;
   }
   return <strong className={`${color} text-black-50 pl-2 pr-2`}>{trim(value, '"')}</strong>;
 };

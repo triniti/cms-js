@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
+import { ListGroupItem } from '@triniti/admin-ui-plugin/components';
 import eventRenderer from './eventRenderer';
 
 class EventDetails extends React.Component {
@@ -19,9 +20,9 @@ class EventDetails extends React.Component {
     const { eventContent } = this.state;
 
     return (
-      <div className="mb-0">
+      <ListGroupItem className="mb-0">
         {eventContent}
-      </div>
+      </ListGroupItem>
     );
   }
 }
