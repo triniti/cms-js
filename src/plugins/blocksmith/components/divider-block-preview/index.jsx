@@ -5,9 +5,14 @@ import React from 'react';
 import './styles.scss';
 
 const DividerBlockPreview = ({ className, block }) => (
-  <div role="presentation" className={classNames('divider__preview', 'px-4', block.get('stroke_color'), className)}>
-    <h3>{block.get('text')}</h3>
-    <div className="divider__bar" style={{ borderTopStyle: block.get('stroke_style') }} />
+  <div className="px-4 pb-3">
+    <div
+      role="presentation"
+      className={classNames('divider__preview', block.get('stroke_color'), className)}
+      style={{ borderTopStyle: block.get('stroke_style') }}
+    >
+      <h5>{block.get('text')}</h5>
+    </div>
   </div>
 );
 

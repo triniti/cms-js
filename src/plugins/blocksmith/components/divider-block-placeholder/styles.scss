@@ -1,41 +1,34 @@
 .divider__container {
   display: inline-block;
-  position: relative;
-  top: 8px;
   margin-left: 8px;
-  max-height: 33px;
+  width: calc(100% - 100px);
+  vertical-align: middle;
 }
 
 .divider__title {
   font-style: italic;
-  margin-bottom: 0px;
-  position: absolute;
-  bottom: 18px;
-}
-
-.divider__title_without_text {
-  position: relative;
-  bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .divider__preview {
-  display: flex;
   position: relative;
-  top: 4px;
+  border-top-width: 3px;
+  border-top-style: solid;
+  border-top-color: #000;
+  margin-bottom: .5rem;
 
-  p {
-    font-size: 14px;
+  h5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    margin-top: -9px;
     margin-bottom: 0;
+    padding-right: 6px;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: white;
   }
 }
-
-.divider__bar {
-  width: 380px;
-}
-
-.divider__bar_with_text {
-  position: relative;
-  top: 10px;
-  margin-left: 4px;
-}
-
