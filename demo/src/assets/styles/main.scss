@@ -272,11 +272,12 @@ tr.status-sent {
 }
 
 .btn-action-save-publish:not(.disabled):hover,
-.btn-action-save-publish:not(.disabled):focus {
-  color: #fff;
-  background: #0676aa;
-  border-color: #0676aa;
-  border-bottom-color: #0676bb;
+.btn-action-save-publish:not(.disabled):focus,
+.btn-action-save-close:hover {
+  color: #fff !important;
+  background: #0676aa !important;
+  border-color: #0676aa !important;
+  border-bottom-color: #0676bb !important;
 }
 
 .input-group > .input-group-prepend:first-child > .btn.dropdown-toggle-save-options {
