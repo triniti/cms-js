@@ -7,7 +7,7 @@ import Pager from './Pager';
 const MAX_PAGER_NUM_TO_RENDER = 5;
 
 const Pagination = ({
-  perPage, currentPage, total, onChangePage, maxPager, first, last,
+  perPage, className, currentPage, total, onChangePage, maxPager, first, last, 
 }) => {
   if (total < perPage) {
     return null;
@@ -46,7 +46,7 @@ const Pagination = ({
   }
 
   return (
-    <div className="ml-3">
+    <div className={`${className}`}>
       <PaginationComponent>
         { first && currentPage > 1
         && <Pager text="first" onClick={() => onChangePage(1)} />}
@@ -66,6 +66,7 @@ const Pagination = ({
 
 Pagination.propTypes = {
   total: PropTypes.number.isRequired,
+  className: PropTypes.string,
   currentPage: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
   perPage: PropTypes.number,
@@ -75,6 +76,7 @@ Pagination.propTypes = {
 };
 
 Pagination.defaultProps = {
+  className: '',
   perPage: 25,
   maxPager: MAX_PAGER_NUM_TO_RENDER,
   first: true,

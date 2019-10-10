@@ -13,6 +13,7 @@ import {
   ScrollableContainer,
   Spinner,
 } from '@triniti/admin-ui-plugin/components';
+import Pagination from '@triniti/cms/components/pagination';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -32,6 +33,7 @@ class DocumentBlockModal extends React.Component {
     documentAssetNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     documentAssetSort: PropTypes.string.isRequired,
     documentNode: PropTypes.instanceOf(Message),
+    getCurrentPage: PropTypes.number.isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isDocumentAssetSearchFulfilled: PropTypes.bool.isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
@@ -74,6 +76,7 @@ class DocumentBlockModal extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
+    this.handleChangeSearchParam = this.handleChangeSearchParam.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleCloseUploader = this.handleCloseUploader.bind(this);
@@ -142,6 +145,14 @@ class DocumentBlockModal extends React.Component {
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeSearchParam(key, value) {
+    const { delegate, getRequestVal } = this.props;
+    const newRequest = { ...getRequestVal.toObject(), [key]: value };
+
+    delete newRequest.request_id;
+    delegate.handleSearchDocumentAssets(newRequest);
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -237,6 +248,7 @@ class DocumentBlockModal extends React.Component {
     const {
       documentAssetNodes,
       documentAssetSort,
+      getCurrentPage,
       isFreshBlock,
       isOpen,
       node,
@@ -293,7 +305,7 @@ class DocumentBlockModal extends React.Component {
               isReadyToDisplay && activeStep === 0 && !!documentAssetNodes.length
               && (
                 <DocumentAssetsTable
-                  nodes={documentAssetNodes.filter((n) => DOCUMENT_TYPES.includes(n.get('mime_type')))}
+                  nodes={documentAssetNodes}
                   sort={documentAssetSort}
                   onSelectNode={this.handleSelectDocument}
                   onSort={(newSort) => this.handleSearchDocumentAssets(newSort)}
@@ -325,6 +337,19 @@ class DocumentBlockModal extends React.Component {
             }
           </ScrollableContainer>
         </ModalBody>
+        {
+          activeStep === 0 && !!documentAssetNodes.length
+              && (
+                <Pagination
+                  className="justify-content-center d-flex mt-2"
+                  currentPage={getCurrentPage}
+                  key="pager"
+                  onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
+                  total={documentAssetNodes.length}
+                />
+              )
+        }
+
         <Footer
           allowedMimeTypes={DOCUMENT_TYPES}
           activeStep={activeStep}

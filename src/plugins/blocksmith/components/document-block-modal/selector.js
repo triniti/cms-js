@@ -20,11 +20,15 @@ export default (state, { block }) => {
   const documentAssetSort = (request && request.get('sort').getValue()) || SearchAssetsSort.CREATED_AT_DESC.getValue();
   const documentAssetNodes = (response && response.get('nodes')) || [];
   const isDocumentAssetSearchFulfilled = status === STATUS_FULFILLED;
+  const getCurrentPage = (request && request.get('page')) || 1;
+  const getRequestVal = request;
 
   return {
     documentAssetNodes,
     documentAssetSort,
     documentNode: block.has('node_ref') ? getNode(state, block.get('node_ref')) : null,
+    getCurrentPage,
+    getRequestVal,
     imageNode: block.has('image_ref') ? getNode(state, block.get('image_ref')) : null,
     isDocumentAssetSearchFulfilled,
   };
