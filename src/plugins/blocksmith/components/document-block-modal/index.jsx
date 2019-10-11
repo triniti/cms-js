@@ -345,7 +345,6 @@ class DocumentBlockModal extends React.Component {
                 <Pagination
                   className="justify-content-center d-flex mt-2"
                   currentPage={request.get('page') || 1}
-                  key="pager"
                   onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
                   total={documentAssetNodes.length}
                 />
