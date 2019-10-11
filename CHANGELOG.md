@@ -1,5 +1,5 @@
 # CHANGELOG
-
+* Fixed search bar bug by overriding bootstraps css 
 
 ## vN.N.N
 * issue #4: Set up CMS to handle new type: asset-teaser.
@@ -9,7 +9,8 @@
 * implement pre-push git hooks
 * Fixed bug for document blocks showing all mime-types.
 * Added pagination to document block.
-
+* fixed sweetalert call to solve issue deleting blocks
+* issue #2: updated css to have correct color on save btn hover
 
 ## v0.1.0
 * initial version

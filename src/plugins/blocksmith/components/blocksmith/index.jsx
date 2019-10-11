@@ -91,7 +91,7 @@ import './styles.scss';
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
-    return swal({
+    return swal.fire({
       title: 'Are you sure?',
       text: 'This block will be deleted',
       type: 'warning',
@@ -673,7 +673,7 @@ class Blocksmith extends React.Component {
   handleDelete() {
     const { activeBlockKey, editorState, isDirty } = this.state;
     const { delegate, formName } = this.props;
-
+    
     this.setState({ readOnly: true }, () => {
       Blocksmith.confirmDelete().then((result) => {
         this.setState({ readOnly: false }, () => {
