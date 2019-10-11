@@ -7,8 +7,8 @@
 * fix a few still-broken React Selects.
 * remove deprecated sponsor-picker-field
 * implement pre-push git hooks
+* fixed sweetalert call to solve issue deleting blocks
 * issue #2: updated css to have correct color on save btn hover
-
 
 ## v0.1.0
 * initial version
