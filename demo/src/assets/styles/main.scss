@@ -225,9 +225,14 @@ tr.status-sent {
   background-color: #e1f6f3 !important;
 }
 
+// fix for search input not being able to click to desired character
+// consider moving to admin-ui
 .form-control {
   max-width: 100%;
   resize: both;
+  height: unset !important;
+  line-height: 36px !important;
+  padding: 0 1rem 0 0 !important;
 }
 
 // fix for keyValuesFields getting larger when validated
@@ -272,7 +277,8 @@ tr.status-sent {
 }
 
 .btn-action-save-publish:not(.disabled):hover,
-.btn-action-save-publish:not(.disabled):focus {
+.btn-action-save-publish:not(.disabled):focus,
+.btn-action.btn-action-save-close:hover {
   color: #fff;
   background: #0676aa;
   border-color: #0676aa;
