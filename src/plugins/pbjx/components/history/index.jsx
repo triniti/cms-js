@@ -3,19 +3,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { STATUS_FULFILLED } from '@triniti/app/constants';
-import {Button, Card, CardBody, CardHeader, ListGroup, StatusMessage} from '@triniti/admin-ui-plugin/components';
+import { Button, Card, CardBody, CardHeader, ListGroup, StatusMessage } from '@triniti/admin-ui-plugin/components';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import Schema from '@gdbots/pbj/Schema';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
+import startCase from 'lodash/startCase';
+import moment from 'moment';
 import EventStream from '../event-stream';
 import selector from './selector';
 import delegateFactory from './delegate';
-import startCase from "lodash/startCase";
-import UserLink from "../event-stream/UserLink";
-import RawViewButton from "../raw-view-button";
-import EventDetails from "../event-stream/EventDetails";
-import moment from 'moment';
+import UserLink from '../event-stream/UserLink';
+import RawViewButton from '../raw-view-button';
+import EventDetails from '../event-stream/EventDetails';
 
 
 class History extends React.Component {
@@ -96,11 +96,24 @@ class History extends React.Component {
       return <StatusMessage status={status} exception={exception} />;
     }
     return (
-    <div>
-      {events.map((event) => (<p>{event.get('event_id')}</p>))}
-    </div>
+      <div>
+        {allEvents.map((event) => (
+          <p style={{ 'padding-bottom': '100px' }} key={event.get('event_id')}>{`${event.get('event_id')}`}</p>
+        ))}
+        {response.get('has_more')
+          && (
+            <Button
+              key="a"
+              style={{ margin: 0 }}
+              onClick={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
+              color="secondary"
+            >
+              Load More
+            </Button>
+          )}
+      </div>
     );
-     // return <EventStream events={allEvents} getUser={getUser} response={response} onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))} />;
+    // return <EventStream events={allEvents} getUser={getUser} response={response} onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))} />;
   }
 }
 
