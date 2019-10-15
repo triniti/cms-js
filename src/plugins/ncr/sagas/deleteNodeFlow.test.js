@@ -55,7 +55,7 @@ test('Ncr:saga:deleteNodeFlow', (t) => {
   let next = generator.next();
 
   let actual = next.value;
-  let expected = call(swal, {
+  let expected = call(swal.fire, {
     allowOutsideClick: false,
     cancelButtonClass: 'btn btn-secondary',
     confirmButtonClass: 'btn btn-danger',
