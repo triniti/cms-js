@@ -95,7 +95,7 @@ function* clone({ history, node }) {
 }
 
 export default function* (action) {
-  const result = yield call(swal, {
+  const result = yield call(swal.fire, {
     allowOutsideClick: false,
     confirmButtonClass: 'btn btn-danger',
     cancelButtonClass: 'btn btn-secondary',
