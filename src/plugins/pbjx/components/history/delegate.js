@@ -11,7 +11,25 @@ export default (dispatch) => ({
    * @param {Schema} schema - An instance of Schema to use to create requests.
    */
   handleInitialize: (streamId, schema) => {
-    dispatch(schema.createMessage().set('stream_id', streamId));
+    dispatch(schema.createMessage({
+      stream_id: streamId,
+      count: 2,
+    }));
+  },
+
+  /**
+   * Handles load more events.
+   *
+   * @param {StreamId} streamId - An instance of StreamId
+   * @param {Schema} schema - An instance of Schema to use to create requests.
+   * @param {string} since - Return events since this time.
+   */
+  handleLoadMore: (streamId, schema, since) => {
+    dispatch(schema.createMessage({
+      stream_id: streamId,
+      count: 2,
+      since,
+    }));
   },
 
   /**

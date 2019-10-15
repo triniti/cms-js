@@ -3,7 +3,7 @@ import { Table } from '@triniti/admin-ui-plugin/components';
 import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 
-const DataTable = ({ data }) => {
+const ObjectTable = ({ data }) => {
   const properties = Object.entries(data);
   return (
     <Table className="table-sm table-borderless">
@@ -19,8 +19,8 @@ const DataTable = ({ data }) => {
   );
 }
 
-DataTable.propTypes = {
+ObjectTable.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default DataTable;
+export default ObjectTable;

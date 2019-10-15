@@ -4,7 +4,7 @@ import trim from 'lodash/trim';
 import { RouterLink } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { expand } from '@gdbots/pbjx/pbjUrl';
-import DataTable from '../data-table';
+import ObjectTable from '../object-table';
 
 export const labelRenderer = ([key, ...parentKeys]) => <strong>{startCase(key)}</strong>;
 export const valueRenderer = (field, value, color) => {
@@ -17,7 +17,7 @@ export const valueRenderer = (field, value, color) => {
     return <strong className={`${color} text-black-50 pl-2 pr-2`}><RouterLink to={url} target="_black">{value}</RouterLink></strong>;
   }
   if (value instanceof Object) {
-    return <DataTable data={value} />;
+    return <ObjectTable data={value} />;
   }
   return <strong className={`${color} text-black-50 pl-2 pr-2`}>{trim(value, '"')}</strong>;
 };
