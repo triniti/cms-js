@@ -1,4 +1,3 @@
-import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
 import RawContent from '@triniti/cms/components/raw-content';
@@ -13,13 +12,11 @@ class RawViewer extends React.Component {
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
     isOpen: PropTypes.bool,
-    onClose: PropTypes.func, // This is used in the delegate
     onToggleRawViewer: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     isOpen: false,
-    onClose: noop,
   };
 
   constructor(props) {
@@ -36,15 +33,13 @@ class RawViewer extends React.Component {
   render() {
     const {
       event,
-      onClose,
       isOpen,
     } = this.props;
 
     return (
       <div>
         <Modal isOpen={isOpen} toggle={() => this.handleToggleRawViewer()} size="lg">
-          <ModalHeader toggle={() => this.handleToggleRawViewer()}>
-          </ModalHeader>
+          <ModalHeader toggle={() => this.handleToggleRawViewer()} />
           <ModalBody className="p-0">
             <RawContent pbj={event} />;
           </ModalBody>

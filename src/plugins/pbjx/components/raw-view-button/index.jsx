@@ -8,11 +8,6 @@ import Message from '@gdbots/pbj/Message';
 export default class RawViewButton extends React.Component {
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
-    onClose: PropTypes.func,
-  };
-
-  static defaultProps = {
-    onClose: noop,
   };
 
   constructor(props) {
@@ -32,7 +27,6 @@ export default class RawViewButton extends React.Component {
   render() {
     const {
       event,
-      onClose,
       ...btnProps
     } = this.props;
 
@@ -47,7 +41,6 @@ export default class RawViewButton extends React.Component {
         isOpen={isRawViewerOpen}
         event={event}
         onToggleRawViewer={this.handleToggleRawViewer}
-        onClose={onClose}
       />
       ),
     ]);

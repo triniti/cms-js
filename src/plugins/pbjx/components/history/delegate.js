@@ -13,7 +13,7 @@ export default (dispatch) => ({
   handleInitialize: (streamId, schema) => {
     dispatch(schema.createMessage({
       stream_id: streamId,
-      count: 2,
+      count: 5,
     }));
   },
 
@@ -27,7 +27,7 @@ export default (dispatch) => ({
   handleLoadMore: (streamId, schema, since) => {
     dispatch(schema.createMessage({
       stream_id: streamId,
-      count: 2,
+      count: 5,
       since,
     }));
   },

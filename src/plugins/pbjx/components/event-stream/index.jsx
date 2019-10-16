@@ -5,7 +5,7 @@ import {
   Button,
   Card,
   CardBody,
-  CardHeader,
+  CardHeader, Icon,
   ListGroup,
   ListGroupItem,
   ListGroupItemText, StatusMessage,
@@ -14,7 +14,7 @@ import startCase from 'lodash/startCase';
 import moment from 'moment';
 import Message from '@gdbots/pbj/Message';
 import Exception from '@gdbots/common/Exception';
-import { STATUS_FULFILLED, STATUS_NONE } from '@triniti/app/constants';
+import {STATUS_FULFILLED, STATUS_NONE, STATUS_REJECTED} from '@triniti/app/constants';
 import UserLink from './UserLink';
 import EventDetails from './EventDetails';
 import RawViewButton from '../raw-view-button';
@@ -25,6 +25,7 @@ class EventStream extends React.Component {
     getUser: PropTypes.func.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
     status: PropTypes.string,
     exception: PropTypes.instanceOf(Exception),
   };
@@ -41,6 +42,8 @@ class EventStream extends React.Component {
     this.state = {
       allEvents: [],
     };
+
+    this.handleRefresh = this.handleRefresh.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -61,6 +64,12 @@ class EventStream extends React.Component {
     }
   }
 
+  handleRefresh() {
+    const { onRefresh: handleRefresh } = this.props;
+    handleRefresh();
+    this.setState({ allEvents: [] });
+  }
+
   render() {
     const {
       getUser,
@@ -74,13 +83,18 @@ class EventStream extends React.Component {
 
     return (
       <Card>
-        <CardHeader>History</CardHeader>
+        <CardHeader>
+          History
+          <Button onClick={this.handleRefresh} size="sm">
+            <Icon imgSrc="refresh" noborder />
+          </Button>
+        </CardHeader>
         <CardBody indent>
+          {
+            (!response || status !== STATUS_FULFILLED)
+            && <StatusMessage status={status} exception={exception} />
+          }
           <ListGroup borderless>
-            {
-              (!response || status !== STATUS_FULFILLED)
-              && <StatusMessage status={status} exception={exception} />
-            }
             {allEvents.map((event) => {
               const eventAction = startCase(event.generateMessageRef().getCurie().getMessage());
               const occurredAt = moment(event.get('occurred_at').toDate()).format('MMM DD, YYYY hh:mm:ss A');
