@@ -1,21 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import DocumentBlockPreview from '@triniti/cms/plugins/blocksmith/components/document-block-preview';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
 } from '@triniti/admin-ui-plugin/components';
-import DocumentBlockPreview from '@triniti/cms/plugins/blocksmith/components/document-block-preview';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
   aside,
@@ -70,36 +66,14 @@ const CustomizeOptions = ({
       <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
       <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
     </FormGroup>
-    {
-      hasUpdatedDate
-      && (
-        <FormGroup>
-          <Label>
-            Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-          </Label>
-          <FormGroup className="mb-3 mt-1 shadow-none">
-            <DatePicker
-              onChange={handleChangeDate}
-              selected={updatedDate}
-              shouldCloseOnSelect={false}
-              inline
-            />
-            <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-              <InputGroupAddon addonType="prepend" className="text-dark">
-                <InputGroupText>
-                  <Icon imgSrc="clock-outline" />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Input
-                type="time"
-                onChange={handleChangeTime}
-                defaultValue={updatedDate.format('HH:mm')}
-              />
-            </InputGroup>
-          </FormGroup>
-        </FormGroup>
-      )
-    }
+    {hasUpdatedDate
+    && (
+      <DateTimePicker
+        onChangeDate={handleChangeDate}
+        onChangeTime={handleChangeTime}
+        updatedDate={updatedDate}
+      />
+    )}
   </div>
 );
 
@@ -118,7 +92,7 @@ CustomizeOptions.propTypes = {
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default CustomizeOptions;
