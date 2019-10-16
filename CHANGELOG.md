@@ -19,6 +19,5 @@
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
 
-
 ## v0.1.0
 * initial version
