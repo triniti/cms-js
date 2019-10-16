@@ -1,23 +1,23 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.1.1
 * issue #2: updated css to have correct color on save btn hover
 * issue #4: Set up CMS to handle new type: asset-teaser.
 * issue #15: fixed sweetalert call to solve issue deleting nodes
 * issue #17: use DAME_BASE_URL and IMAGE_BASE_URL env globals in damUrl.js
 * issue #27 updated css to fix slotting dropdown width
+* added pagination to document block.
 * expose `baseUrls` in `plugins/dam/utils/damUrl.js` so sites can customize the urls.
 * fix a few still-broken React Selects.
-* remove deprecated sponsor-picker-field
-* implement pre-push git hooks
-* fixed bug for document blocks showing all mime-types
-* added pagination to document block.
-* fixed sweetalert call to solve issue deleting blocks
-* fixed search bar bug by overriding bootstraps css 
 * fix bug: User can create slugs with two dashes
+* fixed bug for document blocks showing all mime-types
 * fixed node duplication
+* fixed search bar bug by overriding bootstraps css
 * fixed search bar bug by overriding bootstraps css 
+* fixed sweetalert call to solve issue deleting blocks
+* implement pre-push git hooks
+* remove deprecated sponsor-picker-field
 
 
 ## v0.1.0
