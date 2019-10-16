@@ -100,11 +100,12 @@ class SlugEditor extends React.Component {
   handleChange({ target: { value: slug } }) {
     this.setState((prevState, { initialSlug }) => ({
       slug: slug
-        .replace(/^[-/]/g, '')
+        .replace(/^[-/\s]|[\s]$/g, '')
         .replace(/\s/g, '-')
-        .replace(/\/+/g, '/')
-        .replace(/-+/g, '-')
-        .replace(/[A-Z]/g, (m) => m.toLowerCase()),
+        .replace(/\/{2,}/g, '/')
+        .replace(/-{2,}/g, '-')
+        .replace(/[A-Z]/g, (m) => m.toLowerCase())
+        .replace(/(\d{4}\/\d{2}\/\d{2}\/)(.*\/)/, (m, p1, p2) => `${p1}${p2.replace(/\/+/g, '-')}`),
       touched: slug !== initialSlug,
     }), this.validateSlug);
   }
