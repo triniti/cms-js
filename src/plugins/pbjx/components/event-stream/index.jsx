@@ -14,7 +14,7 @@ import startCase from 'lodash/startCase';
 import moment from 'moment';
 import Message from '@gdbots/pbj/Message';
 import Exception from '@gdbots/common/Exception';
-import {STATUS_FULFILLED, STATUS_NONE, STATUS_REJECTED} from '@triniti/app/constants';
+import { STATUS_FULFILLED, STATUS_NONE } from '@triniti/app/constants';
 import UserLink from './UserLink';
 import EventDetails from './EventDetails';
 import RawViewButton from '../raw-view-button';
@@ -66,6 +66,7 @@ class EventStream extends React.Component {
 
   handleRefresh() {
     const { onRefresh: handleRefresh } = this.props;
+
     handleRefresh();
     this.setState({ allEvents: [] });
   }

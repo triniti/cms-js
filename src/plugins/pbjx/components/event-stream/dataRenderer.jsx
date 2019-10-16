@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import React from 'react';
 import startCase from 'lodash/startCase';
 import trim from 'lodash/trim';
@@ -14,6 +15,7 @@ export const valueRenderer = (field, value, color) => {
     const id = nodeRef.getId();
     const templateId = `${nodeRef.getQName()}.cms`;
     const url = expand(templateId, { _id: id });
+
     return <strong className={`${color} text-black-50 pl-2 pr-2`}><RouterLink to={url} target="_black">{value}</RouterLink></strong>;
   }
   if (value instanceof Object) {

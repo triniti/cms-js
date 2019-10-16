@@ -27,6 +27,7 @@ class RawViewer extends React.Component {
 
   handleToggleRawViewer() {
     const { onToggleRawViewer } = this.props;
+
     onToggleRawViewer();
   }
 

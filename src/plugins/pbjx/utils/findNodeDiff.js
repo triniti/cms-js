@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { transform, isEqual, isObject } from 'lodash';
 
 export const difference = (object, base) => transform(object, (result, value, key) => {

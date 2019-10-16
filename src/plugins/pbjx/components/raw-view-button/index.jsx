@@ -1,4 +1,3 @@
-import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button } from '@triniti/admin-ui-plugin/components';

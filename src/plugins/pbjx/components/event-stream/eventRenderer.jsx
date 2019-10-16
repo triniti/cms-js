@@ -11,10 +11,13 @@ export default (event) => {
     const newNodeKeys = Object.keys(event.get('new_node').toObject());
     const missingKeys = oldNodeKeys.filter((x) => !newNodeKeys.includes(x));
     const newNode = event.get('new_node').toObject();
+
     missingKeys.forEach((key) => {
       newNode[key] = null;
     });
+
     const diffNode = findNodeDiff(filterData(newNode), filterData(event.get('old_node').toObject()));
+
     return <PropertiesTable data={filterData(diffNode)} />;
   }
   if (schema.hasMixin('gdbots:iam:mixin:user-roles-granted') || schema.hasMixin('gdbots:iam:mixin:user-roles-revoked')) {

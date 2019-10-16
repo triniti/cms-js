@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Card, Table } from '@triniti/admin-ui-plugin/components';
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import TableRow from './TableRow';
 
 const PropertiesTable = ({ data }) => {
   const properties = Object.entries(data);
+
   return (
     <Card>
       <Table className="table-striped" responsive>
