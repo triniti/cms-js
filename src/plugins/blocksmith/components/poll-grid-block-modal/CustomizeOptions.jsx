@@ -1,13 +1,12 @@
-import React from 'react';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Checkbox,
   FormGroup,
   Icon,
 } from '@triniti/admin-ui-plugin/components';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
   aside,
@@ -30,16 +29,14 @@ const CustomizeOptions = ({
         <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
       </FormGroup>
     </FormGroup>
-    {
-      hasUpdatedDate
-      && (
-        <DateTimePicker
-          onChangeDate={handleChangeDate}
-          onChangeTime={handleChangeTime}
-          updatedDate={updatedDate}
-        />
-      )
-    }
+    {hasUpdatedDate
+    && (
+      <DateTimePicker
+        onChangeDate={handleChangeDate}
+        onChangeTime={handleChangeTime}
+        updatedDate={updatedDate}
+      />
+    )}
   </div>
 );
 
@@ -49,7 +46,7 @@ CustomizeOptions.propTypes = {
   onChangeDate: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default CustomizeOptions;
