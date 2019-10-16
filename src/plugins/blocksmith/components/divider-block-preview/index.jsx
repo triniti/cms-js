@@ -7,7 +7,7 @@ const DividerBlockPreview = ({ block }) => {
   const strokeColor = block.get('stroke_color');
 
   return (
-    <div className="px-4 pb-3">
+    <div className="px-4 pb-3 divider__color">
       <div
         role="presentation"
         className={`divider__preview ${strokeColor}`}
