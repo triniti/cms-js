@@ -1,5 +1,6 @@
 # CHANGELOG
-
+* Fixed search bar bug by overriding bootstraps css 
+* issue #27 updated css to fix slotting dropdown width
 
 ## vN.N.N
 * issue #4: Set up CMS to handle new type: asset-teaser.
