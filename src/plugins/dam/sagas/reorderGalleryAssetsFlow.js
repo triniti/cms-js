@@ -69,7 +69,7 @@ export function* failureFlow(failedOperation, reject) {
   }
 
   yield call([toast, 'close']);
-  yield call(swal, message);
+  yield swal.fire(message);
   yield call(reject);
 }
 
