@@ -1,5 +1,6 @@
 # CHANGELOG
 * Fixed search bar bug by overriding bootstraps css 
+* issue #17: changed baseUrls.image URL from s to z
 
 ## vN.N.N
 * issue #4: Set up CMS to handle new type: asset-teaser.

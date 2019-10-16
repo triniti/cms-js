@@ -10,7 +10,7 @@ const tld = API_ENDPOINT.split('://').pop().split('/').shift()
 
 export const baseUrls = {
   dfault: `https://dam.${APP_ENV === 'prod' ? '' : `${APP_ENV}.`}${tld}/`,
-  image: `https://images${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}${tld}/`,
+  image: `https://imagez${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}${tld}/`,
 };
 
 /**
