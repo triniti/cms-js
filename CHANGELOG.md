@@ -1,5 +1,6 @@
 # CHANGELOG
 * Fixed search bar bug by overriding bootstraps css 
+* issue #27 updated css to fix slotting dropdown width
 * issue #17: changed baseUrls.image URL from s to z
 
 ## vN.N.N
@@ -13,6 +14,10 @@
 * fixed sweetalert call to solve issue deleting blocks
 * issue #2: updated css to have correct color on save btn hover
 * issue #15: fixed sweetalert call to solve issue deleting nodes
+* Fixed search bar bug by overriding bootstraps css 
+* fix bug: User can create slugs with two dashes
+* fixed node duplication
+
 
 ## v0.1.0
 * initial version
