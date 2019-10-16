@@ -36,7 +36,7 @@ export function* successFlow(resolve, { schemas, numAssets }) {
   yield delay(500);
   yield call(resolve);
   yield call([toast, 'close']);
-  yield call(swal, {
+  yield swal.fire({
     title: 'Success!',
     text: message,
     type: 'success',
@@ -66,7 +66,7 @@ export function* failureFlow(reject, error = null, failedCount, expectedCount) {
 
   yield call(reject);
   yield call([toast, 'close']);
-  yield call(swal, {
+  yield swal.fire({
     title: 'Link Failed.',
     text,
     type: 'warning',
