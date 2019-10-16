@@ -14,6 +14,7 @@
 * issue #15: fixed sweetalert call to solve issue deleting nodes
 * Fixed search bar bug by overriding bootstraps css
 * fix widget picker `isEditMode`
+* fixed node duplication
 
 
 ## v0.1.0
