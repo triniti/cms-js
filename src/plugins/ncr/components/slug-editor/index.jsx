@@ -100,7 +100,7 @@ class SlugEditor extends React.Component {
   handleChange({ target: { value: slug } }) {
     this.setState((prevState, { initialSlug }) => ({
       slug: slug
-        .replace(/^[-/\s]|[\s]$/g, '')
+        .replace(/^[-/\s]+|[\s]+$/g, '')
         .replace(/\s/g, '-')
         .replace(/\/{2,}/g, '/')
         .replace(/-{2,}/g, '-')
