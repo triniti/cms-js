@@ -18,6 +18,7 @@
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
 * fix asset tags
+* allow clearing video rating
 
 
 ## v0.1.0
