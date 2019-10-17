@@ -5,6 +5,7 @@ import findNodeDiff from '../../utils/findNodeDiff';
 
 export default (event) => {
   const schema = event.schema();
+
   if (schema.hasMixin('gdbots:ncr:mixin:node-updated')) {
     // find properties in node that were removed
     const oldNodeKeys = Object.keys(event.get('old_node').toObject());
@@ -27,7 +28,6 @@ export default (event) => {
     return <PropertiesTable data={filterData(event.get('node').toObject())} />;
   }
   if (schema.hasMixin('gdbots:ncr:mixin:node-renamed')) {
-    // return prepareDelta({ slug: [event.get('old_slug'), event.get('new_slug')] });
     return <PropertiesTable data={{ slug: event.get('new_slug') }} />;
   }
   return <PropertiesTable data={filterData(event.toObject())} />;

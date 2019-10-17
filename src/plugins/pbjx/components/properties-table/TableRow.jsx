@@ -3,9 +3,9 @@ import React from 'react';
 import { valueRenderer } from '../event-stream/dataRenderer';
 
 const TableRow = ({ property }) => {
-  const data = valueRenderer(property[0], property[1]);
+  const value = valueRenderer(property[0], property[1]);
 
-  return (<tr><td className="text-nowrap left-col"><strong className="text-black-50 pl-2 pr-2">{property[0]}</strong></td><td className="right-col">{data}</td></tr>);
+  return <tr><td className="text-nowrap left-col"><strong className="text-black-50 pl-2 pr-2">{property[0]}</strong></td><td className="right-col">{value}</td></tr>;
 };
 
 TableRow.propTypes = {

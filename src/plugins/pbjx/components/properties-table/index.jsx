@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
-
 const PropertiesTable = ({ data }) => {
   const properties = Object.entries(data);
 
@@ -33,7 +32,7 @@ const PropertiesTable = ({ data }) => {
       </Table>
     </Card>
   );
-}
+};
 
 PropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

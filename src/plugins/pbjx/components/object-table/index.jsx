@@ -20,7 +20,7 @@ const ObjectTable = ({ data }) => {
       </tbody>
     </Table>
   );
-}
+};
 
 ObjectTable.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired, // eslint-disable-line react/forbid-prop-types
