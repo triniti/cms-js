@@ -117,7 +117,7 @@ export default class CodeBlockModal extends React.Component {
             />
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdateDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">

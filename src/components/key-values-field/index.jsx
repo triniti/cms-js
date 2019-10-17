@@ -56,6 +56,7 @@ const KeyValuesField = ({
               options={selectFieldOptions}
               placeholder={keyPlaceholder}
               style={{ width: '7rem' }}
+              className="key-values-field-dropdown"
             />
           )}
           {valueType === 'string'

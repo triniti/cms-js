@@ -1,16 +1,11 @@
-/* globals APP_ENV, API_ENDPOINT */
+/* globals DAM_BASE_URL, IMAGE_BASE_URL */
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 
-const tld = API_ENDPOINT.split('://').pop().split('/').shift()
-  .split('.')
-  .slice(-2)
-  .join('.');
-
 export const baseUrls = {
-  dfault: `https://dam.${APP_ENV === 'prod' ? '' : `${APP_ENV}.`}${tld}/`,
-  image: `https://images${APP_ENV === 'prod' ? '.' : `-${APP_ENV}.`}${tld}/`,
+  dfault: DAM_BASE_URL,
+  image: IMAGE_BASE_URL,
 };
 
 /**
