@@ -18,6 +18,7 @@
 * fixed sweetalert call to solve issue deleting blocks
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
+* update seo meta keywords to be multi-select
 * fix error message when renaming channel slug
 * fix widget dfp unit path removal bug
 * fix asset tags
