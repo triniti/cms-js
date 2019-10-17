@@ -1,11 +1,9 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
-
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PollPicker from '@triniti/cms/plugins/apollo/components/poll-picker';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Modal,
   ModalBody,
@@ -44,7 +42,7 @@ class PollGridBlockModal extends React.Component {
       aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       selectedPollRefs: pollRefs || [],
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -65,8 +63,8 @@ class PollGridBlockModal extends React.Component {
     const { block } = this.props;
     return block.schema().createMessage()
       .addToList('node_refs', selectedPollRefs)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('aside', aside);
+      .set('aside', aside)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -192,8 +190,7 @@ class PollGridBlockModal extends React.Component {
             style={{ height: 'calc(100vh - 167px)' }}
           >
             <div className="modal-body-blocksmith">
-              {
-                activeStep === 0
+              {activeStep === 0
                 && (
                   <PollPicker
                     className="sticky-top"
@@ -204,10 +201,8 @@ class PollGridBlockModal extends React.Component {
                     onSort={this.handleReorder}
                     selectedPolls={selectedPollRefs}
                   />
-                )
-              }
-              {
-                activeStep === 1
+                )}
+              {activeStep === 1
                 && (
                   <CustomizeOptions
                     aside={aside}
@@ -217,8 +212,7 @@ class PollGridBlockModal extends React.Component {
                     onChangeTime={this.handleChangeTime}
                     updatedDate={updatedDate}
                   />
-                )
-              }
+                )}
             </div>
           </ScrollableContainer>
         </ModalBody>

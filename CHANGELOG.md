@@ -14,6 +14,8 @@
 * fix bug: User can create slugs with two dashes
 * fixed bug for document blocks showing all mime-types
 * fixed node duplication
+* issue #27 updated css to fix slotting dropdown width
+* block `updated_date` fixes
 * fixed search bar bug by overriding bootstraps css
 * fixed sweetalert call to solve issue deleting blocks
 * implement pre-push git hooks

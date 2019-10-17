@@ -1,26 +1,21 @@
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import Message from '@gdbots/pbj/Message';
-import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -54,7 +49,7 @@ export default class InstagramMediaBlockModal extends React.Component {
       id,
       isValid: block.has('id'),
       touched: false,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
       url: id ? `https://www.instagram.com/p/${id}/` : '',
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -75,10 +70,10 @@ export default class InstagramMediaBlockModal extends React.Component {
     const { hasUpdatedDate, hideCaption, id, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('hidecaption', hideCaption)
       .set('id', id)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -178,38 +173,16 @@ export default class InstagramMediaBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {
-            hasUpdatedDate
+          {hasUpdatedDate
             && (
               <div className="modal-body-blocksmith">
-                <FormGroup>
-                  <Label>
-                    Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                  </Label>
-                  <FormGroup className="mb-3 mt-1 shadow-none">
-                    <DatePicker
-                      onChange={this.handleChangeDate}
-                      selected={updatedDate}
-                      shouldCloseOnSelect={false}
-                      inline
-                    />
-                    <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                      <InputGroupAddon addonType="prepend" className="text-dark">
-                        <InputGroupText>
-                          <Icon imgSrc="clock-outline" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        type="time"
-                        onChange={this.handleChangeTime}
-                        defaultValue={updatedDate.format('HH:mm')}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </FormGroup>
+                <DateTimePicker
+                  onChangeDate={this.handleChangeDate}
+                  onChangeTime={this.handleChangeTime}
+                  updatedDate={updatedDate}
+                />
               </div>
-            )
-          }
+            )}
           {
             isValid
             && <InstagramMediaBlockPreview block={this.setBlock()} />

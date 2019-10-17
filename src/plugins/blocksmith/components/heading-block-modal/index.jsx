@@ -1,10 +1,11 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import prependHttp from 'prepend-http';
-import React from 'react';
-
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import HeadingBlockPreview from '@triniti/cms/plugins/blocksmith/components/heading-block-preview';
 import isValidUrl from '@gdbots/common/isValidUrl';
 import Message from '@gdbots/pbj/Message';
+import prependHttp from 'prepend-http';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
@@ -18,9 +19,6 @@ import {
   Select,
   Icon,
 } from '@triniti/admin-ui-plugin/components';
-import HeadingBlockPreview from '@triniti/cms/plugins/blocksmith/components/heading-block-preview';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -50,7 +48,7 @@ class HeadingBlockModal extends React.Component {
       text: block.get('text') || '',
       size: block.get('size'),
       url: block.get('url'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -71,11 +69,11 @@ class HeadingBlockModal extends React.Component {
     const { aside, hasUpdatedDate, text, size, url, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
-      .set('text', text)
+      .set('aside', aside)
       .set('size', parseInt(size, 10))
-      .set('url', url ? prependHttp(url, { https: true }) : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('aside', aside);
+      .set('text', text)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('url', url ? prependHttp(url, { https: true }) : null);
   }
 
   handleAddBlock() {
@@ -188,8 +186,7 @@ class HeadingBlockModal extends React.Component {
               <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
               <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
-            {
-              hasUpdatedDate
+            {hasUpdatedDate
               && (
                 <div className="modal-body-blocksmith">
                   <DateTimePicker
@@ -198,8 +195,7 @@ class HeadingBlockModal extends React.Component {
                     updatedDate={updatedDate}
                   />
                 </div>
-              )
-            }
+              )}
           </FormGroup>
           {
             (text && isValid)

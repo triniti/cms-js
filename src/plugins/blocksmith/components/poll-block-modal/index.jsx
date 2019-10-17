@@ -1,12 +1,10 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
-
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PollsTable from '@triniti/cms/plugins/apollo/components/polls-table';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Modal,
   ModalBody,
@@ -17,10 +15,10 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
+import delegateFactory from './delegate';
 import Footer from './Footer';
 import Header from './Header';
 import SearchBar from '../search-bar';
-import delegateFactory from './delegate';
 import selector from './selector';
 
 class PollBlockModal extends React.Component {
@@ -56,7 +54,7 @@ class PollBlockModal extends React.Component {
       isReadyToDisplay: false,
       q: '',
       selectedPoll: poll || null,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -90,9 +88,9 @@ class PollBlockModal extends React.Component {
     const { hasUpdatedDate, selectedPoll, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('node_ref', selectedPoll.get('_id').toNodeRef())
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -159,8 +157,7 @@ class PollBlockModal extends React.Component {
           toggle={toggle}
         />
         <ModalBody className="p-0">
-          {
-            activeStep === 0
+          {activeStep === 0
             && (
               <SearchBar
                 onChangeQ={this.handleChangeQ}
@@ -168,8 +165,7 @@ class PollBlockModal extends React.Component {
                 placeholder="Search polls..."
                 value={q}
               />
-            )
-          }
+            )}
           <ScrollableContainer
             className="bg-gray-400"
             style={{ height: `calc(100vh - ${activeStep === 0 ? 212 : 167}px)` }}
@@ -178,16 +174,13 @@ class PollBlockModal extends React.Component {
               !isReadyToDisplay
               && <Spinner centered />
             }
-            {
-              isReadyToDisplay && !polls.length
+            {isReadyToDisplay && !polls.length
               && (
                 <div className="not-found-message">
                   <p>No Polls found that match your criteria</p>
                 </div>
-              )
-            }
-            {
-              activeStep === 0 && isReadyToDisplay && !!polls.length
+              )}
+            {activeStep === 0 && isReadyToDisplay && !!polls.length
               && (
                 <PollsTable
                   isBulkOperationEnabled={false}
@@ -197,10 +190,8 @@ class PollBlockModal extends React.Component {
                   selectedRows={selectedPoll ? [NodeRef.fromNode(selectedPoll)] : []}
                   sort={sort}
                 />
-              )
-            }
-            {
-              activeStep === 1
+              )}
+            {activeStep === 1
               && (
                 <CustomizeOptions
                   aside={aside}
@@ -211,8 +202,7 @@ class PollBlockModal extends React.Component {
                   onChangeTime={this.handleChangeTime}
                   updatedDate={updatedDate}
                 />
-              )
-            }
+              )}
           </ScrollableContainer>
         </ModalBody>
         <Footer

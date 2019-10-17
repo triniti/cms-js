@@ -1,24 +1,20 @@
-import React from 'react';
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Select,
 } from '@triniti/admin-ui-plugin/components';
-import Message from '@gdbots/pbj/Message';
-import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
-import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -132,33 +128,14 @@ const CustomizeOptions = ({
             Is update
           </Label>
         </FormGroup>
-        {hasUpdatedDate && (
-        <FormGroup>
-          <Label>
-            Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-          </Label>
-          <FormGroup className="mb-3 mt-1 shadow-none">
-            <DatePicker
-              onChange={handleChangeDate}
-              selected={updatedDate}
-              shouldCloseOnSelect={false}
-              inline
+        {hasUpdatedDate
+          && (
+            <DateTimePicker
+              onChangeDate={handleChangeDate}
+              onChangeTime={handleChangeTime}
+              updatedDate={updatedDate}
             />
-            <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-              <InputGroupAddon addonType="prepend" className="text-dark">
-                <InputGroupText>
-                  <Icon imgSrc="clock-outline" />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Input
-                type="time"
-                onChange={handleChangeTime}
-                defaultValue={updatedDate.format('HH:mm')}
-              />
-            </InputGroup>
-          </FormGroup>
-        </FormGroup>
-        )}
+          )}
       </FormGroup>
       <FormGroup className="mb-4">
         <FormGroup check className="d-flex align-items-center mr-2">
@@ -196,7 +173,7 @@ CustomizeOptions.propTypes = {
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   selectedImage: PropTypes.instanceOf(Message),
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
   url: PropTypes.string.isRequired,
 };
 

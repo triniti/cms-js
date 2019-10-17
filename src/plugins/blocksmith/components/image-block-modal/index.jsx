@@ -1,9 +1,7 @@
-import moment from 'moment';
 import prependHttp from 'prepend-http';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-
 import isValidUrl from '@gdbots/common/isValidUrl';
 import Message from '@gdbots/pbj/Message';
 import {
@@ -20,7 +18,6 @@ import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
 import selector from './selector';
-
 
 class ImageBlockModal extends React.Component {
   static propTypes = {
@@ -42,6 +39,7 @@ class ImageBlockModal extends React.Component {
     super(props);
     const { block, image, isFreshBlock } = props;
     this.state = {
+      aside: block.get('aside'),
       aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
       caption: block.get('caption') || '',
       hasCaption: block.has('caption'),
@@ -51,9 +49,8 @@ class ImageBlockModal extends React.Component {
       isNsfw: block.get('is_nsfw'),
       isValid: true,
       selectedImage: image || null,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
       url: block.get('url') || '',
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAspectRatio = this.handleChangeAspectRatio.bind(this);
@@ -84,13 +81,13 @@ class ImageBlockModal extends React.Component {
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
-      .set('is_nsfw', isNsfw)
-      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
+      .set('aside', aside)
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null)
-      .set('aside', aside);
+      .set('is_nsfw', isNsfw)
+      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
   }
 
   handleAddBlock() {
