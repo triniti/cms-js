@@ -161,6 +161,8 @@ class DividerBlockModal extends React.Component {
                 { label: 'dotted', value: 'dotted' },
                 { label: 'dashed', value: 'dashed' },
               ]}
+              block={this.setBlock()}
+              components={{ Option: CustomOption }}
             />
             <FormGroup>
               <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>

@@ -7,8 +7,11 @@ import './styles.scss';
 const CustomOption = ({ innerProps, data, selectProps, isSelected }) => (
   <div {...innerProps} className="divider__color divider__option">
     <div className={classNames('select__option', { 'is-selected': isSelected })}>
-      <div>{data.label}</div>
-      <div className={`${data.value} divider__bar`} style={{ borderTopStyle: selectProps.block.get('stroke_style') }} />
+      <div className="divider__option-label">{data.label}</div>
+      <div
+        className={`${data.value} ${selectProps.block.get('stroke_color')} divider__bar`}
+        style={{ borderTopStyle: selectProps.block.get('stroke_style') }}
+      />
     </div>
   </div>
 );
