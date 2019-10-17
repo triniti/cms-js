@@ -22,6 +22,7 @@ const TableRow = ({
   >
     <td>{ node.get('title') }</td>
     <td className="text-nowrap">{ convertReadableTime(node.get('created_at')) }</td>
+    <td>{ node.get('mime_type') }</td>
     <td className="td-icons text-right">
       <a
         href={damUrl(node)}

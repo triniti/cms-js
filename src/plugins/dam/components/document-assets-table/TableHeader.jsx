@@ -26,6 +26,16 @@ const TableHeader = ({ onSort, sort }) => (
           sortFieldDesc={SearchAssetsSort.CREATED_AT_DESC.getValue()}
         />
       </th>
+      <th>
+        Mime Type
+        &nbsp;
+        <SortButton
+          currentSort={sort}
+          onSort={onSort}
+          sortFieldAsc={SearchAssetsSort.MIME_TYPE_ASC.getValue()}
+          sortFieldDesc={SearchAssetsSort.MIME_TYPE_DESC.getValue()}
+        />
+      </th>
       <th />
     </tr>
   </thead>
