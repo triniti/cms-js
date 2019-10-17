@@ -24,6 +24,7 @@
 * fix asset tags
 * allow clearing video rating
 * fix widget picker `isEditMode`
+* clear getAllChannels response after successful update
 * fix input padding
 
 
