@@ -10,9 +10,8 @@ export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   yield call(resolve);
   yield put(destroyEditor(config.formName));
   yield put(clearResponse(config.schemas.getNodeRequest.getCurie())); // not sure this is necessary
-  if (config.schemas.searchNodes) {
-    yield put(clearResponse(config.schemas.searchNodes.getCurie())); // not sure this is necessary
-  }
+  const schema = config.schemas.searchNodes || config.schemas.getAllNodesRequest;
+  yield put(clearResponse(schema.getCurie()));
   if (config.shouldCloseAfterSave) {
     yield put(reset(config.formName));
     yield call(history.push, match.url.match(/\/.+?\/.+?\//)[0]);
