@@ -25,7 +25,7 @@
     "@triniti/schemas": "^1.1.0",
     "animate.css": "^3.6.1",
     "auth0-lock": "^11.17.3",
-    "aws-sdk": "^2.543.0",
+    "aws-sdk": "^2.552.0",
     "bootstrap": "^4.3.1",
     "bottlejs": "^1.7.1",
     "classnames": "^2.2.5",

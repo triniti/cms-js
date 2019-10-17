@@ -1,7 +1,9 @@
-import moment from 'moment';
-import React from 'react';
-import PropTypes from 'prop-types';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
+import React from 'react';
+import SpotifyTrackBlockPreview from '@triniti/cms/plugins/blocksmith/components/spotify-track-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
@@ -14,9 +16,6 @@ import {
   ModalFooter,
   Icon,
 } from '@triniti/admin-ui-plugin/components';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import SpotifyTrackBlockPreview from '@triniti/cms/plugins/blocksmith/components/spotify-track-block-preview';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -50,7 +49,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
       isValid: block.has('track_id'),
       touched: false,
       trackId: block.get('track_id'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -72,9 +71,9 @@ export default class SpotifyTrackBlockModal extends React.Component {
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('track_id', trackId || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -173,8 +172,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {
-            hasUpdatedDate
+          {hasUpdatedDate
             && (
               <div className="modal-body-blocksmith">
                 <DateTimePicker
@@ -183,8 +181,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
                   updatedDate={updatedDate}
                 />
               </div>
-            )
-          }
+            )}
           {
             isValid
             && <SpotifyTrackBlockPreview block={this.setBlock()} />

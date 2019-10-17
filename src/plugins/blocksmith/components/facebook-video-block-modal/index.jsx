@@ -1,29 +1,24 @@
-import moment from 'moment';
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import FacebookVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-video-block-preview';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader, 
+  ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import FacebookVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-video-block-preview';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -68,7 +63,7 @@ class FacebookVideoBlockModal extends React.Component {
       selectedImageNode: imageNode || null,
       showCaptions: block.get('show_captions'),
       showText: block.get('show_text'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -95,13 +90,13 @@ class FacebookVideoBlockModal extends React.Component {
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('autoplay', autoplay)
       .set('href', href)
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('show_captions', showCaptions)
       .set('show_text', showText)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -224,15 +219,13 @@ class FacebookVideoBlockModal extends React.Component {
             !isValid && href
             && <p className="text-danger">url or embed is invalid</p>
           }
-          {
-            isValid && href
+          {isValid && href
             && (
               <FacebookVideoBlockPreview
                 block={this.setBlock()}
                 width={526}
               />
-            )
-          }
+            )}
           <FormGroup className="mt-3">
             <ImageAssetPicker
               multiAssetErrorMessage="Invalid Action: Trying to assign multiple Facebook Block Poster images."
@@ -263,36 +256,14 @@ class FacebookVideoBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {
-            hasUpdatedDate
+          {hasUpdatedDate
             && (
-              <FormGroup>
-                <Label>
-                  Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                </Label>
-                <FormGroup className="mb-3 mt-1 shadow-none">
-                  <DatePicker
-                    onChange={this.handleChangeDate}
-                    selected={updatedDate}
-                    shouldCloseOnSelect={false}
-                    inline
-                  />
-                  <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                    <InputGroupAddon addonType="prepend" className="text-dark">
-                      <InputGroupText>
-                        <Icon imgSrc="clock-outline" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      type="time"
-                      onChange={this.handleChangeTime}
-                      defaultValue={updatedDate.format('HH:mm')}
-                    />
-                  </InputGroup>
-                </FormGroup>
-              </FormGroup>
-            )
-          }
+              <DateTimePicker
+                onChangeDate={this.handleChangeDate}
+                onChangeTime={this.handleChangeTime}
+                updatedDate={updatedDate}
+              />
+            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>

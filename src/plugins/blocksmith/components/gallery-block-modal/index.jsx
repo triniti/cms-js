@@ -1,12 +1,10 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
-
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import GalleryGrid from '@triniti/cms/plugins/curator/components/gallery-grid';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Modal,
   ModalBody,
@@ -14,7 +12,6 @@ import {
   Spinner,
 } from '@triniti/admin-ui-plugin/components';
 
-import './styles.scss';
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
@@ -23,6 +20,7 @@ import Footer from './Footer';
 import Header from './Header';
 import SearchBar from '../search-bar';
 import selector from './selector';
+import './styles.scss';
 
 class GalleryBlockModal extends React.Component {
   static propTypes = {
@@ -58,13 +56,13 @@ class GalleryBlockModal extends React.Component {
       aside: block.get('aside'),
       galleryQ: '',
       hasUpdatedDate: block.has('updated_date'),
-      startsAtPoster: block.get('start_at_poster'),
       isAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       launchText: block.get('launch_text') || '',
       selectedGallery: gallery || null,
       selectedImage: image || null,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      startsAtPoster: block.get('start_at_poster'),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -88,7 +86,7 @@ class GalleryBlockModal extends React.Component {
     delegate.handleSearchGalleries();
   }
 
-  componentWillReceiveProps({ isGallerySearchRequestFulfilled }) {
+  UNSAFE_componentWillReceiveProps({ isGallerySearchRequestFulfilled }) {
     const { isReadyToDisplay } = this.state;
     if (!isReadyToDisplay && isGallerySearchRequestFulfilled) {
       this.setState({ isReadyToDisplay: true });
@@ -111,15 +109,13 @@ class GalleryBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { block } = this.props;
-    return block
-      .schema()
-      .createMessage()
-      .set('node_ref', selectedGallery.get('_id').toNodeRef())
+    return block.schema().createMessage()
+      .set('aside', aside)
       .set('launch_text', launchText || null)
+      .set('node_ref', selectedGallery.get('_id').toNodeRef())
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('start_at_poster', startsAtPoster)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -276,7 +272,7 @@ class GalleryBlockModal extends React.Component {
                   selectedImage={selectedImage}
                   updatedDate={updatedDate}
                   startsAtPoster={startsAtPoster}
-                  
+
                 />
               )}
               {isReadyToDisplay && activeStep === 0 && !galleries.length && (

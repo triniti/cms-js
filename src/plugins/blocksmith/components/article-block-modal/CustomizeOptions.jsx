@@ -1,6 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import ArticleBlockPreview from '@triniti/cms/plugins/blocksmith/components/article-block-preview';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import Message from '@gdbots/pbj/Message';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Checkbox,
   FormGroup,
@@ -8,11 +13,6 @@ import {
   Input,
   Label,
 } from '@triniti/admin-ui-plugin/components';
-import Message from '@gdbots/pbj/Message';
-import ArticleBlockPreview from '@triniti/cms/plugins/blocksmith/components/article-block-preview';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const CustomizeOptions = ({
   block,
@@ -78,16 +78,14 @@ const CustomizeOptions = ({
         <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
       </FormGroup>
     </FormGroup>
-    {
-      hasUpdatedDate
-      && (
-        <DateTimePicker
-          onChangeDate={handleChangeDate}
-          onChangeTime={handleChangeTime}
-          updatedDate={updatedDate}
-        />
-      )
-    }
+    {hasUpdatedDate
+    && (
+      <DateTimePicker
+        onChangeDate={handleChangeDate}
+        onChangeTime={handleChangeTime}
+        updatedDate={updatedDate}
+      />
+    )}
   </div>
 );
 

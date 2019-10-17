@@ -1,11 +1,10 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 import AudioAssetsTable from '@triniti/cms/plugins/dam/components/audio-assets-table';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Modal,
   ModalBody,
@@ -13,16 +12,16 @@ import {
   Spinner,
 } from '@triniti/admin-ui-plugin/components';
 
+import { ALLOWED_MIME_TYPES } from './constants';
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
+import delegateFactory from './delegate';
 import Footer from './Footer';
 import Header from './Header';
 import NotFoundMessage from './NotFoundMessage';
 import SearchBar from '../search-bar';
-import delegateFactory from './delegate';
 import selector from './selector';
-import { ALLOWED_MIME_TYPES } from './constants';
 
 class AudioBlockModal extends React.Component {
   static propTypes = {
@@ -64,7 +63,7 @@ class AudioBlockModal extends React.Component {
       launchText: block.get('launch_text') || '',
       selectedAudioNode: audioNode || null,
       selectedImageNode: imageNode || null,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -112,7 +111,7 @@ class AudioBlockModal extends React.Component {
     return block.schema().createMessage()
       .set('node_ref', NodeRef.fromNode(selectedAudioNode))
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('launch_text', launchText || null)
       .set('aside', aside);
   }

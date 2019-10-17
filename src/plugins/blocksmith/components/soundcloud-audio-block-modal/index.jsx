@@ -1,9 +1,12 @@
-import moment from 'moment';
-import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import PropTypes from 'prop-types';
+import React from 'react';
+import SoundcloudAudioBlockPreview from '@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
@@ -14,16 +17,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Icon,  
+  Icon,
 } from '@triniti/admin-ui-plugin/components';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import SoundcloudAudioBlockPreview from '@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-preview';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-
 import selector from './selector';
 
 const TRACK_ID_REGEX = /api\.soundcloud\.com\/tracks\/\d+/;
@@ -54,8 +52,8 @@ class SoundcloudAudioBlockModal extends React.Component {
     super(props);
     const { block, imageNode } = props;
     this.state = {
-      autoplay: block.get('auto_play'),
       aside: block.get('aside'),
+      autoplay: block.get('auto_play'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       isValid: block.has('track_id'),
@@ -63,7 +61,7 @@ class SoundcloudAudioBlockModal extends React.Component {
       selectedImageNode: imageNode || null,
       touched: false,
       trackId: block.get('track_id'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
       willHideRelated: block.get('hide_related'),
       willShowComments: block.get('show_comments'),
     };
@@ -96,14 +94,14 @@ class SoundcloudAudioBlockModal extends React.Component {
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('auto_play', autoplay)
       .set('hide_related', willHideRelated)
-      .set('visual', isVisual)
-      .set('track_id', trackId || null)
-      .set('show_comments', willShowComments)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
-      .set('aside', aside);
+      .set('show_comments', willShowComments)
+      .set('track_id', trackId || null)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('visual', isVisual);
   }
 
   handleAddBlock() {
@@ -323,8 +321,7 @@ class SoundcloudAudioBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {
-            hasUpdatedDate
+          {hasUpdatedDate
             && (
               <div className="modal-body-blocksmith">
                 <DateTimePicker
@@ -333,8 +330,7 @@ class SoundcloudAudioBlockModal extends React.Component {
                   updatedDate={updatedDate}
                 />
               </div>
-            )
-          }
+            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>

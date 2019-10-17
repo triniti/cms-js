@@ -1,10 +1,11 @@
-import moment from 'moment';
-import prependHttp from 'prepend-http';
-import PropTypes from 'prop-types';
-import React from 'react';
-
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import isValidUrl from '@gdbots/common/isValidUrl';
 import Message from '@gdbots/pbj/Message';
+import prependHttp from 'prepend-http';
+import PropTypes from 'prop-types';
+import QuoteBlockPreview from '@triniti/cms/plugins/blocksmith/components/quote-block-preview';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
@@ -17,9 +18,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-import QuoteBlockPreview from '@triniti/cms/plugins/blocksmith/components/quote-block-preview';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -43,14 +41,14 @@ class QuoteBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       isPullQuote: block.get('is_pull_quote'),
       isValid: true,
       source: block.get('source'),
       sourceUrl: block.get('source_url'),
       text: block.get('text') || '',
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
-      aside: block.get('aside'),
+      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -70,12 +68,12 @@ class QuoteBlockModal extends React.Component {
     const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('is_pull_quote', isPullQuote)
-      .set('source', source || null)
       .set('source_url', sourceUrl ? prependHttp(sourceUrl, { https: true }) : null)
+      .set('source', source || null)
       .set('text', text || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -186,8 +184,7 @@ class QuoteBlockModal extends React.Component {
               <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
               <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
-            {
-              hasUpdatedDate
+            {hasUpdatedDate
               && (
                 <div className="modal-body-blocksmith">
                   <DateTimePicker
@@ -196,8 +193,7 @@ class QuoteBlockModal extends React.Component {
                     updatedDate={updatedDate}
                   />
                 </div>
-              )
-            }
+              )}
           </FormGroup>
           {
             isValid

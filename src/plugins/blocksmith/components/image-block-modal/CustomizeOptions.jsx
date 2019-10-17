@@ -3,15 +3,21 @@ import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import memoize from 'lodash/memoize';
+
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
+import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Select,
 } from '@triniti/admin-ui-plugin/components';
@@ -232,7 +238,7 @@ CustomizeOptions.propTypes = {
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   selectedImage: PropTypes.instanceOf(Message),
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
   url: PropTypes.string.isRequired,
 };
 
