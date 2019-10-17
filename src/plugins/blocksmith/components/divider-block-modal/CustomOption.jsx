@@ -5,11 +5,11 @@ import React from 'react';
 import './styles.scss';
 
 const CustomOption = ({ innerProps, data, selectProps, isSelected }) => (
-  <div {...innerProps}>
+  <div {...innerProps} className="divider__color">
     <div className={classNames('select__option', { 'is-selected': isSelected })}>{data.label}</div>
     <div
       role="presentation"
-      className={selectProps.block.get('stroke_color')}
+      className={data.value}
       style={{ borderTopStyle: selectProps.block.get('stroke_style') }}
     />
   </div>
