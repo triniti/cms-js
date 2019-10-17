@@ -5,6 +5,7 @@
 * issue #2: updated css to have correct color on save btn hover
 * issue #4: Set up CMS to handle new type: asset-teaser.
 * issue #15: fixed sweetalert call to solve issue deleting nodes
+* Fixed search bar bug by overriding bootstraps css
 * issue #17: use DAM_BASE_URL and IMAGE_BASE_URL env globals in damUrl.js
 * issue #27 updated css to fix slotting dropdown width
 * added pagination to document block.
@@ -18,6 +19,7 @@
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
 * allow clearing video rating
+* fix widget picker `isEditMode`
 
 
 ## v0.1.0
