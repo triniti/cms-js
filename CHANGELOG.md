@@ -18,6 +18,7 @@
 * fixed sweetalert call to solve issue deleting blocks
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
+* fix asset tags
 * allow clearing video rating
 * fix widget picker `isEditMode`
 
