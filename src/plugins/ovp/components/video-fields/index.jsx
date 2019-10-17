@@ -105,6 +105,7 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => [
       <Field
         component={SelectField}
         disabled={!isEditMode}
+        isClearable
         label="TVPG Rating"
         name="tvpgRating"
         options={options}

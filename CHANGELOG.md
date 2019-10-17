@@ -17,6 +17,8 @@
 * fixed sweetalert call to solve issue deleting blocks
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
+* allow clearing video rating
+
 
 ## v0.1.0
 * initial version
