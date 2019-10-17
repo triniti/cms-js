@@ -16,25 +16,37 @@ import schemas from './schemas';
  *
  * @param {string} type
  */
+const components = {};
 const getFieldsComponent = (type) => {
+  if (components[type]) {
+    return components[type];
+  }
   switch (type) {
     case 'archive-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/archive-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/archive-asset-fields'));
+      break;
     case 'audio-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/audio-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/audio-asset-fields'));
+      break;
     case 'code-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/code-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/code-asset-fields'));
+      break;
     case 'document-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/document-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/document-asset-fields'));
+      break;
     case 'image-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/image-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/image-asset-fields'));
+      break;
     case 'unknown-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/unknown-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/unknown-asset-fields'));
+      break;
     case 'video-asset':
-      return createLazyComponent(import('@triniti/cms/plugins/dam/components/video-asset-fields'));
+      components[type] = createLazyComponent(import('@triniti/cms/plugins/dam/components/video-asset-fields'));
+      break;
     default:
-      return null;
+      break;
   }
+  return components[type];
 };
 
 const Form = ({ node: asset, tab, isEditMode, type }) => {
