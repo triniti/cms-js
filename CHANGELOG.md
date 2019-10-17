@@ -24,6 +24,7 @@
 * fix asset tags
 * allow clearing video rating
 * fix widget picker `isEditMode`
+* fix input padding
 
 
 ## v0.1.0
