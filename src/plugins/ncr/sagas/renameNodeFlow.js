@@ -4,8 +4,8 @@ import startCase from 'lodash/startCase';
 import changeNodeFlow from './changeNodeFlow';
 
 export function* onAfterSuccessFlow(config) {
-  const responseSchema = config.schemas.searchNodes || config.schemas.getAllNodesRequest;
-  yield put(clearResponse(responseSchema.getCurie()));
+  const schema = config.schemas.searchNodes || config.schemas.getAllNodesRequest;
+  yield put(clearResponse(schema.getCurie()));
 }
 
 export default function* ({ config, pbj }) {
