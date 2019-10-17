@@ -1,10 +1,6 @@
 # CHANGELOG
 
 
-## vN.N.N
-* fix widget dfp unit path removal bug
-
-
 ## v0.1.1
 * issue #2: updated css to have correct color on save btn hover
 * issue #4: Set up CMS to handle new type: asset-teaser.
@@ -21,6 +17,7 @@
 * fixed sweetalert call to solve issue deleting blocks
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
+* fix widget dfp unit path removal bug
 
 
 ## v0.1.0
