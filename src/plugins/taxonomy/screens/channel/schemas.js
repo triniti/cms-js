@@ -4,6 +4,7 @@ import resolveSchema from '@triniti/cms/utils/resolveSchema';
 export default {
   createNode: resolveSchema(ChannelV1Mixin, 'command', 'create-channel'),
   deleteNode: resolveSchema(ChannelV1Mixin, 'command', 'delete-channel'),
+  getAllNodesRequest: resolveSchema(ChannelV1Mixin, 'request', 'get-all-channels-request'),
   getNodeHistoryRequest: resolveSchema(ChannelV1Mixin, 'request', 'get-channel-history-request'),
   getNodeRequest: resolveSchema(ChannelV1Mixin, 'request', 'get-channel-request'),
   node: ChannelV1Mixin.findOne(),
