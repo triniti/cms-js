@@ -1,33 +1,26 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import memoize from 'lodash/memoize';
 
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import Message from '@gdbots/pbj/Message';
-import PropTypes from 'prop-types';
-import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import {
   Checkbox,
+  DatePicker,
   FormGroup,
   Icon,
   Input,
   Label,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
   Select,
 } from '@triniti/admin-ui-plugin/components';
-import Message from '@gdbots/pbj/Message';
-import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
-import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -65,7 +58,7 @@ const CustomizeOptions = ({
   updatedDate,
   url,
 }) => {
-  const hasThemeableMixin = memoize(() => node.schema().hasMixin('triniti:common:mixin:themeable'));
+  const hasThemeableMixin = () => node.schema().hasMixin('triniti:common:mixin:themeable');
 
   return (
     <div className="modal-body-blocksmith">
@@ -75,7 +68,7 @@ const CustomizeOptions = ({
       )}
       <FormGroup>
         <ImageAssetPicker
-          multiAssetErrorMessage="Invalid Action: Trying to assign multiple Gallery Block Poster images."
+          multiAssetErrorMessage="Invalid Action: Can only select one image."
           isImageSelected={!!selectedImage}
           isModalOpen={isAssetPickerModalOpen}
           isDisabled={false}
@@ -86,7 +79,7 @@ const CustomizeOptions = ({
           onToggleAssetPickerModal={handleToggleAssetPickerModal}
         />
       </FormGroup>
-      <div style={{ maxWidth: '350px', margin: '0 auto' }}>
+      <div className="custom-options-container">
         <FormGroup>
           <Label>Aspect Ratio</Label>
           <Select

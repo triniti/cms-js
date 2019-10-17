@@ -18,6 +18,7 @@ import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
 import selector from './selector';
+import './styles.scss';
 
 class ImageBlockModal extends React.Component {
   static propTypes = {
@@ -91,7 +92,7 @@ class ImageBlockModal extends React.Component {
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null)
       .set('is_nsfw', isNsfw)
-      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
+      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null);
   }
 
   handleAddBlock() {
