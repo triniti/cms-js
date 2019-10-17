@@ -30,17 +30,17 @@ const Form = ({ node: article, blocksmithState, form, isEditMode, tab }) => {
   switch (tab) {
     case 'details':
       return (
-        <div>
+        <>
           <ArticleFields isEditMode={isEditMode} article={article} schemas={schemas} />
           {
             schemas.node.hasMixin('triniti:common:mixin:advertising')
-            && <AdvertisingFields key="ad-fields" isEditMode={isEditMode} />
+            && <AdvertisingFields isEditMode={isEditMode} />
           }
           {
             schemas.node.hasMixin('gdbots:common:mixin:taggable')
-            && <AdvancedFields key="advanced-fields" isEditMode={isEditMode} />
+            && <AdvancedFields isEditMode={isEditMode} />
           }
-        </div>
+        </>
       );
 
     case 'taxonomy':

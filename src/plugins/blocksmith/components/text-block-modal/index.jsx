@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Button,
   Modal,
@@ -9,7 +9,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -30,7 +29,7 @@ export default class TextBlockModal extends React.Component {
     super(props);
     const { block } = props;
     this.state = {
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -41,7 +40,7 @@ export default class TextBlockModal extends React.Component {
   handleEditBlock() {
     const { updatedDate } = this.state;
     const { block, onEditBlock, toggle } = this.props;
-    onEditBlock(block.clone().set('updated_date', updatedDate.toDate()));
+    onEditBlock(block.clone().set('updated_date', updatedDate));
     toggle();
   }
 

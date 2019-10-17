@@ -1,18 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import VideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/video-block-preview';
 import {
   Checkbox,
   FormGroup,
   Label,
+  Icon,
   Input,
 } from '@triniti/admin-ui-plugin/components';
-import VideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/video-block-preview';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 
 const CustomizeOptions = ({
+  aside,
   autoplay,
   block,
   handleChangeLaunchText,
@@ -79,16 +81,14 @@ const CustomizeOptions = ({
             Override Launch Text
           </Checkbox>
         </FormGroup>
-        {
-          hasLaunchText
+        {hasLaunchText
           && (
             <FormGroup className="mb-0">
               <Label className="mb-0">
                 <Input size="sm" value={launchText || ''} onChange={handleChangeLaunchText} placeholder="Enter a caption..." />
               </Label>
             </FormGroup>
-          )
-        }
+          )}
       </FormGroup>
       <FormGroup className="d-flex mb-2">
         <FormGroup check>
@@ -97,8 +97,7 @@ const CustomizeOptions = ({
           </Checkbox>
         </FormGroup>
       </FormGroup>
-      {
-        hasUpdatedDate
+      {hasUpdatedDate
         && (
           <div className="modal-body-blocksmith">
             <DateTimePicker
@@ -107,13 +106,22 @@ const CustomizeOptions = ({
               updatedDate={updatedDate}
             />
           </div>
-        )
-      }
+        )}
+      <FormGroup className="d-flex mb-2">
+        <FormGroup check>
+          <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
+            Aside
+          </Checkbox>
+          <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+          <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+        </FormGroup>
+      </FormGroup>
     </div>
   </div>
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   autoplay: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   handleChangeLaunchText: PropTypes.func.isRequired,
@@ -131,7 +139,7 @@ CustomizeOptions.propTypes = {
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   willShowMoreVideos: PropTypes.bool.isRequired,
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 CustomizeOptions.defaultProps = {

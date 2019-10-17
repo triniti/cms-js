@@ -274,6 +274,7 @@ export default class AbstractSearchNodesScreen extends React.Component {
     if (status === STATUS_FULFILLED) {
       return (
         <Pagination
+          className="ml-3"
           currentPage={request.get('page') || 1}
           key="pager"
           onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}

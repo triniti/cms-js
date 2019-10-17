@@ -1,6 +1,8 @@
 global.API_ENDPOINT = 'https://api.acme.com';
 global.APP_ENV = 'prod';
 global.APP_VENDOR = 'acme';
+global.DAM_BASE_URL='https://dam.acme.com/';
+global.IMAGE_BASE_URL='https://images.acme.com/';
 
 require('ignore-styles');
 

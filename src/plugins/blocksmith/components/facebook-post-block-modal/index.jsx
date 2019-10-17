@@ -1,24 +1,21 @@
-import moment from 'moment';
-import React from 'react';
-import PropTypes from 'prop-types';
+import FacebookPostBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-post-block-preview';
 import Message from '@gdbots/pbj/Message';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-import FacebookPostBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-post-block-preview';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
@@ -45,11 +42,12 @@ export default class FacebookPostBlockModal extends React.Component {
     super(props);
     const { block } = props;
     this.state = {
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       href: block.get('href'),
       isValid: true,
       showText: block.get('show_text'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -57,6 +55,7 @@ export default class FacebookPostBlockModal extends React.Component {
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
   componentDidMount() {
@@ -66,12 +65,13 @@ export default class FacebookPostBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, href, showText, updatedDate } = this.state;
+    const { hasUpdatedDate, href, showText, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('href', href)
       .set('show_text', showText)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -120,8 +120,12 @@ export default class FacebookPostBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
+  }
+
   render() {
-    const { hasUpdatedDate, href, isValid, showText, updatedDate } = this.state;
+    const { aside, hasUpdatedDate, href, isValid, showText, updatedDate } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
 
     return (
@@ -148,45 +152,26 @@ export default class FacebookPostBlockModal extends React.Component {
           <FormGroup check>
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>Is update</Checkbox>
           </FormGroup>
-          {
-            hasUpdatedDate
+          <FormGroup check>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeAside}>Aside</Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+          </FormGroup>
+          {hasUpdatedDate
             && (
-              <FormGroup>
-                <Label>
-                  Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                </Label>
-                <FormGroup className="mb-3 mt-1 shadow-none">
-                  <DatePicker
-                    onChange={this.handleChangeDate}
-                    selected={updatedDate}
-                    shouldCloseOnSelect={false}
-                    inline
-                  />
-                  <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                    <InputGroupAddon addonType="prepend" className="text-dark">
-                      <InputGroupText>
-                        <Icon imgSrc="clock-outline" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      type="time"
-                      onChange={this.handleChangeTime}
-                      defaultValue={updatedDate.format('HH:mm')}
-                    />
-                  </InputGroup>
-                </FormGroup>
-              </FormGroup>
-            )
-          }
-          {
-            isValid && href
+              <DateTimePicker
+                onChangeDate={this.handleChangeDate}
+                onChangeTime={this.handleChangeTime}
+                updatedDate={updatedDate}
+              />
+            )}
+          {isValid && href
             && (
               <FacebookPostBlockPreview
                 block={this.setBlock()}
                 width={526}
               />
-            )
-          }
+            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>

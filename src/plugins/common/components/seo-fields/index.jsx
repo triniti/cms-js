@@ -35,7 +35,7 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => (
         name="metaKeywords"
         component={SelectField}
         label="Meta Keywords"
-        multi
+        isMulti
         creatable
         noResultsText="Add a keyword"
         promptTextCreator={(label) => `Add keyword "${label}"`}
