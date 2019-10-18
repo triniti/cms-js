@@ -11,11 +11,9 @@ import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontro
 import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import {
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  Label,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
