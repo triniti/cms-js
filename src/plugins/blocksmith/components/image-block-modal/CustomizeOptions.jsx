@@ -57,11 +57,8 @@ const CustomizeOptions = ({
   selectedImage,
   updatedDate,
   url,
-}) => {
-  const hasThemeableMixin = () => node.schema().hasMixin('triniti:common:mixin:themeable');
-
-  return (
-    <div className="modal-body-blocksmith">
+}) => (
+  <div className="modal-body-blocksmith">
       <ImageBlockPreview className="my-4" block={block} />
       {hasCaption && (block.has('caption') || selectedImage.has('description')) && (
         <p>Caption: {block.get('caption') || selectedImage.get('description')}</p>
@@ -92,7 +89,7 @@ const CustomizeOptions = ({
           />
         </FormGroup>
 
-        {hasThemeableMixin()
+        {node.schema().hasMixin('triniti:common:mixin:themeable')
           && (
             <Field
               component={PicklistPickerField}
@@ -204,8 +201,7 @@ const CustomizeOptions = ({
         </FormGroup>
       </div>
     </div>
-  );
-};
+);
 
 CustomizeOptions.propTypes = {
   aside: PropTypes.bool.isRequired,

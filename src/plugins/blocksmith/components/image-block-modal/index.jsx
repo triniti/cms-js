@@ -49,7 +49,7 @@ class ImageBlockModal extends React.Component {
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
-      launchText: block.get('launch_text') || '',
+      launchText: block.get('launch_text') || null,
       selectedImage: image || null,
       updatedDate: block.get('updated_date', new Date()),
       url: block.get('url') || '',
