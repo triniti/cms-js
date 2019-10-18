@@ -330,6 +330,22 @@ tr.status-sent {
   }
 }
 
+.divider__color {
+
+  .primary {
+    color: red;
+    border-top-color: red;
+    border-top-width: 3px;
+  }
+
+  .secondary {
+    color: blue;
+    border-top-color: blue;
+    border-top-width: 3px;
+  }
+
+}
+
 .select__control.select__control--is-disabled {
   background-color: #fafafc;
   border: 1px solid #efeff1;
