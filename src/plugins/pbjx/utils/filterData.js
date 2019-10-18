@@ -26,6 +26,7 @@ const omitKeys = [
   'ts_ymdh',
   'ts_ymd',
   'ts_ym',
+  'word_count',
 ];
 
 /**

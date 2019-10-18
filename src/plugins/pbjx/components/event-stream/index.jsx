@@ -114,9 +114,9 @@ class EventStream extends React.Component {
                     </span>
                     <span className="float-right"><RawViewButton event={event} /></span>
                   </ListGroupItemText>
-                  <ListGroup borderless>
+                  <span>
                     <EventDetails event={event} />
-                  </ListGroup>
+                  </span>
                 </ListGroupItem>
               );
             })}

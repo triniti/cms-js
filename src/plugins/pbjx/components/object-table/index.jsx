@@ -9,7 +9,7 @@ const ObjectTable = ({ data }) => {
   const properties = Object.entries(data);
 
   return (
-    <Table className="table-sm table-borderless">
+    <Table className="table-sm table-bordered">
       <tbody>
         {properties.map((property, idx) => (
           <TableRow

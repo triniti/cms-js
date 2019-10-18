@@ -20,9 +20,9 @@ class EventDetails extends React.Component {
     const { eventContent } = this.state;
 
     return (
-      <ListGroupItem className="mb-0">
+      <span className="mb-0">
         {eventContent}
-      </ListGroupItem>
+      </span>
     );
   }
 }

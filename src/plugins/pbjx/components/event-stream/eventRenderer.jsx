@@ -7,6 +7,10 @@ export default (event) => {
   const schema = event.schema();
 
   if (schema.hasMixin('gdbots:ncr:mixin:node-updated')) {
+    if (event.get('new_etag') === event.get('old_etag')) {
+      return <div key="a"><strong className="text-black-50 pl-2 pr-2">No Changes</strong></div>;
+    }
+
     // find properties in node that were removed
     const oldNodeKeys = Object.keys(event.get('old_node').toObject());
     const newNodeKeys = Object.keys(event.get('new_node').toObject());

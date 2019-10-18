@@ -8,7 +8,7 @@ import { expand } from '@gdbots/pbjx/pbjUrl';
 import ObjectTable from '../object-table';
 
 export const labelRenderer = ([key, ...parentKeys]) => <strong>{startCase(key)}</strong>;
-export const valueRenderer = (field, value, color) => {
+export const valueRenderer = (field, value) => {
   // If field is a nodeRef then create link
   if (field.endsWith('_ref') && value) {
     const nodeRef = NodeRef.fromString(value);
@@ -16,10 +16,10 @@ export const valueRenderer = (field, value, color) => {
     const templateId = `${nodeRef.getQName()}.cms`;
     const url = expand(templateId, { _id: id });
 
-    return <strong className={`${color} text-black-50 pl-2 pr-2`}><RouterLink to={url} target="_black">{value}</RouterLink></strong>;
+    return <strong className="text-black-50 pl-2 pr-2"><RouterLink to={url} target="_black">{value}</RouterLink></strong>;
   }
   if (value instanceof Object) {
     return <ObjectTable data={value} />;
   }
-  return <strong className={`${color} text-black-50 pl-2 pr-2`}>{trim(value, '"')}</strong>;
+  return <strong className="text-black-50 pl-2 pr-2">{trim(value, '"')}</strong>;
 };
