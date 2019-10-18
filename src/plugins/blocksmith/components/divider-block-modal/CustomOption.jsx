@@ -8,7 +8,7 @@ const CustomOption = ({ innerProps, data, selectProps, isSelected }) => (
     <div className={classNames('select__option', { 'is-selected': isSelected })}>
       <div className="divider__option-label">{data.label}</div>
       <div
-        className={`${data.value} ${selectProps.strokeColor || data.value} divider__bar`}
+        className={`${selectProps.strokeColor || data.value} divider__bar`}
         style={{ borderTopStyle: selectProps.strokeStyle || data.value }}
       />
     </div>

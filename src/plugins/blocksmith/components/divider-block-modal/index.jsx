@@ -43,7 +43,7 @@ class DividerBlockModal extends React.Component {
     this.state = {
       hasUpdatedDate: block.has('updated_date'),
       text: block.get('text') || '',
-      strokeColor: block.get('stroke_color'),
+      strokeColor: block.get('stroke_color', 'primary'),
       strokeStyle: block.get('stroke_style', 'solid'),
       updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
@@ -148,7 +148,6 @@ class DividerBlockModal extends React.Component {
               value={{ label: strokeColor, value: strokeColor }}
               options={dividerBlockConfig}
               isSelected={!!strokeColor}
-              block={this.setBlock()}
               strokeStyle={strokeStyle}
               components={{ Option: CustomOption }}
             />
