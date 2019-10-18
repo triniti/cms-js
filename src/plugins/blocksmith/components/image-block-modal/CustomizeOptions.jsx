@@ -14,6 +14,7 @@ import {
   FormGroup,
   Icon,
   Input,
+  Label,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
