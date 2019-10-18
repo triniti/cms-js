@@ -149,6 +149,7 @@ class DividerBlockModal extends React.Component {
               options={dividerBlockConfig}
               isSelected={!!strokeColor}
               block={this.setBlock()}
+              strokeStyle={strokeStyle}
               components={{ Option: CustomOption }}
             />
             <Label>Stroke Style</Label>
@@ -161,7 +162,7 @@ class DividerBlockModal extends React.Component {
                 { label: 'dotted', value: 'dotted' },
                 { label: 'dashed', value: 'dashed' },
               ]}
-              block={this.setBlock()}
+              strokeColor={strokeColor}
               components={{ Option: CustomOption }}
             />
             <FormGroup>

@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 import './styles.scss';
@@ -9,8 +8,8 @@ const CustomOption = ({ innerProps, data, selectProps, isSelected }) => (
     <div className={classNames('select__option', { 'is-selected': isSelected })}>
       <div className="divider__option-label">{data.label}</div>
       <div
-        className={`${data.value} ${selectProps.block.get('stroke_color')} divider__bar`}
-        style={{ borderTopStyle: selectProps.block.get('stroke_style') }}
+        className={`${data.value} ${selectProps.strokeColor || data.value} divider__bar`}
+        style={{ borderTopStyle: selectProps.strokeStyle || data.value }}
       />
     </div>
   </div>
@@ -20,7 +19,8 @@ CustomOption.propTypes = {
   innerProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   selectProps: PropTypes.shape({
-    block: PropTypes.instanceOf(Message).isRequired,
+    strokeColor: PropTypes.string,
+    strokeStyle: PropTypes.string,
   }).isRequired,
   isSelected: PropTypes.bool,
 };

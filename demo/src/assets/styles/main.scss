@@ -340,10 +340,14 @@ tr.status-sent {
 
   .primary {
     color: red;
+    border-top-color: red;
+    border-top-width: 3px;
   }
   
   .secondary {
     color: blue;
+    border-top-color: blue;
+    border-top-width: 3px;
   }
 
 }

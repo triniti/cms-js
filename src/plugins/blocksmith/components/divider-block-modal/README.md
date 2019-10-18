@@ -14,5 +14,17 @@ Although this is not currently used outside of Blocksmith, it could be used to e
 ### Optional Props
 + `isOpen`       - Whether or not the modal is open.
 
+# CustomOption
+
+This is a custom React Select component rendered for dropdowns for `strokeStyle` and `strokeColor`. ClassNames will be dynamically applied based on your `dividerBlockConfig` and the option selected (see `.divider__color` ruleset in `demo/src/assets/styles/main.scss`) for reference. `color`, `border-top-color` and `border-top-width` css rules are required for the component to correctly render styles.
+
+### Required Props
++ `innerProps`   - Required by React Select.
++ `data`         - Label and value for each option.
+
+### Optional Props
++ `strokeColor`  - The current value from the state of the `DividerBlockModal`
++ `strokeStyle`  - The current value from the state of the `DividerBlockModal`
+
 ### FYI
 + See the [Triniti divider block mixin](https://github.com/triniti/schemas/tree/master/schemas/triniti/canvas/mixin/divider-block).
