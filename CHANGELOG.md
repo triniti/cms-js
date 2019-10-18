@@ -5,6 +5,11 @@
 * issue #1032: Add theme pick list to image block
 
 
+
+## patch
+* style (in triniti) the key values field select component
+
+
 ## v0.1.1
 * issue #2: updated css to have correct color on save btn hover
 * issue #4: Set up CMS to handle new type: asset-teaser.
