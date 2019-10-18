@@ -3,6 +3,7 @@
 
 ## patch
 * Add fix for cutting and pasting a text block
+* style (in triniti) the key values field select component
 
 
 ## v0.1.1
