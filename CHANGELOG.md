@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* allow seo meta keywords and hashtags to be selected using comma key
+
+
 ## v0.1.1
 * issue #2: updated css to have correct color on save btn hover
 * issue #4: Set up CMS to handle new type: asset-teaser.
