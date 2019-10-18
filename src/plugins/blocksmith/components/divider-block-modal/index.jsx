@@ -1,5 +1,4 @@
 import dividerBlockConfig from 'config/dividerBlockConfig'; // eslint-disable-line import/no-unresolved
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -45,7 +44,7 @@ class DividerBlockModal extends React.Component {
       text: block.get('text') || '',
       strokeColor: block.get('stroke_color', 'primary'),
       strokeStyle: block.get('stroke_style', 'solid'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -69,7 +68,7 @@ class DividerBlockModal extends React.Component {
     const setBlock = block.schema().createMessage()
       .set('text', text)
       .set('stroke_style', strokeStyle)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
 
     if (strokeColor) {
       setBlock.set('stroke_color', strokeColor.replace(/\s/g, '-').replace(/[A-Z]/g, (m) => m.toLowerCase()));
