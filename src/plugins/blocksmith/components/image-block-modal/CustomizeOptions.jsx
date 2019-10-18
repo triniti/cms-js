@@ -76,7 +76,7 @@ const CustomizeOptions = ({
           onToggleAssetPickerModal={handleToggleAssetPickerModal}
         />
       </FormGroup>
-      <div className="custom-options-container">
+      <div className="mt-0 mb-0 mr-auto ml-auto" style={{ maxWidth: '350px' }}>
         <FormGroup>
           <Label>Aspect Ratio</Label>
           <Select

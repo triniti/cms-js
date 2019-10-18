@@ -18,7 +18,6 @@ import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
 import selector from './selector';
-import './styles.scss';
 
 class ImageBlockModal extends React.Component {
   static propTypes = {
