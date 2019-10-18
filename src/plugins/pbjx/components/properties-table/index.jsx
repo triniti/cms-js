@@ -11,12 +11,12 @@ const PropertiesTable = ({ data }) => {
   return (
     <Card>
       <Table className="table-striped" responsive>
-        <thead className="column-title">
+        <thead className="column-title-field">
           <tr>
-            <th className="left-col">
+            <th className="left-col-field">
               Field
             </th>
-            <th className="right-col">
+            <th className="right-col-field">
               Data
             </th>
           </tr>
