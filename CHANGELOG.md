@@ -3,6 +3,7 @@
 
 ## patch
 * style (in triniti) the save buttons
+* style (in triniti) the key values field select component
 
 
 ## v0.1.1
