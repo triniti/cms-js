@@ -3,10 +3,6 @@
 
 ## vN.N.N
 * issue #1032: Add theme pick list to image block
-
-
-
-## patch
 * style (in triniti) the key values field select component
 
 
