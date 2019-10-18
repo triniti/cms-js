@@ -3,6 +3,7 @@
 
 ## patch
 * allow seo meta keywords and hashtags to be selected using comma key
+* style (in triniti) the key values field select component
 
 
 ## v0.1.1
