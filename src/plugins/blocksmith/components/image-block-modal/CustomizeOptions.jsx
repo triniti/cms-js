@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import Message from '@gdbots/pbj/Message';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import {
   Checkbox,
+  DatePicker,
   FormGroup,
   Icon,
   Input,
