@@ -3,6 +3,7 @@
 
 ## patch
 * style (in triniti) the key values field select component
+* style video captions selector
 
 
 ## v0.1.1

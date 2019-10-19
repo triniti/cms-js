@@ -9,8 +9,21 @@ const CaptionsField = ({ fields, options, isEditMode }) => (
   <FormGroup>
     {fields.map((caption, index) => (
       <div className="d-flex" key={caption}>
-        <Field className="mr-2" style={{ width: '88px' }} name={`${caption}.language`} component={SelectField} options={options} disabled={!isEditMode} />
-        <Field className="flex-grow-1 mr-2" name={`${caption}.url`} component={TextField} placeholder="caption url" readOnly={!isEditMode} />
+        <Field
+          component={SelectField}
+          disabled={!isEditMode}
+          formGroupClassName="mr-2"
+          formGroupStyle={{ width: '88px' }}
+          name={`${caption}.language`}
+          options={options}
+        />
+        <Field
+          className="flex-grow-1 mr-2"
+          component={TextField}
+          name={`${caption}.url`}
+          placeholder="caption url"
+          readOnly={!isEditMode}
+        />
         <Button
           color="hover"
           radius="circle"
