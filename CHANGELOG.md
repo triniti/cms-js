@@ -1,9 +1,12 @@
 # CHANGELOG
 
 
+
 ## vN.N.N
 * issue #1032: Add theme pick list to image block
+* Add fix for cutting and pasting a text block
 * style (in triniti) the key values field select component
+
 
 
 ## v0.1.1
