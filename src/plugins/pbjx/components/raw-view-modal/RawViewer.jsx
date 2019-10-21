@@ -40,7 +40,7 @@ class RawViewer extends React.Component {
     return (
       <div>
         <Modal isOpen={isOpen} toggle={() => this.handleToggleRawViewer()} size="lg">
-          <ModalHeader toggle={() => this.handleToggleRawViewer()} />
+          <ModalHeader toggle={() => this.handleToggleRawViewer()}>Raw</ModalHeader>
           <ModalBody className="p-0">
             <RawContent pbj={event} />
           </ModalBody>

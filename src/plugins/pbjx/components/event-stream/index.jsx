@@ -112,7 +112,7 @@ class EventStream extends React.Component {
                         <span className="mr-1">{user ? 'by' : 'from'}</span>
                         <strong><UserLink user={user} /></strong>
                       </h5>
-                      <div className="d-flex align-items-center" style={{ fontSize: '11px' }}>
+                      <div className="d-flex align-items-center mb-2" style={{ fontSize: '11px' }}>
                         <Badge color="light" className="mr-1" pill>{occurredAtAgo}</Badge>
                         <span>{occurredAt}</span>
                       </div>
