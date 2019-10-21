@@ -1,10 +1,13 @@
 import { FormGroup, FormText, Label, Select } from '@triniti/admin-ui-plugin/components';
 import noop from 'lodash/noop';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 const SelectField = ({
   disabled,
+  formGroupClassName,
+  formGroupStyle,
   hasBorder,
   input,
   label,
@@ -17,7 +20,7 @@ const SelectField = ({
   const borderClass = hasBorder ? 'has-border' : null;
 
   return (
-    <FormGroup className={borderClass}>
+    <FormGroup className={classNames(borderClass, formGroupClassName)} style={formGroupStyle}>
       {label && <Label for={input.name}>{label}</Label>}
       <Select
         arrowRenderer={arrowRenderer}
@@ -43,6 +46,8 @@ const SelectField = ({
 
 SelectField.propTypes = {
   disabled: PropTypes.bool,
+  formGroupClassName: PropTypes.string,
+  formGroupStyle: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hasBorder: PropTypes.bool,
   input: PropTypes.shape({}).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -53,6 +58,8 @@ SelectField.propTypes = {
 
 SelectField.defaultProps = {
   disabled: false,
+  formGroupClassName: null,
+  formGroupStyle: {},
   hasBorder: false,
   label: '',
   multi: false,
