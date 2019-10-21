@@ -107,6 +107,7 @@ class PicklistPicker extends React.Component {
         <Label>{label}</Label>
         <Select
           creatable={allowOther}
+          isClearable
           isDisabled={!isEditMode}
           isMulti={multi}
           onChange={onChange}

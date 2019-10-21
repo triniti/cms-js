@@ -168,7 +168,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
           style={{ width: `calc(100% - ${labelOffset}px)` }}
         >
           <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-            <i>{config.label || config.label}{title}</i>
+            <i>{config.label}{title}</i>
           </p>
         </div>
         )}
