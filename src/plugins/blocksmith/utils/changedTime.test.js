@@ -13,7 +13,13 @@ test('Blocksmith:util:changedTime', (t) => {
     .set('minutes', minutes);
 
   const actual = changedTime(`${hours}:${minutes}`)({
-    updatedDate: new Date(), // this is the "existing" state that is expected to change
+    updatedDate: moment()
+      .set('year', 2)
+      .set('month', 3)
+      .set('date', 4)
+      .set('hours', 11)
+      .set('minutes', 11)
+      .toDate(), // this is the "existing" state that is expected to change
   }).updatedDate;
 
   t.equal(
