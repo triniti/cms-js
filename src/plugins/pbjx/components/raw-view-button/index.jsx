@@ -32,7 +32,7 @@ export default class RawViewButton extends React.Component {
     const { isRawViewerOpen } = this.state;
 
     return ([
-      <Button key="a" style={{ margin: 0 }} color="light" onClick={this.handleToggleRawViewer} {...btnProps}>View Raw Data</Button>,
+      <Button key="a" color="light" size="sm" radius="round" className="mr-0" onClick={this.handleToggleRawViewer} {...btnProps}>View Raw Data</Button>,
       isRawViewerOpen // This lazy loads the raw viewer form only when isUploaderOpen is set to true
       && (
       <RawViewer

@@ -5,7 +5,7 @@ import { valueRenderer } from '../event-stream/dataRenderer';
 const TableRow = ({ property }) => {
   const value = valueRenderer(property[0], property[1]);
 
-  return <tr><td className="text-nowrap left-col-properties-table"><strong className="text-black-50 pl-2 pr-2">{property[0]}</strong></td><td className="right-col-properties-table">{value}</td></tr>;
+  return <tr><th scope="row" className="pl-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>{property[0]}</th><td style={{ borderColor: '#efefef' }}>{value}</td></tr>;
 };
 
 TableRow.propTypes = {

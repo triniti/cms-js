@@ -2,13 +2,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Badge,
   Button,
   Card,
   CardBody,
-  CardHeader, Icon,
+  CardHeader,
+  Icon,
   ListGroup,
   ListGroupItem,
-  ListGroupItemText, StatusMessage,
+  StatusMessage,
 } from '@triniti/admin-ui-plugin/components';
 import startCase from 'lodash/startCase';
 import moment from 'moment';
@@ -103,17 +105,20 @@ class EventStream extends React.Component {
               const user = event.get('ctx_user_ref') && getUser(event.get('ctx_user_ref'));
               return (
                 <ListGroupItem key={event.get('occurred_at')} className="mb-0">
-                  <ListGroupItemText>
-                    <span className="mr-2">
-                      <span className="mr-2"><strong>{eventAction}</strong></span>
-                      <span className="mr-2">{user ? 'by' : 'from'}</span>
-                      <strong><UserLink user={user} /></strong>
-                      <br />
-                      <span className="mr-2 text-danger">({occurredAtAgo})</span>
-                      <i>{occurredAt}</i>
-                    </span>
-                    <span className="float-right"><RawViewButton event={event} /></span>
-                  </ListGroupItemText>
+                  <div className="d-flex justify-content-between">
+                    <div className="d-flex flex-column mr-2">
+                      <h5 className="mb-2">
+                        <span className="mr-1"><strong>{eventAction}</strong></span>
+                        <span className="mr-1">{user ? 'by' : 'from'}</span>
+                        <strong><UserLink user={user} /></strong>
+                      </h5>
+                      <div className="d-flex align-items-center" style={{ fontSize: '11px' }}>
+                        <Badge color="light" className="mr-1" pill>{occurredAtAgo}</Badge>
+                        <span>{occurredAt}</span>
+                      </div>
+                    </div>
+                    <span><RawViewButton event={event} /></span>
+                  </div>
                   <span>
                     <EventDetails event={event} />
                   </span>

@@ -16,10 +16,10 @@ export const valueRenderer = (field, value) => {
     const templateId = `${nodeRef.getQName()}.cms`;
     const url = expand(templateId, { _id: id });
 
-    return <strong className="text-black-50 pl-2 pr-2"><RouterLink to={url} target="_black">{value}</RouterLink></strong>;
+    return <RouterLink to={url} target="_blank">{value}</RouterLink>;
   }
   if (value instanceof Object) {
     return <ObjectTable data={value} />;
   }
-  return <strong className="text-black-50 pl-2 pr-2">{trim(value, '"')}</strong>;
+  return <span>{trim(value, '"')}</span>;
 };

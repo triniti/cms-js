@@ -10,13 +10,13 @@ const PropertiesTable = ({ data }) => {
 
   return (
     <Card>
-      <Table className="table-striped" responsive>
-        <thead className="column-title-field">
+      <Table striped responsive>
+        <thead>
           <tr>
-            <th className="left-col-field">
+            <th className="pl-3 left-col--properties-table">
               Field
             </th>
-            <th className="right-col-field">
+            <th className="right-col--properties-table">
               Data
             </th>
           </tr>
