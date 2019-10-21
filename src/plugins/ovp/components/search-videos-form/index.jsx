@@ -294,7 +294,7 @@ class SearchVideosForm extends Component {
               </InputGroupAddon>
 
               <Input
-                className="form-control"
+                className="form-control search-nodes__input"
                 value={request.q || ''}
                 disabled={disabled}
                 innerRef={inputRef}

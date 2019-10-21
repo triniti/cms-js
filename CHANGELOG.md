@@ -4,6 +4,7 @@
 ## patch
 * Add fix for cutting and pasting a text block
 * style (in triniti) the key values field select component
+* style video captions selector
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
 
 
