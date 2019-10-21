@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -50,7 +50,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
 
   static defaultProps = {
     config: {
-      label: 'Default Block Placeholder',
+      label: null,
       icon: {
         imgSrc: 'full-screen',
       },
@@ -79,7 +79,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const {
       config,
       draggable,
-      label,
       block,
       contentState,
       showTitle,
@@ -163,14 +162,16 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
         </>
+        { config.label && (
         <div
           className="placeholder-label-holder ml-2 mt-1"
           style={{ width: `calc(100% - ${labelOffset}px)` }}
         >
           <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-            <i>{label || config.label}{title}</i>
+            <i>{config.label || config.label}{title}</i>
           </p>
         </div>
+        )}
       </div>
     );
   }
