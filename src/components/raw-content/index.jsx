@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 
-const RawContent = ({ pbj }) => (
+const RawContent = ({ pbj, header = 'Raw' }) => (
   <Card>
-    <CardHeader>Raw</CardHeader>
+    {
+      header !== '' && <CardHeader>{header}</CardHeader>
+    }
     <CardBody indent className="pl-0 pr-0">
       <pre className="pl-5 pr-3">{JSON.stringify(pbj, null, 2)}</pre>
     </CardBody>
@@ -14,6 +16,7 @@ const RawContent = ({ pbj }) => (
 
 RawContent.propTypes = {
   pbj: PropTypes.instanceOf(Message).isRequired,
+  header: PropTypes.string.isRequired,
 };
 
 export default RawContent;
