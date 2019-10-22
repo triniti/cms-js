@@ -48,19 +48,16 @@ class EventStream extends React.Component {
     this.handleRefresh = this.handleRefresh.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { events } = this.props;
     const { allEvents } = this.state;
 
     if (prevProps.events.length === 0 && events.length === 0) {
       return;
     }
-    if (prevProps.events.length === 0 && events.length > 0) {
-      this.setState({ allEvents: [...allEvents, ...events] });
-    }
-    if (prevProps.events.length > 0 && events.length > 0) {
-      // If new set of events are not passed in do not update state.
-      if (prevProps.events[0].get('event_id') !== events[0].get('event_id')) {
+    // Add events to local state if new events are added to store from load more.
+    if (events.length > 0) {
+      if (prevProps.events.length === 0 || (prevProps.events[0].get('event_id') !== events[0].get('event_id'))) {
         this.setState({ allEvents: [...allEvents, ...events] });
       }
     }
