@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## vN.N.N
+* issue #51: Update regex instagram block modal.
+
 
 ## patch
 * Add fix for cutting and pasting a text block
