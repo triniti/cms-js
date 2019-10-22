@@ -69,6 +69,7 @@ export default class SortableList extends React.Component {
           <div ref={(el) => { this.sortableListRef = el; }} className="col">
             {nodeRefs.map((nodeRef, index) => {
               const nodeData = getNode(nodeRef);
+
               if (!nodeData) {
                 return (
                   <Media key={nodeRef.toString()} className={`align-items-center mb-3 ${DRAGGABLE_CLASSNAME}`}>
