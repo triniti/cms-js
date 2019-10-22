@@ -18,6 +18,7 @@ export default (dispatch) => ({
       page: 1,
       types: ['document-asset'],
       ...data,
+      q: `-mime_type:text/srt ${data.q}`,
     }), pbjxChannelNames.DOCUMENT_ASSET_SEARCH));
   }, 500),
 });

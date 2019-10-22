@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Button, Col, FormGroup, Icon, Label, Row } from '@triniti/admin-ui-plugin/components';
 import { Field } from 'redux-form';
 import NumberField from '@triniti/cms/components/number-field';
+import PropTypes from 'prop-types';
+import React from 'react';
 import SelectField from '@triniti/cms/components/select-field';
 import TextField from '@triniti/cms/components/text-field';
 import TrinaryField from '@triniti/cms/components/trinary-field';
-import { Button, Col, FormGroup, Icon, Label, Row } from '@triniti/admin-ui-plugin/components';
 import unCamelCase from '@triniti/cms/utils/unCamelCase';
+import './styles.scss';
 
 const KeyValuesField = ({
   fields,
@@ -49,6 +50,7 @@ const KeyValuesField = ({
           {keyFieldComponent === 'selectField'
           && (
             <Field
+              className="key-values-field__select-dropdown"
               component={SelectField}
               disabled={readOnly}
               inline={false}
@@ -115,14 +117,12 @@ const KeyValuesField = ({
           )}
         </FormGroup>
       ))}
-      {
-        !readOnly
+      {!readOnly
         && (
           <Button onClick={handleAddEmptyField}>
             <Icon imgSrc="plus-outline" size="sm" className="mr-2" />{`Add ${type}`}
           </Button>
-        )
-      }
+        )}
     </FormGroup>
   );
 };

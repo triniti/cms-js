@@ -13,40 +13,41 @@ test('Blocksmith:util:changedTime', (t) => {
     .set('minutes', minutes);
 
   const actual = changedTime(`${hours}:${minutes}`)({
-    updatedDate: expected.clone() // this is the "existing" state that is expected to change
-      .set('year', 20)
+    updatedDate: moment()
+      .set('year', 2)
       .set('month', 3)
-      .set('date', 10)
-      .set('hours', 0)
-      .set('minutes', 0),
+      .set('date', 4)
+      .set('hours', 11)
+      .set('minutes', 11)
+      .toDate(), // this is the "existing" state that is expected to change
   }).updatedDate;
 
   t.equal(
-    actual.get('hours'),
+    moment(actual).get('hours'),
     expected.get('hours'),
     'it should update the hours of the existing value to that of the new value',
   );
 
   t.equal(
-    actual.get('minutes'),
+    moment(actual).get('minutes'),
     expected.get('minutes'),
     'it should update the minutes of the existing value to that of the new value',
   );
 
   t.notEqual(
-    actual.get('year'),
+    moment(actual).get('year'),
     expected.get('year'),
     'it should NOT update the year of the existing value to that of the new value',
   );
 
   t.notEqual(
-    actual.get('month'),
+    moment(actual).get('month'),
     expected.get('month'),
     'it should NOT update the month of the existing value to that of the new value',
   );
 
   t.notEqual(
-    actual.get('date'),
+    moment(actual).get('date'),
     expected.get('date'),
     'it should NOT update the date of the existing value to that of the new value',
   );

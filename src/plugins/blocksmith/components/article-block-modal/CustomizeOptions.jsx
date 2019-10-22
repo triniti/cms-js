@@ -1,16 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import {
-  Checkbox,
-  FormGroup,
-  Input,
-  Label,
-} from '@triniti/admin-ui-plugin/components';
-import Message from '@gdbots/pbj/Message';
 import ArticleBlockPreview from '@triniti/cms/plugins/blocksmith/components/article-block-preview';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
+import Message from '@gdbots/pbj/Message';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import {
+  Checkbox,
+  FormGroup,
+  Icon,
+  Input,
+  Label,
+} from '@triniti/admin-ui-plugin/components';
 
 const CustomizeOptions = ({
   block,
@@ -28,6 +30,7 @@ const CustomizeOptions = ({
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   showImage,
   updatedDate,
+  aside,
 }) => (
   <div className="modal-body-blocksmith">
     <ArticleBlockPreview
@@ -68,22 +71,26 @@ const CustomizeOptions = ({
         <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
           Is update
         </Checkbox>
+        <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
+          Aside
+        </Checkbox>
+        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+        <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
       </FormGroup>
     </FormGroup>
-    {
-      hasUpdatedDate
-      && (
-        <DateTimePicker
-          onChangeDate={handleChangeDate}
-          onChangeTime={handleChangeTime}
-          updatedDate={updatedDate}
-        />
-      )
-    }
+    {hasUpdatedDate
+    && (
+      <DateTimePicker
+        onChangeDate={handleChangeDate}
+        onChangeTime={handleChangeTime}
+        updatedDate={updatedDate}
+      />
+    )}
   </div>
 );
 
 CustomizeOptions.propTypes = {
+  aside: PropTypes.bool.isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
   isAssetPickerModalOpen: PropTypes.bool.isRequired,

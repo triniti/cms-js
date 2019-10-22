@@ -4,7 +4,6 @@ import CheckboxField from '@triniti/cms/components/checkbox-field';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field';
 import Message from '@gdbots/pbj/Message';
-import noop from 'lodash/noop';
 import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -121,7 +120,7 @@ const TeaserFields = ({
 TeaserFields.propTypes = {
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
-  pickerComponent: PropTypes.func,
+  pickerComponent: PropTypes.func.isRequired,
   additionalFields: PropTypes.node,
   schemas: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.instanceOf(Schema)),
@@ -131,7 +130,6 @@ TeaserFields.propTypes = {
 
 TeaserFields.defaultProps = {
   isEditMode: false,
-  pickerComponent: noop,
   additionalFields: null,
 };
 

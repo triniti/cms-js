@@ -1,25 +1,20 @@
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import Message from '@gdbots/pbj/Message';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
@@ -42,14 +37,15 @@ class PageBreakBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       readMoreText: block.get('read_more_text') || '',
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.has('updated_date') ? block.get('updated_date') : new Date(),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -62,11 +58,12 @@ class PageBreakBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const { aside, hasUpdatedDate, readMoreText, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('read_more_text', readMoreText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -75,16 +72,16 @@ class PageBreakBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { checked, id } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
   handleChangeInput({ target: { value: readMoreText } }) {
@@ -98,7 +95,7 @@ class PageBreakBlockModal extends React.Component {
   }
 
   render() {
-    const { readMoreText, hasUpdatedDate, updatedDate } = this.state;
+    const { aside, hasUpdatedDate, readMoreText, updatedDate } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
     return (
@@ -120,42 +117,25 @@ class PageBreakBlockModal extends React.Component {
             />
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {
-            hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <FormGroup>
-                  <Label>
-                    Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                  </Label>
-                  <FormGroup className="mb-3 mt-1 shadow-none">
-                    <DatePicker
-                      onChange={this.handleChangeDate}
-                      selected={updatedDate}
-                      shouldCloseOnSelect={false}
-                      inline
-                    />
-                    <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                      <InputGroupAddon addonType="prepend" className="text-dark">
-                        <InputGroupText>
-                          <Icon imgSrc="clock-outline" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        type="time"
-                        onChange={this.handleChangeTime}
-                        defaultValue={updatedDate.format('HH:mm')}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </FormGroup>
-              </div>
-            )
-          }
+          {hasUpdatedDate
+          && (
+            <div className="modal-body-blocksmith">
+              <DateTimePicker
+                onChangeDate={this.handleChangeDate}
+                onChangeTime={this.handleChangeTime}
+                updatedDate={updatedDate}
+              />
+            </div>
+          )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>

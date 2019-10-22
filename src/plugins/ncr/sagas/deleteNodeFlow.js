@@ -60,7 +60,7 @@ export function* doDelete(action) {
 
 export default function* deleteArticleFlow(action) {
   const config = action.config;
-  const result = yield call(swal, {
+  const result = yield swal.fire({
     allowOutsideClick: false,
     confirmButtonClass: 'btn btn-danger',
     cancelButtonClass: 'btn btn-secondary',

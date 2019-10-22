@@ -49,7 +49,7 @@ export default class AdWidgetSubscriber extends EventSubscriber {
       formEvent.addError('dfpCustParams', errors);
     }
 
-    if (get(data, 'dfpAdUnitPath')) {
+    if (data.dfpAdUnitPath) {
       try {
         node.set('dfp_ad_unit_path', data.dfpAdUnitPath);
       } catch (e) {
@@ -74,7 +74,7 @@ export default class AdWidgetSubscriber extends EventSubscriber {
     }
 
     node.set('ad_size', get(data, 'adSize.value') ? AdSizeEnum[get(data, 'adSize.value')] : null);
-    node.set('dfp_ad_unit_path', get(data, 'dfpAdUnitPath', null));
+    node.set('dfp_ad_unit_path', data.dfpAdUnitPath || null);
 
     node.clear('dfp_cust_params');
     (data.dfpCustParams || []).forEach(({ key, value }) => node.addToMap('dfp_cust_params', key, value));
