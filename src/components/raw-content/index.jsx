@@ -6,7 +6,7 @@ import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components'
 const RawContent = ({ pbj, header }) => (
   <Card>
     {
-      header !== '' && <CardHeader>{header}</CardHeader>
+      !!header.length && <CardHeader>{header}</CardHeader>
     }
     <CardBody indent className="pl-0 pr-0">
       <pre className="pl-5 pr-3">{JSON.stringify(pbj, null, 2)}</pre>
