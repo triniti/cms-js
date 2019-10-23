@@ -1,6 +1,7 @@
 const vendorButtonTypes = [
   'article-block',
   'audio-block',
+  'divider-block',
   'document-block',
   'gallery-block',
   'heading-block',

@@ -259,65 +259,20 @@ tr.status-sent {
   }
 }
 
-// todo: temporary save and publish action button style, should move this to admin ui
-.btn-action-save-publish:not(.disabled) {
-  color: #fff;
-  background: #08a0e8;
-  border-color: #08a0e8;
-}
+.divider__option {
 
-.btn-action-save-publish:not(.disabled):hover,
-.btn-action-save-publish:not(.disabled):focus,
-.btn-action.btn-action-save-close:hover {
-  color: #fff;
-  background: #0676aa;
-  border-color: #0676aa;
-  border-bottom-color: #0676bb;
-}
-
-.input-group > .input-group-prepend:first-child > .btn.dropdown-toggle-save-options {
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-
-  &.show {
-    transform: translate3d(-45px, 40px, 0px);
+  .primary {
+    color: red;
+    border-top-color: red;
+    border-top-width: 3px;
   }
 
-  &:after {
-    border-top: 0.4em solid;
-    border-right: 0.4em solid transparent;
-    border-left: 0.4em solid transparent;
-    margin-left: 0;
-    margin-top: 0.2em;
+  .secondary {
+    color: blue;
+    border-top-color: blue;
+    border-top-width: 3px;
   }
 
-  &:not(.disabled) {
-    color: #fff;
-    background: #04c5a2;
-    border-color: #03ac8d;
-    border-bottom-color: #039479;
-  }
-}
-
-.dropdown-menu-save-options {
-  > .btn-action {
-    white-space: nowrap;
-    width: 100%;
-  }
-
-  &:after {
-    left: auto;
-    content: '';
-    position: absolute;
-    right: 9px;
-    bottom: 100%;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 8px 8px 8px;
-    border-color: transparent transparent rgba(255, 255, 255, 1) transparent;
-    pointer-events: none;
-  }
 }
 
 .select__control.select__control--is-disabled {
