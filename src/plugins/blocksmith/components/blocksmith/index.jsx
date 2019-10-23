@@ -1378,7 +1378,7 @@ class Blocksmith extends React.Component {
    * behavior inside the sidebar - if this is a click on the sidebar button itself then e
    * will be defined.
    *
-   * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
+   * @param {event} e
    */
   handleToggleSidebar(e) {
     const isDocumentClick = typeof e === 'undefined';
