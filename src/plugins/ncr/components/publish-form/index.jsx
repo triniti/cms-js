@@ -48,7 +48,7 @@ class PublishForm extends React.PureComponent {
       handleMarkNodeAsPending: PropTypes.func.isRequired,
       handlePublishSchedule: PropTypes.func.isRequired,
       handleUnpublish: PropTypes.func.isRequired,
-      handleValidate: PropTypes.func.isRequired,
+      handleValidate: PropTypes.func,
     }).isRequired,
     node: PropTypes.instanceOf(Message),
     onOperationChange: PropTypes.func,

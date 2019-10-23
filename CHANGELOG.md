@@ -12,6 +12,7 @@
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
 * add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
 * style fragments selector
+* Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
 * increase width of value field in key-values-field
 
 
