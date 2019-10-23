@@ -1378,7 +1378,7 @@ class Blocksmith extends React.Component {
    * behavior inside the sidebar - if this is a click on the sidebar button itself then e
    * will be defined.
    *
-   * @param {event} e
+   * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleToggleSidebar(e) {
     const isDocumentClick = typeof e === 'undefined';
@@ -1403,7 +1403,7 @@ class Blocksmith extends React.Component {
    * This is needed to check if a click event occured anywhere outside of the popover.
    * When a click event occurs outside of the popover, the popover will be toggled to close.
    *
-   * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
+   * @param {event} e
    */
   handlePopoverClick(e) {
     if (this.popoverRef.current.contains(e.target)) {
