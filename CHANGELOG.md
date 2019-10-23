@@ -8,6 +8,7 @@
 * Add divider block into blocksmith
 * style video captions selector
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
+* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
 * style fragments selector
 * increase width of value field in key-values-field
 
