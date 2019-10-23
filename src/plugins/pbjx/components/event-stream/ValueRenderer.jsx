@@ -2,7 +2,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-empty */
 import React from 'react';
-import PropTypes from 'prop-types';
 import trim from 'lodash/trim';
 import { RouterLink } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -27,15 +26,6 @@ const ValueRenderer = ({ value }) => {
     return <ObjectTable data={value} />;
   }
   return <span>{trim(value, '"')}</span>;
-};
-
-ValueRenderer.propTypes = {
- value: PropTypes.oneOfType([
-   PropTypes.string,
-   PropTypes.instanceOf(Object),
-   PropTypes.bool,
-   PropTypes.number,
- ]).isRequired,
 };
 
 export default ValueRenderer;
