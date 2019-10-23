@@ -250,13 +250,13 @@ class Blocksmith extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handlePasteBlock = this.handlePasteBlock.bind(this);
     this.handlePastedText = this.handlePastedText.bind(this);
+    this.handlePopoverClick = this.handlePopoverClick.bind(this);
     this.handleRemoveLink = this.handleRemoveLink.bind(this);
     this.handleReturn = this.handleReturn.bind(this);
     this.handleSelectSpecialCharacter = this.handleSelectSpecialCharacter.bind(this);
     this.handleShiftBlock = this.handleShiftBlock.bind(this);
     this.handleToggleBlockModal = this.handleToggleBlockModal.bind(this);
     this.handleToggleLinkModal = this.handleToggleLinkModal.bind(this);
-    this.handleTogglePopover = this.handleTogglePopover.bind(this);
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
@@ -1388,28 +1388,29 @@ class Blocksmith extends React.Component {
         ...sidebarHolderStyle,
         transform: `scale(${isDocumentClick ? 0 : 1})`,
       },
-    }), this.createPopoverToggleEvent);
+    }), () => {
+      const { isSidebarOpen } = this.state;
+
+      if (isSidebarOpen) {
+        document.addEventListener('click', this.handlePopoverClick);
+      } else {
+        document.removeEventListener('click', this.handlePopoverClick);
+      }
+    });
   }
 
-  createPopoverToggleEvent() {
-    const { isSidebarOpen } = this.state;
-
-    if (isSidebarOpen) {
-      document.addEventListener('click', this.handleTogglePopover);
-    } else {
-      document.removeEventListener('click', this.handleTogglePopover);
-    }
-  }
-
-  handleTogglePopover(e) {
-    const { isSidebarOpen } = this.state;
-
+  /**
+   * This is needed to check if a click event occured anywhere outside of the popover.
+   * When a click event occurs outside of the popover, the popover will be toggled to close.
+   *
+   * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
+   */
+  handlePopoverClick(e) {
     if (this.popoverRef.current.contains(e.target)) {
       return;
     }
-    this.setState({ isSidebarOpen: !isSidebarOpen });
+    this.handleToggleSidebar();
   }
-
 
   /**
    * Custom key bindings.

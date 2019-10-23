@@ -35,10 +35,7 @@ export default class Sidebar extends React.Component {
     onHoverInsert: PropTypes.func.isRequired,
     onToggleBlockModal: PropTypes.func.isRequired,
     onToggleSidebar: PropTypes.func.isRequired,
-    popoverRef: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.shape({ current: PropTypes.instanceOf(Popover) }),
-    ]).isRequired,
+    popoverRef: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     resetFlag: PropTypes.number.isRequired,
   };
 
@@ -92,6 +89,7 @@ export default class Sidebar extends React.Component {
       onHoverInsert: handleHoverInsert,
       popoverRef,
     } = this.props;
+    console.log(typeof popoverRef);
 
     const availableButtons = sidebarSectionsWithVendor
       .map(({ doesMatch, header, matchRegEx, replaceRegEx }) => ({
