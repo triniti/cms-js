@@ -5,7 +5,7 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
-import React from 'react';
+import React, { useEffect } from 'react';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import WidgetCodeFields from '@triniti/cms/plugins/curator/components/widget-code-fields';
 import WidgetHasSearchRequestFields from '@triniti/cms/plugins/curator/components/widget-has-search-request-fields';
@@ -18,44 +18,65 @@ import schemas from './schemas';
  *
  * @param {string} type
  */
+let fieldsComponents = {};
 const getFieldsComponent = (type) => {
+  if (fieldsComponents[type]) {
+    return fieldsComponents[type];
+  }
   switch (type) {
     case 'ad-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/ad-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/ad-widget-fields'));
+      break;
     case 'alert-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/alert-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/alert-widget-fields'));
+      break;
     case 'blogroll-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/blogroll-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/blogroll-widget-fields'));
+      break;
     case 'carousel-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/carousel-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/carousel-widget-fields'));
+      break;
     case 'code-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/code-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/code-widget-fields'));
+      break;
     case 'gallery-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/gallery-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/gallery-widget-fields'));
+      break;
     case 'gridler-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/gridler-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/gridler-widget-fields'));
+      break;
     case 'hero-bar-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/hero-bar-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/hero-bar-widget-fields'));
+      break;
     case 'media-list-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/media-list-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/media-list-widget-fields'));
+      break;
     case 'playlist-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/playlist-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/playlist-widget-fields'));
+      break;
     case 'showtimes-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/showtimes-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/showtimes-widget-fields'));
+      break;
     case 'slider-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/slider-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/slider-widget-fields'));
+      break;
     case 'spotlight-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/spotlight-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/spotlight-widget-fields'));
+      break;
     case 'tag-cloud-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/tag-cloud-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/tag-cloud-widget-fields'));
+      break;
     case 'tetris-widget':
-      return createLazyComponent(import('@triniti/cms/plugins/curator/components/tetris-widget-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/curator/components/tetris-widget-fields'));
+      break;
     default:
-      return null;
+      break;
   }
+  return fieldsComponents[type];
 };
 
 const Form = ({ form, isEditMode, node, tab, type }) => {
+  useEffect(() => () => { fieldsComponents = {}; }, []);
   const WidgetFields = type ? getFieldsComponent(type) : null;
   const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   schemas.node = node.schema();
