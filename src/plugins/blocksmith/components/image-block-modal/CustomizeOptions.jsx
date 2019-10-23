@@ -1,20 +1,16 @@
+import React from 'react';
+import { Field } from 'redux-form';
+import PropTypes from 'prop-types';
+
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import Message from '@gdbots/pbj/Message';
-import PropTypes from 'prop-types';
-import React from 'react';
+import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import {
-  Checkbox,
-  FormGroup,
-  Icon,
-  Input,
-  Label,
-  Select,
-} from '@triniti/admin-ui-plugin/components';
+import { Checkbox, FormGroup, Icon, Input, Label, Select } from '@triniti/admin-ui-plugin/components';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -36,11 +32,13 @@ const CustomizeOptions = ({
   isLink,
   isNsfw,
   isValid,
+  launchText,
   node,
   onChangeAspectRatio: handleChangeAspectRatio,
   onChangeCaption: handleChangeCaption,
   onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
+  onChangeLaunchText: handleChangeLaunchText,
   onChangeTime: handleChangeTime,
   onChangeUrl: handleChangeUrl,
   onClearImage: handleClearImage,
@@ -57,7 +55,7 @@ const CustomizeOptions = ({
     )}
     <FormGroup>
       <ImageAssetPicker
-        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Gallery Block Poster images."
+        multiAssetErrorMessage="Invalid Action: Can only select one image."
         isImageSelected={!!selectedImage}
         isModalOpen={isAssetPickerModalOpen}
         isDisabled={false}
@@ -80,6 +78,31 @@ const CustomizeOptions = ({
           options={aspectRatioOptions}
         />
       </FormGroup>
+
+      {node.schema().hasMixin('triniti:common:mixin:themeable')
+      && (
+        <Field
+          component={PicklistPicker}
+          isEditMode
+          label="Theme"
+          name="theme"
+          picklistId="image-block-themes"
+        />
+      )}
+
+      <FormGroup>
+        <Label className="d-flex text-nowrap align-items-center mb-0">
+            Launch Text
+          <Input
+            size="sm"
+            className="ml-2 mr-3 w-auto"
+            value={launchText}
+            onChange={handleChangeLaunchText}
+            placeholder="Enter launch text..."
+          />
+        </Label>
+      </FormGroup>
+
       <FormGroup className="d-flex mb-2">
         <FormGroup check>
           <Label check>
@@ -167,6 +190,8 @@ CustomizeOptions.propTypes = {
   onChangeCaption: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
+  launchText: PropTypes.string,
+  onChangeLaunchText: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onChangeUrl: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
@@ -179,6 +204,7 @@ CustomizeOptions.propTypes = {
 
 CustomizeOptions.defaultProps = {
   selectedImage: null,
+  launchText: null,
 };
 
 export default CustomizeOptions;

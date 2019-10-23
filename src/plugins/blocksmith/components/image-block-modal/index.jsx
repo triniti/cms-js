@@ -48,6 +48,7 @@ class ImageBlockModal extends React.Component {
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
+      launchText: block.get('launch_text') || null,
       selectedImage: image || null,
       updatedDate: block.get('updated_date', new Date()),
       url: block.get('url') || '',
@@ -61,6 +62,7 @@ class ImageBlockModal extends React.Component {
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
   }
@@ -74,6 +76,7 @@ class ImageBlockModal extends React.Component {
       isLink,
       isNsfw,
       isValid,
+      launchText,
       selectedImage,
       updatedDate,
       url,
@@ -84,10 +87,11 @@ class ImageBlockModal extends React.Component {
       .set('aside', aside)
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
+      .set('launch_text', launchText || null)
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null)
       .set('is_nsfw', isNsfw)
-      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
-      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
+      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null);
   }
 
   handleAddBlock() {
@@ -98,6 +102,10 @@ class ImageBlockModal extends React.Component {
 
   handleChangeAspectRatio(option) {
     this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+  }
+
+  handleChangeLaunchText({ target: { value: launchText } }) {
+    this.setState({ launchText });
   }
 
   handleChangeCaption({ target: { value: caption } }) {
@@ -169,6 +177,7 @@ class ImageBlockModal extends React.Component {
       isLink,
       isNsfw,
       isValid,
+      launchText,
       selectedImage,
       updatedDate,
       url,
@@ -202,11 +211,13 @@ class ImageBlockModal extends React.Component {
               isLink={isLink}
               isNsfw={isNsfw}
               isValid={isValid}
+              launchText={launchText}
               node={node}
               onChangeAspectRatio={this.handleChangeAspectRatio}
               onChangeCaption={this.handleChangeCaption}
               onChangeCheckBox={this.handleChangeCheckbox}
               onChangeDate={this.handleChangeDate}
+              onChangeLaunchText={this.handleChangeLaunchText}
               onChangeTime={this.handleChangeTime}
               onChangeUrl={this.handleChangeUrl}
               onClearImage={this.handleClearImage}
