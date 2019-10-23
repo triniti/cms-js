@@ -224,6 +224,8 @@ class Blocksmith extends React.Component {
       },
     ];
 
+    this.popoverRef = React.createRef();
+
     this.blockRendererFn = this.blockRendererFn.bind(this);
     this.blockStyleFn = this.blockStyleFn.bind(this);
     this.getEditorState = this.getEditorState.bind(this);
@@ -1401,8 +1403,8 @@ class Blocksmith extends React.Component {
 
   handleTogglePopover(e) {
     const { isSidebarOpen } = this.state;
-    console.log(this.popoverRef);
-    if (e.target === this.popoverRef || this.popoverRef.contains(e.target)) {
+
+    if (this.popoverRef.current.contains(e.target)) {
       return;
     }
     this.setState({ isSidebarOpen: !isSidebarOpen });

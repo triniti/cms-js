@@ -19,7 +19,6 @@ import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontro
 import { blockParentNode } from '../../utils';
 import { getAllButtons } from '../../resolver';
 import './styles.scss';
-import { pop } from 'bottlejs';
 
 const buttons = getAllButtons();
 const sidebarSectionsWithVendor = [{
@@ -36,6 +35,10 @@ export default class Sidebar extends React.Component {
     onHoverInsert: PropTypes.func.isRequired,
     onToggleBlockModal: PropTypes.func.isRequired,
     onToggleSidebar: PropTypes.func.isRequired,
+    popoverRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape({ current: PropTypes.instanceOf(Popover) }),
+    ]).isRequired,
     resetFlag: PropTypes.number.isRequired,
   };
 
@@ -157,6 +160,7 @@ export default class Sidebar extends React.Component {
           placement="auto"
           target="sidebar-button"
           toggle={handleToggleSidebar}
+          innerRef={popoverRef}
         >
           <PopoverHeader>
             <InputGroup>
