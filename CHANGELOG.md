@@ -2,6 +2,7 @@
 
 
 ## patch
+* style (in triniti) the save buttons
 * Add fix for cutting and pasting a text block
 * style (in triniti) the key values field select component
 * Add divider block into blocksmith
