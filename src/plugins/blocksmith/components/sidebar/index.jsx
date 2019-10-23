@@ -89,7 +89,6 @@ export default class Sidebar extends React.Component {
       onHoverInsert: handleHoverInsert,
       popoverRef,
     } = this.props;
-    console.log(typeof popoverRef);
 
     const availableButtons = sidebarSectionsWithVendor
       .map(({ doesMatch, header, matchRegEx, replaceRegEx }) => ({
