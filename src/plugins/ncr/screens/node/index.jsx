@@ -1,18 +1,16 @@
-import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
-import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-
+import ActiveEditNotificationModal from '@triniti/cms/plugins/raven/components/active-edit-notification-modal';
 import Chat from '@triniti/cms/plugins/raven/components/chat';
-import ActiveEditNotificationModal
-  from '@triniti/cms/plugins/raven/components/active-edit-notification-modal';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
+import get from 'lodash/get';
 import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
+import isEmpty from 'lodash/isEmpty';
 import NodeLock from '@triniti/cms/plugins/ncr/components/node-lock';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import NodeStatus from '@triniti/cms/plugins/ncr/components/node-status';
-import PublishForm from '@triniti/cms/plugins/ncr/components/publish-form';
 import PreviewButtons from '@triniti/cms/plugins/ncr/components/preview-buttons';
+import PropTypes from 'prop-types';
+import PublishForm from '@triniti/cms/plugins/ncr/components/publish-form';
+import React, { Fragment } from 'react';
 import {
   ActionButton,
   Alert,
@@ -27,6 +25,7 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 
 import AbstractDelegate from './AbstractDelegate';
+import './styles.scss';
 
 export default class AbstractNodeScreen extends React.Component {
   static propTypes = {
