@@ -2,6 +2,7 @@
 
 
 ## patch
+* update site-logo to new triniti logo
 * issue #6: Modal does not auto-close when selecting a new block
 * style (in triniti) the save buttons
 * Add fix for cutting and pasting a text block
