@@ -1,21 +1,17 @@
 # CHANGELOG
 
 
-## vN.N.N
-* issue #1032: Add theme pick list to image block
-
-
 ## patch
-* style (in triniti) the save buttons
-* Add fix for cutting and pasting a text block
-* style (in triniti) the key values field select component
+* issue #1032: Add theme pick list to image block
 * Add divider block into blocksmith
+* Add fix for cutting and pasting a text block
+* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
+* increase width of value field in key-values-field
+* style (in triniti) the key values field select component
+* style (in triniti) the save buttons
+* style fragments selector
 * style video captions selector
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
-* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
-* style fragments selector
-* increase width of value field in key-values-field
-
 
 
 ## v0.1.1
