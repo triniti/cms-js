@@ -9,6 +9,7 @@
 * style video captions selector
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
 * style fragments selector
+* increase width of value field in key-values-field
 
 
 ## v0.1.1
