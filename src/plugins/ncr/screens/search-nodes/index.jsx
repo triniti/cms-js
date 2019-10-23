@@ -19,6 +19,7 @@ import {
 
 import AbstractDelegate from './AbstractDelegate';
 import { searchViewTypes } from '../../constants';
+import './styles.scss';
 
 const { CARD } = searchViewTypes;
 

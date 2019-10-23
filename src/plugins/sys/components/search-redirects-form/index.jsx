@@ -89,7 +89,7 @@ const SearchRedirectsForm = ({
               />
             </InputGroupAddon>
             <Input
-              className="form-control"
+              className="form-control search-nodes__input"
               defaultValue={q}
               disabled={disabled}
               innerRef={inputRef}
