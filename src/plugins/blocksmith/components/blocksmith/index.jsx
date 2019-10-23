@@ -224,6 +224,8 @@ class Blocksmith extends React.Component {
       },
     ];
 
+    this.popoverRef = React.createRef();
+
     this.blockRendererFn = this.blockRendererFn.bind(this);
     this.blockStyleFn = this.blockStyleFn.bind(this);
     this.getEditorState = this.getEditorState.bind(this);
@@ -248,6 +250,7 @@ class Blocksmith extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handlePasteBlock = this.handlePasteBlock.bind(this);
     this.handlePastedText = this.handlePastedText.bind(this);
+    this.handlePopoverClick = this.handlePopoverClick.bind(this);
     this.handleRemoveLink = this.handleRemoveLink.bind(this);
     this.handleReturn = this.handleReturn.bind(this);
     this.handleSelectSpecialCharacter = this.handleSelectSpecialCharacter.bind(this);
@@ -673,7 +676,7 @@ class Blocksmith extends React.Component {
   handleDelete() {
     const { activeBlockKey, editorState, isDirty } = this.state;
     const { delegate, formName } = this.props;
-    
+
     this.setState({ readOnly: true }, () => {
       Blocksmith.confirmDelete().then((result) => {
         this.setState({ readOnly: false }, () => {
@@ -1385,7 +1388,28 @@ class Blocksmith extends React.Component {
         ...sidebarHolderStyle,
         transform: `scale(${isDocumentClick ? 0 : 1})`,
       },
-    }));
+    }), () => {
+      const { isSidebarOpen } = this.state;
+
+      if (isSidebarOpen) {
+        document.addEventListener('click', this.handlePopoverClick);
+      } else {
+        document.removeEventListener('click', this.handlePopoverClick);
+      }
+    });
+  }
+
+  /**
+   * This is needed to check if a click event occured anywhere outside of the popover.
+   * When a click event occurs outside of the popover, the popover will be toggled to close.
+   *
+   * @param {event} e
+   */
+  handlePopoverClick(e) {
+    if (this.popoverRef.current.contains(e.target)) {
+      return;
+    }
+    this.handleToggleSidebar();
   }
 
   /**
@@ -1724,6 +1748,7 @@ class Blocksmith extends React.Component {
                 onToggleBlockModal={this.handleToggleBlockModal}
                 onHoverInsert={this.handleHoverInsert}
                 resetFlag={sidebarResetFlag}
+                popoverRef={this.popoverRef}
               />
             </div>
             {this.pluginComponents.map(({ key, PluginComponent }) => <PluginComponent key={key} />)}
