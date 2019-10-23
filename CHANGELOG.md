@@ -2,6 +2,7 @@
 
 
 ## patch
+* issue #6: Modal does not auto-close when selecting a new block
 * Add fix for cutting and pasting a text block
 * style (in triniti) the key values field select component
 * Add divider block into blocksmith
