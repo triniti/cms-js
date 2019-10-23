@@ -1,17 +1,17 @@
 /* eslint-disable import/no-cycle */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { valueRenderer } from '../event-stream/dataRenderer';
+import ValueRenderer from '../event-stream/ValueRenderer';
 import './styles.scss';
 
-const TableRow = ({ property }) => {
-  const value = valueRenderer(property[0], property[1]);
-
-  return <tr className="bg-none"><th scope="row">{property[0]}</th><td>{value}</td></tr>;
-};
+const TableRow = ({ property: [label, value] }) => (
+  <tr className="bg-none">
+    <th scope="row">{label}</th><td><ValueRenderer value={value}/></td>
+  </tr>
+);
 
 TableRow.propTypes = {
-  property: PropTypes.instanceOf(Object).isRequired, // eslint-disable-line react/forbid-prop-types
+  property: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 
 };
 

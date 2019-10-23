@@ -2,15 +2,14 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-empty */
 import React from 'react';
-import startCase from 'lodash/startCase';
+import PropTypes from 'prop-types';
 import trim from 'lodash/trim';
 import { RouterLink } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { expand } from '@gdbots/pbjx/pbjUrl';
 import ObjectTable from '../object-table';
 
-export const labelRenderer = ([key, ...parentKeys]) => <strong>{startCase(key)}</strong>;
-export const valueRenderer = (field, value) => {
+const ValueRenderer = ({ value }) => {
   // If field is a nodeRef then create link
   if (/^[\w\/\.:-]+$/.test(value)) {
     try {
@@ -29,3 +28,14 @@ export const valueRenderer = (field, value) => {
   }
   return <span>{trim(value, '"')}</span>;
 };
+
+ValueRenderer.propTypes = {
+ value: PropTypes.oneOfType([
+   PropTypes.string,
+   PropTypes.instanceOf(Object),
+   PropTypes.bool,
+   PropTypes.number,
+ ]).isRequired,
+};
+
+export default ValueRenderer;

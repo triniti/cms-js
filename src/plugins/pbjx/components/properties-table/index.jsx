@@ -5,10 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
-const PropertiesTable = ({ data }) => {
-  const properties = Object.entries(data);
-
-  return (
+const PropertiesTable = ({ data }) => (
     <Card>
       <Table striped responsive>
         <thead>
@@ -22,7 +19,7 @@ const PropertiesTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {properties.map((property, idx) => (
+          {Object.entries(data).map((property, idx) => (
             <TableRow
               key={idx}
               property={property}
@@ -31,8 +28,7 @@ const PropertiesTable = ({ data }) => {
         </tbody>
       </Table>
     </Card>
-  );
-};
+);
 
 PropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

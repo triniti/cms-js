@@ -5,13 +5,10 @@ import { Table } from '@triniti/admin-ui-plugin/components';
 import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 
-const ObjectTable = ({ data }) => {
-  const properties = Object.entries(data);
-
-  return (
+const ObjectTable = ({ data }) => (
     <Table borderless size="sm" className="mb-0 table--object-table">
       <tbody>
-        {properties.map((property, idx) => (
+        {Object.entries(data).map((property, idx) => (
           <TableRow
             key={idx}
             property={property}
@@ -19,8 +16,7 @@ const ObjectTable = ({ data }) => {
         ))}
       </tbody>
     </Table>
-  );
-};
+);
 
 ObjectTable.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired, // eslint-disable-line react/forbid-prop-types
