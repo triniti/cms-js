@@ -255,6 +255,7 @@ class Blocksmith extends React.Component {
     this.handleToggleBlockModal = this.handleToggleBlockModal.bind(this);
     this.handleToggleLinkModal = this.handleToggleLinkModal.bind(this);
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
+    this.handleTogglePopover = this.handleTogglePopover.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -673,7 +674,7 @@ class Blocksmith extends React.Component {
   handleDelete() {
     const { activeBlockKey, editorState, isDirty } = this.state;
     const { delegate, formName } = this.props;
-    
+
     this.setState({ readOnly: true }, () => {
       Blocksmith.confirmDelete().then((result) => {
         this.setState({ readOnly: false }, () => {
@@ -1385,8 +1386,28 @@ class Blocksmith extends React.Component {
         ...sidebarHolderStyle,
         transform: `scale(${isDocumentClick ? 0 : 1})`,
       },
-    }));
+    }), this.createPopoverToggleEvent);
   }
+
+  createPopoverToggleEvent() {
+    const { isSidebarOpen } = this.state;
+
+    if (isSidebarOpen) {
+      document.addEventListener('click', this.handleTogglePopover);
+    } else {
+      document.removeEventListener('click', this.handleTogglePopover);
+    }
+  }
+
+  handleTogglePopover(e) {
+    const { isSidebarOpen } = this.state;
+    console.log(this.popoverRef);
+    if (e.target === this.popoverRef || this.popoverRef.contains(e.target)) {
+      return;
+    }
+    this.setState({ isSidebarOpen: !isSidebarOpen });
+  }
+
 
   /**
    * Custom key bindings.
@@ -1724,6 +1745,7 @@ class Blocksmith extends React.Component {
                 onToggleBlockModal={this.handleToggleBlockModal}
                 onHoverInsert={this.handleHoverInsert}
                 resetFlag={sidebarResetFlag}
+                popoverRef={this.popoverRef}
               />
             </div>
             {this.pluginComponents.map(({ key, PluginComponent }) => <PluginComponent key={key} />)}

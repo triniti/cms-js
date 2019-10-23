@@ -19,6 +19,7 @@ import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontro
 import { blockParentNode } from '../../utils';
 import { getAllButtons } from '../../resolver';
 import './styles.scss';
+import { pop } from 'bottlejs';
 
 const buttons = getAllButtons();
 const sidebarSectionsWithVendor = [{
@@ -86,6 +87,7 @@ export default class Sidebar extends React.Component {
       isOpen,
       onToggleSidebar: handleToggleSidebar,
       onHoverInsert: handleHoverInsert,
+      popoverRef,
     } = this.props;
 
     const availableButtons = sidebarSectionsWithVendor
