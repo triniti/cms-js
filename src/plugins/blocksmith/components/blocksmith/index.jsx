@@ -256,8 +256,8 @@ class Blocksmith extends React.Component {
     this.handleShiftBlock = this.handleShiftBlock.bind(this);
     this.handleToggleBlockModal = this.handleToggleBlockModal.bind(this);
     this.handleToggleLinkModal = this.handleToggleLinkModal.bind(this);
-    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleTogglePopover = this.handleTogglePopover.bind(this);
+    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
