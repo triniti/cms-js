@@ -52,12 +52,12 @@ class EventStream extends React.Component {
     const { events } = this.props;
     const { allEvents } = this.state;
 
-    if (prevProps.events.length === 0 && events.length === 0) {
+    if (!prevProps.events.length && !events.length) {
       return;
     }
     // Add events to local state if new events are added to store from load more.
-    if (events.length > 0) {
-      if (prevProps.events.length === 0 || (prevProps.events[0].get('event_id') !== events[0].get('event_id'))) {
+    if (events.length) {
+      if (!prevProps.events.length || (prevProps.events[0].get('event_id') !== events[0].get('event_id'))) {
         this.setState({ allEvents: [...allEvents, ...events] });
       }
     }
