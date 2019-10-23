@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 
-const RawContent = ({ pbj, header = 'Raw' }) => (
+const RawContent = ({ pbj, header }) => (
   <Card>
     {
       header !== '' && <CardHeader>{header}</CardHeader>
@@ -16,7 +16,11 @@ const RawContent = ({ pbj, header = 'Raw' }) => (
 
 RawContent.propTypes = {
   pbj: PropTypes.instanceOf(Message).isRequired,
-  header: PropTypes.string.isRequired,
+  header: PropTypes.string,
+};
+
+RawContent.defaultProps = {
+  header: 'Raw',
 };
 
 export default RawContent;

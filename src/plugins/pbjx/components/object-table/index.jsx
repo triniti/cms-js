@@ -6,16 +6,16 @@ import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 
 const ObjectTable = ({ data }) => (
-    <Table borderless size="sm" className="mb-0 table--object-table">
-      <tbody>
-        {Object.entries(data).map((property, idx) => (
-          <TableRow
-            key={idx}
-            property={property}
-          />
-        ))}
-      </tbody>
-    </Table>
+  <Table borderless size="sm" className="mb-0 table--object-table">
+    <tbody>
+      {Object.entries(data).map((property, idx) => (
+        <TableRow
+          key={idx}
+          property={property}
+        />
+      ))}
+    </tbody>
+  </Table>
 );
 
 ObjectTable.propTypes = {

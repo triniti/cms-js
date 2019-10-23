@@ -5,7 +5,7 @@ import ValueRenderer from '../event-stream/ValueRenderer';
 const TableRow = ({ property: [label, value] }) => (
   <tr>
     <th scope="row" className="pl-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>{label}</th>
-    <td style={{ borderColor: '#efefef' }}><ValueRenderer value={value}/></td>
+    <td style={{ borderColor: '#efefef' }}><ValueRenderer value={value} /></td>
   </tr>
 );
 

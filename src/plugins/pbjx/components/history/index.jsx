@@ -53,15 +53,17 @@ class History extends React.Component {
       schema,
     } = this.props;
 
-    return <EventStream
-               events={events}
-               getUser={getUser}
-               status={status}
-               exception={exception}
-               response={response}
-               onRefresh={() => delegate.handleInitialize(streamId, schema)}
-               onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
-            />;
+    return (
+      <EventStream
+        events={events}
+        getUser={getUser}
+        status={status}
+        exception={exception}
+        response={response}
+        onRefresh={() => delegate.handleInitialize(streamId, schema)}
+        onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
+      />
+    );
   }
 }
 

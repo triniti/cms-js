@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PropertiesTable from '../properties-table';
 import Message from '@gdbots/pbj/Message';
+import PropertiesTable from '../properties-table';
 import filterData from '../../utils/filterData';
 import findNodeDiff from '../../utils/findNodeDiff';
 
-const  EventDetails = ({ event }) => {
+const EventDetails = ({ event }) => {
   const schema = event.schema();
 
   if (schema.hasMixin('gdbots:ncr:mixin:node-updated')) {
@@ -44,4 +44,3 @@ EventDetails.propTypes = {
 };
 
 export default EventDetails;
-
