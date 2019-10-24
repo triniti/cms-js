@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.1
+* Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
+
+
 ## v0.2.0
 * issue #6: Modal does not auto-close when selecting a new block
 * issue #18: cannot duplicate nodes
@@ -10,7 +14,7 @@
 * Add divider block into blocksmith
 * Add fix for cutting and pasting a text block
 * Add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
-* Add label for to `GalleryFields` for related galleries title
+* Add label to `GalleryFields` for related galleries title
 * Add theme pick list to image block
 * Allow seo meta keywords and hashtags to be selected using comma key
 * Fix asset variant dropzone spinner
