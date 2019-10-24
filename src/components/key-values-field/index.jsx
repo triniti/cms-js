@@ -7,6 +7,7 @@ import SelectField from '@triniti/cms/components/select-field';
 import TextField from '@triniti/cms/components/text-field';
 import TrinaryField from '@triniti/cms/components/trinary-field';
 import unCamelCase from '@triniti/cms/utils/unCamelCase';
+import './styles.scss';
 
 const KeyValuesField = ({
   fields,
@@ -49,6 +50,7 @@ const KeyValuesField = ({
           {keyFieldComponent === 'selectField'
           && (
             <Field
+              className="key-values-field__select-dropdown"
               component={SelectField}
               disabled={readOnly}
               inline={false}
@@ -56,7 +58,6 @@ const KeyValuesField = ({
               options={selectFieldOptions}
               placeholder={keyPlaceholder}
               style={{ width: '7rem' }}
-              className="key-values-field-dropdown"
             />
           )}
           {valueType === 'string'
@@ -67,6 +68,7 @@ const KeyValuesField = ({
               name={`${field}.value`}
               placeholder={valuePlaceholder}
               readOnly={readOnly}
+              style={{ width: '22rem' }}
             />
           )}
           {valueType === 'number'

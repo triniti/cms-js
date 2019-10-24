@@ -11,7 +11,13 @@ test('Blocksmith:util:changedDate', (t) => {
     .set('minutes', 10);
 
   const actual = changedDate(expected.toDate())({
-    updatedDate: new Date(), // this is the "existing" state that is expected to change
+    updatedDate: moment()
+      .set('year', 2)
+      .set('month', 3)
+      .set('date', 4)
+      .set('hours', 11)
+      .set('minutes', 11)
+      .toDate(), // this is the "existing" state that is expected to change
   }).updatedDate;
 
   t.equal(

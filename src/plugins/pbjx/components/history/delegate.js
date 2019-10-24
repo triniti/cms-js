@@ -15,6 +15,20 @@ export default (dispatch) => ({
   },
 
   /**
+   * Handles load more events.
+   *
+   * @param {StreamId} streamId - An instance of StreamId
+   * @param {Schema} schema - An instance of Schema to use to create requests.
+   * @param {string} since - Return events since this time.
+   */
+  handleLoadMore: (streamId, schema, since) => {
+    dispatch(schema.createMessage({
+      stream_id: streamId,
+      since,
+    }));
+  },
+
+  /**
    * @param {Schema} schema - An instance of Schema to use to create requests.
    */
   componentWillUnmount: (schema) => {

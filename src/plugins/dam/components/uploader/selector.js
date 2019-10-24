@@ -9,7 +9,7 @@ import {
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getCounter from '@triniti/cms/plugins/utils/selectors/getCounter';
 
-import { formNames, utilityTypes } from '../../constants';
+import { formNames, fileUploadStatuses, utilityTypes } from '../../constants';
 import getFileList from '../../selectors/getFileList';
 import getActiveAsset from '../../selectors/getActiveAsset';
 import getActiveFileInfo from '../../selectors/getActiveFileInfo';
@@ -18,7 +18,10 @@ import getProcessedFilesAssets from '../../selectors/getProcessedFilesAssets';
 
 const getFilesProcessing = (files) => Object.keys(files).reduce((accumulator, hashName) => {
   const fileInfo = files[hashName];
-  if (fileInfo.status !== 'COMPLETED' && fileInfo.status !== 'ERROR') {
+  if (
+    fileInfo.status !== fileUploadStatuses.COMPLETED
+    && fileInfo.status !== fileUploadStatuses.ERROR
+  ) {
     accumulator.push({
       hashName,
       fileInfo,

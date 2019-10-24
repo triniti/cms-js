@@ -1,6 +1,31 @@
 # CHANGELOG
 
 
+## v0.2.0
+* issue #6: Modal does not auto-close when selecting a new block
+* issue #18: cannot duplicate nodes
+* issue #22: Drop down react-select component for widgets missing in promotions.
+* issue #43: Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
+* issue #51: Update regex instagram block modal.
+* Add divider block into blocksmith
+* Add fix for cutting and pasting a text block
+* Add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
+* Add label for to `GalleryFields` for related galleries title
+* Add theme pick list to image block
+* Allow seo meta keywords and hashtags to be selected using comma key
+* Fix asset variant dropzone spinner
+* Fix for edit-gallery-screen crashing when node is not available in state yet. 
+* Fix for node picker crashing when node is not found
+* Increase width of value field in key-values-field
+* Pre-fill notification modal when opened from article screen
+* Style (in triniti) the key values field select component
+* Style (in triniti) the save buttons
+* Style fragments selector
+* Style video captions selector
+* Update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
+* Update site-logo to new triniti logo
+
+
 ## v0.1.1
 * issue #2: updated css to have correct color on save btn hover
 * issue #4: Set up CMS to handle new type: asset-teaser.
@@ -10,23 +35,22 @@
 * Fixed search bar bug by overriding bootstraps css
 * added pagination to document block.
 * expose `baseUrls` in `plugins/dam/utils/damUrl.js` so sites can customize the urls.
-* fix a few still-broken React Selects.
-* fix bug: User can create slugs with two dashes
-* fixed bug for document blocks showing all mime-types
-* fixed node duplication
+* Fix a few still-broken React Selects.
+* Fix bug: User can create slugs with two dashes
+* Fixed bug for document blocks showing all mime-types
 * block `updated_date` fixes
-* fixed search bar bug by overriding bootstraps css
-* fixed sweetalert call to solve issue deleting blocks
+* Fixed search bar bug by overriding bootstraps css
+* Fixed sweetalert call to solve issue deleting blocks
 * implement pre-push git hooks
 * remove deprecated sponsor-picker-field
-* update seo meta keywords to be multi-select
-* fix error message when renaming channel slug
-* fix widget dfp unit path removal bug
-* fix asset tags
+* Update seo meta keywords to be multi-select
+* Fix error message when renaming channel slug
+* Fix widget dfp unit path removal bug
+* Fix asset tags
 * allow clearing video rating
-* fix widget picker `isEditMode`
+* Fix widget picker `isEditMode`
 * clear getAllChannels response after successful update
-* fix input padding
+* Fix input padding
 
 
 ## v0.1.0

@@ -48,7 +48,9 @@ class ImageBlockModal extends React.Component {
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
+      launchText: block.get('launch_text') || null,
       selectedImage: image || null,
+      theme: block.get('theme') || null,
       updatedDate: block.get('updated_date', new Date()),
       url: block.get('url') || '',
     };
@@ -57,6 +59,8 @@ class ImageBlockModal extends React.Component {
     this.handleChangeCaption = this.handleChangeCaption.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
+    this.handleChangeTheme = this.handleChangeTheme.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
@@ -67,6 +71,7 @@ class ImageBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       aspectRatio,
       caption,
       hasCaption,
@@ -74,10 +79,11 @@ class ImageBlockModal extends React.Component {
       isLink,
       isNsfw,
       isValid,
+      launchText,
       selectedImage,
+      theme,
       updatedDate,
       url,
-      aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -85,8 +91,10 @@ class ImageBlockModal extends React.Component {
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
       .set('is_nsfw', isNsfw)
+      .set('launch_text', launchText || null)
       .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('theme', theme)
+      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
   }
 
@@ -96,8 +104,16 @@ class ImageBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeTheme(selectedOption) {
+    this.setState({ theme: selectedOption ? selectedOption.value : null });
+  }
+
   handleChangeAspectRatio(option) {
     this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+  }
+
+  handleChangeLaunchText({ target: { value: launchText } }) {
+    this.setState({ launchText });
   }
 
   handleChangeCaption({ target: { value: caption } }) {
@@ -161,6 +177,7 @@ class ImageBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       aspectRatio,
       caption,
       hasCaption,
@@ -169,10 +186,11 @@ class ImageBlockModal extends React.Component {
       isLink,
       isNsfw,
       isValid,
+      launchText,
       selectedImage,
+      theme,
       updatedDate,
       url,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, node, toggle } = this.props;
 
@@ -193,8 +211,9 @@ class ImageBlockModal extends React.Component {
             style={{ height: 'calc(100vh - 168px)' }}
           >
             <CustomizeOptions
-              block={this.setBlock()}
+              aside={aside}
               aspectRatio={aspectRatio}
+              block={this.setBlock()}
               caption={caption}
               hasCaption={hasCaption}
               hasUpdatedDate={hasUpdatedDate}
@@ -202,20 +221,23 @@ class ImageBlockModal extends React.Component {
               isLink={isLink}
               isNsfw={isNsfw}
               isValid={isValid}
+              launchText={launchText}
               node={node}
               onChangeAspectRatio={this.handleChangeAspectRatio}
               onChangeCaption={this.handleChangeCaption}
               onChangeCheckBox={this.handleChangeCheckbox}
               onChangeDate={this.handleChangeDate}
+              onChangeLaunchText={this.handleChangeLaunchText}
+              onChangeTheme={this.handleChangeTheme}
               onChangeTime={this.handleChangeTime}
               onChangeUrl={this.handleChangeUrl}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
               onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
               selectedImage={selectedImage}
+              theme={theme}
               updatedDate={updatedDate}
               url={url}
-              aside={aside}
             />
           </ScrollableContainer>
         </ModalBody>

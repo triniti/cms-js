@@ -1,20 +1,16 @@
+import React from 'react';
+import { Field } from 'redux-form';
+import PropTypes from 'prop-types';
+
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import Message from '@gdbots/pbj/Message';
-import PropTypes from 'prop-types';
-import React from 'react';
+import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import {
-  Checkbox,
-  FormGroup,
-  Icon,
-  Input,
-  Label,
-  Select,
-} from '@triniti/admin-ui-plugin/components';
+import { Checkbox, FormGroup, Icon, Input, Label, Select } from '@triniti/admin-ui-plugin/components';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -27,8 +23,8 @@ const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
 
 const CustomizeOptions = ({
   aside,
-  block,
   aspectRatio,
+  block,
   caption,
   hasCaption,
   hasUpdatedDate,
@@ -36,17 +32,21 @@ const CustomizeOptions = ({
   isLink,
   isNsfw,
   isValid,
+  launchText,
   node,
   onChangeAspectRatio: handleChangeAspectRatio,
   onChangeCaption: handleChangeCaption,
   onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
+  onChangeLaunchText: handleChangeLaunchText,
+  onChangeTheme: handleChangeTheme,
   onChangeTime: handleChangeTime,
   onChangeUrl: handleChangeUrl,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   selectedImage,
+  theme,
   updatedDate,
   url,
 }) => (
@@ -57,7 +57,7 @@ const CustomizeOptions = ({
     )}
     <FormGroup>
       <ImageAssetPicker
-        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Gallery Block Poster images."
+        multiAssetErrorMessage="Invalid Action: Can only select one image."
         isImageSelected={!!selectedImage}
         isModalOpen={isAssetPickerModalOpen}
         isDisabled={false}
@@ -79,6 +79,30 @@ const CustomizeOptions = ({
           }}
           options={aspectRatioOptions}
         />
+      </FormGroup>
+
+      {node.schema().hasMixin('triniti:common:mixin:themeable')
+      && (
+        <PicklistPicker
+          isEditMode
+          label="Theme"
+          name="theme"
+          onChange={handleChangeTheme}
+          picklistId="image-block-themes"
+          value={theme ? { label: theme, value: theme } : {}}
+        />
+      )}
+      <FormGroup>
+        <Label className="d-flex text-nowrap align-items-center mb-0">
+            Launch Text
+          <Input
+            size="sm"
+            className="ml-2 mr-3 w-auto"
+            value={launchText}
+            onChange={handleChangeLaunchText}
+            placeholder="Enter launch text..."
+          />
+        </Label>
       </FormGroup>
       <FormGroup className="d-flex mb-2">
         <FormGroup check>
@@ -153,8 +177,8 @@ const CustomizeOptions = ({
 
 CustomizeOptions.propTypes = {
   aside: PropTypes.bool.isRequired,
-  block: PropTypes.instanceOf(Message).isRequired,
   aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
+  block: PropTypes.instanceOf(Message).isRequired,
   caption: PropTypes.string.isRequired,
   hasCaption: PropTypes.bool.isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
@@ -162,23 +186,29 @@ CustomizeOptions.propTypes = {
   isLink: PropTypes.bool.isRequired,
   isNsfw: PropTypes.bool.isRequired,
   isValid: PropTypes.bool.isRequired,
+  launchText: PropTypes.string,
   node: PropTypes.instanceOf(Message).isRequired,
   onChangeAspectRatio: PropTypes.func.isRequired,
   onChangeCaption: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
+  onChangeLaunchText: PropTypes.func.isRequired,
+  onChangeTheme: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onChangeUrl: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   selectedImage: PropTypes.instanceOf(Message),
+  theme: PropTypes.string,
   updatedDate: PropTypes.instanceOf(Date).isRequired,
   url: PropTypes.string.isRequired,
 };
 
 CustomizeOptions.defaultProps = {
+  launchText: null,
   selectedImage: null,
+  theme: null,
 };
 
 export default CustomizeOptions;
