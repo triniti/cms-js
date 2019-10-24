@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## vN.N.N
+* issue #51: Update regex instagram block modal.
+
 
 ## patch
 * Add theme pick list to image block
