@@ -16,7 +16,7 @@
     "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "dependencies": {
-    "@gdbots/common": "^1.0.0",
+    "@gdbots/common": "^1.0.2",
     "@gdbots/pbj": "^1.0.0",
     "@gdbots/pbjx": "^1.0.0",
     "@gdbots/schemas": "^1.6.0",
