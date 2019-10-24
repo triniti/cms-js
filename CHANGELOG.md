@@ -18,8 +18,15 @@
 * style fragments selector
 * style video captions selector
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
-* Update regex instagram block modal.
 * update site-logo to new triniti logo
+* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
+* style fragments selector
+* Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
+* increase width of value field in key-values-field
+* fix asset variant dropzone spinner
+* pre-fill notification modal when opened from article screen
+* issue #51: Update regex instagram block modal.
+* fix for node picker crashing when node is not found
 
 
 ## v0.1.1
