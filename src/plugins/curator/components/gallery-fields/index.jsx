@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Label } from '@triniti/admin-ui-plugin/components';
+import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 import { DATE_FIELD_QUICK_SELECT_OPTIONS } from '@triniti/cms/plugins/curator/constants';
 import { Field, FieldArray } from 'redux-form';
 import CheckboxField from '@triniti/cms/components/checkbox-field';
@@ -92,10 +92,10 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
           name="allowComments"
         />
         <hr />
-        <Label>Related Galleries</Label>
         <FieldArray
           component={GalleryPickerField}
           isEditMode={isEditMode}
+          label="Related Galleries"
           name="relatedGalleryRefs"
         />
         <Field
