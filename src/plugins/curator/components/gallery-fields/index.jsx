@@ -92,10 +92,10 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
           name="allowComments"
         />
         <hr />
-        <Label>Related Galleries</Label>
         <FieldArray
           component={GalleryPickerField}
           isEditMode={isEditMode}
+          label="Related Galleries"
           name="relatedGalleryRefs"
         />
         <Field
