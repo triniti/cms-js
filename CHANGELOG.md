@@ -2,6 +2,7 @@
 
 
 ## patch
+* Add theme pick list to image block
 * allow seo meta keywords and hashtags to be selected using comma key
 * update site-logo to new triniti logo
 * issue #6: Modal does not auto-close when selecting a new block
