@@ -1,5 +1,7 @@
 # CHANGELOG
 
+# Patch
+* Bug: Unable to paste into slug field(URL) and keep formatting
 
 ## v0.2.1
 * Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
