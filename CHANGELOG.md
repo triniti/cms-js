@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.1
+* Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
+
+
 ## v0.2.0
 * issue #6: Modal does not auto-close when selecting a new block
 * issue #18: cannot duplicate nodes
