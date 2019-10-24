@@ -2,7 +2,7 @@ import uuid from 'uuid/v4';
 import md5 from 'md5';
 import get from 'lodash/get';
 import { incrementValues } from '../components/add-gallery-assets-modal';
-import { actionTypes } from '../constants';
+import { actionTypes, fileUploadStatuses } from '../constants';
 import getFileExtension from '../utils/getFileExtension';
 
 /**
@@ -30,7 +30,7 @@ export default (files, linkedRefs, galleryRef, lastGallerySequence, config, vari
       accumulator[hashName] = {
         uuidName,
         file,
-        status: 'PROCESSING',
+        status: fileUploadStatuses.PROCESSING,
         previewUrl: file.preview,
         asset: null,
         uploaded: false,

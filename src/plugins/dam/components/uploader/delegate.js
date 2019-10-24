@@ -16,7 +16,7 @@ import retryProcessFile from '../../actions/retryProcessFile';
 import selectProcessedFile from '../../actions/selectProcessedFile';
 
 import schemas from './schemas';
-import { formNames, utilityTypes } from '../../constants';
+import { formNames, fileUploadStatuses, utilityTypes } from '../../constants';
 
 class Delegate extends AbstractDelegate {
   constructor(dependencies) {
@@ -140,7 +140,7 @@ class Delegate extends AbstractDelegate {
     if (!allowMultiUpload) {
       const uploadedFiles = Object.keys(files).reduce((accumulator, hashName) => {
         const fileInfo = files[hashName];
-        if (fileInfo.status !== 'ERROR') {
+        if (fileInfo.status !== fileUploadStatuses.ERROR) {
           accumulator.push(fileInfo);
         }
         return accumulator;
