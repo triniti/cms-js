@@ -1,12 +1,12 @@
 #!/bin/sh
 
-source $(brew --prefix nvm)/nvm.sh
-nvm use
+# source $(brew --prefix nvm)/nvm.sh
+# nvm use
 
-npm run test; if [ $? != 0 ]; then
-  exit 1
-fi
+# npm run test; if [ $? != 0 ]; then
+#   exit 1
+# fi
 
-npm run lint; if [ $? != 0 ]; then
-  exit 1
-fi
+# npm run lint; if [ $? != 0 ]; then
+#   exit 1
+# fi
