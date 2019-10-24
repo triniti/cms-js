@@ -12,13 +12,13 @@ const GalleryPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti, label } = props;
   return (
     <>
-      {!!fields.length && (
+      {fields.length ? (
         <SortableList
           fields={fields}
           isMulti={isMulti}
           readOnly={!isEditMode || disabled}
         />
-      )}
+      ) : !isEditMode && <Label>{label}</Label>}
       {isEditMode && (
         <FormGroup>
           <Label>{label || `search and select ${isMulti ? 'galleries' : 'a gallery'}`}</Label>

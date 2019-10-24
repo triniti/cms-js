@@ -33,7 +33,6 @@ export default (state, { constants, fields, schemas, isGetAll, optionsMapper = n
     allFields,
     optionsMapper || ((nodeRef) => {
       const node = getNode(state, nodeRef);
-
       return {
         label: node ? node.get('title') : '',
         node,
