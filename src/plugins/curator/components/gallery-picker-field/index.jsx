@@ -1,4 +1,4 @@
-import { Label } from '@triniti/admin-ui-plugin/components';
+import { FormGroup, Label } from '@triniti/admin-ui-plugin/components';
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,15 +12,15 @@ const GalleryPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti, label } = props;
   return (
     <>
-      {!!fields.length && (
+      {fields.length ? (
         <SortableList
           fields={fields}
           isMulti={isMulti}
           readOnly={!isEditMode || disabled}
         />
-      )}
+      ) : !isEditMode && <Label>{label}</Label>}
       {isEditMode && (
-        <>
+        <FormGroup>
           <Label>{label || `search and select ${isMulti ? 'galleries' : 'a gallery'}`}</Label>
           <NodePickerField
             {...props}
@@ -36,7 +36,7 @@ const GalleryPickerField = (props) => {
               SingleValue: () => null,
             }}
           />
-        </>
+        </FormGroup>
       )}
     </>
   );

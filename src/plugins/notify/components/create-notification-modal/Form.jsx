@@ -27,7 +27,7 @@ const Form = ({ contentChangeable, type, apps }) => (
       />
       <Field
         component={SelectField}
-        disabled={!contentChangeable}
+        isDisabled={!contentChangeable}
         label="Content Type"
         name="type"
         options={contentTypes}
@@ -47,6 +47,7 @@ const Form = ({ contentChangeable, type, apps }) => (
             return (
               <FieldArray
                 component={ArticlePickerField}
+                isEditMode={contentChangeable}
                 isMulti={false}
                 name="contentRefs"
               />
