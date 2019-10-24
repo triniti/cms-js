@@ -3,7 +3,7 @@ import createReducer from '@triniti/app/createReducer';
 import BigNumber from '@gdbots/pbj/well-known/BigNumber';
 import GetUploadUrlsResponseV1Mixin
   from '@triniti/schemas/triniti/dam/mixin/get-upload-urls-response/GetUploadUrlsResponseV1Mixin';
-import { actionTypes } from '../constants';
+import { actionTypes, fileUploadStatuses } from '../constants';
 import { fromAssetId } from '../utils/assetFactory';
 
 export const initialState = {
@@ -96,15 +96,15 @@ const onProcessFilesRequested = (prevState, { files }) => {
   };
 };
 
-const onProcessFileFailed = (prevState, { hashName, error }) => updateFileInfo(prevState, hashName, { status: 'ERROR', error });
+const onProcessFileFailed = (prevState, { hashName, error }) => updateFileInfo(prevState, hashName, { status: fileUploadStatuses.ERROR, error });
 
-const onProcessRetryRequested = (prevState, { hashName }) => updateFileInfo(prevState, hashName, { status: 'PROCESSING', error: null });
+const onProcessRetryRequested = (prevState, { hashName }) => updateFileInfo(prevState, hashName, { status: fileUploadStatuses.PROCESSING, error: null });
 
-const onProcessFileCompleted = (prevState, { hashName }) => updateFileInfo(prevState, hashName, { status: 'COMPLETED' });
+const onProcessFileCompleted = (prevState, { hashName }) => updateFileInfo(prevState, hashName, { status: fileUploadStatuses.COMPLETED });
 
-const onUploadFileStarted = (prevState, { hashName }) => updateFileInfo(prevState, hashName, { status: 'UPLOADING' });
+const onUploadFileStarted = (prevState, { hashName }) => updateFileInfo(prevState, hashName, { status: fileUploadStatuses.UPLOADING });
 
-const onUploadFileFulfilled = (prevState, { hashName, previewUrl }) => updateFileInfo(prevState, hashName, { status: 'UPLOADED', previewUrl, uploaded: true });
+const onUploadFileFulfilled = (prevState, { hashName, previewUrl }) => updateFileInfo(prevState, hashName, { status: fileUploadStatuses.UPLOADED, previewUrl, uploaded: true });
 
 /**
  * Notes on removing an active file: When removing an active item, we want to flag the next item
