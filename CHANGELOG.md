@@ -18,6 +18,7 @@
 * Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
 * increase width of value field in key-values-field
 * fix asset variant dropzone spinner
+* pre-fill notification modal when opened from article screen
 
 
 ## v0.1.1
