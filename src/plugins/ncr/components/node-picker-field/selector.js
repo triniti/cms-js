@@ -30,11 +30,14 @@ export default (state, { constants, fields, schemas, isGetAll, optionsMapper = n
   const value = getMemoizedValues(
     cacheKey,
     allFields,
-    optionsMapper || ((nodeRef) => ({
-      label: getNode(state, nodeRef).get('title'),
-      value: nodeRef,
-      node: getNode(state, nodeRef),
-    })),
+    optionsMapper || ((nodeRef) => {
+      const node = getNode(state, nodeRef);
+      return {
+        label: node ? node.get('title') : '',
+        value: nodeRef,
+        node,
+      };
+    }),
   );
 
   return {

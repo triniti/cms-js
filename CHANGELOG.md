@@ -1,8 +1,5 @@
 # CHANGELOG
 
-## vN.N.N
-* issue #51: Update regex instagram block modal.
-
 
 ## patch
 * Add Label for to `GalleryFields` for related galleries title
@@ -22,6 +19,8 @@
 * increase width of value field in key-values-field
 * fix asset variant dropzone spinner
 * pre-fill notification modal when opened from article screen
+* issue #51: Update regex instagram block modal.
+* fix for node picker crashing when node is not found
 
 
 ## v0.1.1
