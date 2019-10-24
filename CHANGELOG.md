@@ -11,6 +11,7 @@
 * fix asset variant dropzone spinner
 * increase width of value field in key-values-field
 * issue #6: Modal does not auto-close when selecting a new block
+* pre-fill notification modal when opened from article screen
 * Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
 * style (in triniti) the key values field select component
 * style (in triniti) the save buttons
