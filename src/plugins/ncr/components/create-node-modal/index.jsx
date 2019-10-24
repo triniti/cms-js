@@ -23,7 +23,6 @@ export default class CreateNodeModal extends React.Component {
         handleSave: PropTypes.func,
       }),
     ]).isRequired,
-    // a redux-form
     formComponent: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     formConfigs: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
