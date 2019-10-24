@@ -3,7 +3,7 @@ import { FormGroup, FormText, Label, Select } from '@triniti/admin-ui-plugin/com
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import delegateFactory from './delegate';
 import selector from './selector';
 import './style.scss';
@@ -51,6 +51,24 @@ const HashtagsPickerField = ({
     return `#${option.value}`;
   };
 
+  const [inputValue, setInputValue] = useState('');
+  const handleInputChange = (text) => {
+    delegate.handleSuggestHashtags(text);
+    if (text[text.length - 1] !== ',') {
+      setInputValue(text);
+    } else {
+      // if user enters a comma, treat that as selecting their entry (like tab/enter)
+      input.onChange([
+        ...input.value,
+        {
+          label: `#${text.slice(0, text.length - 1)}`,
+          value: text.slice(0, text.length - 1),
+        },
+      ]);
+      setInputValue('');
+    }
+  };
+
   return (
     <FormGroup>
       <Label>{label}</Label>
@@ -60,18 +78,19 @@ const HashtagsPickerField = ({
         className="hidden-options-toggle"
         closeOnSelect={false}
         creatable
-        isDisabled={!isEditMode}
         filterOptions={(o) => o.filter((opt) => opt.className !== 'Select-create-option-placeholder')}
-        loadingPlaceholder=""
+        formatCreateLabel={(hashtag) => handlePromptTextCreator(hashtag, input.value)}
+        inputValue={inputValue}
+        isDisabled={!isEditMode}
         isMulti
+        loadingPlaceholder=""
         name={input.name}
         noResultsText="No hashtags found."
         onBlur={() => input.onBlur(input.value)}
         onChange={input.onChange}
-        onInputChange={delegate.handleSuggestHashtags}
+        onInputChange={handleInputChange}
         options={options}
         placeholder={placeholder}
-        formatCreateLabel={(hashtag) => handlePromptTextCreator(hashtag, input.value)}
         searchPromptText="Note: You can select or create multiple hashtags."
         value={input.value || []}
         valueRenderer={handleRenderValue}

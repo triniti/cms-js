@@ -8,7 +8,7 @@ export default (dispatch) => {
    * @param {String} prefix
    */
   const handleSuggestHashtags = (prefix) => {
-    const request = schemas.suggestHashtags.createMessage({ prefix });
+    const request = schemas.suggestHashtags.createMessage({ prefix: prefix.replace(/,/g, '') });
     dispatch(callPbjx(request));
   };
   return {
