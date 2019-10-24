@@ -20,8 +20,8 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-const INSTAGRAM_MEDIA_REGEX = /https:\/\/www\.instagram\.com\/p\/[\w\s-]+\/?/;
-const INSTAGRAM_STRIP_REGEX = /(https:\/\/www\.instagram\.com\/p\/?|\/)/g;
+const INSTAGRAM_MEDIA_REGEX = /(https?:\/\/www?\.instagram\.com)\/(p\/)?(tv\/)?/g;
+const INSTAGRAM_STRIP_REGEX = /[^https://www.instagram.com][^/p][^/tv].*[a-zA-Z]/g;
 
 export default class InstagramMediaBlockModal extends React.Component {
   static propTypes = {
@@ -103,14 +103,16 @@ export default class InstagramMediaBlockModal extends React.Component {
   handleChangeTextarea(event) {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
-    if (!INSTAGRAM_MEDIA_REGEX.test(input)) {
+    const isValidUrl = INSTAGRAM_MEDIA_REGEX.test(input);
+
+    if (!isValidUrl) {
       errorMsg = 'url or embed code is invalid';
       isValid = false;
     } else {
       errorMsg = '';
       isValid = true;
       hideCaption = input.indexOf('data-instgrm-captioned') === -1;
-      id = input.match(INSTAGRAM_MEDIA_REGEX)[0].replace(INSTAGRAM_STRIP_REGEX, '');
+      id = input.match(INSTAGRAM_STRIP_REGEX)[0];
     }
     this.setState({
       errorMsg,
@@ -129,14 +131,12 @@ export default class InstagramMediaBlockModal extends React.Component {
       errorMsg,
       hasUpdatedDate,
       hideCaption,
-      id,
       isValid,
       touched,
       updatedDate,
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
-    const displayUrl = isValid ? `https://www.instagram.com/p/${id}/` : url;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -149,7 +149,7 @@ export default class InstagramMediaBlockModal extends React.Component {
               onChange={this.handleChangeTextarea}
               placeholder="enter url or embed code"
               type="textarea"
-              value={displayUrl}
+              value={url || null}
             />
           </FormGroup>
           {

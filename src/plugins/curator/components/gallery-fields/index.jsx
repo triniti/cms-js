@@ -96,6 +96,7 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
         <FieldArray
           component={GalleryPickerField}
           isEditMode={isEditMode}
+          label="Related Galleries"
           name="relatedGalleryRefs"
         />
         <Field

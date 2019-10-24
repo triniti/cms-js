@@ -18,6 +18,7 @@ const getMemoizedValues = (key, fields, optionsMapper) => {
 
 /**
  * @param {Object} state - The entire redux state.
+ * @param {Object} ownProps
  *
  * @returns {Object}
  */
@@ -30,11 +31,14 @@ export default (state, { constants, fields, schemas, isGetAll, optionsMapper = n
   const value = getMemoizedValues(
     cacheKey,
     allFields,
-    optionsMapper || ((nodeRef) => ({
-      label: getNode(state, nodeRef).get('title'),
-      value: nodeRef,
-      node: getNode(state, nodeRef),
-    })),
+    optionsMapper || ((nodeRef) => {
+      const node = getNode(state, nodeRef);
+      return {
+        label: node ? node.get('title') : '',
+        node,
+        value: nodeRef,
+      };
+    }),
   );
 
   return {
