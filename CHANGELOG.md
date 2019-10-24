@@ -1,27 +1,26 @@
 # CHANGELOG
 
-## vN.N.N
-* issue #51: Update regex instagram block modal.
-
 
 ## patch
+* Add divider block into blocksmith
+* Add fix for cutting and pasting a text block
+* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
 * Add Label for to `GalleryFields` for related galleries title
 * Add theme pick list to image block
 * allow seo meta keywords and hashtags to be selected using comma key
-* update site-logo to new triniti logo
+* fix asset variant dropzone spinner
+* fix for edit-gallery-screen crashing when node is not available in state yet?. 
+* increase width of value field in key-values-field
 * issue #6: Modal does not auto-close when selecting a new block
-* style (in triniti) the save buttons
-* Add fix for cutting and pasting a text block
+* pre-fill notification modal when opened from article screen
+* Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
 * style (in triniti) the key values field select component
-* Add divider block into blocksmith
+* style (in triniti) the save buttons
+* style fragments selector
 * style video captions selector
 * update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
-* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
-* style fragments selector
-* Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
-* increase width of value field in key-values-field
-* fix asset variant dropzone spinner
-* pre-fill notification modal when opened from article screen
+* Update regex instagram block modal.
+* update site-logo to new triniti logo
 
 
 ## v0.1.1
