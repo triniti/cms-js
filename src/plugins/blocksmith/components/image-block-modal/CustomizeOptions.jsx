@@ -23,8 +23,8 @@ const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
 
 const CustomizeOptions = ({
   aside,
-  block,
   aspectRatio,
+  block,
   caption,
   hasCaption,
   hasUpdatedDate,
@@ -39,12 +39,14 @@ const CustomizeOptions = ({
   onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
   onChangeLaunchText: handleChangeLaunchText,
+  onChangeTheme: handleChangeTheme,
   onChangeTime: handleChangeTime,
   onChangeUrl: handleChangeUrl,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   selectedImage,
+  theme,
   updatedDate,
   url,
 }) => (
@@ -81,15 +83,15 @@ const CustomizeOptions = ({
 
       {node.schema().hasMixin('triniti:common:mixin:themeable')
       && (
-        <Field
-          component={PicklistPicker}
+        <PicklistPicker
           isEditMode
           label="Theme"
           name="theme"
+          onChange={handleChangeTheme}
           picklistId="image-block-themes"
+          value={theme ? { label: theme, value: theme } : {}}
         />
       )}
-
       <FormGroup>
         <Label className="d-flex text-nowrap align-items-center mb-0">
             Launch Text
@@ -102,7 +104,6 @@ const CustomizeOptions = ({
           />
         </Label>
       </FormGroup>
-
       <FormGroup className="d-flex mb-2">
         <FormGroup check>
           <Label check>
@@ -176,8 +177,8 @@ const CustomizeOptions = ({
 
 CustomizeOptions.propTypes = {
   aside: PropTypes.bool.isRequired,
-  block: PropTypes.instanceOf(Message).isRequired,
   aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
+  block: PropTypes.instanceOf(Message).isRequired,
   caption: PropTypes.string.isRequired,
   hasCaption: PropTypes.bool.isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
@@ -185,26 +186,29 @@ CustomizeOptions.propTypes = {
   isLink: PropTypes.bool.isRequired,
   isNsfw: PropTypes.bool.isRequired,
   isValid: PropTypes.bool.isRequired,
+  launchText: PropTypes.string,
   node: PropTypes.instanceOf(Message).isRequired,
   onChangeAspectRatio: PropTypes.func.isRequired,
   onChangeCaption: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
-  launchText: PropTypes.string,
   onChangeLaunchText: PropTypes.func.isRequired,
+  onChangeTheme: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onChangeUrl: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   selectedImage: PropTypes.instanceOf(Message),
+  theme: PropTypes.string,
   updatedDate: PropTypes.instanceOf(Date).isRequired,
   url: PropTypes.string.isRequired,
 };
 
 CustomizeOptions.defaultProps = {
-  selectedImage: null,
   launchText: null,
+  selectedImage: null,
+  theme: null,
 };
 
 export default CustomizeOptions;
