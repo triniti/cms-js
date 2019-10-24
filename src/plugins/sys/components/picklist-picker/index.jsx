@@ -32,7 +32,7 @@ class PicklistPicker extends React.Component {
     onChange: PropTypes.func.isRequired,
     picklistId: PropTypes.string.isRequired,
     touched: PropTypes.bool,
-    value: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     warning: PropTypes.string,
     delegate: PropTypes.shape({
       getPicklist: PropTypes.func.isRequired,

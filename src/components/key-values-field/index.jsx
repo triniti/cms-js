@@ -68,6 +68,7 @@ const KeyValuesField = ({
               name={`${field}.value`}
               placeholder={valuePlaceholder}
               readOnly={readOnly}
+              style={{ width: '22rem' }}
             />
           )}
           {valueType === 'number'

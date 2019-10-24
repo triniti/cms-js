@@ -3,7 +3,7 @@ const t = (id) => `${PLUGIN_PREFIX}${id}`;
 
 export const auth0config = {
   UI_THEME: {
-    logo: '/logo-acme.svg',
+    logo: '/site-logo.svg',
     primaryColor: '#04c5a2',
   },
 };
