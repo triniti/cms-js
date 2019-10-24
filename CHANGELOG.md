@@ -4,6 +4,7 @@
 ## patch
 * blocks delete on delete key press
 * more keyValuesField styling
+* Bug: Unable to paste into slug field(URL) and keep formatting.
 
 
 ## v0.2.1

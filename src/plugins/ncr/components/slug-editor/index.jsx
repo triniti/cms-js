@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import addDateToSlug from '@gdbots/common/addDateToSlug';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import createSlug from '@gdbots/common/createSlug';
 import isValidSlug from '@gdbots/common/isValidSlug';
+import normalizeUnfinishedSlug from '@triniti/cms/utils/normalizeUnfinishedSlug';
+import PropTypes from 'prop-types';
+import React from 'react';
 import slugContainsDate from '@gdbots/common/slugContainsDate';
 import {
   Button,
@@ -98,15 +98,12 @@ class SlugEditor extends React.Component {
   }
 
   handleChange({ target: { value: slug } }) {
+    const { delegate, formName } = this.props;
+    const { slug: oldSlug } = this.state;
+    const newSlug = normalizeUnfinishedSlug(oldSlug, slug, delegate.getSluggableConfig(formName));
     this.setState((prevState, { initialSlug }) => ({
-      slug: slug
-        .replace(/^[-/\s]+|[\s]+$/g, '')
-        .replace(/\s/g, '-')
-        .replace(/\/{2,}/g, '/')
-        .replace(/-{2,}/g, '-')
-        .replace(/[A-Z]/g, (m) => m.toLowerCase())
-        .replace(/(\d{4}\/\d{2}\/\d{2}\/)(.*\/)/, (m, p1, p2) => `${p1}${p2.replace(/\/+/g, '-')}`),
-      touched: slug !== initialSlug,
+      slug: newSlug,
+      touched: newSlug !== initialSlug,
     }), this.validateSlug);
   }
 
