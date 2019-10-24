@@ -9,6 +9,7 @@
 * Add theme pick list to image block
 * allow seo meta keywords and hashtags to be selected using comma key
 * fix asset variant dropzone spinner
+* fix for edit-gallery-screen crashing when node is not available in state yet?. 
 * increase width of value field in key-values-field
 * issue #6: Modal does not auto-close when selecting a new block
 * pre-fill notification modal when opened from article screen
