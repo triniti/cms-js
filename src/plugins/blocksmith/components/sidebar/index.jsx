@@ -35,6 +35,7 @@ export default class Sidebar extends React.Component {
     onHoverInsert: PropTypes.func.isRequired,
     onToggleBlockModal: PropTypes.func.isRequired,
     onToggleSidebar: PropTypes.func.isRequired,
+    popoverRef: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     resetFlag: PropTypes.number.isRequired,
   };
 
@@ -86,6 +87,7 @@ export default class Sidebar extends React.Component {
       isOpen,
       onToggleSidebar: handleToggleSidebar,
       onHoverInsert: handleHoverInsert,
+      popoverRef,
     } = this.props;
 
     const availableButtons = sidebarSectionsWithVendor
@@ -155,6 +157,7 @@ export default class Sidebar extends React.Component {
           placement="auto"
           target="sidebar-button"
           toggle={handleToggleSidebar}
+          innerRef={popoverRef}
         >
           <PopoverHeader>
             <InputGroup>
