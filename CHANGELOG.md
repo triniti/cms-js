@@ -2,6 +2,7 @@
 
 
 ## patch
+* Add Label for to `GalleryFields` for related galleries title
 * Add theme pick list to image block
 * allow seo meta keywords and hashtags to be selected using comma key
 * update site-logo to new triniti logo
