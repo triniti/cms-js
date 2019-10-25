@@ -105,7 +105,7 @@ export default class SluggableSubscriber extends EventSubscriber {
 
       // check if slug contains date, only if datedSlug config is set to true
       if (isDatedSlug && !slugContainsDate(slug)) {
-        formEvent.addError('slug', 'Slug must have a date');
+        formEvent.addError('slug', 'Slug must have a date in YYYY/MM/DD format.');
         return;
       }
 
