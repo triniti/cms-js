@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* fix notification screen crash
+
+
 ## v0.2.1
 * Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
 
