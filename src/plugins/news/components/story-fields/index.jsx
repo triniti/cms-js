@@ -1,14 +1,15 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 import { Field, FieldArray } from 'redux-form';
+import DatePickerField from '@triniti/cms/components/date-picker-field';
 import KeyValuesField from '@triniti/cms/components/key-values-field';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
-import DatePickerField from '@triniti/cms/components/date-picker-field';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
+import slottingOptions from 'config/slottingOptions'; // eslint-disable-line import/no-unresolved
 import SlugEditor from '@triniti/cms/plugins/ncr/components/slug-editor';
 import TextField from '@triniti/cms/components/text-field';
-import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 
 const StoryFields = ({
   formName, isEditMode, nodeRef, schemas,
@@ -23,16 +24,14 @@ const StoryFields = ({
         nodeRef={nodeRef}
         schemas={schemas}
       />
-      {
-        schemas.node.hasMixin('triniti:curator:mixin:teaserable') && (
-          <Field
-            component={DatePickerField}
-            label="Order Date"
-            name="orderDate"
-            readOnly={!isEditMode}
-          />
-        )
-      }
+      {schemas.node.hasMixin('triniti:curator:mixin:teaserable') && (
+      <Field
+        component={DatePickerField}
+        label="Order Date"
+        name="orderDate"
+        readOnly={!isEditMode}
+      />
+      )}
       <Field
         component={PicklistPickerField}
         isEditMode={isEditMode}
@@ -46,7 +45,7 @@ const StoryFields = ({
         label="Slotting"
         name="slotting"
         readOnly={!isEditMode}
-        selectFieldOptions={[{ label: 'home', value: 'home' }, { label: 'sports', value: 'sports' }]}
+        selectFieldOptions={slottingOptions}
         type="Slot Value"
         valueType="number"
       />
