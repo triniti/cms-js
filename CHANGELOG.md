@@ -3,6 +3,7 @@
 
 ## patch
 * add a check `isThemeable` before calling get/set theme on `image-block`
+* blocks delete on delete key press
 
 
 ## v0.2.1

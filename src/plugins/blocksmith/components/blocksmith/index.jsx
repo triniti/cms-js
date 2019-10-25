@@ -1443,7 +1443,7 @@ class Blocksmith extends React.Component {
           }
           break;
         case 'Backspace':
-          if (typeof previousBlock !== 'undefined') {
+          if (typeof previousBlock !== 'undefined' && currentBlock.getType() !== 'unstyled') {
             if (
               (previousBlock && previousBlock.getType() === 'atomic')
               && (currentBlock.getText() === '' || selectionState.getAnchorOffset() === 0)
