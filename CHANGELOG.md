@@ -1,5 +1,7 @@
 # CHANGELOG
 
+# Patch
+* Bug: Unable to paste into slug field(URL) and keep formatting
 
 ## patch
 * add a check `isThemeable` before calling get/set theme on `image-block`
