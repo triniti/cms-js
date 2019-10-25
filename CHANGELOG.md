@@ -3,6 +3,7 @@
 
 ## patch
 * add a check `isThemeable` before calling get/set on `image-block`
+* blocks delete on delete key press
 * more keyValuesField styling
 
 
