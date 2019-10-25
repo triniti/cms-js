@@ -81,7 +81,7 @@ const CustomizeOptions = ({
         />
       </FormGroup>
 
-      {node.schema().hasMixin('triniti:common:mixin:themeable')
+      {block.schema().hasMixin('triniti:common:mixin:themeable')
       && (
         <PicklistPicker
           isEditMode
