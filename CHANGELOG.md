@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* add a check `isThemeable` before calling get/set on `image-block`
+
+
 ## v0.2.1
 * Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
 

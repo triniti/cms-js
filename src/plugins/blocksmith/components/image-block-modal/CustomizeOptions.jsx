@@ -1,7 +1,4 @@
-import React from 'react';
-import { Field } from 'redux-form';
-import PropTypes from 'prop-types';
-
+import { Checkbox, FormGroup, Icon, Input, Label, Select } from '@triniti/admin-ui-plugin/components';
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
@@ -9,8 +6,9 @@ import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-pi
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
 import Message from '@gdbots/pbj/Message';
 import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
+import PropTypes from 'prop-types';
+import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import { Checkbox, FormGroup, Icon, Input, Label, Select } from '@triniti/admin-ui-plugin/components';
 
 const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
@@ -81,7 +79,7 @@ const CustomizeOptions = ({
         />
       </FormGroup>
 
-      {node.schema().hasMixin('triniti:common:mixin:themeable')
+      {block.schema().hasMixin('triniti:common:mixin:themeable')
       && (
         <PicklistPicker
           isEditMode
