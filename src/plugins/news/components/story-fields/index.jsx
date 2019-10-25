@@ -7,7 +7,6 @@ import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-pi
 import PropTypes from 'prop-types';
 import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
-import slottingOptions from 'config/slottingOptions'; // eslint-disable-line import/no-unresolved
 import SlugEditor from '@triniti/cms/plugins/ncr/components/slug-editor';
 import TextField from '@triniti/cms/components/text-field';
 
@@ -45,7 +44,7 @@ const StoryFields = ({
         label="Slotting"
         name="slotting"
         readOnly={!isEditMode}
-        selectFieldOptions={slottingOptions}
+        selectFieldOptions={[{ label: 'home', value: 'home' }, { label: 'sports', value: 'sports' }]}
         type="Slot Value"
         valueType="number"
       />
