@@ -2,6 +2,7 @@
 
 
 ## patch
+* blocks delete on delete key press
 * more keyValuesField styling
 
 
