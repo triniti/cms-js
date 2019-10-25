@@ -3,6 +3,7 @@
 
 ## patch
 * blocks delete on delete key press
+* more keyValuesField styling
 
 
 ## v0.2.1
