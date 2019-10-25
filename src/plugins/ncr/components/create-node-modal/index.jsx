@@ -1,6 +1,6 @@
+import normalizeUnfinishedSlug from '@triniti/cms/utils/normalizeUnfinishedSlug';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {
   Button,
   Modal,
@@ -23,8 +23,9 @@ export default class CreateNodeModal extends React.Component {
         handleSave: PropTypes.func,
       }),
     ]).isRequired,
-    formComponent: PropTypes.func.isRequired, // a redux-form
+    formComponent: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     formConfigs: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     headerText: PropTypes.string,
     history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     isCreateDisabled: PropTypes.bool,
@@ -35,6 +36,7 @@ export default class CreateNodeModal extends React.Component {
   static defaultProps = {
     buttonText: 'Start Editing',
     formConfigs: {},
+    formValues: {},
     headerText: '',
     isCreateDisabled: true,
   };
@@ -57,11 +59,9 @@ export default class CreateNodeModal extends React.Component {
   }
 
   handleNormalizeSlug(slug) {
-    let newSlug = slug;
-    if (/[-/]/.test(newSlug[0])) {
-      newSlug = newSlug.substring(1, newSlug.length);
-    }
-    return newSlug.replace(' ', '-').replace(/[^a-z0-9-/]+/g, '').replace(/\/{2,}/g, '/');
+    const { delegate, formValues } = this.props;
+    const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
+    return normalizeUnfinishedSlug(formValues.slug, slug, isDatedSlug);
   }
 
   renderForm() {

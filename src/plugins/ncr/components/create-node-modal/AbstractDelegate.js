@@ -12,7 +12,7 @@ export default class AbstractDelegate {
    * @param {Object} config
    * @param {Object} dependencies
    */
-  constructor(config, { pbjx }) {
+  constructor(config, { pbjx, sluggableForms }) {
     this.config = merge(
       {
         action: {},
@@ -23,6 +23,7 @@ export default class AbstractDelegate {
 
     /** @type {Pbjx} pbjx */
     this.pbjx = pbjx;
+    this.sluggableForms = sluggableForms;
 
     /** @type {Function} */
     this.dispatch = noop;
@@ -45,6 +46,7 @@ export default class AbstractDelegate {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleValidate = this.handleValidate.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.getSluggableConfig = this.getSluggableConfig.bind(this);
   }
 
   /**
@@ -87,6 +89,17 @@ export default class AbstractDelegate {
    */
   getFormName() {
     return this.config.formName;
+  }
+
+  /**
+   * @returns {Object|null} - default SluggableForms config is set in Plugin's index file
+   */
+  getSluggableConfig(formName) {
+    if (!this.sluggableForms) {
+      return null;
+    }
+
+    return this.sluggableForms[formName] || this.sluggableForms.default;
   }
 
   /**
