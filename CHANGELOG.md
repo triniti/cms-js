@@ -3,6 +3,7 @@
 
 ## patch
 * add a check `isThemeable` before calling get/set on `image-block`
+* more keyValuesField styling
 
 
 ## v0.2.1

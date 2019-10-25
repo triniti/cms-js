@@ -25,7 +25,7 @@ const SelectField = ({
       <Select
         arrowRenderer={arrowRenderer}
         classNamePrefix="Select"
-        disabled={disabled}
+        isDisabled={disabled}
         multi={multi}
         name={input.name}
         onBlur={() => input.onBlur(input.value)}

@@ -36,7 +36,7 @@ const KeyValuesField = ({
         </Col>
       </Row>
       {fields.map((field, i) => (
-        <FormGroup key={field} inline className="mb-2 flex-nowrap align-items-start">
+        <FormGroup key={field} inline className="mb-2 flex-nowrap align-items-start key-values-field">
           {keyFieldComponent === 'textField'
           && (
             <Field
@@ -57,12 +57,12 @@ const KeyValuesField = ({
               name={`${field}.key`}
               options={selectFieldOptions}
               placeholder={keyPlaceholder}
-              style={{ width: '7rem' }}
             />
           )}
           {valueType === 'string'
           && (
             <Field
+              className="key-values-field__string"
               component={TextField}
               inline={false}
               name={`${field}.value`}
@@ -74,24 +74,24 @@ const KeyValuesField = ({
           {valueType === 'number'
           && (
             <Field
+              className="key-values-field__number"
               component={NumberField}
               name={`${field}.value`}
               normalize={(value) => +value}
               placeholder={valuePlaceholder}
               readOnly={readOnly}
-              style={{ width: '7rem' }}
             />
           )}
           {valueType === 'boolean'
           && (
             <Field
+              className="key-values-field__boolean"
               component={SelectField}
               disabled={readOnly}
               inline={false}
               name={`${field}.value`}
               options={[{ label: 'true', value: true }, { label: 'false', value: false }]}
               placeholder={valuePlaceholder}
-              style={{ width: '6rem' }}
             />
           )}
           {valueType === 'trinary'
@@ -107,11 +107,10 @@ const KeyValuesField = ({
           {!readOnly
           && (
           <Button
-            className="align-self-start"
+            className="align-self-start key-values-field__button"
             color="hover"
             onClick={() => handleRemoveField(i)}
             radius="circle"
-            style={{ marginTop: '2px' }}
           >
             <Icon imgSrc="delete" alt="delete" />
           </Button>
