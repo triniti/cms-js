@@ -4,7 +4,7 @@ import Message from '@gdbots/pbj/Message';
 import { BackgroundImage, CardImgOverlay, CardTitle, Media } from '@triniti/admin-ui-plugin/components';
 import damUrl from '../../utils/damUrl';
 
-const Asset = ({ asset, isHovering, isOverlayOnlyVisibleOnHover, showEditSequence }) => {
+const Asset = ({ asset, gallerySequence, isHovering, isOverlayOnlyVisibleOnHover, showEditSequence }) => {
   const assetTitle = asset.get('title');
   const cssStyleImg = {};
   cssStyleImg.opacity = (isHovering ? 0.4 : 1);
@@ -21,7 +21,7 @@ const Asset = ({ asset, isHovering, isOverlayOnlyVisibleOnHover, showEditSequenc
         && (
           <CardImgOverlay>
             <CardTitle className="h5 mb-0" style={{ wordBreak: 'break-all' }}>
-              {showEditSequence ? asset.get('gallery_seq') : assetTitle}
+              {showEditSequence ? (gallerySequence || asset.get('gallery_seq')) : assetTitle}
             </CardTitle>
           </CardImgOverlay>
         )
@@ -32,12 +32,14 @@ const Asset = ({ asset, isHovering, isOverlayOnlyVisibleOnHover, showEditSequenc
 
 Asset.propTypes = {
   asset: PropTypes.instanceOf(Message).isRequired,
+  gallerySequence: PropTypes.number,
   isHovering: PropTypes.bool,
   isOverlayOnlyVisibleOnHover: PropTypes.bool,
   showEditSequence: PropTypes.bool,
 };
 
 Asset.defaultProps = {
+  gallerySequence: 0,
   isHovering: false,
   isOverlayOnlyVisibleOnHover: false,
   showEditSequence: false,

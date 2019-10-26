@@ -19,6 +19,7 @@ export default class SortableGrid extends React.PureComponent {
     onRemoveAsset: PropTypes.func,
     onReorderGalleryAssets: PropTypes.func,
     showEditSequence: PropTypes.bool,
+    updatedGallerySequences: PropTypes.object,
   };
 
   static defaultProps = {
@@ -30,6 +31,7 @@ export default class SortableGrid extends React.PureComponent {
     onRemoveAsset: noop,
     onReorderGalleryAssets: noop,
     showEditSequence: false,
+    updatedGallerySequences: null,
   };
 
   constructor(props) {
@@ -46,10 +48,10 @@ export default class SortableGrid extends React.PureComponent {
 
     const { onReorderGalleryAssets } = this.props;
     const { nodes } = this.state;
-    const reorderdNodes = [...nodes];
-
-    this.setState({ nodes: arrayMove(reorderdNodes, oldIndex, newIndex) });
-    onReorderGalleryAssets(oldIndex, newIndex);
+    const oldOrderedNodes = [...nodes];
+    const newOrderedNodes = arrayMove(oldOrderedNodes, oldIndex, newIndex);
+    this.setState({ nodes: newOrderedNodes });
+    onReorderGalleryAssets(oldIndex, newIndex, oldOrderedNodes, newOrderedNodes);
   }
 
   render() {
@@ -61,6 +63,7 @@ export default class SortableGrid extends React.PureComponent {
       onEditSequence,
       onRemoveAsset,
       showEditSequence,
+      updatedGallerySequences,
     } = this.props;
     const { nodes } = this.state;
 
@@ -76,6 +79,7 @@ export default class SortableGrid extends React.PureComponent {
         onRemoveAsset={onRemoveAsset}
         onSortEnd={this.handleSortEnd}
         showEditSequence={showEditSequence}
+        updatedGallerySequences={updatedGallerySequences}
       />
     );
   }

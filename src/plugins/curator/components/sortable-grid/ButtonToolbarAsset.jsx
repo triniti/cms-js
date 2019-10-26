@@ -9,6 +9,7 @@ import ToolbarButton from './ToolbarButton';
 
 export default class ButtonToolbarAsset extends React.Component {
   static propTypes = {
+    gallerySequence: PropTypes.number,
     node: PropTypes.instanceOf(Message).isRequired,
     disabled: PropTypes.bool.isRequired,
     onEditAsset: PropTypes.func.isRequired,
@@ -18,6 +19,7 @@ export default class ButtonToolbarAsset extends React.Component {
   };
 
   static defaultProps = {
+    gallerySequence: 0,
     onEditSequence: noop,
     showEditSequence: false,
   };
@@ -44,6 +46,7 @@ export default class ButtonToolbarAsset extends React.Component {
   render() {
     const {
       disabled,
+      gallerySequence,
       node,
       onEditAsset,
       onEditSequence,
@@ -60,6 +63,7 @@ export default class ButtonToolbarAsset extends React.Component {
       >
         <Asset
           asset={node}
+          gallerySequence={gallerySequence}
           isHovering={!disabled && isHovering}
           isOverlayOnlyVisibleOnHover
           key={node.get('_id')}
