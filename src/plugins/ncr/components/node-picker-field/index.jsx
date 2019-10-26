@@ -199,6 +199,7 @@ class NodePickerField extends React.Component {
           ),
         }}
         defaultValue={value}
+        filterOption={() => true} // never filter any options
         isMulti={isMulti}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}

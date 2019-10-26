@@ -7,6 +7,7 @@
 * blocks delete on delete key press
 * more keyValuesField styling
 * Bug: Unable to paste into slug field(URL) and keep formatting.
+* Fix picker not scrolling which was actually options being filtered.
 
 
 ## v0.2.1
