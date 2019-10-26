@@ -868,8 +868,8 @@ class Blocksmith extends React.Component {
    * each time highlighting/selecting of text block's content happens.
    */
   handleFocus() {
-    const { readOnly } = this.state;
-    if (this.editor && !readOnly) {
+    const { isSidebarOpen, readOnly } = this.state;
+    if (!isSidebarOpen && this.editor && !readOnly) {
       this.editor.focus();
     }
   }
