@@ -27,6 +27,6 @@ export default (dispatch, { contentRef }) => ({
     await dispatch(
       change(formNames.CREATE_NOTIFICATION, 'type', { label: 'Article', value: 'article' }),
     );
-    await dispatch(change(formNames.CREATE_NOTIFICATION, 'contentRef', [contentRef]));
+    await dispatch(change(formNames.CREATE_NOTIFICATION, 'contentRefs', [contentRef]));
   },
 });

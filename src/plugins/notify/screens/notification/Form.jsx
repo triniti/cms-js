@@ -4,7 +4,7 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
-import React from 'react';
+import React, { useEffect } from 'react';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import schemas from './schemas';
 
@@ -15,30 +15,44 @@ import schemas from './schemas';
  *
  * @param {string} type
  */
+let fieldsComponents = {};
 const getFieldsComponent = (type) => {
+  if (fieldsComponents[type]) {
+    return fieldsComponents[type];
+  }
   switch (type) {
     case 'alexa-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/alexa-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/alexa-notification-fields'));
+      break;
     case 'android-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/android-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/android-notification-fields'));
+      break;
     case 'apple-news-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/apple-news-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/apple-news-notification-fields'));
+      break;
     case 'browser-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/browser-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/browser-notification-fields'));
+      break;
     case 'email-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/email-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/email-notification-fields'));
+      break;
     case 'ios-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/ios-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/ios-notification-fields'));
+      break;
     case 'slack-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/slack-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/slack-notification-fields'));
+      break;
     case 'sms-notification':
-      return createLazyComponent(import('@triniti/cms/plugins/notify/components/sms-notification-fields'));
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/sms-notification-fields'));
+      break;
     default:
-      return null;
+      break;
   }
+  return fieldsComponents[type];
 };
 
 const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
+  useEffect(() => () => { fieldsComponents = {}; }, []);
   const streamId = StreamId.fromString(
     `${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`,
   );
@@ -52,20 +66,16 @@ const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
       return <RawContent pbj={node} />;
 
     default:
-      return (
-        <>
-          {type
-            ? (
-              <Fields
-                app={getNode(node.get('app_ref'))}
-                content={getNode(node.get('content_ref'))}
-                isEditMode={isEditMode}
-                node={node}
-                showDatePicker={showDatePicker}
-              />
-            ) : `cannot load fields component since ${type} is passed for notification type value`}
-        </>
-      );
+      return Fields
+        ? (
+          <Fields
+            app={getNode(node.get('app_ref'))}
+            content={getNode(node.get('content_ref'))}
+            isEditMode={isEditMode}
+            node={node}
+            showDatePicker={showDatePicker}
+          />
+        ) : <div>{`cannot load fields component since ${type} is passed for notification type value`}</div>;
   }
 };
 

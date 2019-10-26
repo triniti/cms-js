@@ -57,6 +57,14 @@ export const actionTypes = {
   UPDATE_ASSETS_IN_UPLOADER_REQUESTED: t('UPDATE_ASSETS_IN_UPLOADER_REQUESTED'),
 };
 
+export const fileUploadStatuses = {
+  COMPLETED: 'COMPLETED',
+  ERROR: 'ERROR',
+  PROCESSING: 'PROCESSING',
+  UPLOADED: 'UPLOADED',
+  UPLOADING: 'UPLOADING',
+};
+
 export const utilityTypes = {
   GALLERY_SEQUENCE_COUNTER: t('uploaderGallerySequence'),
 };

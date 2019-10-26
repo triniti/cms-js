@@ -868,8 +868,8 @@ class Blocksmith extends React.Component {
    * each time highlighting/selecting of text block's content happens.
    */
   handleFocus() {
-    const { readOnly } = this.state;
-    if (this.editor && !readOnly) {
+    const { isSidebarOpen, readOnly } = this.state;
+    if (!isSidebarOpen && this.editor && !readOnly) {
       this.editor.focus();
     }
   }
@@ -1443,7 +1443,7 @@ class Blocksmith extends React.Component {
           }
           break;
         case 'Backspace':
-          if (typeof previousBlock !== 'undefined') {
+          if (typeof previousBlock !== 'undefined' && currentBlock.getType() !== 'unstyled') {
             if (
               (previousBlock && previousBlock.getType() === 'atomic')
               && (currentBlock.getText() === '' || selectionState.getAnchorOffset() === 0)

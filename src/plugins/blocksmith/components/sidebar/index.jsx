@@ -170,6 +170,7 @@ export default class Sidebar extends React.Component {
                 theme="white"
                 type="search"
                 value={q}
+                autoFocus
               />
               <InputGroupAddon addonType="append">
                 <Button color="secondary">
