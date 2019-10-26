@@ -2,6 +2,7 @@
 
 
 ## patch
+* fix double scrollbar mojave issue
 * fix notification screen crash
 * add a check `isThemeable` before calling get/set on `image-block`
 * blocks delete on delete key press

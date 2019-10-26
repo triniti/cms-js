@@ -210,6 +210,10 @@ class NodePickerField extends React.Component {
           value: NodeRef.fromNode(node),
           node,
         }))}
+        styles={{ menuList: (base) => ({
+          ...base,
+          overflowY: 'unset',
+        }) }}
         value={value}
       />
     );
