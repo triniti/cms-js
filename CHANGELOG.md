@@ -1,28 +1,5 @@
 # CHANGELOG
 
-## vN.N.N
-* issue #51: Update regex instagram block modal.
-
-
-## patch
-* Add Label for to `GalleryFields` for related galleries title
-* Add theme pick list to image block
-* allow seo meta keywords and hashtags to be selected using comma key
-* update site-logo to new triniti logo
-* issue #6: Modal does not auto-close when selecting a new block
-* style (in triniti) the save buttons
-* Add fix for cutting and pasting a text block
-* style (in triniti) the key values field select component
-* Add divider block into blocksmith
-* style video captions selector
-* update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
-* add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
-* style fragments selector
-* Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
-* increase width of value field in key-values-field
-* fix asset variant dropzone spinner
-* pre-fill notification modal when opened from article screen
-
 
 ## patch
 * fix notification screen crash
@@ -31,6 +8,7 @@
 * more keyValuesField styling
 * Bug: Unable to paste into slug field(URL) and keep formatting.
 * Bug: block modal search bar non functional
+
 
 ## v0.2.1
 * Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
