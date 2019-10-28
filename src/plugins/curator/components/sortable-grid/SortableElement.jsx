@@ -5,7 +5,6 @@ import ButtonToolbarAsset from './ButtonToolbarAsset';
 
 export default SortableElement(
   ({
-    gallerySequence,
     isDisabled,
     imagesPerRow,
     invalidSeqSet,
@@ -29,7 +28,6 @@ export default SortableElement(
       >
         <ButtonToolbarAsset
           disabled={isDisabled}
-          gallerySequence={gallerySequence}
           node={node}
           onEditAsset={onEditAsset}
           onEditSequence={onEditSequence}
