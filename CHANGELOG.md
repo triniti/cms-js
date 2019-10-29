@@ -10,6 +10,7 @@
 * Bug: Unable to paste into slug field(URL) and keep formatting.
 * Fix picker not scrolling which was actually options being filtered.
 * Bug: block modal search bar non functional
+* fix blocksmith inline toolbar
 
 
 ## v0.2.1
