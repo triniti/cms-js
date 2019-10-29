@@ -4,16 +4,17 @@ import { STATUS_PENDING } from '@triniti/app/constants';
 
 /**
  * if we do the standard thing and pass through the getNode anonymous function, the heartbeat
- * will cause the whole component to re-render which sucks.
+ * will cause the whole component to re-render which sucks. keyed by curie because there can be
+ * more than one on the page at the same time and the heartbeat kicks em all.
  */
-let cache = {};
-const getMemoizedValues = (key, fields, optionsMapper) => {
-  if (cache[key]) {
-    return cache[key];
+const cache = {};
+const getMemoizedValues = (curie, key, fields, optionsMapper) => {
+  if (cache[curie] && cache[curie][key]) {
+    return cache[curie][key];
   }
-  cache = {};
-  cache[key] = fields.map(optionsMapper);
-  return cache[key];
+  cache[curie] = {};
+  cache[curie][key] = fields.map(optionsMapper);
+  return cache[curie][key];
 };
 
 /**
@@ -29,6 +30,7 @@ export default (state, { constants, fields, schemas, isGetAll, optionsMapper = n
   const cacheKey = `${!response ? '' : response.get('response_id')}-${allFields.reduce((acc, cur) => (acc + cur), '')}`;
 
   const value = getMemoizedValues(
+    curie.toString(),
     cacheKey,
     allFields,
     optionsMapper || ((nodeRef) => {
