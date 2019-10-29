@@ -16,7 +16,7 @@ import startCase from 'lodash/startCase';
 import moment from 'moment';
 import Message from '@gdbots/pbj/Message';
 import Exception from '@gdbots/common/Exception';
-import { STATUS_FULFILLED, STATUS_NONE } from '@triniti/app/constants';
+import { STATUS_FULFILLED, STATUS_NONE, STATUS_PENDING } from '@triniti/app/constants';
 import UserLink from './UserLink';
 import EventDetails from './EventDetails';
 import RawViewButton from '../raw-view-button';
@@ -43,9 +43,11 @@ class EventStream extends React.Component {
     super(props);
     this.state = {
       allEvents: [],
+      loadMore: false,
     };
 
     this.handleRefresh = this.handleRefresh.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -58,9 +60,16 @@ class EventStream extends React.Component {
     // Add events to local state if new events are added to store from load more.
     if (events.length) {
       if (!prevProps.events.length || (prevProps.events[0].get('event_id') !== events[0].get('event_id'))) {
-        this.setState({ allEvents: [...allEvents, ...events] });
+        this.setState({ allEvents: [...allEvents, ...events], loadMore: false });
       }
     }
+  }
+
+  handleLoadMore() {
+    const { onLoadMore: handleLoadMore } = this.props;
+
+    handleLoadMore();
+    this.setState({ loadMore: true });
   }
 
   handleRefresh() {
@@ -74,12 +83,11 @@ class EventStream extends React.Component {
     const {
       getUser,
       response,
-      onLoadMore: handleLoadMore,
       status,
       exception,
     } = this.props;
 
-    const { allEvents } = this.state;
+    const { allEvents, loadMore } = this.state;
 
     return (
       <Card>
@@ -89,10 +97,10 @@ class EventStream extends React.Component {
             <Icon imgSrc="refresh" noborder />
           </Button>
         </CardHeader>
-        <CardBody indent>
+        <CardBody className="pl-0 pr-0">
           {
             (!response || status !== STATUS_FULFILLED)
-            && <StatusMessage status={status} exception={exception} />
+            && <div className="ml-4"><StatusMessage status={status} exception={exception} /></div>
           }
           <ListGroup borderless>
             {allEvents.map((event) => {
@@ -124,10 +132,13 @@ class EventStream extends React.Component {
             })}
           </ListGroup>
           {
-            response && response.get('has_more')
-            && <Button key="a" style={{ margin: 0 }} onClick={handleLoadMore} color="secondary">Load More</Button>
+            response && response.get('has_more') && !loadMore
+            && <Button className="ml-4" key="a" style={{ margin: 0 }} onClick={this.handleLoadMore} color="secondary">Load More</Button>
           }
         </CardBody>
+        {
+          loadMore && <div className="ml-4"><StatusMessage className="ml-4" status={STATUS_PENDING} /></div>
+        }
       </Card>
     );
   }

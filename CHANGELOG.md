@@ -2,13 +2,18 @@
 
 
 ## patch
+* fix double scrollbar mojave issue
 * fix notification screen crash
 * add a check `isThemeable` before calling get/set on `image-block`
 * blocks delete on delete key press
 * more keyValuesField styling
 * Bug: Unable to paste into slug field(URL) and keep formatting.
+* Fix picker not scrolling which was actually options being filtered.
 * Bug: block modal search bar non functional
-* Optimize Gallery Reorder - Batching
+* fix blocksmith inline toolbar
+* optimize Gallery Reorder - Batching
+
+
 
 ## v0.2.1
 * Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
