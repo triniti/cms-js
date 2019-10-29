@@ -60,8 +60,7 @@ class EventStream extends React.Component {
     // Add events to local state if new events are added to store from load more.
     if (events.length) {
       if (!prevProps.events.length || (prevProps.events[0].get('event_id') !== events[0].get('event_id'))) {
-        this.setState({ allEvents: [...allEvents, ...events] });
-        this.setState({ loadMore: false });
+        this.setState({ allEvents: [...allEvents, ...events], loadMore: false });
       }
     }
   }
