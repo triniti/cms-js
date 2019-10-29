@@ -1,0 +1,21 @@
+.divider__preview {
+  position: relative;
+  border-top-width: 3px;
+  border-top-style: solid;
+  margin-bottom: .5rem;
+
+  h5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    margin-top: -9px;
+    margin-bottom: 0;
+    padding-right: 6px;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: white;
+  }
+}

@@ -1,13 +1,12 @@
-import classNames from 'classnames';
-import inflection from 'inflection';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 import ArticlesTable from '@triniti/cms/plugins/news/components/articles-table';
+import classNames from 'classnames';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
+import inflection from 'inflection';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import PropTypes from 'prop-types';
+import React from 'react';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort';
 import {
   Modal,
@@ -19,10 +18,10 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
+import delegateFactory from './delegate';
 import Footer from './Footer';
 import Header from './Header';
 import SearchBar from '../search-bar';
-import delegateFactory from './delegate';
 import selector from './selector';
 
 const ARTICLE = 'article';
@@ -70,7 +69,8 @@ class ArticleBlockModal extends React.Component {
       selectedArticleNode: articleNode || null,
       selectedImageRef: imageRef || null,
       showImage: block.get('show_image'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      aside: block.get('aside'),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -106,6 +106,7 @@ class ArticleBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       linkText,
       selectedArticleNode,
@@ -117,9 +118,10 @@ class ArticleBlockModal extends React.Component {
     return block.schema().createMessage()
       .set('node_ref', NodeRef.fromNode(selectedArticleNode))
       .set('show_image', !!showImage)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('image_ref', selectedImageRef || null)
-      .set('link_text', linkText || null);
+      .set('link_text', linkText || null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -128,20 +130,20 @@ class ArticleBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeLinkText({ target: { value: linkText } }) {
-    this.setState({ linkText });
-  }
-
-  handleChangeQ({ target: { value: articleQ } }) {
-    this.setState({ articleQ }, this.handleSearchArticles);
-  }
-
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
   }
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeLinkText({ target: { value: linkText } }) {
+    this.setState({ linkText });
+  }
+
+  handleChangeQ({ target: { value: articleQ } }) {
+    this.setState({ articleQ }, this.handleSearchArticles);
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -218,6 +220,7 @@ class ArticleBlockModal extends React.Component {
     const {
       activeStep,
       articleQ,
+      aside,
       hasUpdatedDate,
       isAssetPickerModalOpen,
       isReadyToDisplay,
@@ -253,22 +256,19 @@ class ArticleBlockModal extends React.Component {
           toggle={toggle}
         />
         <ModalBody className="p-0">
-          {
-            activeStep === 0 && (
-              <SearchBar
-                onChangeQ={this.handleChangeQ}
-                onClick={this.handleSearchArticles}
-                placeholder={`Search ${inflection.pluralize(type)}...`}
-                value={articleQ}
-              />
-            )
-          }
+          {activeStep === 0 && (
+          <SearchBar
+            onChangeQ={this.handleChangeQ}
+            onClick={this.handleSearchArticles}
+            placeholder={`Search ${inflection.pluralize(type)}...`}
+            value={articleQ}
+          />
+          )}
           <ScrollableContainer
             className="bg-gray-400"
             style={{ height: `calc(100vh - ${activeStep === 0 ? 212 : 167}px)` }}
           >
-            {
-              activeStep === 0 && isReadyToDisplay && !!articleNodes.length
+            {activeStep === 0 && isReadyToDisplay && !!articleNodes.length
               && (
                 <ArticlesTable
                   hasCheckboxes={false}
@@ -284,12 +284,11 @@ class ArticleBlockModal extends React.Component {
                   sort={articleSort}
                   striped
                 />
-              )
-            }
-            {
-              activeStep === 1
+              )}
+            {activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   node={node}
                   onClearImage={this.handleClearImage}
@@ -307,26 +306,21 @@ class ArticleBlockModal extends React.Component {
                   showImage={showImage}
                   updatedDate={updatedDate}
                 />
-              )
-            }
-            {
-              isReadyToDisplay && activeStep === 0 && !articleNodes.length
+              )}
+            {isReadyToDisplay && activeStep === 0 && !articleNodes.length
               && (
                 <div className="not-found-message">
                   <p>No articles found that match your search.</p>
                 </div>
-              )
-            }
-            {
-              !isReadyToDisplay && activeStep === 0
+              )}
+            {!isReadyToDisplay && activeStep === 0
               && (
                 <Spinner
                   centered
                   className={classNames({ 'mt-3': activeStep === 1 })}
                   style={activeStep === 1 ? { height: 'auto' } : {}}
                 />
-              )
-            }
+              )}
           </ScrollableContainer>
         </ModalBody>
         <Footer

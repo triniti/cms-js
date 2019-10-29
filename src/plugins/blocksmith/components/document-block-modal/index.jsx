@@ -1,12 +1,11 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
-
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DocumentAssetsTable from '@triniti/cms/plugins/dam/components/document-assets-table';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import Pagination from '@triniti/cms/components/pagination';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Modal,
   ModalBody,
@@ -17,11 +16,11 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
+import delegateFactory from './delegate';
 import Footer from './Footer';
 import Header from './Header';
 import NotFoundMessage from './NotFoundMessage';
 import SearchBar from '../search-bar';
-import delegateFactory from './delegate';
 import selector from './selector';
 
 const DOCUMENT_TYPES = ['text/plain', 'text/rtf', 'application/pdf'];
@@ -39,6 +38,7 @@ class DocumentBlockModal extends React.Component {
     node: PropTypes.instanceOf(Message),
     onAddBlock: PropTypes.func.isRequired,
     onEditBlock: PropTypes.func.isRequired,
+    request: PropTypes.instanceOf(Message),
     toggle: PropTypes.func.isRequired,
     delegate: PropTypes.shape({
       handleClearDocumentAssetChannel: PropTypes.func.isRequired,
@@ -51,6 +51,7 @@ class DocumentBlockModal extends React.Component {
     imageNode: null,
     isOpen: false,
     node: null,
+    request: null,
   };
 
   constructor(props) {
@@ -58,6 +59,7 @@ class DocumentBlockModal extends React.Component {
     const { block, imageNode, documentNode } = props;
     this.state = {
       activeStep: 0,
+      aside: block.get('aside'),
       documentQ: '',
       hasUpdatedDate: block.has('updated_date'),
       isAssetPickerModalOpen: false,
@@ -66,13 +68,14 @@ class DocumentBlockModal extends React.Component {
       launchText: block.get('launch_text') || '',
       selectedDocumentNode: documentNode || null,
       selectedImageNode: imageNode || null,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
+    this.handleChangeSearchParam = this.handleChangeSearchParam.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleCloseUploader = this.handleCloseUploader.bind(this);
@@ -105,6 +108,7 @@ class DocumentBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       hasUpdatedDate,
       launchText,
       selectedDocumentNode,
@@ -116,7 +120,8 @@ class DocumentBlockModal extends React.Component {
       .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('aside', aside);
   }
 
   handleAddBlock() {
@@ -125,8 +130,8 @@ class DocumentBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {
@@ -139,6 +144,15 @@ class DocumentBlockModal extends React.Component {
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeSearchParam(key, value) {
+    const { delegate, request } = this.props;
+
+    const newRequest = { ...request.toObject(), [key]: value };
+
+    delete newRequest.request_id;
+    delegate.handleSearchDocumentAssets(newRequest);
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -220,6 +234,7 @@ class DocumentBlockModal extends React.Component {
   render() {
     const {
       activeStep,
+      aside,
       documentQ,
       hasUpdatedDate,
       isAssetPickerModalOpen,
@@ -233,6 +248,7 @@ class DocumentBlockModal extends React.Component {
     const {
       documentAssetNodes,
       documentAssetSort,
+      request,
       isFreshBlock,
       isOpen,
       node,
@@ -254,8 +270,7 @@ class DocumentBlockModal extends React.Component {
           toggle={toggle}
         />
         <ModalBody className="p-0">
-          {
-            activeStep === 0
+          {activeStep === 0
             && (
               <SearchBar
                 onChangeQ={this.handleChangeQ}
@@ -263,18 +278,16 @@ class DocumentBlockModal extends React.Component {
                 placeholder="Search documents..."
                 value={documentQ}
               />
-            )
-          }
+            )}
           <ScrollableContainer
             className="bg-gray-400"
-            style={{ height: `calc(100vh - ${activeStep === 0 ? 212 : 167}px)` }}
+            style={{ height: `calc(100vh - ${activeStep === 0 ? 275 : 167}px)` }}
           >
             {
               !isReadyToDisplay && activeStep !== 1
               && <Spinner centered />
             }
-            {
-              isReadyToDisplay && activeStep === 0 && !documentAssetNodes.length
+            {isReadyToDisplay && activeStep === 0 && !documentAssetNodes.length
               && (
                 <NotFoundMessage
                   allowedMimeTypes={DOCUMENT_TYPES}
@@ -283,32 +296,29 @@ class DocumentBlockModal extends React.Component {
                   onCloseUploader={this.handleCloseUploader}
                   onToggleUploader={this.handleToggleUploader}
                 />
-              )
-            }
-            {
-              isReadyToDisplay && activeStep === 0 && !!documentAssetNodes.length
+              )}
+            {isReadyToDisplay && activeStep === 0 && !!documentAssetNodes.length
               && (
                 <DocumentAssetsTable
-                  nodes={documentAssetNodes.filter((n) => DOCUMENT_TYPES.includes(n.get('mime_type')))}
+                  nodes={documentAssetNodes}
                   sort={documentAssetSort}
                   onSelectNode={this.handleSelectDocument}
                   onSort={(newSort) => this.handleSearchDocumentAssets(newSort)}
                   selectedNode={selectedDocumentNode}
                 />
-              )
-            }
-            {
-              activeStep === 1
+              )}
+            {activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
                   isAssetPickerModalOpen={isAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   launchText={launchText}
                   node={node}
+                  onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeHasUpdatedDAte={this.handleChangeHasUpdatedDate}
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
@@ -316,10 +326,18 @@ class DocumentBlockModal extends React.Component {
                   onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
                   updatedDate={updatedDate}
                 />
-              )
-            }
+              )}
           </ScrollableContainer>
         </ModalBody>
+        {activeStep === 0 && !!documentAssetNodes.length
+          && (
+            <Pagination
+              className="justify-content-center d-flex mt-2"
+              currentPage={request.get('page') || 1}
+              onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
+              total={documentAssetNodes.length}
+            />
+          )}
         <Footer
           allowedMimeTypes={DOCUMENT_TYPES}
           activeStep={activeStep}

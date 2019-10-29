@@ -1,9 +1,7 @@
-import moment from 'moment';
 import prependHttp from 'prepend-http';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-
 import isValidUrl from '@gdbots/common/isValidUrl';
 import Message from '@gdbots/pbj/Message';
 import {
@@ -20,7 +18,6 @@ import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
 import selector from './selector';
-
 
 class ImageBlockModal extends React.Component {
   static propTypes = {
@@ -42,6 +39,7 @@ class ImageBlockModal extends React.Component {
     super(props);
     const { block, image, isFreshBlock } = props;
     this.state = {
+      aside: block.get('aside'),
       aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
       caption: block.get('caption') || '',
       hasCaption: block.has('caption'),
@@ -50,8 +48,10 @@ class ImageBlockModal extends React.Component {
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
+      launchText: block.get('launch_text') || null,
       selectedImage: image || null,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      theme: block.get('theme') || null,
+      updatedDate: block.get('updated_date', new Date()),
       url: block.get('url') || '',
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -59,6 +59,8 @@ class ImageBlockModal extends React.Component {
     this.handleChangeCaption = this.handleChangeCaption.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
+    this.handleChangeTheme = this.handleChangeTheme.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
@@ -69,6 +71,7 @@ class ImageBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       aspectRatio,
       caption,
       hasCaption,
@@ -76,16 +79,21 @@ class ImageBlockModal extends React.Component {
       isLink,
       isNsfw,
       isValid,
+      launchText,
       selectedImage,
+      theme,
       updatedDate,
       url,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
-      .set('is_nsfw', isNsfw)
-      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
+      .set('aside', aside)
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
+      .set('is_nsfw', isNsfw)
+      .set('launch_text', launchText || null)
+      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
+      .set('theme', theme)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
   }
@@ -96,8 +104,16 @@ class ImageBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeTheme(selectedOption) {
+    this.setState({ theme: selectedOption ? selectedOption.value : null });
+  }
+
   handleChangeAspectRatio(option) {
     this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+  }
+
+  handleChangeLaunchText({ target: { value: launchText } }) {
+    this.setState({ launchText });
   }
 
   handleChangeCaption({ target: { value: caption } }) {
@@ -161,6 +177,7 @@ class ImageBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       aspectRatio,
       caption,
       hasCaption,
@@ -169,7 +186,9 @@ class ImageBlockModal extends React.Component {
       isLink,
       isNsfw,
       isValid,
+      launchText,
       selectedImage,
+      theme,
       updatedDate,
       url,
     } = this.state;
@@ -192,8 +211,9 @@ class ImageBlockModal extends React.Component {
             style={{ height: 'calc(100vh - 168px)' }}
           >
             <CustomizeOptions
-              block={this.setBlock()}
+              aside={aside}
               aspectRatio={aspectRatio}
+              block={this.setBlock()}
               caption={caption}
               hasCaption={hasCaption}
               hasUpdatedDate={hasUpdatedDate}
@@ -201,17 +221,21 @@ class ImageBlockModal extends React.Component {
               isLink={isLink}
               isNsfw={isNsfw}
               isValid={isValid}
+              launchText={launchText}
               node={node}
               onChangeAspectRatio={this.handleChangeAspectRatio}
               onChangeCaption={this.handleChangeCaption}
               onChangeCheckBox={this.handleChangeCheckbox}
               onChangeDate={this.handleChangeDate}
+              onChangeLaunchText={this.handleChangeLaunchText}
+              onChangeTheme={this.handleChangeTheme}
               onChangeTime={this.handleChangeTime}
               onChangeUrl={this.handleChangeUrl}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
               onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
               selectedImage={selectedImage}
+              theme={theme}
               updatedDate={updatedDate}
               url={url}
             />

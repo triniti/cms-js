@@ -1,3 +1,5 @@
+import { fileUploadStatuses } from '../constants';
+
 export default ({ dam }) => {
   const { files } = dam.uploader;
 
@@ -7,7 +9,7 @@ export default ({ dam }) => {
 
   const assets = Object.keys(dam.uploader.files).reduce((accumulator, hashName) => {
     const fileInfo = files[hashName];
-    if (fileInfo.status === 'COMPLETED') {
+    if (fileInfo.status === fileUploadStatuses.COMPLETED) {
       accumulator.push(fileInfo.asset);
     }
     return accumulator;

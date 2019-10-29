@@ -71,7 +71,7 @@ class SortableList extends React.Component {
     const { fields, getNode, isMulti, readOnly } = this.props;
     let label = isMulti ? 'order galleries' : 'selected gallery';
     if (readOnly) {
-      label = isMulti ? 'related galleries' : 'related gallery';
+      label = isMulti ? 'selected galleries' : 'selected gallery';
     }
 
     return (

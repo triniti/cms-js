@@ -1,13 +1,12 @@
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import GoogleMapBlockPreview from '@triniti/cms/plugins/blocksmith/components/google-map-block-preview';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Message from '@gdbots/pbj/Message';
-
-import GoogleMapBlockPreview from '@triniti/cms/plugins/blocksmith/components/google-map-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -15,9 +14,6 @@ import {
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
@@ -48,21 +44,22 @@ export default class GoogleMapBlockModal extends React.Component {
     super(props);
     const { block } = props;
     this.state = {
-      q: block.get('q') || '',
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       isAutoZoom: block.get('zoom') === 0,
       isDropdownOpen: false,
       isValid: block.has('q') || block.has('center'),
       mapType: block.get('maptype'),
+      q: block.get('q') || '',
       touched: false,
+      updatedDate: block.get('updated_date', new Date()),
       zoom: block.get('zoom'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAutoZoom = this.handleChangeAutoZoom.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeLocation = this.handleChangeLocation.bind(this);
     this.handleChangeMapType = this.handleChangeMapType.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
@@ -78,13 +75,14 @@ export default class GoogleMapBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
+    const { aside, hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('maptype', mapType || null)
       .set('q', q || null)
-      .set('zoom', zoom || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('zoom', zoom || null);
   }
 
   handleAddBlock() {
@@ -106,12 +104,20 @@ export default class GoogleMapBlockModal extends React.Component {
     }));
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeHasUpdatedDate() {
     this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeAside() {
+    this.setState(({ aside }) => ({ aside: !aside }));
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -153,6 +159,7 @@ export default class GoogleMapBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       isAutoZoom,
@@ -188,8 +195,7 @@ export default class GoogleMapBlockModal extends React.Component {
               Auto Zoom
             </Checkbox>
           </FormGroup>
-          {
-            !isAutoZoom
+          {!isAutoZoom
             && (
               <FormGroup>
                 <Label>Zoom</Label>
@@ -199,8 +205,7 @@ export default class GoogleMapBlockModal extends React.Component {
                   value={zoom}
                 />
               </FormGroup>
-            )
-          }
+            )}
           <FormGroup>
             <Label>Map type</Label>
             <Dropdown isOpen={isDropdownOpen} toggle={this.handleToggleDropDown}>
@@ -208,71 +213,50 @@ export default class GoogleMapBlockModal extends React.Component {
                 {mapType}
               </DropdownToggle>
               <DropdownMenu>
-                {
-                  mapTypes
-                    .filter((type) => type !== mapType)
-                    .map((type) => (
-                      <DropdownItem
-                        key={type}
-                        onClick={this.handleChangeMapType}
-                      >
-                        {type}
-                      </DropdownItem>
-                    ))
-                }
+                {mapTypes
+                  .filter((type) => type !== mapType)
+                  .map((type) => (
+                    <DropdownItem
+                      key={type}
+                      onClick={this.handleChangeMapType}
+                    >
+                      {type}
+                    </DropdownItem>
+                  ))}
               </DropdownMenu>
             </Dropdown>
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {
-            hasUpdatedDate
+          {hasUpdatedDate
             && (
               <div className="modal-body-blocksmith">
-                <FormGroup>
-                  <Label>
-                    Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                  </Label>
-                  <FormGroup className="mb-3 mt-1 shadow-none">
-                    <DatePicker
-                      onChange={this.handleChangeDate}
-                      selected={updatedDate}
-                      shouldCloseOnSelect={false}
-                      inline
-                    />
-                    <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                      <InputGroupAddon addonType="prepend" className="text-dark">
-                        <InputGroupText>
-                          <Icon imgSrc="clock-outline" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        type="time"
-                        onChange={this.handleChangeTime}
-                        defaultValue={updatedDate.format('HH:mm')}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </FormGroup>
+                <DateTimePicker
+                  onChangeDate={this.handleChangeDate}
+                  onChangeTime={this.handleChangeTime}
+                  updatedDate={updatedDate}
+                />
               </div>
-            )
-          }
+            )}
           {
             !isValid && touched
             && <p className="text-danger">{errorMsg}</p>
           }
-          {
-            isValid
+          {isValid
             && (
               <GoogleMapBlockPreview
                 block={this.setBlock()}
                 width={528}
               />
-            )
-          }
+            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>

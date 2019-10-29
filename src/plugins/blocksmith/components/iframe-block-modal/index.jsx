@@ -1,23 +1,20 @@
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import IframeBlockPreview from '@triniti/cms/plugins/blocksmith/components/iframe-block-preview';
 import isEmpty from 'lodash/isEmpty';
-import moment from 'moment';
-import omit from 'lodash/omit';
-import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import swal from 'sweetalert2';
-
 import isValidUrl from '@gdbots/common/isValidUrl';
 import Message from '@gdbots/pbj/Message';
-import IframeBlockPreview from '@triniti/cms/plugins/blocksmith/components/iframe-block-preview';
+import omit from 'lodash/omit';
+import PropTypes from 'prop-types';
+import React from 'react';
+import swal from 'sweetalert2';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
   InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
@@ -70,12 +67,13 @@ export default class IframeBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       align: block.get('align'),
+      aside: block.get('aside'),
       data: block.get('data') || {},
       hasManualDimensions: block.has('height') && block.has('width'),
       hasUpdatedDate: block.has('updated_date'),
       height: block.has('height') ? Number(block.get('height').replace('px', '')) : null,
       src: block.get('src'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
       width: block.has('width') ? Number(block.get('width').replace('px', '')) : null,
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -99,6 +97,7 @@ export default class IframeBlockModal extends React.Component {
   setBlock() {
     const {
       align,
+      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -110,10 +109,11 @@ export default class IframeBlockModal extends React.Component {
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
       .set('align', align || null)
+      .set('aside', aside)
       .set('height', hasManualDimensions && height ? `${height}px` : null)
       .set('src', src || null)
-      .set('width', hasManualDimensions && width ? `${width}px` : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('width', hasManualDimensions && width ? `${width}px` : null);
 
     setBlock.clear('data');
     Object.entries(data).forEach(([key, value]) => {
@@ -236,6 +236,7 @@ export default class IframeBlockModal extends React.Component {
   render() {
     const {
       align,
+      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -278,7 +279,10 @@ export default class IframeBlockModal extends React.Component {
                 id="align"
                 name="align"
                 onChange={this.handleChangeSelect}
-                value={align || ''}
+                value={!align ? null : {
+                  label: align,
+                  value: align,
+                }}
                 options={[
                   { label: 'left', value: 'left' },
                   { label: 'center', value: 'center' },
@@ -305,8 +309,7 @@ export default class IframeBlockModal extends React.Component {
                   Manually adjust dimensions
                 </Checkbox>
               </FormGroup>
-              {
-                hasManualDimensions
+              {hasManualDimensions
                 && (
                   <>
                     <Label>Height</Label>
@@ -324,46 +327,30 @@ export default class IframeBlockModal extends React.Component {
                       value={width || ''}
                     />
                   </>
-                )
-              }
+                )}
             </FormGroup>
             <FormGroup className="mr-4">
               <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
             </FormGroup>
-            {
-              hasUpdatedDate
+            <FormGroup className="mr-4">
+              <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
+                Aside
+              </Checkbox>
+              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+            </FormGroup>
+            {hasUpdatedDate
               && (
                 <div className="modal-body-blocksmith">
-                  <FormGroup>
-                    <Label>
-                      Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                    </Label>
-                    <FormGroup className="mb-3 mt-1 shadow-none">
-                      <DatePicker
-                        onChange={this.handleChangeDate}
-                        selected={updatedDate}
-                        shouldCloseOnSelect={false}
-                        inline
-                      />
-                      <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                        <InputGroupAddon addonType="prepend" className="text-dark">
-                          <InputGroupText>
-                            <Icon imgSrc="clock-outline" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          type="time"
-                          onChange={this.handleChangeTime}
-                          defaultValue={updatedDate.format('HH:mm')}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </FormGroup>
+                  <DateTimePicker
+                    onChangeDate={this.handleChangeDate}
+                    onChangeTime={this.handleChangeTime}
+                    updatedDate={updatedDate}
+                  />
                 </div>
-              )
-            }
+              )}
           </ModalBody>
           <ModalFooter>
             <Button onClick={toggle}>Cancel</Button>

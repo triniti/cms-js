@@ -8,6 +8,7 @@ import {
   DropdownToggle,
   Spinner,
 } from '@triniti/admin-ui-plugin/components';
+import { fileUploadStatuses } from '../../constants';
 
 export default class FileItem extends React.Component {
   static propTypes = {
@@ -45,7 +46,7 @@ export default class FileItem extends React.Component {
       active: !!file.active,
     };
 
-    if (file.status === 'ERROR') {
+    if (file.status === fileUploadStatuses.ERROR) {
       return (
         <ButtonDropdown
           isOpen={errBtnOpen}
@@ -76,16 +77,16 @@ export default class FileItem extends React.Component {
     let color = 'light';
     let loading = null;
     switch (file.status) {
-      case 'COMPLETED':
+      case fileUploadStatuses.COMPLETED:
         color = 'success';
         break;
-      case 'UPLOADED':
+      case fileUploadStatuses.UPLOADED:
         color = 'info';
         break;
-      case 'UPLOADING':
+      case fileUploadStatuses.UPLOADING:
         loading = true;
         break;
-      case 'PROCESSING':
+      case fileUploadStatuses.PROCESSING:
       default:
         color = 'light';
         loading = true;

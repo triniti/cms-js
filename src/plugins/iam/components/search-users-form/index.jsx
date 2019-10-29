@@ -65,7 +65,7 @@ const SearchUsersForm = ({
                 />
               </InputGroupAddon>
               <Input
-                className="form-control"
+                className="form-control search-nodes__input"
                 innerRef={inputRef}
                 name="q"
                 onChange={handleSearchTextChange}

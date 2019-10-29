@@ -1,19 +1,15 @@
-import moment from 'moment';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import Message from '@gdbots/pbj/Message';
-import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
-  DatePicker,
   FormGroup,
   Icon,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Modal,
   ModalBody,
@@ -24,8 +20,8 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-const INSTAGRAM_MEDIA_REGEX = /https:\/\/www\.instagram\.com\/p\/[\w\s-]+\/?/;
-const INSTAGRAM_STRIP_REGEX = /(https:\/\/www\.instagram\.com\/p\/?|\/)/g;
+const INSTAGRAM_MEDIA_REGEX = /(https?:\/\/www?\.instagram\.com)\/(p\/)?(tv\/)?/g;
+const INSTAGRAM_STRIP_REGEX = /[^https://www.instagram.com][^/p][^/tv].*[a-zA-Z]/g;
 
 export default class InstagramMediaBlockModal extends React.Component {
   static propTypes = {
@@ -46,13 +42,14 @@ export default class InstagramMediaBlockModal extends React.Component {
     const { block } = props;
     const id = block.get('id');
     this.state = {
+      aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       hideCaption: block.get('hidecaption'),
       id,
       isValid: block.has('id'),
       touched: false,
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
       url: id ? `https://www.instagram.com/p/${id}/` : '',
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -70,12 +67,13 @@ export default class InstagramMediaBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, hideCaption, id, updatedDate } = this.state;
+    const { hasUpdatedDate, hideCaption, id, updatedDate, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('hidecaption', hideCaption)
       .set('id', id)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -90,6 +88,10 @@ export default class InstagramMediaBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { checked, id } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
@@ -101,14 +103,16 @@ export default class InstagramMediaBlockModal extends React.Component {
   handleChangeTextarea(event) {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
-    if (!INSTAGRAM_MEDIA_REGEX.test(input)) {
+    const isValidUrl = INSTAGRAM_MEDIA_REGEX.test(input);
+
+    if (!isValidUrl) {
       errorMsg = 'url or embed code is invalid';
       isValid = false;
     } else {
       errorMsg = '';
       isValid = true;
       hideCaption = input.indexOf('data-instgrm-captioned') === -1;
-      id = input.match(INSTAGRAM_MEDIA_REGEX)[0].replace(INSTAGRAM_STRIP_REGEX, '');
+      id = input.match(INSTAGRAM_STRIP_REGEX)[0];
     }
     this.setState({
       errorMsg,
@@ -120,23 +124,19 @@ export default class InstagramMediaBlockModal extends React.Component {
     });
   }
 
-  handleChangeCheckbox({ target: { checked, id } }) {
-    this.setState({ [id]: checked });
-  }
 
   render() {
     const {
+      aside,
       errorMsg,
       hasUpdatedDate,
       hideCaption,
-      id,
       isValid,
       touched,
       updatedDate,
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
-    const displayUrl = isValid ? `https://www.instagram.com/p/${id}/` : url;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -149,7 +149,7 @@ export default class InstagramMediaBlockModal extends React.Component {
               onChange={this.handleChangeTextarea}
               placeholder="enter url or embed code"
               type="textarea"
-              value={displayUrl}
+              value={url || null}
             />
           </FormGroup>
           {
@@ -166,38 +166,23 @@ export default class InstagramMediaBlockModal extends React.Component {
               Is update
             </Checkbox>
           </FormGroup>
-          {
-            hasUpdatedDate
+          <FormGroup className="mr-4">
+            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+          </FormGroup>
+          {hasUpdatedDate
             && (
               <div className="modal-body-blocksmith">
-                <FormGroup>
-                  <Label>
-                    Updated Time: {updatedDate.format('YYYY-MM-DD hh:mm A')}
-                  </Label>
-                  <FormGroup className="mb-3 mt-1 shadow-none">
-                    <DatePicker
-                      onChange={this.handleChangeDate}
-                      selected={updatedDate}
-                      shouldCloseOnSelect={false}
-                      inline
-                    />
-                    <InputGroup style={{ width: '15rem', margin: 'auto' }}>
-                      <InputGroupAddon addonType="prepend" className="text-dark">
-                        <InputGroupText>
-                          <Icon imgSrc="clock-outline" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        type="time"
-                        onChange={this.handleChangeTime}
-                        defaultValue={updatedDate.format('HH:mm')}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </FormGroup>
+                <DateTimePicker
+                  onChangeDate={this.handleChangeDate}
+                  onChangeTime={this.handleChangeTime}
+                  updatedDate={updatedDate}
+                />
               </div>
-            )
-          }
+            )}
           {
             isValid
             && <InstagramMediaBlockPreview block={this.setBlock()} />

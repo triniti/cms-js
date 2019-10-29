@@ -9,7 +9,7 @@ import schemas from './schemas';
 import SortableList from './SortableList';
 import './styles.scss';
 
-const GalleryPickerField = (props) => {
+const WidgetPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
   return (
     <>
@@ -20,7 +20,7 @@ const GalleryPickerField = (props) => {
           readOnly={!isEditMode || disabled}
         />
       )}
-      {!isEditMode && (
+      {isEditMode && (
         <>
           <Label>{`search and select ${isMulti ? 'widgets' : 'a widget'}`}</Label>
           <NodePickerField
@@ -42,16 +42,16 @@ const GalleryPickerField = (props) => {
   );
 };
 
-GalleryPickerField.propTypes = {
+WidgetPickerField.propTypes = {
   disabled: PropTypes.bool,
   isEditMode: PropTypes.bool,
   isMulti: PropTypes.bool,
 };
 
-GalleryPickerField.defaultProps = {
+WidgetPickerField.defaultProps = {
   disabled: false,
   isEditMode: true,
   isMulti: true,
 };
 
-export default GalleryPickerField;
+export default WidgetPickerField;

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { STATUS_FULFILLED } from '@triniti/app/constants';
-import { StatusMessage } from '@triniti/admin-ui-plugin/components';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import Schema from '@gdbots/pbj/Schema';
@@ -15,6 +13,7 @@ class History extends React.Component {
   static propTypes = {
     delegate: PropTypes.shape({
       handleInitialize: PropTypes.func,
+      handleLoadMore: PropTypes.func,
     }).isRequired,
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getHistoryRequestState: PropTypes.shape({
@@ -45,12 +44,26 @@ class History extends React.Component {
   }
 
   render() {
-    const { events, getUser, getHistoryRequestState: { response, status, exception } } = this.props;
-    if (!response || status !== STATUS_FULFILLED) {
-      return <StatusMessage status={status} exception={exception} />;
-    }
+    const {
+      delegate,
+      events,
+      getUser,
+      getHistoryRequestState: { response, status, exception },
+      streamId,
+      schema,
+    } = this.props;
 
-    return <EventStream events={events} getUser={getUser} />;
+    return (
+      <EventStream
+        events={events}
+        getUser={getUser}
+        status={status}
+        exception={exception}
+        response={response}
+        onRefresh={() => delegate.handleInitialize(streamId, schema)}
+        onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
+      />
+    );
   }
 }
 

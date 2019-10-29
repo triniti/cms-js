@@ -3,6 +3,13 @@ let blockParentNode;
 function check() {
   if (!blockParentNode) {
     blockParentNode = document.querySelector('[data-contents="true"]');
+    // on cut, draft may recreate its dom tree including this node
+    // so unset and it will be reset later
+    if (blockParentNode) {
+      blockParentNode.addEventListener('cut', () => {
+        blockParentNode = null;
+      });
+    }
   }
 }
 

@@ -1,9 +1,12 @@
-import moment from 'moment';
-import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import PropTypes from 'prop-types';
+import React from 'react';
+import SoundcloudAudioBlockPreview from '@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-preview';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
@@ -14,14 +17,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Icon,
 } from '@triniti/admin-ui-plugin/components';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
-import SoundcloudAudioBlockPreview from '@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-preview';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-
 import selector from './selector';
 
 const TRACK_ID_REGEX = /api\.soundcloud\.com\/tracks\/\d+/;
@@ -52,6 +52,7 @@ class SoundcloudAudioBlockModal extends React.Component {
     super(props);
     const { block, imageNode } = props;
     this.state = {
+      aside: block.get('aside'),
       autoplay: block.get('auto_play'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
@@ -60,14 +61,13 @@ class SoundcloudAudioBlockModal extends React.Component {
       selectedImageNode: imageNode || null,
       touched: false,
       trackId: block.get('track_id'),
-      updatedDate: block.has('updated_date') ? moment(block.get('updated_date')) : moment(),
+      updatedDate: block.get('updated_date', new Date()),
       willHideRelated: block.get('hide_related'),
       willShowComments: block.get('show_comments'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -82,6 +82,7 @@ class SoundcloudAudioBlockModal extends React.Component {
 
   setBlock() {
     const {
+      aside,
       autoplay,
       hasUpdatedDate,
       isVisual,
@@ -93,13 +94,14 @@ class SoundcloudAudioBlockModal extends React.Component {
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
+      .set('aside', aside)
       .set('auto_play', autoplay)
       .set('hide_related', willHideRelated)
-      .set('visual', isVisual)
-      .set('track_id', trackId || null)
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('show_comments', willShowComments)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
+      .set('track_id', trackId || null)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
+      .set('visual', isVisual);
   }
 
   handleAddBlock() {
@@ -114,20 +116,16 @@ class SoundcloudAudioBlockModal extends React.Component {
     toggle();
   }
 
+  handleChangeCheckbox({ target: { id, checked } }) {
+    this.setState({ [id]: checked });
+  }
+
   handleChangeDate(date) {
     this.setState(changedDate(date));
   }
 
   handleChangeTime({ target: { value: time } }) {
     this.setState(changedTime(time));
-  }
-
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
   }
 
   handleChangeTextArea(event) {
@@ -209,6 +207,7 @@ class SoundcloudAudioBlockModal extends React.Component {
 
   render() {
     const {
+      aside,
       autoplay,
       errorMsg,
       hasUpdatedDate,
@@ -301,12 +300,28 @@ class SoundcloudAudioBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
+            <Checkbox
+              size="sd"
+              checked={hasUpdatedDate}
+              id="hasUpdatedDate"
+              onChange={this.handleChangeCheckbox}
+            >
               Is update
             </Checkbox>
           </FormGroup>
-          {
-            hasUpdatedDate
+          <FormGroup>
+            <Checkbox
+              size="sd"
+              checked={aside}
+              id="aside"
+              onChange={this.handleChangeCheckbox}
+            >
+              Aside
+            </Checkbox>
+            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+          </FormGroup>
+          {hasUpdatedDate
             && (
               <div className="modal-body-blocksmith">
                 <DateTimePicker
@@ -315,8 +330,7 @@ class SoundcloudAudioBlockModal extends React.Component {
                   updatedDate={updatedDate}
                 />
               </div>
-            )
-          }
+            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>
