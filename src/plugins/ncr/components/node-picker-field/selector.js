@@ -1,6 +1,6 @@
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
-import { STATUS_PENDING } from '@triniti/app/constants';
+import { STATUS_FULFILLED } from '@triniti/app/constants';
 
 /**
  * if we do the standard thing and pass through the getNode anonymous function, the heartbeat
@@ -44,7 +44,7 @@ export default (state, { constants, fields, schemas, isGetAll, optionsMapper = n
   );
 
   return {
-    isLoading: status === STATUS_PENDING,
+    isFulfilled: status === STATUS_FULFILLED,
     value,
     response,
   };
