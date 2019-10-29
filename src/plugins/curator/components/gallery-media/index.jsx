@@ -1,11 +1,10 @@
-import isEmpty from 'lodash/isEmpty';
 import pickBy from 'lodash/pickBy';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert2';
 
-import { Button, Card, Col, CardBody, CardHeader, CardFooter, Icon, Row } from '@triniti/admin-ui-plugin/components';
+import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from '@triniti/admin-ui-plugin/components';
 import AddGalleryAssetsModal from '@triniti/cms/plugins/dam/components/add-gallery-assets-modal';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
@@ -78,7 +77,7 @@ class GalleryMedia extends React.Component {
     this.handleIncreaseImagesPerRow = this.handleIncreaseImagesPerRow.bind(this);
     this.handleRemoveAsset = this.handleRemoveAsset.bind(this);
     this.handleReorderGalleryAssets = this.handleReorderGalleryAssets.bind(this);
-    this.handleRevertReorder = this.handleRevertReorder.bind(this);
+    this.handleReorderOnGalleryChanged = this.handleReorderOnGalleryChanged.bind(this);
     this.handleSlideImagesPerRow = this.handleSlideImagesPerRow.bind(this);
     this.handleSubmitReorder = this.handleSubmitReorder.bind(this);
     this.handleToggleCardOverlay = this.handleToggleCardOverlay.bind(this);
@@ -94,42 +93,7 @@ class GalleryMedia extends React.Component {
     const { nodes } = this.props;
     const { reorder: { itemsToUpdate } } = this.state;
     if ((prevNodes.length !== nodes.length) && itemsToUpdate) {
-      /**
-       * One such use case here is when a user edit a whole bunch of
-       * sequences, reorder multiple images and suddenly adds an image.
-       * Following will preserve and rebuild the gallery based from
-       * the unsaved gallery reorder changes that the user has made.
-       */
-      const clonedNodes = nodes.map(node => node.clone());
-      let reorderedNodes = [];
-
-      Object.keys(itemsToUpdate).forEach(id => {
-        const gallerySeq = itemsToUpdate[id];
-        const clonedNode = clonedNodes.find(item => item.get('_id').toString() === id);
-        if (!clonedNode) {
-          delete itemsToUpdate[id];
-          return;
-        }
-        reorderedNodes = moveNodeByGallerySequence(
-          gallerySeq,
-          clonedNode,
-          reorderedNodes.length ? reorderedNodes : clonedNodes,
-        );
-        clonedNode.set('gallery_seq', gallerySeq);
-      });
-
-      const newItemsToUpdate = pickBy(
-        itemsToUpdate,
-        (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
-        !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
-      );
-
-      this.setState({
-        reorder: {
-          itemsToUpdate: !isEmpty(newItemsToUpdate) ? newItemsToUpdate : null,
-          nodes: !isEmpty(newItemsToUpdate) ? reorderedNodes : [],
-        },
-      });
+      this.handleReorderOnGalleryChanged();
     }
   }
 
@@ -205,7 +169,7 @@ class GalleryMedia extends React.Component {
     const { reorder } = this.state;
     const gallerySeqNumber = parseInt(gallerySeq, 10);
     const itemsToUpdate = reorder.itemsToUpdate || {};
-    const clonedNodes = reorder.nodes.length ? [...reorder.nodes] : nodes.map(node => node.clone());
+    const clonedNodes = reorder.nodes.length ? reorder.nodes.slice() : nodes.map(node => node.clone());
     const reorderedNodes = moveNodeByGallerySequence(gallerySeqNumber, asset, clonedNodes);
 
     reorderedNodes
@@ -218,13 +182,14 @@ class GalleryMedia extends React.Component {
       !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
     );
 
+    const itemsToUpdateCount = Object.keys(newItemsToUpdate).length;
     this.setState(() => ({
       reorder: {
-        itemsToUpdate: !isEmpty(newItemsToUpdate) ? newItemsToUpdate : null,
+        itemsToUpdate: itemsToUpdateCount ? newItemsToUpdate : null,
         nodes: reorderedNodes,
       },
     }), () => {
-      if (Object.keys(newItemsToUpdate).length < MAX_ITEMS_TO_UPDATE_COUNT) {
+      if (itemsToUpdateCount < MAX_ITEMS_TO_UPDATE_COUNT) {
         return;
       }
       this.handleSubmitReorder();
@@ -268,7 +233,7 @@ class GalleryMedia extends React.Component {
     const { reorder } = this.state;
     const itemsToUpdate = reorder.itemsToUpdate || {};
 
-    const clonedNodes = reorder.nodes.length ? [...reorder.nodes] : nodes.map(node => node.clone());
+    const clonedNodes = reorder.nodes.length ? reorder.nodes.slice() : nodes.map(node => node.clone());
     const items = clonedNodes.map(node => ({
       assetId: node.get('_id').toString(),
       gallerySequence: node.get('gallery_seq'),
@@ -286,27 +251,61 @@ class GalleryMedia extends React.Component {
       !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
     );
 
+    const itemsToUpdateCount = Object.keys(newItemsToUpdate).length;
     this.setState(() => ({
       reorder: {
         nodes: reorderedNodes,
-        itemsToUpdate: !isEmpty(newItemsToUpdate) ? newItemsToUpdate : null,
+        itemsToUpdate: itemsToUpdateCount ? newItemsToUpdate : null,
       },
     }), () => {
-      if (Object.keys(newItemsToUpdate).length < MAX_ITEMS_TO_UPDATE_COUNT) {
+      if (itemsToUpdateCount < MAX_ITEMS_TO_UPDATE_COUNT) {
         return;
       }
       this.handleSubmitReorder();
     });
   }
 
-  handleRevertReorder() {
-    const { delegate } = this.props;
-    this.setState(() => ({
+  /**
+   * This will preserve and rebuild the gallery based from
+   * the unsaved gallery reorder changes that the user has made.
+   * One such use case here is when a user edit a whole bunch of
+   * sequences, reorder multiple images and suddenly adds an image.
+   */
+  handleReorderOnGalleryChanged() {
+    const { nodes } = this.props;
+    const { reorder: { itemsToUpdate } } = this.state;
+
+    const clonedNodes = nodes.map(node => node.clone());
+    let reorderedNodes = [];
+
+    Object.keys(itemsToUpdate).forEach(id => {
+      const gallerySeq = itemsToUpdate[id];
+      const clonedNode = clonedNodes.find(item => item.get('_id').toString() === id);
+      if (!clonedNode) {
+        delete itemsToUpdate[id];
+        return;
+      }
+      reorderedNodes = moveNodeByGallerySequence(
+        gallerySeq,
+        clonedNode,
+        reorderedNodes.length ? reorderedNodes : clonedNodes,
+      );
+      clonedNode.set('gallery_seq', gallerySeq);
+    });
+
+    const newItemsToUpdate = pickBy(
+      itemsToUpdate,
+      (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
+      !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
+    );
+
+    const itemsToUpdateCount = Object.keys(newItemsToUpdate).length;
+    this.setState({
       reorder: {
-        nodes: [],
-        itemsToUpdate: null,
+        itemsToUpdate: itemsToUpdateCount ? newItemsToUpdate : null,
+        nodes: itemsToUpdateCount ? reorderedNodes : [],
       },
-    }), delegate.handleSearchGalleryAssets);
+    });
   }
 
   async handleSubmitReorder() {
@@ -318,7 +317,13 @@ class GalleryMedia extends React.Component {
 
     await delegate.handleReorderGalleryAssets(reorder.itemsToUpdate)
       .catch(error => console.log(error));
-    this.handleRevertReorder();
+
+    this.setState(() => ({
+      reorder: {
+        nodes: [],
+        itemsToUpdate: null,
+      },
+    }), delegate.handleSearchGalleryAssets);
   }
 
   handleDecreaseImagesPerRow() {
@@ -408,21 +413,8 @@ class GalleryMedia extends React.Component {
             disabled={!itemsToUpdate}
             className="mr-0 mt-2 mb-2"
           >
-            Submit Reorder
-          </Button>
-          <Button
-            onClick={this.handleRevertReorder}
-            disabled={!itemsToUpdate}
-            className="mr-0 mt-2 mb-2"
-          >
-            Revert Reorder
-            <Icon
-              imgSrc="revert"
-              id="revert"
-              size="md"
-              color="danger"
-              className="ml-2"
-            />
+            Reorder Images
+            {(Object.keys(itemsToUpdate || {}).length) ? <span className="badge badge-danger badge-alert">{Object.keys(itemsToUpdate).length}</span> : null}
           </Button>
         </CardHeader>
         <CardBody>

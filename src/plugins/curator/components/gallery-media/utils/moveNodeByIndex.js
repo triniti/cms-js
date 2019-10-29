@@ -1,5 +1,5 @@
 export default (oldIndex, newIndex, nodesToReorder = []) => {
-  const nodes = [...nodesToReorder];
+  const nodes = nodesToReorder.slice();
   if (!nodes[oldIndex] || !nodes[newIndex]) {
     return nodes;
   }
