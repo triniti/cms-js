@@ -1,10 +1,11 @@
+import isEmpty from 'lodash/isEmpty';
 import pickBy from 'lodash/pickBy';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert2';
 
-import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from '@triniti/admin-ui-plugin/components';
+import { Button, Card, Col, CardBody, CardHeader, CardFooter, Icon, Row } from '@triniti/admin-ui-plugin/components';
 import AddGalleryAssetsModal from '@triniti/cms/plugins/dam/components/add-gallery-assets-modal';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
@@ -17,15 +18,17 @@ import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid'
 import { STATUS_FULFILLED } from '@triniti/app/constants';
 
 import delegateFactory from './delegate';
-import getUpdatedItemSequenceNumbers from './getUpdatedItemSequenceNumbers';
+import getUpdatedItemSequenceNumbers from './utils/getUpdatedItemSequenceNumbers';
+import moveNodeByGallerySequence from './utils/moveNodeByGallerySequence';
+import moveNodeByIndex from './utils/moveNodeByIndex';
 import ResizeGallerySlider from './ResizeGallerySlider';
 import selector from './selector';
 
 import './styles.scss';
 
 const MAX_IMAGES_PER_ROW = 11;
-const MAX_ITEMS_TO_UPDATE_COUNT = 20;
 const MIN_IMAGES_PER_ROW = 1;
+const MAX_ITEMS_TO_UPDATE_COUNT = 20;
 
 const imageType = ImageAssetV1Mixin.findOne().getCurie().getMessage();
 
@@ -73,11 +76,11 @@ class GalleryMedia extends React.Component {
     this.handleEditAsset = this.handleEditAsset.bind(this);
     this.handleEditSequence = this.handleEditSequence.bind(this);
     this.handleIncreaseImagesPerRow = this.handleIncreaseImagesPerRow.bind(this);
-    this.handleMoveNode = this.handleMoveNode.bind(this);
     this.handleRemoveAsset = this.handleRemoveAsset.bind(this);
     this.handleReorderGalleryAssets = this.handleReorderGalleryAssets.bind(this);
+    this.handleRevertReorder = this.handleRevertReorder.bind(this);
     this.handleSlideImagesPerRow = this.handleSlideImagesPerRow.bind(this);
-    this.handleSubmitSortOrder = this.handleSubmitSortOrder.bind(this);
+    this.handleSubmitReorder = this.handleSubmitReorder.bind(this);
     this.handleToggleCardOverlay = this.handleToggleCardOverlay.bind(this);
     this.handleToggleModal = this.handleToggleModal.bind(this);
   }
@@ -91,32 +94,40 @@ class GalleryMedia extends React.Component {
     const { nodes } = this.props;
     const { reorder: { itemsToUpdate } } = this.state;
     if ((prevNodes.length !== nodes.length) && itemsToUpdate) {
-      const orderedNodes = nodes.map(node => node.clone());
-      const gallerySeq = itemsToUpdate[id];
-      let newOrderedNodes = [];
+      /**
+       * One such use case here is when a user edit a whole bunch of
+       * sequences, reorder multiple images and suddenly adds an image.
+       * Following will preserve and rebuild the gallery based from
+       * the unsaved gallery reorder changes that the user has made.
+       */
+      const clonedNodes = nodes.map(node => node.clone());
+      let reorderedNodes = [];
 
       Object.keys(itemsToUpdate).forEach(id => {
-        const node = orderedNodes.find(item => item.get('_id').toString() === id);
-        if (!node) {
+        const gallerySeq = itemsToUpdate[id];
+        const clonedNode = clonedNodes.find(item => item.get('_id').toString() === id);
+        if (!clonedNode) {
           delete itemsToUpdate[id];
           return;
         }
-        // move node based from the new gallery sequence
-        newOrderedNodes = this.handleMoveNode(newOrderedNodes.length ? newOrderedNodes : orderedNodes, node, gallerySeq);
-        node.set('gallery_seq', gallerySeq);
+        reorderedNodes = moveNodeByGallerySequence(
+          gallerySeq,
+          clonedNode,
+          reorderedNodes.length ? reorderedNodes : clonedNodes,
+        );
+        clonedNode.set('gallery_seq', gallerySeq);
       });
 
       const newItemsToUpdate = pickBy(
         itemsToUpdate,
         (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
-        !== newOrderedNodes.findIndex(node => node.get('_id').toString() === id)
+        !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
       );
 
-      const gallerySeqCount = Object.keys(newItemsToUpdate).length;
       this.setState({
         reorder: {
-          itemsToUpdate: gallerySeqCount ? newItemsToUpdate : null,
-          nodes: gallerySeqCount ? newOrderedNodes : [],
+          itemsToUpdate: !isEmpty(newItemsToUpdate) ? newItemsToUpdate : null,
+          nodes: !isEmpty(newItemsToUpdate) ? reorderedNodes : [],
         },
       });
     }
@@ -129,7 +140,8 @@ class GalleryMedia extends React.Component {
 
   async handleAddAssets(assetMap) {
     const { delegate } = this.props;
-    await delegate.handleAddGalleryAssets(assetMap).catch(error => console.log(error));
+    await delegate.handleAddGalleryAssets(assetMap)
+      .catch(error => console.log(error));
     delegate.handleSearchGalleryAssets();
 
     return Promise.resolve();
@@ -154,33 +166,6 @@ class GalleryMedia extends React.Component {
         window.open(url, '_blank');
       }
     });
-  }
-
-  /**
-   * Create a copy of a new collection of nodes where the target node is moved based from the given gallery sequence.
-   *
-   * @param nodesToReorder
-   * @param nodeToMove
-   * @param gallerySeq
-   * @return {[*]}
-   */
-  handleMoveNode(nodesToReorder, nodeToMove, gallerySeq) {
-    const id = nodeToMove.get('_id').toString();
-    const nodesCopy = [...nodesToReorder];
-
-    const oldIndex = nodesCopy.findIndex(item => item.get('_id').toString() === id);
-    if (oldIndex < 0) {
-      // cannot find the node
-      return nodesCopy;
-    }
-
-    const targetIndex = nodesCopy.findIndex(item => item.get('gallery_seq') <= gallerySeq);
-    let newIndex = oldIndex < targetIndex ? targetIndex - 1 : targetIndex;
-    newIndex = newIndex < 0 ? (nodesCopy.length - 1) : newIndex;
-
-    nodesCopy.splice(newIndex, 0, nodesCopy.splice(oldIndex, 1)[0]);
-
-    return nodesCopy;
   }
 
   async handleEditSequence(asset, seqSet) {
@@ -218,34 +203,31 @@ class GalleryMedia extends React.Component {
 
     const { nodes } = this.props;
     const { reorder } = this.state;
-
     const gallerySeqNumber = parseInt(gallerySeq, 10);
     const itemsToUpdate = reorder.itemsToUpdate || {};
-    const orderedNodes = reorder.nodes.length ? [...reorder.nodes] : nodes.map(node => node.clone());
+    const clonedNodes = reorder.nodes.length ? [...reorder.nodes] : nodes.map(node => node.clone());
+    const reorderedNodes = moveNodeByGallerySequence(gallerySeqNumber, asset, clonedNodes);
 
-    // move node based from the new gallery number
-    const newOrderedNodes = this.handleMoveNode(orderedNodes, asset, gallerySeqNumber);
-
-    // assign the new gallery sequence
-    newOrderedNodes.find(node => node.get('_id').toString() === asset.get('_id').toString())
+    reorderedNodes
+      .find(node => node.get('_id').toString() === asset.get('_id').toString())
       .set('gallery_seq', gallerySeqNumber);
 
     const newItemsToUpdate = pickBy(
       { ...itemsToUpdate, ...{ [asset.get('_id').toString()]: gallerySeqNumber } },
       (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
-      !== newOrderedNodes.findIndex(node => node.get('_id').toString() === id)
+      !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
     );
 
-    const gallerySeqCount = Object.keys(newItemsToUpdate).length;
     this.setState(() => ({
       reorder: {
-        itemsToUpdate: gallerySeqCount ? newItemsToUpdate : null,
-        nodes: newOrderedNodes,
+        itemsToUpdate: !isEmpty(newItemsToUpdate) ? newItemsToUpdate : null,
+        nodes: reorderedNodes,
       },
     }), () => {
-      if (gallerySeqCount >= MAX_ITEMS_TO_UPDATE_COUNT) {
-        this.handleSubmitSortOrder();
+      if (Object.keys(newItemsToUpdate).length < MAX_ITEMS_TO_UPDATE_COUNT) {
+        return;
       }
+      this.handleSubmitReorder();
     });
   }
 
@@ -271,7 +253,8 @@ class GalleryMedia extends React.Component {
     }).then(async (result) => {
       if (result.value) {
         const { delegate } = this.props;
-        await delegate.handleRemoveGalleryAsset(asset).catch(error => swal.fire('Failed', error.message, 'error'));
+        await delegate.handleRemoveGalleryAsset(asset)
+          .catch(error => swal.fire('Failed', error.message, 'error'));
         delegate.handleSearchGalleryAssets();
       }
     });
@@ -285,16 +268,17 @@ class GalleryMedia extends React.Component {
     const { reorder } = this.state;
     const itemsToUpdate = reorder.itemsToUpdate || {};
 
-    const reorderedNodes = reorder.nodes.length ? [...reorder.nodes] : nodes.map(node => node.clone());
-    const items = reorderedNodes.map(node => ({
+    const clonedNodes = reorder.nodes.length ? [...reorder.nodes] : nodes.map(node => node.clone());
+    const items = clonedNodes.map(node => ({
       assetId: node.get('_id').toString(),
-      gallerySequence: itemsToUpdate[node.get('_id').toString()] || node.get('gallery_seq'),
+      gallerySequence: node.get('gallery_seq'),
     }));
     const updatedItemSequenceNumbers = getUpdatedItemSequenceNumbers(oldIndex, newIndex, items);
-    Object.keys(updatedItemSequenceNumbers).forEach(id => reorderedNodes.find(node => node.get('_id').toString() === id)
-      .set('gallery_seq', updatedItemSequenceNumbers[id]));
+    const reorderedNodes = moveNodeByIndex(oldIndex, newIndex, clonedNodes);
 
-    reorderedNodes.splice(newIndex, 0, reorderedNodes.splice(oldIndex, 1)[0]);
+    Object.keys(updatedItemSequenceNumbers)
+      .forEach(id => reorderedNodes.find(node => node.get('_id').toString() === id)
+      .set('gallery_seq', updatedItemSequenceNumbers[id]));
 
     const newItemsToUpdate = pickBy(
       { ...itemsToUpdate, ...updatedItemSequenceNumbers },
@@ -302,34 +286,39 @@ class GalleryMedia extends React.Component {
       !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
     );
 
-    const gallerySeqCount = Object.keys(newItemsToUpdate).length;
     this.setState(() => ({
       reorder: {
         nodes: reorderedNodes,
-        itemsToUpdate: gallerySeqCount ? newItemsToUpdate : null,
+        itemsToUpdate: !isEmpty(newItemsToUpdate) ? newItemsToUpdate : null,
       },
     }), () => {
-      if (gallerySeqCount >= MAX_ITEMS_TO_UPDATE_COUNT) {
-        this.handleSubmitSortOrder();
+      if (Object.keys(newItemsToUpdate).length < MAX_ITEMS_TO_UPDATE_COUNT) {
+        return;
       }
+      this.handleSubmitReorder();
     });
   }
 
-  async handleSubmitSortOrder() {
+  handleRevertReorder() {
     const { delegate } = this.props;
-    const { reorder } = this.state;
-    if (!reorder.itemsToUpdate) {
-      return;
-    }
-
-    await delegate.handleReorderGalleryAssets(reorder.itemsToUpdate).catch(error => console.log(error));
-
     this.setState(() => ({
       reorder: {
         nodes: [],
         itemsToUpdate: null,
       },
     }), delegate.handleSearchGalleryAssets);
+  }
+
+  async handleSubmitReorder() {
+    const { delegate } = this.props;
+    const { reorder } = this.state;
+    if (!reorder.itemsToUpdate) {
+      return;
+    }
+
+    await delegate.handleReorderGalleryAssets(reorder.itemsToUpdate)
+      .catch(error => console.log(error));
+    this.handleRevertReorder();
   }
 
   handleDecreaseImagesPerRow() {
@@ -376,18 +365,18 @@ class GalleryMedia extends React.Component {
     const {
       isEditMode,
       isReorderGranted,
-      nodes,
+      nodes: orderedNodes,
       nodeRef,
       searchNodesRequestState: { request, response, status },
     } = this.props;
 
-    const items = reorderedNodes.length ? reorderedNodes : nodes;
-    const lastGallerySequence = items.length ? items[0].get('gallery_seq') : 0;
+    const nodes = reorderedNodes.length ? reorderedNodes : orderedNodes;
+    const lastGallerySequence = nodes.length ? nodes[0].get('gallery_seq') : 0;
 
     const seqSet = new Set();
     const invalidSeqSet = new Set();
-    items.forEach(item => {
-      const sequence = item.get('gallery_seq');
+    nodes.forEach(node => {
+      const sequence = node.get('gallery_seq');
       if (seqSet.has(sequence)) {
         invalidSeqSet.add(sequence);
       } else {
@@ -398,7 +387,7 @@ class GalleryMedia extends React.Component {
     return (
       <Card>
         <CardHeader>
-          Images { items.length ? `(${items.length})` : ''}
+          Images { nodes.length ? `(${nodes.length})` : ''}
           <ResizeGallerySlider
             imagesPerRow={imagesPerRow}
             maxImagesPerRow={MAX_IMAGES_PER_ROW}
@@ -407,8 +396,34 @@ class GalleryMedia extends React.Component {
             onIncreaseImagesPerRow={this.handleIncreaseImagesPerRow}
             onSlideImagesPerRow={this.handleSlideImagesPerRow}
           />
-          <Button disabled={!isEditMode} onClick={this.handleToggleModal} className="mr-0 mt-2 mb-2">Add Images</Button>
-          <Button onClick={this.handleSubmitSortOrder} disabled={!itemsToUpdate} className="mr-0 mt-2 mb-2">Update Sort Order</Button>
+          <Button
+            disabled={!isEditMode}
+            onClick={this.handleToggleModal}
+            className="mr-0 mt-2 mb-2"
+          >
+            Add Images
+          </Button>
+          <Button
+            onClick={this.handleSubmitReorder}
+            disabled={!itemsToUpdate}
+            className="mr-0 mt-2 mb-2"
+          >
+            Submit Reorder
+          </Button>
+          <Button
+            onClick={this.handleRevertReorder}
+            disabled={!itemsToUpdate}
+            className="mr-0 mt-2 mb-2"
+          >
+            Revert Reorder
+            <Icon
+              imgSrc="revert"
+              id="revert"
+              size="md"
+              color="danger"
+              className="ml-2"
+            />
+          </Button>
         </CardHeader>
         <CardBody>
           <AddGalleryAssetsModal
@@ -421,13 +436,13 @@ class GalleryMedia extends React.Component {
             onToggleModal={this.handleToggleModal}
           />
           <Row gutter="sm">
-            {items.length !== 0 && (
+            {nodes.length !== 0 && (
               <SortableGrid
                 key={response ? response.get('created_at').toString() : `${Math.random()}`}
                 imagesPerRow={imagesPerRow}
                 invalidSeqSet={invalidSeqSet}
                 isEditMode={isEditMode}
-                nodes={items}
+                nodes={nodes}
                 onReorderGalleryAssets={this.handleReorderGalleryAssets}
                 onEditAsset={this.handleEditAsset}
                 onRemoveAsset={this.handleRemoveAsset}
@@ -435,7 +450,7 @@ class GalleryMedia extends React.Component {
                 onEditSequence={(asset) => this.handleEditSequence(asset, seqSet)}
               />
             )}
-            {items.length === 0
+            {nodes.length === 0
             && <div className="not-found-message"><p>No images found.</p></div>}
           </Row>
         </CardBody>
