@@ -16,7 +16,7 @@ export default (gallerySequence, nodeToMove, nodesToReorder = []) => {
     return nodesToReorder.slice();
   }
 
-  const targetIndex = nodesToReorder.findIndex(node => node.get('gallery_seq') < gallerySequence);
+  const targetIndex = nodesToReorder.findIndex((node) => node.get('gallery_seq') < gallerySequence);
   let newIndex = oldIndex < targetIndex ? targetIndex - 1 : targetIndex;
   newIndex = newIndex < 0 ? (nodesToReorder.length - 1) : newIndex;
 
