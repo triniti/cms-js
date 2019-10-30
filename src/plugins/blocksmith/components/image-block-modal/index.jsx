@@ -92,7 +92,7 @@ class ImageBlockModal extends React.Component {
       .set('is_nsfw', isNsfw)
       .set('launch_text', launchText || null)
       .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
 
     if (setBlock.schema().hasMixin('triniti:common:mixin:themeable')) {

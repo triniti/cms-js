@@ -3,6 +3,7 @@
 
 ## patch
 * fix nodePickerField innerProps
+* fix image block `updated_date`
 
 
 ## v0.2.2
