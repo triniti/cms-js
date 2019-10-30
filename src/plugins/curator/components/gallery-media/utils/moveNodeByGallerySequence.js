@@ -9,10 +9,10 @@ import moveNodeByIndex from './moveNodeByIndex';
  * @return {[*]}
  */
 export default (gallerySequence, nodeToMove, nodesToReorder = []) => {
-  const id = nodeToMove.get('_id').toString();
+  const id = nodeToMove ? nodeToMove.get('_id').toString() : '';
 
   const oldIndex = nodesToReorder.findIndex(node => node.get('_id').toString() === id);
-  if (!gallerySequence || oldIndex < 0) {
+  if (oldIndex < 0) {
     return nodesToReorder.slice();
   }
 
