@@ -12,6 +12,7 @@
 * Bug: block modal search bar non functional
 * fix blocksmith inline toolbar
 * fix node picker field flicker
+* fix status filters in search users screen doesn't work
 
 
 ## v0.2.1
