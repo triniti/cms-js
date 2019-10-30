@@ -3,6 +3,7 @@
 
 ## patch
 * un-style `SelectField` `menuList`
+* fix nodePickerField innerProps
 
 
 ## v0.2.2
