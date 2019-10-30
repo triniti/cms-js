@@ -20,7 +20,7 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import INSTAGRAM_MEDIA_REGEX from './instagramMediaRegex';
+import INSTAGRAM_MEDIA_REGEX from './instagramMediaBlockRegex';
 
 const INSTAGRAM_STRIP_REGEX = /([A-Z])\w+/g;
 
@@ -51,7 +51,7 @@ export default class InstagramMediaBlockModal extends React.Component {
       isValid: block.has('id'),
       touched: false,
       updatedDate: block.get('updated_date', new Date()),
-      url: '',
+      url: id ? `https://www.instagram.com/p/${id}/` : '',
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
@@ -105,7 +105,7 @@ export default class InstagramMediaBlockModal extends React.Component {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
     const isValidUrl = INSTAGRAM_MEDIA_REGEX.test(input);
-    console.log('ID: ', input.match(INSTAGRAM_STRIP_REGEX)[0]);
+
     if (isValidUrl) {
       errorMsg = '';
       isValid = true;
@@ -133,13 +133,14 @@ export default class InstagramMediaBlockModal extends React.Component {
       errorMsg,
       hasUpdatedDate,
       hideCaption,
+      id,
       isValid,
       touched,
       updatedDate,
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
-    const displayUrl = isValid ? url : '';
+    const displayUrl = isValid ? `https://www.instagram.com/p/${id}/` : url;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
