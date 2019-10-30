@@ -92,7 +92,6 @@ class ImageBlockModal extends React.Component {
       .set('is_nsfw', isNsfw)
       .set('launch_text', launchText || null)
       .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
-      .set('theme', theme)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
 
