@@ -17,9 +17,9 @@ import {
 
 const { DELETED, PUBLISHED } = NodeStatus;
 const statusOptions = [
-  { label: 'Is Staff', value: 1, category: 'type' },
-  { label: 'Non Staff', value: 2, category: 'type' },
-  { label: startCase(DELETED), value: DELETED.toString(), category: 'status' },
+  { label: 'Is Staff', value: 1 },
+  { label: 'Non Staff', value: 2 },
+  { label: startCase(DELETED.toString()), value: DELETED.getValue() },
 ];
 
 const SearchUsersForm = ({
@@ -27,24 +27,28 @@ const SearchUsersForm = ({
   isStaff,
   onSubmit,
   q,
-  userStatus,
+  status,
 }) => {
-  const handleStatusChange = (selectedOption) => onSubmit({
-    is_staff: (selectedOption && selectedOption.category === 'type') ? selectedOption.value : 0,
-    q,
-    status: (selectedOption && selectedOption.category === 'status') ? selectedOption.value : PUBLISHED.toString(),
-  });
+  const handleStatusChange = (selectedOption) => {
+    const value = selectedOption && selectedOption.value;
+
+    onSubmit({
+      is_staff: value === 1 || value === 2 ? value : 0,
+      q,
+      status: value === DELETED.getValue() ? DELETED.getValue() : PUBLISHED.getValue(),
+    });
+  };
 
   const handleSearchTextChange = (e) => onSubmit({
     isStaff,
     q: e.target.value,
-    status: userStatus,
+    status,
   });
 
-  const value = statusOptions
-    .find((option) => option.value === (userStatus === DELETED.toString() ? userStatus : isStaff));
-
-  const handleButtonClick = () => onSubmit({ isStaff, q, status: userStatus });
+  const selectedValue = statusOptions.find(
+    (option) => option.value === (status === DELETED.getValue() ? status : isStaff),
+  );
+  const handleButtonClick = () => onSubmit({ isStaff, q, status });
 
   return (
     <Card className="sticky-top">
@@ -58,20 +62,20 @@ const SearchUsersForm = ({
               <InputGroupAddon addonType="prepend">
                 <LegendSelect
                   name="status"
-                  placeholder="Select status:"
                   onChange={handleStatusChange}
                   options={statusOptions}
-                  value={value}
+                  placeholder="Select status:"
+                  value={selectedValue}
                 />
               </InputGroupAddon>
               <Input
                 className="form-control search-nodes__input"
+                defaultValue={q}
                 innerRef={inputRef}
                 name="q"
                 onChange={handleSearchTextChange}
                 placeholder="Search Users..."
                 type="search"
-                defaultValue={q}
               />
               <InputGroupAddon addonType="append">
                 <Button color="secondary" onClick={handleButtonClick}>
@@ -92,12 +96,13 @@ SearchUsersForm.propTypes = {
   isStaff: PropTypes.oneOf([0, 1, 2]),
   onSubmit: PropTypes.func.isRequired,
   q: PropTypes.string,
-  userStatus: PropTypes.string.isRequired,
+  status: PropTypes.string,
 };
 
 SearchUsersForm.defaultProps = {
   isStaff: 0,
   q: '',
+  status: PUBLISHED.getValue(),
 };
 
 

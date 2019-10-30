@@ -1,9 +1,10 @@
+import { connect } from 'react-redux';
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import isValidUrl from '@gdbots/common/isValidUrl';
+import Message from '@gdbots/pbj/Message';
 import prependHttp from 'prepend-http';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import isValidUrl from '@gdbots/common/isValidUrl';
-import Message from '@gdbots/pbj/Message';
 import {
   Button,
   Modal,
@@ -12,8 +13,6 @@ import {
   ModalHeader,
   ScrollableContainer,
 } from '@triniti/admin-ui-plugin/components';
-import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
@@ -50,7 +49,7 @@ class ImageBlockModal extends React.Component {
       isValid: true,
       launchText: block.get('launch_text') || null,
       selectedImage: image || null,
-      theme: block.get('theme') || null,
+      theme: block.has('theme') ? block.get('theme') : null,
       updatedDate: block.get('updated_date', new Date()),
       url: block.get('url') || '',
     };
@@ -86,16 +85,21 @@ class ImageBlockModal extends React.Component {
       url,
     } = this.state;
     const { block } = this.props;
-    return block.schema().createMessage()
+    const setBlock = block.schema().createMessage()
       .set('aside', aside)
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
       .set('is_nsfw', isNsfw)
       .set('launch_text', launchText || null)
       .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
-      .set('theme', theme)
       .set('updated_date', hasUpdatedDate ? updatedDate.toDate() : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
+
+    if (setBlock.schema().hasMixin('triniti:common:mixin:themeable')) {
+      setBlock.set('theme', theme);
+    }
+
+    return setBlock;
   }
 
   handleAddBlock() {

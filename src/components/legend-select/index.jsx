@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Select } from '@triniti/admin-ui-plugin/components';
 import Option from './Option';
 import SingleValue from './SingleValue';
