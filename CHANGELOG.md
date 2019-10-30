@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* un-style `SelectField` `menuList`
+
+
 ## v0.2.2
 * fix double scrollbar mojave issue
 * fix notification screen crash
