@@ -1,6 +1,9 @@
 cms-js DEMO
 =======================
 
+## Disclaimer
+Do not actually use `acme` anything. Wherever it says `acme` below, you need to replace that with the appropriate vendor name.
+
 ## Installation
 + Enter the repo `$ cd cms-js`
 + Run `$ nvm use`
