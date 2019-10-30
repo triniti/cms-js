@@ -12,6 +12,7 @@
 * Bug: block modal search bar non functional
 * fix blocksmith inline toolbar
 * issue #51: Updated regex on instagram block modal to handle /tv and /p urls
+* fix node picker field flicker
 * fix status filters in search users screen doesn't work
 
 
