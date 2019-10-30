@@ -188,6 +188,7 @@ class NodePickerField extends React.Component {
               {...this.props}
               {...this.state}
               innerProps={{
+                ...props.innerProps,
                 onScroll: ({ target }) => this.handleScroll(target.scrollHeight - target.scrollTop === target.clientHeight),
               }}
             >
