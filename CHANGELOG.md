@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## patch
+## v0.2.2
 * fix double scrollbar mojave issue
 * fix notification screen crash
 * add a check `isThemeable` before calling get/set on `image-block`
