@@ -11,7 +11,7 @@ import moveNodeByIndex from './moveNodeByIndex';
 export default (gallerySequence, nodeToMove, nodesToReorder = []) => {
   const id = nodeToMove ? nodeToMove.get('_id').toString() : '';
 
-  const oldIndex = nodesToReorder.findIndex(node => node.get('_id').toString() === id);
+  const oldIndex = nodesToReorder.findIndex((node) => node.get('_id').toString() === id);
   if (oldIndex < 0) {
     return nodesToReorder.slice();
   }

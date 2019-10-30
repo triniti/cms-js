@@ -146,8 +146,3 @@ test('moveNodeByGallerySequence: move eight node item to index 1', (t) => {
   t.equal(actual, expected, 'eight node should be moved to index 1');
   t.end();
 });
-
-
-
-
-
