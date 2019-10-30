@@ -11,6 +11,7 @@
 * Fix picker not scrolling which was actually options being filtered.
 * Bug: block modal search bar non functional
 * fix blocksmith inline toolbar
+* fix node picker field flicker
 * fix status filters in search users screen doesn't work
 
 
