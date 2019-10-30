@@ -1,4 +1,3 @@
-import React from 'react';
 import test from 'tape';
 import INSTAGRAM_MEDIA_REGEX from './instagramMediaBlockRegex';
 

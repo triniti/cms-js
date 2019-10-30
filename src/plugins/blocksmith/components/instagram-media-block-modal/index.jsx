@@ -140,7 +140,6 @@ export default class InstagramMediaBlockModal extends React.Component {
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
-    const displayUrl = isValid ? `https://www.instagram.com/p/${id}/` : url;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -153,7 +152,7 @@ export default class InstagramMediaBlockModal extends React.Component {
               onChange={this.handleChangeTextarea}
               placeholder="enter url or embed code"
               type="textarea"
-              value={displayUrl || null}
+              value={url || null}
             />
           </FormGroup>
           {
