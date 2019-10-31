@@ -178,8 +178,8 @@ class GalleryMedia extends React.Component {
 
     const newItemsToUpdate = pickBy(
       { ...itemsToUpdate, ...{ [asset.get('_id').toString()]: gallerySeqNumber } },
-      (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
-      !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
+      (sequence, id) => nodes.find(node => node.get('_id').toString() === id).get('gallery_seq')
+      !== reorderedNodes.find(node => node.get('_id').toString() === id).get('gallery_seq')
     );
 
     const itemsToUpdateCount = Object.keys(newItemsToUpdate).length;
@@ -247,8 +247,8 @@ class GalleryMedia extends React.Component {
 
     const newItemsToUpdate = pickBy(
       { ...itemsToUpdate, ...updatedItemSequenceNumbers },
-      (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
-      !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
+      (sequence, id) => nodes.find(node => node.get('_id').toString() === id).get('gallery_seq')
+      !== reorderedNodes.find(node => node.get('_id').toString() === id).get('gallery_seq')
     );
 
     const itemsToUpdateCount = Object.keys(newItemsToUpdate).length;
@@ -295,8 +295,8 @@ class GalleryMedia extends React.Component {
 
     const newItemsToUpdate = pickBy(
       itemsToUpdate,
-      (sequence, id) => nodes.findIndex(node => node.get('_id').toString() === id)
-      !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
+      (sequence, id) => nodes.find(node => node.get('_id').toString() === id).get('gallery_seq')
+      !== reorderedNodes.find(node => node.get('_id').toString() === id).get('gallery_seq')
     );
 
     const itemsToUpdateCount = Object.keys(newItemsToUpdate).length;
@@ -389,6 +389,12 @@ class GalleryMedia extends React.Component {
       }
     });
 
+    const newItemsToUpdate = pickBy(
+       itemsToUpdate || {},
+       (sequence, id) => orderedNodes.findIndex(node => node.get('_id').toString() === id)
+       !== reorderedNodes.findIndex(node => node.get('_id').toString() === id)
+     );
+
     return (
       <Card>
         <CardHeader>
@@ -410,11 +416,11 @@ class GalleryMedia extends React.Component {
           </Button>
           <Button
             onClick={this.handleSubmitReorder}
-            disabled={!itemsToUpdate}
+            disabled={!Object.keys(newItemsToUpdate).length}
             className="mr-0 mt-2 mb-2"
           >
             Reorder Images
-            {(Object.keys(itemsToUpdate || {}).length) ? <span className="badge badge-danger badge-alert">{Object.keys(itemsToUpdate).length}</span> : null}
+            {(Object.keys(newItemsToUpdate).length) ? <span className="badge badge-danger badge-alert">{Object.keys(newItemsToUpdate).length}</span> : null}
           </Button>
         </CardHeader>
         <CardBody>

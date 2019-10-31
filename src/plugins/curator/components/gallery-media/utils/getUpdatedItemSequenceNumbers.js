@@ -2,6 +2,11 @@ function positionSwap(oldIndex, newIndex, items) {
   const newItems = [...items];
   const oldIndexGallerySequence = items[oldIndex].gallerySequence;
   const newIndexGallerySequence = items[newIndex].gallerySequence;
+
+  if (oldIndexGallerySequence === newIndexGallerySequence) {
+    return getUniqueItemSequence(oldIndex, newIndex, oldIndex, newIndex, items);
+  }
+
   return {
     [newItems[newIndex].assetId]: oldIndexGallerySequence,
     [newItems[oldIndex].assetId]: newIndexGallerySequence,
@@ -34,18 +39,97 @@ function moveToLastPosition(oldIndex, newIndex, items) {
   };
 }
 
+/**
+ * This will return all invalid sequences items by order and their auto-corrected sequence values.
+ * @param currentSequence
+ * @param currentIndex
+ * @param items
+ * @param direction
+ * @param correctedItemSequence
+ * @return {*}
+ */
+function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, direction, correctedItemSequence = {}) {
+  const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
+  const nextItem = items[nextIndex];
+  if (!nextItem) {
+    return correctedItemSequence;
+  }
+
+  const isValid = (direction === 'reverse') ? nextItem.gallerySequence > currentSequence
+      : nextItem.gallerySequence < currentSequence;
+  if (isValid) {
+    return correctedItemSequence;
+  }
+
+  const diff = Math.abs(nextItem.gallerySequence - currentSequence) + 10; // ensure that the next sequence is correct
+  const nextSequence = (direction === 'reverse') ? nextItem.gallerySequence + diff : nextItem.gallerySequence - diff;
+  correctedItemSequence[nextItem.assetId] = nextSequence;
+
+  return getAutoCorrectedItemSequence(nextSequence, nextIndex, items, direction, correctedItemSequence);
+}
+
+/**
+ * Ensure to get correct sequences if duplication occurs
+ * @param oldIndex
+ * @param newIndex
+ * @param lowSequenceIndex
+ * @param highSequenceIndex
+ * @param items
+ * @return {{}}
+ */
+function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items) {
+  const newItems = [...items];
+
+  const distanceFromStart = newIndex - 0;
+  const distanceFromEnd = newItems.length - newIndex;
+  const isNearFromStartIndex = distanceFromEnd > distanceFromStart;
+
+  const highSequence = newItems[highSequenceIndex].gallerySequence;
+  const lowSequence = newItems[lowSequenceIndex].gallerySequence;
+
+  // if new index is near the start index then always choose to correct the high sequence
+  const toBeCorrectedSequenceIndex = isNearFromStartIndex ? highSequenceIndex : lowSequenceIndex;
+  const toBeCorrectedItem = newItems[toBeCorrectedSequenceIndex];
+
+  let toBeCorrectedSequence = toBeCorrectedItem.gallerySequence;
+  let newSequence = highSequence;
+  while(highSequence === newSequence
+        || lowSequence === newSequence
+        || toBeCorrectedSequence === newSequence) {
+    toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10 : toBeCorrectedSequence - 10;
+    newSequence = Math.ceil((toBeCorrectedSequence + newItems[isNearFromStartIndex ? lowSequenceIndex : highSequenceIndex].gallerySequence) / 2);
+  }
+
+  const recurseDirection = isNearFromStartIndex ? 'reverse' : 'forward';
+  const autoCorrectedItemSequence = getAutoCorrectedItemSequence(toBeCorrectedSequence, toBeCorrectedSequenceIndex, newItems, recurseDirection);
+
+  return { ...{ [newItems[oldIndex].assetId]: newSequence, [toBeCorrectedItem.assetId]: toBeCorrectedSequence }, ...autoCorrectedItemSequence };
+}
+
 function move(oldIndex, newIndex, items) {
   const newItems = [...items];
   let lowSequenceNumber = 0;
   let highSequenceNumber = 0;
+  let lowSequenceIndex = 0;
+  let highSequenceIndex = 0;
+
   if (newIndex < oldIndex) {
-    lowSequenceNumber = items[newIndex - 1].gallerySequence;
-    highSequenceNumber = items[newIndex].gallerySequence;
+     lowSequenceIndex = newIndex;
+     highSequenceIndex = newIndex - 1;
+     lowSequenceNumber = items[lowSequenceIndex].gallerySequence;
+     highSequenceNumber = items[highSequenceIndex].gallerySequence;
   } else if (newIndex > oldIndex) {
-    lowSequenceNumber = items[newIndex].gallerySequence;
-    highSequenceNumber = items[newIndex + 1].gallerySequence;
+    lowSequenceIndex = newIndex + 1;
+    highSequenceIndex = newIndex;
+    lowSequenceNumber = items[lowSequenceIndex].gallerySequence;
+    highSequenceNumber = items[highSequenceIndex].gallerySequence;
   }
+
   const newValue = Math.ceil((lowSequenceNumber + highSequenceNumber) / 2);
+  if (newValue === highSequenceNumber) {
+    return getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items);
+  }
+
   return {
     [newItems[oldIndex].assetId]: newValue,
   };
