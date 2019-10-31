@@ -70,6 +70,7 @@ test('moveNodeByGallerySequence: move node item using negative gallery seq', (t)
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'node should be moved to the last index');
+
   t.end();
 });
 
@@ -83,6 +84,7 @@ test('moveNodeByGallerySequence: move node item using invalid gallery seq', (t) 
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'node should be moved to the last index');
+
   t.end();
 });
 
@@ -96,6 +98,7 @@ test('moveNodeByGallerySequence: move first node item to index 4', (t) => {
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'first node should be moved to index 4');
+
   t.end();
 });
 
@@ -108,6 +111,7 @@ test('moveNodeByGallerySequence: move last node item to index 2', (t) => {
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'last node should be moved to index 2');
+
   t.end();
 });
 
@@ -120,6 +124,7 @@ test('moveNodeByGallerySequence: move node item using greater than max. range ga
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'last node should be moved to 0 index');
+
   t.end();
 });
 
@@ -132,6 +137,7 @@ test('moveNodeByGallerySequence: move node item using lesser than min. range gal
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'first node should be moved to the last index');
+
   t.end();
 });
 
@@ -144,5 +150,6 @@ test('moveNodeByGallerySequence: move eight node item to index 1', (t) => {
   const expected = nodesToReorder[nodeToMoveIndex].get('_id');
 
   t.equal(actual, expected, 'eight node should be moved to index 1');
+
   t.end();
 });
