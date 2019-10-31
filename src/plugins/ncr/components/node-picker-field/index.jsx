@@ -119,12 +119,12 @@ class NodePickerField extends React.Component {
     if (isGetAll || !response.get('has_more')) {
       return;
     }
-    this.setState(({ existingNodes }, props) => ({
+    this.setState(({ existingNodes, menuListScrollTop }, props) => ({
       existingNodes: [
         ...existingNodes,
         ...props.response.get('nodes', []),
       ],
-      menuListScrollTop: this.menuList.scrollTop,
+      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop),
     }), () => {
       handleSearch(response.get('ctx_request').get('q'), response.get('ctx_request').get('page') + 1);
     });

@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* prevent `NodePickerField` crash when menuList element is not in dom
+
+
 ## v0.2.3
 * un-style `SelectField` `menuList`
 * fix nodePickerField innerProps
