@@ -28,7 +28,7 @@ import './styles.scss';
 
 const MAX_IMAGES_PER_ROW = 11;
 const MIN_IMAGES_PER_ROW = 1;
-const MAX_NODES_COUNT_TO_UPDATE = 20;
+const MAX_NODES_COUNT_TO_UPDATE = 10;
 
 const imageType = ImageAssetV1Mixin.findOne().getCurie().getMessage();
 

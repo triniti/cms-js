@@ -87,16 +87,15 @@ export default function* reorderGalleryAssetsFlow({
   reorderGalleryOperation,
   config,
 }) {
-  const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
-  const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(10));
-  yield fork([toast, 'show']);
-  yield putResolve(pbj);
-  const result = yield race({
-    event: call(waitForMyEvent, eventChannel, config.assetCount),
-    timeout: delay(7500),
-  });
-
   try {
+    const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
+    const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(10));
+    yield fork([toast, 'show']);
+    yield putResolve(pbj);
+    const result = yield race({
+      event: call(waitForMyEvent, eventChannel, config.assetCount),
+      timeout: delay(7500),
+    });
     if (result.timeout) {
       yield call(failureFlow, reorderGalleryOperation, reject);
     } else {
