@@ -34,7 +34,7 @@ import routes from './routes';
 
 export default class CuratorPlugin extends Plugin {
   constructor() {
-    super('triniti', 'curator', '0.2.3');
+    super('triniti', 'curator', '0.2.4');
   }
 
   configure(app, bottle) {

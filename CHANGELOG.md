@@ -4,6 +4,7 @@
 ## patch
 * update all node pickers to request 25 per page
 * optimize Gallery Reorder - Batching
+* fix `nodePickerField` double scrollbar and overflow issues
 
 
 ## v0.2.3
