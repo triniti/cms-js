@@ -13,22 +13,28 @@ export default class SortableGrid extends React.PureComponent {
     imagesPerRow: PropTypes.number.isRequired,
     invalidSeqSet: PropTypes.object, // eslint-disable-line
     isEditMode: PropTypes.bool,
+    multiSelect: PropTypes.bool,
     nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     onEditAsset: PropTypes.func,
     onEditSequence: PropTypes.func,
     onRemoveAsset: PropTypes.func,
     onReorderGalleryAssets: PropTypes.func,
+    onSelect: PropTypes.func,
+    selected: PropTypes.arrayOf(PropTypes.string),
     showEditSequence: PropTypes.bool,
   };
 
   static defaultProps = {
     isEditMode: false,
     invalidSeqSet: new Set(),
+    multiSelect: false,
     nodes: [],
     onEditAsset: noop,
     onEditSequence: noop,
     onRemoveAsset: noop,
     onReorderGalleryAssets: noop,
+    onSelect: noop,
+    selected: [],
     showEditSequence: false,
   };
 
@@ -57,9 +63,12 @@ export default class SortableGrid extends React.PureComponent {
       imagesPerRow,
       invalidSeqSet,
       isEditMode,
+      multiSelect,
       onEditAsset,
       onEditSequence,
       onRemoveAsset,
+      onSelect,
+      selected,
       showEditSequence,
     } = this.props;
     const { nodes } = this.state;
@@ -71,10 +80,13 @@ export default class SortableGrid extends React.PureComponent {
         imagesPerRow={imagesPerRow}
         invalidSeqSet={invalidSeqSet}
         nodes={nodes}
+        multiSelect={multiSelect}
         onEditAsset={onEditAsset}
         onEditSequence={onEditSequence}
         onRemoveAsset={onRemoveAsset}
         onSortEnd={this.handleSortEnd}
+        onSelect={onSelect}
+        selected={selected}
         showEditSequence={showEditSequence}
       />
     );

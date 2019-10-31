@@ -1,3 +1,4 @@
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import isGranted from '@triniti/cms/plugins/iam/selectors/isGranted';
 import schemas from './schemas';
@@ -26,6 +27,7 @@ export default (state) => {
   const isReorderGranted = isGranted(state, `${schemas.reorderGalleryAssets.getCurie()}`);
 
   return {
+    getNode: (nodeRef) => getNode(state, nodeRef),
     items,
     isReorderGranted,
     searchNodesRequestState,
