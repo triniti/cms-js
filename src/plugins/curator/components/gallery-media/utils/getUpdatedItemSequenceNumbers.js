@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, direction, correctedItemSequence = {}) {
   const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
   const nextItem = items[nextIndex];
@@ -43,7 +44,7 @@ function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenc
 
   let toBeCorrectedSequence = toBeCorrectedItem.gallerySequence;
   let newSequence = highSequence;
-  while(highSequence === newSequence
+  while (highSequence === newSequence
   || lowSequence === newSequence
   || toBeCorrectedSequence === newSequence) {
     toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10 : toBeCorrectedSequence - 10;
@@ -105,10 +106,10 @@ function move(oldIndex, newIndex, items) {
   let highSequenceIndex = 0;
 
   if (newIndex < oldIndex) {
-     lowSequenceIndex = newIndex;
-     highSequenceIndex = newIndex - 1;
-     lowSequenceNumber = items[lowSequenceIndex].gallerySequence;
-     highSequenceNumber = items[highSequenceIndex].gallerySequence;
+    lowSequenceIndex = newIndex;
+    highSequenceIndex = newIndex - 1;
+    lowSequenceNumber = items[lowSequenceIndex].gallerySequence;
+    highSequenceNumber = items[highSequenceIndex].gallerySequence;
   } else if (newIndex > oldIndex) {
     lowSequenceIndex = newIndex + 1;
     highSequenceIndex = newIndex;
