@@ -1,3 +1,61 @@
+function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, direction, correctedItemSequence = {}) {
+  const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
+  const nextItem = items[nextIndex];
+  if (!nextItem) {
+    return correctedItemSequence;
+  }
+
+  const isValid = (direction === 'reverse') ? nextItem.gallerySequence > currentSequence
+    : nextItem.gallerySequence < currentSequence;
+  if (isValid) {
+    return correctedItemSequence;
+  }
+
+  const diff = Math.abs(nextItem.gallerySequence - currentSequence) + 10; // ensure that the next sequence is correct
+  const nextSequence = (direction === 'reverse') ? nextItem.gallerySequence + diff : nextItem.gallerySequence - diff;
+  correctedItemSequence[nextItem.assetId] = nextSequence;
+
+  return getAutoCorrectedItemSequence(nextSequence, nextIndex, items, direction, correctedItemSequence);
+}
+
+/**
+ * Ensure to get correct sequences if duplication occurs
+ * @param oldIndex
+ * @param newIndex
+ * @param lowSequenceIndex
+ * @param highSequenceIndex
+ * @param items
+ * @return {{}}
+ */
+function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items) {
+  const newItems = [...items];
+
+  const distanceFromStart = newIndex - 0;
+  const distanceFromEnd = newItems.length - newIndex;
+  const isNearFromStartIndex = distanceFromEnd > distanceFromStart;
+
+  const highSequence = newItems[highSequenceIndex].gallerySequence;
+  const lowSequence = newItems[lowSequenceIndex].gallerySequence;
+
+  // if new index is near the start index then always choose to correct the high sequence
+  const toBeCorrectedSequenceIndex = isNearFromStartIndex ? highSequenceIndex : lowSequenceIndex;
+  const toBeCorrectedItem = newItems[toBeCorrectedSequenceIndex];
+
+  let toBeCorrectedSequence = toBeCorrectedItem.gallerySequence;
+  let newSequence = highSequence;
+  while(highSequence === newSequence
+  || lowSequence === newSequence
+  || toBeCorrectedSequence === newSequence) {
+    toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10 : toBeCorrectedSequence - 10;
+    newSequence = Math.ceil((toBeCorrectedSequence + newItems[isNearFromStartIndex ? lowSequenceIndex : highSequenceIndex].gallerySequence) / 2);
+  }
+
+  const recurseDirection = isNearFromStartIndex ? 'reverse' : 'forward';
+  const autoCorrectedItemSequence = getAutoCorrectedItemSequence(toBeCorrectedSequence, toBeCorrectedSequenceIndex, newItems, recurseDirection);
+
+  return { ...{ [newItems[oldIndex].assetId]: newSequence, [toBeCorrectedItem.assetId]: toBeCorrectedSequence }, ...autoCorrectedItemSequence };
+}
+
 function positionSwap(oldIndex, newIndex, items) {
   const newItems = [...items];
   const oldIndexGallerySequence = items[oldIndex].gallerySequence;
@@ -37,73 +95,6 @@ function moveToLastPosition(oldIndex, newIndex, items) {
     [newItems[oldIndex].assetId]: lastItemGallerySequence,
     [newItems[newIndex].assetId]: updatedLastItemGallerySequence,
   };
-}
-
-/**
- * This will return all invalid sequences items by order and their auto-corrected sequence values.
- * @param currentSequence
- * @param currentIndex
- * @param items
- * @param direction
- * @param correctedItemSequence
- * @return {*}
- */
-function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, direction, correctedItemSequence = {}) {
-  const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
-  const nextItem = items[nextIndex];
-  if (!nextItem) {
-    return correctedItemSequence;
-  }
-
-  const isValid = (direction === 'reverse') ? nextItem.gallerySequence > currentSequence
-      : nextItem.gallerySequence < currentSequence;
-  if (isValid) {
-    return correctedItemSequence;
-  }
-
-  const diff = Math.abs(nextItem.gallerySequence - currentSequence) + 10; // ensure that the next sequence is correct
-  const nextSequence = (direction === 'reverse') ? nextItem.gallerySequence + diff : nextItem.gallerySequence - diff;
-  correctedItemSequence[nextItem.assetId] = nextSequence;
-
-  return getAutoCorrectedItemSequence(nextSequence, nextIndex, items, direction, correctedItemSequence);
-}
-
-/**
- * Ensure to get correct sequences if duplication occurs
- * @param oldIndex
- * @param newIndex
- * @param lowSequenceIndex
- * @param highSequenceIndex
- * @param items
- * @return {{}}
- */
-function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items) {
-  const newItems = [...items];
-
-  const distanceFromStart = newIndex - 0;
-  const distanceFromEnd = newItems.length - newIndex;
-  const isNearFromStartIndex = distanceFromEnd > distanceFromStart;
-
-  const highSequence = newItems[highSequenceIndex].gallerySequence;
-  const lowSequence = newItems[lowSequenceIndex].gallerySequence;
-
-  // if new index is near the start index then always choose to correct the high sequence
-  const toBeCorrectedSequenceIndex = isNearFromStartIndex ? highSequenceIndex : lowSequenceIndex;
-  const toBeCorrectedItem = newItems[toBeCorrectedSequenceIndex];
-
-  let toBeCorrectedSequence = toBeCorrectedItem.gallerySequence;
-  let newSequence = highSequence;
-  while(highSequence === newSequence
-        || lowSequence === newSequence
-        || toBeCorrectedSequence === newSequence) {
-    toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10 : toBeCorrectedSequence - 10;
-    newSequence = Math.ceil((toBeCorrectedSequence + newItems[isNearFromStartIndex ? lowSequenceIndex : highSequenceIndex].gallerySequence) / 2);
-  }
-
-  const recurseDirection = isNearFromStartIndex ? 'reverse' : 'forward';
-  const autoCorrectedItemSequence = getAutoCorrectedItemSequence(toBeCorrectedSequence, toBeCorrectedSequenceIndex, newItems, recurseDirection);
-
-  return { ...{ [newItems[oldIndex].assetId]: newSequence, [toBeCorrectedItem.assetId]: toBeCorrectedSequence }, ...autoCorrectedItemSequence };
 }
 
 function move(oldIndex, newIndex, items) {
