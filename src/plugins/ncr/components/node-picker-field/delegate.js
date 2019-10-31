@@ -17,7 +17,7 @@ export default (dispatch, { constants, schemas }) => ({
    */
   handleSearch: (q = '', page = 1) => {
     const requestData = {
-      count: constants.REQUEST_COUNT,
+      count: 25,
       page,
       q,
     };

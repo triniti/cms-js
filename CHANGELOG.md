@@ -3,6 +3,7 @@
 
 ## patch
 * prevent `NodePickerField` crash when menuList element is not in dom
+* update all node pickers to request 25 per page
 
 
 ## v0.2.3
