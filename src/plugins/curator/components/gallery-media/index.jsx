@@ -420,7 +420,7 @@ class GalleryMedia extends React.Component {
             className="mr-0 mt-2 mb-2"
           >
             Reorder Images
-            {(Object.keys(newItemsToUpdate).length) ? <span className="badge badge-danger badge-alert">{Object.keys(newItemsToUpdate).length}</span> : null}
+            {(Object.keys(newItemsToUpdate).length) ? <span className="badge badge-danger badge-alert">{Object.keys(itemsToUpdate || {}).length}</span> : null}
           </Button>
         </CardHeader>
         <CardBody>

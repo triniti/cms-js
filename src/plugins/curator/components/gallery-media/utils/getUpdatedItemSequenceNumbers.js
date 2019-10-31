@@ -21,7 +21,7 @@ function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, dire
 }
 
 /**
- * Ensure to get correct sequences to remove duplication
+ * Ensure to get correct unique sequences to remove duplication
  * @param oldIndex
  * @param newIndex
  * @param lowSequenceIndex
