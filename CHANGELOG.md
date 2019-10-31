@@ -2,6 +2,7 @@
 
 
 ## patch
+* update all node pickers to request 25 per page
 * optimize Gallery Reorder - Batching
 
 
