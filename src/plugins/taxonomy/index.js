@@ -12,7 +12,7 @@ import { serviceIds } from './constants';
 
 export default class TaxonomyPlugin extends Plugin {
   constructor() {
-    super('triniti', 'taxonomy', '0.2.2');
+    super('triniti', 'taxonomy', '0.2.3');
   }
 
   configure(app, bottle) {

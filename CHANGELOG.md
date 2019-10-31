@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v0.2.3
+* un-style `SelectField` `menuList`
+* fix nodePickerField innerProps
+* fix image block `updated_date`
+
+
 ## v0.2.2
 * fix double scrollbar mojave issue
 * fix notification screen crash
