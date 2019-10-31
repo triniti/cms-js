@@ -46,7 +46,7 @@ class NodePickerField extends React.Component {
     this.state = {
       hasLoadedFirstSet: false,
       existingNodes: [],
-      menuListScrollTop: 0,
+      menuScrollTop: 0,
     };
 
     this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 500, {
@@ -69,16 +69,16 @@ class NodePickerField extends React.Component {
    */
   componentDidUpdate(prevProps) {
     const { response } = this.props;
-    const { menuListScrollTop } = this.state;
+    const { menuScrollTop } = this.state;
     if (!prevProps.response || !response) {
       return;
     }
     if (
-      this.menuList
+      this.menu
       && response.get('ctx_request').get('page') > 1
       && !response.get('response_id').equals(prevProps.response.get('response_id'))
     ) {
-      this.menuList.scrollTop = menuListScrollTop;
+      this.menu.scrollTop = menuScrollTop;
     }
   }
 
@@ -124,7 +124,7 @@ class NodePickerField extends React.Component {
         ...existingNodes,
         ...props.response.get('nodes', []),
       ],
-      menuListScrollTop: this.menuList.scrollTop,
+      menuScrollTop: this.menu.scrollTop,
     }), () => {
       handleSearch(response.get('ctx_request').get('q'), response.get('ctx_request').get('page') + 1);
     });
@@ -191,6 +191,7 @@ class NodePickerField extends React.Component {
                 ...props.innerProps,
                 onScroll: ({ target }) => this.handleScroll(target.scrollHeight - target.scrollTop === target.clientHeight),
               }}
+              innerRef={(e) => { this.menu = e; }}
             >
               {props.children}
             </MenuComponent>
@@ -198,7 +199,6 @@ class NodePickerField extends React.Component {
           MenuList: (props) => (
             <components.MenuList
               {...props}
-              innerRef={(e) => { this.menuList = e; }}
             >
               {props.children}
             </components.MenuList>
@@ -226,6 +226,10 @@ class NodePickerField extends React.Component {
           value: NodeRef.fromNode(node),
           node,
         }))}
+        styles={{ menuList: (base) => ({
+          ...base,
+          overflowY: 'unset',
+        }) }}
         value={value}
       />
     );
