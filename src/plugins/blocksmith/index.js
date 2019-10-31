@@ -3,7 +3,7 @@ import reducer from './reducers';
 
 export default class BlocksmithPlugin extends Plugin {
   constructor() {
-    super('triniti', 'blocksmith', '0.2.2');
+    super('triniti', 'blocksmith', '0.2.3');
   }
 
   configure() {

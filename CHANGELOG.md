@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## patch
+## v0.2.3
 * un-style `SelectField` `menuList`
 * fix nodePickerField innerProps
 * fix image block `updated_date`
