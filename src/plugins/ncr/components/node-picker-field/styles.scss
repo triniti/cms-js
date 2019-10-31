@@ -1,4 +1,4 @@
 .select__menu-outer .select__menu {
   overflow-y: hidden;
-  scroll-margin-bottom: 100px;
+  scroll-snap-align: start;
 }
