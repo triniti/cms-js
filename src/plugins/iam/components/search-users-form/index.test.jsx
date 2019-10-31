@@ -17,12 +17,12 @@ import SearchUsersForm from './index';
 const q = '';
 const inputRef = sinon.spy();
 const onSubmit = sinon.spy();
-const userStatus = 'published';
+const status = 'published';
 const wrapper = shallow(<SearchUsersForm
   q={q}
   inputRef={inputRef}
   onSubmit={onSubmit}
-  userStatus={userStatus}
+  status={status}
 />);
 
 test('SearchUsersForm render', (t) => {

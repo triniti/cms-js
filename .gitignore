@@ -10,6 +10,7 @@ demo/schemas.js
 ############
 /node_modules/
 demo/node_modules/
+yarn.lock
 
 # Deployment/IDE Tools #
 ############

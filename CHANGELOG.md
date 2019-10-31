@@ -2,6 +2,16 @@
 
 
 ## patch
+* optimize Gallery Reorder - Batching
+
+
+## v0.2.3
+* un-style `SelectField` `menuList`
+* fix nodePickerField innerProps
+* fix image block `updated_date`
+
+
+## v0.2.2
 * fix double scrollbar mojave issue
 * fix notification screen crash
 * add a check `isThemeable` before calling get/set on `image-block`
@@ -11,8 +21,9 @@
 * Fix picker not scrolling which was actually options being filtered.
 * Bug: block modal search bar non functional
 * fix blocksmith inline toolbar
-* optimize Gallery Reorder - Batching
-
+* issue #51: Updated regex on instagram block modal to handle /tv and /p urls
+* fix node picker field flicker
+* fix status filters in search users screen doesn't work
 
 
 ## v0.2.1
@@ -32,7 +43,7 @@
 * Add theme pick list to image block
 * Allow seo meta keywords and hashtags to be selected using comma key
 * Fix asset variant dropzone spinner
-* Fix for edit-gallery-screen crashing when node is not available in state yet. 
+* Fix for edit-gallery-screen crashing when node is not available in state yet.
 * Fix for node picker crashing when node is not found
 * Increase width of value field in key-values-field
 * Pre-fill notification modal when opened from article screen

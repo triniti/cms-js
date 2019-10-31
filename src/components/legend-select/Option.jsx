@@ -32,7 +32,10 @@ const Option = ({ data, getValue, isSelected, setValue }) => {
 Option.propTypes = {
   data: PropTypes.shape({
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
   getValue: PropTypes.func.isRequired,

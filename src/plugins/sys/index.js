@@ -10,7 +10,7 @@ import { serviceIds } from './constants';
 
 export default class SysPlugin extends Plugin {
   constructor() {
-    super('triniti', 'sys', '0.1.0');
+    super('triniti', 'sys', '0.2.3');
   }
 
   configure(app, bottle) {

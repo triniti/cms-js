@@ -32,11 +32,6 @@ const SelectField = ({
         onChange={input.onChange}
         onInputChange={(text) => handleInputChange(text, input)}
         value={input.value || ''}
-        styles={{
-          menuList: () => ({
-            maxHeight: 'unset',
-          }),
-        }}
         {...rest}
       />
       {error && <FormText key="error" color="danger" className="ml-1">{error}</FormText>}

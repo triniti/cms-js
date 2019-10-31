@@ -1,4 +1,5 @@
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/search-nodes/AbstractDelegate';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import schemas from './schemas';
 
 class Delegate extends AbstractDelegate {
@@ -11,7 +12,7 @@ class Delegate extends AbstractDelegate {
   getSearchParams() {
     return {
       isStaff: this.component.props.isStaff,
-      status: 'published',
+      status: NodeStatus.PUBLISHED.getValue(),
     };
   }
 }

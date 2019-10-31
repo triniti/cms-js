@@ -20,8 +20,9 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-const INSTAGRAM_MEDIA_REGEX = /(https?:\/\/www?\.instagram\.com)\/(p\/)?(tv\/)?/g;
-const INSTAGRAM_STRIP_REGEX = /[^https://www.instagram.com][^/p][^/tv].*[a-zA-Z]/g;
+import INSTAGRAM_MEDIA_REGEX from './instagramMediaBlockRegex';
+
+const INSTAGRAM_STRIP_REGEX = /([A-Z])\w+/g;
 
 export default class InstagramMediaBlockModal extends React.Component {
   static propTypes = {
@@ -105,15 +106,16 @@ export default class InstagramMediaBlockModal extends React.Component {
     const input = event.target.value;
     const isValidUrl = INSTAGRAM_MEDIA_REGEX.test(input);
 
-    if (!isValidUrl) {
-      errorMsg = 'url or embed code is invalid';
-      isValid = false;
-    } else {
+    if (isValidUrl) {
       errorMsg = '';
       isValid = true;
       hideCaption = input.indexOf('data-instgrm-captioned') === -1;
       id = input.match(INSTAGRAM_STRIP_REGEX)[0];
+    } else {
+      errorMsg = 'url or embed code is invalid';
+      isValid = false;
     }
+
     this.setState({
       errorMsg,
       hideCaption,
@@ -131,12 +133,14 @@ export default class InstagramMediaBlockModal extends React.Component {
       errorMsg,
       hasUpdatedDate,
       hideCaption,
+      id,
       isValid,
       touched,
       updatedDate,
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
+    const displayUrl = isValid ? `https://www.instagram.com/p/${id}/` : url;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -149,7 +153,7 @@ export default class InstagramMediaBlockModal extends React.Component {
               onChange={this.handleChangeTextarea}
               placeholder="enter url or embed code"
               type="textarea"
-              value={url || null}
+              value={displayUrl || null}
             />
           </FormGroup>
           {
