@@ -1,7 +1,7 @@
 import moveNodeByIndex from './moveNodeByIndex';
 /**
  * Move node to the index of the first item that has a lesser gallery sequence
- * compared to the given value of the `gallerySequence` param.
+ * compared to the given value of the given `gallerySequence` param.
  *
  * @param gallerySequence
  * @param nodeToMove

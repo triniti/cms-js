@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
-function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, direction, correctedItemSequence = {}) {
+/* eslint-disable-next-line max-len */
+const getAutoCorrectedItemSequence = (currentSequence, currentIndex, items, direction, correctedItemSequence = {}) => {
   const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
   const nextItem = items[nextIndex];
   if (!nextItem) {
@@ -13,15 +14,22 @@ function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, dire
   }
 
   const diff = Math.abs(nextItem.gallerySequence - currentSequence) + 10;
-  // ensure that the next sequence is correct in order
-  const nextSequence = (direction === 'reverse') ? nextItem.gallerySequence + diff : nextItem.gallerySequence - diff;
+  const nextSequence = (direction === 'reverse') ? nextItem.gallerySequence + diff
+    : nextItem.gallerySequence - diff;
+
   correctedItemSequence[nextItem.assetId] = nextSequence;
 
-  return getAutoCorrectedItemSequence(nextSequence, nextIndex, items, direction, correctedItemSequence);
-}
+  return getAutoCorrectedItemSequence(
+    nextSequence,
+    nextIndex,
+    items,
+    direction,
+    correctedItemSequence,
+  );
+};
 
 /**
- * Ensure to get correct unique sequences to remove duplication
+ * Ensure to get valid and unique sequences and prevent duplication.
  * @param oldIndex
  * @param newIndex
  * @param lowSequenceIndex
@@ -29,7 +37,7 @@ function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, dire
  * @param items
  * @return {{}}
  */
-function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items) {
+const getUniqueItemSequence = (oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items) => {
   const newItems = [...items];
 
   const distanceFromStart = newIndex - 0;
@@ -44,11 +52,14 @@ function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenc
 
   let toBeCorrectedSequence = toBeCorrectedItem.gallerySequence;
   let newSequence = highSequence;
-  while (highSequence === newSequence
-  || lowSequence === newSequence
-  || toBeCorrectedSequence === newSequence) {
-    toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10 : toBeCorrectedSequence - 10;
-    newSequence = Math.ceil((toBeCorrectedSequence + newItems[isNearFromStartIndex ? lowSequenceIndex : highSequenceIndex].gallerySequence) / 2);
+  const addendSequence = newItems[isNearFromStartIndex ? lowSequenceIndex : highSequenceIndex]
+    .gallerySequence;
+  while (toBeCorrectedSequence === newSequence
+      || lowSequence === newSequence
+      || highSequence === newSequence) {
+    toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10
+      : toBeCorrectedSequence - 10;
+    newSequence = Math.ceil((toBeCorrectedSequence + addendSequence) / 2);
   }
 
   const recurseDirection = isNearFromStartIndex ? 'reverse' : 'forward';
@@ -64,11 +75,11 @@ function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenc
       [newItems[oldIndex].assetId]: newSequence,
       [toBeCorrectedItem.assetId]: toBeCorrectedSequence,
     },
-    ...autoCorrectedItemSequence
+    ...autoCorrectedItemSequence,
   };
-}
+};
 
-function positionSwap(oldIndex, newIndex, items) {
+const positionSwap = (oldIndex, newIndex, items) => {
   const newItems = [...items];
   const oldIndexGallerySequence = items[oldIndex].gallerySequence;
   const newIndexGallerySequence = items[newIndex].gallerySequence;
@@ -81,9 +92,9 @@ function positionSwap(oldIndex, newIndex, items) {
     [newItems[newIndex].assetId]: oldIndexGallerySequence,
     [newItems[oldIndex].assetId]: newIndexGallerySequence,
   };
-}
+};
 
-function moveToFirstPosition(oldIndex, newIndex, items) {
+const moveToFirstPosition = (oldIndex, newIndex, items) => {
   const newItems = [...items];
   const firstItemGallerySequence = items[0].gallerySequence;
   const secondItemGallerySequence = items[1].gallerySequence;
@@ -94,9 +105,9 @@ function moveToFirstPosition(oldIndex, newIndex, items) {
     [newItems[oldIndex].assetId]: firstItemGallerySequence,
     [newItems[0].assetId]: updatedFirstItemGallerySequence,
   };
-}
+};
 
-function moveToLastPosition(oldIndex, newIndex, items) {
+const moveToLastPosition = (oldIndex, newIndex, items) => {
   const newItems = [...items];
   const lastItemGallerySequence = items[newIndex].gallerySequence;
   const penultimateItemGallerySequence = items[newIndex - 1].gallerySequence;
@@ -107,9 +118,9 @@ function moveToLastPosition(oldIndex, newIndex, items) {
     [newItems[oldIndex].assetId]: lastItemGallerySequence,
     [newItems[newIndex].assetId]: updatedLastItemGallerySequence,
   };
-}
+};
 
-function move(oldIndex, newIndex, items) {
+const move = (oldIndex, newIndex, items) => {
   const newItems = [...items];
   let lowSequenceNumber = 0;
   let highSequenceNumber = 0;
@@ -136,7 +147,7 @@ function move(oldIndex, newIndex, items) {
   return {
     [newItems[oldIndex].assetId]: newSequence,
   };
-}
+};
 
 export default (oldIndex, newIndex, items) => {
   if (newIndex === oldIndex + 1 || newIndex === oldIndex - 1) {
