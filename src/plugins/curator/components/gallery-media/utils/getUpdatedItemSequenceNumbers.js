@@ -12,7 +12,8 @@ function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, dire
     return correctedItemSequence;
   }
 
-  const diff = Math.abs(nextItem.gallerySequence - currentSequence) + 10; // ensure that the next sequence is correct
+  const diff = Math.abs(nextItem.gallerySequence - currentSequence) + 10;
+  // ensure that the next sequence is correct in order
   const nextSequence = (direction === 'reverse') ? nextItem.gallerySequence + diff : nextItem.gallerySequence - diff;
   correctedItemSequence[nextItem.assetId] = nextSequence;
 
@@ -20,7 +21,7 @@ function getAutoCorrectedItemSequence(currentSequence, currentIndex, items, dire
 }
 
 /**
- * Ensure to get correct sequences if duplication occurs
+ * Ensure to get correct sequences to remove duplication
  * @param oldIndex
  * @param newIndex
  * @param lowSequenceIndex
@@ -38,7 +39,6 @@ function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenc
   const highSequence = newItems[highSequenceIndex].gallerySequence;
   const lowSequence = newItems[lowSequenceIndex].gallerySequence;
 
-  // if new index is near the start index then always choose to correct the high sequence
   const toBeCorrectedSequenceIndex = isNearFromStartIndex ? highSequenceIndex : lowSequenceIndex;
   const toBeCorrectedItem = newItems[toBeCorrectedSequenceIndex];
 
@@ -52,9 +52,20 @@ function getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenc
   }
 
   const recurseDirection = isNearFromStartIndex ? 'reverse' : 'forward';
-  const autoCorrectedItemSequence = getAutoCorrectedItemSequence(toBeCorrectedSequence, toBeCorrectedSequenceIndex, newItems, recurseDirection);
+  const autoCorrectedItemSequence = getAutoCorrectedItemSequence(
+    toBeCorrectedSequence,
+    toBeCorrectedSequenceIndex,
+    newItems,
+    recurseDirection,
+  );
 
-  return { ...{ [newItems[oldIndex].assetId]: newSequence, [toBeCorrectedItem.assetId]: toBeCorrectedSequence }, ...autoCorrectedItemSequence };
+  return {
+    ...{
+      [newItems[oldIndex].assetId]: newSequence,
+      [toBeCorrectedItem.assetId]: toBeCorrectedSequence,
+    },
+    ...autoCorrectedItemSequence
+  };
 }
 
 function positionSwap(oldIndex, newIndex, items) {
@@ -117,13 +128,13 @@ function move(oldIndex, newIndex, items) {
     highSequenceNumber = items[highSequenceIndex].gallerySequence;
   }
 
-  const newValue = Math.ceil((lowSequenceNumber + highSequenceNumber) / 2);
-  if (newValue === highSequenceNumber) {
+  const newSequence = Math.ceil((lowSequenceNumber + highSequenceNumber) / 2);
+  if (newSequence === highSequenceNumber) {
     return getUniqueItemSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, items);
   }
 
   return {
-    [newItems[oldIndex].assetId]: newValue,
+    [newItems[oldIndex].assetId]: newSequence,
   };
 }
 
