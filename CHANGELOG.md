@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* update all node pickers to request 25 per page
+
+
 ## v0.2.3
 * un-style `SelectField` `menuList`
 * fix nodePickerField innerProps
