@@ -75,7 +75,6 @@ class BatchEdit extends React.Component {
     super(props);
     const {
       delegate,
-      assetIds,
     } = props;
 
     delegate.bindToComponent(this);

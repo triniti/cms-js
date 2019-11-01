@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## vN.N.N
+* batch edit support from gallery media section
 
 ## v0.2.4
 * update all node pickers to request 25 per page
