@@ -18,6 +18,7 @@ export const routeIds = {
 };
 
 export const formNames = {
+  BATCH_EDIT: t('batch_edit'),
   UPLOADER_FORM_PREFIX: t('uploader-'),
   ASSET: t('asset'),
 };

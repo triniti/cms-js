@@ -140,7 +140,7 @@ class GalleryMedia extends React.Component {
   }
 
   handleEditAsset(asset) {
-    swal({
+    swal.fire({
       title: 'Continue?',
       html: `Edit <b>"${asset.get('title') || 'this image'}"</b> will open a new tab.`,
       showCancelButton: true,
@@ -163,7 +163,7 @@ class GalleryMedia extends React.Component {
   async handleEditSequence(asset, seqSet) {
     const { delegate } = this.props;
 
-    const { value: gallerySeq } = await swal({
+    const { value: gallerySeq } = await swal.fire({
       title: 'Enter new sequence number',
       input: 'text',
       inputValue: asset.get('gallery_seq'),
@@ -208,7 +208,7 @@ class GalleryMedia extends React.Component {
   }
 
   async handleRemoveAsset(asset) {
-    swal({
+    swal.fire({
       title: 'Are you sure?',
       html: `Do you want to remove <strong>"${asset.get('title') || 'this image'}"</strong>?`,
       type: 'warning',
@@ -230,7 +230,7 @@ class GalleryMedia extends React.Component {
           this.setState({ selected: pull(selected, asset.get('_id').toNodeRef().toString()) });
           await delegate.handleRemoveGalleryAsset(asset);
         } catch (e) {
-          swal('Failed', e.message, 'error');
+          swal.fire('Failed', e.message, 'error');
         }
 
         delegate.handleSearchGalleryAssets();
@@ -343,17 +343,6 @@ class GalleryMedia extends React.Component {
             onIncreaseImagesPerRow={this.handleIncreaseImagesPerRow}
             onSlideImagesPerRow={this.handleSlideImagesPerRow}
           />
-          {/* {isBatchEditOpen
-            && (
-              <BatchEdit
-                assetIds={selected}
-                isOpen={isBatchEditOpen}
-                node={getNode(nodeRef)}
-                nodeRef={nodeRef}
-                onToggleBatchEdit={this.handleToggleBatchEdit}
-              />
-            )
-          } */}
           <div className="d-inline-flex flex-wrap justify-content-end ml-2 my-1">
             <BatchEditButton
               assetIds={selected}

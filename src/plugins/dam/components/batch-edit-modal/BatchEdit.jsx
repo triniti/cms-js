@@ -25,7 +25,7 @@ import './styles.scss';
 
 class BatchEdit extends React.Component {
   static async confirmDone(text) {
-    return swal({
+    return swal.fire({
       cancelButtonClass: 'btn btn-secondary',
       confirmButtonClass: 'btn btn-danger',
       confirmButtonText: 'Yes',
@@ -75,6 +75,7 @@ class BatchEdit extends React.Component {
     super(props);
     const {
       delegate,
+      assetIds,
     } = props;
 
     delegate.bindToComponent(this);

@@ -1,7 +1,8 @@
 import { reset } from 'redux-form';
 
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/node/AbstractDelegate';
-import patchAssets from '@triniti/cms/plugins/dam/actions/patchAssets';
+import batchEditPatchAssets from '@triniti/cms/plugins/dam/actions/batchEditPatchAssets';
+import displayBatchEdit from '@triniti/cms/plugins/dam/actions/displayBatchEdit';
 
 import schemas from './schemas';
 import { formNames } from '../../constants';
@@ -73,7 +74,8 @@ class Delegate extends AbstractDelegate {
       values: fixedKeysCurrentValues,
     };
 
-    this.dispatch(patchAssets(data, assetIds, this.config));
+    this.dispatch(batchEditPatchAssets(data, assetIds, this.config));
+    this.dispatch(displayBatchEdit(false));
   }
 
   getFormName() {

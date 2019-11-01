@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { Button } from '@triniti/admin-ui-plugin/components';
-import BatchEdit from '@triniti/cms/plugins/dam/components/batch-edit';
+import BatchEditModal from '@triniti/cms/plugins/dam/components/batch-edit-modal';
 
-import selector from '@triniti/cms/plugins/dam/components/batch-edit/selector';
+import selector from '@triniti/cms/plugins/dam/components/batch-edit-modal/selector';
 import delegate from '@triniti/cms/plugins/dam/components/batch-edit-button/delegate';
 
 class BatchEditButton extends React.Component {
@@ -61,7 +61,7 @@ class BatchEditButton extends React.Component {
       </Button>,
       isBatchEditOpen // This lazy loads the uploader form only when isBatchEditOpen is set to true
       && (
-      <BatchEdit
+      <BatchEditModal
         key="b"
         assetIds={assetIds}
         isOpen={isBatchEditOpen}

@@ -3,7 +3,7 @@ import { actionTypes } from '@triniti/cms/plugins/dam/constants';
 
 export default ({ fields, values }, files, config) => {
   const { schemas } = config;
-  const nodeRefs = Object.keys(files).map((hashName) => NodeRef.fromNode(files[hashName].asset));
+  const nodeRefs = files.map((nodeRefStr) => NodeRef.fromString(nodeRefStr));
 
   const data = {
     paths: fields,
