@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
+
+
 ## v0.2.4
 * update all node pickers to request 25 per page
 * fix `nodePickerField` double scrollbar and overflow issues
