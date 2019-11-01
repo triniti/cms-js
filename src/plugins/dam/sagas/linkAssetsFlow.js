@@ -82,10 +82,10 @@ export function* failureFlow(reject, error = null, failedCount, expectedCount) {
  * @param config
  */
 export default function* linkAssetsFlow({ pbj, resolve, reject, config }) {
+  yield fork([toast, 'show']);
   yield putResolve(pbj);
   const expectedEvent = config.schemas.assetLinked.getCurie().toString();
   const eventChannel = yield actionChannel(expectedEvent);
-  yield fork([toast, 'show']);
   const result = yield race({
     event: call(waitForMyEvent, eventChannel),
     timeout: delay(1000),
