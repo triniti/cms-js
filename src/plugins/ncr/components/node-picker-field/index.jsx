@@ -218,10 +218,8 @@ class NodePickerField extends React.Component {
           MenuList: (props) => (
             <components.MenuList
               {...props}
-              innerRef={(e) => { this.menuList = e; }}
-            >
-              {props.children}
-            </components.MenuList>
+              innerRef={(e) => { props.innerRef(e); this.menuList = e; }}
+            />
           ),
           Option: (props) => (
             <OptionComponent

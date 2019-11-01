@@ -1,3 +1,4 @@
+import { components } from 'react-select';
 import { Media } from '@triniti/admin-ui-plugin/components';
 import { selectActionTypes } from '@triniti/cms/plugins/ncr/constants';
 import classNames from 'classnames';
@@ -11,17 +12,19 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   return acc;
 }, {});
 
-const Option = ({ data: { node, value }, isFocused, isSelected, selectProps }) => {
+const Option = (props) => {
+  const { data: { node, value }, isFocused, isSelected, selectProps } = props;
   const title = node.get('title');
   const status = node.get('status').toString();
   return (
-    <section
-      className={classNames('select__option', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
-      onClick={() => selectProps.onChange({ value }, { action: selectActionTypes.SELECT_OPTION })}
-      role="presentation"
-    >
-      <Media>
-        {node.has('image_ref')
+    <components.Option {...props}>
+      <section
+        className={classNames('select__option', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
+        onClick={() => selectProps.onChange({ value }, { action: selectActionTypes.SELECT_OPTION })}
+        role="presentation"
+      >
+        <Media>
+          {node.has('image_ref')
         && (
         <Media left className="align-self-start mt-0">
           <Media
@@ -33,17 +36,18 @@ const Option = ({ data: { node, value }, isFocused, isSelected, selectProps }) =
           />
         </Media>
         )}
-        <Media body>
-          <Media heading>
-            <strong>{title}</strong>
-            <small className={`text-uppercase status-copy ml-2 status-${statusColorMap[status]}`}>
-              {status}
-            </small>
+          <Media body>
+            <Media heading>
+              <strong>{title}</strong>
+              <small className={`text-uppercase status-copy ml-2 status-${statusColorMap[status]}`}>
+                {status}
+              </small>
+            </Media>
+            <em>{node.get('description')}</em>
           </Media>
-          <em>{node.get('description')}</em>
         </Media>
-      </Media>
-    </section>
+      </section>
+    </components.Option>
   );
 };
 
