@@ -25,18 +25,13 @@ const SelectField = ({
       <Select
         arrowRenderer={arrowRenderer}
         classNamePrefix="Select"
-        disabled={disabled}
+        isDisabled={disabled}
         multi={multi}
         name={input.name}
         onBlur={() => input.onBlur(input.value)}
         onChange={input.onChange}
         onInputChange={(text) => handleInputChange(text, input)}
         value={input.value || ''}
-        styles={{
-          menuList: () => ({
-            maxHeight: 'unset',
-          }),
-        }}
         {...rest}
       />
       {error && <FormText key="error" color="danger" className="ml-1">{error}</FormText>}

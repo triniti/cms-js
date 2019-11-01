@@ -12,13 +12,13 @@ export default (state, ownProps) => {
   const { request } = searchScreen.searchNodesRequestState;
   const isStaff = (request && request.get('is_staff')) || 0;
   const q = (request && request.get('q')) || '';
-  const userStatus = (request && request.has('status') && request.get('status').toString())
+  const status = (request && request.has('status') && request.get('status').toString())
     || schemas.node.getField('status').getDefault().getValue();
 
   return {
     ...searchScreen,
     isStaff,
     q,
-    userStatus,
+    status,
   };
 };

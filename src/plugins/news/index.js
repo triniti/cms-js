@@ -6,7 +6,7 @@ import HeadlineFragmentsSubscriber from './services/HeadlineFragmentsSubscriber'
 
 export default class NewsPlugin extends Plugin {
   constructor() {
-    super('triniti', 'news', '0.1.0');
+    super('triniti', 'news', '0.2.4');
   }
 
   configure(app, bottle) {

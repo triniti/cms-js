@@ -1,5 +1,6 @@
-import clearChannel from '@triniti/cms/plugins/pbjx/actions/clearChannel';
 import { callPbjx } from '@gdbots/pbjx/redux/actions';
+import clearChannel from '@triniti/cms/plugins/pbjx/actions/clearChannel';
+import debounce from 'lodash/debounce';
 
 export default (dispatch, { constants, schemas }) => ({
   handleClearChannel() {
@@ -15,9 +16,9 @@ export default (dispatch, { constants, schemas }) => ({
    * @param {string} q    - the search input value from select
    * @param {number} page - the request page
    */
-  handleSearch: (q = '', page = 1) => {
+  handleSearch: debounce((q = '', page = 1) => {
     const requestData = {
-      count: constants.REQUEST_COUNT,
+      count: 25,
       page,
       q,
     };
@@ -32,5 +33,5 @@ export default (dispatch, { constants, schemas }) => ({
 
     const request = schemas.searchNodes.createMessage(requestData);
     dispatch(callPbjx(request, constants.CHANNEL_NAME));
-  },
+  }, 500),
 });

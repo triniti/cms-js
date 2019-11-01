@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { CreateModalButton } from '@triniti/admin-ui-plugin/components';
@@ -16,7 +16,7 @@ class SearchUsersScreen extends AbstractSearchNodesScreen {
   static propTypes = {
     ...AbstractSearchNodesScreen.propTypes,
     isStaff: PropTypes.number,
-    userStatus: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -29,9 +29,9 @@ class SearchUsersScreen extends AbstractSearchNodesScreen {
   }
 
   getSearchNodesFormRenderProps() {
-    const { isStaff, q, userStatus } = this.props;
+    const { isStaff, q, status } = this.props;
 
-    return { isStaff, q, userStatus };
+    return { isStaff, q, status };
   }
 
   getNodesTable() {

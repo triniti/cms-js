@@ -177,22 +177,6 @@ class Blocksmith extends React.Component {
     delegate.handleStoreEditor(formName, editorState);
 
     this.inlineToolbarPlugin = createInlineToolbarPlugin({
-      structure: [
-        BoldButton,
-        ItalicButton,
-        UnderlineButton,
-        decorateComponentWithProps(
-          LinkButton,
-          {
-            onToggleLinkModal: this.handleToggleLinkModal.bind(this),
-            getEditorState: this.getEditorState.bind(this),
-          },
-        ),
-        OrderedListButton,
-        UnorderedListButton,
-        StrikethroughButton,
-        HighlightButton,
-      ],
       theme: {
         toolbarStyles: {
           toolbar: 'inline-toolbar',
@@ -868,8 +852,8 @@ class Blocksmith extends React.Component {
    * each time highlighting/selecting of text block's content happens.
    */
   handleFocus() {
-    const { readOnly } = this.state;
-    if (this.editor && !readOnly) {
+    const { isSidebarOpen, readOnly } = this.state;
+    if (!isSidebarOpen && this.editor && !readOnly) {
       this.editor.focus();
     }
   }
@@ -1443,7 +1427,7 @@ class Blocksmith extends React.Component {
           }
           break;
         case 'Backspace':
-          if (typeof previousBlock !== 'undefined') {
+          if (typeof previousBlock !== 'undefined' && currentBlock.getType() !== 'unstyled') {
             if (
               (previousBlock && previousBlock.getType() === 'atomic')
               && (currentBlock.getText() === '' || selectionState.getAnchorOffset() === 0)
@@ -1683,6 +1667,7 @@ class Blocksmith extends React.Component {
     } = this.state;
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
+    const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
 
     return (
       <Card>
@@ -1751,7 +1736,24 @@ class Blocksmith extends React.Component {
                 popoverRef={this.popoverRef}
               />
             </div>
-            {this.pluginComponents.map(({ key, PluginComponent }) => <PluginComponent key={key} />)}
+            <InlineToolbar>
+              {(props) => (
+                <>
+                  <BoldButton {...props} />
+                  <ItalicButton {...props} />
+                  <UnderlineButton {...props} />
+                  <LinkButton
+                    {...props}
+                    onToggleLinkModal={this.handleToggleLinkModal}
+                    getEditorState={this.getEditorState}
+                  />
+                  <OrderedListButton {...props} />
+                  <UnorderedListButton {...props} />
+                  <StrikethroughButton {...props} />
+                  <HighlightButton {...props} />
+                </>
+              )}
+            </InlineToolbar>
             {Modal && <Modal />}
           </div>
           {!readOnly && (
