@@ -1,7 +1,7 @@
 import { reset } from 'redux-form';
 
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/node/AbstractDelegate';
-import patchAssets from '@triniti/cms/plugins/curator/actions/patchAssets';
+import patchAssets from '@triniti/cms/plugins/dam/actions/patchAssets';
 
 import schemas from './schemas';
 import { formNames } from '../../constants';

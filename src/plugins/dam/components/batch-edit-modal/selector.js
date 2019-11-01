@@ -44,7 +44,7 @@ export default (state) => {
     alerts,
     currentValues,
     enableExpirationDateApplyAll,
-    getNode: nodeRef => getNode(state, nodeRef),
+    getNode: (nodeRef) => getNode(state, nodeRef),
     isFormDirty,
     isFormPristine,
     isFormValid,
