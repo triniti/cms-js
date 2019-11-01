@@ -23,7 +23,7 @@ const getMemoizedValues = (curie, key, fields, optionsMapper) => {
  *
  * @returns {Object}
  */
-export default (state, { constants, fields, schemas, isGetAll, selectComponents, optionsMapper = null }) => {
+export default (state, { constants, fields, schemas, isGetAll, optionsMapper = null }) => {
   const curie = isGetAll ? schemas.getAll.getCurie() : schemas.searchNodes.getCurie();
   const { response, status } = getRequest(state, curie, constants.CHANNEL_NAME);
   const allFields = (fields ? (fields.getAll() || []) : []);
