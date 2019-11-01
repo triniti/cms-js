@@ -1,6 +1,5 @@
 import { components } from 'react-select';
 import { Media } from '@triniti/admin-ui-plugin/components';
-import { selectActionTypes } from '@triniti/cms/plugins/ncr/constants';
 import classNames from 'classnames';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import PropTypes from 'prop-types';
@@ -12,14 +11,13 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
 }, {});
 
 const Option = (props) => {
-  const { data: { node, value }, isFocused, isSelected, selectProps } = props;
+  const { data: { node }, isFocused, isSelected } = props;
   const title = node.get('title');
   const status = node.get('status').toString();
   return (
     <components.Option {...props}>
       <section
         className={classNames('select__option select__option-inner', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
-        onClick={() => selectProps.onChange({ value }, { action: selectActionTypes.SELECT_OPTION })}
         role="presentation"
       >
         <Media>
