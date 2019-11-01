@@ -58,6 +58,7 @@ class NodePickerField extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleMenuClose = this.handleMenuClose.bind(this);
     this.handleMenuOpen = this.handleMenuOpen.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -70,16 +71,15 @@ class NodePickerField extends React.Component {
   /**
    * getting new nodes resets the scroll position, correct that here
    */
-  componentDidUpdate(prevProps) {
-    const { response } = this.props;
-    const { menuListScrollTop } = this.state;
-    if (!prevProps.response || !response) {
-      return;
-    }
+  componentDidUpdate(prevProps, prevState) {
+    const { isFulfilled } = this.props;
+    const { existingNodes, menuListScrollTop } = this.state;
     if (
       this.menuList
-      && response.get('ctx_request').get('page') > 1
-      && !response.get('response_id').equals(prevProps.response.get('response_id'))
+      && (
+        prevState.existingNodes !== existingNodes
+        || prevProps.isFulfilled !== isFulfilled
+      )
     ) {
       this.menuList.scrollTop = menuListScrollTop;
     }
@@ -142,6 +142,10 @@ class NodePickerField extends React.Component {
     }), () => {
       handleSearch(response.get('ctx_request').get('q'), response.get('ctx_request').get('page') + 1);
     });
+  }
+
+  handleMenuClose() {
+    this.setState(() => ({ menuListScrollTop: 0 }));
   }
 
   handleMenuOpen() {
@@ -238,6 +242,7 @@ class NodePickerField extends React.Component {
         onInputChange={this.handleInputChange}
         onKeyDown={this.handleKeyDown}
         inputValue={inputValue}
+        onMenuClose={this.handleMenuClose}
         onMenuOpen={this.handleMenuOpen}
         options={existingNodes.concat(!response ? [] : response.get('nodes', [])).map((node) => ({
           label: node.get('title'),
