@@ -17,7 +17,7 @@ import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid';
 import toast from '@triniti/admin-ui-plugin/utils/toast';
 import { STATUS_FULFILLED } from '@triniti/app/constants';
-import BatchEdit from '@triniti/cms/plugins/dam/components/batch-edit';
+import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button';
 
 import delegateFactory from './delegate';
 import getUpdatedItemSequenceNumbers from './getUpdatedItemSequenceNumbers';
@@ -32,14 +32,12 @@ const imageType = ImageAssetV1Mixin.findOne().getCurie().getMessage();
 class GalleryMedia extends React.Component {
   static propTypes = {
     delegate: PropTypes.shape({
-      handleToggleBatchEdit: PropTypes.func.isRequired,
       handleClearChannel: PropTypes.func.isRequired,
       handleReorderGalleryAssets: PropTypes.func.isRequired,
       handleRemoveGalleryAsset: PropTypes.func.isRequired,
       handleSearchGalleryAssets: PropTypes.func.isRequired,
     }).isRequired,
     getNode: PropTypes.func.isRequired,
-    isBatchEditOpen: PropTypes.bool,
     isEditMode: PropTypes.bool,
     isReorderGranted: PropTypes.bool,
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -57,7 +55,6 @@ class GalleryMedia extends React.Component {
 
   static defaultProps = {
     isEditMode: false,
-    isBatchEditOpen: false,
     isReorderGranted: false,
     items: [],
   };
@@ -77,7 +74,6 @@ class GalleryMedia extends React.Component {
 
     this.handleAddAssets = this.handleAddAssets.bind(this);
     this.handleAssetsUploaded = this.handleAssetsUploaded.bind(this);
-    this.handleToggleBatchEdit = this.handleToggleBatchEdit.bind(this);
     this.handleChangeSearchParam = this.handleChangeSearchParam.bind(this);
     this.handleDecreaseImagesPerRow = this.handleDecreaseImagesPerRow.bind(this);
     this.handleEditAsset = this.handleEditAsset.bind(this);
@@ -280,14 +276,6 @@ class GalleryMedia extends React.Component {
     });
   }
 
-  handleToggleBatchEdit() {
-    const {
-      delegate,
-      isBatchEditOpen,
-    } = this.props;
-    delegate.handleToggleBatchEdit(!isBatchEditOpen);
-  }
-
   handleChangeSearchParam(key, value) {
     const { delegate, searchNodesRequestState: { request } } = this.props;
     const newRequest = Object.assign({}, request.toObject(), {
@@ -324,7 +312,6 @@ class GalleryMedia extends React.Component {
     const { showGallerySequence } = this.state;
     const {
       getNode,
-      isBatchEditOpen,
       isEditMode,
       isReorderGranted,
       items,
@@ -356,7 +343,7 @@ class GalleryMedia extends React.Component {
             onIncreaseImagesPerRow={this.handleIncreaseImagesPerRow}
             onSlideImagesPerRow={this.handleSlideImagesPerRow}
           />
-          {isBatchEditOpen
+          {/* {isBatchEditOpen
             && (
               <BatchEdit
                 assetIds={selected}
@@ -366,9 +353,15 @@ class GalleryMedia extends React.Component {
                 onToggleBatchEdit={this.handleToggleBatchEdit}
               />
             )
-          }
+          } */}
           <div className="d-inline-flex flex-wrap justify-content-end ml-2 my-1">
-            <Button disabled={!isEditMode || selected.length === 0} onClick={this.handleToggleBatchEdit} className="my-1 mr-0">Batch Edit</Button>
+            <BatchEditButton
+              assetIds={selected}
+              className="my-1 mr-0"
+              isEditMode={isEditMode}
+              node={getNode(nodeRef)}
+              nodeRef={nodeRef}
+            />
             <Button disabled={!isEditMode} onClick={this.handleToggleModal} className="ml-2 my-1">Add Images</Button>
           </div>
         </CardHeader>
