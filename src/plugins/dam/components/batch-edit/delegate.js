@@ -19,7 +19,6 @@ class Delegate extends AbstractDelegate {
   }
 
   handleToggleBatchEdit(display) {
-    console.log('delegate:handleToggleBatchEdit:', display);
     return this.dispatch(displayBatchEdit(display));
   }
 
@@ -84,6 +83,14 @@ class Delegate extends AbstractDelegate {
 
   getFormName() {
     return formNames.BATCH_EDIT;
+  }
+
+  /**
+   * @param {Component} component
+   */
+  bindToComponent(component) {
+    this.component = component;
+    this.dispatch = component.props.dispatch;
   }
 }
 

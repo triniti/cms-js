@@ -9,14 +9,12 @@ const {
   DISPLAY_BATCH_EDIT_REQUESTED,
 } = actionTypes;
 
-
-const onDisplayBatchEdit = (prevState, { display }) => {
-  console.log('reducer:onDisplayBatchEdit', display);
-  return {
+const onDisplayBatchEdit = (prevState, { display }) => (
+  {
     ...prevState,
     isBatchEditOpen: display,
-  };
-};
+  }
+);
 
 export default createReducer(initialState, {
   [DISPLAY_BATCH_EDIT_REQUESTED]: onDisplayBatchEdit,

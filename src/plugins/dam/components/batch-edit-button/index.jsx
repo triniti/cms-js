@@ -6,17 +6,14 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { Button } from '@triniti/admin-ui-plugin/components';
 import BatchEdit from '@triniti/cms/plugins/dam/components/batch-edit';
 
-import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import delegateFactory from '@triniti/cms/plugins/dam/components/batch-edit/delegate';
 import selector from '@triniti/cms/plugins/dam/components/batch-edit/selector';
+import delegate from '@triniti/cms/plugins/dam/components/batch-edit-button/delegate';
 
 class BatchEditButton extends React.Component {
   static propTypes = {
     assetIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     children: PropTypes.node,
-    delegate: PropTypes.shape({
-      handleToggleBatchEdit: PropTypes.func.isRequired,
-    }).isRequired,
+    handleToggleBatchEdit: PropTypes.func.isRequired,
     getNode: PropTypes.func.isRequired,
     isBatchEditOpen: PropTypes.bool,
     isEditMode: PropTypes.bool,
@@ -31,17 +28,15 @@ class BatchEditButton extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.handleToggleBatchEdit = this.handleToggleBatchEdit.bind(this);
   }
 
   handleToggleBatchEdit() {
     const {
-      delegate,
       isBatchEditOpen,
+      handleToggleBatchEdit,
     } = this.props;
-    console.log('class:handleToggleBatchEdit:', !isBatchEditOpen);
-    delegate.handleToggleBatchEdit(!isBatchEditOpen);
+    handleToggleBatchEdit(!isBatchEditOpen);
   }
 
   render() {
@@ -54,8 +49,6 @@ class BatchEditButton extends React.Component {
       nodeRef,
       ...btnProps
     } = this.props;
-
-    console.log('Is batch edit open?', isBatchEditOpen);
 
     return ([
       <Button
@@ -83,5 +76,5 @@ class BatchEditButton extends React.Component {
 
 export default connect(
   selector,
-  createDelegateFactory(delegateFactory),
+  delegate,
 )(BatchEditButton);
