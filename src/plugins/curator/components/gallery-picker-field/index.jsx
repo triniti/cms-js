@@ -8,6 +8,12 @@ import Option from './Option';
 import schemas from './schemas';
 import SortableList from './SortableList';
 
+const selectComponents = {
+  Menu,
+  MultiValue: () => null,
+  Option,
+  SingleValue: () => null,
+};
 const GalleryPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti, label } = props;
   return (
@@ -29,12 +35,7 @@ const GalleryPickerField = (props) => {
             isClearable={false}
             isDisabled={!isEditMode}
             schemas={schemas}
-            selectComponents={{
-              Menu,
-              MultiValue: () => null,
-              Option,
-              SingleValue: () => null,
-            }}
+            selectComponents={selectComponents}
           />
         </FormGroup>
       )}

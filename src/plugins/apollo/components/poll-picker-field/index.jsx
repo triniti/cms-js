@@ -8,6 +8,12 @@ import Option from './Option';
 import schemas from './schemas';
 import SortableList from './SortableList';
 
+const selectComponents = {
+  Menu,
+  MultiValue: () => null,
+  Option,
+  SingleValue: () => null,
+};
 const PollPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti, label } = props;
   return (
@@ -29,12 +35,7 @@ const PollPickerField = (props) => {
             isDisabled={!isEditMode}
             isMulti={isMulti}
             schemas={schemas}
-            selectComponents={{
-              Menu,
-              MultiValue: () => null,
-              Option,
-              SingleValue: () => null,
-            }}
+            selectComponents={selectComponents}
           />
         </>
       )}

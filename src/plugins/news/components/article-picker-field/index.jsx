@@ -8,6 +8,12 @@ import constants from './constants';
 import schemas from './schemas';
 import SortableList from './SortableList';
 
+const selectComponents = {
+  Menu,
+  MultiValue: () => null,
+  Option,
+  SingleValue: () => null,
+};
 const ArticlePickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
   const readOnly = !isEditMode || disabled;
@@ -21,7 +27,7 @@ const ArticlePickerField = (props) => {
       />
       )}
       {!readOnly && (
-      <>
+        <>
         <Label>{`search and select ${isMulti ? 'articles' : 'an article'}`}</Label>
         <NodePickerField
           {...props}
@@ -30,14 +36,9 @@ const ArticlePickerField = (props) => {
           isDisabled={!isEditMode}
           isMulti={isMulti}
           schemas={schemas}
-          selectComponents={{
-            Menu,
-            MultiValue: () => null,
-            Option,
-            SingleValue: () => null,
-          }}
+          selectComponents={selectComponents}
         />
-      </>
+        </>
       )}
     </>
   );

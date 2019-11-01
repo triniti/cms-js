@@ -22,7 +22,7 @@ const Option = (props) => {
       <div // eslint-disable-line jsx-a11y/click-events-have-key-events
         role="button"
         tabIndex="-1"
-        className={classNames('select__option', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
+        className={classNames('select__option select__option-inner', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
         onClick={handleClick}
         title={data.node.get('title')}
       >

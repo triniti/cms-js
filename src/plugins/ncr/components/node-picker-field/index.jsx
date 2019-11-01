@@ -17,6 +17,7 @@ import './styles.scss';
 class NodePickerField extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    clearDelegateCache: PropTypes.func.isRequired,
     constants: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     fields: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     handleClearChannel: PropTypes.func.isRequired,
@@ -74,6 +75,15 @@ class NodePickerField extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { isFulfilled } = this.props;
     const { existingNodes, menuListScrollTop } = this.state;
+    Object.keys(prevProps).forEach((key) => {
+      if (prevProps[key] !== this.props[key]) { console.log(key); }
+    });
+    Object.keys(prevState).forEach((key) => {
+      if (prevState[key] !== this.state[key]) { console.log(key); }
+    });
+    if (window.wtf) {
+      debugger;
+    }
     if (
       this.menuList
       && (
@@ -86,11 +96,12 @@ class NodePickerField extends React.Component {
   }
 
   componentWillUnmount() {
-    const { handleClearChannel, handleSearch } = this.props;
+    const { clearDelegateCache, handleClearChannel, handleSearch } = this.props;
     handleClearChannel();
     this.handleLoadMore.cancel();
     this.handleScroll.cancel();
     handleSearch.cancel();
+    clearDelegateCache();
   }
 
   handleChange(selected, payload) {
@@ -199,6 +210,7 @@ class NodePickerField extends React.Component {
     return (
       <Select
         {...this.props}
+        className="node-picker-field"
         closeMenuOnSelect={false}
         components={{
           ...selectComponents,

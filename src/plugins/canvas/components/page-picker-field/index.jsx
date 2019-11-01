@@ -8,6 +8,12 @@ import constants from './constants';
 import schemas from './schemas';
 import SortableList from './SortableList';
 
+const selectComponents = {
+  Menu,
+  MultiValue: () => null,
+  Option,
+  SingleValue: () => null,
+};
 const PagePickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
   return (
@@ -28,12 +34,7 @@ const PagePickerField = (props) => {
         isDisabled={!isEditMode}
         isMulti={isMulti}
         schemas={schemas}
-        selectComponents={{
-          Menu,
-          MultiValue: () => null,
-          Option,
-          SingleValue: () => null,
-        }}
+        selectComponents={selectComponents}
       />
     </>
   );

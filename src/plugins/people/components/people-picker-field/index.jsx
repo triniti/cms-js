@@ -7,6 +7,7 @@ import schemas from './schemas';
 import Option from './Option';
 import './styles.scss';
 
+const selectComponents = { Option };
 const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest }) => (
   <FormGroup>
     <Label>{label}</Label>
@@ -17,7 +18,7 @@ const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest })
       isMulti={isMulti}
       placeholder={placeholder || 'Select related people...'}
       schemas={schemas}
-      selectComponents={{ Option }}
+      selectComponents={selectComponents}
     />
   </FormGroup>
 );

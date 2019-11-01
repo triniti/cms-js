@@ -18,7 +18,7 @@ const Option = (props) => {
   return (
     <components.Option {...props}>
       <section
-        className={classNames('select__option', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
+        className={classNames('select__option select__option-inner', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
         onClick={() => selectProps.onChange({ value }, { action: selectActionTypes.SELECT_OPTION })}
         role="presentation"
       >

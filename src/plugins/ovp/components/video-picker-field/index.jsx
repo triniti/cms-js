@@ -8,6 +8,12 @@ import Option from './Option';
 import schemas from './schemas';
 import SortableList from './SortableList';
 
+const selectComponents = {
+  Menu,
+  MultiValue: () => null,
+  Option,
+  SingleValue: () => null,
+};
 const VideoPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
   return (
@@ -28,12 +34,7 @@ const VideoPickerField = (props) => {
         isDisabled={!isEditMode}
         isMulti={isMulti}
         schemas={schemas}
-        selectComponents={{
-          Menu,
-          MultiValue: () => null,
-          Option,
-          SingleValue: () => null,
-        }}
+        selectComponents={selectComponents}
       />
     </>
   );

@@ -9,6 +9,11 @@ import schemas from './schemas';
 import SortableList from './SortableList';
 import './styles.scss';
 
+const selectComponents = {
+  MultiValue: () => null,
+  Option,
+  Menu,
+};
 const WidgetPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
   return (
@@ -30,11 +35,7 @@ const WidgetPickerField = (props) => {
             isDisabled={!isEditMode}
             isMulti={isMulti}
             schemas={schemas}
-            selectComponents={{
-              MultiValue: () => null,
-              Option,
-              Menu,
-            }}
+            selectComponents={selectComponents}
           />
         </>
       )}
