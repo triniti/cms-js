@@ -2,9 +2,13 @@
 
 
 ## patch
-* update all node pickers to request 25 per page
 * optimize Gallery Reorder - Batching
+
+
+## v0.2.4
+* update all node pickers to request 25 per page
 * fix `nodePickerField` double scrollbar and overflow issues
+* clear `nodePickerField` search string on select
 
 
 ## v0.2.3

@@ -45,8 +45,9 @@ class NodePickerField extends React.Component {
     super(props);
 
     this.state = {
-      hasLoadedFirstSet: false,
       existingNodes: [],
+      hasLoadedFirstSet: false,
+      inputValue: '',
       menuListScrollTop: 0,
     };
 
@@ -55,7 +56,7 @@ class NodePickerField extends React.Component {
       trailing: true,
     });
     this.handleChange = this.handleChange.bind(this);
-    this.handleInputChange = debounce(this.handleInputChange.bind(this), 500);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleMenuOpen = this.handleMenuOpen.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -84,10 +85,11 @@ class NodePickerField extends React.Component {
   }
 
   componentWillUnmount() {
-    const { handleClearChannel } = this.props;
+    const { handleClearChannel, handleSearch } = this.props;
     handleClearChannel();
     this.handleLoadMore.cancel();
-    this.handleInputChange.cancel();
+    this.handleScroll.cancel();
+    handleSearch.cancel();
   }
 
   handleChange(selected, payload) {
@@ -109,10 +111,11 @@ class NodePickerField extends React.Component {
 
   handleInputChange(q) {
     const { handleSearch, isGetAll } = this.props;
-    if (isGetAll) {
-      return;
-    }
-    this.setState(() => ({ existingNodes: [] }), () => handleSearch(q));
+    this.setState(() => ({ inputValue: q }), () => {
+      if (!isGetAll) {
+        this.setState(() => ({ existingNodes: [] }), () => handleSearch(q));
+      }
+    });
   }
 
   handleLoadMore() {
@@ -170,12 +173,13 @@ class NodePickerField extends React.Component {
       this.handleRemove(nodeRef);
     } else {
       this.handlePick(nodeRef);
+      this.setState(() => ({ inputValue: '' }));
     }
   }
 
   render() {
     const { fields, isMulti, selectComponents, response, value } = this.props;
-    const { existingNodes } = this.state;
+    const { existingNodes, inputValue } = this.state;
     const MenuComponent = selectComponents.Menu || components.Menu;
     const OptionComponent = selectComponents.Option || components.Option;
     return (
@@ -221,6 +225,7 @@ class NodePickerField extends React.Component {
         isMulti={isMulti}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}
+        inputValue={inputValue}
         onMenuOpen={this.handleMenuOpen}
         options={existingNodes.concat(!response ? [] : response.get('nodes', [])).map((node) => ({
           label: node.get('title'),
