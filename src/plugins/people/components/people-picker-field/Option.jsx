@@ -5,7 +5,7 @@ import { selectActionTypes } from '@triniti/cms/plugins/ncr/constants';
 import SelectThumbnail from './SelectThumbnail';
 import damUrl from '../../../dam/utils/damUrl';
 
-const Option = ({ children, data, isSelected, selectProps }) => {
+const Option = ({ children, data, isFocused, isSelected, selectProps }) => {
   const handleClick = () => selectProps.onChange({ value: data.value }, { action: selectActionTypes.SELECT_OPTION });
   const thumbnailStyle = {
     borderRadius: 3,
@@ -19,7 +19,7 @@ const Option = ({ children, data, isSelected, selectProps }) => {
     <div // eslint-disable-line jsx-a11y/click-events-have-key-events
       role="button"
       tabIndex="-1"
-      className={classNames('select__option', { 'is-selected': isSelected })}
+      className={classNames('select__option', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
       onClick={handleClick}
       title={data.node.get('title')}
     >
@@ -39,6 +39,7 @@ const Option = ({ children, data, isSelected, selectProps }) => {
 Option.propTypes = {
   children: PropTypes.node.isRequired,
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isFocused: PropTypes.bool.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };

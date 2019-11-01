@@ -11,12 +11,12 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   return acc;
 }, {});
 
-const Option = ({ data: { node, value }, isSelected, selectProps }) => {
+const Option = ({ data: { node, value }, isFocused, isSelected, selectProps }) => {
   const title = node.get('title');
   const status = node.get('status').toString();
   return (
     <section
-      className={classNames('select__option', { 'is-selected': isSelected })}
+      className={classNames('select__option', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
       onClick={() => selectProps.onChange({ value }, { action: selectActionTypes.SELECT_OPTION })}
       role="presentation"
     >
@@ -49,6 +49,7 @@ const Option = ({ data: { node, value }, isSelected, selectProps }) => {
 
 Option.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isFocused: PropTypes.bool.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };

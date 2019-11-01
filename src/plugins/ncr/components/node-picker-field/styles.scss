@@ -2,3 +2,7 @@
   overflow-y: hidden;
   scroll-snap-align: start;
 }
+
+.select__option.is-focused {
+  background-color: rgba(8, 160, 232, 0.04) !important;
+}

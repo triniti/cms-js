@@ -57,6 +57,7 @@ class NodePickerField extends React.Component {
     });
     this.handleChange = this.handleChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleMenuOpen = this.handleMenuOpen.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -116,6 +117,15 @@ class NodePickerField extends React.Component {
         this.setState(() => ({ existingNodes: [] }), () => handleSearch(q));
       }
     });
+  }
+
+  handleKeyDown(e) {
+    const { fields } = this.props;
+    const { inputValue } = this.state;
+    if (!inputValue && e.key === 'Backspace' && (fields.getAll() || []).length) {
+      e.preventDefault();
+      this.handleRemove(fields.getAll()[fields.getAll().length - 1]);
+    }
   }
 
   handleLoadMore() {
@@ -185,6 +195,7 @@ class NodePickerField extends React.Component {
     return (
       <Select
         {...this.props}
+        closeMenuOnSelect={false}
         components={{
           ...selectComponents,
           Menu: (props) => (
@@ -225,6 +236,7 @@ class NodePickerField extends React.Component {
         isMulti={isMulti}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}
+        onKeyDown={this.handleKeyDown}
         inputValue={inputValue}
         onMenuOpen={this.handleMenuOpen}
         options={existingNodes.concat(!response ? [] : response.get('nodes', [])).map((node) => ({
