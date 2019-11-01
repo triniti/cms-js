@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* decrease race timeout to 1 second in `linkAssetsFlow` and remove delay on `successFlow` in `linkAssetsFlow`.
+* remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
 
 
 ## v0.2.4
