@@ -4,6 +4,7 @@
 ## patch
 * style nodes in `nodePickerField` that are navigated to via keyboard
 * enable deleting nodes from `nodePickerField` with backspace
+* fix a bunch of other `nodePickerField` wrinkles
 
 
 ## v0.2.4
