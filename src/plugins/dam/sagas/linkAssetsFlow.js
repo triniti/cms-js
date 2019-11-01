@@ -88,7 +88,7 @@ export default function* linkAssetsFlow({ pbj, resolve, reject, config }) {
   const eventChannel = yield actionChannel(expectedEvent);
   const result = yield race({
     event: call(waitForMyEvent, eventChannel),
-    timeout: delay(1000),
+    timeout: delay(5000),
   });
 
   if (result.timeout) {
