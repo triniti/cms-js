@@ -54,8 +54,8 @@ const getUniqueNodeSequence = (oldIndex, newIndex, lowSequenceIndex, highSequenc
   let toBeCorrectedSequence = toBeCorrectedNode.get('gallery_seq');
   let newSequence = highSequence;
   while (toBeCorrectedSequence === newSequence
-      || lowSequence === newSequence
-      || highSequence === newSequence) {
+  || lowSequence === newSequence
+  || highSequence === newSequence) {
     toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10
       : toBeCorrectedSequence - 10;
     newSequence = Math.ceil((toBeCorrectedSequence + addendNode.get('gallery_seq')) / 2);
@@ -84,8 +84,15 @@ const positionSwap = (oldIndex, newIndex, nodes) => {
   const newIndexGallerySequence = nodes[newIndex].get('gallery_seq');
 
   if (oldIndexGallerySequence === newIndexGallerySequence) {
-    const lowSequenceIndex = oldIndex;
-    const highSequenceIndex = newIndex;
+    let lowSequenceIndex = 0;
+    let highSequenceIndex = 0;
+    if (newIndex < oldIndex) {
+      lowSequenceIndex = newIndex;
+      highSequenceIndex = newIndex - 1;
+    } else if (newIndex > oldIndex) {
+      lowSequenceIndex = newIndex + 1;
+      highSequenceIndex = newIndex;
+    }
     return getUniqueNodeSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, newNodes);
   }
 

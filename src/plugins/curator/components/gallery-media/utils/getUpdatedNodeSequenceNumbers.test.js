@@ -99,3 +99,38 @@ test('getUpdatedNodeSequenceNumbers: move item from first index to sixth index',
 
   t.end();
 });
+
+test('getUpdatedNodeSequenceNumbers: swap duplicate items from higher old index to lower new index', (t) => {
+  const updatedNodeSequenceNumbers = getUpdatedNodeSequenceNumbers(7, 6, mockedNodes);
+
+  const correctedSequenceForOldIndex = updatedNodeSequenceNumbers[getMockedNodeId(7)];
+  const correctedSequenceForNewIndex = updatedNodeSequenceNumbers[getMockedNodeId(6)];
+  const correctedSequenceForEightIndex = updatedNodeSequenceNumbers[getMockedNodeId(8)];
+
+  let actual = correctedSequenceForOldIndex < correctedSequenceForNewIndex;
+  let expected = true;
+  t.equal(actual, expected, 'it should auto-correct sequence');
+
+  actual = correctedSequenceForOldIndex > correctedSequenceForEightIndex;
+  expected = true;
+  t.equal(actual, expected, 'it should auto-correct the eight index and lower than seventh');
+  t.end();
+});
+
+
+test('getUpdatedNodeSequenceNumbers: swap duplicate items from lower old index to higher new index', (t) => {
+  const updatedNodeSequenceNumbers = getUpdatedNodeSequenceNumbers(6, 7, mockedNodes);
+
+  const correctedSequenceForOldIndex = updatedNodeSequenceNumbers[getMockedNodeId(6)];
+  const correctedSequenceForNewIndex = updatedNodeSequenceNumbers[getMockedNodeId(7)];
+  const correctedSequenceForEightIndex = updatedNodeSequenceNumbers[getMockedNodeId(8)];
+
+  let actual = correctedSequenceForOldIndex > correctedSequenceForEightIndex;
+  let expected = true;
+  t.equal(actual, expected, 'it should auto-correct sequence');
+
+  actual = correctedSequenceForNewIndex;
+  expected = undefined;
+  t.equal(actual, expected, 'it should NOT auto-correct the new index');
+  t.end();
+});
