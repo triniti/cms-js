@@ -1,5 +1,5 @@
 import { Label } from '@triniti/admin-ui-plugin/components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 import Option from './Option';
@@ -8,7 +8,7 @@ import constants from './constants';
 import schemas from './schemas';
 import SortableList from './SortableList';
 
-const selectComponents = {
+let selectComponents = {
   Menu,
   MultiValue: () => null,
   Option,
@@ -17,6 +17,7 @@ const selectComponents = {
 const ArticlePickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
   const readOnly = !isEditMode || disabled;
+  useEffect(() => () => { selectComponents = {}; }, []);
   return (
     <>
       {!!fields.length && (
@@ -28,8 +29,8 @@ const ArticlePickerField = (props) => {
       )}
       {!readOnly && (
         <>
-        <Label>{`search and select ${isMulti ? 'articles' : 'an article'}`}</Label>
-        <NodePickerField
+          <Label>{`search and select ${isMulti ? 'articles' : 'an article'}`}</Label>
+          <NodePickerField
           {...props}
           constants={constants}
           isClearable={false}
