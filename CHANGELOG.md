@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* decrease race timeout to 1 second in `linkAssetsFlow` and remove delay on `successFlow` in `linkAssetsFlow`.
+
+
 ## v0.2.4
 * update all node pickers to request 25 per page
 * fix `nodePickerField` double scrollbar and overflow issues

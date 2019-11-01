@@ -33,7 +33,6 @@ export function* successFlow(resolve, { schemas, numAssets }) {
     pbjxChannelNamesImage.MEDIA_SEARCH,
   ));
 
-  yield delay(500);
   yield call(resolve);
   yield call([toast, 'close']);
   yield swal.fire({
@@ -89,7 +88,7 @@ export default function* linkAssetsFlow({ pbj, resolve, reject, config }) {
   yield fork([toast, 'show']);
   const result = yield race({
     event: call(waitForMyEvent, eventChannel),
-    timeout: delay(5000),
+    timeout: delay(1000),
   });
 
   if (result.timeout) {
