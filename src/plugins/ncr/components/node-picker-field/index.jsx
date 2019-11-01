@@ -75,15 +75,6 @@ class NodePickerField extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { isFulfilled } = this.props;
     const { existingNodes, menuListScrollTop } = this.state;
-    Object.keys(prevProps).forEach((key) => {
-      if (prevProps[key] !== this.props[key]) { console.log(key); }
-    });
-    Object.keys(prevState).forEach((key) => {
-      if (prevState[key] !== this.state[key]) { console.log(key); }
-    });
-    if (window.wtf) {
-      debugger;
-    }
     if (
       this.menuList
       && (

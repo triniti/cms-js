@@ -2,7 +2,7 @@ import { callPbjx } from '@gdbots/pbjx/redux/actions';
 import clearChannel from '@triniti/cms/plugins/pbjx/actions/clearChannel';
 import debounce from 'lodash/debounce';
 
-let fns = {};
+let fns = {}; // use to store references to prevent needless renders
 const clearDelegateCache = () => { fns = {}; };
 export default (dispatch, { constants, schemas }) => {
   if (!fns[`handleClearChannel${constants.CHANNEL_NAME}`]) {

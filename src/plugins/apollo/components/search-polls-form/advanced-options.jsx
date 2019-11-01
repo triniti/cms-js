@@ -9,7 +9,7 @@ import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel
 import PeoplePickerField from '@triniti/cms/plugins/people/components/people-picker-field';
 import NumberField from '@triniti/cms/components/number-field';
 
-let fields = {};
+let fields = {}; // use to store references to prevent needless renders
 const AdvancedOptionFields = ({
   isCollapsed,
   onChangeCount,

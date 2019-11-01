@@ -16,7 +16,7 @@ import {
   InputGroup,
 } from '@triniti/admin-ui-plugin/components';
 
-let fields = {};
+let fields = {}; // use to store references to prevent needless renders
 const AdvancedOptionFields = ({
   isCollapsed,
   onChangeCount,
