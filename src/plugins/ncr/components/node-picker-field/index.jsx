@@ -18,6 +18,7 @@ class NodePickerField extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     clearDelegateCache: PropTypes.func.isRequired,
+    clearSelectorCache: PropTypes.func.isRequired,
     constants: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     fields: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     handleClearChannel: PropTypes.func.isRequired,
@@ -87,12 +88,13 @@ class NodePickerField extends React.Component {
   }
 
   componentWillUnmount() {
-    const { clearDelegateCache, handleClearChannel, handleSearch } = this.props;
+    const { clearDelegateCache, clearSelectorCache, handleClearChannel, handleSearch } = this.props;
     handleClearChannel();
     this.handleLoadMore.cancel();
     this.handleScroll.cancel();
     handleSearch.cancel();
     clearDelegateCache();
+    clearSelectorCache();
   }
 
   handleChange(selected, payload) {
