@@ -74,7 +74,7 @@ class NodePickerField extends React.Component {
     const { fields, isPending, response, value } = this.props;
     const { hasStoredFirstSet, inputValue, menuListScrollTop, options } = this.state;
 
-    // bring first nodes from response into state
+    // bring node from fresh (non-infinite) search response into state
     if (
       !hasStoredFirstSet
       && response
@@ -91,7 +91,7 @@ class NodePickerField extends React.Component {
       }));
     }
 
-    // check if new response has returned new nodes. if so, add to state
+    // check if new (infinite) response has new nodes. if so, add to state
     if (
       hasStoredFirstSet
       && response
@@ -121,7 +121,7 @@ class NodePickerField extends React.Component {
         || prevState.menuListScrollTop !== menuListScrollTop
       )
     ) {
-      // scroll position can be rest to 0, restore that here
+      // scroll position can be reset to 0, restore that here
       this.menuList.scrollTop = menuListScrollTop;
     }
   }

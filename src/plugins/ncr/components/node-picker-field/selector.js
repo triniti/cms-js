@@ -37,7 +37,6 @@ export default (state, { constants, fields, schemas, isGetAll, optionsMapper = n
         label: node ? node.get('title') : '',
         node,
         value: nodeRef,
-        cacheKey,
       };
     }),
   );
