@@ -1,30 +1,26 @@
 import { FormGroup, Label } from '@triniti/admin-ui-plugin/components';
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import constants from './constants';
 import schemas from './schemas';
 import Option from './Option';
 import './styles.scss';
 
-let selectComponents = { Option };
-const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest }) => {
-  useEffect(() => () => { selectComponents = {}; }, []);
-  return (
-    <FormGroup>
-      <Label>{label}</Label>
-      <NodePickerField
-        {...rest}
-        constants={constants}
-        isDisabled={!isEditMode}
-        isMulti={isMulti}
-        placeholder={placeholder || 'Select related people...'}
-        schemas={schemas}
-        selectComponents={selectComponents}
-      />
-    </FormGroup>
-  );
-};
+const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest }) => (
+  <FormGroup>
+    <Label>{label}</Label>
+    <NodePickerField
+      {...rest}
+      constants={constants}
+      isDisabled={!isEditMode}
+      isMulti={isMulti}
+      placeholder={placeholder || 'Select related people...'}
+      schemas={schemas}
+      selectComponents={{ Option }}
+    />
+  </FormGroup>
+);
 
 PeoplePickerField.propTypes = {
   isEditMode: PropTypes.bool.isRequired,

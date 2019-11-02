@@ -1,7 +1,7 @@
 import { Label } from '@triniti/admin-ui-plugin/components';
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import constants from './constants';
 import Menu from './Menu';
 import Option from './Option';
@@ -9,14 +9,8 @@ import schemas from './schemas';
 import SortableList from './SortableList';
 import './styles.scss';
 
-let selectComponents = {
-  MultiValue: () => null,
-  Option,
-  Menu,
-};
 const WidgetPickerField = (props) => {
   const { disabled, fields, isEditMode, isMulti } = props;
-  useEffect(() => () => { selectComponents = {}; }, []);
   return (
     <>
       {!!fields.length && (
@@ -36,7 +30,11 @@ const WidgetPickerField = (props) => {
             isDisabled={!isEditMode}
             isMulti={isMulti}
             schemas={schemas}
-            selectComponents={selectComponents}
+            selectComponents={{
+              MultiValue: () => null,
+              Option,
+              Menu,
+            }}
           />
         </>
       )}
