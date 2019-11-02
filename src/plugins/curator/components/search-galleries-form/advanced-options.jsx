@@ -6,7 +6,7 @@ import noop from 'lodash/noop';
 import NumberField from '@triniti/cms/components/number-field';
 import PeoplePickerField from '@triniti/cms/plugins/people/components/people-picker-field';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Button,
   CardBody,
@@ -16,7 +16,6 @@ import {
   InputGroup,
 } from '@triniti/admin-ui-plugin/components';
 
-let fields = {}; // use to store references to prevent needless renders
 const AdvancedOptionFields = ({
   isCollapsed,
   onChangeCount,
@@ -49,35 +48,6 @@ const AdvancedOptionFields = ({
     }
     return (Array.isArray(refs) ? refs : [refs]).map(NodeRef.fromString);
   };
-
-  if (!fields.categoryPicker) {
-    fields.categoryPicker = {
-      getAll: () => getAll('category_refs'),
-      push: (nodeRef) => onChangeSelect('category_refs', nodeRef.toString()),
-      removeAll: () => onClearSelect('category_refs'),
-      remove: (index) => onRemoveFromSelect('category_refs', categoryRefs[index]),
-    };
-  }
-
-  if (!fields.channelPicker) {
-    fields.channelPicker = {
-      getAll: () => getAll('channel_ref'),
-      push: (nodeRef) => onChangeSelect('channel_ref', nodeRef.toString(), false),
-      removeAll: () => onClearSelect('channel_ref'),
-      remove: () => onRemoveFromSelect('channel_ref', channelRef),
-    };
-  }
-
-  if (!fields.peoplePicker) {
-    fields.peoplePicker = {
-      getAll: () => getAll('person_refs'),
-      push: (nodeRef) => onChangeSelect('person_refs', nodeRef.toString()),
-      removeAll: () => onClearSelect('person_refs'),
-      remove: (index) => onRemoveFromSelect('person_refs', personRefs[index]),
-    };
-  }
-
-  useEffect(() => () => { fields = {}; }, []);
 
   return (
     <Card className="advanced-options">
@@ -156,21 +126,36 @@ const AdvancedOptionFields = ({
             />
 
             <CategoryPickerField
-              fields={fields.categoryPicker}
+              fields={{
+                getAll: () => getAll('category_refs'),
+                push: (nodeRef) => onChangeSelect('category_refs', nodeRef.toString()),
+                removeAll: () => onClearSelect('category_refs'),
+                remove: (index) => onRemoveFromSelect('category_refs', categoryRefs[index]),
+              }}
               isEditMode
               label="Categories"
               placeholder="Select Categories..."
             />
 
             <ChannelPickerField
-              fields={fields.channelPicker}
+              fields={{
+                getAll: () => getAll('channel_ref'),
+                push: (nodeRef) => onChangeSelect('channel_ref', nodeRef.toString(), false),
+                removeAll: () => onClearSelect('channel_ref'),
+                remove: () => onRemoveFromSelect('channel_ref', channelRef),
+              }}
               isEditMode
               label="Channels"
               placeholder="Select Channels..."
             />
 
             <PeoplePickerField
-              fields={fields.peoplePicker}
+              fields={{
+                getAll: () => getAll('person_refs'),
+                push: (nodeRef) => onChangeSelect('person_refs', nodeRef.toString()),
+                removeAll: () => onClearSelect('person_refs'),
+                remove: (index) => onRemoveFromSelect('person_refs', personRefs[index]),
+              }}
               isEditMode
               label="Related People"
               placeholder="Select Related People..."
