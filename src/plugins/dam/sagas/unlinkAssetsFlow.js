@@ -59,8 +59,8 @@ export default function* unlinkAssetsFlow({ pbj, resolve, reject, config }) {
   const expectedEvent = config.schemas.assetUnlinked.getCurie().toString();
   const eventChannel = yield actionChannel(expectedEvent);
 
-  yield putResolve(pbj);
   yield fork([toast, 'show']);
+  yield putResolve(pbj);
 
   const result = yield race({
     event: call(waitForMyEvent, eventChannel),
