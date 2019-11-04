@@ -11,7 +11,7 @@ import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
  * @param reorderGalleryOperation
  * @param resolve
  */
-export function* successFlow(reorderGalleryOperation, resolve, config) {
+export function* successFlow(reorderGalleryOperation, resolve) {
   yield call([toast, 'close']);
   yield call(resolve);
   if (reorderGalleryOperation === reorderGalleryOperations.REMOVE_GALLERY_ASSET) {
