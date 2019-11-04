@@ -28,7 +28,7 @@ import './styles.scss';
 
 const MAX_IMAGES_PER_ROW = 11;
 const MIN_IMAGES_PER_ROW = 1;
-const MAX_NODES_COUNT_TO_UPDATE = 10;
+const MAX_NODES_COUNT_TO_UPDATE = 30;
 
 const imageType = ImageAssetV1Mixin.findOne().getCurie().getMessage();
 
@@ -91,7 +91,13 @@ class GalleryMedia extends React.Component {
     delegate.handleSearchGalleryAssets();
     this.unblock = history.block((location, action) => {
       const { reorder } = this.state;
-      if (reorder.nodesToUpdate) {
+      const { nodes } = this.props;
+      const movedNodes = pickBy(
+        reorder.nodesToUpdate || {},
+        (sequence, id) => nodes.findIndex((node) => node.get('_id').toString() === id)
+          !== reorder.nodes.findIndex((node) => node.get('_id').toString() === id),
+      );
+      if (Object.keys(movedNodes).length) {
         return 'You have unsaved changes. Are you sure you want to leave?';
       }
       return true;
@@ -114,8 +120,11 @@ class GalleryMedia extends React.Component {
 
   async handleAddAssets(assetMap) {
     const { delegate } = this.props;
-    await delegate.handleAddGalleryAssets(assetMap)
-      .catch((error) => console.log(error));
+    try {
+      await delegate.handleAddGalleryAssets(assetMap);
+    } catch (e) {
+      // did not update, should restore tab
+    }
     delegate.handleSearchGalleryAssets();
 
     return Promise.resolve();
@@ -229,8 +238,11 @@ class GalleryMedia extends React.Component {
     }).then(async (result) => {
       if (result.value) {
         const { delegate } = this.props;
-        await delegate.handleRemoveGalleryAsset(asset)
-          .catch((error) => swal.fire('Failed', error.message, 'error'));
+        try {
+          await delegate.handleAddGalleryAssets(asset);
+        } catch (error) {
+          await swal.fire('Failed', error.message, 'error');
+        }
         delegate.handleSearchGalleryAssets();
       }
     });
@@ -243,8 +255,13 @@ class GalleryMedia extends React.Component {
     const { nodes } = this.props;
     const { reorder } = this.state;
     const nodesToUpdate = reorder.nodesToUpdate || {};
-    const clonedNodes = reorder.nodes.length ? reorder.nodes.slice() : nodes.map((node) => node.clone());
-    const updatedNodeSequenceNumbers = getUpdatedNodeSequenceNumbers(oldIndex, newIndex, clonedNodes);
+    const clonedNodes = reorder.nodes.length ? reorder.nodes.slice()
+      : nodes.map((node) => node.clone());
+    const updatedNodeSequenceNumbers = getUpdatedNodeSequenceNumbers(
+      oldIndex,
+      newIndex,
+      clonedNodes,
+    );
     const reorderedNodes = moveNodeByIndex(oldIndex, newIndex, clonedNodes);
 
     Object.keys(updatedNodeSequenceNumbers)
@@ -256,7 +273,6 @@ class GalleryMedia extends React.Component {
       (sequence, id) => nodes.find((node) => node.get('_id').toString() === id).get('gallery_seq')
       !== reorderedNodes.find((node) => node.get('_id').toString() === id).get('gallery_seq'),
     );
-
     const nodesToUpdateCount = Object.keys(newNodesToUpdate).length;
     this.setState(() => ({
       reorder: {
@@ -304,7 +320,6 @@ class GalleryMedia extends React.Component {
       (sequence, id) => nodes.find((node) => node.get('_id').toString() === id).get('gallery_seq')
       !== reorderedNodes.find((node) => node.get('_id').toString() === id).get('gallery_seq'),
     );
-
     const nodesToUpdateCount = Object.keys(newNodesToUpdate).length;
     this.setState({
       reorder: {
@@ -321,8 +336,11 @@ class GalleryMedia extends React.Component {
       return;
     }
 
-    await delegate.handleReorderGalleryAssets(reorder.nodesToUpdate)
-      .catch((error) => console.log(error));
+    try {
+      await delegate.handleReorderGalleryAssets(reorder.nodesToUpdate);
+    } catch (error) {
+      // did not reordered
+    }
 
     this.setState(() => ({
       reorder: {

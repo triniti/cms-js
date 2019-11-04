@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable-next-line max-len */
-const getAutoCorrectedNodeSequence = (currentSequence, currentIndex, nodes, direction, correctedNodeSequence = {}) => {
+const getAutoCorrectedNodeSequenceNumber = (currentSequence, currentIndex, nodes, direction, correctedNodeSequence = {}) => {
   const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
   const nextNode = nodes[nextIndex];
   if (!nextNode || !nextNode.has('gallery_seq')) {
@@ -8,18 +8,20 @@ const getAutoCorrectedNodeSequence = (currentSequence, currentIndex, nodes, dire
   }
 
   const nextGallerySeq = nextNode.get('gallery_seq');
-  const isValidSequence = (direction === 'reverse') ? nextGallerySeq > currentSequence : nextGallerySeq < currentSequence;
-  if (isValidSequence) {
+  const isValid = (direction === 'reverse') ? nextGallerySeq > currentSequence
+    : nextGallerySeq < currentSequence;
+  if (isValid) {
     return correctedNodeSequence;
   }
 
-  const diff = Math.abs(nextGallerySeq - currentSequence) + 10;
-  const nextSequence = (direction === 'reverse') ? nextGallerySeq + diff : nextGallerySeq - diff;
+  const correctionSum = Math.abs(nextGallerySeq - currentSequence) + 10;
+  const correctedGallerySeq = (direction === 'reverse') ? nextGallerySeq + correctionSum
+    : nextGallerySeq - correctionSum;
 
-  correctedNodeSequence[nextNode.get('_id').toString()] = nextSequence;
+  correctedNodeSequence[nextNode.get('_id').toString()] = correctedGallerySeq;
 
-  return getAutoCorrectedNodeSequence(
-    nextSequence,
+  return getAutoCorrectedNodeSequenceNumber(
+    correctedGallerySeq,
     nextIndex,
     nodes,
     direction,
@@ -28,7 +30,7 @@ const getAutoCorrectedNodeSequence = (currentSequence, currentIndex, nodes, dire
 };
 
 /**
- * Ensure and get valid and unique sequences to prevent duplication.
+ * Get valid unique sequences when duplication of sequence occurs.
  * @param oldIndex
  * @param newIndex
  * @param lowSequenceIndex
@@ -36,66 +38,50 @@ const getAutoCorrectedNodeSequence = (currentSequence, currentIndex, nodes, dire
  * @param nodes
  * @return {{}}
  */
-const getUniqueNodeSequence = (oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, nodes) => {
+const getUniqueNodeSequenceNumber = (oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, nodes) => {
   const newNodes = [...nodes];
 
   const distanceFromStart = newIndex - 0;
-  const distanceFromEnd = newNodes.length - newIndex;
+  const distanceFromEnd = (newNodes.length - 1) - newIndex;
   const isNearFromStartIndex = distanceFromEnd > distanceFromStart;
+  const correctedSequenceIndex = isNearFromStartIndex ? highSequenceIndex : lowSequenceIndex;
+  const recurseDirection = isNearFromStartIndex ? 'reverse' : 'forward';
 
-  const highSequence = newNodes[highSequenceIndex].get('gallery_seq');
-  const lowSequence = newNodes[lowSequenceIndex].get('gallery_seq');
-  const toBeCorrectedSequenceIndex = isNearFromStartIndex ? highSequenceIndex : lowSequenceIndex;
-
-  const toBeCorrectedNode = newNodes[toBeCorrectedSequenceIndex];
-  const movedNode = newNodes[oldIndex];
+  const highSequenceNode = newNodes[highSequenceIndex];
+  const lowSequenceNode = newNodes[lowSequenceIndex];
   const addendNode = newNodes[isNearFromStartIndex ? lowSequenceIndex : highSequenceIndex];
+  const movedNode = newNodes[oldIndex];
+  const correctedNode = newNodes[correctedSequenceIndex];
 
-  let toBeCorrectedSequence = toBeCorrectedNode.get('gallery_seq');
-  let newSequence = highSequence;
-  while (toBeCorrectedSequence === newSequence
-  || lowSequence === newSequence
-  || highSequence === newSequence) {
-    toBeCorrectedSequence = isNearFromStartIndex ? toBeCorrectedSequence + 10
-      : toBeCorrectedSequence - 10;
-    newSequence = Math.ceil((toBeCorrectedSequence + addendNode.get('gallery_seq')) / 2);
+  let correctedSequence = correctedNode.get('gallery_seq');
+  let movedNodeSequence = highSequenceNode.get('gallery_seq');
+  while (correctedSequence === movedNodeSequence
+  || lowSequenceNode.get('gallery_seq') === movedNodeSequence
+  || highSequenceNode.get('gallery_seq') === movedNodeSequence) {
+    correctedSequence = isNearFromStartIndex ? correctedSequence + 10
+      : correctedSequence - 10;
+    movedNodeSequence = Math.ceil((correctedSequence + addendNode.get('gallery_seq')) / 2);
   }
-
-  const autoCorrectedNodeSequence = getAutoCorrectedNodeSequence(
-    toBeCorrectedSequence,
-    toBeCorrectedSequenceIndex,
+  const autoCorrectedNodeSequence = getAutoCorrectedNodeSequenceNumber(
+    correctedSequence,
+    correctedSequenceIndex,
     newNodes,
-    isNearFromStartIndex ? 'reverse' : 'forward',
+    recurseDirection,
   );
-  const uniqueNodeSequence = {
-    ...{
-      [movedNode.get('_id').toString()]: newSequence,
-      [toBeCorrectedNode.get('_id').toString()]: toBeCorrectedSequence,
-    },
-    ...autoCorrectedNodeSequence,
-  };
 
-  return uniqueNodeSequence;
+  return {
+    ...autoCorrectedNodeSequence,
+    ...{
+      [movedNode.get('_id').toString()]: movedNodeSequence,
+      [correctedNode.get('_id').toString()]: correctedSequence,
+    },
+  };
 };
 
 const positionSwap = (oldIndex, newIndex, nodes) => {
   const newNodes = [...nodes];
   const oldIndexGallerySequence = nodes[oldIndex].get('gallery_seq');
   const newIndexGallerySequence = nodes[newIndex].get('gallery_seq');
-
-  if (oldIndexGallerySequence === newIndexGallerySequence) {
-    let lowSequenceIndex = 0;
-    let highSequenceIndex = 0;
-    if (newIndex < oldIndex) {
-      lowSequenceIndex = newIndex;
-      highSequenceIndex = newIndex - 1;
-    } else if (newIndex > oldIndex) {
-      lowSequenceIndex = newIndex + 1;
-      highSequenceIndex = newIndex;
-    }
-    return getUniqueNodeSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, newNodes);
-  }
-
   return {
     [newNodes[newIndex].get('_id').toString()]: oldIndexGallerySequence,
     [newNodes[oldIndex].get('_id').toString()]: newIndexGallerySequence,
@@ -109,9 +95,18 @@ const moveToFirstPosition = (oldIndex, newIndex, nodes) => {
   const updatedFirstNodeGallerySequence = Math.ceil(
     (firstNodeGallerySequence + secondNodeGallerySequence) / 2,
   );
+  const autoCorrectedNodeSequence = getAutoCorrectedNodeSequenceNumber(
+    updatedFirstNodeGallerySequence,
+    newIndex,
+    newNodes,
+    'forward',
+  );
   return {
-    [newNodes[oldIndex].get('_id').toString()]: firstNodeGallerySequence,
-    [newNodes[0].get('_id').toString()]: updatedFirstNodeGallerySequence,
+    ...autoCorrectedNodeSequence,
+    ...{
+      [newNodes[oldIndex].get('_id').toString()]: firstNodeGallerySequence + 10,
+      [newNodes[0].get('_id').toString()]: updatedFirstNodeGallerySequence,
+    },
   };
 };
 
@@ -122,9 +117,18 @@ const moveToLastPosition = (oldIndex, newIndex, nodes) => {
   const updatedLastNodeGallerySequence = Math.ceil(
     (penultimateNodeGallerySequence + lastNodeGallerySequence) / 2,
   );
+  const autoCorrectedNodeSequence = getAutoCorrectedNodeSequenceNumber(
+    updatedLastNodeGallerySequence,
+    newIndex,
+    newNodes,
+    'reverse',
+  );
   return {
-    [newNodes[oldIndex].get('_id').toString()]: lastNodeGallerySequence,
-    [newNodes[newIndex].get('_id').toString()]: updatedLastNodeGallerySequence,
+    ...autoCorrectedNodeSequence,
+    ...{
+      [newNodes[oldIndex].get('_id').toString()]: lastNodeGallerySequence - 10,
+      [newNodes[newIndex].get('_id').toString()]: updatedLastNodeGallerySequence,
+    },
   };
 };
 
@@ -149,7 +153,13 @@ const move = (oldIndex, newIndex, nodes) => {
 
   const newSequence = Math.ceil((lowSequenceNumber + highSequenceNumber) / 2);
   if (newSequence === highSequenceNumber) {
-    return getUniqueNodeSequence(oldIndex, newIndex, lowSequenceIndex, highSequenceIndex, newNodes);
+    return getUniqueNodeSequenceNumber(
+      oldIndex,
+      newIndex,
+      lowSequenceIndex,
+      highSequenceIndex,
+      newNodes,
+    );
   }
 
   return {

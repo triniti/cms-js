@@ -88,18 +88,21 @@ export default function* reorderGalleryAssetsFlow({
   config,
 }) {
   try {
+    let timeout = 5000;
+    if (config.assetCount > 10) {
+      timeout += (500 * (config.assetCount - 10));
+    }
     const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
-    const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(10));
+    const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(config.assetCount + 10));
     yield fork([toast, 'show']);
     yield putResolve(pbj);
     const result = yield race({
       event: call(waitForMyEvent, eventChannel, config.assetCount),
-      timeout: delay(7500),
+      timeout: delay(timeout),
     });
     if (result.timeout) {
       yield call(failureFlow, reorderGalleryOperation, reject);
     } else {
-      yield delay(1200);
       yield call(successFlow, reorderGalleryOperation, resolve);
     }
   } catch (e) {
