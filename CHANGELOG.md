@@ -1,16 +1,15 @@
 # CHANGELOG
 
 
-<<<<<<< HEAD
 ## patch
 * optimize Gallery Reorder - Batching
-=======
+
+
 ## v0.2.5
 * style nodes in `nodePickerField` that are navigated to via keyboard
 * enable deleting nodes from `nodePickerField` with backspace
 * fix a bunch of other `nodePickerField` wrinkles
 * remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
->>>>>>> 830b6149e79bf8325a8ed217fe02e6d47f68ab37
 
 
 ## v0.2.4
