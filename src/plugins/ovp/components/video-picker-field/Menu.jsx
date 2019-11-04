@@ -3,13 +3,9 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Menu = ({ children, existingNodes, isLoading, response, ...rest }) => {
-  let nodes = existingNodes;
-  if (!isLoading) {
-    nodes = nodes.concat(!response ? [] : response.get('nodes', []));
-  }
+const Menu = ({ children, options, isLoading, response, ...rest }) => {
   const total = response ? response.get('total') : 0;
-  const currentListing = nodes.length;
+  const currentListing = options.length;
   return (
     <div className="select__menu-outer">
       <div className="select__records"><span>{total}</span> records found. ({currentListing}/{total})</div>
@@ -20,7 +16,7 @@ const Menu = ({ children, existingNodes, isLoading, response, ...rest }) => {
 
 Menu.propTypes = {
   children: PropTypes.node.isRequired,
-  existingNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
+  options: PropTypes.arrayOf(PropTypes.Object).isRequired,
   isLoading: PropTypes.bool.isRequired,
   response: PropTypes.instanceOf(Message),
 };

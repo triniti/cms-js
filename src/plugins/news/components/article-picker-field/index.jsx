@@ -21,23 +21,23 @@ const ArticlePickerField = (props) => {
       />
       )}
       {!readOnly && (
-      <>
-        <Label>{`search and select ${isMulti ? 'articles' : 'an article'}`}</Label>
-        <NodePickerField
-          {...props}
-          constants={constants}
-          isClearable={false}
-          isDisabled={!isEditMode}
-          isMulti={isMulti}
-          schemas={schemas}
-          selectComponents={{
-            Menu,
-            MultiValue: () => null,
-            Option,
-            SingleValue: () => null,
-          }}
-        />
-      </>
+        <>
+          <Label>{`search and select ${isMulti ? 'articles' : 'an article'}`}</Label>
+          <NodePickerField
+            {...props}
+            constants={constants}
+            isClearable={false}
+            isDisabled={!isEditMode}
+            isMulti={isMulti}
+            schemas={schemas}
+            selectComponents={{
+              Menu,
+              MultiValue: () => null,
+              Option,
+              SingleValue: () => null,
+            }}
+          />
+        </>
       )}
     </>
   );
