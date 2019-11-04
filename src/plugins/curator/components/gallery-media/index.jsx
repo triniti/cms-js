@@ -222,7 +222,7 @@ class GalleryMedia extends React.Component {
   }
 
   async handleRemoveAsset(asset) {
-    swal.fire({
+    const { value } = await swal.fire({
       title: 'Are you sure?',
       html: `Do you want to remove <strong>"${asset.get('title') || 'this image'}"</strong>?`,
       type: 'warning',
@@ -235,17 +235,18 @@ class GalleryMedia extends React.Component {
       imageHeight: 150,
       imageAlt: `${asset.get('title') || 'image'}`,
       reverseButtons: true,
-    }).then(async (result) => {
-      if (result.value) {
-        const { delegate } = this.props;
-        try {
-          await delegate.handleAddGalleryAssets(asset);
-        } catch (error) {
-          await swal.fire('Failed', error.message, 'error');
-        }
-        delegate.handleSearchGalleryAssets();
-      }
     });
+
+    if (!value) {
+      return;
+    }
+    const { delegate } = this.props;
+    try {
+      await delegate.handleRemoveGalleryAsset(asset);
+    } catch (error) {
+      await swal.fire('Failed', error.message, 'error');
+    }
+    delegate.handleSearchGalleryAssets();
   }
 
   handleReorderGalleryAssets({ oldIndex, newIndex }) {
@@ -342,12 +343,7 @@ class GalleryMedia extends React.Component {
       // did not reordered
     }
 
-    this.setState(() => ({
-      reorder: {
-        nodes: [],
-        nodesToUpdate: null,
-      },
-    }), delegate.handleSearchGalleryAssets);
+    delegate.handleSearchGalleryAssets();
   }
 
   handleDecreaseImagesPerRow() {

@@ -11,7 +11,7 @@ import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
  * @param reorderGalleryOperation
  * @param resolve
  */
-export function* successFlow(reorderGalleryOperation, resolve) {
+export function* successFlow(reorderGalleryOperation, resolve, config) {
   yield call([toast, 'close']);
   yield call(resolve);
   if (reorderGalleryOperation === reorderGalleryOperations.REMOVE_GALLERY_ASSET) {
@@ -89,11 +89,11 @@ export default function* reorderGalleryAssetsFlow({
 }) {
   try {
     let timeout = 5000;
-    if (config.assetCount > 10) {
+    if (config.assetCount && config.assetCount > 10) {
       timeout += (500 * (config.assetCount - 10));
     }
     const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
-    const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(config.assetCount + 10));
+    const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(config.assetCount ? config.assetCount + 10 : 10));
     yield fork([toast, 'show']);
     yield putResolve(pbj);
     const result = yield race({
@@ -103,6 +103,9 @@ export default function* reorderGalleryAssetsFlow({
     if (result.timeout) {
       yield call(failureFlow, reorderGalleryOperation, reject);
     } else {
+      // TODO: figure out why a race condition on search occurs after reorder ops
+      // delaying for .5 seconds ensure that gallery is updated when calling search gallery assets
+      yield delay(500);
       yield call(successFlow, reorderGalleryOperation, resolve);
     }
   } catch (e) {
