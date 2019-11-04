@@ -64,6 +64,7 @@ export const searchViewTypes = {
 };
 
 export const selectActionTypes = {
+  DESELECT_OPTION: 'deselect-option',
   SELECT_OPTION: 'select-option',
   REMOVE_VALUE: 'remove-value',
   CLEAR: 'clear',

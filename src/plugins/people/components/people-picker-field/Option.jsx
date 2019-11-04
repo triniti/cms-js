@@ -1,12 +1,12 @@
+import { components } from 'react-select';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { selectActionTypes } from '@triniti/cms/plugins/ncr/constants';
 import SelectThumbnail from './SelectThumbnail';
 import damUrl from '../../../dam/utils/damUrl';
 
-const Option = ({ children, data, isSelected, selectProps }) => {
-  const handleClick = () => selectProps.onChange({ value: data.value }, { action: selectActionTypes.SELECT_OPTION });
+const Option = (props) => {
+  const { children, data, isFocused, isSelected } = props;
   const thumbnailStyle = {
     borderRadius: 3,
     display: 'inline-block',
@@ -16,14 +16,14 @@ const Option = ({ children, data, isSelected, selectProps }) => {
     verticalAlign: 'middle',
   };
   return (
-    <div // eslint-disable-line jsx-a11y/click-events-have-key-events
-      role="button"
-      tabIndex="-1"
-      className={classNames('select__option', { 'is-selected': isSelected })}
-      onClick={handleClick}
-      title={data.node.get('title')}
-    >
-      {data.node.has('image_ref')
+    <components.Option {...props}>
+      <div // eslint-disable-line jsx-a11y/click-events-have-key-events
+        role="button"
+        tabIndex="-1"
+        className={classNames('select__option select__option-inner', { 'is-focused': isFocused }, { 'is-selected': isSelected })}
+        title={data.node.get('title')}
+      >
+        {data.node.has('image_ref')
         && (
           <SelectThumbnail
             alt={data.node.get('title')}
@@ -31,14 +31,16 @@ const Option = ({ children, data, isSelected, selectProps }) => {
             path={damUrl(data.node.get('image_ref'))}
           />
         )}
-      { children }
-    </div>
+        { children }
+      </div>
+    </components.Option>
   );
 };
 
 Option.propTypes = {
   children: PropTypes.node.isRequired,
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isFocused: PropTypes.bool.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };

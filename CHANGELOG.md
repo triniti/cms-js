@@ -1,7 +1,10 @@
 # CHANGELOG
 
 
-## vN.N.N
+## patch
+* style nodes in `nodePickerField` that are navigated to via keyboard
+* enable deleting nodes from `nodePickerField` with backspace
+* fix a bunch of other `nodePickerField` wrinkles
 * remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
 
 
