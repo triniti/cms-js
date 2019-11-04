@@ -3,7 +3,7 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Menu = ({ children, existingNodes, isLoading, response, ...rest }) => {
+const Menu = ({ children, isLoading, response, ...rest }) => {
   const total = response ? response.get('total') : 0;
   return (
     <div className="select__menu-outer">
@@ -15,7 +15,6 @@ const Menu = ({ children, existingNodes, isLoading, response, ...rest }) => {
 
 Menu.propTypes = {
   children: PropTypes.node.isRequired,
-  existingNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
   isLoading: PropTypes.bool.isRequired,
   response: PropTypes.instanceOf(Message),
 };

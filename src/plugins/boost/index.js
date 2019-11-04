@@ -6,7 +6,7 @@ import routes from './routes';
 
 export default class BoostPlugin extends Plugin {
   constructor() {
-    super('triniti', 'boost', '0.2.4');
+    super('triniti', 'boost', '0.2.5');
   }
 
   configure(app, bottle) {
