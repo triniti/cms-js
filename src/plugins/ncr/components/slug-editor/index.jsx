@@ -21,6 +21,7 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
+import removeDateToSlug from '@gdbots/common/removeDateFromSlug';
 import delegateFactory from './delegate';
 import selector from './selector';
 
@@ -44,6 +45,7 @@ class SlugEditor extends React.Component {
     super(props);
     this.addDate = this.addDate.bind(this);
     this.applySlug = this.applySlug.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleRename = this.handleRename.bind(this);
@@ -97,19 +99,26 @@ class SlugEditor extends React.Component {
     this.setState({ error });
   }
 
-  handleChange({ target: { value: slug } }) {
+  handleBlur() {
     const { delegate, formName } = this.props;
-    const { slug: oldSlug } = this.state;
-    const newSlug = normalizeUnfinishedSlug(oldSlug, slug, delegate.getSluggableConfig(formName));
+    const { slug } = this.state;
+    this.setState(() => ({
+      slug: normalizeUnfinishedSlug(slug, slug, delegate.getSluggableConfig(formName)),
+    }), this.validateSlug);
+  }
+
+  handleChange({ target: { value: slug } }) {
     this.setState((prevState, { initialSlug }) => ({
-      slug: newSlug,
-      touched: newSlug !== initialSlug,
+      slug,
+      touched: slug !== initialSlug,
     }), this.validateSlug);
   }
 
   addDate() {
     this.setState(({ slug }, { initialSlug }) => {
-      const newSlug = addDateToSlug(slug);
+      const DATE_REGEX = /^\d{1,4}\/?(\d{1,2}\/?(\d{1,2}\/?)?)?/;
+      let newSlug = slug.replace(DATE_REGEX, '');
+      newSlug = addDateToSlug(newSlug);
       return {
         error: '',
         slug: newSlug,
@@ -165,6 +174,7 @@ class SlugEditor extends React.Component {
                 <FormGroup>
                   <InputGroup>
                     <Input
+                      onBlur={this.handleBlur}
                       onChange={this.handleChange}
                       placeholder={initialSlug}
                       valid={valid}
