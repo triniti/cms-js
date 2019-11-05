@@ -1,12 +1,12 @@
 import test from 'tape';
 import isEqual from 'lodash/isEqual';
-import AssetV1Mixin from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
+import ImageAssetV1 from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 
 import moveNodeByGallerySequence from './moveNodeByGallerySequence';
 
 
-const nonExistentNode = AssetV1Mixin
+const nonExistentNode = ImageAssetV1
   .create()
   .set('_id', AssetId.fromString('image_jpg_20151201_cb9c3c8c5c88453b960933a59ede6520'))
   .set('mime_type', 'image/jpeg');
@@ -15,7 +15,7 @@ const nodesToReorder = [];
 const gallerySeqs = [12000, 11000, 10100, 1092, 1080, 1070, 1005, 1002, 1000, 888];
 
 for (let i = 0; i < 10; i += 1) {
-  nodesToReorder.push(AssetV1Mixin
+  nodesToReorder.push(ImageAssetV1
     .create()
     .set('title', `asset${i}`)
     .set('_id', AssetId.fromString(`image_jpg_20151201_cb9c3c8c5c88453b960933a59ede650${i}`))

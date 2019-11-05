@@ -1,5 +1,5 @@
 import test from 'tape';
-import AssetV1Mixin from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
+import ImageAssetV1 from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 
 import getUpdatedNodeSequenceNumbers from './getUpdatedNodeSequenceNumbers';
@@ -10,7 +10,7 @@ const mockedNodes = [];
 const getMockedNodeId = (index) => `image_jpg_20151201_cb9c3c8c5c88453b960933a59ede650${index}`;
 
 for (let i = 0; i < 10; i += 1) {
-  mockedNodes.push(AssetV1Mixin
+  mockedNodes.push(ImageAssetV1
     .create()
     .set('title', `asset${i}`)
     .set('_id', AssetId.fromString(getMockedNodeId(i)))
