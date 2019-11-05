@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* optimize Gallery Reorder - Batching
+
+
 ## v0.2.5
 * style nodes in `nodePickerField` that are navigated to via keyboard
 * enable deleting nodes from `nodePickerField` with backspace
