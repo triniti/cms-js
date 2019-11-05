@@ -1,19 +1,17 @@
 import test from 'tape';
-import AssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/asset/AssetV1Mixin';
+import AssetV1Mixin from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 
 import getUpdatedNodeSequenceNumbers from './getUpdatedNodeSequenceNumbers';
 import moveNodeByIndex from './moveNodeByIndex';
 
-const assetSchemas = AssetV1Mixin.findAll();
-const imageAssetSchema = assetSchemas[4];
 const gallerySeqs = [12600, 12500, 12598, 10100, 1097, 1080, 1079, 1078, 981, 980].sort((a, b) => (a > b ? -1 : 1));
 const mockedNodes = [];
 const getMockedNodeId = (index) => `image_jpg_20151201_cb9c3c8c5c88453b960933a59ede650${index}`;
 
 for (let i = 0; i < 10; i += 1) {
-  mockedNodes.push(imageAssetSchema
-    .createMessage()
+  mockedNodes.push(AssetV1Mixin
+    .create()
     .set('title', `asset${i}`)
     .set('_id', AssetId.fromString(getMockedNodeId(i)))
     .set('gallery_seq', gallerySeqs[i])
