@@ -5,7 +5,6 @@ import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 
 import moveNodeByGallerySequence from './moveNodeByGallerySequence';
 
-
 const nonExistentNode = ImageAssetV1
   .create()
   .set('_id', AssetId.fromString('image_jpg_20151201_cb9c3c8c5c88453b960933a59ede6520'))
