@@ -1,10 +1,11 @@
 # CHANGELOG
 
 
-
 ## patch
 * optimize Gallery Reorder - Batching
 * Bug: slug editor curser jumping to end of field issue
+* allow pickers to stretch to fit content
+* refinements to poll picker for poll grid block modal
 
 
 ## v0.2.5
