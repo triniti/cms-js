@@ -18,17 +18,10 @@ export default (state) => {
   );
 
   const { response } = searchNodesRequestState;
-  const items = response ? response.get('nodes', []).map((asset) => ({
-    asset,
-    assetId: asset.get('_id'),
-    gallerySequence: asset.get('gallery_seq'),
-  })) : [];
-
   const isReorderGranted = isGranted(state, `${schemas.reorderGalleryAssets.getCurie()}`);
 
   return {
-    getNode: (nodeRef) => getNode(state, nodeRef),
-    items,
+    nodes: response ? response.get('nodes', []) : [],
     isReorderGranted,
     searchNodesRequestState,
   };

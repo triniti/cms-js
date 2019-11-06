@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Sortable from 'sortablejs';
@@ -13,12 +14,13 @@ import {
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import selector from './selector';
 
 const DRAGGABLE_CLASSNAME = 'sortable-nodes';
 const FILTER_CLASSNAME = 'js-remove';
 const HANDLE_CLASSNAME = 'sort-handle';
 
-export default class SortableList extends React.Component {
+class SortableList extends React.Component {
   static propTypes = {
     getNode: PropTypes.func.isRequired,
     multi: PropTypes.bool,
@@ -180,3 +182,5 @@ export default class SortableList extends React.Component {
     );
   }
 }
+
+export default connect(selector)(SortableList);
