@@ -46,8 +46,8 @@ export default class CreateNodeModal extends React.Component {
     const { delegate } = props;
     delegate.bindToComponent(this);
 
+    this.handleBlurSlug = this.handleBlurSlug.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleNormalizeSlug = this.handleNormalizeSlug.bind(this);
     this.renderForm = this.renderForm.bind(this);
   }
 
@@ -58,10 +58,14 @@ export default class CreateNodeModal extends React.Component {
     }
   }
 
-  handleNormalizeSlug(slug) {
+  handleBlurSlug() {
     const { delegate, formValues } = this.props;
     const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
-    return normalizeUnfinishedSlug(formValues.slug, slug, isDatedSlug);
+    // without the setTimeout the change event fires but is then immediately
+    // is followed by a blur event which overwrites our change with the stale value
+    setTimeout(() => {
+      delegate.handleChangeSlug(normalizeUnfinishedSlug(formValues.slug, formValues.slug, isDatedSlug));
+    });
   }
 
   renderForm() {
@@ -72,7 +76,7 @@ export default class CreateNodeModal extends React.Component {
         form={delegate.getFormName()}
         history={history}
         onKeyDown={this.handleKeyDown}
-        onNormalizeSlug={this.handleNormalizeSlug}
+        onBlurSlug={this.handleBlurSlug}
         onReset={delegate.handleReset}
         onSubmit={delegate.handleSubmit}
         validate={delegate.handleValidate}

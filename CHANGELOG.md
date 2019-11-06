@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.2.6
+* optimize Gallery Reorder - Batching
+* Bug: slug editor curser jumping to end of field issue
+* allow pickers to stretch to fit content
+* refinements to poll picker for poll grid block modal
+* allow clearing widget data source
+
+
 ## v0.2.5
 * style nodes in `nodePickerField` that are navigated to via keyboard
 * enable deleting nodes from `nodePickerField` with backspace

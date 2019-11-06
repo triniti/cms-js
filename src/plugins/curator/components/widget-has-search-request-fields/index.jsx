@@ -90,11 +90,12 @@ const WidgetHasSearchRequestFields = ({ isEditMode, searchRequestType }) => {
         <CardHeader>Search Request</CardHeader>
         <CardBody indent>
           <Field
-            disabled={!isEditMode}
-            name="searchRequestType"
             component={SelectField}
-            placeholder="Select Data Source"
+            disabled={!isEditMode}
+            isClearable
+            name="searchRequestType"
             options={typeOptions}
+            placeholder="Select Data Source"
           />
           {Component
           && (

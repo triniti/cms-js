@@ -162,14 +162,6 @@ class PollGridBlockModal extends React.Component {
       polls = selectedPollRefs.concat(selected);
     }
 
-    // if (selected.length > selectedPollRefs.length) {
-    //   polls = selectedPollRefs.concat(selected[selected.length - 1]);
-    // } else {
-    //   polls = selectedPollRefs
-    //     .filter(({ value }) => selected
-    //       .findIndex(({ value: selectedValue }) => selectedValue === value) >= 0);
-    // }
-
     this.setState({ selectedPollRefs: polls });
   }
 

@@ -1,4 +1,3 @@
-import { buffers } from 'redux-saga';
 import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
 import swal from 'sweetalert2';
 
@@ -87,20 +86,25 @@ export default function* reorderGalleryAssetsFlow({
   reorderGalleryOperation,
   config,
 }) {
-  const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
-  const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(10));
-  yield fork([toast, 'show']);
-  yield putResolve(pbj);
-  const result = yield race({
-    event: call(waitForMyEvent, eventChannel, config.assetCount),
-    timeout: delay(7500),
-  });
-
   try {
+    let timeout = 5000;
+    if (config.assetCount && config.assetCount > 10) {
+      timeout += (500 * (config.assetCount - 10));
+    }
+    const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
+    const eventChannel = yield actionChannel(expectedEvent);
+    yield fork([toast, 'show']);
+    yield putResolve(pbj);
+    const result = yield race({
+      event: call(waitForMyEvent, eventChannel, config.assetCount),
+      timeout: delay(timeout),
+    });
     if (result.timeout) {
       yield call(failureFlow, reorderGalleryOperation, reject);
     } else {
-      yield delay(1200);
+      // TODO: figure out why a race condition on search occurs after reorder ops
+      // delaying for .5 second ensure that gallery is updated when calling search gallery assets
+      yield delay(500);
       yield call(successFlow, reorderGalleryOperation, resolve);
     }
   } catch (e) {
