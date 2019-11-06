@@ -7,6 +7,15 @@ class Delegate extends AbstractDelegate {
       schemas,
     }, dependencies);
   }
+
+  getSearchParams() {
+    const { searchNodesRequestState: { request }, statuses } = this.component.props;
+
+    return {
+      statuses,
+      types: request ? request.get('types') : [],
+    };
+  }
 }
 
 export { Delegate }; // to allow for site level customization

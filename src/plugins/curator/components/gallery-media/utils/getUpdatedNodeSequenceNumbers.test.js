@@ -64,6 +64,7 @@ const testEachReorderedNodes = (t, oldIndex, newIndex, nodes) => {
       break;
     }
   }
+  actual = isValid;
   t.equal(actual, expected, `sequence should be in decrementing order and no duplicates: oldIndex: ${oldIndex} newIndex: ${newIndex}`);
 };
 

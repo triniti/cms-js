@@ -3,6 +3,7 @@
 
 ## patch
 * optimize Gallery Reorder - Batching
+* fix node type filtering is not sticky when leaving and re-entering the page
 
 
 ## v0.2.5
