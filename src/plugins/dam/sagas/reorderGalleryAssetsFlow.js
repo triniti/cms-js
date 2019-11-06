@@ -1,4 +1,3 @@
-import { buffers } from 'redux-saga';
 import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
 import swal from 'sweetalert2';
 
@@ -93,7 +92,7 @@ export default function* reorderGalleryAssetsFlow({
       timeout += (500 * (config.assetCount - 10));
     }
     const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
-    const eventChannel = yield actionChannel(expectedEvent, buffers.dropping(config.assetCount ? config.assetCount + 10 : 10));
+    const eventChannel = yield actionChannel(expectedEvent);
     yield fork([toast, 'show']);
     yield putResolve(pbj);
     const result = yield race({
@@ -104,7 +103,7 @@ export default function* reorderGalleryAssetsFlow({
       yield call(failureFlow, reorderGalleryOperation, reject);
     } else {
       // TODO: figure out why a race condition on search occurs after reorder ops
-      // delaying for .5 seconds ensure that gallery is updated when calling search gallery assets
+      // delaying for .5 second ensure that gallery is updated when calling search gallery assets
       yield delay(500);
       yield call(successFlow, reorderGalleryOperation, resolve);
     }

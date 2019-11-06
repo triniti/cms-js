@@ -126,8 +126,6 @@ class GalleryMedia extends React.Component {
       // did not update, should restore tab
     }
     delegate.handleSearchGalleryAssets();
-
-    return Promise.resolve();
   }
 
   handleEditAsset(asset) {

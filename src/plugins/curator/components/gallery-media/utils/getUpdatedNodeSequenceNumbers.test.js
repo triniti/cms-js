@@ -50,7 +50,7 @@ const testEachReorderedNodes = (t, oldIndex, newIndex, nodes) => {
     }
   }
   actual = isValid;
-  t.equal(actual, expected, `sequence should be in decrementing order and no duplicates: oldIndex: ${oldIndex} newIndex: ${newIndex}`);
+  t.equal(actual, expected, `sequence should be in incrementing order and no duplicates: oldIndex: ${oldIndex} newIndex: ${newIndex}`);
 
   isValid = false;
   for (let y = 0; y < nodes.length; y += 1) {
@@ -64,7 +64,7 @@ const testEachReorderedNodes = (t, oldIndex, newIndex, nodes) => {
       break;
     }
   }
-  t.equal(actual, expected, `sequence should be in incrementing order and no duplicates: oldIndex: ${oldIndex} newIndex: ${newIndex}`);
+  t.equal(actual, expected, `sequence should be in decrementing order and no duplicates: oldIndex: ${oldIndex} newIndex: ${newIndex}`);
 };
 
 test('getUpdatedNodeSequenceNumbers: move nodes on different indexes and test for duplicates', (t) => {
