@@ -1,0 +1,21 @@
+.poll-picker {
+  .select__menu-outer {
+    max-height: 332px;
+
+    .select__menu {
+      max-height: 300px;
+      overflow-y: hidden;
+      scroll-snap-align: start;
+    }
+  }
+
+  .select__option {
+    &.is-focused {
+      background-color: rgba(8, 160, 232, 0.04) !important;
+    }
+
+    .select__option-inner {
+      margin: -12px;
+    }
+  }
+}
