@@ -5,6 +5,7 @@
 * optimize Gallery Reorder - Batching
 * allow pickers to stretch to fit content
 * refinements to poll picker for poll grid block modal
+* allow clearing widget data source
 * fix node type filtering is not sticky when leaving and re-entering the page
 
 
