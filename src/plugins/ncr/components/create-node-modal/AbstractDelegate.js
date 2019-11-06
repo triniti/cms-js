@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 import noop from 'lodash/noop';
-import { reset, SubmissionError, submit } from 'redux-form';
+import { blur, change, reset, SubmissionError, submit } from 'redux-form';
 
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
 import FormEvent from '@triniti/app/events/FormEvent';
@@ -41,7 +41,8 @@ export default class AbstractDelegate {
       props: {},
       state: {},
     };
-
+    this.handleBlurSlug = this.handleBlurSlug.bind(this);
+    this.handleChangeSlug = this.handleChangeSlug.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleValidate = this.handleValidate.bind(this);
@@ -100,6 +101,16 @@ export default class AbstractDelegate {
     }
 
     return this.sluggableForms[formName] || this.sluggableForms.default;
+  }
+
+  handleBlurSlug(slug) {
+    const form = this.getFormName();
+    this.dispatch(blur(form, 'slug', slug));
+  }
+
+  handleChangeSlug(slug) {
+    const form = this.getFormName();
+    this.dispatch(change(form, 'slug', slug));
   }
 
   /**
