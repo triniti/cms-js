@@ -1,4 +1,4 @@
-.node-picker-field {
+.poll-picker {
   .select__menu-outer {
     max-height: 332px;
 
@@ -7,11 +7,6 @@
       overflow-y: hidden;
       scroll-snap-align: start;
     }
-  }
-
-  .select__control {
-    min-height: 40px;
-    height: unset;
   }
 
   .select__option {
