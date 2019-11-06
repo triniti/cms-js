@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## patch
+## v0.2.6
 * optimize Gallery Reorder - Batching
 * Bug: slug editor curser jumping to end of field issue
 * allow pickers to stretch to fit content
