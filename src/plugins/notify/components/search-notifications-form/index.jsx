@@ -96,12 +96,9 @@ class SearchNotificationsForm extends Component {
       request: {
         ...request,
         send_status: searchStatus,
+        status: (searchStatus === NotificationSendStatus.CANCELED.toString()) ? NodeStatus.DELETED : null,
       },
     };
-
-    if (searchStatus === NotificationSendStatus.CANCELED.toString()) {
-      requestData.request.status = NodeStatus.DELETED;
-    }
 
     this.setState(requestData, this.handleCollapseOpen);
   }
