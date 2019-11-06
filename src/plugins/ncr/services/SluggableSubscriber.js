@@ -115,6 +115,10 @@ export default class SluggableSubscriber extends EventSubscriber {
         formEvent.addError('slug', e.message);
       }
     }
+
+    if (!slug) {
+      formEvent.addError('slug', 'Please enter a valid slug.');
+    }
   }
 
   shouldUseDatedSlug(formName) {
