@@ -8,6 +8,7 @@ import {
 } from 'redux-form';
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getCounter from '@triniti/cms/plugins/utils/selectors/getCounter';
+import areDatesEqual from '@triniti/cms/utils/areDatesEqual';
 
 import { formNames, fileUploadStatuses, utilityTypes } from '../../constants';
 import getFileList from '../../selectors/getFileList';
@@ -29,21 +30,6 @@ const getFilesProcessing = (files) => Object.keys(files).reduce((accumulator, ha
   }
   return accumulator;
 }, []);
-
-/**
- * @param {Date|null} initialValue
- * @param {Date|null} currentValue
- * @return {boolean}
- */
-const areDatesEqual = (initial, current) => {
-  if ((initial && !current) || (!initial && current)) {
-    return false;
-  }
-  if (initial === current) {
-    return true;
-  }
-  return initial.toISOString() === current.toISOString();
-};
 
 /**
  * @param {Object} state     - The entire redux state.

@@ -153,8 +153,8 @@ class BatchEdit extends React.Component {
     } = this.props;
 
     return (
-      <Modal isOpen={isOpen} toggle={() => this.handleToggleUploader()} size="md">
-        <ModalHeader toggle={() => this.handleToggleUploader()}>
+      <Modal isOpen={isOpen} toggle={this.handleToggleUploader} size="md">
+        <ModalHeader toggle={this.handleToggleUploader}>
           Batch Edit
         </ModalHeader>
         <ModalBody>
