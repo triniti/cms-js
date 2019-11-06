@@ -1,8 +1,10 @@
 # CHANGELOG
 
 
-## Patch
-* Bug: slug editor curson jumping issue
+
+## patch
+* optimize Gallery Reorder - Batching
+* Bug: slug editor curser jumping to end of field issue
 
 
 ## v0.2.5
