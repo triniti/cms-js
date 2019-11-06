@@ -91,12 +91,12 @@ class SearchNotificationsForm extends Component {
   handleChangeStatus(selectedOption) {
     const { request } = this.state;
     const searchStatus = get(selectedOption, 'value', null);
-
+    const status = (searchStatus === NotificationSendStatus.CANCELED.toString()) ? NodeStatus.DELETED : null;
     const requestData = {
       request: {
         ...request,
         send_status: searchStatus,
-        status: (searchStatus === NotificationSendStatus.CANCELED.toString()) ? NodeStatus.DELETED : null,
+        status,
       },
     };
 
