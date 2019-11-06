@@ -41,7 +41,6 @@ export default class AbstractDelegate {
       props: {},
       state: {},
     };
-    this.handleBlurSlug = this.handleBlurSlug.bind(this);
     this.handleChangeSlug = this.handleChangeSlug.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -101,11 +100,6 @@ export default class AbstractDelegate {
     }
 
     return this.sluggableForms[formName] || this.sluggableForms.default;
-  }
-
-  handleBlurSlug(slug) {
-    const form = this.getFormName();
-    this.dispatch(blur(form, 'slug', slug));
   }
 
   handleChangeSlug(slug) {
