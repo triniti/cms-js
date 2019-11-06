@@ -21,7 +21,6 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
-import removeDateToSlug from '@gdbots/common/removeDateFromSlug';
 import delegateFactory from './delegate';
 import selector from './selector';
 

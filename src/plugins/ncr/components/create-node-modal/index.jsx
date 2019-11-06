@@ -46,7 +46,7 @@ export default class CreateNodeModal extends React.Component {
     const { delegate } = props;
     delegate.bindToComponent(this);
 
-    this.handleBlur = this.handleBlur.bind(this);
+    this.handleBlurSlug = this.handleBlurSlug.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.renderForm = this.renderForm.bind(this);
   }
@@ -58,7 +58,7 @@ export default class CreateNodeModal extends React.Component {
     }
   }
 
-  handleBlur() {
+  handleBlurSlug() {
     const { delegate, formValues } = this.props;
     const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
     // without the setTimeout the change event fires but is then immediately
@@ -76,7 +76,7 @@ export default class CreateNodeModal extends React.Component {
         form={delegate.getFormName()}
         history={history}
         onKeyDown={this.handleKeyDown}
-        onBlurSlug={this.handleBlur}
+        onBlurSlug={this.handleBlurSlug}
         onReset={delegate.handleReset}
         onSubmit={delegate.handleSubmit}
         validate={delegate.handleValidate}
