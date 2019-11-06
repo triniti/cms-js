@@ -17,6 +17,8 @@ const SortableGrid = ({
   onEditSequence,
   onRemoveAsset,
   onReorderGalleryAssets,
+  onSelect,
+  selected,
   showEditSequence,
 }) => (
   <SortableContainer
@@ -30,6 +32,8 @@ const SortableGrid = ({
     onEditSequence={onEditSequence}
     onRemoveAsset={onRemoveAsset}
     onSortEnd={onReorderGalleryAssets}
+    onSelect={onSelect}
+    selected={selected}
     showEditSequence={showEditSequence}
   />
 );
@@ -44,6 +48,8 @@ SortableGrid.propTypes = {
   onEditSequence: PropTypes.func,
   onRemoveAsset: PropTypes.func,
   onReorderGalleryAssets: PropTypes.func,
+  onSelect: PropTypes.func,
+  selected: PropTypes.arrayOf(PropTypes.string),
   showEditSequence: PropTypes.bool,
 };
 
@@ -56,6 +62,8 @@ SortableGrid.defaultProps = {
   onEditSequence: noop,
   onRemoveAsset: noop,
   onReorderGalleryAssets: noop,
+  onSelect: noop,
+  selected: [],
   showEditSequence: false,
 };
 

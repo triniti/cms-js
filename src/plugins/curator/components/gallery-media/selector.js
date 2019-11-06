@@ -21,6 +21,7 @@ export default (state) => {
   const isReorderGranted = isGranted(state, `${schemas.reorderGalleryAssets.getCurie()}`);
 
   return {
+    getNode,
     nodes: response ? response.get('nodes', []) : [],
     isReorderGranted,
     searchNodesRequestState,

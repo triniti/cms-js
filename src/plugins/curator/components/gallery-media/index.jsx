@@ -403,6 +403,7 @@ class GalleryMedia extends React.Component {
       imagesPerRow,
       isModalOpen,
       reorder: { nodes: reorderedNodes, nodesToUpdate },
+      selected,
       showGallerySequence,
     } = this.state;
 
@@ -439,7 +440,7 @@ class GalleryMedia extends React.Component {
     return (
       <Card>
         <CardHeader>
-          <span className="pr-4" style={{ minWidth: '130px' }}>Images { items.length ? `(${items.length})` : ''}</span>
+          <span className="pr-4" style={{ minWidth: '130px' }}>Images { nodes.length ? `(${nodes.length})` : ''}</span>
           <ResizeGallerySlider
             imagesPerRow={imagesPerRow}
             maxImagesPerRow={MAX_IMAGES_PER_ROW}
