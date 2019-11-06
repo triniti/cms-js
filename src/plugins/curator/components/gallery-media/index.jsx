@@ -278,9 +278,7 @@ class GalleryMedia extends React.Component {
 
   handleChangeSearchParam(key, value) {
     const { delegate, searchNodesRequestState: { request } } = this.props;
-    const newRequest = Object.assign({}, request.toObject(), {
-      [key]: value,
-    });
+    const newRequest = { ...request.toObject(), [key]: value };
 
     delete newRequest.request_id;
     delegate.handleSearchGalleryAssets(newRequest);
@@ -372,14 +370,14 @@ class GalleryMedia extends React.Component {
                 invalidSeqSet={invalidSeqSet}
                 isEditMode={isEditMode}
                 multiSelect
-                nodes={items.map(item => item.asset)}
+                nodes={items.map((item) => item.asset)}
                 onReorderGalleryAssets={this.handleReorderGalleryAssets}
                 onEditAsset={this.handleEditAsset}
                 onRemoveAsset={this.handleRemoveAsset}
                 onSelect={this.handleSelect}
                 selected={selected}
                 showEditSequence={showGallerySequence}
-                onEditSequence={asset => this.handleEditSequence(asset, seqSet)}
+                onEditSequence={(asset) => this.handleEditSequence(asset, seqSet)}
               />
             )}
             {items.length === 0
@@ -393,7 +391,7 @@ class GalleryMedia extends React.Component {
                 <Pagination
                   currentPage={request.get('page') || 1}
                   key="pager"
-                  onChangePage={nextPage => this.handleChangeSearchParam('page', nextPage)}
+                  onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
                   perPage={request.get('count')}
                   total={response.get('total')}
                 />

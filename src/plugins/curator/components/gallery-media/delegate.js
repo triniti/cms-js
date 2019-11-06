@@ -1,16 +1,12 @@
 import { callPbjx } from '@gdbots/pbjx/redux/actions';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import displayBatchEdit from '@triniti/cms/plugins/dam/actions/displayBatchEdit';
 import clearChannel from '@triniti/cms/plugins/pbjx/actions/clearChannel';
 import reorderGalleryAssets from '@triniti/cms/plugins/dam/actions/reorderGalleryAssets';
 import schemas from './schemas';
 import { pbjxChannelNames, reorderGalleryOperations } from '../../constants';
 
 export default (dispatch, { nodeRef }) => ({
-  handleToggleBatchEdit: (display) => dispatch(displayBatchEdit(display)),
-
-
   handleClearChannel: () => {
     dispatch(clearChannel(pbjxChannelNames.GALLERY_MEDIA_SEARCH));
   },
