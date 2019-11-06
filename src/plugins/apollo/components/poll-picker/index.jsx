@@ -1,7 +1,9 @@
 import { Col, Row, ScrollableContainer } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PropTypes from 'prop-types';
@@ -10,6 +12,7 @@ import Picker from './Picker';
 import delegateFactory from './delegate';
 import selector from './selector';
 import SortableList from './SortableList';
+import './styles.scss';
 
 class PollPicker extends React.Component {
   static propTypes = {
@@ -18,7 +21,6 @@ class PollPicker extends React.Component {
     delegate: PropTypes.shape({
       handleSearch: PropTypes.func.isRequired,
     }).isRequired,
-    getNode: PropTypes.func.isRequired,
     isMulti: PropTypes.bool,
     onFilter: PropTypes.func.isRequired,
     onMoveDown: PropTypes.func.isRequired,
@@ -41,59 +43,100 @@ class PollPicker extends React.Component {
     super(props);
 
     this.state = {
-      hasLoadedFirstSet: false,
+      hasRequestedFirstSet: false,
+      hasStoredSet: false,
+      menuListScrollTop: 0,
+      options: [],
+      pickerInput: '',
     };
 
     this.getNodes = debounce(this.getNodes.bind(this), 500);
     this.handleMenuOpen = this.handleMenuOpen.bind(this);
+    this.handlePick = this.handlePick.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { response, selectedPolls } = this.props;
+    const { hasStoredSet, menuListScrollTop, pickerInput } = this.state;
+
+    if (prevProps.selectedPolls !== selectedPolls && this.menuList) {
+      // scroll position is reset to 0 on pick, restore it here
+      this.menuList.scrollTop = menuListScrollTop;
+    }
+
+    if (!hasStoredSet && response && response.get('ctx_request').get('q', '') === pickerInput) {
+      this.setState(() => ({ // eslint-disable-line react/no-did-update-set-state
+        hasStoredSet: true,
+        options: response.get('nodes', []).map((node) => ({
+          label: node.get('title'),
+          value: NodeRef.fromNode(node),
+          node,
+        })),
+      }));
+    }
+  }
+
+  componentWillUnmount() {
+    this.getNodes.cancel();
   }
 
   getNodes(input) {
     const { delegate } = this.props;
-    delegate.handleSearch(input);
+    this.setState(() => ({
+      hasStoredSet: false,
+      pickerInput: input,
+    }), () => {
+      delegate.handleSearch(input);
+    });
   }
 
   handleMenuOpen() {
     const { delegate } = this.props;
-    const { hasLoadedFirstSet } = this.state;
-    if (!hasLoadedFirstSet) {
+    const { hasRequestedFirstSet } = this.state;
+    if (!hasRequestedFirstSet) {
       this.setState(() => ({
-        hasLoadedFirstSet: true,
+        hasRequestedFirstSet: true,
       }), delegate.handleSearch);
     }
+  }
+
+  handlePick(picked) {
+    const { onPick } = this.props;
+    this.setState(({ menuListScrollTop }) => ({
+      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop), // capture scrollTop for later restoration
+    }), () => {
+      onPick(picked);
+    });
   }
 
   render() {
     const {
       className,
       closeOnSelect,
-      getNode,
       isMulti,
       onFilter,
       onMoveDown,
       onMoveUp,
-      onPick,
       onSort,
-      selectedPolls,
       response,
+      selectedPolls,
     } = this.props;
+    const { options } = this.state;
 
     return (
       <Row gutter="sm">
         <Col xs="12" md="6" className="pb-2">
           <Picker
-            className={className}
+            className={classNames(className, 'poll-picker')}
             closeOnSelect={closeOnSelect}
             isMulti={isMulti}
-            onMenuOpen={this.handleMenuOpen}
-            onPick={onPick}
-            options={!response ? [] : response.get('nodes', []).map((node) => ({
-              label: node.get('title'),
-              value: NodeRef.fromNode(node),
-            }))}
             onInputChange={this.getNodes}
+            onMenuOpen={this.handleMenuOpen}
+            onPick={this.handlePick}
+            options={options}
             response={response}
-            value={selectedPolls}
+            selectedPolls={selectedPolls}
+            menuListRef={(e) => { this.menuList = e; }}
           />
         </Col>
         <Col xs="12" md="6" className="pb-0">
@@ -105,7 +148,6 @@ class PollPicker extends React.Component {
                 style={{ height: 'calc(100vh - 184px)' }}
               >
                 <SortableList
-                  getNode={getNode}
                   nodeRefs={selectedPolls}
                   onFilter={onFilter}
                   onMoveDown={onMoveDown}
