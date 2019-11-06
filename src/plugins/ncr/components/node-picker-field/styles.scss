@@ -9,6 +9,11 @@
     }
   }
 
+  .select__control {
+    min-height: 40px;
+    height: unset;
+  }
+
   .select__option {
     &.is-focused {
       background-color: rgba(8, 160, 232, 0.04) !important;

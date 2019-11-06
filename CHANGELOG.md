@@ -3,6 +3,7 @@
 
 ## patch
 * optimize Gallery Reorder - Batching
+* allow pickers to stretch to fit content
 
 
 ## v0.2.5
