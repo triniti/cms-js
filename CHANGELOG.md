@@ -3,6 +3,7 @@
 
 ## patch
 * optimize Gallery Reorder - Batching
+* allow pickers to stretch to fit content
 * refinements to poll picker for poll grid block modal
 
 
