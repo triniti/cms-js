@@ -123,7 +123,7 @@ class BatchEdit extends React.Component {
       assetIds,
       currentValues,
       delegate,
-      initialValues,
+      onToggleBatchEdit,
     } = this.props;
 
     // Slug is in currentValues sometimes so we must have a white list.
@@ -136,7 +136,7 @@ class BatchEdit extends React.Component {
       }
     });
 
-    delegate.handleUpdate(filteredCurrentValues, assetIds, initialValues);
+    delegate.handleUpdate(filteredCurrentValues, assetIds, onToggleBatchEdit);
   }
 
   render() {

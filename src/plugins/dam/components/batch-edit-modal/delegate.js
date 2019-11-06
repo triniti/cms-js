@@ -2,7 +2,6 @@ import { reset } from 'redux-form';
 
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/node/AbstractDelegate';
 import batchEditPatchAssets from '@triniti/cms/plugins/dam/actions/batchEditPatchAssets';
-import displayBatchEdit from '@triniti/cms/plugins/dam/actions/displayBatchEdit';
 
 import schemas from './schemas';
 import { formNames } from '../../constants';
@@ -59,7 +58,7 @@ class Delegate extends AbstractDelegate {
     onClose(processedFilesAssets);
   }
 
-  handleUpdate(currentValues, assetIds) {
+  handleUpdate(currentValues, assetIds, onToggleBatchEdit) {
     // Rename expiresAt to expires_at if its present
     const { expiresAt, ...fixedKeysCurrentValues } = currentValues;
     if (currentValues.expiresAt) {
@@ -75,7 +74,7 @@ class Delegate extends AbstractDelegate {
     };
 
     this.dispatch(batchEditPatchAssets(data, assetIds, this.config));
-    this.dispatch(displayBatchEdit(false));
+    onToggleBatchEdit();
   }
 
   getFormName() {

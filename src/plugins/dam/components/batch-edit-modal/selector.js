@@ -17,7 +17,6 @@ import { formNames } from '../../constants';
  */
 export default (state) => {
   const formName = `${formNames.BATCH_EDIT}`;
-  const { isBatchEditOpen } = state.dam.batchEdit;
   const isFormDirty = isDirty(formName)(state);
   const isFormPristine = isPristine(formName)(state);
   const isFormValid = isValid(formName)(state);
@@ -46,7 +45,6 @@ export default (state) => {
     currentValues,
     enableExpirationDateApplyAll,
     getNode: (nodeRef) => getNode(state, nodeRef),
-    isBatchEditOpen,
     isFormDirty,
     isFormPristine,
     isFormValid,

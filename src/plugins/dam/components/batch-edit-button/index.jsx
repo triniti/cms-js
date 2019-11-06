@@ -7,15 +7,12 @@ import { Button } from '@triniti/admin-ui-plugin/components';
 import BatchEditModal from '@triniti/cms/plugins/dam/components/batch-edit-modal';
 
 import selector from '@triniti/cms/plugins/dam/components/batch-edit-modal/selector';
-import delegate from '@triniti/cms/plugins/dam/components/batch-edit-button/delegate';
 
 class BatchEditButton extends React.Component {
   static propTypes = {
     assetIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     children: PropTypes.node,
-    handleToggleBatchEdit: PropTypes.func.isRequired,
     getNode: PropTypes.func.isRequired,
-    isBatchEditOpen: PropTypes.bool,
     isEditMode: PropTypes.bool,
     nodeRef: PropTypes.instanceOf(NodeRef).isRequired,
   };
@@ -23,32 +20,35 @@ class BatchEditButton extends React.Component {
   static defaultProps = {
     children: 'Batch Edit',
     isEditMode: false,
-    isBatchEditOpen: false,
   };
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isBatchEditOpen: false,
+    };
+
     this.handleToggleBatchEdit = this.handleToggleBatchEdit.bind(this);
   }
 
   handleToggleBatchEdit() {
-    const {
-      isBatchEditOpen,
-      handleToggleBatchEdit,
-    } = this.props;
-    handleToggleBatchEdit(!isBatchEditOpen);
+    this.setState(({ isBatchEditOpen }) => ({ isBatchEditOpen: !isBatchEditOpen }));
   }
 
   render() {
     const {
       assetIds,
       children,
-      isBatchEditOpen,
       isEditMode,
       getNode,
       nodeRef,
       ...btnProps
     } = this.props;
+
+    const {
+      isBatchEditOpen,
+    } = this.state;
 
     return ([
       <Button
@@ -76,5 +76,4 @@ class BatchEditButton extends React.Component {
 
 export default connect(
   selector,
-  delegate,
 )(BatchEditButton);
