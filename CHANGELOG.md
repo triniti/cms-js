@@ -3,6 +3,13 @@
 ## vN.N.N
 * batch edit support from gallery media section
 
+## v0.2.5
+* style nodes in `nodePickerField` that are navigated to via keyboard
+* enable deleting nodes from `nodePickerField` with backspace
+* fix a bunch of other `nodePickerField` wrinkles
+* remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
+
+
 ## v0.2.4
 * update all node pickers to request 25 per page
 * fix `nodePickerField` double scrollbar and overflow issues

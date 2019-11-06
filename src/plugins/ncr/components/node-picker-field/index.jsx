@@ -17,15 +17,16 @@ import './styles.scss';
 class NodePickerField extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    clearSelectorCache: PropTypes.func.isRequired,
     constants: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     fields: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     handleClearChannel: PropTypes.func.isRequired,
     handleGetAll: PropTypes.func.isRequired,
     handleSearch: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool,
-    isFulfilled: PropTypes.bool.isRequired,
     isGetAll: PropTypes.bool,
     isMulti: PropTypes.bool,
+    isPending: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     selectComponents: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     value: PropTypes.array, // eslint-disable-line react/forbid-prop-types
@@ -45,10 +46,11 @@ class NodePickerField extends React.Component {
     super(props);
 
     this.state = {
-      existingNodes: [],
-      hasLoadedFirstSet: false,
+      hasRequestedFirstSet: false,
+      hasStoredFirstSet: false,
       inputValue: '',
       menuListScrollTop: 0,
+      options: [],
     };
 
     this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 500, {
@@ -57,6 +59,8 @@ class NodePickerField extends React.Component {
     });
     this.handleChange = this.handleChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleMenuClose = this.handleMenuClose.bind(this);
     this.handleMenuOpen = this.handleMenuOpen.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -66,80 +70,142 @@ class NodePickerField extends React.Component {
     });
   }
 
-  /**
-   * getting new nodes resets the scroll position, correct that here
-   */
-  componentDidUpdate(prevProps) {
-    const { response } = this.props;
-    const { menuListScrollTop } = this.state;
-    if (!prevProps.response || !response) {
-      return;
+  componentDidUpdate(prevProps, prevState) {
+    const { fields, isPending, response, value } = this.props;
+    const { hasStoredFirstSet, inputValue, menuListScrollTop, options } = this.state;
+
+    // bring node from fresh (non-infinite) search response into state
+    if (
+      !hasStoredFirstSet
+      && response
+      && response.get('ctx_request').get('q', '') === inputValue
+      && response.has('nodes')
+    ) {
+      this.setState(() => ({ // eslint-disable-line react/no-did-update-set-state
+        hasStoredFirstSet: true,
+        options: response.get('nodes').map((node) => ({
+          label: node.get('title'),
+          value: NodeRef.fromNode(node),
+          node,
+        })),
+      }));
     }
+
+    // check if new (infinite) response has new nodes. if so, add to state
+    if (
+      hasStoredFirstSet
+      && response
+      && response.has('nodes')
+      && options.length
+      && !options[options.length - 1].value.equals(NodeRef.fromNode(response.get('nodes')[response.get('nodes').length - 1]))
+    ) {
+      this.setState(() => ({ // eslint-disable-line react/no-did-update-set-state
+        options: [
+          ...options,
+          ...response.get('nodes', []).map((node) => ({
+            label: node.get('title'),
+            value: NodeRef.fromNode(node),
+            node,
+          })),
+        ],
+      }));
+    }
+
     if (
       this.menuList
-      && response.get('ctx_request').get('page') > 1
-      && !response.get('response_id').equals(prevProps.response.get('response_id'))
+      && (
+        prevState.options !== options
+        || prevProps.isPending !== isPending
+        || prevProps.value !== value
+        || prevProps.fields !== fields // because of advanced search's spoofed fields :[
+        || prevState.menuListScrollTop !== menuListScrollTop
+      )
     ) {
+      // scroll position can be reset to 0, restore that here
       this.menuList.scrollTop = menuListScrollTop;
     }
   }
 
   componentWillUnmount() {
-    const { handleClearChannel, handleSearch } = this.props;
+    const { clearSelectorCache, handleClearChannel, handleSearch } = this.props;
     handleClearChannel();
     this.handleLoadMore.cancel();
     this.handleScroll.cancel();
     handleSearch.cancel();
+    clearSelectorCache();
   }
 
   handleChange(selected, payload) {
     const { fields } = this.props;
-    switch (payload.action) {
-      case selectActionTypes.SELECT_OPTION:
-        this.handleSelect(get(payload, 'option.value', selected.value));
-        break;
-      case selectActionTypes.REMOVE_VALUE:
-        this.handleRemove(payload.removedValue.value);
-        break;
-      case selectActionTypes.CLEAR:
-        fields.removeAll();
-        break;
-      default:
-        break;
-    }
-  }
-
-  handleInputChange(q) {
-    const { handleSearch, isGetAll } = this.props;
-    this.setState(() => ({ inputValue: q }), () => {
-      if (!isGetAll) {
-        this.setState(() => ({ existingNodes: [] }), () => handleSearch(q));
+    this.setState(({ menuListScrollTop }) => ({
+      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop), // capture scrollTop for later restoration
+    }), () => {
+      switch (payload.action) {
+        case selectActionTypes.SELECT_OPTION:
+        case selectActionTypes.DESELECT_OPTION:
+          this.handleSelect(get(payload, 'option.value', selected.value));
+          break;
+        case selectActionTypes.REMOVE_VALUE:
+          this.handleRemove(payload.removedValue.value);
+          break;
+        case selectActionTypes.CLEAR:
+          fields.removeAll();
+          break;
+        default:
+          break;
       }
     });
   }
 
+  handleInputChange(q) {
+    const { handleSearch, isGetAll, response } = this.props;
+    this.setState(() => ({ inputValue: q }), () => {
+      if (
+        !isGetAll
+        && (
+          q !== ''
+          || (response && ( // just selecting an item counts as a change, so check for that here
+            response.get('ctx_request').get('q') !== ''
+            && response.get('ctx_request').get('q') !== null
+          ))
+        )
+      ) {
+        this.setState(() => ({ hasStoredFirstSet: false, options: [] }), () => handleSearch(q));
+      }
+    });
+  }
+
+  handleKeyDown(e) {
+    const { fields } = this.props;
+    const { inputValue } = this.state;
+    if (!inputValue && e.key === 'Backspace' && (fields.getAll() || []).length) {
+      e.preventDefault();
+      this.handleRemove(fields.getAll()[fields.getAll().length - 1]);
+    }
+  }
+
   handleLoadMore() {
-    const { isGetAll, handleSearch, response } = this.props;
-    if (isGetAll || !response.get('has_more')) {
+    const { isGetAll, isPending, handleSearch, response } = this.props;
+    if (isGetAll || isPending || !response.get('has_more')) {
       return;
     }
-    this.setState(({ existingNodes, menuListScrollTop }, props) => ({
-      existingNodes: [
-        ...existingNodes,
-        ...props.response.get('nodes', []),
-      ],
-      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop),
+    this.setState(({ menuListScrollTop }) => ({
+      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop), // capture scrollTop for later restoration
     }), () => {
       handleSearch(response.get('ctx_request').get('q'), response.get('ctx_request').get('page') + 1);
     });
   }
 
+  handleMenuClose() {
+    this.setState(() => ({ menuListScrollTop: 0 }));
+  }
+
   handleMenuOpen() {
     const { handleGetAll, handleSearch, isGetAll } = this.props;
-    const { hasLoadedFirstSet } = this.state;
-    if (!hasLoadedFirstSet) {
+    const { hasRequestedFirstSet } = this.state;
+    if (!hasRequestedFirstSet) {
       this.setState(() => ({
-        hasLoadedFirstSet: true,
+        hasRequestedFirstSet: true,
       }), isGetAll ? handleGetAll : handleSearch);
     }
   }
@@ -160,8 +226,7 @@ class NodePickerField extends React.Component {
   }
 
   handleScroll(isScrolledToBottom) {
-    const { isFulfilled } = this.props;
-    if (isScrolledToBottom && isFulfilled) {
+    if (isScrolledToBottom) {
       this.handleLoadMore();
     }
   }
@@ -178,13 +243,15 @@ class NodePickerField extends React.Component {
   }
 
   render() {
-    const { fields, isMulti, selectComponents, response, value } = this.props;
-    const { existingNodes, inputValue } = this.state;
+    const { fields, isMulti, isPending, selectComponents, value } = this.props;
+    const { inputValue, options } = this.state;
     const MenuComponent = selectComponents.Menu || components.Menu;
     const OptionComponent = selectComponents.Option || components.Option;
     return (
       <Select
         {...this.props}
+        className="node-picker-field"
+        closeMenuOnSelect={false}
         components={{
           ...selectComponents,
           Menu: (props) => (
@@ -203,10 +270,8 @@ class NodePickerField extends React.Component {
           MenuList: (props) => (
             <components.MenuList
               {...props}
-              innerRef={(e) => { this.menuList = e; }}
-            >
-              {props.children}
-            </components.MenuList>
+              innerRef={(e) => { props.innerRef(e); this.menuList = e; }}
+            />
           ),
           Option: (props) => (
             <OptionComponent
@@ -222,16 +287,16 @@ class NodePickerField extends React.Component {
         }}
         defaultValue={value}
         filterOption={() => true} // never filter any options
+        hideSelectedOptions={false}
+        isLoading={isPending}
         isMulti={isMulti}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}
+        onKeyDown={this.handleKeyDown}
         inputValue={inputValue}
+        onMenuClose={this.handleMenuClose}
         onMenuOpen={this.handleMenuOpen}
-        options={existingNodes.concat(!response ? [] : response.get('nodes', [])).map((node) => ({
-          label: node.get('title'),
-          value: NodeRef.fromNode(node),
-          node,
-        }))}
+        options={options}
         value={value}
       />
     );

@@ -6,7 +6,7 @@ import { serviceIds } from './constants';
 
 export default class CanvasPlugin extends Plugin {
   constructor() {
-    super('triniti', 'canvas', '0.2.4');
+    super('triniti', 'canvas', '0.2.5');
   }
 
   configure(app, bottle) {
