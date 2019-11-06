@@ -1,4 +1,3 @@
-import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import schemas from './schemas';
 
@@ -10,7 +9,6 @@ import schemas from './schemas';
 export default (state) => {
   const { response } = getRequest(state, schemas.searchNodes.getCurie());
   return {
-    getNode: (nodeRef) => getNode(state, nodeRef),
     response,
   };
 };
