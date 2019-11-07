@@ -1,8 +1,13 @@
 # CHANGELOG
 
 
+<<<<<<< HEAD
 ## patch
 * fix node type filtering is not sticky when leaving and re-entering the page
+=======
+## v0.2.8
+* Update `isMulti` prop for `SelectField`
+>>>>>>> 4160e523925a033c22e082236d966251f3d3d3ad
 
 
 ## v0.2.7

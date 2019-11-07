@@ -12,7 +12,7 @@ import Raven from './services/Raven';
 
 export default class RavenPlugin extends Plugin {
   constructor() {
-    super('triniti', 'raven', '0.2.7');
+    super('triniti', 'raven', '0.2.8');
   }
 
   configure(app, bottle) {
