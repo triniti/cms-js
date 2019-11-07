@@ -242,6 +242,7 @@ class GalleryMedia extends React.Component {
       return;
     }
     const { delegate } = this.props;
+    const { selected } = this.state;
     try {
       this.setState({ selected: pull(selected, asset.get('_id').toNodeRef().toString()) });
       await delegate.handleRemoveGalleryAsset(asset);
@@ -453,9 +454,8 @@ class GalleryMedia extends React.Component {
           <div className="d-inline-flex flex-wrap justify-content-end ml-2 my-1">
             <BatchEditButton
               assetIds={selected}
-              className="my-1 mr-0"
+              className="mt-2 mb-2"
               isEditMode={isEditMode}
-              node={getNode(nodeRef)}
               nodeRef={nodeRef}
             />
             <Button

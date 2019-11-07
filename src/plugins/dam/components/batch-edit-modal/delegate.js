@@ -1,61 +1,70 @@
 import { reset } from 'redux-form';
+import noop from 'lodash/noop';
 
-import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/node/AbstractDelegate';
 import batchEditPatchAssets from '@triniti/cms/plugins/dam/actions/batchEditPatchAssets';
+import FormEvent from '@triniti/app/events/FormEvent';
+
+import {
+  SUFFIX_VALIDATE_FORM,
+  SUFFIX_WARN_FORM,
+} from '@triniti/app/constants';
 
 import schemas from './schemas';
 import { formNames } from '../../constants';
 
-class Delegate extends AbstractDelegate {
-  constructor(dependencies) {
-    super({
-      schemas,
-      formNamePrefix: formNames.BATCH_EDIT,
-    }, dependencies);
+class Delegate {
+  constructor(config) {
+    this.config = config;
+
+    /** @type {Pbjx} pbjx */
+    this.pbjx = config.pbjx;
+
+    /** @type {Function} */
+    this.dispatch = noop;
 
     this.handleReset = this.handleReset.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleValidate = this.handleValidate.bind(this);
+    this.handleWarn = this.handleWarn.bind(this);
   }
 
-  createFormEvent() {
-    // This doesn't really work on a node since we're patching multiple.
-    // return new FormEvent(command, formProps.form, data, formProps);
+  getFormName() {
+    return formNames.BATCH_EDIT;
   }
 
-  /**
-   * @inheritDoc
-   * @return {*}
-   */
+  bindToComponent(component) {
+    this.component = component;
+    this.dispatch = component.props.dispatch;
+  }
+
+  createFormEvent(data, formProps) {
+    const command = schemas.updateNode.createMessage({
+      expected_etag: null,
+      node_ref: this.component.props.nodeRef,
+    });
+
+    return new FormEvent(command, formProps.form, data, formProps);
+  }
+
   getInitialValues() {
-    // Maybe one day we'd like to prefill the form fields with data
-    // from assets that are exactly the same.
+    // can be filled in later with the common values between each node
     return {};
   }
 
-  handleValidate() {}
+  handleValidate(values, formProps) {
+    const formEvent = this.createFormEvent(values, formProps);
+    this.pbjx.trigger(formEvent.getMessage(), SUFFIX_VALIDATE_FORM, formEvent);
+    return formEvent.getErrors();
+  }
 
-  handleWarn() {}
+  handleWarn(values, formProps) {
+    const formEvent = this.createFormEvent(values, formProps);
+    this.pbjx.trigger(formEvent.getMessage(), SUFFIX_WARN_FORM, formEvent);
+    return formEvent.getWarnings();
+  }
 
   handleReset() {
     this.dispatch(reset(this.getFormName()));
-  }
-
-  /**
-   * @inheritDoc
-   * @return {*}
-   */
-  getNode() {
-    return this.component.props.node;
-  }
-
-  componentDidMount() {
-    // blank happy face
-  }
-
-  componentWillUnmount() {
-    super.componentWillUnmount();
-    const { onClose, processedFilesAssets } = this.component.props;
-    onClose(processedFilesAssets);
   }
 
   handleUpdate(currentValues, assetIds, onToggleBatchEdit) {
@@ -73,12 +82,8 @@ class Delegate extends AbstractDelegate {
       values: fixedKeysCurrentValues,
     };
 
-    this.dispatch(batchEditPatchAssets(data, assetIds, this.config));
+    this.dispatch(batchEditPatchAssets(data, assetIds, { schemas }));
     onToggleBatchEdit();
-  }
-
-  getFormName() {
-    return formNames.BATCH_EDIT;
   }
 }
 

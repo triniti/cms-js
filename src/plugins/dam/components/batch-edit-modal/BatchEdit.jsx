@@ -83,20 +83,6 @@ class BatchEdit extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
-  componentDidMount() {
-    const { delegate } = this.props;
-    delegate.componentDidMount();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    nextProps.delegate.bindToComponent(this);
-  }
-
-  componentWillUnmount() {
-    const { delegate } = this.props;
-    delegate.componentWillUnmount();
-  }
-
   handleToggleUploader() {
     const {
       isFormDirty,
