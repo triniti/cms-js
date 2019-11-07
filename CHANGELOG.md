@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.8
+* Update `isMulti` prop for `SelectField`
+
+
 ## v0.2.7
 * Update `peoplePickerField` to have labels link to person canonical
 
