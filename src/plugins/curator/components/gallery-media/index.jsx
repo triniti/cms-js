@@ -1,4 +1,3 @@
-import isEqual from 'lodash/isEqual';
 import pull from 'lodash/pull';
 import pickBy from 'lodash/pickBy';
 import { connect } from 'react-redux';
@@ -409,7 +408,6 @@ class GalleryMedia extends React.Component {
     } = this.state;
 
     const {
-      getNode,
       isEditMode,
       isReorderGranted,
       nodes: orderedNodes,
