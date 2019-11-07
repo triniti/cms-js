@@ -3,12 +3,13 @@ import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-fie
 import PropTypes from 'prop-types';
 import React from 'react';
 import constants from './constants';
-import schemas from './schemas';
+import MultiValueLabel from './MultiValueLabel';
 import Option from './Option';
+import schemas from './schemas';
 import './styles.scss';
 
 const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest }) => (
-  <FormGroup>
+  <FormGroup className="people-picker-field">
     <Label>{label}</Label>
     <NodePickerField
       {...rest}
@@ -17,7 +18,7 @@ const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest })
       isMulti={isMulti}
       placeholder={placeholder || 'Select related people...'}
       schemas={schemas}
-      selectComponents={{ Option }}
+      selectComponents={{ MultiValueLabel, Option }}
     />
   </FormGroup>
 );
