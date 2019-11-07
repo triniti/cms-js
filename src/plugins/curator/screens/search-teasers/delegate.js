@@ -12,9 +12,9 @@ class Delegate extends AbstractDelegate {
 
   getSearchParams() {
     const { searchNodesRequestState: { request }, statuses } = this.component.props;
-    const { ORDER_DATE_DESC } = SearchTeasersSort;
+    const defaultSortOrder = SearchTeasersSort.ORDER_DATE_DESC;
     return {
-      sort: request ? request.get('sort', ORDER_DATE_DESC).getValue() : ORDER_DATE_DESC.getValue(),
+      sort: request ? request.get('sort', defaultSortOrder).getValue() : defaultSortOrder.getValue(),
       statuses,
       types: request ? request.get('types', []) : [],
     };
