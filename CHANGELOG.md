@@ -1,10 +1,13 @@
 # CHANGELOG
 
 
+<<<<<<< HEAD
 ## patch
 * fix node type filtering is not sticky when leaving and re-entering the page
 
 
+=======
+>>>>>>> a6e415eddd211dbad5c3a0cc0e43c256d98e7e31
 ## v0.2.7
 * Update `peoplePickerField` to have labels link to person canonical
 
