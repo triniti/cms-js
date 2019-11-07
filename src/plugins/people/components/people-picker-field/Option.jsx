@@ -1,9 +1,10 @@
 import { components } from 'react-select';
 import classNames from 'classnames';
+import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
 import React from 'react';
-import SelectThumbnail from './SelectThumbnail';
 import damUrl from '../../../dam/utils/damUrl';
+import SelectThumbnail from './SelectThumbnail';
 
 const Option = (props) => {
   const { children, data, isFocused, isSelected } = props;
