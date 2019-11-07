@@ -9,7 +9,7 @@ import ThemeableSubscriber from './services/ThemeableSubscriber';
 
 export default class CommonPlugin extends Plugin {
   constructor() {
-    super('triniti', 'common', '0.2.7');
+    super('triniti', 'common', '0.2.8');
   }
 
   configure(app, bottle) {
