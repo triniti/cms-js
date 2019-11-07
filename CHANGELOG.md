@@ -3,6 +3,14 @@
 ## vN.N.N
 * batch edit support from gallery media section
 
+## v0.2.8
+* Update `isMulti` prop for `SelectField`
+
+
+## v0.2.7
+* Update `peoplePickerField` to have labels link to person canonical
+
+
 ## v0.2.6
 * optimize Gallery Reorder - Batching
 * Bug: slug editor curser jumping to end of field issue
