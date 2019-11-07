@@ -5,6 +5,10 @@
 * fix node type filtering is not sticky when leaving and re-entering the page
 
 
+## v0.2.7
+* Update `peoplePickerField` to have labels link to person canonical
+
+
 ## v0.2.6
 * optimize Gallery Reorder - Batching
 * Bug: slug editor curser jumping to end of field issue

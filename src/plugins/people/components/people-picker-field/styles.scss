@@ -1,9 +1,14 @@
-.select__option {
-  &.is-selected {
-    background-color: rgba(8,160,232,0.125) !important;
-    box-shadow: inset 2px 0 0 #08a0e8;
+.people-picker-field {
+  .select__option {
+    &.is-selected {
+      background-color: rgba(8,160,232,0.125) !important;
+      box-shadow: inset 2px 0 0 #08a0e8;
+    }
+    &:hover {
+      background-color: rgba(8,160,232,0.04) !important;
+    }
   }
-  &:hover {
-    background-color: rgba(8,160,232,0.04) !important;
+  .select__value-container a {
+    color: #067eb7;
   }
 }
