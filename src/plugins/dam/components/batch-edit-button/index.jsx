@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { Button } from '@triniti/admin-ui-plugin/components';
 import BatchEditModal from '@triniti/cms/plugins/dam/components/batch-edit-modal';
 
-import selector from '@triniti/cms/plugins/dam/components/batch-edit-modal/selector';
-
-class BatchEditButton extends React.Component {
+export default class BatchEditButton extends React.Component {
   static propTypes = {
     assetIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     children: PropTypes.node,
-    getNode: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool,
     nodeRef: PropTypes.instanceOf(NodeRef).isRequired,
   };
@@ -41,7 +37,6 @@ class BatchEditButton extends React.Component {
       assetIds,
       children,
       isEditMode,
-      getNode,
       nodeRef,
       ...btnProps
     } = this.props;
@@ -65,7 +60,6 @@ class BatchEditButton extends React.Component {
         key="b"
         assetIds={assetIds}
         isOpen={isBatchEditOpen}
-        node={getNode(nodeRef)}
         nodeRef={nodeRef}
         onToggleBatchEdit={this.handleToggleBatchEdit}
       />
@@ -73,7 +67,3 @@ class BatchEditButton extends React.Component {
     ]);
   }
 }
-
-export default connect(
-  selector,
-)(BatchEditButton);
