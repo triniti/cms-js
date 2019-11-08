@@ -1,11 +1,10 @@
-// TODO: reload the gallery-media component after the batch edit process is complete
+// @TODO: Gallery media should be refreshed when patch assets is executed to update titles
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
 import swal from 'sweetalert2';
 import { connect } from 'react-redux';
 
-import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import {
   Button,
   Card,
@@ -16,7 +15,7 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 
-import delegateFactory, { Delegate } from './delegate';
+import delegate from './delegate';
 import Form from './Form';
 import selector from './selector';
 
@@ -44,7 +43,7 @@ class BatchEdit extends React.Component {
       credit: PropTypes.object,
       expiresAt: PropTypes.instanceOf(Date),
     }),
-    delegate: PropTypes.instanceOf(Delegate).isRequired,
+    getFormName: PropTypes.func.isRequired,
     getNode: PropTypes.func,
     hasMultipleFiles: PropTypes.bool,
     initialValues: PropTypes.shape({}),
@@ -55,6 +54,8 @@ class BatchEdit extends React.Component {
     nodeRef: PropTypes.instanceOf(NodeRef).isRequired,
     /* eslint react/no-unused-prop-types: off */
     onClose: PropTypes.func, // This is used in the delegate
+    onHandleReset: PropTypes.func.isRequired,
+    onHandleUpdate: PropTypes.func.isRequired,
     onToggleBatchEdit: PropTypes.func.isRequired,
   };
 
@@ -73,12 +74,6 @@ class BatchEdit extends React.Component {
 
   constructor(props) {
     super(props);
-    const {
-      delegate,
-    } = props;
-
-    delegate.bindToComponent(this);
-
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -108,24 +103,25 @@ class BatchEdit extends React.Component {
     const {
       assetIds,
       currentValues,
-      delegate,
+      onHandleUpdate,
       onToggleBatchEdit,
     } = this.props;
 
-    delegate.handleUpdate(currentValues, assetIds, onToggleBatchEdit);
+    onHandleUpdate(currentValues, assetIds, onToggleBatchEdit);
   }
 
   render() {
     const {
       assetIds,
       nodeRef,
-      delegate,
       currentValues,
+      getFormName,
       getNode,
       isFormDirty,
       isFormValid,
       isFormPristine,
       isOpen,
+      onHandleReset,
     } = this.props;
 
     return (
@@ -137,23 +133,19 @@ class BatchEdit extends React.Component {
           <Card>
             <Form
               assetIds={assetIds}
-              key={delegate.getFormName()}
-              form={delegate.getFormName()}
+              key={getFormName()}
+              form={getFormName()}
               currentValues={currentValues}
-              initialValues={delegate.getInitialValues()}
+              initialValues={{}}
               getNode={getNode}
               nodeRef={nodeRef}
-              validate={delegate.handleValidate}
-              warn={delegate.handleWarn}
-              onSave={delegate.handleUpdate}
-              onSubmit={delegate.handleUpdate}
             />
           </Card>
           <p style={{ textAlign: 'right', marginTop: '1em' }}>Note: Only edited fields are updated.</p>
         </ModalBody>
         <ModalFooter>
           <Button
-            onClick={delegate.handleReset}
+            onClick={onHandleReset}
             disabled={!isFormDirty && !isFormPristine}
           >
             Reset
@@ -179,5 +171,5 @@ class BatchEdit extends React.Component {
 
 export default connect(
   selector,
-  createDelegateFactory(delegateFactory),
+  delegate,
 )(BatchEdit);
