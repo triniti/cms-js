@@ -6,6 +6,7 @@
 * Do not replace trailing space with a dash when constructing slugs
 * Correct `isClearable` behavior for `Select` components.
 * Correct `pbjUrl` template for poll and widget pickers.
+* fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus
 
 
 ## v0.2.8
