@@ -11,5 +11,5 @@ Form.propTypes = {
 
 export default reduxForm({
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
+  keepDirtyOnReinitialize: false,
 })(Form);
