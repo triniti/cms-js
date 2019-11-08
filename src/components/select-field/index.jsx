@@ -10,6 +10,7 @@ const SelectField = ({
   formGroupStyle,
   hasBorder,
   input,
+  isClearable,
   label,
   meta: { error },
   multi,
@@ -25,6 +26,7 @@ const SelectField = ({
       <Select
         arrowRenderer={arrowRenderer}
         classNamePrefix="Select"
+        isClearable={isClearable}
         isDisabled={disabled}
         isMulti={multi}
         name={input.name}
@@ -45,6 +47,7 @@ SelectField.propTypes = {
   formGroupStyle: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hasBorder: PropTypes.bool,
   input: PropTypes.shape({}).isRequired,
+  isClearable: PropTypes.bool,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   meta: PropTypes.shape({}).isRequired,
   multi: PropTypes.bool,
@@ -56,6 +59,7 @@ SelectField.defaultProps = {
   formGroupClassName: null,
   formGroupStyle: {},
   hasBorder: false,
+  isClearable: true,
   label: '',
   multi: false,
   onInputChange: noop,

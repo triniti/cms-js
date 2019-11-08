@@ -5,6 +5,10 @@
 * fix node type filtering is not sticky when leaving and re-entering the page
 
 
+## v0.2.9
+* Correct `isClearable` behavior for `Select` components.
+
+
 ## v0.2.8
 * Update `isMulti` prop for `SelectField`
 
