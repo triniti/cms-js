@@ -5,15 +5,15 @@ import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import getUpdatedNodeSequenceNumbers from './getUpdatedNodeSequenceNumbers';
 import moveNodeByIndex from './moveNodeByIndex';
 
-const gallerySeqs = [12600, 12500, 12598, 10100, 1097, 1080, 1079, 1078, 981, 980].sort((a, b) => (a > b ? -1 : 1));
+const gallerySeqs = [12600, 12500, 12598, 10100, 1097, 1080, 1079, 1078, 981, 980]
+  .sort((a, b) => (a > b ? -1 : 1));
 const mockedNodes = [];
-const getMockedNodeId = (index) => `image_jpg_20151201_cb9c3c8c5c88453b960933a59ede650${index}`;
 
 for (let i = 0; i < 10; i += 1) {
   mockedNodes.push(ImageAssetV1
     .create()
     .set('title', `asset${i}`)
-    .set('_id', AssetId.fromString(getMockedNodeId(i)))
+    .set('_id', AssetId.fromString(`image_jpg_20151201_cb9c3c8c5c88453b960933a59ede650${i}`))
     .set('gallery_seq', gallerySeqs[i])
     .set('mime_type', 'image/jpeg'));
 }
@@ -64,6 +64,7 @@ const testEachReorderedNodes = (t, oldIndex, newIndex, nodes) => {
       break;
     }
   }
+  actual = isValid;
   t.equal(actual, expected, `sequence should be in decrementing order and no duplicates: oldIndex: ${oldIndex} newIndex: ${newIndex}`);
 };
 

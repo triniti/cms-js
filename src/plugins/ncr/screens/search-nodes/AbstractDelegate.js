@@ -96,8 +96,16 @@ export default class AbstractDelegate {
   }
 
   getSearchParams() {
-    const { sort, statuses } = this.component.props;
-
+    const { searchNodesRequestState: { request }, sort, statuses } = this.component.props;
+    /**
+     * On remount and if request is already populated, use the request props to fill
+     * the search params.
+     */
+    if (request) {
+      const requestObject = request.toObject();
+      delete requestObject.request_id;
+      return requestObject;
+    }
     return { sort, statuses };
   }
 
