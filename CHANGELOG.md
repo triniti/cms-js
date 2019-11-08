@@ -4,11 +4,9 @@
 ## patch
 * fix node type filtering is not sticky when leaving and re-entering the page
 * Do not replace trailing space with a dash when constructing slugs
-
-
-## v0.2.9
 * Correct `isClearable` behavior for `Select` components.
 * Correct `pbjUrl` template for poll and widget pickers.
+
 
 ## v0.2.8
 * Update `isMulti` prop for `SelectField`
