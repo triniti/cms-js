@@ -112,17 +112,7 @@ class BatchEdit extends React.Component {
       onToggleBatchEdit,
     } = this.props;
 
-    // Slug is in currentValues sometimes so we must have a white list.
-    const filter = ['title', 'credit', 'expiresAt', 'description'];
-
-    const filteredCurrentValues = {};
-    Object.keys(currentValues).forEach((key) => {
-      if (currentValues[key] && filter.indexOf(key) > -1) {
-        filteredCurrentValues[key] = currentValues[key];
-      }
-    });
-
-    delegate.handleUpdate(filteredCurrentValues, assetIds, onToggleBatchEdit);
+    delegate.handleUpdate(currentValues, assetIds, onToggleBatchEdit);
   }
 
   render() {

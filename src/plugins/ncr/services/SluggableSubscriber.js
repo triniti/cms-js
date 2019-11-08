@@ -62,7 +62,7 @@ export default class SluggableSubscriber extends EventSubscriber {
     const { meta: { field, form }, payload } = event.getAction();
     const store = event.getRedux();
 
-    if (field !== 'title' || payload === '') {
+    if (field !== 'slug' || field !== 'title' || payload === '') {
       return;
     }
 

@@ -1,8 +1,8 @@
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { actionTypes } from '@triniti/cms/plugins/dam/constants';
+import PatchAssetsV1Mixin from '@triniti/schemas/triniti/dam/mixin/patch-assets/PatchAssetsV1Mixin';
 
 export default ({ fields, values }, files, config) => {
-  const { schemas } = config;
   const nodeRefs = files.map((nodeRefStr) => NodeRef.fromString(nodeRefStr));
 
   const data = {
@@ -10,7 +10,7 @@ export default ({ fields, values }, files, config) => {
     ...values,
   };
 
-  const pbj = schemas.patchAssets.createMessage(data);
+  const pbj = PatchAssetsV1Mixin.findOne().createMessage(data);
   pbj.addToSet('node_refs', nodeRefs);
 
   return {
