@@ -23,6 +23,7 @@ const Image = ({ asset, previewUrl }) => (
       </FormGroup>
     </div>
     <div className="col-12 col-md-6">
+      {previewUrl && (
       <div className="dam-media-container">
         <ReactImageMagnify
           smallImage={{
@@ -63,6 +64,7 @@ const Image = ({ asset, previewUrl }) => (
           enlargedImageClassName="h-100 w-auto asset-hover-mw"
         />
       </div>
+      )}
     </div>
   </div>
 );
