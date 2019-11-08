@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Bug: Fixed broken thumbnail on asset uploader.
+
+
 ## v0.2.2
 * fix double scrollbar mojave issue
 * fix notification screen crash

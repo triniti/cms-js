@@ -30,9 +30,9 @@ export default function* (hashName, fileInfo, fileBuffer, preSignedUrl, variant)
 
   for (let retries = 0; retries < MAX_RETRIES; retries += 1) {
     try {
-      // Delay the process by 2 seconds if this isn't the first try
+      // Delay the process by 4 seconds if this isn't the first try
       if (retries) {
-        yield delay(2000);
+        yield delay(4000);
       }
 
       yield put(startUpload(hashName));
