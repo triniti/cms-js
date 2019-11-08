@@ -6,20 +6,6 @@ const DATE_NEEDS_SLASH_REGEX = /^(\d{4}(?!\/))|(\d{4}\/\d{2}(?!\/))|(\d{4}\/\d{2
 const slashWasRemoved = (oldSlug, slug) => (oldSlug.replace(slug, '') === '/' && oldSlug[oldSlug.length - 1] === '/');
 
 /**
- * NOT always correct but good enough for most cases
- *
- * @param {string} oldSlug - the existing slug value
- * @param {string} newSlug - the incoming/proposed slug value
- *
- * @returns {boolean}
- */
-const wasPaste = (oldSlug, newSlug) => {
-  const lengthDiff = Math.abs(oldSlug.length - newSlug.length);
-  return lengthDiff > 1
-    || (lengthDiff === 0 && oldSlug !== newSlug);
-};
-
-/**
  * Normalizes (deburrs etc) a slug. To be used while typing or copy/pasting, so can return
  * invalid slugs on the assumption that they will become valid before saving.
  *
@@ -31,7 +17,6 @@ const wasPaste = (oldSlug, newSlug) => {
  */
 export default (oldSlug, newSlug, isDatedSlug = false) => {
   let slug = newSlug;
-  const insertDash = slug && slug.length > 1 && /[\s-]$/.test(slug) && !wasPaste(oldSlug, slug);
   slug = createSlug(slug, isDatedSlug);
 
   if (isDatedSlug && DATE_REGEX.test(slug)) {
@@ -43,10 +28,6 @@ export default (oldSlug, newSlug, isDatedSlug = false) => {
       date += '/';
     }
     slug = `${date}${slug !== '/' ? slug || '' : ''}`.replace(/\/{2,}/, '/');
-  }
-
-  if (slug && insertDash) {
-    slug += '-';
   }
   return slug || '';
 };
