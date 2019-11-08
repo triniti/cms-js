@@ -10,12 +10,16 @@ class Delegate extends AbstractDelegate {
     }, dependencies);
   }
 
+  /**
+   * fixme: adjust default sort to  to ORDER_DATE_DESC in schema and remove this function
+   */
   getSearchParams() {
-    const { searchNodesRequestState: { request }, statuses } = this.component.props;
-    const defaultSortOrder = SearchGalleriesSort.ORDER_DATE_DESC;
+    const { searchNodesRequestState: { request } } = this.component.props;
+    if (request) {
+      return super.getSearchParams();
+    }
     return {
-      sort: request ? request.get('sort', defaultSortOrder).getValue() : defaultSortOrder.getValue(),
-      statuses,
+      sort: SearchGalleriesSort.ORDER_DATE_DESC.getValue(),
     };
   }
 }
