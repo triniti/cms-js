@@ -76,9 +76,7 @@ export default class ButtonToolbarAsset extends React.Component {
         />
         {!disabled && !isHovering && multiSelect && isSelected && !showEditSequence && (
           <ButtonToolbar style={{ position: 'absolute', left: '0', top: '0', padding: '.5rem', width: '100%', justifyContent: 'space-between', minHeight: '44px' }}>
-            <>
-              <Checkbox checked={isSelected} onChange={() => onSelect(node)} />
-            </>
+            <Checkbox checked={isSelected} onChange={() => onSelect(node)} />
           </ButtonToolbar>
         )}
         {!disabled && isHovering && (

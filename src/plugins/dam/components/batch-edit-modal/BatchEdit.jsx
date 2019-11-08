@@ -49,7 +49,7 @@ class BatchEdit extends React.Component {
     hasMultipleFiles: PropTypes.bool,
     initialValues: PropTypes.shape({}),
     isFormDirty: PropTypes.bool,
-    isFormPrestine: PropTypes.bool,
+    isFormPristine: PropTypes.bool,
     isFormValid: PropTypes.bool,
     isOpen: PropTypes.bool,
     nodeRef: PropTypes.instanceOf(NodeRef).isRequired,
@@ -65,7 +65,7 @@ class BatchEdit extends React.Component {
     getNode: noop,
     initialValues: {},
     isFormDirty: undefined,
-    isFormPrestine: undefined,
+    isFormPristine: undefined,
     isFormValid: undefined,
     isOpen: false,
     onClose: noop,
@@ -134,7 +134,7 @@ class BatchEdit extends React.Component {
       getNode,
       isFormDirty,
       isFormValid,
-      isFormPrestine,
+      isFormPristine,
       isOpen,
     } = this.props;
 
@@ -155,8 +155,8 @@ class BatchEdit extends React.Component {
               nodeRef={nodeRef}
               validate={delegate.handleValidate}
               warn={delegate.handleWarn}
-              onSave={delegate.handleSave}
-              onSubmit={delegate.handleSubmit}
+              onSave={delegate.handleUpdate}
+              onSubmit={delegate.handleUpdate}
             />
           </Card>
           <p style={{ textAlign: 'right', marginTop: '1em' }}>Note: Only edited fields are updated.</p>
@@ -164,14 +164,14 @@ class BatchEdit extends React.Component {
         <ModalFooter>
           <Button
             onClick={delegate.handleReset}
-            disabled={!isFormDirty && !isFormPrestine}
+            disabled={!isFormDirty && !isFormPristine}
           >
             Reset
           </Button>
 
           <Button
             onClick={this.handleUpdate}
-            disabled={isFormValid && !isFormDirty && !isFormPrestine}
+            disabled={isFormValid && !isFormDirty && !isFormPristine}
           >
             Update
           </Button>

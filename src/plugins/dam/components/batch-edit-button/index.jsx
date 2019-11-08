@@ -45,25 +45,25 @@ export default class BatchEditButton extends React.Component {
       isBatchEditOpen,
     } = this.state;
 
-    return ([
-      <Button
-        key="a"
-        disabled={!isEditMode || !assetIds.length}
-        onClick={this.handleToggleBatchEdit}
-        {...btnProps}
-      >
-        {children}
-      </Button>,
-      isBatchEditOpen // This lazy loads the uploader form only when isBatchEditOpen is set to true
-      && (
-      <BatchEditModal
-        key="b"
-        assetIds={assetIds}
-        isOpen={isBatchEditOpen}
-        nodeRef={nodeRef}
-        onToggleBatchEdit={this.handleToggleBatchEdit}
-      />
-      ),
-    ]);
+    return (
+      <>
+        <Button
+          disabled={!isEditMode || !assetIds.length}
+          onClick={this.handleToggleBatchEdit}
+          {...btnProps}
+        >
+          {children}
+        </Button>
+        {isBatchEditOpen
+        && (
+        <BatchEditModal
+          assetIds={assetIds}
+          isOpen={isBatchEditOpen}
+          nodeRef={nodeRef}
+          onToggleBatchEdit={this.handleToggleBatchEdit}
+        />
+        )}
+      </>
+    );
   }
 }
