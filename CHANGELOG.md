@@ -7,7 +7,7 @@
 
 ## v0.2.9
 * Correct `isClearable` behavior for `Select` components.
-
+* Correct `pbjUrl` template for poll and widget pickers.
 
 ## v0.2.8
 * Update `isMulti` prop for `SelectField`
