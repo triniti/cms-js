@@ -152,14 +152,14 @@ class BatchEdit extends React.Component {
         <ModalFooter>
           <Button
             onClick={delegate.handleReset}
-            disabled={!isFormDirty && !isFormPristine}
+            disabled={!isFormDirty}
           >
             Reset
           </Button>
 
           <Button
             onClick={this.handleUpdate}
-            disabled={isFormValid && !isFormDirty && !isFormPristine}
+            disabled={!isFormValid || isFormPristine}
           >
             Update
           </Button>
