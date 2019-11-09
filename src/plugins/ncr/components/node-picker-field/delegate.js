@@ -18,6 +18,7 @@ export default (dispatch, { constants, schemas }) => ({
    */
   handleSearch: debounce((q = '', page = 1) => {
     const requestData = {
+      autocomplete: true,
       count: 25,
       page,
       q,

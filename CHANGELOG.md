@@ -2,11 +2,12 @@
 
 
 ## patch
-* fix node type filtering is not sticky when leaving and re-entering the page
+* Fix node type filtering is not sticky when leaving and re-entering the page
 * Do not replace trailing space with a dash when constructing slugs
 * Correct `isClearable` behavior for `Select` components.
 * Correct `pbjUrl` template for poll and widget pickers.
-* fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus
+* Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
+* Add `autocomplete: true` to the search nodes request in node picker field.
 
 
 ## v0.2.8
