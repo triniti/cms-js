@@ -6,6 +6,7 @@ export const serviceIds = {
   PREFIX: PLUGIN_PREFIX,
   ASSET_SUBSCRIBER: t('asset_subscriber'),
   IMAGE_ASSET_SUBSCRIBER: t('image_asset_subscriber'),
+  PATCH_ASSETS_SUBSCRIBER: t('patch_assets_subscriber'),
 };
 
 export const routeIds = {
