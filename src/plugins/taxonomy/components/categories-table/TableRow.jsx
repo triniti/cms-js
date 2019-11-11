@@ -8,7 +8,7 @@ import Message from '@gdbots/pbj/Message';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 
-const TableRow = ({ disabled, isSelected, node: category }) => (
+const TableRow = ({ disabled, node: category }) => (
   <tr className={`status-${category.get('status')}`}>
     <td>
       {category.get('title')}
@@ -37,7 +37,7 @@ const TableRow = ({ disabled, isSelected, node: category }) => (
         rel="noopener noreferrer"
       >
         <Button color="hover" id={`open-in-new-tab-${category.get('_id')}`} radius="circle" className="mr-1 mb-0">
-          <Icon imgSrc="external" style={{ color: isSelected ? 'white' : '' }} alt="open" />
+          <Icon imgSrc="external" alt="open" />
         </Button>
         <UncontrolledTooltip placement="auto" target={`open-in-new-tab-${category.get('_id')}`}>Open in new tab</UncontrolledTooltip>
       </a>
@@ -47,13 +47,11 @@ const TableRow = ({ disabled, isSelected, node: category }) => (
 
 TableRow.propTypes = {
   disabled: PropTypes.bool,
-  isSelected: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
 };
 
 TableRow.defaultProps = {
   disabled: false,
-  isSelected: false,
 };
 
 export default TableRow;

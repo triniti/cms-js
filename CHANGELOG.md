@@ -9,7 +9,7 @@
 * Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
 * Add `autocomplete: true` to the search nodes request in node picker field.
 * Add `UpdateNodeEnricher.js` which will add all paths (aka fields) that have changed during the `gdbots:ncr:mixin:update-node.enrich` lifecycle event. 
-
+* When node is selected open icon turns white
 
 ## v0.2.8
 * Update `isMulti` prop for `SelectField`
