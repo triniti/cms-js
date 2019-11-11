@@ -14,7 +14,7 @@ const HeadlineFragment = ({ fields, isEditMode }) => (
         <Field name={`${field}.text`} component={TextField} readOnly={!isEditMode} className="flex-grow-1" />
         <Field
           className="ml-3 headline-fragment-style-select"
-          clearable={false}
+          isClearable={false}
           component={SelectField}
           disabled={!isEditMode}
           name={`${field}.style`}
@@ -23,7 +23,7 @@ const HeadlineFragment = ({ fields, isEditMode }) => (
         />
         <Field
           className="ml-3 headline-fragment-size-select"
-          clearable={false}
+          isClearable={false}
           component={SelectField}
           disabled={!isEditMode}
           name={`${field}.size`}

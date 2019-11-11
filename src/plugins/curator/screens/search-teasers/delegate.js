@@ -1,5 +1,6 @@
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/search-nodes/AbstractDelegate';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort';
+
 import schemas from './schemas';
 
 class Delegate extends AbstractDelegate {
@@ -9,10 +10,17 @@ class Delegate extends AbstractDelegate {
     }, dependencies);
   }
 
+  /**
+   * fixme: adjust default sort to  to ORDER_DATE_DESC in schema and remove this function
+   */
   getSearchParams() {
-    const { statuses } = this.component.props;
-
-    return { sort: SearchTeasersSort.ORDER_DATE_DESC.getValue(), statuses };
+    const { searchNodesRequestState: { request } } = this.component.props;
+    if (request) {
+      return super.getSearchParams();
+    }
+    return {
+      sort: SearchTeasersSort.ORDER_DATE_DESC.getValue(),
+    };
   }
 }
 

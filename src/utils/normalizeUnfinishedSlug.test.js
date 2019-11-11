@@ -16,7 +16,7 @@ test('normalizeUnfinishedSlug', (t) => {
     { slug: '2019/08/21', expected: '2019/08/21/', isDatedSlug: true },
     { slug: '2019/08/21', expected: '2019/08/21', oldSlug: '2019/08/21/', isDatedSlug: true },
     { slug: '2019/10/21/one ', expected: '2019/10/21/one', oldSlug: '', isDatedSlug: true },
-    { slug: '2019/10/21/one ', expected: '2019/10/21/one-', oldSlug: '2019/10/21/one', isDatedSlug: true },
+    { slug: '2019/10/21/one ', expected: '2019/10/21/one', oldSlug: '2019/10/21/one', isDatedSlug: true },
     { slug: '2019/10/21/one/', expected: '2019/10/21/one', isDatedSlug: true },
     { slug: '2019/10/21/one/two/three', expected: '2019/10/21/one-two-three', isDatedSlug: true },
     { slug: '2019/10/21/one/Beyoncé/three', expected: '2019/10/21/one-beyonce-three', isDatedSlug: true },

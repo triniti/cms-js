@@ -10,8 +10,12 @@ class Delegate extends AbstractDelegate {
   }
 
   getSearchParams() {
+    const { searchNodesRequestState: { request } } = this.component.props;
+    if (request) {
+      return super.getSearchParams();
+    }
     return {
-      isStaff: this.component.props.isStaff,
+      is_staff: this.component.props.isStaff,
       status: NodeStatus.PUBLISHED.getValue(),
     };
   }
