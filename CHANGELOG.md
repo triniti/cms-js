@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add `UpdateNodeEnricher.js` which will add all paths (aka fields) that have changed during the `gdbots:ncr:mixin:update-node.enrich` lifecycle event. 
+
+
 ## v0.2.8
 * Update `isMulti` prop for `SelectField`
 
