@@ -8,6 +8,7 @@
 * Correct `pbjUrl` template for poll and widget pickers.
 * Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
 * Add `autocomplete: true` to the search nodes request in node picker field.
+* Add `UpdateNodeEnricher.js` which will add all paths (aka fields) that have changed during the `gdbots:ncr:mixin:update-node.enrich` lifecycle event. 
 
 
 ## v0.2.8
