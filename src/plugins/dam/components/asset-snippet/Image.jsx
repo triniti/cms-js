@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactImageMagnify from 'react-image-magnify';
 import Message from '@gdbots/pbj/Message';
-import { FormGroup, Label } from '@triniti/admin-ui-plugin/components';
+import { FormGroup, Label, Spinner } from '@triniti/admin-ui-plugin/components';
 import damUrl from '../../utils/damUrl';
 
 const Image = ({ asset, previewUrl }) => (
@@ -23,18 +23,21 @@ const Image = ({ asset, previewUrl }) => (
       </FormGroup>
     </div>
     <div className="col-12 col-md-6">
+      {console.log('Asset: ', JSON.parse(asset))}
+      {!previewUrl && <div className="spinner-wrapper"> <Spinner className="m-0 mr-2" color="#08a0e8" width="24" strokeWidth="8" /> </div>}
+
       {previewUrl && (
       <div className="dam-media-container">
         <ReactImageMagnify
           smallImage={{
-            src: previewUrl || damUrl(asset, 'o', 'sm'),
+            src: previewUrl,
             isFluidWidth: true,
           }}
           imageStyle={{
             objectFit: 'contain',
           }}
           largeImage={{
-            src: previewUrl || damUrl(asset, 'o'),
+            src: previewUrl,
             width: (asset.get('width')),
             height: (asset.get('height')),
           }}
