@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v0.2.9
+* issue #13: batch edit support from gallery media section
+* Add `UpdateNodeEnricher.js` which will add all paths (aka fields) that have changed during the `gdbots:ncr:mixin:update-node.enrich` lifecycle event.
+* Add `autocomplete: true` to the search nodes request in node picker field.
+* Correct `isClearable` behavior for `Select` components.
+* Correct `pbjUrl` template for poll and widget pickers.
+* Do not replace trailing space with a dash when constructing slugs.
+* Fix broken thumbnail on asset uploader.
+* Fix node type filtering is not sticky when leaving and re-entering the page.
+* Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
+* When node is selected open icon turns white.
+
+
 ## v0.2.8
 * Update `isMulti` prop for `SelectField`
 

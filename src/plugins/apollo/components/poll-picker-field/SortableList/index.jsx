@@ -99,7 +99,7 @@ class SortableList extends React.Component {
                 );
               }
 
-              const link = pbjUrl(poll, 'canonical');
+              const link = pbjUrl(poll, 'cms');
 
               return (
                 <Media key={pollRef} className="align-items-center sortable-articles mb-3">

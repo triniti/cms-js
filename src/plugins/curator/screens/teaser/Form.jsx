@@ -6,7 +6,7 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
-import React from 'react';
+import React, { useState } from 'react';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
@@ -51,7 +51,7 @@ const getFieldsComponent = (type) => {
 };
 
 const Form = ({ node, tab, type, isEditMode }) => {
-  const TeaserFields = type ? getFieldsComponent(type) : null;
+  const [TeaserFields, setTeaserFields] = useState(null);
   const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   schemas.node = node.schema();
 
@@ -74,9 +74,12 @@ const Form = ({ node, tab, type, isEditMode }) => {
       return <RawContent pbj={node} />;
 
     default:
+      if (!TeaserFields && type) {
+        setTeaserFields(() => getFieldsComponent(type));
+      }
       return (
         <div>
-          <TeaserFields isEditMode={isEditMode} node={node} schemas={schemas} />
+          {TeaserFields && <TeaserFields isEditMode={isEditMode} node={node} schemas={schemas} />}
           {
             schemas.node.hasMixin('triniti:common:mixin:advertising')
             && <AdvertisingFields key="ad-fields" isEditMode={isEditMode} />
