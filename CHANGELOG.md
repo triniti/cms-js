@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Bug: #1079: Fixed broken thumbnail on asset uploader.
+
+
 ## patch
 * Fix node type filtering is not sticky when leaving and re-entering the page
 * Do not replace trailing space with a dash when constructing slugs
