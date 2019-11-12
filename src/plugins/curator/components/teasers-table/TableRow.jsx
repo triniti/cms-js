@@ -50,7 +50,7 @@ const TableRow = ({ disabled, handleCloneNode, node, onSelectRow, isSelected }) 
         rel="noopener noreferrer"
       >
         <Button color="hover" id={`open-in-new-tab-${node.get('_id')}`} radius="circle" className="mr-1 mb-0">
-          <Icon imgSrc="external" style={{ color: isSelected ? 'white' : '' }} alt="open" />
+          <Icon imgSrc="external" alt="open" />
         </Button>
         <UncontrolledTooltip placement="auto" target={`open-in-new-tab-${node.get('_id')}`}>Open in new tab</UncontrolledTooltip>
       </a>
