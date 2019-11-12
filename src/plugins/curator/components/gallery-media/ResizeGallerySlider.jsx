@@ -10,7 +10,7 @@ const ResizeGallerySlider = ({
   onDecreaseImagesPerRow,
   onSlideImagesPerRow,
 }) => (
-  <div className="resize-gallery-slider d-inline-flex" style={{ width: '10rem' }}>
+  <div className="resize-gallery-slider d-inline-flex align-items-center" style={{ width: '10rem' }}>
     <Button
       disabled={imagesPerRow === maxImagesPerRow}
       onClick={onIncreaseImagesPerRow}

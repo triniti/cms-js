@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## vN.N.N
+* batch edit support from gallery media section
 
 ## vN.N.N
 * Bug: #1079: Fixed broken thumbnail on asset uploader.

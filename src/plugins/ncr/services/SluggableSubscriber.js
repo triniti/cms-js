@@ -66,7 +66,8 @@ export default class SluggableSubscriber extends EventSubscriber {
       return;
     }
 
-    if (formValueSelector(form)(store.getState(), 'slug')) {
+    const currentSlug = formValueSelector(form)(store.getState(), 'slug');
+    if (currentSlug && currentSlug !== undefined) {
       return;
     }
 
