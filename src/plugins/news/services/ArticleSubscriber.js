@@ -1,24 +1,29 @@
 /* globals APP_VENDOR */
+import UuidIdentifier from '@gdbots/pbj/well-known/UuidIdentifier';
+import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import getKeyValuesFieldErrors from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
+import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
+import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
+import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
+import resolveSchema from '@triniti/cms/utils/resolveSchema';
+import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
 import camelCase from 'lodash/camelCase';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
-import { arrayRemoveAll, arrayPush, change, getFormValues, getFormMeta } from 'redux-form';
-import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
-import getKeyValuesFieldErrors from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
-import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import UuidIdentifier from '@gdbots/pbj/well-known/UuidIdentifier';
+import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
 import { formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
   constructor() {
     super();
-    this.onInitForm = this.onInitForm.bind(this);
-    this.onValidateForm = this.onValidateForm.bind(this);
-    this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onAppleNewsArticleSynced = this.onAppleNewsArticleSynced.bind(this);
     this.onArticleSlottingRemoved = this.onArticleSlottingRemoved.bind(this);
+    this.onArticleUpdated = this.onArticleUpdated.bind(this);
+    this.onInitForm = this.onInitForm.bind(this);
+    this.onSubmitForm = this.onSubmitForm.bind(this);
+    this.onValidateForm = this.onValidateForm.bind(this);
   }
 
   /**
@@ -312,14 +317,47 @@ export default class ArticleSubscriber extends EventSubscriber {
     });
   }
 
+  /**
+   * When an event using triniti:news:mixin:article-updated occurs we want to check and see if that
+   * article is currently in pbjx state. If it is, we need to clear it out or a request will not be
+   * made when that article's page is loaded and the user will see stale data and probably die.
+   *
+   * If the user is on that article's page they will get the stale data popup so this only applies
+   * if they are elsewhere.
+   *
+   * TODO: sort out a more generic approach that does this for all nodes
+   *
+   * @param {FilterActionEvent} event
+   */
+  onArticleUpdated(event) {
+    const store = event.getRedux();
+    const state = store.getState();
+    const getArticleRequestSchema = resolveSchema(ArticleV1Mixin, 'request', 'get-article-request');
+    const requestState = getRequest(state, getArticleRequestSchema.getCurie());
+    if (requestState.response) {
+      const article = requestState.response.get('node');
+      if (
+        // there is an article in pbjx state
+        article
+        // the article that was updated is the article in state
+        && event.getAction().pbj.get('node_ref').equals(NodeRef.fromNode(article))
+        // we are not on that article's page
+        && window.location.pathname.indexOf(article.get('_id').toString()) === -1
+      ) {
+        store.dispatch(clearResponse(getArticleRequestSchema.getCurie()));
+      }
+    }
+  }
+
   getSubscribedEvents() {
     return {
       'triniti:news:mixin:article.init_form': this.onInitForm,
+      'triniti:news:mixin:article.submit_form': this.onSubmitForm,
       'triniti:news:mixin:article.validate_form': this.onValidateForm,
       'triniti:news:mixin:article.warn_form': this.onWarnForm,
-      'triniti:news:mixin:article.submit_form': this.onSubmitForm,
       [`${APP_VENDOR}:news:event:apple-news-article-synced`]: this.onAppleNewsArticleSynced,
       [`${APP_VENDOR}:news:event:article-slotting-removed`]: this.onArticleSlottingRemoved,
+      [`${APP_VENDOR}:news:event:article-updated`]: this.onArticleUpdated,
     };
   }
 }
