@@ -233,7 +233,7 @@ export default class AbstractDelegate {
         ? node.get('etag')
         : null,
       node_ref: this.component.props.nodeRef,
-      // old_node: node.freeze(),
+      old_node: node.freeze(),
       new_node: node.clone(),
     });
 

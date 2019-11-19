@@ -2,23 +2,29 @@ import Asset from '@triniti/cms/plugins/dam/components/asset/index';
 import noop from 'lodash/noop';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import { ButtonToolbar } from '@triniti/admin-ui-plugin/components';
+import React from 'react';
+import { ButtonToolbar, Checkbox } from '@triniti/admin-ui-plugin/components';
 
 import ToolbarButton from './ToolbarButton';
 
 export default class ButtonToolbarAsset extends React.Component {
   static propTypes = {
+    multiSelect: PropTypes.bool,
+    isSelected: PropTypes.bool,
     node: PropTypes.instanceOf(Message).isRequired,
     disabled: PropTypes.bool.isRequired,
     onEditAsset: PropTypes.func.isRequired,
     onEditSequence: PropTypes.func,
+    onSelect: PropTypes.func,
     onRemoveAsset: PropTypes.func.isRequired,
     showEditSequence: PropTypes.bool,
   };
 
   static defaultProps = {
+    multiSelect: false,
+    isSelected: false,
     onEditSequence: noop,
+    onSelect: noop,
     showEditSequence: false,
   };
 
@@ -44,10 +50,13 @@ export default class ButtonToolbarAsset extends React.Component {
   render() {
     const {
       disabled,
+      isSelected,
+      multiSelect,
       node,
       onEditAsset,
       onEditSequence,
       onRemoveAsset,
+      onSelect,
       showEditSequence,
     } = this.props;
     const { isHovering } = this.state;
@@ -65,12 +74,20 @@ export default class ButtonToolbarAsset extends React.Component {
           key={node.get('_id')}
           showEditSequence={showEditSequence}
         />
+        {!disabled && !isHovering && multiSelect && isSelected && !showEditSequence && (
+          <ButtonToolbar style={{ position: 'absolute', left: '0', top: '0', padding: '.5rem', width: '100%', justifyContent: 'space-between', minHeight: '44px' }}>
+            <Checkbox checked={isSelected} onChange={() => onSelect(node)} />
+          </ButtonToolbar>
+        )}
         {!disabled && isHovering && (
-          <ButtonToolbar style={{ position: 'absolute', right: '.5rem', top: '.5rem' }}>
+          <ButtonToolbar style={{ position: 'absolute', left: '0', top: '0', padding: '.5rem', width: '100%', justifyContent: 'space-between', minHeight: '44px' }}>
             {!showEditSequence && (
               <>
-                <ToolbarButton icon="edit" id="media-edit" tooltip="Edit" onMouseDown={() => onEditAsset(node)} />
-                <ToolbarButton icon="trash" id="media-remove" tooltip="Remove" onMouseDown={() => onRemoveAsset(node)} />
+                {multiSelect && <Checkbox checked={isSelected} onChange={() => onSelect(node)} />}
+                <div>
+                  <ToolbarButton icon="edit" id="media-edit" tooltip="Edit" onMouseDown={() => onEditAsset(node)} />
+                  <ToolbarButton icon="trash" id="media-remove" tooltip="Remove" onMouseDown={() => onRemoveAsset(node)} />
+                </div>
               </>
             )}
             {showEditSequence

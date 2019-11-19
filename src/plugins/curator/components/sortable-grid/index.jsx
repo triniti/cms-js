@@ -11,11 +11,14 @@ const SortableGrid = ({
   imagesPerRow,
   invalidSeqSet,
   isEditMode,
+  multiSelect,
   nodes,
   onEditAsset,
   onEditSequence,
   onRemoveAsset,
   onReorderGalleryAssets,
+  onSelect,
+  selected,
   showEditSequence,
 }) => (
   <SortableContainer
@@ -23,11 +26,14 @@ const SortableGrid = ({
     disabled={!isEditMode}
     imagesPerRow={imagesPerRow}
     invalidSeqSet={invalidSeqSet}
+    multiSelect={multiSelect}
     nodes={nodes}
     onEditAsset={onEditAsset}
     onEditSequence={onEditSequence}
     onRemoveAsset={onRemoveAsset}
     onSortEnd={onReorderGalleryAssets}
+    onSelect={onSelect}
+    selected={selected}
     showEditSequence={showEditSequence}
   />
 );
@@ -37,10 +43,13 @@ SortableGrid.propTypes = {
   invalidSeqSet: PropTypes.object, // eslint-disable-line
   isEditMode: PropTypes.bool,
   nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+  multiSelect: PropTypes.bool,
   onEditAsset: PropTypes.func,
   onEditSequence: PropTypes.func,
   onRemoveAsset: PropTypes.func,
   onReorderGalleryAssets: PropTypes.func,
+  onSelect: PropTypes.func,
+  selected: PropTypes.arrayOf(PropTypes.string),
   showEditSequence: PropTypes.bool,
 };
 
@@ -48,10 +57,13 @@ SortableGrid.defaultProps = {
   isEditMode: false,
   invalidSeqSet: new Set(),
   nodes: [],
+  multiSelect: false,
   onEditAsset: noop,
   onEditSequence: noop,
   onRemoveAsset: noop,
   onReorderGalleryAssets: noop,
+  onSelect: noop,
+  selected: [],
   showEditSequence: false,
 };
 

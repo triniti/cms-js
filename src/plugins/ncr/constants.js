@@ -10,6 +10,7 @@ export const serviceIds = {
   SLUGGABLE_FORMS: t('sluggable_forms'),
   SLUGGABLE_SUBSCRIBER: t('sluggable_subscriber'),
   PUBLISH_NODE_VALIDATOR: t('publish_node_validator'),
+  UPDATE_NODE_ENRICHER: t('update_node_enricher'),
 };
 
 export const actionTypes = {

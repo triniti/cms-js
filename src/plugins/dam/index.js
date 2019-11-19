@@ -5,11 +5,12 @@ import reducer from './reducers';
 import saga from './sagas';
 import { serviceIds } from './constants';
 import AssetSubscriber from './services/AssetSubscriber';
+import PatchAssetsSubscriber from './services/PatchAssetsSubscriber';
 import ImageAssetSubscriber from './services/ImageAssetSubscriber';
 
 export default class DamPlugin extends Plugin {
   constructor() {
-    super('triniti', 'dam', '0.2.8');
+    super('triniti', 'dam', '0.2.10');
   }
 
   configure(app, bottle) {
@@ -19,12 +20,14 @@ export default class DamPlugin extends Plugin {
 
     bottle.service(serviceIds.ASSET_SUBSCRIBER, AssetSubscriber);
     bottle.service(serviceIds.IMAGE_ASSET_SUBSCRIBER, ImageAssetSubscriber);
+    bottle.service(serviceIds.PATCH_ASSETS_SUBSCRIBER, PatchAssetsSubscriber);
   }
 
   getSubscriberServices() {
     return [
       serviceIds.ASSET_SUBSCRIBER,
       serviceIds.IMAGE_ASSET_SUBSCRIBER,
+      serviceIds.PATCH_ASSETS_SUBSCRIBER,
     ];
   }
 }
