@@ -32,3 +32,11 @@ test('InstagramMediaBlock', (t) => {
   t.equal(actual, expected, 'it should accept embed with /tv in url');
   t.end();
 });
+
+test('InstagramMediaBlock', (t) => {
+  const url = 'https://www.instagram.com/p/B4-qU5GAJEr/';
+  const actual = INSTAGRAM_MEDIA_REGEX.test(url);
+  const expected = true;
+  t.equal(actual, expected, 'it should accept a url with hyphen in the url');
+  t.end();
+});
