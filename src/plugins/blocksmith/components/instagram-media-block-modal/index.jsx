@@ -22,7 +22,7 @@ import changedTime from '../../utils/changedTime';
 
 import INSTAGRAM_MEDIA_REGEX from './instagramMediaBlockRegex';
 
-const INSTAGRAM_STRIP_REGEX = /([A-Z])\w+/g;
+const INSTAGRAM_STRIP_REGEX = /[^/]+(?=\/$|$)/g;
 
 export default class InstagramMediaBlockModal extends React.Component {
   static propTypes = {
