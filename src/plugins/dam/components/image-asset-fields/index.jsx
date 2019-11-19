@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
+import damUrl from '../../utils/damUrl';
 import './style.scss';
 
 const ImageAssetFields = ({ asset, isEditMode, schemas }) => (
@@ -18,7 +19,7 @@ const ImageAssetFields = ({ asset, isEditMode, schemas }) => (
     <Card>
       <CardHeader>Image Asset</CardHeader>
       <CardBody indent>
-        <AssetSnippet asset={asset} />
+        <AssetSnippet asset={asset} previewUrl={damUrl(asset, 'o')} />
         <Field
           name="title"
           component={TextField}

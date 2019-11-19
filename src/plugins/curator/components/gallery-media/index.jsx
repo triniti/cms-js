@@ -1,3 +1,4 @@
+import pull from 'lodash/pull';
 import pickBy from 'lodash/pickBy';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,6 +17,7 @@ import Pagination from '@triniti/cms/components/pagination';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid';
 import { STATUS_FULFILLED } from '@triniti/app/constants';
+import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button';
 
 import delegateFactory from './delegate';
 import getUpdatedNodeSequenceNumbers from './utils/getUpdatedNodeSequenceNumbers';
@@ -23,8 +25,6 @@ import moveNodeByGallerySequence from './utils/moveNodeByGallerySequence';
 import moveNodeByIndex from './utils/moveNodeByIndex';
 import ResizeGallerySlider from './ResizeGallerySlider';
 import selector from './selector';
-
-import './styles.scss';
 
 const MAX_IMAGES_PER_ROW = 11;
 const MIN_IMAGES_PER_ROW = 1;
@@ -62,6 +62,7 @@ class GalleryMedia extends React.Component {
     super(props);
     this.state = {
       imagesPerRow: 6,
+      selected: [],
       showGallerySequence: false,
       isModalOpen: false,
       reorder: {
@@ -81,6 +82,7 @@ class GalleryMedia extends React.Component {
     this.handleReorderGalleryAssets = this.handleReorderGalleryAssets.bind(this);
     this.handleReorderOnGalleryChanged = this.handleReorderOnGalleryChanged.bind(this);
     this.handleSlideImagesPerRow = this.handleSlideImagesPerRow.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.handleSubmitReorder = this.handleSubmitReorder.bind(this);
     this.handleToggleCardOverlay = this.handleToggleCardOverlay.bind(this);
     this.handleToggleModal = this.handleToggleModal.bind(this);
@@ -239,7 +241,9 @@ class GalleryMedia extends React.Component {
       return;
     }
     const { delegate } = this.props;
+    const { selected } = this.state;
     try {
+      this.setState({ selected: pull(selected, asset.get('_id').toNodeRef().toString()) });
       await delegate.handleRemoveGalleryAsset(asset);
     } catch (error) {
       await swal.fire('Failed', error.message, 'error');
@@ -372,6 +376,17 @@ class GalleryMedia extends React.Component {
     delegate.handleSearchGalleryAssets(newRequest);
   }
 
+  handleSelect(node) {
+    const nodeRefId = node.get('_id').toNodeRef().toString();
+    this.setState(({ selected }) => {
+      if (selected.indexOf(nodeRefId) === -1) {
+        selected.push(nodeRefId);
+        return { selected };
+      }
+      return { selected: pull(selected, nodeRefId) };
+    });
+  }
+
   handleToggleModal() {
     this.setState(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
   }
@@ -388,6 +403,7 @@ class GalleryMedia extends React.Component {
       imagesPerRow,
       isModalOpen,
       reorder: { nodes: reorderedNodes, nodesToUpdate },
+      selected,
       showGallerySequence,
     } = this.state;
 
@@ -423,7 +439,7 @@ class GalleryMedia extends React.Component {
     return (
       <Card>
         <CardHeader>
-          <div className="mr-2">Images { nodes.length ? `(${nodes.length})` : ''}</div>
+          <span className="pr-4" style={{ minWidth: '130px' }}>Images { nodes.length ? `(${nodes.length})` : ''}</span>
           <ResizeGallerySlider
             imagesPerRow={imagesPerRow}
             maxImagesPerRow={MAX_IMAGES_PER_ROW}
@@ -432,7 +448,14 @@ class GalleryMedia extends React.Component {
             onIncreaseImagesPerRow={this.handleIncreaseImagesPerRow}
             onSlideImagesPerRow={this.handleSlideImagesPerRow}
           />
-          <div className="ml-auto">
+
+          <div className="d-inline-flex flex-wrap justify-content-end ml-2 my-1">
+            <BatchEditButton
+              assetIds={selected}
+              className="mt-2 mb-2"
+              isEditMode={isEditMode}
+              nodeRef={nodeRef}
+            />
             <Button
               disabled={!isEditMode}
               onClick={this.handleToggleModal}
@@ -467,10 +490,13 @@ class GalleryMedia extends React.Component {
                 imagesPerRow={imagesPerRow}
                 invalidSeqSet={invalidSeqSet}
                 isEditMode={isEditMode}
+                multiSelect
                 nodes={nodes}
                 onReorderGalleryAssets={this.handleReorderGalleryAssets}
                 onEditAsset={this.handleEditAsset}
                 onRemoveAsset={this.handleRemoveAsset}
+                onSelect={this.handleSelect}
+                selected={selected}
                 showEditSequence={showGallerySequence}
                 onEditSequence={(asset) => this.handleEditSequence(asset, seqSet)}
               />
@@ -484,7 +510,6 @@ class GalleryMedia extends React.Component {
             <Row>
               <Col md="9">
                 <Pagination
-                  className="ml-3"
                   currentPage={request.get('page') || 1}
                   key="pager"
                   onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}

@@ -1,0 +1,27 @@
+$height: 563px;
+
+.batch-edit-wrapper {
+  min-height: $height;
+}
+
+.batch-edit-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  height: 100%;
+  min-height: 0;
+
+  @media (min-width: 550px) {
+    flex-direction: row;
+  }
+  @media (max-width: 767px) {
+    .text-right {
+      text-align: left !important;
+    }
+  }
+}
+
+.meta-form {
+  min-height: $height;
+  flex: 1 1 auto;
+}

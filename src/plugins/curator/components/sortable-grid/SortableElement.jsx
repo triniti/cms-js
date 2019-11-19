@@ -8,14 +8,17 @@ export default SortableElement(
     isDisabled,
     imagesPerRow,
     invalidSeqSet,
+    isSelected,
+    multiSelect,
     node,
     onEditAsset,
     onEditSequence,
     onRemoveAsset,
+    onSelect,
     showEditSequence,
   }) => (
     <div
-      style={{ float: 'left', marginRight: '10px', width: `calc(calc(100% - ${imagesPerRow * 10}px) / ${imagesPerRow}` }}
+      style={{ float: 'left', marginRight: '10px', minWidth: '110px', width: `calc(calc(100% - ${imagesPerRow * 10}px) / ${imagesPerRow}` }}
     >
       <Card
         inverse
@@ -28,10 +31,13 @@ export default SortableElement(
       >
         <ButtonToolbarAsset
           disabled={isDisabled}
+          isSelected={isSelected}
+          multiSelect={multiSelect}
           node={node}
           onEditAsset={onEditAsset}
           onEditSequence={onEditSequence}
           onRemoveAsset={onRemoveAsset}
+          onSelect={onSelect}
           showEditSequence={showEditSequence}
         />
       </Card>
