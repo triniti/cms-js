@@ -2,13 +2,7 @@
 
 
 ## patch
-* Fix node type filtering is not sticky when leaving and re-entering the page
-* Do not replace trailing space with a dash when constructing slugs
-* Correct `isClearable` behavior for `Select` components.
-* Correct `pbjUrl` template for poll and widget pickers.
-* Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
-* Add `autocomplete: true` to the search nodes request in node picker field.
-* Issue #1094 Instagram block not allowing id's with a dash
+* Fix Instagram block not allowing id's with a dash
 
 
 ## v0.2.10
