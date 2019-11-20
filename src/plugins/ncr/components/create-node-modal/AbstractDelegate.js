@@ -1,11 +1,11 @@
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 import noop from 'lodash/noop';
-import { blur, change, reset, SubmissionError, submit } from 'redux-form';
+import { change, reset, SubmissionError, submit } from 'redux-form';
 
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
 import FormEvent from '@triniti/app/events/FormEvent';
-import { SUFFIX_SUBMIT_FORM, SUFFIX_VALIDATE_FORM } from '@triniti/app/constants';
+import { SUFFIX_SUBMIT_FORM } from '@triniti/app/constants';
 
 export default class AbstractDelegate {
   /**
@@ -44,7 +44,6 @@ export default class AbstractDelegate {
     this.handleChangeSlug = this.handleChangeSlug.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleValidate = this.handleValidate.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.getSluggableConfig = this.getSluggableConfig.bind(this);
   }
@@ -157,24 +156,6 @@ export default class AbstractDelegate {
         formName: formProps.form,
       }));
     });
-  }
-
-  /**
-   * @link https://redux-form.com/7.4.2/docs/api/reduxform.md
-   *
-   * @param {Object} values
-   * @param {Object} formProps
-   *
-   * @returns {Object}
-   */
-  handleValidate(values, formProps) {
-    if (!get(this.config, 'schemas.node') && !get(formProps, 'schemas.node')) {
-      return null;
-    }
-
-    const formEvent = this.createFormEvent(values, formProps);
-    this.pbjx.trigger(formEvent.getMessage(), SUFFIX_VALIDATE_FORM, formEvent);
-    return formEvent.getErrors();
   }
 
   /**

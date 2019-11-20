@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vX.X.X
+* Remove error message when editing/creating slugs
+
+
 ## v0.2.10
 * User can see stale article data
 
