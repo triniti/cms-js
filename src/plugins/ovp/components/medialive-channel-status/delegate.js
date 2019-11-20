@@ -7,6 +7,6 @@ export default (dispatch, { node }) => ({
     const command = StartChannelV1.schema().createMessage({
       node_ref: NodeRef.fromNode(node),
     });
-    dispatch(callPbjx(command));
+    dispatch(command);
   },
 });

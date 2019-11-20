@@ -13,6 +13,7 @@ import {
   Spinner,
 } from '@triniti/admin-ui-plugin/components';
 import delegate from './delegate';
+import selector from './selector';
 
 const MediaLiveChannelStatus = ({ handleStartChannel, node, status }) => {
   if (!node) {
@@ -49,7 +50,7 @@ MediaLiveChannelStatus.propTypes = {
 
 MediaLiveChannelStatus.defaultProps = {
   node: null,
-  status: 'RUNNING',
+  status: 'IDLE',
 };
 
-export default connect(null, delegate)(MediaLiveChannelStatus);
+export default connect(selector, delegate)(MediaLiveChannelStatus);
