@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* Fixed instagram media block not allowing hyphens in embed url.
+
+
 ## v0.2.10
 * User can see stale article data
 
