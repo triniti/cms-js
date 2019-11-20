@@ -20,9 +20,8 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import INSTAGRAM_MEDIA_REGEX from './instagramMediaBlockRegex';
-
-const INSTAGRAM_STRIP_REGEX = /([A-Z])\w+/g;
+import validateInstagramUrl from './validateInstagramMediaUrl';
+import getInstagramMediaId from './getInstagramMediaId';
 
 export default class InstagramMediaBlockModal extends React.Component {
   static propTypes = {
@@ -104,13 +103,13 @@ export default class InstagramMediaBlockModal extends React.Component {
   handleChangeTextarea(event) {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
-    const isValidUrl = INSTAGRAM_MEDIA_REGEX.test(input);
+    const isValidUrl = validateInstagramUrl(input);
 
     if (isValidUrl) {
       errorMsg = '';
       isValid = true;
       hideCaption = input.indexOf('data-instgrm-captioned') === -1;
-      id = input.match(INSTAGRAM_STRIP_REGEX)[0];
+      id = getInstagramMediaId(input);
     } else {
       errorMsg = 'url or embed code is invalid';
       isValid = false;
