@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## patch
+* Can edit ad-widget size while in view mode
+
+
 ## v0.2.10
 * User can see stale article data
 
