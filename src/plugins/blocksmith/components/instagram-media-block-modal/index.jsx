@@ -20,7 +20,6 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import validateInstagramUrl from './validateInstagramMediaUrl';
 import getInstagramMediaId from './getInstagramMediaId';
 
 export default class InstagramMediaBlockModal extends React.Component {
@@ -103,7 +102,7 @@ export default class InstagramMediaBlockModal extends React.Component {
   handleChangeTextarea(event) {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
-    const isValidUrl = validateInstagramUrl(input);
+    const isValidUrl = getInstagramMediaId(input);
 
     if (isValidUrl) {
       errorMsg = '';
