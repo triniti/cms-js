@@ -51,6 +51,7 @@ class NodePickerField extends React.Component {
       inputValue: '',
       menuListScrollTop: 0,
       options: [],
+      searchValue: '',
     };
 
     this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 500, {
@@ -170,7 +171,9 @@ class NodePickerField extends React.Component {
           ))
         )
       ) {
-        this.setState(() => ({ hasStoredFirstSet: false, options: [] }), () => handleSearch(q));
+        if (q !== '') {
+          this.setState(() => ({ hasStoredFirstSet: false, options: [], searchValue: q }), () => handleSearch(q));
+        }
       }
     });
   }
@@ -233,12 +236,14 @@ class NodePickerField extends React.Component {
 
   handleSelect(nodeRef) {
     const { fields } = this.props;
+    const { searchValue } = this.state;
+
     const isSelected = !!(fields.getAll() || []).find((ref) => ref.equals(nodeRef));
     if (isSelected) {
       this.handleRemove(nodeRef);
     } else {
       this.handlePick(nodeRef);
-      this.setState(() => ({ inputValue: '' }));
+      this.setState(() => ({ inputValue: searchValue }));
     }
   }
 
