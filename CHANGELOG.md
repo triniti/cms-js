@@ -3,6 +3,7 @@
 
 ## patch
 * Fixed instagram media block not allowing hyphens in embed url.
+* Can edit ad-widget size while in view mode
 
 
 ## v0.2.10

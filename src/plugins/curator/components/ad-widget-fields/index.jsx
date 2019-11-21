@@ -23,11 +23,12 @@ const adSizeOptions = humanizeEnums(AdSizeEnum, {
 }));
 
 const AdWidgetFields = ({ formValues, isEditMode }) => (
+
   <Card>
     <CardHeader>Options</CardHeader>
     <CardBody indent>
       <Field name="title" component={TextField} label="Title" placeholder="Enter Title" size="xlg" readOnly={!isEditMode} />
-      <Field name="adSize" component={SelectField} label="Ad Size" placeholder="Select Ad Size" options={adSizeOptions} readOnly={!isEditMode} />
+      <Field name="adSize" component={SelectField} label="Ad Size" placeholder="Select Ad Size" options={adSizeOptions} disabled={!isEditMode} />
       <Field name="dfpAdUnitPath" component={TextField} label="DFP Ad Unit Path" placeholder="Enter DFP Ad Unit Path" readOnly={!isEditMode} />
       <FieldArray
         component={KeyValuesField}
