@@ -4,7 +4,7 @@ const t = (id) => `${PLUGIN_PREFIX}${id}`;
 export const routeIds = {
   PREFIX: PLUGIN_PREFIX,
 
-  // videos
+  LIVESTREAM: t('livestream'),
   SEARCH_VIDEOS: t('search_videos'),
   VIDEO: t('video'),
   INDEX: t('index'),
@@ -30,4 +30,5 @@ export const serviceIds = {
 
 export const pbjxChannelNames = {
   VIDEO_SEARCH: t('videoSearch'),
+  LIVESTREAM_VIDEO_SEARCH: t('livestreamVideoSearch'),
 };

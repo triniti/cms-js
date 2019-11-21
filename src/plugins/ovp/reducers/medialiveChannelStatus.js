@@ -26,8 +26,30 @@ const onGetVideoResponse = (prevState, action) => {
   return state;
 };
 
-export default createReducer(initialState, {
-  'triniti:ovp.medialive:event:channel-started': onChannelStarted,
-  'triniti:ovp.medialive:event:channel-stopped': onChannelStopped,
-  [`${resolveSchema(VideoV1Mixin, 'request', 'get-video-request').getCurie().getVendor()}:ovp:request:get-video-response`]: onGetVideoResponse,
-});
+const onSearchVideosResponse = (prevState, action) => {
+  if (!action.pbj.has('metas') || !action.pbj.get('ctx_request').isInSet('derefs', 'medialive_channel_status')) {
+    return prevState;
+  }
+  const MEDIALIVE_KEY_REGEX = /^medialive_channel_status\./;
+  let state;
+  Object.entries(action.pbj.get('metas')).forEach(([key, value]) => {
+    if (!MEDIALIVE_KEY_REGEX.test(key)) {
+      return;
+    }
+    if (!state) {
+      state = { ...prevState };
+    }
+    state[NodeRef.fromString(key.replace(MEDIALIVE_KEY_REGEX, ''))] = value;
+  });
+  return state || prevState;
+};
+
+export default createReducer(initialState, (() => {
+  const vendor = resolveSchema(VideoV1Mixin, 'request', 'get-video-request').getCurie().getVendor();
+  return {
+    'triniti:ovp.medialive:event:channel-started': onChannelStarted,
+    'triniti:ovp.medialive:event:channel-stopped': onChannelStopped,
+    [`${vendor}:ovp:request:get-video-response`]: onGetVideoResponse,
+    [`${vendor}:ovp:request:search-videos-response`]: onSearchVideosResponse,
+  };
+})());
