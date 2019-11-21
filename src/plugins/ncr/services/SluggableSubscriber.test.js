@@ -34,23 +34,6 @@ test('SluggableSubscriber onInitForm', (t) => {
   t.end();
 });
 
-test('SluggableSubscriber onValidateForm[invalid slug]', (t) => {
-  const expectedValidationMessage = 'Invalid slug format - this slug cannot start or end with a dash and can only contain lowercase alphanumeric characters or dashes.';
-  const command = sluggable.createMessage();
-
-  const formEvent = new FormEvent(command);
-  formEvent.addError = sinon.spy();
-
-  const subscribedEvents = subscriber.getSubscribedEvents();
-  const data = formEvent.getData();
-  data.slug = 'nice-SLUG-WITH-UPPERCASE';
-
-  subscribedEvents['gdbots:ncr:mixin:sluggable.validate_form'](formEvent);
-  t.equal(formEvent.addError.calledWith('slug', expectedValidationMessage), true, 'it should call addError with correct validation message');
-  t.end();
-});
-
-
 test('SluggableSubscriber @@redux-form/BLUR [valid form]', (t) => {
   const meta = {
     field: 'title',
