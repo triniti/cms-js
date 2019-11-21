@@ -99,7 +99,7 @@ class SlugEditor extends React.Component {
   }
 
   handleBlur() {
-    const { delegate, formName, initialSlug } = this.props;
+    const { delegate, formName } = this.props;
     const { slug } = this.state;
 
     this.setState(() => ({
@@ -130,11 +130,6 @@ class SlugEditor extends React.Component {
   handleRename() {
     const { delegate, initialSlug } = this.props;
     const { slug } = this.state;
-
-    // if (slug === initialSlug) {
-    //   this.setState({ touched: false });
-    //   return;
-    // }
 
     if (slug) {
       delegate.handleRename(initialSlug, slug);
