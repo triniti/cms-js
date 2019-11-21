@@ -2,6 +2,7 @@
 
 
 ## vX.X.X
+* Can edit ad-widget size while in view mode
 * Remove error message when editing/creating slugs
 
 
