@@ -87,35 +87,7 @@ export default class SluggableSubscriber extends EventSubscriber {
    * @param {FormEvent} formEvent
    */
   onValidateForm(formEvent) {
-    const node = formEvent.getMessage();
     const { slug } = formEvent.getData();
-    const isDatedSlug = this.shouldUseDatedSlug(formEvent.getProps().form);
-
-    if (slug) {
-      // slug format check
-      if (!isValidSlug(slug, isDatedSlug)) {
-        let error = '';
-        if (isDatedSlug) {
-          error = 'Invalid slug format - this slug cannot start or end with a dash or slash and can only contain lowercase alphanumeric characters, dashes, or slashes.';
-        } else {
-          error = 'Invalid slug format - this slug cannot start or end with a dash and can only contain lowercase alphanumeric characters or dashes.';
-        }
-        formEvent.addError('slug', error);
-        return;
-      }
-
-      // check if slug contains date, only if datedSlug config is set to true
-      if (isDatedSlug && !slugContainsDate(slug)) {
-        formEvent.addError('slug', 'Slug must have a date in YYYY/MM/DD format.');
-        return;
-      }
-
-      try {
-        node.set('slug', slug);
-      } catch (e) {
-        formEvent.addError('slug', e.message);
-      }
-    }
 
     if (!slug) {
       formEvent.addError('slug', 'Please enter a valid slug.');

@@ -79,6 +79,8 @@ export default class CreateNodeModal extends React.Component {
         onBlurSlug={this.handleBlurSlug}
         onReset={delegate.handleReset}
         onSubmit={delegate.handleSubmit}
+        validate={delegate.handleValidate}
+        warn={delegate.handleWarn}
         {...formConfigs}
       />
     );
