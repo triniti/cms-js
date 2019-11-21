@@ -3,6 +3,7 @@ import Plugin from '@triniti/app/Plugin';
 import KalturaEntrySubscriber from './services/KalturaEntrySubscriber';
 import MedialiveChannelSubscriber from './services/MedialiveChannelSubscriber';
 import VideoSubscriber from './services/VideoSubscriber';
+import reducer from './reducers';
 import routes from './routes';
 import { serviceIds } from './constants';
 
@@ -12,6 +13,7 @@ export default class OvpPlugin extends Plugin {
   }
 
   configure(app, bottle) {
+    this.reducer = reducer;
     this.routes = routes;
 
     bottle.service(serviceIds.KALTURA_ENTRY_SUBSCRIBER, KalturaEntrySubscriber);
