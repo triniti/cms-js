@@ -10,7 +10,6 @@ export default class SluggableSubscriber extends EventSubscriber {
     this.onInitForm = this.onInitForm.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onTitleChanged = this.onTitleChanged.bind(this);
-    this.onValidateForm = this.onValidateForm.bind(this);
     this.sluggableForms = sluggableForms;
   }
 
@@ -80,19 +79,6 @@ export default class SluggableSubscriber extends EventSubscriber {
     store.dispatch(change(form, 'slug', slug));
   }
 
-  /**
-   * This if the redux form sync validation process.
-   *
-   * @param {FormEvent} formEvent
-   */
-  onValidateForm(formEvent) {
-    const { slug } = formEvent.getData();
-
-    if (!slug) {
-      formEvent.addError('slug', 'Please enter a valid slug.');
-    }
-  }
-
   shouldUseDatedSlug(formName) {
     return this.sluggableForms[formName] || this.sluggableForms.default;
   }
@@ -101,7 +87,6 @@ export default class SluggableSubscriber extends EventSubscriber {
     return {
       '@@redux-form/BLUR': this.onTitleChanged,
       'gdbots:ncr:mixin:sluggable.init_form': this.onInitForm,
-      'gdbots:ncr:mixin:sluggable.validate_form': this.onValidateForm,
       'gdbots:ncr:mixin:sluggable.submit_form': this.onSubmitForm,
     };
   }
