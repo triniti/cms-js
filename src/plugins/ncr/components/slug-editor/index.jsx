@@ -163,8 +163,7 @@ class SlugEditor extends React.Component {
     } = this.props;
     const { error, isOpen, slug, touched } = this.state;
     const valid = touched ? (
-      !error
-      && normalizeUnfinishedSlug(slug, slug, delegate.getSluggableConfig(formName)) !== initialSlug
+      !error && normalizeUnfinishedSlug(slug, slug, delegate.getSluggableConfig(formName)) !== initialSlug
     ) : null;
     const isDatedSlug = delegate.getSluggableConfig(formName);
 

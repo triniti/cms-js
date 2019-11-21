@@ -2,7 +2,6 @@ import { change, formValueSelector } from 'redux-form';
 import addDateToSlug from '@gdbots/common/addDateToSlug';
 import createSlug from '@gdbots/common/createSlug';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
-import isValidSlug from '@gdbots/common/isValidSlug';
 import slugContainsDate from '@gdbots/common/slugContainsDate';
 
 export default class SluggableSubscriber extends EventSubscriber {
