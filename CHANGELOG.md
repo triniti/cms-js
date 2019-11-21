@@ -1,9 +1,10 @@
 # CHANGELOG
 
 
-## patch
+## vX.X.X
 * Fixed instagram media block not allowing hyphens in embed url.
 * Can edit ad-widget size while in view mode
+* Remove error message when editing/creating slugs
 
 
 ## v0.2.10
