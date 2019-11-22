@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 import noop from 'lodash/noop';
-import { blur, change, reset, SubmissionError, submit } from 'redux-form';
+import { change, reset, SubmissionError, submit } from 'redux-form';
 
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
 import FormEvent from '@triniti/app/events/FormEvent';
