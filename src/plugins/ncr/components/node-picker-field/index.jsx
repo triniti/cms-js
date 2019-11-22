@@ -158,21 +158,16 @@ class NodePickerField extends React.Component {
     });
   }
 
-  handleInputChange(q) {
-    const { handleSearch, isGetAll, response } = this.props;
+  handleInputChange(q, action) {
+    const { handleSearch, isGetAll } = this.props;
     this.setState(() => ({ inputValue: q }), () => {
-      if (
-        !isGetAll
-        && (
-          q !== ''
-          || (response && ( // just selecting an item counts as a change, so check for that here
-            response.get('ctx_request').get('q') !== ''
-            && response.get('ctx_request').get('q') !== null
-          ))
-        )
-      ) {
+      if (!isGetAll && action !== 'input-change') {
         if (q !== '') {
-          this.setState(() => ({ hasStoredFirstSet: false, options: [], searchValue: q }), () => handleSearch(q));
+          this.setState(() => ({
+            hasStoredFirstSet: false,
+            options: [],
+            searchValue: q,
+          }), () => handleSearch(q));
         }
       }
     });
@@ -296,7 +291,7 @@ class NodePickerField extends React.Component {
         isLoading={isPending}
         isMulti={isMulti}
         onChange={this.handleChange}
-        onInputChange={this.handleInputChange}
+        onInputChange={(q, action) => this.handleInputChange(q, action)}
         onKeyDown={this.handleKeyDown}
         inputValue={inputValue}
         onMenuClose={this.handleMenuClose}
