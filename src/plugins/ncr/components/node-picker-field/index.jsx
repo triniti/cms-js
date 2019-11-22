@@ -161,14 +161,12 @@ class NodePickerField extends React.Component {
   handleInputChange(q, action) {
     const { handleSearch, isGetAll } = this.props;
     this.setState(() => ({ inputValue: q }), () => {
-      if (!isGetAll && action !== 'input-change') {
-        if (q !== '') {
-          this.setState(() => ({
-            hasStoredFirstSet: false,
-            options: [],
-            searchValue: q,
-          }), () => handleSearch(q));
-        }
+      if (!isGetAll && action !== 'input-change' && q !== '') {
+        this.setState(() => ({
+          hasStoredFirstSet: false,
+          options: [],
+          searchValue: q,
+        }), () => handleSearch(q));
       }
     });
   }
