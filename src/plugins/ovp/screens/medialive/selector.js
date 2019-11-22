@@ -1,6 +1,6 @@
+import { STATUS_FULFILLED } from '@triniti/app/constants';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import SearchVideosRequestV1 from '@tmz/schemas/tmz/ovp/request/SearchVideosRequestV1';
-import { STATUS_FULFILLED } from '@triniti/app/constants';
 import { pbjxChannelNames } from '../../constants';
 
 /**
@@ -10,13 +10,15 @@ import { pbjxChannelNames } from '../../constants';
  * @returns {Object}
  */
 export default (state) => {
-  const { response, status } = getRequest(
+  const { exception, response, status } = getRequest(
     state,
     SearchVideosRequestV1.schema().getCurie(),
     pbjxChannelNames.LIVESTREAM_VIDEO_SEARCH,
   );
   return {
+    exception,
     isFulfilled: status === STATUS_FULFILLED,
     nodes: !response ? [] : response.get('nodes', []),
+    status,
   };
 };

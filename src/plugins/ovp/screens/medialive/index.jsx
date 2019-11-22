@@ -26,7 +26,7 @@ class MediaLiveScreen extends React.Component {
   }
 
   render() {
-    const { isFulfilled, match: { url }, nodes } = this.props;
+    const { exception, isFulfilled, match: { url }, nodes, status } = this.props;
     const urlParts = url.split('/');
     console.log('here', this.props);
     return (
@@ -40,7 +40,12 @@ class MediaLiveScreen extends React.Component {
             text: 'Livestream',
           },
         ]}
-        body={isFulfilled ? <MedialiveChannelCards nodes={nodes} /> : <Spinner />}
+        body={(() => {
+          if (exception) {
+            return <StatusMessage status={status} exception={exception} />;
+          }
+          return isFulfilled ? <MedialiveChannelCards nodes={nodes} /> : <Spinner />;
+        })()}
       />
     );
   }

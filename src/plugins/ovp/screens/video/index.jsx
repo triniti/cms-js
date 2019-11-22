@@ -26,7 +26,7 @@ class VideoScreen extends AbstractNodeScreen {
       this.renderPreviewButtons(),
       this.renderNodeStatus(),
       this.renderPublishForm(),
-      this.props.delegate.getSchemas().node.hasMixin('triniti:ovp.medialive:mixin:has-channel') && <MediaLiveChannelStatus node={this.props.delegate.getNode()} />,
+      this.props.delegate.getSchemas().node.hasMixin('triniti:ovp.medialive:mixin:has-channel') && <MediaLiveChannelStatus key="medialive-channel-status" node={this.props.delegate.getNode()} />,
       this.renderChat(),
     ];
   }
