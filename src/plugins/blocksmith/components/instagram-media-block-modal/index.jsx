@@ -102,13 +102,13 @@ export default class InstagramMediaBlockModal extends React.Component {
   handleChangeTextarea(event) {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
-    const isValidUrl = getInstagramMediaId(input);
+    const mediaId = getInstagramMediaId(input);
 
-    if (isValidUrl) {
+    if (mediaId) {
       errorMsg = '';
       isValid = true;
       hideCaption = input.indexOf('data-instgrm-captioned') === -1;
-      id = getInstagramMediaId(input);
+      id = mediaId;
     } else {
       errorMsg = 'url or embed code is invalid';
       isValid = false;
