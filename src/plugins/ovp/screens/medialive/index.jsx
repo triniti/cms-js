@@ -13,7 +13,7 @@ import {
   StatusMessage,
   UncontrolledDropdown,
 } from '@triniti/admin-ui-plugin/components';
-import MedialiveChannelsTable from '@triniti/cms/plugins/ovp/components/medialive-channels-table';
+import MedialiveChannelCards from '@triniti/cms/plugins/ovp/components/medialive-channel-cards';
 import delegate from './delegate';
 import selector from './selector';
 
@@ -40,7 +40,7 @@ class MediaLiveScreen extends React.Component {
             text: 'Livestream',
           },
         ]}
-        body={isFulfilled ? <MedialiveChannelsTable nodes={nodes} /> : <Spinner />}
+        body={isFulfilled ? <MedialiveChannelCards nodes={nodes} /> : <Spinner />}
       />
     );
   }
