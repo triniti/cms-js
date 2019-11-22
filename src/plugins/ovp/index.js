@@ -5,6 +5,7 @@ import MedialiveChannelSubscriber from './services/MedialiveChannelSubscriber';
 import VideoSubscriber from './services/VideoSubscriber';
 import reducer from './reducers';
 import routes from './routes';
+import saga from './sagas';
 import { serviceIds } from './constants';
 
 export default class OvpPlugin extends Plugin {
@@ -15,6 +16,7 @@ export default class OvpPlugin extends Plugin {
   configure(app, bottle) {
     this.reducer = reducer;
     this.routes = routes;
+    this.saga = saga;
 
     bottle.service(serviceIds.KALTURA_ENTRY_SUBSCRIBER, KalturaEntrySubscriber);
     bottle.service(serviceIds.MEDIALIVE_CHANNEL_SUBSCRIBER, MedialiveChannelSubscriber);

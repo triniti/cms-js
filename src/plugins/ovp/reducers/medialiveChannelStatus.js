@@ -2,12 +2,13 @@ import createReducer from '@triniti/app/createReducer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
+import { actionTypes } from '../constants';
 
 export const initialState = {};
 
 const onChannelStarted = (prevState, action) => {
   const state = { ...prevState };
-  state[action.pbj.get('node_ref')] = 'RUNNING';
+  state[action.nodeRef || action.pbj.get('node_ref')] = 'RUNNING';
   return state;
 };
 
@@ -51,5 +52,6 @@ export default createReducer(initialState, (() => {
     'triniti:ovp.medialive:event:channel-stopped': onChannelStopped,
     [`${vendor}:ovp:request:get-video-response`]: onGetVideoResponse,
     [`${vendor}:ovp:request:search-videos-response`]: onSearchVideosResponse,
+    [actionTypes.MEDIALIVE_CHANNEL_STARTED]: onChannelStarted,
   };
 })());
