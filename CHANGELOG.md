@@ -8,6 +8,7 @@
 
 ## v0.2.10
 * User can see stale article data
+* Made picker field search query persistent
 
 
 ## v0.2.9
