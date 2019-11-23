@@ -1,23 +1,9 @@
 import { connect } from 'react-redux';
+import { Screen, Spinner, StatusMessage } from '@triniti/admin-ui-plugin/components';
+import MediaLiveChannelCards from '@triniti/cms/plugins/ovp/components/medialive-channel-cards';
 import React from 'react';
-import {
-  ActionButton,
-  Alert,
-  DropdownMenu,
-  DropdownToggle,
-  Icon,
-  InputGroup,
-  InputGroupButtonDropdown,
-  Screen,
-  Spinner,
-  StatusMessage,
-  UncontrolledDropdown,
-} from '@triniti/admin-ui-plugin/components';
-import MedialiveChannelCards from '@triniti/cms/plugins/ovp/components/medialive-channel-cards';
 import delegate from './delegate';
 import selector from './selector';
-
-// todo: force error on server (frozen etc) and display status message
 
 class MediaLiveScreen extends React.Component {
   componentDidMount() {
@@ -44,7 +30,7 @@ class MediaLiveScreen extends React.Component {
           if (exception) {
             return <StatusMessage status={status} exception={exception} />;
           }
-          return isFulfilled ? <MedialiveChannelCards nodes={nodes} /> : <Spinner />;
+          return isFulfilled ? <MediaLiveChannelCards nodes={nodes} /> : <Spinner />;
         })()}
       />
     );

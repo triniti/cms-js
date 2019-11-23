@@ -1,7 +1,7 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 
-export default class MedialiveChannelSubscriber extends EventSubscriber {
+export default class MediaLiveChannelSubscriber extends EventSubscriber {
   constructor() {
     super();
     this.onInitForm = this.onInitForm.bind(this);

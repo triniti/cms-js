@@ -1,6 +1,6 @@
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import getMedialiveChannelStatus from '../../actions/getMedialiveChannelStatus';
+import getMediaLiveChannelStatus from '../../actions/getMediaLiveChannelStatus';
 
 export default (dispatch, { node }) => ({
-  handleGetMedialiveChannelStatus: () => dispatch(getMedialiveChannelStatus(NodeRef.fromNode(node))),
+  handleGetMediaLiveChannelStatus: () => dispatch(getMediaLiveChannelStatus(NodeRef.fromNode(node))),
 });

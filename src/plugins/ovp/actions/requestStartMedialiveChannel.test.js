@@ -1,11 +1,11 @@
 import test from 'tape';
 import { actionTypes } from '../constants';
-import requestStartMedialiveChannel from './requestStartMedialiveChannel';
+import requestStartMediaLiveChannel from './requestStartMediaLiveChannel';
 
-test('Ovp:action:requestStartMedialiveChannel', (t) => {
+test('Ovp:action:requestStartMediaLiveChannel', (t) => {
   const command = 'request to start the channel bro';
 
-  const actual = requestStartMedialiveChannel(command);
+  const actual = requestStartMediaLiveChannel(command);
   const expected = {
     type: actionTypes.START_MEDIALIVE_CHANNEL_REQUESTED,
     pbj: command,

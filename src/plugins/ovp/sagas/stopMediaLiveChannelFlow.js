@@ -1,18 +1,18 @@
 import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
-import ChannelStarted from '@triniti/schemas/triniti/ovp.medialive/event/ChannelStartedV1';
+import ChannelStopped from '@triniti/schemas/triniti/ovp.medialive/event/ChannelStoppedV1';
 import OperationTimedOut from '@triniti/cms/plugins/pbjx/exceptions/OperationTimedOut';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
-import startMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/startMediaLiveChannel';
+import stopMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/stopMediaLiveChannel';
 import toast from '@triniti/admin-ui-plugin/utils/toast';
 import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
 import waitForFlow from '@triniti/cms/plugins/ncr/sagas/waitForFlow';
 import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
 
-export default function* startMediaLiveChannelFlow({ pbj }) {
+export default function* stopMediaLiveChannelFlow({ pbj }) {
   try {
     yield fork([toast, 'show']);
-    const eventChannel = yield actionChannel(ChannelStarted.schema().getCurie().toString());
+    const eventChannel = yield actionChannel(ChannelStopped.schema().getCurie().toString());
     yield putResolve(pbj);
 
     yield race({
@@ -35,18 +35,18 @@ export default function* startMediaLiveChannelFlow({ pbj }) {
     yield call([toast, 'hide']);
 
     if (wasSuccessful) {
-      yield put(startMediaLiveChannel(nodeRef));
+      yield put(stopMediaLiveChannel(nodeRef));
       yield put(sendAlert({
         type: 'success',
         isDismissible: true,
         delay: 3000,
-        message: 'Success! The MediaLive Channel was started.',
+        message: 'Success! The MediaLive Channel was stopped.',
       }));
     } else {
       yield put(sendAlert({
         type: 'danger',
         isDismissible: true,
-        message: `Start MediaLive Channel Failed: ${(new OperationTimedOut(pbj)).getMessage()}`,
+        message: `Stop MediaLive Channel Failed: ${(new OperationTimedOut(pbj)).getMessage()}`,
       }));
     }
   } catch (e) {
@@ -54,7 +54,7 @@ export default function* startMediaLiveChannelFlow({ pbj }) {
     yield put(sendAlert({
       type: 'danger',
       isDismissible: true,
-      message: `Start MediaLive Channel Failed: ${e.message}.`,
+      message: `Stop MediaLive Channel Failed: ${e.message}.`,
     }));
   }
 }

@@ -23,7 +23,7 @@ export default (nodeRef) => async (dispatch, getState) => {
       const envelope = await response.json();
       status = envelope.medialive_channel_status;
     } catch (error) {
-      console.error('getMedialiveChannelStatus failed', nodeRef, error);
+      console.error('getMediaLiveChannelStatus failed', nodeRef, error);
     }
   }
 

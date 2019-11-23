@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import medialiveChannelStatus from './medialiveChannelStatus';
+import mediaLiveChannelStatus from './mediaLiveChannelStatus';
 
 export default combineReducers({
-  medialiveChannelStatus,
+  mediaLiveChannelStatus,
 });

@@ -14,7 +14,7 @@ const onChannelStarted = (prevState, action) => {
 
 const onChannelStopped = (prevState, action) => {
   const state = { ...prevState };
-  state[action.pbj.get('node_ref')] = 'IDLE';
+  state[action.nodeRef || action.pbj.get('node_ref')] = 'IDLE';
   return state;
 };
 
@@ -53,5 +53,6 @@ export default createReducer(initialState, (() => {
     [`${vendor}:ovp:request:get-video-response`]: onGetVideoResponse,
     [`${vendor}:ovp:request:search-videos-response`]: onSearchVideosResponse,
     [actionTypes.MEDIALIVE_CHANNEL_STARTED]: onChannelStarted,
+    [actionTypes.MEDIALIVE_CHANNEL_STOPPED]: onChannelStopped,
   };
 })());

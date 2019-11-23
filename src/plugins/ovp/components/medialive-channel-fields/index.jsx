@@ -6,27 +6,27 @@ import React, { useEffect } from 'react';
 import TextField from '@triniti/cms/components/text-field';
 import delegate from './delegate';
 
-const MedialiveChannelFields = ({ handleGetMedialiveChannelStatus, isEditMode }) => {
+const MediaLiveChannelFields = ({ handleGetMediaLiveChannelStatus, isEditMode }) => {
   useEffect(() => {
-    handleGetMedialiveChannelStatus();
+    handleGetMediaLiveChannelStatus();
   }, []);
   return (
     <Card>
-      <CardHeader>Medialive</CardHeader>
+      <CardHeader>MediaLive</CardHeader>
       <CardBody indent>
-        <Field name="medialiveChannelArn" component={TextField} label="Medialive Channel ARN" placeholder="enter medialive channel arn" readOnly={!isEditMode} />
+        <Field name="medialiveChannelArn" component={TextField} label="MediaLive Channel ARN" placeholder="enter medialive channel arn" readOnly={!isEditMode} />
       </CardBody>
     </Card>
   );
 };
 
-MedialiveChannelFields.propTypes = {
-  handleGetMedialiveChannelStatus: PropTypes.func.isRequired,
+MediaLiveChannelFields.propTypes = {
+  handleGetMediaLiveChannelStatus: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool,
 };
 
-MedialiveChannelFields.defaultProps = {
+MediaLiveChannelFields.defaultProps = {
   isEditMode: true,
 };
 
-export default connect(null, delegate)(MedialiveChannelFields);
+export default connect(null, delegate)(MediaLiveChannelFields);

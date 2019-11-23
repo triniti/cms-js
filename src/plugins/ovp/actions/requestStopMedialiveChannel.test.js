@@ -1,11 +1,11 @@
 import test from 'tape';
 import { actionTypes } from '../constants';
-import requestStopMedialiveChannel from './requestStopMedialiveChannel';
+import requestStopMediaLiveChannel from './requestStopMediaLiveChannel';
 
-test('Ovp:action:requestStopMedialiveChannel', (t) => {
+test('Ovp:action:requestStopMediaLiveChannel', (t) => {
   const command = 'request to stop the channel bro';
 
-  const actual = requestStopMedialiveChannel(command);
+  const actual = requestStopMediaLiveChannel(command);
   const expected = {
     type: actionTypes.STOP_MEDIALIVE_CHANNEL_REQUESTED,
     pbj: command,

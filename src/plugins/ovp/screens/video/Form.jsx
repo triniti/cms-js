@@ -4,7 +4,7 @@ import AdvertisingFields from '@triniti/cms/plugins/common/components/advertisin
 import History from '@triniti/cms/plugins/pbjx/components/history';
 import KalturaEntryFields from '@triniti/cms/plugins/ovp/components/kaltura-entry-fields';
 import Media from '@triniti/cms/plugins/dam/components/media';
-import MedialiveChannelFields from '@triniti/cms/plugins/ovp/components/medialive-channel-fields';
+import MediaLiveChannelFields from '@triniti/cms/plugins/ovp/components/medialive-channel-fields';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PropTypes from 'prop-types';
@@ -51,7 +51,7 @@ const Form = ({ node: video, form, tab, isEditMode }) => {
           }
           {
             schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel')
-            && <MedialiveChannelFields isEditMode={isEditMode} node={video} />
+            && <MediaLiveChannelFields isEditMode={isEditMode} node={video} />
           }
           {
             schemas.node.hasMixin('triniti:common:mixin:advertising')
