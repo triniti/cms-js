@@ -14,7 +14,6 @@ class MediaLiveScreen extends React.Component {
   render() {
     const { exception, isFulfilled, match: { url }, nodes, status } = this.props;
     const urlParts = url.split('/');
-    console.log('here', this.props);
     return (
       <Screen
         breadcrumbs={[
