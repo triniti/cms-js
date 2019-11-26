@@ -12,10 +12,11 @@ class MediaLiveScreen extends React.Component {
   }
 
   render() {
-    const { exception, isFulfilled, match: { url }, nodes, status } = this.props;
+    const { alerts, exception, isFulfilled, match: { url }, nodes, status } = this.props;
     const urlParts = url.split('/');
     return (
       <Screen
+        alerts={alerts}
         breadcrumbs={[
           {
             to: `/${urlParts[1]}/${urlParts[2]}`,
@@ -31,6 +32,7 @@ class MediaLiveScreen extends React.Component {
           }
           return isFulfilled ? <MediaLiveChannelCards nodes={nodes} /> : <Spinner />;
         })()}
+        title="Livestream"
       />
     );
   }

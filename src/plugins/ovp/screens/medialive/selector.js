@@ -1,4 +1,5 @@
 import { STATUS_FULFILLED } from '@triniti/app/constants';
+import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import SearchVideosRequestV1 from '@tmz/schemas/tmz/ovp/request/SearchVideosRequestV1';
 import { pbjxChannelNames } from '../../constants';
@@ -16,6 +17,7 @@ export default (state) => {
     pbjxChannelNames.LIVESTREAM_VIDEO_SEARCH,
   );
   return {
+    alerts: getAlerts(state),
     exception,
     isFulfilled: status === STATUS_FULFILLED,
     nodes: !response ? [] : response.get('nodes', []),
