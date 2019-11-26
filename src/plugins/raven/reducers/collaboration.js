@@ -53,5 +53,5 @@ export default createReducer(initialState, {
   [actionTypes.HEARTBEAT]: onCollaboratorJoinedOrHeartbeat,
   [actionTypes.COLLABORATOR_JOINED]: onCollaboratorJoinedOrHeartbeat,
   [actionTypes.COLLABORATOR_LEFT]: onCollaboratorLeft,
-  // [actionTypes.MESSAGE_RECEIVED]: onMessageReceived,
+  [actionTypes.MESSAGE_RECEIVED]: onMessageReceived,
 });

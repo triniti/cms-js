@@ -4,6 +4,7 @@
 ## vX.X.X
 * Can edit ad-widget size while in view mode
 * Remove error message when editing/creating slugs
+* Re-enable collaboration reducer on `MESSAGE_RECEIVED`.
 
 
 ## v0.2.10
