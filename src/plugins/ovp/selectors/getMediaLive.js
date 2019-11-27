@@ -6,4 +6,4 @@
  *
  * @returns {?String} The node's medialive channel's status
  */
-export default (state, nodeRef) => state.ovp.mediaLiveChannelStatus[`${nodeRef}`];
+export default (state, nodeRef) => state.ovp.mediaLive[`${nodeRef}`];

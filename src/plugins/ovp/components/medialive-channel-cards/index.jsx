@@ -1,5 +1,7 @@
+import { connect } from 'react-redux';
 import copyToClipboard from '@triniti/cms/utils/copyToClipboard';
 import MediaLiveChannelStatusButton from '@triniti/cms/plugins/ovp/components/medialive-channel-status-button';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
@@ -11,14 +13,12 @@ import {
   Icon,
   RouterLink,
 } from '@triniti/admin-ui-plugin/components';
+import selector from './selector';
 import './styles.scss';
 
-export default ({ nodes }) => nodes.map((node) => {
+const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
   const channelArn = node.get('medialive_channel_arn');
-  const liveM3u8Url = node.get('live_m3u8_url', 'todo: add m3u8 url');
-  const cdnM3u8Url = 'todo: add cdn url';
-  const ingest1 = 'todo: add ingest #1';
-  const ingest2 = 'todo: add ingest #2';
+  const mediaLiveData = getMediaLive(NodeRef.fromNode(node));
   return (
     <Card key={node.get('_id')}>
       <CardHeader className="pr-2">
@@ -49,9 +49,8 @@ export default ({ nodes }) => nodes.map((node) => {
       <CardBody className="pb-3">
         <MediaLiveChannelStatusButton node={node} size="sm" />
         <div className="mt-3 mb-2 d-flex align-items-center">
-          <p className="mb-1"><strong>MediaLive Channel ARN: </strong>{channelArn}</p>
           <Button
-            className="mb-1 ml-2"
+            className="mb-1"
             color="hover"
             id={`copy-to-clipboard-${node.get('_id')}-arn`}
             onClick={() => copyToClipboard(channelArn)}
@@ -61,65 +60,69 @@ export default ({ nodes }) => nodes.map((node) => {
             <Icon imgSrc="clipboard" alt="copy to clipboard" />
           </Button>
           <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-arn`}>Copy to clipboard</UncontrolledTooltip>
+          <p className="mb-1"><strong>MediaLive Channel ARN: </strong>{channelArn}</p>
         </div>
-        <div className="mb-2 d-flex align-items-center">
-          <p className="mb-1"><strong>Live m3u8 URL: </strong>{liveM3u8Url}</p>
-          <Button
-            className="mb-1 ml-2"
-            color="hover"
-            id={`copy-to-clipboard-${node.get('_id')}-live-m3u8`}
-            onClick={() => copyToClipboard(liveM3u8Url)}
-            radius="circle"
-            size="xs"
-          >
-            <Icon imgSrc="clipboard" alt="copy to clipboard" />
-          </Button>
-          <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-live-m3u8`}>Copy to clipboard</UncontrolledTooltip>
-        </div>
-        <div className="mb-2 d-flex align-items-center">
-          <p className="mb-1"><strong>CDN m3u8 URL: </strong>{cdnM3u8Url}</p>
-          <Button
-            className="mb-1 ml-2"
-            color="hover"
-            id={`copy-to-clipboard-${node.get('_id')}-cdn-m3u8`}
-            onClick={() => copyToClipboard(cdnM3u8Url)}
-            radius="circle"
-            size="xs"
-          >
-            <Icon imgSrc="clipboard" alt="copy to clipboard" />
-          </Button>
-          <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-cdn-m3u8`}>Copy to clipboard</UncontrolledTooltip>
-        </div>
-        <div className="mb-2 d-flex align-items-center">
-          <p className="mb-1"><strong>RTMP Ingest Endpoint #1: </strong>{ingest1}</p>
-          <Button
-            className="mb-1 ml-2"
-            color="hover"
-            id={`copy-to-clipboard-${node.get('_id')}-ingest-1`}
-            onClick={() => copyToClipboard(ingest1)}
-            radius="circle"
-            size="xs"
-          >
-            <Icon imgSrc="clipboard" alt="copy to clipboard" />
-          </Button>
-          <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-ingest-1`}>Copy to clipboard</UncontrolledTooltip>
-        </div>
-        <div className="mb-2 d-flex align-items-center">
-          <p className="mb-1"><strong>RTMP Ingest Endpoint #2: </strong>{ingest2}</p>
-          <Button
-            className="mb-1 ml-2"
-            color="hover"
-            id={`copy-to-clipboard-${node.get('_id')}-ingest-2`}
-            onClick={() => copyToClipboard(ingest2)}
-            radius="circle"
-            size="xs"
-          >
-            <Icon imgSrc="clipboard" alt="copy to clipboard" />
-          </Button>
-          <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-ingest-2`}>Copy to clipboard</UncontrolledTooltip>
-        </div>
+        {(mediaLiveData ? mediaLiveData.originEndpoints : []).map((originEndpoint, index) => {
+          const tooltipTarget = `copy-to-clipboard-${node.get('_id')}-origin-endpoint-${index}`;
+          return (
+            <div className="mb-2 d-flex align-items-center">
+              <Button
+                className="mb-1"
+                color="hover"
+                id={tooltipTarget}
+                onClick={() => copyToClipboard(originEndpoint)}
+                radius="circle"
+                size="xs"
+              >
+                <Icon imgSrc="clipboard" alt="copy to clipboard" />
+              </Button>
+              <UncontrolledTooltip placement="auto" target={tooltipTarget}>Copy to clipboard</UncontrolledTooltip>
+              <p className="mb-1"><strong>{`Origin Endpoint #${index + 1}: `}</strong>{originEndpoint}</p>
+            </div>
+          );
+        })}
+        {(mediaLiveData ? mediaLiveData.cdnEndpoints : []).map((cdnEndpoint, index) => {
+          const tooltipTarget = `copy-to-clipboard-${node.get('_id')}-cdn-endpoint-${index}`;
+          return (
+            <div className="mb-2 d-flex align-items-center">
+              <Button
+                className="mb-1"
+                color="hover"
+                id={tooltipTarget}
+                onClick={() => copyToClipboard(cdnEndpoint)}
+                radius="circle"
+                size="xs"
+              >
+                <Icon imgSrc="clipboard" alt="copy to clipboard" />
+              </Button>
+              <UncontrolledTooltip placement="auto" target={tooltipTarget}>Copy to clipboard</UncontrolledTooltip>
+              <p className="mb-1"><strong>{`CDN Endpoint #${index + 1}: `}</strong>{cdnEndpoint}</p>
+            </div>
+          );
+        })}
+        {(mediaLiveData ? mediaLiveData.inputs : []).map((input, index) => {
+          const tooltipTarget = `copy-to-clipboard-${node.get('_id')}-ingest-${index}`;
+          return (
+            <div className="mb-2 d-flex align-items-center">
+              <Button
+                className="mb-1"
+                color="hover"
+                id={tooltipTarget}
+                onClick={() => copyToClipboard(input)}
+                radius="circle"
+                size="xs"
+              >
+                <Icon imgSrc="clipboard" alt="copy to clipboard" />
+              </Button>
+              <UncontrolledTooltip placement="auto" target={tooltipTarget}>Copy to clipboard</UncontrolledTooltip>
+              <p className="mb-1"><strong>{`Ingest Endpoint #${index + 1}: `}</strong>{input}</p>
+            </div>
+          );
+        })}
         <p className="m-0"><a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer"><strong>Demo Player</strong></a></p>
       </CardBody>
     </Card>
   );
 });
+
+export default connect(selector)(MediaLiveChannelCards);

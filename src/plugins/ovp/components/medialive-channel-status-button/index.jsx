@@ -5,6 +5,8 @@ import React from 'react';
 import delegate from './delegate';
 import selector from './selector';
 
+// todo: polish how this looks when there are caught errors on server (invalid arn etc)
+
 const MediaLiveChannelStatus = ({
   handleStartChannel,
   handleStopChannel,
