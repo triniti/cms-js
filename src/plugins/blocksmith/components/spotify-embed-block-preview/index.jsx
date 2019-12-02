@@ -32,17 +32,14 @@ const SpotifyEmbedBlockPreview = ({ block }) => {
   switch (spotifyType) {
     case 'show':
     case 'episode':
-      console.log('podcast');
       return podcastEmbed;
 
     case 'album':
     case 'track':
     case 'playlist':
-      console.log('not podcast');
       return defaultEmbed;
 
     default:
-      console.log('Nothing returned');
       return '';
   }
 };
