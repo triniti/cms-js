@@ -2,15 +2,15 @@
 
 
 ## v0.2.11
-* Fixed instagram media block not allowing hyphens in embed url.
+* issue #126: Fixed instagram media block not allowing hyphens in embed url.
 * Can edit ad-widget size while in view mode
 * Remove error message when editing/creating slugs
 * Re-enable collaboration reducer on `MESSAGE_RECEIVED`.
+* Made picker field search query persistent
 
 
 ## v0.2.10
 * User can see stale article data
-* Made picker field search query persistent
 
 
 ## v0.2.9
