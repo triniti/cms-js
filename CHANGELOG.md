@@ -3,6 +3,7 @@
 
 ## v0.2.12
 * Move `@gdbots/schemas` and `@triniti/schemas` to peerDependencies.
+* Use `@gdbots/pbj` v1.0.1 with more forgiving identifier and enum type checks.
 
 
 ## v0.2.11
