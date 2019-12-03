@@ -27,7 +27,7 @@ export default function* startMediaLiveChannelFlow({ pbj }) {
 
     const result = yield race({
       event: call(waitForMyEvent, eventChannel),
-      timeout: delay(120000),
+      timeout: delay(240000),
     });
 
     if (result.timeout) {
