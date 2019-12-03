@@ -101,6 +101,7 @@ class SlugEditor extends React.Component {
   handleBlur() {
     const { delegate, formName } = this.props;
     const { slug } = this.state;
+
     this.setState(() => ({
       slug: normalizeUnfinishedSlug(slug, slug, delegate.getSluggableConfig(formName)),
     }), this.validateSlug);
@@ -110,7 +111,7 @@ class SlugEditor extends React.Component {
     this.setState((prevState, { initialSlug }) => ({
       slug,
       touched: slug !== initialSlug,
-    }), this.validateSlug);
+    }));
   }
 
   addDate() {
@@ -123,7 +124,7 @@ class SlugEditor extends React.Component {
         slug: newSlug,
         touched: newSlug !== initialSlug,
       };
-    }, this.validateSlug);
+    });
   }
 
   handleRename() {
@@ -156,7 +157,9 @@ class SlugEditor extends React.Component {
       canRename, initialSlug, delegate, formName,
     } = this.props;
     const { error, isOpen, slug, touched } = this.state;
-    const valid = touched ? !error : null;
+    const valid = touched ? (
+      !error && normalizeUnfinishedSlug(slug, slug, delegate.getSluggableConfig(formName)) !== initialSlug
+    ) : null;
     const isDatedSlug = delegate.getSluggableConfig(formName);
 
     return (

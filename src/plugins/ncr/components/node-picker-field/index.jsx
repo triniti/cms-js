@@ -51,6 +51,7 @@ class NodePickerField extends React.Component {
       inputValue: '',
       menuListScrollTop: 0,
       options: [],
+      searchValue: '',
     };
 
     this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 500, {
@@ -157,20 +158,19 @@ class NodePickerField extends React.Component {
     });
   }
 
-  handleInputChange(q) {
-    const { handleSearch, isGetAll, response } = this.props;
+  handleInputChange(q, { action }) {
+    const { handleSearch, isGetAll } = this.props;
+
+    if (action !== 'input-change') {
+      return;
+    }
     this.setState(() => ({ inputValue: q }), () => {
-      if (
-        !isGetAll
-        && (
-          q !== ''
-          || (response && ( // just selecting an item counts as a change, so check for that here
-            response.get('ctx_request').get('q') !== ''
-            && response.get('ctx_request').get('q') !== null
-          ))
-        )
-      ) {
-        this.setState(() => ({ hasStoredFirstSet: false, options: [] }), () => handleSearch(q));
+      if (!isGetAll) {
+        this.setState(() => ({
+          hasStoredFirstSet: false,
+          options: [],
+          searchValue: q,
+        }), () => handleSearch(q));
       }
     });
   }
@@ -233,12 +233,14 @@ class NodePickerField extends React.Component {
 
   handleSelect(nodeRef) {
     const { fields } = this.props;
+    const { searchValue } = this.state;
+
     const isSelected = !!(fields.getAll() || []).find((ref) => ref.equals(nodeRef));
     if (isSelected) {
       this.handleRemove(nodeRef);
     } else {
       this.handlePick(nodeRef);
-      this.setState(() => ({ inputValue: '' }));
+      this.setState(() => ({ inputValue: searchValue }));
     }
   }
 
@@ -291,7 +293,7 @@ class NodePickerField extends React.Component {
         isLoading={isPending}
         isMulti={isMulti}
         onChange={this.handleChange}
-        onInputChange={this.handleInputChange}
+        onInputChange={(q, action) => this.handleInputChange(q, action)}
         onKeyDown={this.handleKeyDown}
         inputValue={inputValue}
         onMenuClose={this.handleMenuClose}

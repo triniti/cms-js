@@ -21,7 +21,6 @@ const SponsorFields = ({ sponsor, formName, isEditMode, schemas }) => ([
     <CardHeader>Details</CardHeader>
     <CardBody indent>
       <Field readOnly={!isEditMode} name="title" component={TextField} label="Title" placeholder="Enter Title" size="xlg" />
-      { !sponsor && <Field name="slug" component={TextField} label="Slug" placeholder="Enter Slug" /> }
       { sponsor && (
         <SlugEditor
           formName={formName}
