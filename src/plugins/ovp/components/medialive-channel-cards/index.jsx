@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import copyToClipboard from '@triniti/cms/utils/copyToClipboard';
-import MediaLiveChannelStatusButton from '@triniti/cms/plugins/ovp/components/medialive-channel-status-button';
+import MediaLiveChannelStateButton from '@triniti/cms/plugins/ovp/components/medialive-channel-state-button';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import React from 'react';
@@ -50,7 +50,7 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
         </a>
       </CardHeader>
       <CardBody className="pb-3">
-        <MediaLiveChannelStatusButton node={node} size="sm" />
+        <MediaLiveChannelStateButton node={node} size="sm" />
         <div className="mt-3 mb-2 d-flex align-items-center">
           <Button
             className="mb-1"
@@ -71,7 +71,7 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
           originEndpoints.map((originEndpoint, index) => {
             const tooltipTarget = `copy-to-clipboard-${node.get('_id')}-origin-endpoint-${index}`;
             return (
-              <div className="mb-2 d-flex align-items-center">
+              <div className="mb-2 d-flex align-items-center" key={originEndpoint}>
                 <Button
                   className="mb-1"
                   color="hover"
@@ -94,7 +94,7 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
           cdnEndpoints.map((cdnEndpoint, index) => {
             const tooltipTarget = `copy-to-clipboard-${node.get('_id')}-cdn-endpoint-${index}`;
             return (
-              <div className="mb-2 d-flex align-items-center">
+              <div className="mb-2 d-flex align-items-center" key={cdnEndpoint}>
                 <Button
                   className="mb-1"
                   color="hover"
@@ -117,7 +117,7 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
           inputs.map((input, index) => {
             const tooltipTarget = `copy-to-clipboard-${node.get('_id')}-ingest-${index}`;
             return (
-              <div className="mb-2 d-flex align-items-center">
+              <div className="mb-2 d-flex align-items-center" key={input}>
                 <Button
                   className="mb-1"
                   color="hover"

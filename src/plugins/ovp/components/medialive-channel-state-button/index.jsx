@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import delegate from './delegate';
 import selector from './selector';
-
-// todo: polish how this looks when there are caught errors on server (invalid arn etc)
+import { mediaLiveChannelStates } from '../../constants';
 
 const MediaLiveChannelStatus = ({
   handleStartChannel,
@@ -13,22 +12,26 @@ const MediaLiveChannelStatus = ({
   isPermissionGranted,
   size,
   status,
-}) => (
-  <>
-    {isPermissionGranted && (
-    <Button
-      className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
-      disabled={!status}
-      onClick={status === 'IDLE' ? handleStartChannel : handleStopChannel}
-      size={size}
-    >
-      {status === 'RUNNING' ? 'Stop Channel' : 'Start Channel'}
-    </Button>
-    )}
-    <Label>{!status ? 'No Channel' : `Status: ${status}`}</Label>
-    {status && <Icon className="ml-2" imgSrc="circle" color={status === 'RUNNING' ? 'danger' : 'dark'} />}
-  </>
-);
+}) => {
+  const isIdle = status === mediaLiveChannelStates.IDLE;
+  const isRunning = status === mediaLiveChannelStates.RUNNING;
+  return (
+    <>
+      {isPermissionGranted && (
+      <Button
+        className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
+        disabled={!(isIdle || isRunning)}
+        onClick={isIdle ? handleStartChannel : handleStopChannel}
+        size={size}
+      >
+        {isRunning ? 'Stop Channel' : 'Start Channel'}
+      </Button>
+      )}
+      <Label>{!status ? 'No Channel' : `Status: ${status}`}</Label>
+      {status && <Icon className="ml-2" imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />}
+    </>
+  );
+};
 
 MediaLiveChannelStatus.propTypes = {
   handleStartChannel: PropTypes.func.isRequired,

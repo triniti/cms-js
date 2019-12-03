@@ -2,17 +2,15 @@ import createReducer from '@triniti/app/createReducer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
-import { actionTypes } from '../constants';
+import { mediaLiveChannelStates } from '../constants';
 
 export const initialState = {};
-
-// todo: change the name of this since it deals with both medialive and mediapackage
 
 const onChannelStarted = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = action.pbj.get('node_ref');
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].status = 'RUNNING';
+  state[nodeRef].status = mediaLiveChannelStates.RUNNING;
   return state;
 };
 
@@ -20,27 +18,27 @@ const onChannelStopped = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = action.pbj.get('node_ref');
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].status = 'IDLE';
+  state[nodeRef].status = mediaLiveChannelStates.IDLE;
   return state;
 };
 
 const onGetVideoResponse = (prevState, action) => {
-  if (!action.pbj.has('metas') || !action.pbj.get('metas').medialive_channel_status) {
+  if (!action.pbj.has('metas') || !action.pbj.get('metas').medialive_channel_state) {
     return prevState;
   }
   const state = { ...prevState };
   const nodeRef = NodeRef.fromNode(action.pbj.get('node'));
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].status = action.pbj.get('metas').medialive_channel_status;
+  state[nodeRef].status = action.pbj.get('metas').medialive_channel_state;
   return state;
 };
 
 const onSearchVideosResponse = (prevState, action) => {
-  if (!action.pbj.has('metas') || !action.pbj.get('ctx_request').isInSet('derefs', 'medialive_channel_status')) {
+  if (!action.pbj.has('metas') || !action.pbj.get('ctx_request').isInSet('derefs', 'medialive_channel_state')) {
     return prevState;
   }
   const MEDIA_REGEX = /\.media(live|package).+$/;
-  const MEDIALIVE_CHANNEL_REGEX = /\.medialive_channel_status$/;
+  const MEDIALIVE_CHANNEL_REGEX = /\.medialive_channel_state$/;
   const MEDIALIVE_INPUT_REGEX = /\.medialive_input_\d+$/;
   const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
   const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
@@ -83,7 +81,5 @@ export default createReducer(initialState, (() => {
     'triniti:ovp.medialive:event:channel-stopped': onChannelStopped,
     [`${vendor}:ovp:request:get-video-response`]: onGetVideoResponse,
     [`${vendor}:ovp:request:search-videos-response`]: onSearchVideosResponse,
-    // [actionTypes.MEDIALIVE_CHANNEL_STARTED]: onChannelStarted,
-    // [actionTypes.MEDIALIVE_CHANNEL_STOPPED]: onChannelStopped,
   };
 })());

@@ -7,14 +7,10 @@ export default (dispatch) => ({
   /**
    * @param {Object} data - pbj search request data except 'page'
    */
-  handleSearch: throttle((data = {}) => {
+  handleSearch: throttle(() => {
     dispatch(searchNodes(SearchVideosRequestV1Mixin.findOne().createMessage({
-      derefs: ['medialive_channel_status'],
+      derefs: ['medialive_channel_state'],
       q: '_exists_:medialive_channel_arn',
-    //   count: data.count || 50,
-    //   page: 1,
-    //   statuses: STATUSES,
-    //   ...data,
     }), pbjxChannelNames.LIVESTREAM_VIDEO_SEARCH));
   }, 500),
 });

@@ -9,7 +9,7 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
  * @returns {Object}
  */
 export default (state, { node }) => ({
-  isPermissionGranted: true || isGranted(state, 'triniti:ovp.medialive:command:*'), // todo: remove ||, clearly
+  isPermissionGranted: isGranted(state, 'triniti:ovp.medialive:command:*'), // todo: remove ||, clearly
   status: (() => {
     if (!node) {
       return undefined;
