@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "@triniti/cms is a single page app for managing triniti schemas and services.",
   "license": "Apache-2.0",
   "module": "./index.js",
@@ -15,14 +15,16 @@
     "pub": "npm run build && cd dist && npm publish --access public",
     "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
+  "peerDependencies": {
+    "@gdbots/schemas": "^1.6.2",
+    "@triniti/schemas": "^1.1.3"
+  },
   "dependencies": {
     "@gdbots/common": "^1.0.2",
     "@gdbots/pbj": "^1.0.0",
     "@gdbots/pbjx": "^1.0.0",
-    "@gdbots/schemas": "^1.6.3",
     "@triniti/admin-ui-plugin": "^1.0.0",
     "@triniti/app": "~0.4 || ^1.0",
-    "@triniti/schemas": "^1.1.3",
     "animate.css": "^3.6.1",
     "auth0-lock": "^11.18.1",
     "aws-sdk": "^2.582.0",
@@ -97,9 +99,11 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/register": "^7.7.4",
+    "@gdbots/schemas": "^1.6.3",
     "@hot-loader/react-dom": "^16.10.2",
     "@redux-saga/testing-utils": "^1.1.1",
     "@triniti/acme-schemas": "^1.1.2",
+    "@triniti/schemas": "^1.1.3",
     "ajv": "^6.5.2",
     "autoprefixer": "^9.7.3",
     "babel-eslint": "^10.0.3",
