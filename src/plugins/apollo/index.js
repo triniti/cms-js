@@ -6,7 +6,7 @@ import routes from './routes';
 
 export default class ApolloPlugin extends Plugin {
   constructor() {
-    super('triniti', 'apollo', '0.2.10');
+    super('triniti', 'apollo', '0.2.11');
   }
 
   configure(app, bottle) {

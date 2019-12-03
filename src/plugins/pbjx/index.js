@@ -10,7 +10,7 @@ import CtxBinder from './binders/CtxBinder';
 
 export default class PbjxPlugin extends Plugin {
   constructor() {
-    super('triniti', 'pbjx', '0.2.10');
+    super('triniti', 'pbjx', '0.2.11');
   }
 
   configure(app, bottle) {
