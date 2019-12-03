@@ -20,7 +20,16 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import getSpotifyMediaId, { SPOTIFY_TYPE_REGEX } from './getSpotifyMediaId';
+import
+getSpotifyMediaId,
+{
+  SPOTIFY_TYPE_REGEX,
+  SPOTIFY_MEDIA_ID_REGEX,
+  SPOTIFY_TRACK_REGEX,
+  SPOTIFY_URL_REGEX,
+  SPOTIFY_IFRAME_REGEX,
+} from './getSpotifyMediaId';
+
 
 export default class SpotifyEmbedBlockModal extends React.Component {
   static propTypes = {
@@ -43,7 +52,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
       aside: block.get('aside'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
-      isValid: false,
+      isValid: block.has('spotify_id'),
       touched: false,
       spotifyId: block.get('spotify_id'),
       spotifyType: block.get('spotify_type'),
@@ -101,21 +110,20 @@ export default class SpotifyEmbedBlockModal extends React.Component {
   }
 
   handleChangeTextArea(event) {
-    const input = event.target.value;
     let { errorMsg, isValid, spotifyId, spotifyType } = this.state;
+    const input = event.target.value;
+    const { id, type, valid } = getSpotifyMediaId(input);
 
-    const id = getSpotifyMediaId(input);
-
-    if (id) {
+    if (!valid) {
+      errorMsg = 'url or embed code is invalid';
+      isValid = false;
+      spotifyId = input;
+      spotifyType = '';
+    } else {
       errorMsg = '';
       isValid = true;
       spotifyId = id;
-      spotifyType = input.match(SPOTIFY_TYPE_REGEX)[0];
-    } else {
-      errorMsg = 'url or embed code is invalid';
-      isValid = false;
-      spotifyId = '';
-      spotifyType = '';
+      spotifyType = type;
     }
 
     this.setState({
@@ -140,7 +148,6 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     } = this.state;
 
     const { isFreshBlock, isOpen, toggle } = this.props;
-    const url = (spotifyId) ? `https://open.spotify.com/${spotifyType}/${spotifyId}/` : '';
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -153,7 +160,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
               onChange={this.handleChangeTextArea}
               placeholder="enter embed code"
               type="textarea"
-              value={url}
+              value={spotifyId || ''}
             />
           </FormGroup>
           {
