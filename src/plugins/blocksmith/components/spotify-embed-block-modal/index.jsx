@@ -20,8 +20,7 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-const SPOTIFY_TYPE_REGEX = /(show|episode|album|track|playlist)+/;
-const SPOTIFY_ID_REGEX = /([A-Z0-9])\w+/;
+import getSpotifyMediaId, { SPOTIFY_TYPE_REGEX } from './getSpotifyMediaId';
 
 export default class SpotifyEmbedBlockModal extends React.Component {
   static propTypes = {
@@ -105,10 +104,12 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     const input = event.target.value;
     let { errorMsg, isValid, spotifyId, spotifyType } = this.state;
 
-    if (SPOTIFY_ID_REGEX.test(input)) {
+    const id = getSpotifyMediaId(input);
+
+    if (id) {
       errorMsg = '';
       isValid = true;
-      spotifyId = input.match(SPOTIFY_ID_REGEX)[0];
+      spotifyId = id;
       spotifyType = input.match(SPOTIFY_TYPE_REGEX)[0];
     } else {
       errorMsg = 'url or embed code is invalid';
