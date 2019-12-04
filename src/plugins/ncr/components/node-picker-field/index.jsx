@@ -210,9 +210,7 @@ class NodePickerField extends React.Component {
   }
 
   handleScroll() {
-    if (this.menuList.scrollTop !== this.menuListScrollTop) {
-      this.menuListScrollTop = this.menuList.scrollTop;
-    }
+    this.menuListScrollTop = this.menuList.scrollTop;
     const isScrolledToBottom = this.menuList.scrollHeight - this.menuList.scrollTop === this.menuList.clientHeight;
     if (isScrolledToBottom) {
       this.handleLoadMore();
