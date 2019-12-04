@@ -35,6 +35,7 @@ const GalleryPickerField = (props) => {
               Option,
               SingleValue: () => null,
             }}
+            shouldClearInputOnSelect={false}
           />
         </FormGroup>
       )}

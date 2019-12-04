@@ -35,6 +35,7 @@ const PollPickerField = (props) => {
               Option,
               SingleValue: () => null,
             }}
+            shouldClearInputOnSelect={false}
           />
         </>
       )}

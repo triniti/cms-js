@@ -29,6 +29,7 @@ class NodePickerField extends React.Component {
     isPending: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     selectComponents: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    shouldClearInputOnSelect: PropTypes.bool,
     value: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   };
 
@@ -39,6 +40,7 @@ class NodePickerField extends React.Component {
     isMulti: false,
     response: null,
     selectComponents: {},
+    shouldClearInputOnSelect: true,
     value: [],
   };
 
@@ -218,7 +220,7 @@ class NodePickerField extends React.Component {
   }
 
   handleSelect(nodeRef) {
-    const { fields, isMulti } = this.props;
+    const { fields, shouldClearInputOnSelect } = this.props;
     const { searchValue } = this.state;
 
     const isSelected = !!(fields.getAll() || []).find((ref) => ref.equals(nodeRef));
@@ -226,7 +228,7 @@ class NodePickerField extends React.Component {
       this.handleRemove(nodeRef);
     } else {
       this.handlePick(nodeRef);
-      this.setState(() => ({ inputValue: isMulti ? searchValue : '' }));
+      this.setState(() => ({ inputValue: shouldClearInputOnSelect ? '' : searchValue }));
     }
   }
 

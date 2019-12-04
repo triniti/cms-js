@@ -34,6 +34,7 @@ const VideoPickerField = (props) => {
           Option,
           SingleValue: () => null,
         }}
+        shouldClearInputOnSelect={false}
       />
     </>
   );
