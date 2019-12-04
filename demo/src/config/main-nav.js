@@ -151,7 +151,7 @@ const mainNav = [
 
 if (Video.schema().hasMixin('triniti:ovp.medialive:mixin:has-channel')) {
   mainNav[1].dpLinks.push({
-    to: '/ovp/videos/medialive',
+    to: '/ovp/videos/livestream',
     linkTitle: 'Livestream',
     permission: 'cms-view-videos',
   });
