@@ -20,7 +20,7 @@ const SpotifyEmbedBlockPreview = ({ block }) => {
 
   const podcastEmbed = (
     <iframe
-      src={`https://open.spotify.com/embed/${spotifyType}/${spotifyId}/`}
+      src={`https://open.spotify.com/embed-podcast/${spotifyType}/${spotifyId}/`}
       width="100%"
       height="232"
       frameBorder="0"

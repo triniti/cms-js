@@ -20,16 +20,7 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import
-getSpotifyMediaId,
-{
-  SPOTIFY_TYPE_REGEX,
-  SPOTIFY_MEDIA_ID_REGEX,
-  SPOTIFY_TRACK_REGEX,
-  SPOTIFY_URL_REGEX,
-  SPOTIFY_IFRAME_REGEX,
-} from './getSpotifyMediaId';
-
+import getSpotifyMediaId from './getSpotifyMediaId';
 
 export default class SpotifyEmbedBlockModal extends React.Component {
   static propTypes = {
@@ -112,9 +103,9 @@ export default class SpotifyEmbedBlockModal extends React.Component {
   handleChangeTextArea(event) {
     let { errorMsg, isValid, spotifyId, spotifyType } = this.state;
     const input = event.target.value;
-    const { id, type, valid } = getSpotifyMediaId(input);
-
-    if (!valid) {
+    const data = getSpotifyMediaId(input);
+    console.log(data);
+    if (data === undefined) {
       errorMsg = 'url or embed code is invalid';
       isValid = false;
       spotifyId = input;
@@ -122,8 +113,8 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     } else {
       errorMsg = '';
       isValid = true;
-      spotifyId = id;
-      spotifyType = type;
+      spotifyId = data.id;
+      spotifyType = data.type;
     }
 
     this.setState({
@@ -154,7 +145,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Spotify Embed Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>{isValid ? 'Track id' : 'Embed code, Link, URI, or Track id'}</Label>
+            <Label>{isValid ? `${spotifyType} id` : `Embed code, Link, URI, or ${spotifyType} id`}</Label>
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeTextArea}
