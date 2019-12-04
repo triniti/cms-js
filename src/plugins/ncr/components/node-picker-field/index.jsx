@@ -49,10 +49,12 @@ class NodePickerField extends React.Component {
       hasRequestedFirstSet: false,
       hasStoredFirstSet: false,
       inputValue: '',
-      menuListScrollTop: 0,
       options: [],
       searchValue: '',
     };
+
+    // this is stored outside of state so that setting it doesnt cause a re-render.
+    this.menuListScrollTop = 0;
 
     this.handleLoadMore = debounce(this.handleLoadMore.bind(this), 500, {
       leading: false,
@@ -71,9 +73,9 @@ class NodePickerField extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { fields, isPending, response, value } = this.props;
-    const { hasStoredFirstSet, inputValue, menuListScrollTop, options } = this.state;
+  componentDidUpdate() {
+    const { response } = this.props;
+    const { hasStoredFirstSet, inputValue, options } = this.state;
 
     // bring node from fresh (non-infinite) search response into state
     if (
@@ -112,18 +114,8 @@ class NodePickerField extends React.Component {
       }));
     }
 
-    if (
-      this.menuList
-      && (
-        prevState.options !== options
-        || prevProps.isPending !== isPending
-        || prevProps.value !== value
-        || prevProps.fields !== fields // because of advanced search's spoofed fields :[
-        || prevState.menuListScrollTop !== menuListScrollTop
-      )
-    ) {
-      // scroll position can be reset to 0, restore that here
-      this.menuList.scrollTop = menuListScrollTop;
+    if (this.menuList && this.menuList.scrollTop !== this.menuListScrollTop) {
+      this.menuList.scrollTop = this.menuListScrollTop;
     }
   }
 
@@ -138,24 +130,20 @@ class NodePickerField extends React.Component {
 
   handleChange(selected, payload) {
     const { fields } = this.props;
-    this.setState(({ menuListScrollTop }) => ({
-      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop), // capture scrollTop for later restoration
-    }), () => {
-      switch (payload.action) {
-        case selectActionTypes.SELECT_OPTION:
-        case selectActionTypes.DESELECT_OPTION:
-          this.handleSelect(get(payload, 'option.value', selected.value));
-          break;
-        case selectActionTypes.REMOVE_VALUE:
-          this.handleRemove(payload.removedValue.value);
-          break;
-        case selectActionTypes.CLEAR:
-          fields.removeAll();
-          break;
-        default:
-          break;
-      }
-    });
+    switch (payload.action) {
+      case selectActionTypes.SELECT_OPTION:
+      case selectActionTypes.DESELECT_OPTION:
+        this.handleSelect(get(payload, 'option.value', selected.value));
+        break;
+      case selectActionTypes.REMOVE_VALUE:
+        this.handleRemove(payload.removedValue.value);
+        break;
+      case selectActionTypes.CLEAR:
+        fields.removeAll();
+        break;
+      default:
+        break;
+    }
   }
 
   handleInputChange(q, { action }) {
@@ -189,15 +177,11 @@ class NodePickerField extends React.Component {
     if (isGetAll || isPending || !response.get('has_more')) {
       return;
     }
-    this.setState(({ menuListScrollTop }) => ({
-      menuListScrollTop: get(this, 'menuList.scrollTop', menuListScrollTop), // capture scrollTop for later restoration
-    }), () => {
-      handleSearch(response.get('ctx_request').get('q'), response.get('ctx_request').get('page') + 1);
-    });
+    handleSearch(response.get('ctx_request').get('q'), response.get('ctx_request').get('page') + 1);
   }
 
   handleMenuClose() {
-    this.setState(() => ({ menuListScrollTop: 0 }));
+    this.setState(() => ({ inputValue: '' }), () => { this.menuListScrollTop = 0; });
   }
 
   handleMenuOpen() {
@@ -225,14 +209,18 @@ class NodePickerField extends React.Component {
     fields.remove(fields.getAll().findIndex((ref) => ref.equals(nodeRef)));
   }
 
-  handleScroll(isScrolledToBottom) {
+  handleScroll() {
+    if (this.menuList.scrollTop !== this.menuListScrollTop) {
+      this.menuListScrollTop = this.menuList.scrollTop;
+    }
+    const isScrolledToBottom = this.menuList.scrollHeight - this.menuList.scrollTop === this.menuList.clientHeight;
     if (isScrolledToBottom) {
       this.handleLoadMore();
     }
   }
 
   handleSelect(nodeRef) {
-    const { fields } = this.props;
+    const { fields, isMulti } = this.props;
     const { searchValue } = this.state;
 
     const isSelected = !!(fields.getAll() || []).find((ref) => ref.equals(nodeRef));
@@ -240,12 +228,12 @@ class NodePickerField extends React.Component {
       this.handleRemove(nodeRef);
     } else {
       this.handlePick(nodeRef);
-      this.setState(() => ({ inputValue: searchValue }));
+      this.setState(() => ({ inputValue: isMulti ? searchValue : '' }));
     }
   }
 
   render() {
-    const { fields, isMulti, isPending, selectComponents, value } = this.props;
+    const { fields, isGetAll, isMulti, isPending, selectComponents, value } = this.props;
     const { inputValue, options } = this.state;
     const MenuComponent = selectComponents.Menu || components.Menu;
     const OptionComponent = selectComponents.Option || components.Option;
@@ -263,7 +251,7 @@ class NodePickerField extends React.Component {
               {...this.state}
               innerProps={{
                 ...props.innerProps,
-                onScroll: ({ target }) => this.handleScroll(target.scrollHeight - target.scrollTop === target.clientHeight),
+                onScroll: this.handleScroll,
               }}
             >
               {props.children}
@@ -288,7 +276,7 @@ class NodePickerField extends React.Component {
           ),
         }}
         defaultValue={value}
-        filterOption={() => true} // never filter any options
+        filterOption={({ label }, input) => (isGetAll ? label.toLowerCase().includes(input.toLowerCase()) : true)}
         hideSelectedOptions={false}
         isLoading={isPending}
         isMulti={isMulti}
