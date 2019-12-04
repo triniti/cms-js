@@ -6,15 +6,15 @@ import delegate from './delegate';
 import selector from './selector';
 import { mediaLiveChannelStates } from '../../constants';
 
-const MediaLiveChannelStatus = ({
+const MediaLiveChannelState = ({
   handleStartChannel,
   handleStopChannel,
   isPermissionGranted,
   size,
-  status,
+  state,
 }) => {
-  const isIdle = status === mediaLiveChannelStates.IDLE;
-  const isRunning = status === mediaLiveChannelStates.RUNNING;
+  const isIdle = state === mediaLiveChannelStates.IDLE;
+  const isRunning = state === mediaLiveChannelStates.RUNNING;
   return (
     <>
       {isPermissionGranted && (
@@ -27,23 +27,23 @@ const MediaLiveChannelStatus = ({
         {isRunning ? 'Stop Channel' : 'Start Channel'}
       </Button>
       )}
-      <Label>{!status ? 'No Channel' : `Status: ${status}`}</Label>
-      {status && <Icon className="ml-2" imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />}
+      <Label>{!state ? 'No Channel' : `State: ${state}`}</Label>
+      {state && <Icon className="ml-2" imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />}
     </>
   );
 };
 
-MediaLiveChannelStatus.propTypes = {
+MediaLiveChannelState.propTypes = {
   handleStartChannel: PropTypes.func.isRequired,
   handleStopChannel: PropTypes.func.isRequired,
   isPermissionGranted: PropTypes.bool.isRequired,
   size: PropTypes.string,
-  status: PropTypes.string,
+  state: PropTypes.string,
 };
 
-MediaLiveChannelStatus.defaultProps = {
+MediaLiveChannelState.defaultProps = {
   size: 'md',
-  status: null,
+  state: null,
 };
 
-export default connect(selector, delegate)(MediaLiveChannelStatus);
+export default connect(selector, delegate)(MediaLiveChannelState);

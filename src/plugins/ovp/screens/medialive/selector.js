@@ -20,7 +20,7 @@ export default (state) => {
     alerts: getAlerts(state),
     exception,
     isFulfilled: status === STATUS_FULFILLED,
-    nodes: !response ? [] : response.get('nodes', []),
+    nodes: response ? response.get('nodes', []) : [],
     status,
   };
 };

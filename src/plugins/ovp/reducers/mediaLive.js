@@ -10,7 +10,7 @@ const onChannelStarted = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = action.pbj.get('node_ref');
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].status = mediaLiveChannelStates.RUNNING;
+  state[nodeRef].state = mediaLiveChannelStates.RUNNING;
   return state;
 };
 
@@ -18,7 +18,7 @@ const onChannelStopped = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = action.pbj.get('node_ref');
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].status = mediaLiveChannelStates.IDLE;
+  state[nodeRef].state = mediaLiveChannelStates.IDLE;
   return state;
 };
 
@@ -29,7 +29,7 @@ const onGetVideoResponse = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = NodeRef.fromNode(action.pbj.get('node'));
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].status = action.pbj.get('metas').medialive_channel_state;
+  state[nodeRef].state = action.pbj.get('metas').medialive_channel_state;
   return state;
 };
 
@@ -53,7 +53,7 @@ const onSearchVideosResponse = (prevState, action) => {
     if (MEDIALIVE_CHANNEL_REGEX.test(key)) {
       const nodeRef = key.replace(MEDIALIVE_CHANNEL_REGEX, '');
       state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-      state[nodeRef].status = value;
+      state[nodeRef].state = value;
     } else if (MEDIALIVE_INPUT_REGEX.test(key)) {
       const nodeRef = key.replace(MEDIALIVE_INPUT_REGEX, '');
       state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};

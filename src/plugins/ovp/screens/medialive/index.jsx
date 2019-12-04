@@ -1,11 +1,28 @@
 import { connect } from 'react-redux';
 import { Screen, Spinner, StatusMessage } from '@triniti/admin-ui-plugin/components';
 import MediaLiveChannelCards from '@triniti/cms/plugins/ovp/components/medialive-channel-cards';
+import Message from '@gdbots/pbj/Message';
 import React from 'react';
+import PropTypes from 'prop-types';
 import delegate from './delegate';
 import selector from './selector';
 
 class MediaLiveScreen extends React.Component {
+  static propTypes = {
+    alerts: PropTypes.arrayOf(PropTypes.object),
+    exception: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    isFulfilled: PropTypes.bool.isRequired,
+    match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
+    handleSearch: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    alerts: [],
+    exception: null,
+  };
+
   componentDidMount() {
     const { handleSearch } = this.props;
     handleSearch();

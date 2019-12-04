@@ -9,12 +9,12 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
  * @returns {Object}
  */
 export default (state, { node }) => ({
-  isPermissionGranted: isGranted(state, 'triniti:ovp.medialive:command:*'), // todo: remove ||, clearly
-  status: (() => {
+  isPermissionGranted: isGranted(state, 'triniti:ovp.medialive:command:*'),
+  state: (() => {
     if (!node) {
       return undefined;
     }
     const mediaLive = getMediaLive(state, NodeRef.fromNode(node));
-    return mediaLive ? mediaLive.status : undefined;
+    return mediaLive ? mediaLive.state : undefined;
   })(),
 });

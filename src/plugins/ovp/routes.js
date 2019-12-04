@@ -2,7 +2,7 @@ import { routeIds } from './constants';
 
 const routes = {
   [routeIds.LIVESTREAM]: {
-    path: '/ovp/videos/medialive',
+    path: '/ovp/videos/livestream',
     component: import('./screens/medialive'),
   },
   [routeIds.SEARCH_VIDEOS]: {
