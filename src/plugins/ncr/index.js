@@ -16,7 +16,7 @@ import { serviceIds } from './constants';
 
 export default class NcrPlugin extends Plugin {
   constructor() {
-    super('triniti', 'ncr', '0.2.10');
+    super('triniti', 'ncr', '0.2.11');
   }
 
   configure(app, bottle) {

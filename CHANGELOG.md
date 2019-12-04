@@ -5,6 +5,11 @@
 * issue #1035: Add Spotify Embed Block
 
 
+## v0.2.12
+* Move `@gdbots/schemas` and `@triniti/schemas` to peerDependencies.
+* Use `@gdbots/pbj` v1.0.1 with more forgiving identifier and enum type checks.
+
+
 ## v0.2.11
 * issue #126: Fixed instagram media block not allowing hyphens in embed url.
 * Can edit ad-widget size while in view mode
