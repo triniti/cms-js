@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import copyToClipboard from '@triniti/cms/utils/copyToClipboard';
+import get from 'lodash/get';
 import MediaLiveChannelStateButton from '@triniti/cms/plugins/ovp/components/medialive-channel-state-button';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
@@ -19,9 +20,9 @@ import './styles.scss';
 const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
   const channelArn = node.get('medialive_channel_arn');
   const mediaLiveData = getMediaLive(NodeRef.fromNode(node));
-  const originEndpoints = mediaLiveData ? mediaLiveData.originEndpoints : [];
-  const cdnEndpoints = mediaLiveData ? mediaLiveData.cdnEndpoints : [];
-  const inputs = mediaLiveData ? mediaLiveData.inputs : [];
+  const originEndpoints = get(mediaLiveData, 'originEndpoints', []);
+  const cdnEndpoints = get(mediaLiveData, 'cdnEndpoints', []);
+  const inputs = get(mediaLiveData, 'inputs', []);
   return (
     <Card key={node.get('_id')}>
       <CardHeader className="pr-2">
