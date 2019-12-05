@@ -36,6 +36,7 @@ const ArticlePickerField = (props) => {
               Option,
               SingleValue: () => null,
             }}
+            shouldClearInputOnSelect={false}
           />
         </>
       )}

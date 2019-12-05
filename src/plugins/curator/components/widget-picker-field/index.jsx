@@ -35,6 +35,7 @@ const WidgetPickerField = (props) => {
               Option,
               Menu,
             }}
+            shouldClearInputOnSelect={false}
           />
         </>
       )}
