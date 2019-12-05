@@ -42,6 +42,14 @@ test('InstagramMediaBlock', (t) => {
 });
 
 test('InstagramMediaBlock', (t) => {
+  const url = 'https://www.instagram.com/p/B470qlrA8_1/';
+  const actual = getInstagramMediaId(url);
+  const expected = 'B470qlrA8_1';
+  t.equal(actual, expected, 'it should accept a url with an underscore in the url');
+  t.end();
+});
+
+test('InstagramMediaBlock', (t) => {
   const url = 'https://www.instagram.com/p/B4-qU5GAJEr/';
   const actual = getInstagramMediaId(url);
   const expected = 'B4-qU5GAJEr';

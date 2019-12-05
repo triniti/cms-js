@@ -3,6 +3,7 @@
 
 ## v0.2.13
 * More node picker field adjustments for search text stickyness and buggyness
+* Update instagram regex to allow for underscores.
 
 
 ## v0.2.12
