@@ -34,6 +34,7 @@ const PagePickerField = (props) => {
           Option,
           SingleValue: () => null,
         }}
+        shouldClearInputOnSelect={false}
       />
     </>
   );
