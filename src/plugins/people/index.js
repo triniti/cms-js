@@ -8,7 +8,7 @@ import { serviceIds } from './constants';
 /* eslint-disable class-methods-use-this */
 export default class PeoplePlugin extends Plugin {
   constructor() {
-    super('triniti', 'people', '0.2.11');
+    super('triniti', 'people', '0.2.14');
   }
 
   /* eslint-disable no-unused-vars */

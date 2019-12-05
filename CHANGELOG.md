@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.14
+* Reset `NodePickerfield` to initial state on menu close.
+
+
 ## v0.2.13
 * More node picker field adjustments for search text stickyness and buggyness
 * Update instagram regex to allow for underscores.
