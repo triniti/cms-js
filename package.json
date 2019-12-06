@@ -58,6 +58,7 @@
     "react-dom": "^16.12.0",
     "react-dropzone": "^10.2.1",
     "react-image-magnify": "^2.7.0",
+    "react-imgur-embed": "0.0.4",
     "react-instagram-embed": "^1.3.4",
     "react-json-tree": "^0.11.0",
     "react-player": "^1.14.2",
