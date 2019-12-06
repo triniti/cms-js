@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## vN.N.N
+* Issue: Add Imgur Post Block
+
 
 ## v0.2.14
 * Reset `NodePickerfield` to initial state on menu close.
