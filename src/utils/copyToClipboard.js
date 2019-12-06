@@ -1,5 +1,9 @@
-// this only works if called as a result of a user action (click, etc.)
-
+/**
+ * Copy provided text to user's clipboard. This only works if called as a result of a
+ * user action (click, etc.)
+ *
+ * @param {string}  str - the string to copy into the clipboard
+ */
 export default (str) => {
   const el = document.createElement('textarea');
   el.value = str;
