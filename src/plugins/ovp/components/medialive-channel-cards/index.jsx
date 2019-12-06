@@ -2,8 +2,10 @@ import { connect } from 'react-redux';
 import copyToClipboard from '@triniti/cms/utils/copyToClipboard';
 import get from 'lodash/get';
 import MediaLiveChannelStateButton from '@triniti/cms/plugins/ovp/components/medialive-channel-state-button';
+import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
+import PropTypes from 'prop-types';
 import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
@@ -17,7 +19,7 @@ import {
 import selector from './selector';
 import './styles.scss';
 
-const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
+const MediaLiveChannelCards = ({ getMediaLive, isPermissionGranted, nodes }) => nodes.map((node) => {
   const kalturaEntryId = node.get('kaltura_entry_id');
   const channelArn = node.get('medialive_channel_arn');
   const mediaLiveData = getMediaLive(NodeRef.fromNode(node));
@@ -127,7 +129,7 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
             );
           })
         )}
-        {!inputs.length ? (
+        {isPermissionGranted && (!inputs.length ? (
           <p>no inputs found - is the channel arn correct?</p>
         ) : (
           inputs.map((input, index) => {
@@ -149,11 +151,22 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
               </div>
             );
           })
-        )}
+        ))}
         <p className="m-0"><a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer"><strong>Demo Player</strong></a></p>
       </CardBody>
     </Card>
   );
 });
+
+MediaLiveChannelCards.propTypes = {
+  getMediaLive: PropTypes.func.isRequired,
+  isPermissionGranted: PropTypes.bool,
+  nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+};
+
+MediaLiveChannelCards.defaultProps = {
+  isPermissionGranted: false,
+  nodes: [],
+};
 
 export default connect(selector)(MediaLiveChannelCards);
