@@ -27,7 +27,7 @@ const MediaLiveChannelState = ({
         {isRunning ? 'Stop Channel' : 'Start Channel'}
       </Button>
       )}
-      <Label>{!state ? 'No Channel' : `State: ${state}`}</Label>
+      <Label>{`State: ${state}`}</Label>
       {state && <Icon className="ml-2" imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />}
     </>
   );
