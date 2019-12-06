@@ -33,18 +33,3 @@ export const pbjxChannelNames = {
   VIDEO_SEARCH: t('videoSearch'),
   LIVESTREAM_VIDEO_SEARCH: t('livestreamVideoSearch'),
 };
-
-// todo: replace with enum once available
-export const mediaLiveChannelStates = {
-  CREATE_FAILED: 'CREATE_FAILED',
-  CREATING: 'CREATING',
-  DELETED: 'DELETED',
-  DELETING: 'DELETING',
-  IDLE: 'IDLE',
-  RECOVERING: 'RECOVERING',
-  RUNNING: 'RUNNING',
-  STARTING: 'STARTING',
-  STOPPING: 'STOPPING',
-  UPDATE_FAILED: 'UPDATE_FAILED',
-  UPDATING: 'UPDATING',
-};

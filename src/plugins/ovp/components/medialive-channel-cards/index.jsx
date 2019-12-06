@@ -18,6 +18,7 @@ import selector from './selector';
 import './styles.scss';
 
 const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
+  const kalturaEntryId = node.get('kaltura_entry_id');
   const channelArn = node.get('medialive_channel_arn');
   const mediaLiveData = getMediaLive(NodeRef.fromNode(node));
   const originEndpoints = get(mediaLiveData, 'originEndpoints', []);
@@ -53,6 +54,20 @@ const MediaLiveChannelCards = ({ getMediaLive, nodes }) => nodes.map((node) => {
       <CardBody className="pb-3">
         <MediaLiveChannelStateButton node={node} size="sm" />
         <div className="mt-3 mb-2 d-flex align-items-center">
+          <Button
+            className="mb-1"
+            color="hover"
+            id={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}
+            onClick={() => copyToClipboard(kalturaEntryId)}
+            radius="circle"
+            size="xs"
+          >
+            <Icon imgSrc="clipboard" alt="copy to clipboard" />
+          </Button>
+          <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}>Copy to clipboard</UncontrolledTooltip>
+          <p className="mb-1"><strong>Kaltura Entry ID: </strong>{kalturaEntryId}</p>
+        </div>
+        <div className="mb-2 d-flex align-items-center">
           <Button
             className="mb-1"
             color="hover"

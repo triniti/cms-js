@@ -1,8 +1,8 @@
+import ChannelState from '@triniti/schemas/triniti/ovp.medialive/enums/ChannelState';
 import createReducer from '@triniti/app/createReducer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
-import { mediaLiveChannelStates } from '../constants';
 
 export const initialState = {};
 
@@ -10,7 +10,7 @@ const onChannelStarted = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = action.pbj.get('node_ref');
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].state = mediaLiveChannelStates.RUNNING;
+  state[nodeRef].state = ChannelState.RUNNING.getValue();
   return state;
 };
 
@@ -18,7 +18,7 @@ const onChannelStopped = (prevState, action) => {
   const state = { ...prevState };
   const nodeRef = action.pbj.get('node_ref');
   state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
-  state[nodeRef].state = mediaLiveChannelStates.IDLE;
+  state[nodeRef].state = ChannelState.IDLE.getValue();
   return state;
 };
 
