@@ -1,8 +1,12 @@
 # CHANGELOG
 
 
-## v0.2.14
+## v0.2.15
 * Add MediaLive Channel support
+
+
+## v0.2.14
+* Reset `NodePickerfield` to initial state on menu close.
 
 
 ## v0.2.13
