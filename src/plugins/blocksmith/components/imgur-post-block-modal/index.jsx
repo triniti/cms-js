@@ -58,7 +58,6 @@ export default class ImgurPostBlockModal extends React.Component {
 
   componentDidMount() {
     this.inputElement.focus();
-    console.log('isValid: ', this.state.isValid);
   }
 
   setBlock() {
@@ -131,7 +130,7 @@ export default class ImgurPostBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
-    
+
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Imgur Post Block`}</ModalHeader>
@@ -173,7 +172,7 @@ export default class ImgurPostBlockModal extends React.Component {
               </div>
             )}
           {
-            isValid && <ImgurPostBlockPreview block={this.setBlock()} />
+            imgurId && <ImgurPostBlockPreview block={this.setBlock()} />
           }
         </ModalBody>
         <ModalFooter>
