@@ -1,7 +1,8 @@
 # CHANGELOG
 
 
-## v0.2.15
+## vN.N.N
+* issue #1035: Add Spotify Embed Block
 * Add MediaLive Channel support
 
 
