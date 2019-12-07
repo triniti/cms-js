@@ -8,7 +8,20 @@ const MediaLiveChannelFields = ({ isEditMode }) => (
   <Card>
     <CardHeader>Livestream</CardHeader>
     <CardBody indent>
-      <Field name="medialiveChannelArn" component={TextField} label="MediaLive Channel ARN" placeholder="enter medialive channel arn" readOnly={!isEditMode} />
+      <Field
+        name="medialiveChannelArn"
+        component={TextField}
+        label="MediaLive Channel ARN"
+        placeholder="enter medialive channel arn"
+        readOnly={!isEditMode}
+      />
+      <Field
+        component={TextField}
+        label="Live M3U8 URL"
+        name="liveM3u8Url"
+        placeholder="enter live m3u8 url"
+        readOnly={!isEditMode}
+      />
     </CardBody>
   </Card>
 );

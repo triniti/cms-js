@@ -143,9 +143,18 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           component={TextField}
           label="Mezzanine URL"
           name="mezzanineUrl"
-          placeholder="mezzanine url"
+          placeholder="enter mezzanine url"
           readOnly={!isEditMode}
         />
+        {!schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
+        <Field
+          component={TextField}
+          label="Live M3U8 URL"
+          name="liveM3u8Url"
+          placeholder="enter live m3u8 url"
+          readOnly={!isEditMode}
+        />
+        )}
         <Field
           component={DatePickerField}
           label="Original Air Date"
