@@ -8,6 +8,6 @@ import isGranted from '@triniti/cms/plugins/iam/selectors/isGranted';
  * @returns {Object}
  */
 export default (state) => ({
+  canViewIngests: isGranted(state, 'triniti:ovp.medialive:command:stop-channel'),
   getMediaLive: (nodeRef) => getMediaLive(state, nodeRef),
-  isPermissionGranted: isGranted(state, 'triniti:ovp.medialive:command:*'),
 });

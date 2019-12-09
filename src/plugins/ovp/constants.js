@@ -4,7 +4,7 @@ const t = (id) => `${PLUGIN_PREFIX}${id}`;
 export const routeIds = {
   PREFIX: PLUGIN_PREFIX,
 
-  LIVESTREAM: t('livestream'),
+  LIVESTREAMS: t('livestreams'),
   SEARCH_VIDEOS: t('search_videos'),
   VIDEO: t('video'),
   INDEX: t('index'),

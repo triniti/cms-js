@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import copyToClipboard from '@triniti/cms/utils/copyToClipboard';
 import get from 'lodash/get';
 import MediaLiveChannelStateButton from '@triniti/cms/plugins/ovp/components/medialive-channel-state-button';
@@ -19,7 +20,7 @@ import {
 import selector from './selector';
 import './styles.scss';
 
-const MediaLiveChannelCards = ({ getMediaLive, isPermissionGranted, nodes }) => nodes.map((node) => {
+const MediaLiveChannelCards = ({ canViewIngests, getMediaLive, nodes }) => nodes.map((node) => {
   const kalturaEntryId = node.get('kaltura_entry_id');
   const channelArn = node.get('medialive_channel_arn');
   const mediaLiveData = getMediaLive(NodeRef.fromNode(node));
@@ -55,6 +56,7 @@ const MediaLiveChannelCards = ({ getMediaLive, isPermissionGranted, nodes }) => 
       </CardHeader>
       <CardBody className="pb-3">
         <MediaLiveChannelStateButton node={node} size="sm" />
+        {kalturaEntryId && (
         <div className="mt-3 mb-2 d-flex align-items-center">
           <Button
             className="mb-1"
@@ -69,7 +71,8 @@ const MediaLiveChannelCards = ({ getMediaLive, isPermissionGranted, nodes }) => 
           <UncontrolledTooltip placement="auto" target={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}>Copy to clipboard</UncontrolledTooltip>
           <p className="mb-1"><strong>Kaltura Entry ID: </strong>{kalturaEntryId}</p>
         </div>
-        <div className="mb-2 d-flex align-items-center">
+        )}
+        <div className={classNames('mb-2 d-flex align-items-center', { 'mt-3': !kalturaEntryId })}>
           <Button
             className="mb-1"
             color="hover"
@@ -129,7 +132,7 @@ const MediaLiveChannelCards = ({ getMediaLive, isPermissionGranted, nodes }) => 
             );
           })
         )}
-        {isPermissionGranted && (!inputs.length ? (
+        {canViewIngests && (!inputs.length ? (
           <p>no inputs found - is the channel arn correct?</p>
         ) : (
           inputs.map((input, index) => {
@@ -159,13 +162,12 @@ const MediaLiveChannelCards = ({ getMediaLive, isPermissionGranted, nodes }) => 
 });
 
 MediaLiveChannelCards.propTypes = {
+  canViewIngests: PropTypes.bool.isRequired,
   getMediaLive: PropTypes.func.isRequired,
-  isPermissionGranted: PropTypes.bool,
   nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
 };
 
 MediaLiveChannelCards.defaultProps = {
-  isPermissionGranted: false,
   nodes: [],
 };
 

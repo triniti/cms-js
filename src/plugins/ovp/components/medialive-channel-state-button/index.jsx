@@ -7,43 +7,44 @@ import delegate from './delegate';
 import selector from './selector';
 
 const MediaLiveChannelState = ({
+  channelState,
   handleStartChannel,
   handleStopChannel,
-  isPermissionGranted,
+  canStartChannel,
+  canStopChannel,
   size,
-  state,
 }) => {
-  const isIdle = state === ChannelState.IDLE.getValue();
-  const isRunning = state === ChannelState.RUNNING.getValue();
+  const isIdle = channelState === ChannelState.IDLE.getValue();
+  const isRunning = channelState === ChannelState.RUNNING.getValue();
   return (
     <>
-      {isPermissionGranted && (
+      {(canStartChannel || canStopChannel) && (
       <Button
         className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
-        disabled={!(isIdle || isRunning)}
+        disabled={!(isIdle || isRunning) || (isIdle && !canStartChannel) || (isRunning && !canStopChannel)}
         onClick={isIdle ? handleStartChannel : handleStopChannel}
         size={size}
       >
         {isRunning ? 'Stop Channel' : 'Start Channel'}
       </Button>
       )}
-      <Label>{`State: ${state}`}</Label>
-      {state && <Icon className="ml-2" imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />}
+      <Label>{`State: ${channelState}`}</Label>
+      {channelState && <Icon className="ml-2" imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />}
     </>
   );
 };
 
 MediaLiveChannelState.propTypes = {
+  canStartChannel: PropTypes.bool.isRequired,
+  canStopChannel: PropTypes.bool.isRequired,
+  channelState: PropTypes.string.isRequired,
   handleStartChannel: PropTypes.func.isRequired,
   handleStopChannel: PropTypes.func.isRequired,
-  isPermissionGranted: PropTypes.bool.isRequired,
   size: PropTypes.string,
-  state: PropTypes.string,
 };
 
 MediaLiveChannelState.defaultProps = {
   size: 'md',
-  state: null,
 };
 
 export default connect(selector, delegate)(MediaLiveChannelState);

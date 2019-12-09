@@ -11,6 +11,7 @@ import ChannelState from '@triniti/schemas/triniti/ovp.medialive/enums/ChannelSt
  * @returns {Object}
  */
 export default (state, { node }) => ({
-  isPermissionGranted: isGranted(state, 'triniti:ovp.medialive:command:*'),
-  state: get(getMediaLive(state, NodeRef.fromNode(node)), 'state', ChannelState.UNKNOWN.getValue()),
+  canStartChannel: isGranted(state, 'triniti:ovp.medialive:command:start-channel'),
+  canStopChannel: isGranted(state, 'triniti:ovp.medialive:command:stop-channel'),
+  channelState: get(getMediaLive(state, NodeRef.fromNode(node)), 'state', ChannelState.UNKNOWN.getValue()),
 });

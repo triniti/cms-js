@@ -40,7 +40,7 @@ class MediaLiveScreen extends React.Component {
             text: 'Videos',
           },
           {
-            text: 'Livestream',
+            text: 'Livestreams',
           },
         ]}
         body={(() => {
@@ -49,7 +49,7 @@ class MediaLiveScreen extends React.Component {
           }
           return isFulfilled ? <MediaLiveChannelCards nodes={nodes} /> : <Spinner />;
         })()}
-        title="Livestream"
+        title="Livestreams"
       />
     );
   }
