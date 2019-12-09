@@ -67,6 +67,10 @@ export default class VideoSubscriber extends EventSubscriber {
 
     data.relatedVideoRefs = node.has('related_video_refs') ? node.get('related_video_refs') : [];
 
+    if (node.has('live_m3u8_url')) {
+      data.liveM3u8Url = node.get('live_m3u8_url');
+    }
+
     data.show = node.has('show') ? {
       label: node.get('show'),
       value: node.get('show'),
@@ -93,6 +97,11 @@ export default class VideoSubscriber extends EventSubscriber {
         formEvent.addError(fieldName, error);
       }
     });
+
+    error = getTextFieldError(data, 'liveM3u8Url', node, 'live_m3u8_url');
+    if (error) {
+      formEvent.addError('liveM3u8Url', error);
+    }
 
     if (!data.title) {
       formEvent.addError('title', 'Title is required');
@@ -168,10 +177,8 @@ export default class VideoSubscriber extends EventSubscriber {
     });
 
     node.set('credit', get(data, 'credit.value', null));
-
     node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
     node.set('poster_image_ref', data.posterImageRef ? NodeRef.fromString(data.posterImageRef) : null);
-
     node.set('duration', parseInt(data.duration, 10) || null);
     node.set('has_music', parseInt(data.hasMusic, 10) || 0);
     node.set('tvpg_rating', data.tvpgRating ? TvpgRating.create(data.tvpgRating.label) : null);
@@ -187,6 +194,7 @@ export default class VideoSubscriber extends EventSubscriber {
     }
 
     node.set('show', get(data, 'show.value', null));
+    node.set('live_m3u8_url', data.liveM3u8Url || null);
   }
 
   getSubscribedEvents() {

@@ -4,7 +4,7 @@ const t = (id) => `${PLUGIN_PREFIX}${id}`;
 export const routeIds = {
   PREFIX: PLUGIN_PREFIX,
 
-  // videos
+  LIVESTREAMS: t('livestreams'),
   SEARCH_VIDEOS: t('search_videos'),
   VIDEO: t('video'),
   INDEX: t('index'),
@@ -12,6 +12,9 @@ export const routeIds = {
 
 export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
+
+  START_MEDIALIVE_CHANNEL_REQUESTED: t('START_MEDIALIVE_CHANNEL_REQUESTED'),
+  STOP_MEDIALIVE_CHANNEL_REQUESTED: t('STOP_MEDIALIVE_CHANNEL_REQUESTED'),
 };
 
 export const formNames = {
@@ -22,9 +25,11 @@ export const formNames = {
 export const serviceIds = {
   PREFIX: PLUGIN_PREFIX,
   KALTURA_ENTRY_SUBSCRIBER: t('kaltura_entry_subscriber'),
+  MEDIALIVE_CHANNEL_SUBSCRIBER: t('medilive_channel_subscriber'),
   VIDEO_SUBSCRIBER: t('video_subscriber'),
 };
 
 export const pbjxChannelNames = {
   VIDEO_SEARCH: t('videoSearch'),
+  LIVESTREAM_VIDEO_SEARCH: t('livestreamVideoSearch'),
 };

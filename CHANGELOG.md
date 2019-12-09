@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * issue #1035: Add Spotify Embed Block
+* Add MediaLive Channel support
 
 
 ## v0.2.14

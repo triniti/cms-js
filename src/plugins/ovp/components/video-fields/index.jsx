@@ -23,203 +23,204 @@ const options = Object
   .entries(TvpgRating.getValues())
   .map((arr) => ({ label: arr[1], value: arr[0] }));
 
-const VideoFields = ({ formName, isEditMode, schemas, video }) => [
-  <Card>
-    <CardHeader>Details</CardHeader>
-    <CardBody indent>
-      <Field
-        component={TextField}
-        label="Title"
-        name="title"
-        placeholder="enter title"
-        readOnly={!isEditMode}
-        size="xlg"
-      />
-      <SlugEditor
-        formName={formName}
-        initialSlug={video.get('slug')}
-        isEditMode={isEditMode}
-        nodeRef={video.get('_id').toNodeRef()}
-        schemas={schemas}
-      />
-      {
-        schemas.node.hasMixin('triniti:curator:mixin:teaserable') && (
+const VideoFields = ({ formName, isEditMode, schemas, video }) => (
+  <>
+    <Card>
+      <CardHeader>Details</CardHeader>
+      <CardBody indent>
+        <Field
+          component={TextField}
+          label="Title"
+          name="title"
+          placeholder="enter title"
+          readOnly={!isEditMode}
+          size="xlg"
+        />
+        <SlugEditor
+          formName={formName}
+          initialSlug={video.get('slug')}
+          isEditMode={isEditMode}
+          nodeRef={video.get('_id').toNodeRef()}
+          schemas={schemas}
+        />
+        {schemas.node.hasMixin('triniti:curator:mixin:teaserable') && (
+        <Field
+          component={DatePickerField}
+          label="Order Date"
+          name="orderDate"
+          readOnly={!isEditMode}
+        />
+        )}
+        {schemas.node.hasMixin('gdbots:ncr:mixin:expirable') && (
+        <Field
+          component={DatePickerField}
+          label="Expires At"
+          name="expiresAt"
+          readOnly={!isEditMode}
+        />
+        )}
+        <Field
+          component={TextareaField}
+          label="Description"
+          name="description"
+          placeholder="enter description"
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={ImageAssetPickerField}
+          isEditMode={isEditMode}
+          label="Primary Image"
+          name="imageRef"
+          node={video}
+        />
+        <Field
+          component={TextField}
+          label="Launch Text"
+          name="launchText"
+          placeholder="enter launch text"
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={PicklistPickerField}
+          isEditMode={isEditMode}
+          label="Credit"
+          name="credit"
+          picklistId="video-credits"
+        />
+        {schemas.node.hasMixin('triniti:common:mixin:swipeable') && (
+        <Field
+          component={PicklistPickerField}
+          isEditMode={isEditMode}
+          label="Swipe"
+          name="swipe"
+          picklistId="video-swipes"
+        />
+        )}
+        <Field
+          component={SelectField}
+          disabled={!isEditMode}
+          isClearable
+          label="TVPG Rating"
+          name="tvpgRating"
+          options={options}
+        />
+        <Field
+          component={TextField}
+          label="MPM"
+          name="mpm"
+          placeholder="enter MPM"
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={ImageAssetPickerField}
+          isEditMode={isEditMode}
+          label="Poster Image"
+          name="posterImageRef"
+          node={video}
+        />
+        <Field
+          component={NumberField}
+          label="Duration"
+          name="duration"
+          placeholder="enter duration"
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={TrinaryField}
+          disabled={!isEditMode}
+          falseText="False"
+          label="Has Music"
+          name="hasMusic"
+          trueText="True"
+        />
+        <Field
+          component={CaptionUrlsField}
+          label="Captions"
+          name="captions"
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={TextField}
+          label="Mezzanine URL"
+          name="mezzanineUrl"
+          placeholder="enter mezzanine url"
+          readOnly={!isEditMode}
+        />
+        {!schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
+        <Field
+          component={TextField}
+          label="Live M3U8 URL"
+          name="liveM3u8Url"
+          placeholder="enter live m3u8 url"
+          readOnly={!isEditMode}
+        />
+        )}
+        <Field
+          component={DatePickerField}
+          label="Original Air Date"
+          name="originalAirDate"
+          readOnly={!isEditMode}
+        />
+        <div className="pb-1 d-md-inline-flex">
           <Field
-            component={DatePickerField}
-            label="Order Date"
-            name="orderDate"
-            readOnly={!isEditMode}
+            component={CheckboxField}
+            name="isLive"
+            label="Is Live"
+            disabled={!isEditMode}
           />
-        )
-      }
-      {
-        schemas.node.hasMixin('gdbots:ncr:mixin:expirable') && (
           <Field
-            component={DatePickerField}
-            label="Expires At"
-            name="expiresAt"
-            readOnly={!isEditMode}
+            component={CheckboxField}
+            disabled={!isEditMode}
+            label="Allow Comments"
+            name="allowComments"
           />
-        )
-      }
-      <Field
-        component={TextareaField}
-        label="Description"
-        name="description"
-        placeholder="enter description"
-        readOnly={!isEditMode}
-      />
-      <Field
-        component={ImageAssetPickerField}
-        isEditMode={isEditMode}
-        label="Primary Image"
-        name="imageRef"
-        node={video}
-      />
-      <Field
-        component={TextField}
-        label="Launch Text"
-        name="launchText"
-        placeholder="enter launch text"
-        readOnly={!isEditMode}
-      />
-      <Field
-        component={PicklistPickerField}
-        isEditMode={isEditMode}
-        label="Credit"
-        name="credit"
-        picklistId="video-credits"
-      />
-
-      {schemas.node.hasMixin('triniti:common:mixin:swipeable') && (
-        <>
           <Field
-            component={PicklistPickerField}
-            isEditMode={isEditMode}
-            label="Swipe"
-            name="swipe"
-            picklistId="video-swipes"
+            component={CheckboxField}
+            disabled={!isEditMode}
+            label="Sharing Enabled"
+            name="sharingEnabled"
           />
-        </>
-      )}
-      <Field
-        component={SelectField}
-        disabled={!isEditMode}
-        isClearable
-        label="TVPG Rating"
-        name="tvpgRating"
-        options={options}
-      />
-      <Field
-        component={TextField}
-        label="MPM"
-        name="mpm"
-        placeholder="enter MPM"
-        readOnly={!isEditMode}
-      />
-      <Field
-        component={ImageAssetPickerField}
-        isEditMode={isEditMode}
-        label="Poster Image"
-        name="posterImageRef"
-        node={video}
-      />
-      <Field
-        component={NumberField}
-        label="Duration"
-        name="duration"
-        placeholder="enter duration"
-        readOnly={!isEditMode}
-      />
-      <Field
-        component={TrinaryField}
-        disabled={!isEditMode}
-        falseText="False"
-        label="Has Music"
-        name="hasMusic"
-        trueText="True"
-      />
-      <Field
-        component={CaptionUrlsField}
-        label="Captions"
-        name="captions"
-        readOnly={!isEditMode}
-      />
-      <Field
-        component={TextField}
-        label="Mezzanine URL"
-        name="mezzanineUrl"
-        placeholder="mezzanine url"
-        readOnly={!isEditMode}
-      />
-
-      <Field
-        component={DatePickerField}
-        label="Original Air Date"
-        name="originalAirDate"
-        readOnly={!isEditMode}
-      />
-
-      <div className="pb-1 d-md-inline-flex">
-        <Field
-          component={CheckboxField}
-          name="isLive"
-          label="Is Live"
-          disabled={!isEditMode}
-        />
+          <Field
+            component={CheckboxField}
+            disabled={!isEditMode}
+            label="Is Full Episode"
+            name="isFullEpisode"
+          />
+          <Field
+            component={CheckboxField}
+            disabled={!isEditMode}
+            label="Is Promo"
+            name="isPromo"
+          />
+        </div>
+        {schemas.node.hasMixin('triniti:boost:mixin:sponsorable') && (
+        <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
+        )}
+      </CardBody>
+    </Card>
+    <Card>
+      <CardHeader>Related Videos</CardHeader>
+      <CardBody indent>
         <Field
           component={CheckboxField}
           disabled={!isEditMode}
-          label="Allow Comments"
-          name="allowComments"
+          label="Show Related Videos"
+          name="showRelatedVideos"
         />
         <Field
-          component={CheckboxField}
-          disabled={!isEditMode}
-          label="Sharing Enabled"
-          name="sharingEnabled"
+          component={TextField}
+          label="Related Video Heading Override"
+          name="relatedVideosHeading"
+          placeholder="e.g: See also..."
+          readOnly={!isEditMode}
         />
-        <Field
-          component={CheckboxField}
-          disabled={!isEditMode}
-          label="Is Full Episode"
-          name="isFullEpisode"
-        />
-        <Field
-          component={CheckboxField}
-          disabled={!isEditMode}
-          label="Is Promo"
-          name="isPromo"
-        />
-      </div>
-
-      {schemas.node.hasMixin('triniti:boost:mixin:sponsorable') && (
-      <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
-      )}
-    </CardBody>
-  </Card>,
-  <Card key="details-related-videos">
-    <CardHeader>Related Videos</CardHeader>
-    <CardBody indent>
-      <Field
-        component={CheckboxField}
-        disabled={!isEditMode}
-        label="Show Related Videos"
-        name="showRelatedVideos"
-      />
-      <Field
-        component={TextField}
-        label="Related Video Heading Override"
-        name="relatedVideosHeading"
-        placeholder="e.g: See also..."
-        readOnly={!isEditMode}
-      />
-      <FormGroup>
-        <FieldArray name="relatedVideoRefs" component={VideoPicker} isEditMode={isEditMode} />
-      </FormGroup>
-    </CardBody>
-  </Card>,
-];
+        <FormGroup>
+          <FieldArray name="relatedVideoRefs" component={VideoPicker} isEditMode={isEditMode} />
+        </FormGroup>
+      </CardBody>
+    </Card>
+  </>
+);
 
 VideoFields.propTypes = {
   formName: PropTypes.string.isRequired,

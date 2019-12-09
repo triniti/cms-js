@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-
+import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import History from '@triniti/cms/plugins/pbjx/components/history';
+import KalturaEntryFields from '@triniti/cms/plugins/ovp/components/kaltura-entry-fields';
+import Media from '@triniti/cms/plugins/dam/components/media';
+import MediaLiveChannelFields from '@triniti/cms/plugins/ovp/components/medialive-channel-fields';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
-import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
-import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
-import History from '@triniti/cms/plugins/pbjx/components/history';
-import Media from '@triniti/cms/plugins/dam/components/media';
-import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
+import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
-import KalturaEntryFields from '@triniti/cms/plugins/ovp/components/kaltura-entry-fields';
-import VideoFields from '@triniti/cms/plugins/ovp/components/video-fields';
+import React from 'react';
+import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
+import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
+import VideoFields from '@triniti/cms/plugins/ovp/components/video-fields';
 
 import schemas from './schemas';
 
@@ -47,15 +47,19 @@ const Form = ({ node: video, form, tab, isEditMode }) => {
           />
           {
             schemas.node.hasMixin('triniti:ovp.kaltura:mixin:has-entry')
-            && <KalturaEntryFields key="kaltura" isEditMode={isEditMode} />
+            && <KalturaEntryFields isEditMode={isEditMode} />
+          }
+          {
+            schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel')
+            && <MediaLiveChannelFields isEditMode={isEditMode} node={video} />
           }
           {
             schemas.node.hasMixin('triniti:common:mixin:advertising')
-            && <AdvertisingFields key="ad-fields" isEditMode={isEditMode} />
+            && <AdvertisingFields isEditMode={isEditMode} />
           }
           {
             schemas.node.hasMixin('gdbots:common:mixin:taggable')
-            && <AdvancedFields key="advanced-fields" isEditMode={isEditMode} />
+            && <AdvancedFields isEditMode={isEditMode} />
           }
         </div>
       );
