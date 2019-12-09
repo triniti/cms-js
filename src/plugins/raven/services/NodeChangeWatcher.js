@@ -60,6 +60,14 @@ export default class NodeChangeWatcher extends EventSubscriber {
       return;
     }
 
+    /**
+     * medialive events use a node_ref but area not really node operations, so the warning is
+     * unnecessary
+     */
+    if (schema.getCurie().getPackage() === 'ovp.medialive') {
+      return;
+    }
+
     swal.fire({
       type: 'warning',
       title: 'STALE DATA',
