@@ -47,13 +47,15 @@ class NodePickerField extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.initialState = {
       hasRequestedFirstSet: false,
       hasStoredFirstSet: false,
       inputValue: '',
       options: [],
       searchValue: '',
     };
+
+    this.state = this.initialState;
 
     // this is stored outside of state so that setting it doesnt cause a re-render.
     this.menuListScrollTop = 0;
@@ -183,7 +185,7 @@ class NodePickerField extends React.Component {
   }
 
   handleMenuClose() {
-    this.setState(() => ({ inputValue: '' }), () => { this.menuListScrollTop = 0; });
+    this.setState(() => this.initialState, () => { this.menuListScrollTop = 0; });
   }
 
   handleMenuOpen() {
