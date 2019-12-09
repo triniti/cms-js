@@ -61,7 +61,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
     }
 
     /**
-     * medialive events use a node_ref but area not really node operations, so the warning is
+     * medialive events use a node_ref but are not really node operations, so the warning is
      * unnecessary
      */
     if (schema.getCurie().getPackage() === 'ovp.medialive') {
