@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
 import Message from '@gdbots/pbj/Message';
