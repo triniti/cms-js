@@ -25,7 +25,7 @@ export const formNames = {
 export const serviceIds = {
   PREFIX: PLUGIN_PREFIX,
   KALTURA_ENTRY_SUBSCRIBER: t('kaltura_entry_subscriber'),
-  MEDIALIVE_CHANNEL_SUBSCRIBER: t('medilive_channel_subscriber'),
+  MEDIALIVE_CHANNEL_SUBSCRIBER: t('medialive_channel_subscriber'),
   VIDEO_SUBSCRIBER: t('video_subscriber'),
 };
 

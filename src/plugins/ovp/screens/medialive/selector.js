@@ -1,7 +1,7 @@
 import { STATUS_FULFILLED } from '@triniti/app/constants';
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
-import SearchVideosRequestV1 from '@tmz/schemas/tmz/ovp/request/SearchVideosRequestV1';
+import SearchVideosRequestV1Mixin from '@triniti/schemas/triniti/ovp/mixin/search-videos-request/SearchVideosRequestV1Mixin';
 import { pbjxChannelNames } from '../../constants';
 
 /**
@@ -13,7 +13,7 @@ import { pbjxChannelNames } from '../../constants';
 export default (state) => {
   const { exception, response, status } = getRequest(
     state,
-    SearchVideosRequestV1.schema().getCurie(),
+    SearchVideosRequestV1Mixin.findOne().getCurie(),
     pbjxChannelNames.LIVESTREAM_VIDEO_SEARCH,
   );
   return {

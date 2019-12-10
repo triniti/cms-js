@@ -4,7 +4,7 @@ import reducer from './reducers';
 
 export default class UtilsPlugin extends Plugin {
   constructor() {
-    super('triniti', 'utils', '0.2.14');
+    super('triniti', 'utils', '0.2.15');
   }
 
   configure() {

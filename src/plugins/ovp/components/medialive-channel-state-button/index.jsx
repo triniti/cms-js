@@ -33,7 +33,6 @@ const MediaLiveChannelState = ({
     </>
   );
 };
-
 MediaLiveChannelState.propTypes = {
   canStartChannel: PropTypes.bool.isRequired,
   canStopChannel: PropTypes.bool.isRequired,
@@ -42,9 +41,7 @@ MediaLiveChannelState.propTypes = {
   handleStopChannel: PropTypes.func.isRequired,
   size: PropTypes.string,
 };
-
 MediaLiveChannelState.defaultProps = {
   size: 'md',
 };
-
 export default connect(selector, delegate)(MediaLiveChannelState);
