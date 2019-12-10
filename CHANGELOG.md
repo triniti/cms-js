@@ -4,6 +4,14 @@
 * Issue: Add Imgur Post Block
 
 
+## vN.N.N
+* issue #1035: Add Spotify Embed Block
+
+
+## v0.2.15
+* Add MediaLive Channel support
+
+
 ## v0.2.14
 * Reset `NodePickerfield` to initial state on menu close.
 

@@ -76,6 +76,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'soundcloud-audio-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-sidebar-button'));
       break;
+    case 'spotify-embed-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-embed-block-sidebar-button'));
+      break;
     case 'spotify-track-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-track-block-sidebar-button'));
       break;
@@ -154,6 +157,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-modal'));
     case 'soundcloud-audio-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-modal'));
+    case 'spotify-embed-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-embed-block-modal'));
     case 'spotify-track-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-track-block-modal'));
     case 'video-block':
@@ -241,6 +246,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     case 'soundcloud-audio-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-placeholder'));
       break;
+    case 'spotify-embed-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-embed-block-placeholder'));
+      break;
     case 'spotify-track-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-track-block-placeholder'));
       break;
@@ -313,6 +321,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview'));
     case 'soundcloud-audio-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/soundcloud-audio-block-preview'));
+    case 'spotify-embed-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-embed-block-preview'));
     case 'spotify-track-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/spotify-track-block-preview'));
     case 'video-block':
