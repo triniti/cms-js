@@ -38,7 +38,9 @@ export default class ImgurPostBlockModal extends React.Component {
 
   constructor(props) {
     super(props);
+
     const { block } = props;
+
     this.state = {
       aside: block.get('aside'),
       errorMsg: '',
@@ -46,8 +48,10 @@ export default class ImgurPostBlockModal extends React.Component {
       touched: false,
       isValid: false,
       imgurId: block.get('id'),
+      showContext: block.get('show_context'),
       updatedDate: block.get('updated_date', new Date()),
     };
+
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -61,15 +65,20 @@ export default class ImgurPostBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate,
+    const {
+      hasUpdatedDate,
       imgurId,
+      showContext,
       updatedDate,
       aside,
     } = this.state;
+
     const { block } = this.props;
+
     return block.schema().createMessage()
       .set('aside', aside)
       .set('id', imgurId || null)
+      .set('show_context', showContext)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
@@ -124,6 +133,7 @@ export default class ImgurPostBlockModal extends React.Component {
       aside,
       errorMsg,
       hasUpdatedDate,
+      showContext,
       isValid,
       touched,
       imgurId,
@@ -149,17 +159,25 @@ export default class ImgurPostBlockModal extends React.Component {
             !isValid && touched && imgurId !== ''
             && <p className="text-danger">{errorMsg}</p>
           }
+
           <FormGroup>
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
           </FormGroup>
+
           <FormGroup>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+          </FormGroup>
+
+          <FormGroup>
+            <Checkbox size="sd" id="showContext" checked={showContext} onChange={this.handleChangeCheckbox}>
+            Show title
+            </Checkbox>
           </FormGroup>
           {hasUpdatedDate
             && (
@@ -172,7 +190,7 @@ export default class ImgurPostBlockModal extends React.Component {
               </div>
             )}
           {
-            imgurId && <ImgurPostBlockPreview block={this.setBlock()} />
+            imgurId && <ImgurPostBlockPreview key={Math.random()} block={this.setBlock()} />
           }
         </ModalBody>
         <ModalFooter>
