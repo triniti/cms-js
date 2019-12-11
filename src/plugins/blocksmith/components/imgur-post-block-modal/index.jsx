@@ -20,7 +20,7 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import getImgurPostMediaId from './getImgurPostMediaId';
+import getImgurPostBlockId from './getImgurPostBlockId';
 
 export default class ImgurPostBlockModal extends React.Component {
   static propTypes = {
@@ -46,7 +46,7 @@ export default class ImgurPostBlockModal extends React.Component {
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       touched: false,
-      isValid: false,
+      isValid: block.has('id'),
       imgurId: block.get('id'),
       showContext: block.get('show_context'),
       updatedDate: block.get('updated_date', new Date()),
@@ -108,12 +108,13 @@ export default class ImgurPostBlockModal extends React.Component {
 
   handleChangeTextArea(event) {
     const input = event.target.value;
-    const id = getImgurPostMediaId(input);
+    const id = getImgurPostBlockId(input);
     let { errorMsg, imgurId, isValid } = this.state;
 
     if (!id) {
       errorMsg = 'url or embed code is invalid';
       imgurId = input;
+      isValid = false;
     } else {
       errorMsg = '';
       imgurId = id;
@@ -145,7 +146,7 @@ export default class ImgurPostBlockModal extends React.Component {
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Imgur Post Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>{isValid ? 'Post id' : 'Embed code, Link, URI, or Post id'}</Label>
+            <Label>{isValid ? 'Post id' : 'Embed code, Link, or Post id'}</Label>
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeTextArea}

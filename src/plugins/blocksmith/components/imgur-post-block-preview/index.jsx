@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
-import ImgurPostBlockEmbed from './embed';
+import Blockquote from './Blockquote';
 
 class ImgurPostBlockPreview extends Component {
   constructor(props) {
@@ -11,16 +11,16 @@ class ImgurPostBlockPreview extends Component {
   }
 
   loadScript() {
-    const embedScript = document.getElementById('globalImgurEmbedScriptTagId');
+    const IMGUR_EMBED_SCRIPT_ID = 'imgur-embed-script';
+    const embedScript = document.getElementById(IMGUR_EMBED_SCRIPT_ID);
 
-    if (embedScript) {
-      // eslint-disable-next-line no-unused-expressions
-      (embedScript.parentElement) ? embedScript.parentElement.removeChild(embedScript) : null;
+    if (embedScript && embedScript.parentElement) {
+      embedScript.parentElement.removeChild(embedScript);
     }
 
     const newScriptTag = document.createElement('script');
-    newScriptTag.id = 'globalImgurEmbedScriptTagId';
-    newScriptTag.src = '//s.imgur.com/min/embed.js';
+    newScriptTag.id = IMGUR_EMBED_SCRIPT_ID;
+    newScriptTag.src = 'https://s.imgur.com/min/embed.js';
     newScriptTag.type = 'text/javascript';
     newScriptTag.async = true;
 
@@ -33,15 +33,13 @@ class ImgurPostBlockPreview extends Component {
     this.loadScript();
 
     return (
-      <div id="imgur-post-emebed-container">
-        <ImgurPostBlockEmbed block={block} />
+      <div>
+        <Blockquote block={block} />
       </div>
     );
   }
 
   render() {
-    this.loadScript();
-
     return (
       this.createEmbed()
     );

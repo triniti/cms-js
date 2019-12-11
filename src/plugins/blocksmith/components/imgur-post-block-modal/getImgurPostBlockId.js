@@ -1,4 +1,4 @@
-const getImgurPostMediaId = (str) => {
+const getImgurPostBlockId = (str) => {
   const IMGUR_POST_BLOCK_ID_REGEX = /data-id="(a|gallery)?\/?\w+/g;
   const IMGUR_POST_BLOCK_URL = /\/\/imgur\.com\/?(|a|gallery)+\/\w+/g;
   const hasDataAttr = IMGUR_POST_BLOCK_ID_REGEX.test(str);
@@ -28,4 +28,4 @@ const getImgurPostMediaId = (str) => {
   return result ? result[0] : '';
 };
 
-export default getImgurPostMediaId;
+export default getImgurPostBlockId;

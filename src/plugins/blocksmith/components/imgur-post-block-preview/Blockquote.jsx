@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const ImgurPostBlockEmbed = (props) => {
   const { block } = props;
-  console.log('showContext: ', block.get('show_context'));
+
   return (
     <blockquote
       className="imgur-embed-pub"
