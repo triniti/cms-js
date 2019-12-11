@@ -2,12 +2,7 @@
 
 
 ## vN.N.N
-* issue #1035: Add Spotify Embed Block
 * Issue: Add Imgur Post Block
-
-
-## v0.2.16
-* Fix mediaLive reducer bug where endpoints can be duplicated.
 
 
 ## v0.2.15
