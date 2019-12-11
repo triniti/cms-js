@@ -58,17 +58,23 @@ const onSearchVideosResponse = (prevState, action) => {
       const nodeRef = key.replace(MEDIALIVE_INPUT_REGEX, '');
       state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
       state[nodeRef].inputs = state[nodeRef].inputs || [];
-      state[nodeRef].inputs.push(value);
+      if (!state[nodeRef].inputs.includes(value)) {
+        state[nodeRef].inputs.push(value);
+      }
     } else if (MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX.test(key)) {
       const nodeRef = key.replace(MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX, '');
       state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
       state[nodeRef].originEndpoints = state[nodeRef].originEndpoints || [];
-      state[nodeRef].originEndpoints.push(value);
+      if (!state[nodeRef].originEndpoints.includes(value)) {
+        state[nodeRef].originEndpoints.push(value);
+      }
     } else if (MEDIAPACKAGE_CDN_ENDPOINT_REGEX.test(key)) {
       const nodeRef = key.replace(MEDIAPACKAGE_CDN_ENDPOINT_REGEX, '');
       state[nodeRef] = state[nodeRef] ? { ...state[nodeRef] } : {};
       state[nodeRef].cdnEndpoints = state[nodeRef].cdnEndpoints || [];
-      state[nodeRef].cdnEndpoints.push(value);
+      if (!state[nodeRef].cdnEndpoints.includes(value)) {
+        state[nodeRef].cdnEndpoints.push(value);
+      }
     }
   });
   return state || prevState;
