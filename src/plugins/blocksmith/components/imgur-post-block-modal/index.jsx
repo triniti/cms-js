@@ -109,7 +109,6 @@ export default class ImgurPostBlockModal extends React.Component {
   handleChangeTextArea(event) {
     const input = event.target.value;
     const id = getImgurPostMediaId(input);
-
     let { errorMsg, imgurId, isValid } = this.state;
 
     if (!id) {

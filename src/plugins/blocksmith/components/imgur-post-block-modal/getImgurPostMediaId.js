@@ -1,11 +1,31 @@
 const getImgurPostMediaId = (str) => {
-  const IMGUR_POST_MEDIA_ID_REGEX = /\/\/imgur\.com\/(a\/|gallery\/)?\w+/g;
+  const IMGUR_POST_BLOCK_ID_REGEX = /data-id="(a|gallery)?\/?\w+/g;
+  const IMGUR_POST_BLOCK_URL = /\/\/imgur\.com\/?(|a|gallery)+\/\w+/g;
+  const hasDataAttr = IMGUR_POST_BLOCK_ID_REGEX.test(str);
 
-  const isValid = IMGUR_POST_MEDIA_ID_REGEX.test(str);
-  const mediaId = str.match(IMGUR_POST_MEDIA_ID_REGEX) ? str.match(IMGUR_POST_MEDIA_ID_REGEX)[0].split('/') : '';
-  const lastIdx = mediaId.length - 1;
+  if (hasDataAttr) {
+    return (str && str.match(IMGUR_POST_BLOCK_ID_REGEX))
+      ? str.match(IMGUR_POST_BLOCK_ID_REGEX)[0].split('"')[1]
+      : str;
+  }
 
-  return isValid ? mediaId[lastIdx] : '';
+  const result = (str && str.match(IMGUR_POST_BLOCK_URL))
+    ? str.match(IMGUR_POST_BLOCK_URL)[0]
+      .split('/')
+      .filter((s) => {
+        if (s === '' || s === 'imgur.com') {
+          return false;
+        }
+
+        return true;
+      })
+    : '';
+
+  if (result.length === 2) {
+    return `a/${result[1]}`;
+  }
+
+  return result ? result[0] : '';
 };
 
 export default getImgurPostMediaId;

@@ -1,53 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 
-class ImgurPostBlockPreview extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      scriptLoaded: false,
-    };
+const ImgurPostBlockPreview = (props) => {
+  const { block } = props;
 
-    this.handleLoadScript = this.handleLoadScript.bind(this);
-  }
-
-  handleLoadScript() {
-    const newScriptTag = document.createElement('script');
-    newScriptTag.id = 'globalImgurEmbedScriptTagId';
-    newScriptTag.src = '//s.imgur.com/min/embed.js';
-    newScriptTag.type = 'text/javascript';
-    newScriptTag.async = true;
-
-    document.querySelector('body').appendChild(newScriptTag);
-
-    this.setState({ scriptLoaded: true });
-  }
-
-  handleBlockQuote(block) {
-    return (
-      <blockquote
-        className="imgur-embed-pub"
-        lang="en"
-        data-id={`a/${block.get('id')}`}
-        data-context={block.get('show_context')}
-      />
-    );
-  }
-
-  render() {
-    const { scriptLoaded } = this.state;
-
-    if (!scriptLoaded) {
-      this.handleLoadScript();
-    }
-
-    const { block } = this.props;
-
-    return this.handleLoadScript(block);
-  }
-}
-
+  return (
+    <iframe
+      title="Imgur Post Block"
+      allowFullScreen
+      className={`imgur-embed-iframe-pub imgur-embed-iframe-pub-${block.get('id')}-true-500`}
+      scrolling="no"
+      src={`https://imgur.com/${block.get('id')}/embed?pub=true&context=${block.get('show_context')}&analytics=false`}
+      id={`imgur-embed-iframe-pub-${block.get('id')}`}
+      style={{ height: '600px', width: '500px', margin: '20px 0px', padding: '0px', border: '1px solid #ddd' }}
+    />
+  );
+};
 
 ImgurPostBlockPreview.propTypes = {
   block: PropTypes.instanceOf(Message).isRequired,
