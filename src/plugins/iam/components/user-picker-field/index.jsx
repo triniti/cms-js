@@ -5,7 +5,7 @@ import React from 'react';
 import constants from './constants';
 import schemas from './schemas';
 
-const SponsorPickerField = ({ label, isEditMode, placeholder, ...rest }) => (
+const UserPickerField = ({ label, isEditMode, placeholder, ...rest }) => (
   <FormGroup>
     <Label>{label}</Label>
     <NodePickerField
@@ -20,15 +20,15 @@ const SponsorPickerField = ({ label, isEditMode, placeholder, ...rest }) => (
   </FormGroup>
 );
 
-SponsorPickerField.propTypes = {
+UserPickerField.propTypes = {
   isEditMode: PropTypes.bool.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
 };
 
-SponsorPickerField.defaultProps = {
-  label: 'Sponsor',
-  placeholder: 'Select a sponsor...',
+UserPickerField.defaultProps = {
+  label: 'User',
+  placeholder: 'Select a user...',
 };
 
-export default SponsorPickerField;
+export default UserPickerField;
