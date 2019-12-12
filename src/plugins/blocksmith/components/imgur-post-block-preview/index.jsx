@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 import Blockquote from './Blockquote';
 
+const IMGUR_EMBED_SCRIPT_ID = 'imgur-embed-script';
 class ImgurPostBlockPreview extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +12,6 @@ class ImgurPostBlockPreview extends Component {
   }
 
   loadScript() {
-    const IMGUR_EMBED_SCRIPT_ID = 'imgur-embed-script';
     const embedScript = document.getElementById(IMGUR_EMBED_SCRIPT_ID);
 
     if (embedScript && embedScript.parentElement) {

@@ -2,7 +2,7 @@ import React from 'react';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 
-const ImgurPostBlockEmbed = (props) => {
+const Blockquote = (props) => {
   const { block } = props;
 
   return (
@@ -15,8 +15,8 @@ const ImgurPostBlockEmbed = (props) => {
   );
 };
 
-ImgurPostBlockEmbed.propTypes = {
+Blockquote.propTypes = {
   block: PropTypes.instanceOf(Message).isRequired,
 };
 
-export default ImgurPostBlockEmbed;
+export default Blockquote;
