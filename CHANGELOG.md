@@ -4,6 +4,7 @@
 ## vN.N.N
 * Issue: Add Imgur Post Block
 * issue: Add Spotify Embed Block
+* include status in `MediaLiveChannelCards` Card headers.
 
 
 ## v0.2.16
