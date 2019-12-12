@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * issue #1035: Add Spotify Embed Block
+* include status in `MediaLiveChannelCards` Card headers.
 
 
 ## v0.2.16
