@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Issue: Add Imgur Post Block
+* issue: Add Spotify Embed Block
 
 
 ## v0.2.16
