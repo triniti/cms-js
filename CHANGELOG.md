@@ -4,6 +4,7 @@
 ## vN.N.N
 * issue #1035: Add Spotify Embed Block
 * include status in `MediaLiveChannelCards` Card headers.
+* Added tabs for dashboard (News and Active)
 
 
 ## v0.2.16
