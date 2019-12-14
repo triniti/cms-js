@@ -21,13 +21,13 @@ function* failureFlow(error) {
 
 export default function* stopMediaLiveChannelFlow({ pbj }) {
   try {
-    yield fork([toast, 'show']);
+    yield fork([toast, 'show'], 'stopping channel');
     const eventChannel = yield actionChannel(ChannelStopped.schema().getCurie().toString());
     yield putResolve(pbj);
 
     const result = yield race({
       event: call(waitForMyEvent, eventChannel),
-      timeout: delay(240000),
+      timeout: delay(480 * 1000),
     });
 
     if (result.timeout) {
