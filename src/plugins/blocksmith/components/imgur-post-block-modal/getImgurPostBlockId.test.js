@@ -2,6 +2,14 @@ import test from 'tape';
 import getImgurPostBlockId from './getImgurPostBlockId';
 
 test('ImgurPostBlock', (t) => {
+  const url = '40I9pYU';
+  const actual = getImgurPostBlockId(url);
+  const expected = '40I9pYU';
+  t.deepEqual(actual, expected, 'it should accept an Imgur Id and return mediaId: 40I9pYU');
+  t.end();
+});
+
+test('ImgurPostBlock', (t) => {
   const url = 'https://imgur.com/gallery/40I9pYU';
   const actual = getImgurPostBlockId(url);
   const expected = 'a/40I9pYU';
