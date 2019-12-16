@@ -42,7 +42,6 @@ class HeadingBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
-      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       isValid: true,
       text: block.get('text') || '',
@@ -66,10 +65,9 @@ class HeadingBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { aside, hasUpdatedDate, text, size, url, updatedDate } = this.state;
+    const { hasUpdatedDate, text, size, url, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
-      .set('aside', aside)
       .set('size', parseInt(size, 10))
       .set('text', text)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
@@ -118,7 +116,6 @@ class HeadingBlockModal extends React.Component {
 
   render() {
     const {
-      aside,
       hasUpdatedDate,
       isValid,
       text,
@@ -179,12 +176,6 @@ class HeadingBlockModal extends React.Component {
               <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
-              <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
-
-                Aside
-              </Checkbox>
-              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {hasUpdatedDate
               && (
