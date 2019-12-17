@@ -5,39 +5,28 @@ import { Col, Container, Row, Screen } from '@triniti/admin-ui-plugin/components
 import TopArticles from '../../components/top-articles';
 import ActiveEdits from '../../components/active-edits';
 
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.renderTabs = this.renderTabs.bind(this);
-  }
+const Dashboard = ({ location, match: { params: { tab } } }) => {
+  const tabs = [
+    {
+      to: 'news',
+      text: 'news',
+    },
+    {
+      to: 'active',
+      text: 'active',
+    },
+  ];
 
-  renderTabs() {
-    const tabs = [
-      'news',
-      'active',
-    ];
 
-    return tabs
-      .map((tabItem) => ({
-        to: `${tabItem}`,
-        text: (tabItem).replace(/-/g, ' '),
-      }));
-  }
-
-  render() {
-    const { location } = this.props;
-    const { match: { params: { tab } } } = this.props;
-
-    return (
-      <Screen
-        header="Dashboard"
-        tabs={this.renderTabs()}
-        maxWidth="100%"
-        title="Dashboard"
-        getTab={this.getTab}
-        body={(
-          <Container fluid className="dashboard">
-            {tab !== 'active'
+  return (
+    <Screen
+      tabs={tabs}
+      maxWidth="100%"
+      title="Dashboard"
+      breadcrumbs={{ length: null }}
+      body={(
+        <Container fluid className="dashboard">
+          { tab === 'news'
              && (
              <Row>
                <Col lg="6">
@@ -56,29 +45,28 @@ class Dashboard extends React.Component {
                </Col>
              </Row>
              )}
-            {tab === 'active'
+          {tab === 'active'
              && (
              <Row>
-               <Col lg="6">
+               <Col lg="12">
                  <ActiveEdits
-                   location={location}
                    title="Articles"
+                   contentType="articles"
                  />
                </Col>
-               <Col lg="6">
+               <Col lg="12">
                  <ActiveEdits
-                   location={location}
                    title="Non-Article Nodes"
                  />
                </Col>
              </Row>
              )}
-          </Container>
-        )}
-      />
-    );
-  }
-}
+        </Container>
+      )}
+    />
+  );
+};
+
 
 Dashboard.propTypes = {
   location: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

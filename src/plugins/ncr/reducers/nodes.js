@@ -31,8 +31,9 @@ const onPbjxEnvelopeReceived = (prevState, action) => {
 const onNodesRecieved = (prevState, action) => {
   const state = { ...prevState };
   action.nodes.forEach((node) => {
-    state[node.schema().getCurie().getMessage()] = { ...state[node.schema().getCurie().getMessage()] };
-    state[node.schema().getCurie().getMessage()][node.get('_id')] = node;
+    const message = node.schema().getCurie().getMessage();
+    state[message] = { ...state[message] };
+    state[message][node.get('_id')] = node;
   });
   return state;
 };
