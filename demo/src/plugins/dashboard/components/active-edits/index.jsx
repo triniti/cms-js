@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
-import { STATUS_PENDING } from '@triniti/app/constants';
+import { STATUS_FULFILLED, STATUS_PENDING } from '@triniti/app/constants';
 import {
   Button,
   Card,
@@ -43,7 +43,7 @@ class ActiveEdits extends React.Component {
       const { handleRequestCollaborationNodes, accessToken } = this.props;
       this.setState({ status: STATUS_PENDING });
       await handleRequestCollaborationNodes(accessToken);
-      this.setState({ status: null });
+      this.setState({ status: STATUS_FULFILLED });
     }
 
     render() {
