@@ -22,9 +22,7 @@ export default (accessToken) => async (dispatch) => {
       dispatch(receiveCollaborationNodes(data));
       dispatch(nodesRecieved(Object.values(data.derefs).map((node) => ObjectSerializer.deserialize(node).freeze())));
     }
-    return data.collaborations || {};
   } catch (error) {
     console.error('raven::requestCollaborationNodes failed', error);
-    return {};
   }
 };
