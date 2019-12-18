@@ -67,7 +67,6 @@ export default class IframeBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       align: block.get('align'),
-      aside: block.get('aside'),
       data: block.get('data') || {},
       hasManualDimensions: block.has('height') && block.has('width'),
       hasUpdatedDate: block.has('updated_date'),
@@ -97,7 +96,6 @@ export default class IframeBlockModal extends React.Component {
   setBlock() {
     const {
       align,
-      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -109,7 +107,6 @@ export default class IframeBlockModal extends React.Component {
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
       .set('align', align || null)
-      .set('aside', aside)
       .set('height', hasManualDimensions && height ? `${height}px` : null)
       .set('src', src || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
@@ -236,7 +233,6 @@ export default class IframeBlockModal extends React.Component {
   render() {
     const {
       align,
-      aside,
       data,
       hasManualDimensions,
       hasUpdatedDate,
@@ -333,13 +329,6 @@ export default class IframeBlockModal extends React.Component {
               <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
-            </FormGroup>
-            <FormGroup className="mr-4">
-              <Checkbox size="sd" checked={aside} onChange={this.handleChangeCheckbox}>
-                Aside
-              </Checkbox>
-              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {hasUpdatedDate
               && (
