@@ -10,7 +10,7 @@ import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated'
 import isGranted from '@triniti/cms/plugins/iam/selectors/isGranted';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode';
-import { actionTypes, nodeRefs } from '../constants';
+import { actionTypes, collaborationTopics } from '../constants';
 
 const getCollaborations = async (accessToken) => {
   try {
@@ -89,7 +89,7 @@ export default function* () {
     // force re-rendering of all collaborator components by changing the state
     yield put({
       type: actionTypes.HEARTBEAT,
-      nodeRef: nodeRefs.FAKE_ARTICLE,
+      nodeRef: collaborationTopics.FAKE_ARTICLE,
       userRef: 'acme:user:fake-user',
       ts: Math.floor(Date.now() / 1000),
     });

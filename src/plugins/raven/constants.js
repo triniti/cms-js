@@ -13,7 +13,7 @@ export const routeIds = {
   DASHBOARD: t('dashboard'),
 };
 
-export const nodeRefs = {
+export const collaborationTopics = {
   FAKE_ARTICLE: 'acme:article:fake-article',
   GENERAL: 'general',
 };

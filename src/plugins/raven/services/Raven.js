@@ -11,6 +11,7 @@ import connectUser from '../actions/connectUser';
 import disconnectUser from '../actions/disconnectUser';
 import receiveMessage from '../actions/receiveMessage';
 import sendText from '../actions/sendText';
+import { collaborationTopics } from '../constants';
 
 const isConnected = (client) => client && client.connected;
 
@@ -68,7 +69,7 @@ export default class Raven {
     const options = {
       // clientId: may want to use hash of user ref + random here
       will: {
-        topic: `${this.topic}general`,
+        topic: `${this.topic}${collaborationTopics.GENERAL}`,
         payload: JSON.stringify(disconnectMessage),
         qos: 0,
         retain: false,
@@ -154,7 +155,7 @@ export default class Raven {
    * @param {?string} topic   - topic to publish
    */
   publish(message, topic = null) {
-    const fullTopic = `${this.topic}${topic || 'general'}`;
+    const fullTopic = `${this.topic}${topic || collaborationTopics.GENERAL}`;
 
     if (!isConnected(this.client)) {
       console.warn('raven::publish::not_connected', message, fullTopic);
