@@ -64,6 +64,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       'is_homepage_news',
       'related_articles_heading',
       'show_related_articles',
+      'smartnews_enabled',
       'title',
     ].forEach((fieldName) => {
       if (node.has(fieldName)) {
@@ -168,6 +169,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       'is_homepage_news',
       'related_articles_heading',
       'show_related_articles',
+      'smartnews_enabled',
       'title',
     ].forEach((fieldName) => {
       const value = data[camelCase(fieldName)];
