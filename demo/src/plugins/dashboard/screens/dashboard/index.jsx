@@ -5,28 +5,25 @@ import { Col, Container, Row, Screen } from '@triniti/admin-ui-plugin/components
 import TopArticles from '../../components/top-articles';
 import ActiveEdits from '../../components/active-edits';
 
-const Dashboard = ({ location, match: { params: { tab } } }) => {
-  const tabs = [
-    {
-      to: 'news',
-      text: 'news',
-    },
-    {
-      to: 'active',
-      text: 'active',
-    },
-  ];
-
-
-  return (
-    <Screen
-      tabs={tabs}
-      maxWidth="100%"
-      title="Dashboard"
-      breadcrumbs={{ length: null }}
-      body={(
-        <Container fluid className="dashboard">
-          { tab === 'news'
+const Dashboard = ({ location, match: { params: { tab } } }) => (
+  <Screen
+    tabs={[
+      {
+        to: 'news',
+        text: 'news',
+      },
+      {
+        to: 'active',
+        text: 'active',
+      },
+    ]}
+    maxWidth="100%"
+    title="Dashboard"
+    // NOTE: temporary fix until admin-ui solution for no breadcrumbs
+    breadcrumbs={{ length: null }}
+    body={(
+      <Container fluid className="dashboard">
+        { tab === 'news'
              && (
              <Row>
                <Col lg="6">
@@ -45,7 +42,7 @@ const Dashboard = ({ location, match: { params: { tab } } }) => {
                </Col>
              </Row>
              )}
-          {tab === 'active'
+        {tab === 'active'
              && (
              <Row>
                <Col lg="12">
@@ -61,16 +58,13 @@ const Dashboard = ({ location, match: { params: { tab } } }) => {
                </Col>
              </Row>
              )}
-        </Container>
+      </Container>
       )}
-    />
-  );
-};
-
-
+  />
+);
 Dashboard.propTypes = {
   location: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default Dashboard;

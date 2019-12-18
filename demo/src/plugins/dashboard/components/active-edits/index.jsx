@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
-import { STATUS_FULFILLED, STATUS_PENDING } from '@triniti/app/constants';
+import { STATUS_PENDING } from '@triniti/app/constants';
 import {
   Button,
   Card,
@@ -20,7 +20,7 @@ class ActiveEdits extends React.Component {
     static propTypes = {
       accessToken: PropTypes.string.isRequired,
       collaborationNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
-      contentType: PropTypes.oneOf(['articles', null]),
+      contentType: PropTypes.string,
       handleRequestCollaborationNodes: PropTypes.func.isRequired,
       title: PropTypes.string.isRequired,
     };
@@ -32,7 +32,7 @@ class ActiveEdits extends React.Component {
     constructor(props) {
       super(props);
       this.handleRequestCollaborationNodes = this.handleRequestCollaborationNodes.bind(this);
-      this.state = { status: STATUS_FULFILLED };
+      this.state = { status: null };
     }
 
     componentDidMount() {
@@ -43,14 +43,21 @@ class ActiveEdits extends React.Component {
       const { handleRequestCollaborationNodes, accessToken } = this.props;
       this.setState({ status: STATUS_PENDING });
       await handleRequestCollaborationNodes(accessToken);
-      this.setState({ status: STATUS_FULFILLED });
+      this.setState({ status: null });
     }
 
     render() {
       const { collaborationNodes, contentType, title } = this.props;
       const { status } = this.state;
-      const articleNodes = collaborationNodes.filter((node) => node.schema().getCurie().getMessage() === 'article').map((node) => (node));
-      const otherNodes = collaborationNodes.filter((node) => node.schema().getCurie().getMessage() !== 'article').map((node) => (node));
+
+      const { articleNodes, otherNodes } = collaborationNodes.reduce((acc, cur) => {
+        if (cur.schema().getCurie().getMessage() === 'article') {
+          acc.articleNodes.push(cur);
+        } else {
+          acc.otherNodes.push(cur);
+        }
+        return acc;
+      }, { articleNodes: [], otherNodes: [] });
 
       return (
         <Card shadow>
