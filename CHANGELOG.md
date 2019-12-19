@@ -6,7 +6,7 @@
 * include status in `MediaLiveChannelCards` Card headers.
 * MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
 * Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
-
+* Added TikTok embed block
 
 ## v0.2.16
 * Fix mediaLive reducer bug where endpoints can be duplicated.
