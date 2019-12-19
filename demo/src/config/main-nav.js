@@ -5,7 +5,10 @@ const mainNav = [
   {
     navType: 'item',
     navId: 'Dashboard',
-    to: '/dashboard/news',
+    to: '/dashboard',
+    redirect: {
+      to: '/dashboard/news',
+    },
   },
   {
     navType: 'dropdown',
