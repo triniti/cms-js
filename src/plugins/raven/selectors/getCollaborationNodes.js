@@ -1,4 +1,9 @@
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
-import { collaborationTopics } from '../constants';
 
-export default (state) => Object.keys(state.raven.collaboration).map((nodeRef) => (nodeRef === collaborationTopics.FAKE_ARTICLE || nodeRef === collaborationTopics.GENERAL ? null : getNode(state, nodeRef))).filter((node) => node);
+export default (state) => Object.keys(state.raven.collaboration).reduce((acc, cur) => {
+  const node = getNode(state, cur);
+  if (node) {
+    acc.push(node);
+  }
+  return acc;
+}, []);

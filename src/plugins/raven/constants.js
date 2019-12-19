@@ -13,11 +13,6 @@ export const routeIds = {
   DASHBOARD: t('dashboard'),
 };
 
-export const collaborationTopics = {
-  FAKE_ARTICLE: 'acme:article:fake-article',
-  GENERAL: 'general',
-};
-
 export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
 
