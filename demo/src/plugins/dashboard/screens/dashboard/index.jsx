@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ActiveEdits from '@triniti/cms/plugins/raven/components/active-edits-table';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import { Col, Container, Row, Screen } from '@triniti/admin-ui-plugin/components';
 import TopArticles from '../../components/top-articles';
-import ActiveEdits from '../../components/active-edits';
 
 const Dashboard = ({ location, match: { params: { tab } } }) => (
   <Screen
@@ -13,8 +13,8 @@ const Dashboard = ({ location, match: { params: { tab } } }) => (
         text: 'news',
       },
       {
-        to: 'active',
-        text: 'active',
+        to: 'active-edits',
+        text: 'active edits',
       },
     ]}
     maxWidth="100%"
@@ -42,19 +42,11 @@ const Dashboard = ({ location, match: { params: { tab } } }) => (
                </Col>
              </Row>
              )}
-        {tab === 'active'
+        {tab === 'active-edits'
              && (
              <Row>
                <Col lg="12">
-                 <ActiveEdits
-                   title="Articles"
-                   contentType="articles"
-                 />
-               </Col>
-               <Col lg="12">
-                 <ActiveEdits
-                   title="Non-Article Nodes"
-                 />
+                 <ActiveEdits title="Active Edits" />
                </Col>
              </Row>
              )}

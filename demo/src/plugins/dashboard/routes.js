@@ -4,7 +4,7 @@ const r = (id) => `${PLUGIN_PREFIX}${id}`;
 
 const routes = {
   [r('dashboard')]: {
-    path: '/dashboard/:tab(news|active)/',
+    path: '/dashboard/:tab(news|active-edits)/',
     component: import('./screens/dashboard'),
   },
   [r('dashboardRedirect')]: {

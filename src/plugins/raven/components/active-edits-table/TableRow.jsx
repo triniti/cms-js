@@ -7,19 +7,18 @@ import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import { Button, Icon, RouterLink } from '@triniti/admin-ui-plugin/components';
 
-const TableRow = ({ contentType, idx, node }) => (
+const TableRow = ({ idx, node }) => (
   <tr className={`status-${node.get('status')}`} key={node.get('_id')}>
     <td style={{ width: '1px', textAlign: 'right' }}>{idx + 1}.</td>
     <td>
       {node.get('title')}
+      <Collaborators nodeRef={NodeRef.fromNode(node)} />
     </td>
     <td>
       {node.get('is_locked') && <Icon imgSrc="locked-solid" alt="locked-status" />}
     </td>
-    {contentType === null && (<td>{node.schema().getCurie().getMessage()}</td>)}
+    <td>{node.schema().getCurie().getMessage()}</td>
 
-
-    <td><Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
     <td className="td-icons">
       <RouterLink to={pbjUrl(node, 'cms')}>
         <Button id={`view-${node.get('_id')}`} color="hover" radius="circle" className="mb-0 mr-1">
@@ -48,13 +47,8 @@ const TableRow = ({ contentType, idx, node }) => (
 );
 
 TableRow.propTypes = {
-  contentType: PropTypes.string,
   node: PropTypes.instanceOf(Message).isRequired,
   idx: PropTypes.number.isRequired,
-};
-
-TableRow.defaultProps = {
-  contentType: null,
 };
 
 export default TableRow;
