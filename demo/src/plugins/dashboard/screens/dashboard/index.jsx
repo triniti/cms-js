@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ActiveEdits from '@triniti/cms/plugins/raven/components/active-edits-table';
+import ActiveEditsTable from '@triniti/cms/plugins/raven/components/active-edits-table';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import { Col, Container, Row, Screen } from '@triniti/admin-ui-plugin/components';
 import TopArticles from '../../components/top-articles';
@@ -46,7 +46,7 @@ const Dashboard = ({ location, match: { params: { tab } } }) => (
              && (
              <Row>
                <Col lg="12">
-                 <ActiveEdits title="Active Edits" />
+                 <ActiveEditsTable />
                </Col>
              </Row>
              )}

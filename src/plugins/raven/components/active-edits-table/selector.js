@@ -3,5 +3,5 @@ import getCollaborationNodes from '@triniti/cms/plugins/raven/selectors/getColla
 
 export default (state) => ({
   accessToken: getAccessToken(state),
-  collaborationNodes: getCollaborationNodes(state),
+  collaborationNodes: getCollaborationNodes(state).sort((a, b) => (a.schema().getCurie().getMessage() > b.schema().getCurie().getMessage() ? 1 : -1)),
 });

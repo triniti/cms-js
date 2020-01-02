@@ -16,13 +16,17 @@ import delegate from './delegate';
 import selector from './selector';
 import TableRow from './TableRow';
 
-class ActiveEdits extends React.Component {
+class ActiveEditsTable extends React.Component {
     static propTypes = {
       accessToken: PropTypes.string.isRequired,
       collaborationNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
       handleUpdateCollaborations: PropTypes.func.isRequired,
-      title: PropTypes.string.isRequired,
+      title: PropTypes.string,
     };
+
+    static defaultProps = {
+      title: 'Active Edits',
+    }
 
     constructor(props) {
       super(props);
@@ -68,29 +72,28 @@ class ActiveEdits extends React.Component {
             </Button>
           </CardHeader>
           <CardBody className="pl-0 pr-0 pt-0 pb-0">
-            {status === STATUS_PENDING ? <StatusMessage status={status} /> : (
-              <Table className="table-stretch table-sm" borderless hover responsive>
-                <thead>
-                  <tr>
-                    <th style={{ width: '1px' }} />
-                    <th>Title</th>
-                    <th />
-                    <th>Type</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {!collaborationNodes.length && (<tr><td /><td>No Content being collaborated on.</td></tr>)}
-                  {collaborationNodes.sort((a, b) => (a.schema().getCurie().getMessage() > b.schema().getCurie().getMessage() ? 1 : -1)).map((node, idx) => (
-                    <TableRow node={node} idx={idx} key={node.get('_id')} />
-                  ))}
-                </tbody>
-              </Table>
-            )}
+            {status === STATUS_PENDING && <StatusMessage status={status} />}
+            <Table className="table-stretch table-sm" borderless hover responsive>
+              <thead>
+                <tr>
+                  <th style={{ width: '1px' }} />
+                  <th>Title</th>
+                  <th />
+                  <th>Type</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {!collaborationNodes.length && (<tr><td /><td>No Content being collaborated on.</td></tr>)}
+                {collaborationNodes.map((node, idx) => (
+                  <TableRow node={node} idx={idx} key={node.get('_id')} />
+                ))}
+              </tbody>
+            </Table>
           </CardBody>
         </Card>
       );
     }
 }
 
-export default connect(selector, delegate)(ActiveEdits);
+export default connect(selector, delegate)(ActiveEditsTable);
