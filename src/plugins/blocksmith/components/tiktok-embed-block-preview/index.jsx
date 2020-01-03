@@ -10,6 +10,7 @@ class TikTokBlockPreview extends React.Component {
   constructor(props) {
     super(props);
     this.embedParentRef = React.createRef();
+    this.clean = this.clean.bind(this);
     this.embed = this.embed.bind(this);
   }
 
@@ -21,11 +22,19 @@ class TikTokBlockPreview extends React.Component {
     this.embed();
   }
 
-  embed() {
-    const { block } = this.props;
+  componentWillUnmount() {
+    this.clean();
+  }
+
+  clean() {
     Array.from(this.embedParentRef.current.children).forEach((child) => {
       this.embedParentRef.current.removeChild(child);
     });
+  }
+
+  embed() {
+    const { block } = this.props;
+    this.clean();
     const embedHtml = document.createElement('blockquote');
     embedHtml.classList.add('tiktok-embed');
     embedHtml.setAttribute('data-video-id', block.get('tiktok_id'));

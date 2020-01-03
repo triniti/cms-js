@@ -19,8 +19,7 @@ import {
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-
-import getTikTokId, { TIKTOK_ID_REGEX } from './getTikTokId';
+import getTikTokId from './getTikTokId';
 
 export default class TikTokEmbedBlockModal extends React.Component {
   static propTypes = {
@@ -98,17 +97,15 @@ export default class TikTokEmbedBlockModal extends React.Component {
   }
 
   handleChangeTextArea(event) {
-    let { errorMsg, isValid, tiktokId } = this.state;
+    let { errorMsg, tiktokId } = this.state;
     const input = event.target.value;
-    const id = getTikTokId(input);
+    const { id, isValid } = getTikTokId(input);
 
-    if (id && TIKTOK_ID_REGEX.test(id)) {
+    if (isValid) {
       errorMsg = '';
-      isValid = true;
       tiktokId = id;
     } else {
-      errorMsg = 'url or embed code is invalid';
-      isValid = false;
+      errorMsg = 'embed code, url or id is invalid';
       tiktokId = input;
     }
 
@@ -138,11 +135,11 @@ export default class TikTokEmbedBlockModal extends React.Component {
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} TikTok Embed Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>{isValid ? 'TikTok Id' : 'TikTok Embed Id, URL, or embed code'}</Label>
+            <Label>{isValid ? 'TikTok Id' : 'TikTok Embed Code, URL, or ID'}</Label>
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeTextArea}
-              placeholder="enter id, url, or embed code"
+              placeholder="enter embed code, url, or id"
               type="textarea"
               value={tiktokId || ''}
             />
