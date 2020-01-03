@@ -146,11 +146,11 @@ export default class ImgurPostBlockModal extends React.Component {
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Imgur Post Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>{isValid ? 'Post id' : 'Embed code, Link, or Post id'}</Label>
+            <Label>{isValid ? 'Post id' : 'Embed code, URL, or Post Id'}</Label>
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeTextArea}
-              placeholder="enter embed code"
+              placeholder="enter embed code, url, or id"
               type="textarea"
               value={imgurId || ''}
             />
