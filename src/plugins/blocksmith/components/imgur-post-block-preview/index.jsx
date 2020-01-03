@@ -6,6 +6,7 @@ class ImgurPostBlockPreview extends Component {
   constructor(props) {
     super(props);
     this.embedParentRef = React.createRef();
+    this.clean = this.clean.bind(this);
     this.embed = this.embed.bind(this);
   }
 
@@ -17,11 +18,19 @@ class ImgurPostBlockPreview extends Component {
     this.embed();
   }
 
-  embed() {
-    const { block } = this.props;
+  componentWillUnmount() {
+    this.clean();
+  }
+
+  clean() {
     Array.from(this.embedParentRef.current.children).forEach((child) => {
       this.embedParentRef.current.removeChild(child);
     });
+  }
+
+  embed() {
+    const { block } = this.props;
+    this.clean();
     const embedHtml = document.createElement('blockquote');
     embedHtml.classList.add('imgur-embed-pub');
     embedHtml.setAttribute('data-id', block.get('id'));
