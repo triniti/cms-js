@@ -4,14 +4,16 @@ import Message from '@gdbots/pbj/Message';
 
 const YoutubePlaylistBlockPreview = ({ block }) => {
   const options = {
-    title: 'Youtube Playlist Block',
-    width: '100%',
-    height: '315',
-    src: `https://www.youtube.com/embed/videoseries?list=${block.get('playlist_id')}`,
-    frameBorder: '0',
     allow: block.get('autoplay')
       ? 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
       : 'accelerometer; encrypted-media; gyroscope; picture-in-picture',
+    autoplay: block.get('autoplay'),
+    frameBorder: '0',
+    height: '315',
+    src: block.has('video_id')
+      ? `https://www.youtube.com/embed/${block.get('video_id')}`
+      : `https://www.youtube.com/embed/videoseries?list=${block.get('playlist_id')}`,
+    width: '100%',
   };
 
   return React.createElement('iframe', options);

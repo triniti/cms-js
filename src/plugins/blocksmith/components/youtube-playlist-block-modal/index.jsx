@@ -19,8 +19,7 @@ import {
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-
-import getYoutubePlaylist, { YOUTUBE_PLAYLIST_ID_REGEX } from './getYoutubePlaylistId';
+import getYoutubePlaylistIds from './getYoutubePlaylistIds';
 
 export default class YoutubePlaylistBlockModal extends React.Component {
   static propTypes = {
@@ -41,14 +40,16 @@ export default class YoutubePlaylistBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       aside: block.get('aside'),
+      autoplay: block.get('autoplay'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
-      playlistId: block.get('playlist_id'),
-      autoplay: block.get('autoplay'),
       isValid: block.has('playlist_id'),
+      playlistId: block.get('playlist_id'),
       touched: false,
       updatedDate: block.get('updated_date', new Date()),
+      videoId: block.get('video_id', null),
     };
+    this.inputElementRef = React.createRef();
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -58,20 +59,21 @@ export default class YoutubePlaylistBlockModal extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout((t) => {
-      t.inputElement.focus();
-    }, 0, this);
+    this.inputElementRef.current.focus();
   }
 
   setBlock() {
-    const { hasUpdatedDate, playlistId, autoplay, updatedDate, aside } = this.state;
+    const { aside, autoplay, hasUpdatedDate, playlistId, updatedDate, videoId } = this.state;
     const { block } = this.props;
-    return block.schema().createMessage()
-      .set('playlist_id', playlistId)
-      .set('autoplay', autoplay)
+    const setBlock = block.schema().createMessage()
       .set('aside', aside)
-      .set('video_id', 'deprecated') // left blank to prevent schema validation error. Field deprecated!
+      .set('autoplay', autoplay)
+      .set('playlist_id', playlistId)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
+    if (videoId) {
+      setBlock.set('video_id', videoId);
+    }
+    return setBlock;
   }
 
   handleAddBlock() {
@@ -99,28 +101,17 @@ export default class YoutubePlaylistBlockModal extends React.Component {
   }
 
   handleChangeTextarea(event) {
-    let { errorMsg, isValid, playlistId } = this.state;
     const input = event.target.value;
-    const id = getYoutubePlaylist(input);
-    const validId = YOUTUBE_PLAYLIST_ID_REGEX.test(id);
-
-    if (validId) {
-      errorMsg = '';
-      isValid = true;
-      playlistId = id;
-    } else {
-      errorMsg = 'url or embed code is invalid';
-      isValid = false;
-    }
+    const { isValid, playlistId, videoId } = getYoutubePlaylistIds(input);
 
     this.setState({
-      errorMsg,
-      playlistId,
+      errorMsg: isValid ? '' : 'Embed Code, URL, or Id is invalid.',
       isValid,
+      playlistId,
       touched: true,
+      videoId,
     });
   }
-
 
   render() {
     const {
@@ -135,17 +126,16 @@ export default class YoutubePlaylistBlockModal extends React.Component {
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
-
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'}  Youtube Playlist Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>URL</Label>
+            <Label>{isValid ? 'Youtube Playlist Id' : 'Youtube Playlist Embed Code, URL, or ID'}</Label>
             <Input
-              innerRef={(el) => { this.inputElement = el; }}
+              innerRef={this.inputElementRef}
               onChange={this.handleChangeTextarea}
-              placeholder="enter url or embed code"
+              placeholder="enter embed code, url, or id"
               type="textarea"
               value={playlistId || null}
             />
@@ -181,10 +171,7 @@ export default class YoutubePlaylistBlockModal extends React.Component {
                 />
               </div>
             )}
-          {
-            isValid
-            && <YoutubePlaylistBlockPreview key={Math.random()} block={this.setBlock()} />
-          }
+          {isValid && <YoutubePlaylistBlockPreview key={Math.random()} block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
