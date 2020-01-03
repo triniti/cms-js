@@ -49,6 +49,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'image-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-sidebar-button'));
       break;
+    case 'imgur-post-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-sidebar-button'));
+      break;
     case 'instagram-media-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-sidebar-button'));
       break;
@@ -136,6 +139,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/iframe-block-modal'));
     case 'image-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-modal'));
+    case 'imgur-post-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-modal'));
     case 'instagram-media-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-modal'));
     case 'page-break-block':
@@ -217,6 +222,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     case 'image-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-placeholder'));
       break;
+    case 'imgur-post-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-placeholder'));
+      break;
     case 'instagram-media-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-placeholder'));
       break;
@@ -295,6 +303,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/iframe-block-preview'));
     case 'image-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-preview'));
+    case 'imgur-post-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-preview'));
     case 'instagram-media-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview'));
     case 'page-break-block':
