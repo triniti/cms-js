@@ -1,47 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
-import Blockquote from './Blockquote';
 
-const IMGUR_EMBED_SCRIPT_ID = 'imgur-embed-script';
 class ImgurPostBlockPreview extends Component {
   constructor(props) {
     super(props);
-    this.createEmbed = this.createEmbed.bind(this);
-    this.loadScript = this.loadScript.bind(this);
+    this.embedParentRef = React.createRef();
+    this.embed = this.embed.bind(this);
   }
 
-  loadScript() {
-    const embedScript = document.getElementById(IMGUR_EMBED_SCRIPT_ID);
-
-    if (embedScript && embedScript.parentElement) {
-      embedScript.parentElement.removeChild(embedScript);
-    }
-
-    const newScriptTag = document.createElement('script');
-    newScriptTag.id = IMGUR_EMBED_SCRIPT_ID;
-    newScriptTag.src = 'https://s.imgur.com/min/embed.js';
-    newScriptTag.type = 'text/javascript';
-    newScriptTag.async = true;
-
-    document.querySelector('body').appendChild(newScriptTag);
+  componentDidMount() {
+    this.embed();
   }
 
-  createEmbed() {
+  componentDidUpdate() {
+    this.embed();
+  }
+
+  embed() {
     const { block } = this.props;
-
-    this.loadScript();
-
-    return (
-      <div>
-        <Blockquote block={block} />
-      </div>
-    );
+    Array.from(this.embedParentRef.current.children).forEach((child) => {
+      this.embedParentRef.current.removeChild(child);
+    });
+    const embedHtml = document.createElement('blockquote');
+    embedHtml.classList.add('imgur-embed-pub');
+    embedHtml.setAttribute('data-id', block.get('id'));
+    embedHtml.setAttribute('lang', 'en');
+    embedHtml.setAttribute('data-context', block.has('show_context') ? block.get('show_context').toString() : '');
+    const embedScript = document.createElement('script');
+    embedScript.async = true;
+    embedScript.src = 'https://s.imgur.com/min/embed.js';
+    embedScript.setAttribute('charset', 'utf-8');
+    this.embedParentRef.current.appendChild(embedHtml);
+    this.embedParentRef.current.appendChild(embedScript);
   }
 
   render() {
     return (
-      this.createEmbed()
+      <div ref={this.embedParentRef} />
     );
   }
 }
