@@ -101,16 +101,15 @@ export default class TikTokEmbedBlockModal extends React.Component {
     let { errorMsg, isValid, tiktokId } = this.state;
     const input = event.target.value;
     const id = getTikTokId(input);
-    const validId = TIKTOK_ID_REGEX.test(input);
 
-    if (!validId === undefined) {
-      errorMsg = 'url or embed code is invalid';
-      isValid = false;
-      tiktokId = input;
-    } else {
+    if (id && TIKTOK_ID_REGEX.test(id)) {
       errorMsg = '';
       isValid = true;
       tiktokId = id;
+    } else {
+      errorMsg = 'url or embed code is invalid';
+      isValid = false;
+      tiktokId = input;
     }
 
     this.setState({
@@ -139,11 +138,11 @@ export default class TikTokEmbedBlockModal extends React.Component {
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} TikTok Embed Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>{isValid ? 'TikTok Id' : 'TikTok Embed code or Id'}</Label>
+            <Label>{isValid ? 'TikTok Id' : 'TikTok Embed Id, URL, or embed code'}</Label>
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeTextArea}
-              placeholder="enter embed code"
+              placeholder="enter id, url, or embed code"
               type="textarea"
               value={tiktokId || ''}
             />
@@ -174,10 +173,7 @@ export default class TikTokEmbedBlockModal extends React.Component {
                 />
               </div>
             )}
-          {
-            isValid
-            && <TikTokEmbedBlockPreview block={this.setBlock()} />
-          }
+          {isValid && <TikTokEmbedBlockPreview block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>

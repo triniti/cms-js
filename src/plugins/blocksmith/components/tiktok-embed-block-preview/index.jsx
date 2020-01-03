@@ -2,22 +2,46 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 
-const TikTokBlockPreview = ({ block }) => (
-  <div style={{ textAlign: 'center' }}>
-    <iframe
-      title="TikTok Block Embed"
-      width="340"
-      height="700"
-      src={`https://www.tiktok.com/embed/${block.get('tiktok_id')}`}
-      frameBorder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  </div>
-);
+class TikTokBlockPreview extends React.Component {
+  static propTypes = {
+    block: PropTypes.instanceOf(Message).isRequired,
+  }
 
-TikTokBlockPreview.propTypes = {
-  block: PropTypes.instanceOf(Message).isRequired,
-};
+  constructor(props) {
+    super(props);
+    this.embedParentRef = React.createRef();
+    this.embed = this.embed.bind(this);
+  }
+
+  componentDidMount() {
+    this.embed();
+  }
+
+  componentDidUpdate() {
+    this.embed();
+  }
+
+  embed() {
+    const { block } = this.props;
+    Array.from(this.embedParentRef.current.children).forEach((child) => {
+      this.embedParentRef.current.removeChild(child);
+    });
+    const embedHtml = document.createElement('blockquote');
+    embedHtml.classList.add('tiktok-embed');
+    embedHtml.setAttribute('data-video-id', block.get('tiktok_id'));
+    embedHtml.innerHTML = '<section></section>';
+    const embedScript = document.createElement('script');
+    embedScript.async = true;
+    embedScript.src = 'https://www.tiktok.com/embed.js';
+    this.embedParentRef.current.appendChild(embedHtml);
+    this.embedParentRef.current.appendChild(embedScript);
+  }
+
+  render() {
+    return (
+      <div ref={this.embedParentRef} />
+    );
+  }
+}
 
 export default TikTokBlockPreview;
