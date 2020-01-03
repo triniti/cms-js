@@ -25,6 +25,8 @@ const onCollaboratorLeft = (prevState, action) => {
   return state;
 };
 
+const onCollaborationsUpdated = (prevState, action) => action.collaborations;
+
 const onMessageReceived = (prevState, action) => {
   if (!action.message || !action.message.user) {
     return prevState;
@@ -51,6 +53,7 @@ const onMessageReceived = (prevState, action) => {
 
 export default createReducer(initialState, {
   [actionTypes.HEARTBEAT]: onCollaboratorJoinedOrHeartbeat,
+  [actionTypes.COLLABORATIONS_UPDATED]: onCollaborationsUpdated,
   [actionTypes.COLLABORATOR_JOINED]: onCollaboratorJoinedOrHeartbeat,
   [actionTypes.COLLABORATOR_LEFT]: onCollaboratorLeft,
   [actionTypes.MESSAGE_RECEIVED]: onMessageReceived,

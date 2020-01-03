@@ -41,7 +41,6 @@ export default class CodeBlockModal extends React.Component {
       code: block.get('code'),
       hasUpdatedDate: block.has('updated_date'),
       updatedDate: block.get('updated_date', new Date()),
-      aside: block.get('aside'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -58,12 +57,11 @@ export default class CodeBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { code, hasUpdatedDate, updatedDate, aside } = this.state;
+    const { code, hasUpdatedDate, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('code', code || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -95,7 +93,7 @@ export default class CodeBlockModal extends React.Component {
   }
 
   render() {
-    const { aside, code, hasUpdatedDate, updatedDate } = this.state;
+    const { code, hasUpdatedDate, updatedDate } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
 
     return (
@@ -115,11 +113,6 @@ export default class CodeBlockModal extends React.Component {
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
-            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
-              Aside
-            </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {hasUpdatedDate
           && (

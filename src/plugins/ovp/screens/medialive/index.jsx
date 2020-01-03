@@ -47,7 +47,12 @@ class MediaLiveScreen extends React.Component {
           if (exception) {
             return <StatusMessage status={status} exception={exception} />;
           }
-          return isFulfilled ? <MediaLiveChannelCards nodes={nodes} /> : <Spinner />;
+          if (!isFulfilled) {
+            return <Spinner />;
+          }
+          return nodes.length === 0
+            ? <p>No videos with MediaLive Channels found.</p>
+            : <MediaLiveChannelCards nodes={nodes} />;
         })()}
         title="Livestreams"
       />
