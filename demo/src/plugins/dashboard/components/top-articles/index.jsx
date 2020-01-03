@@ -69,6 +69,7 @@ class TopArticles extends Component {
 
   handleRefresh() {
     const { delegate } = this.props;
+    delegate.bindToComponent(this);
     delegate.handleRefresh();
   }
 

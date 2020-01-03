@@ -4,6 +4,7 @@
 ## vN.N.N
 * issue #1035: Add Spotify Embed Block
 * include status in `MediaLiveChannelCards` Card headers.
+* Added tabs for dashboard (News and Active)
 * MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
 * Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
 * Added Youtube Playlist Block

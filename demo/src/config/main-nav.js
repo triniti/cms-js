@@ -6,6 +6,9 @@ const mainNav = [
     navType: 'item',
     navId: 'Dashboard',
     to: '/dashboard',
+    redirect: {
+      to: '/dashboard/news',
+    },
   },
   {
     navType: 'dropdown',
