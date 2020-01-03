@@ -190,9 +190,11 @@ export default class ImgurPostBlockModal extends React.Component {
               </div>
             )}
           {
-            // the key makes it so we can avoid doing a ton of
-            // dom manipulation to reconcile what the embed script does to the dom
-            imgurId && <ImgurPostBlockPreview key={Math.random()} block={this.setBlock()} />
+            /**
+             * the key makes it so we can avoid doing a ton of dom manipulation to reconcile what
+             * the embed script does to the dom (removes blockquote and replaces with iframe)
+             */
+            imgurId && <ImgurPostBlockPreview key={Date.now()} block={this.setBlock()} />
           }
         </ModalBody>
         <ModalFooter>

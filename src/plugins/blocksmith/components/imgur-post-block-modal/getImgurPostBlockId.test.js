@@ -2,10 +2,10 @@ import test from 'tape';
 import getImgurPostBlockId from './getImgurPostBlockId';
 
 test('ImgurPostBlock', (t) => {
-  const url = '40I9pYU';
+  const url = 'HRaPmbj';
   const actual = getImgurPostBlockId(url);
-  const expected = '40I9pYU';
-  t.deepEqual(actual, expected, 'it should accept an Imgur Id and return mediaId: 40I9pYU');
+  const expected = 'HRaPmbj';
+  t.deepEqual(actual, expected, 'it should accept an Imgur Id and return mediaId: HRaPmbj');
   t.end();
 });
 
@@ -27,10 +27,10 @@ test('ImgurPostBlock', (t) => {
 
 
 test('ImgurPostBlock', (t) => {
-  const url = 'https://imgur.com/40I9pYU';
+  const url = 'https://imgur.com/HRaPmbj';
   const actual = getImgurPostBlockId(url);
-  const expected = '40I9pYU';
-  t.deepEqual(actual, expected, 'it should accept an Imgur url with /a and return mediaId: 40I9pYU');
+  const expected = 'HRaPmbj';
+  t.deepEqual(actual, expected, 'it should accept an Imgur url with /a and return mediaId: HRaPmbj');
   t.end();
 });
 
