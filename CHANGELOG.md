@@ -4,8 +4,11 @@
 ## vN.N.N
 * Make `UserPickerField` and use for `author_ref`
 * issue #1035: Add Spotify Embed Block
+* Issue: Add Imgur Post Block
 * include status in `MediaLiveChannelCards` Card headers.
+* Added tabs for dashboard (News and Active)
 * MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
+* Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
 
 
 ## v0.2.16
