@@ -1,9 +1,12 @@
+import { connect } from 'react-redux';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-import YoutubePlaylistBlockPreview from '@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-preview';
+import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PropTypes from 'prop-types';
 import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import YoutubePlaylistBlockPreview from '@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-preview';
 import {
   Button,
   Checkbox,
@@ -20,8 +23,9 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 import getYoutubePlaylistIds from './getYoutubePlaylistIds';
+import selector from './selector';
 
-export default class YoutubePlaylistBlockModal extends React.Component {
+class YoutubePlaylistBlockModal extends React.Component {
   static propTypes = {
     block: PropTypes.instanceOf(Message).isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
@@ -37,25 +41,32 @@ export default class YoutubePlaylistBlockModal extends React.Component {
 
   constructor(props) {
     super(props);
-    const { block } = props;
+    const { block, imageNode } = props;
     this.state = {
       aside: block.get('aside'),
       autoplay: block.get('autoplay'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
+      isAssetPickerModalOpen: false,
       isValid: block.has('playlist_id'),
       playlistId: block.get('playlist_id'),
+      selectedImageNode: imageNode || null,
       touched: false,
       updatedDate: block.get('updated_date', new Date()),
       videoId: block.get('video_id', null),
     };
+    this.buttonRef = React.createRef();
     this.inputElementRef = React.createRef();
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleSelectImage = this.handleSelectImage.bind(this);
+    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.refocusModal = this.refocusModal.bind(this);
   }
 
   componentDidMount() {
@@ -63,12 +74,17 @@ export default class YoutubePlaylistBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { aside, autoplay, hasUpdatedDate, playlistId, updatedDate, videoId } = this.state;
+    const {
+      aside,
+      autoplay,
+      hasUpdatedDate,
+      selectedImageNode, playlistId, updatedDate, videoId } = this.state;
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
       .set('aside', aside)
       .set('autoplay', autoplay)
       .set('playlist_id', playlistId)
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
     if (videoId) {
       setBlock.set('video_id', videoId);
@@ -113,6 +129,35 @@ export default class YoutubePlaylistBlockModal extends React.Component {
     });
   }
 
+  handleClearImage() {
+    this.setState({ selectedImageNode: null }, this.refocusModal);
+  }
+
+  handleSelectImage(imageNode) {
+    this.setState({
+      autoplay: false,
+      selectedImageNode: imageNode,
+    });
+  }
+
+  handleToggleAssetPickerModal() {
+    this.setState(({ isAssetPickerModalOpen }) => ({
+      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+    }), () => {
+      const { isAssetPickerModalOpen } = this.state;
+      if (!isAssetPickerModalOpen) {
+        this.refocusModal();
+      }
+    });
+  }
+
+  /**
+   * Needs to return the focus to an element else pressing "ESC" to close the modal won't work
+   */
+  refocusModal() {
+    this.buttonRef.current.focus();
+  }
+
   render() {
     const {
       aside,
@@ -124,7 +169,8 @@ export default class YoutubePlaylistBlockModal extends React.Component {
       touched,
       updatedDate,
     } = this.state;
-    const { isFreshBlock, isOpen, toggle } = this.props;
+    const { isFreshBlock, isOpen, node, toggle } = this.props;
+    const { isAssetPickerModalOpen, selectedImageNode } = this.state;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -144,6 +190,30 @@ export default class YoutubePlaylistBlockModal extends React.Component {
             !isValid && touched
             && <p className="text-danger">{errorMsg}</p>
           }
+          {hasUpdatedDate
+            && (
+              <div className="modal-body-blocksmith">
+                <DateTimePicker
+                  onChangeDate={this.handleChangeDate}
+                  onChangeTime={this.handleChangeTime}
+                  updatedDate={updatedDate}
+                />
+              </div>
+            )}
+          {isValid && <YoutubePlaylistBlockPreview block={this.setBlock()} width={526} />}
+          <FormGroup className="mt-3">
+            <ImageAssetPicker
+              isDisabled={!isValid}
+              isImageSelected={!!selectedImageNode}
+              isModalOpen={isAssetPickerModalOpen}
+              label="Select A Youtube Playlist Block Poster Image"
+              multiAssetErrorMessage="Invalid Action: Trying to assign multiple Youtube Playlist Block Poster images."
+              node={node}
+              onClearImage={this.handleClearImage}
+              onSelectImage={this.handleSelectImage}
+              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+            />
+          </FormGroup>
           <FormGroup check>
             <Checkbox size="sd" id="autoplay" checked={autoplay} onChange={this.handleChangeCheckbox}>
               Autoplay
@@ -161,20 +231,9 @@ export default class YoutubePlaylistBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
-          {isValid && <YoutubePlaylistBlockPreview key={Math.random()} block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={toggle}>Cancel</Button>
+          <Button onClick={toggle} innerRef={this.buttonRef}>Cancel</Button>
           <Button
             disabled={!isValid}
             onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
@@ -186,3 +245,5 @@ export default class YoutubePlaylistBlockModal extends React.Component {
     );
   }
 }
+
+export default connect(selector)(YoutubePlaylistBlockModal);
