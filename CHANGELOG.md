@@ -9,6 +9,9 @@
 * MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
 * Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
 * Added Youtube Playlist Block
+* Added TikTok embed block
+* Use `@triniti/schemas` v1.1.5
+
 
 ## v0.2.16
 * Fix mediaLive reducer bug where endpoints can be duplicated.

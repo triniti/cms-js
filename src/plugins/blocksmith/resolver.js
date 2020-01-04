@@ -70,6 +70,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'text-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/text-block-sidebar-button'));
       break;
+    case 'tiktok-embed-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-sidebar-button'));
+      break;
     case 'twitter-tweet-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-sidebar-button'));
       break;
@@ -156,6 +159,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/quote-block-modal'));
     case 'text-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/text-block-modal'));
+    case 'tiktok-embed-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-modal'));
     case 'twitter-tweet-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-modal'));
     case 'soundcloud-audio-block':
@@ -245,6 +250,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     case 'quote-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/quote-block-placeholder'));
       break;
+    case 'tiktok-embed-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-placeholder'));
+      break;
     case 'twitter-tweet-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-placeholder'));
       break;
@@ -325,6 +333,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/quote-block-preview'));
     case 'text-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/text-block-preview'));
+    case 'tiktok-embed-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-preview'));
     case 'twitter-tweet-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview'));
     case 'soundcloud-audio-block':
