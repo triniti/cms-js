@@ -97,21 +97,11 @@ export default class TikTokEmbedBlockModal extends React.Component {
   }
 
   handleChangeTextArea(event) {
-    let { errorMsg, tiktokId } = this.state;
     const input = event.target.value;
     const { id, isValid } = getTikTokId(input);
-
-    if (isValid) {
-      errorMsg = '';
-      tiktokId = id;
-    } else {
-      errorMsg = 'embed code, url or id is invalid';
-      tiktokId = input;
-    }
-
     this.setState({
-      errorMsg,
-      tiktokId,
+      errorMsg: isValid ? '' : 'embed code, url or id is invalid',
+      tiktokId: isValid ? id : input,
       isValid,
       touched: true,
     });
