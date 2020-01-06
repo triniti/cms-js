@@ -12,6 +12,7 @@
 * Added Youtube Playlist Block
 * Added TikTok embed block
 * Use `@triniti/schemas` v1.1.5
+* MediaLive UI Enhancements
 
 
 ## v0.2.16
