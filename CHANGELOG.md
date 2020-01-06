@@ -11,6 +11,7 @@
 * Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
 * Added TikTok embed block
 * Use `@triniti/schemas` v1.1.5
+* MediaLive UI Enhancements
 
 
 ## v0.2.16
