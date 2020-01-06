@@ -28,15 +28,19 @@ import selector from './selector';
 class YoutubePlaylistBlockModal extends React.Component {
   static propTypes = {
     block: PropTypes.instanceOf(Message).isRequired,
+    imageNode: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
+    node: PropTypes.instanceOf(Message),
     toggle: PropTypes.func.isRequired,
     onAddBlock: PropTypes.func.isRequired,
     onEditBlock: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    imageNode: null,
     isOpen: false,
+    node: null,
   };
 
   constructor(props) {
@@ -173,7 +177,7 @@ class YoutubePlaylistBlockModal extends React.Component {
     const { isAssetPickerModalOpen, selectedImageNode } = this.state;
 
     return (
-      <Modal isOpen={isOpen} toggle={toggle}>
+      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isAssetPickerModalOpen}>
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'}  Youtube Playlist Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
@@ -215,7 +219,7 @@ class YoutubePlaylistBlockModal extends React.Component {
             />
           </FormGroup>
           <FormGroup check>
-            <Checkbox size="sd" id="autoplay" checked={autoplay} onChange={this.handleChangeCheckbox}>
+            <Checkbox size="sd" id="autoplay" checked={autoplay} disabled={!!selectedImageNode} onChange={this.handleChangeCheckbox}>
               Autoplay
             </Checkbox>
           </FormGroup>

@@ -60,6 +60,10 @@ class YoutubePlaylistBlockPreview extends React.Component {
     ) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({ showVideo: false }));
+    } else if (!prevProps.block.get('autoplay') && block.get('autoplay')) {
+      this.handlePlay();
+    } else if (prevProps.block.get('autoplay') && !block.get('autoplay')) {
+      this.handleCue();
     }
   }
 
