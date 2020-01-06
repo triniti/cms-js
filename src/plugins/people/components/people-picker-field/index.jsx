@@ -16,7 +16,7 @@ const PeoplePickerField = ({ isEditMode, isMulti, label, placeholder, ...rest })
       constants={constants}
       isDisabled={!isEditMode}
       isMulti={isMulti}
-      placeholder={placeholder || 'Select related people...'}
+      placeholder={placeholder}
       schemas={schemas}
       selectComponents={{ MultiValueLabel, Option }}
     />
@@ -33,7 +33,7 @@ PeoplePickerField.propTypes = {
 PeoplePickerField.defaultProps = {
   isMulti: true,
   label: 'People',
-  placeholder: null,
+  placeholder: 'Select related people...',
 };
 
 export default PeoplePickerField;

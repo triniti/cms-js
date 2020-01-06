@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Make `UserPickerField` and use for `author_ref`
 * Issue: Add Imgur Post Block
 * issue: Add Spotify Embed Block
 * include status in `MediaLiveChannelCards` Card headers.

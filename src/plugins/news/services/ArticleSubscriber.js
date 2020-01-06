@@ -54,6 +54,8 @@ export default class ArticleSubscriber extends EventSubscriber {
       value,
     }));
 
+    data.authorRefs = node.has('author_ref') ? [node.get('author_ref')] : [];
+
     [
       'allow_comments',
       'amp_enabled',
@@ -131,6 +133,14 @@ export default class ArticleSubscriber extends EventSubscriber {
         node.set('image_ref', NodeRef.fromString(data.imageRef));
       } catch (e) {
         formEvent.addError('imageRef', e.message);
+      }
+    }
+
+    if (data.authorRefs) {
+      try {
+        node.set('author_ref', data.authorRefs[0]);
+      } catch (e) {
+        formEvent.addError('authorRefs', e.message);
       }
     }
 
@@ -212,6 +222,11 @@ export default class ArticleSubscriber extends EventSubscriber {
     node.clear('related_article_refs');
     if (typeof data.relatedArticleRefs !== 'undefined') {
       node.addToList('related_article_refs', data.relatedArticleRefs);
+    }
+
+    node.clear('author_ref');
+    if (data.authorRefs && data.authorRefs.length) {
+      node.set('author_ref', data.authorRefs[0]);
     }
   }
 
