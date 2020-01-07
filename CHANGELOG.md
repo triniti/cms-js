@@ -13,7 +13,7 @@
 * Added TikTok embed block
 * Use `@triniti/schemas` v1.1.5
 * MediaLive UI Enhancements
-* Add Toofab Missing Fields On The Designated Screens ( Ex. slotting, etc. )
+* Add Missing Fields On The Designated Screens ( Ex. slotting, etc. )
 
 
 
