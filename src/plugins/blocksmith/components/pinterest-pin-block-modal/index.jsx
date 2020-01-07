@@ -17,12 +17,12 @@ import {
   ModalHeader,
   Select,
 } from '@triniti/admin-ui-plugin/components';
+import isValidUrl from '@gdbots/common/isValidUrl';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-import getPinterestPinId from './getPinterestPinId';
-import sizeOptions from './sizeOptions';
+import getPinterestPinUrl from './getPinterestPinUrl';
 
 export default class PinterestPinBlockModal extends Component {
   static propTypes = {
@@ -107,18 +107,18 @@ export default class PinterestPinBlockModal extends Component {
   handleChangeTextarea(event) {
     let { errorMsg, href, isValid, size, terse } = this.state;
     const input = event.target.value;
-    const pinId = getPinterestPinId(input);
+    const pinUrl = getPinterestPinUrl(input);
 
     const embed = new DOMParser().parseFromString(input, 'text/html');
     const anchor = embed.querySelector('a');
-    const pinWidth = anchor ? anchor.dataset.pinWidth : '';
-    const pinTerse = anchor ? anchor.dataset.pinTerse : '';
+    const pinWidth = anchor ? anchor.dataset.pinWidth : 'small';
+    const pinTerse = anchor ? anchor.dataset.pinTerse : false;
 
-    if (pinId) {
+    if (isValidUrl(pinUrl)) {
       errorMsg = '';
       isValid = true;
-      href = pinId;
-      size = pinWidth || 'small';
+      href = pinUrl;
+      size = pinWidth;
       terse = !!pinTerse;
     } else {
       errorMsg = 'Pinterest pin id, embed url or embed code is invalid';
@@ -159,14 +159,15 @@ export default class PinterestPinBlockModal extends Component {
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Pinterest Pin Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label>URL</Label>
+            <Label>{isValid ? 'Pinterest Id' : 'Pinterest Embed Code, URL, or ID'}</Label>
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeTextarea}
-              placeholder="enter pin id or embed code"
+              placeholder="enter pinterest pin id, url, or embed code"
               type="textarea"
               value={displayUrl || ''}
             />
+            <p className="p-2">e.g. https://www.pinterest.com/pin/PIN_ID</p>
           </FormGroup>
           {
             !isValid && touched
@@ -179,7 +180,12 @@ export default class PinterestPinBlockModal extends Component {
               isDisabled={false}
               isMulti={false}
               onChange={this.handleChangeSelect}
-              options={sizeOptions}
+              options={[
+                { label: 'small', value: 'small' },
+                { label: 'medium', value: 'medium' },
+                { label: 'large', value: 'large' },
+              ]}
+              defaultValue={{ label: 'small', value: 'small' }}
               value={{ label: size, value: size }}
             />
           </FormGroup>

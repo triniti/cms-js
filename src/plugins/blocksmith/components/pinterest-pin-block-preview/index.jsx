@@ -46,9 +46,14 @@ class PinterestPinBlockPreview extends Component {
     const embedScript = document.createElement('script');
     embedScript.defer = true;
     embedScript.async = true;
-    embedScript.src = 'https://assets.pinterest.com/js/pinit_main.js';
+    embedScript.setAttribute('data-pin-build', 'parsePinBtns');
+    embedScript.src = 'https://assets.pinterest.com/js/pinit.js';
     this.embedParentRef.current.appendChild(embedHtml);
     this.embedParentRef.current.appendChild(embedScript);
+
+    if (window.parsePinBtns) {
+      window.parsePinBtns();
+    }
   }
 
   render() {
