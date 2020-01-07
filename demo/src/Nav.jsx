@@ -1,9 +1,9 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
-import isGranted from '../../src/plugins/iam/selectors/isGranted';
 import TrinitiAppNav from '@triniti/admin-ui-plugin/components/triniti-app-nav';
-import navConfig from './config/main-nav';
+import isGranted from '../../src/plugins/iam/selectors/isGranted';
+import navConfig from './config/navConfig';
 
 const Nav = ({ store }) => {
   const user = get(store.getState(), 'iam.auth.user');

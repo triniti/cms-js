@@ -1,7 +1,7 @@
 /* globals APP_VENDOR */
 import { Video } from '../../schemas';
 
-const mainNav = [
+const navConfig = [
   {
     navType: 'item',
     navId: 'Dashboard',
@@ -153,11 +153,11 @@ const mainNav = [
 ];
 
 if (Video.schema().hasMixin('triniti:ovp.medialive:mixin:has-channel')) {
-  mainNav[1].dpLinks.push({
+  navConfig[1].dpLinks.push({
     to: '/ovp/livestreams',
     linkTitle: 'Livestreams',
     permission: 'cms-view-videos',
   });
 }
 
-export default mainNav;
+export default navConfig;
