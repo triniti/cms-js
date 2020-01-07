@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.3.0
 * Make `UserPickerField` and use for `author_ref`
 * Issue: Add Imgur Post Block
 * issue: Add Spotify Embed Block
