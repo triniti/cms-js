@@ -13,8 +13,8 @@
 * Added TikTok embed block
 * Use `@triniti/schemas` v1.1.5
 * MediaLive UI Enhancements
-* Add Missing Fields On The Designated Screens ( Ex. slotting, etc. )
-
+* Add Slotting On Teasers Screen
+* Add checkbox to enable or disable SmartNews.
 
 
 ## v0.2.16
