@@ -22,12 +22,14 @@ const TaxonomyFields = ({ schemas, isEditMode }) => (
               isEditMode={isEditMode}
               label="Primary People"
               name="primaryPersonRefs"
+              placeholder="Select primary people..."
             />
             <FieldArray
               component={PeoplePickerField}
               isEditMode={isEditMode}
               label="Related People"
               name="personRefs"
+              placeholder="Select related people..."
             />
           </>
         )

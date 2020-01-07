@@ -37,7 +37,6 @@ class PageBreakBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
-      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       readMoreText: block.get('read_more_text') || '',
       updatedDate: block.has('updated_date') ? block.get('updated_date') : new Date(),
@@ -58,12 +57,11 @@ class PageBreakBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { aside, hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('read_more_text', readMoreText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
-      .set('aside', aside);
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -95,7 +93,7 @@ class PageBreakBlockModal extends React.Component {
   }
 
   render() {
-    const { aside, hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
     return (
@@ -120,11 +118,6 @@ class PageBreakBlockModal extends React.Component {
             <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
               Is update
             </Checkbox>
-            <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
-              Aside
-            </Checkbox>
-            <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-            <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
           {hasUpdatedDate
           && (

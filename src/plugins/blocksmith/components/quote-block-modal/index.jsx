@@ -41,7 +41,6 @@ class QuoteBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
-      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
       isPullQuote: block.get('is_pull_quote'),
       isValid: true,
@@ -65,10 +64,9 @@ class QuoteBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate, aside } = this.state;
+    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
-      .set('aside', aside)
       .set('is_pull_quote', isPullQuote)
       .set('source_url', sourceUrl ? prependHttp(sourceUrl, { https: true }) : null)
       .set('source', source || null)
@@ -120,7 +118,6 @@ class QuoteBlockModal extends React.Component {
       sourceUrl,
       text,
       updatedDate,
-      aside,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -176,13 +173,6 @@ class QuoteBlockModal extends React.Component {
               <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
                 Is update
               </Checkbox>
-            </FormGroup>
-            <FormGroup>
-              <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
-                Aside
-              </Checkbox>
-              <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-              <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
             </FormGroup>
             {hasUpdatedDate
               && (

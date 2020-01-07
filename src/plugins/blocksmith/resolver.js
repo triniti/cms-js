@@ -49,6 +49,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'image-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-sidebar-button'));
       break;
+    case 'imgur-post-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-sidebar-button'));
+      break;
     case 'instagram-media-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-sidebar-button'));
       break;
@@ -67,6 +70,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'text-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/text-block-sidebar-button'));
       break;
+    case 'tiktok-embed-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-sidebar-button'));
+      break;
     case 'twitter-tweet-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-sidebar-button'));
       break;
@@ -84,6 +90,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
       break;
     case 'vimeo-video-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-sidebar-button'));
+      break;
+    case 'youtube-playlist-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-sidebar-button'));
       break;
     case 'youtube-video-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-sidebar-button'));
@@ -136,6 +145,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/iframe-block-modal'));
     case 'image-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-modal'));
+    case 'imgur-post-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-modal'));
     case 'instagram-media-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-modal'));
     case 'page-break-block':
@@ -148,6 +159,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/quote-block-modal'));
     case 'text-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/text-block-modal'));
+    case 'tiktok-embed-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-modal'));
     case 'twitter-tweet-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-modal'));
     case 'soundcloud-audio-block':
@@ -160,6 +173,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/video-block-modal'));
     case 'vimeo-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-modal'));
+    case 'youtube-playlist-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-modal'));
     case 'youtube-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-modal'));
     default:
@@ -217,6 +232,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     case 'image-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-placeholder'));
       break;
+    case 'imgur-post-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-placeholder'));
+      break;
     case 'instagram-media-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-placeholder'));
       break;
@@ -231,6 +249,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
       break;
     case 'quote-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/quote-block-placeholder'));
+      break;
+    case 'tiktok-embed-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-placeholder'));
       break;
     case 'twitter-tweet-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-placeholder'));
@@ -249,6 +270,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
       break;
     case 'vimeo-video-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-placeholder'));
+      break;
+    case 'youtube-playlist-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-placeholder'));
       break;
     case 'youtube-video-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-placeholder'));
@@ -295,6 +319,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/iframe-block-preview'));
     case 'image-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/image-block-preview'));
+    case 'imgur-post-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/imgur-post-block-preview'));
     case 'instagram-media-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview'));
     case 'page-break-block':
@@ -307,6 +333,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/quote-block-preview'));
     case 'text-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/text-block-preview'));
+    case 'tiktok-embed-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/tiktok-embed-block-preview'));
     case 'twitter-tweet-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview'));
     case 'soundcloud-audio-block':
@@ -319,6 +347,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/video-block-preview'));
     case 'vimeo-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-preview'));
+    case 'youtube-playlist-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-preview'));
     case 'youtube-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-preview'));
     default:

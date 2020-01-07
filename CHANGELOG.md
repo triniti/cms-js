@@ -2,9 +2,18 @@
 
 
 ## vN.N.N
-* issue #1035: Add Spotify Embed Block
+* Make `UserPickerField` and use for `author_ref`
+* Issue: Add Imgur Post Block
+* issue: Add Spotify Embed Block
 * include status in `MediaLiveChannelCards` Card headers.
+* Added tabs for dashboard (News and Active)
 * MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
+* Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
+* Added Youtube Playlist Block
+* Added TikTok embed block
+* Use `@triniti/schemas` v1.1.5
+* MediaLive UI Enhancements
+* Add checkbox to enable or disable SmartNews.
 
 
 ## v0.2.16

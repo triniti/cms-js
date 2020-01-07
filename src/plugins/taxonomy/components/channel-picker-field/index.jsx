@@ -15,7 +15,7 @@ const ChannelPickerField = ({ label, isEditMode, placeholder, ...rest }) => (
       isDisabled={!isEditMode}
       isGetAll
       isMulti={false}
-      placeholder="Select a channel..."
+      placeholder={placeholder}
       schemas={schemas}
     />
   </FormGroup>
@@ -29,7 +29,7 @@ ChannelPickerField.propTypes = {
 
 ChannelPickerField.defaultProps = {
   label: 'Channel',
-  placeholder: null,
+  placeholder: 'Select a channel...',
 };
 
 export default ChannelPickerField;
