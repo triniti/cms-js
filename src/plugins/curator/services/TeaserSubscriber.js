@@ -1,14 +1,17 @@
+/* globals APP_VENDOR */
 import get from 'lodash/get';
 import isBoolean from 'lodash/isBoolean';
 import camelCase from 'lodash/camelCase';
-import { getFormMeta } from 'redux-form';
+import { arrayPush, arrayRemoveAll, getFormMeta, getFormValues } from 'redux-form';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getDatePickerFieldError from '@triniti/cms/components/date-picker-field/getDatePickerFieldError';
+import getKeyValuesFieldErrors from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
 import getTextAreaFieldError from '@triniti/cms/components/textarea-field/getTextAreaFieldError';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import LinkTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/link-teaser/LinkTeaserV1Mixin';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import YoutubeVideoTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/youtube-video-teaser/YoutubeVideoTeaserV1Mixin';
+import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
 import { formNames } from '../constants';
 
 export default class TeaserSubscriber extends EventSubscriber {
@@ -17,6 +20,7 @@ export default class TeaserSubscriber extends EventSubscriber {
     this.onInitForm = this.onInitForm.bind(this);
     this.onValidateForm = this.onValidateForm.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
+    this.onTeaserSlottingRemoved = this.onTeaserSlottingRemoved.bind(this);
   }
 
   /**
@@ -36,6 +40,13 @@ export default class TeaserSubscriber extends EventSubscriber {
     });
 
     data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
+    data.slotting = !node.has('slotting') ? null : Object.entries(node.get('slotting')).map(([name, value]) => ({
+      key: {
+        label: name,
+        value: name,
+      },
+      value,
+    }));
     data.timelineRefs = [];
     if (node.has('timeline_ref')) {
       data.timelineRefs.push(node.get('timeline_ref'));
@@ -78,6 +89,12 @@ export default class TeaserSubscriber extends EventSubscriber {
           }
         }
       });
+      if ((fieldsMeta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
+        const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
+        if (hasError) {
+          formEvent.addError('slotting', errors);
+        }
+      }
     }
 
     if (!data.title) {
@@ -150,6 +167,58 @@ export default class TeaserSubscriber extends EventSubscriber {
     }
 
     node.set('order_date', data.orderDate || null);
+
+    node.clear('slotting');
+    (data.slotting || []).forEach(({ key, value }) => {
+      if (key.label && value) {
+        node.addToMap('slotting', key.label, +value);
+      }
+    });
+  }
+
+  /**
+   * When an event using triniti:curator:mixin:teaser-slotting-removed
+   * occurs we want to automatically update the form the user is looking
+   * at IF they are currently collaborating on that node.
+   *
+   * @param {FilterActionEvent} event
+   */
+  onTeaserSlottingRemoved(event) {
+    const { pbj } = event.getAction();
+    if (!pbj.has('node_ref')) {
+      return;
+    }
+
+    if (!pbj.has('slotting_keys')) {
+      return;
+    }
+
+    const nodeRef = pbj.get('node_ref');
+    const store = event.getRedux();
+    const state = store.getState();
+
+    if (!isCollaborating(state, nodeRef)) {
+      return;
+    }
+
+    // they are collaborating BUT this screen, this browser tab
+    // must also match what they're looking at
+    if (window.location.pathname.indexOf(nodeRef.getId()) === -1) {
+      return;
+    }
+
+    const data = getFormValues(formNames.TEASER)(state);
+    if (!data.slotting) {
+      return;
+    }
+
+    store.dispatch(arrayRemoveAll(formNames.TEASER, 'slotting'));
+
+    data.slotting.forEach((field) => {
+      if (!pbj.isInSet('slotting_keys', field.key.value)) {
+        store.dispatch(arrayPush(formNames.TEASER, 'slotting', field));
+      }
+    });
   }
 
   getSubscribedEvents() {
@@ -157,6 +226,7 @@ export default class TeaserSubscriber extends EventSubscriber {
       'triniti:curator:mixin:teaser.init_form': this.onInitForm,
       'triniti:curator:mixin:teaser.validate_form': this.onValidateForm,
       'triniti:curator:mixin:teaser.submit_form': this.onSubmitForm,
+      [`${APP_VENDOR}:curator:event:teaser-slotting-removed`]: this.onTeaserSlottingRemoved,
     };
   }
 }

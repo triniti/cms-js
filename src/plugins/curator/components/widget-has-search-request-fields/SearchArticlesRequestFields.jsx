@@ -1,3 +1,4 @@
+import slottingConfig from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import React from 'react';
 import PropTypes from 'prop-types';
 import upperCase from 'lodash/upperCase';
@@ -18,25 +19,13 @@ const sortOptions = humanizeEnums(SearchSortEnum, {
   value: upperCase(value).replace(/\s/g, '_'),
 }));
 
-// fixme: slotting must be configurable at the site level
-const slottingKeyOptions = [
-  {
-    label: 'home',
-    value: 'home',
-  },
-  {
-    label: 'sports',
-    value: 'sports',
-  },
-];
-
 const SearchArticlesRequestFields = ({ readOnly }) => (
   <FormGroup>
     <Label>Search Request</Label>
     <Field name="q" component={TextField} label="Query" placeholder="Enter Query" readOnly={readOnly} />
     <Field name="page" component={NumberField} label="Page" min={1} max={255} readOnly={readOnly} />
     <Field name="count" component={NumberField} label="Count" min={1} max={255} readOnly={readOnly} />
-    <Field name="slottingKey" component={SelectField} label="Slotting Key" placeholder="Select Slotting Key" options={slottingKeyOptions} disabled={readOnly} />
+    <Field name="slottingKey" component={SelectField} label="Slotting Key" placeholder="Select Slotting Key" options={slottingConfig} disabled={readOnly} />
     <Field name="sort" component={SelectField} label="Sort" placeholder="Select Sort" options={sortOptions} disabled={readOnly} />
     <Field
       component={DatePickerField}

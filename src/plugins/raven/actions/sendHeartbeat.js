@@ -30,6 +30,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
         && !swal.isVisible()
         && (data.last_event_ref || '').indexOf('apple-news-article-synced') === -1
         && (data.last_event_ref || '').indexOf('article-slotting-removed') === -1
+        && (data.last_event_ref || '').indexOf('teaser-slotting-removed') === -1
         // fixme: remove once gallery count updates are moved to their own stream
         && (data.last_event_ref || '').indexOf('gallery-asset-reordered') === -1
       ) {
