@@ -10,11 +10,11 @@ const Dashboard = ({ location, match: { params: { tab } } }) => (
     tabs={[
       {
         to: 'news',
-        text: 'news',
+        text: 'News',
       },
       {
         to: 'active-edits',
-        text: 'active edits',
+        text: 'Active Edits',
       },
     ]}
     maxWidth="100%"
@@ -23,35 +23,35 @@ const Dashboard = ({ location, match: { params: { tab } } }) => (
     breadcrumbs={{ length: null }}
     body={(
       <Container fluid className="dashboard">
-        { tab === 'news'
-             && (
-             <Row>
-               <Col lg="6">
-                 <TopArticles
-                   location={location}
-                   title="Homepage Published"
-                   search={{ count: 40, status: NodeStatus.PUBLISHED, slotting_key: 'home' }}
-                 />
-               </Col>
-               <Col lg="6">
-                 <TopArticles
-                   location={location}
-                   title="Homepage Draft"
-                   search={{ count: 10, status: NodeStatus.DRAFT, q: '+is_homepage_news:true' }}
-                 />
-               </Col>
-             </Row>
-             )}
+        {tab === 'news'
+        && (
+          <Row>
+            <Col lg="6">
+              <TopArticles
+                location={location}
+                title="Homepage Published"
+                search={{ count: 40, status: NodeStatus.PUBLISHED, slotting_key: 'home' }}
+              />
+            </Col>
+            <Col lg="6">
+              <TopArticles
+                location={location}
+                title="Homepage Draft"
+                search={{ count: 10, status: NodeStatus.DRAFT, q: '+is_homepage_news:true' }}
+              />
+            </Col>
+          </Row>
+        )}
         {tab === 'active-edits'
-             && (
-             <Row>
-               <Col lg="12">
-                 <ActiveEditsTable />
-               </Col>
-             </Row>
-             )}
+        && (
+          <Row>
+            <Col lg="12">
+              <ActiveEditsTable />
+            </Col>
+          </Row>
+        )}
       </Container>
-      )}
+    )}
   />
 );
 Dashboard.propTypes = {
