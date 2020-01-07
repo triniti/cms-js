@@ -94,6 +94,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'vimeo-video-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-sidebar-button'));
       break;
+    case 'youtube-playlist-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-sidebar-button'));
+      break;
     case 'youtube-video-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-sidebar-button'));
       break;
@@ -175,6 +178,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/video-block-modal'));
     case 'vimeo-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-modal'));
+    case 'youtube-playlist-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-modal'));
     case 'youtube-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-modal'));
     default:
@@ -274,6 +279,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     case 'vimeo-video-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-placeholder'));
       break;
+    case 'youtube-playlist-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-placeholder'));
+      break;
     case 'youtube-video-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-placeholder'));
       break;
@@ -349,6 +357,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/video-block-preview'));
     case 'vimeo-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/vimeo-video-block-preview'));
+    case 'youtube-playlist-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-playlist-block-preview'));
     case 'youtube-video-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-preview'));
     default:
