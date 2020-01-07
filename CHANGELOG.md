@@ -13,6 +13,7 @@
 * Added TikTok embed block
 * Use `@triniti/schemas` v1.1.5
 * MediaLive UI Enhancements
+* Add checkbox to enable or disable SmartNews.
 
 
 ## v0.2.16

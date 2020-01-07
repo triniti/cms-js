@@ -38,6 +38,7 @@ const ArticleFields = ({ article, isEditMode, schemas }) => (
           <Field name="isHomepageNews" component={CheckboxField} disabled={!isEditMode} label="Homepage News" />
           <Field name="allowComments" component={CheckboxField} disabled={!isEditMode} label="Allow Comments" />
           <Field name="ampEnabled" component={CheckboxField} disabled={!isEditMode} label="Google Amp" />
+          <Field name="smartnewsEnabled" component={CheckboxField} disabled={!isEditMode} label="SmartNews" />
         </div>
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
           && <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />}
