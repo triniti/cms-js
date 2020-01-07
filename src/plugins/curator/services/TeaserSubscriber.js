@@ -4,6 +4,7 @@ import camelCase from 'lodash/camelCase';
 import { getFormMeta } from 'redux-form';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getDatePickerFieldError from '@triniti/cms/components/date-picker-field/getDatePickerFieldError';
+import getKeyValuesFieldErrors from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
 import getTextAreaFieldError from '@triniti/cms/components/textarea-field/getTextAreaFieldError';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import LinkTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/link-teaser/LinkTeaserV1Mixin';
@@ -36,6 +37,13 @@ export default class TeaserSubscriber extends EventSubscriber {
     });
 
     data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
+    data.slotting = !node.has('slotting') ? null : Object.entries(node.get('slotting')).map(([name, value]) => ({
+      key: {
+        label: name,
+        value: name,
+      },
+      value,
+    }));
     data.timelineRefs = [];
     if (node.has('timeline_ref')) {
       data.timelineRefs.push(node.get('timeline_ref'));
@@ -78,6 +86,12 @@ export default class TeaserSubscriber extends EventSubscriber {
           }
         }
       });
+      if ((fieldsMeta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
+        const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
+        if (hasError) {
+          formEvent.addError('slotting', errors);
+        }
+      }
     }
 
     if (!data.title) {
@@ -150,6 +164,13 @@ export default class TeaserSubscriber extends EventSubscriber {
     }
 
     node.set('order_date', data.orderDate || null);
+
+    node.clear('slotting');
+    (data.slotting || []).forEach(({ key, value }) => {
+      if (key.label && value) {
+        node.addToMap('slotting', key.label, +value);
+      }
+    });
   }
 
   getSubscribedEvents() {
