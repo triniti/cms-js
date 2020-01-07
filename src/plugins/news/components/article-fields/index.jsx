@@ -10,7 +10,7 @@ import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
 import TextField from '@triniti/cms/components/text-field';
-import UserPicker from '@triniti/cms/plugins/iam/components/user-picker-field';
+import UserPickerField from '@triniti/cms/plugins/iam/components/user-picker-field';
 
 const ArticleFields = ({ article, isEditMode, schemas }) => (
   <>
@@ -53,7 +53,7 @@ const ArticleFields = ({ article, isEditMode, schemas }) => (
           />
           )}
         <FieldArray
-          component={UserPicker}
+          component={UserPickerField}
           isEditMode={isEditMode}
           label="Author"
           name="authorRefs"

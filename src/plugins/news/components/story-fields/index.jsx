@@ -1,6 +1,6 @@
-import articleSlottingConfig from 'config/articleSlottingConfig'; // eslint-disable-line import/no-unresolved
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 import { Field, FieldArray } from 'redux-form';
+import slottingConfig from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import DatePickerField from '@triniti/cms/components/date-picker-field';
 import KeyValuesField from '@triniti/cms/components/key-values-field';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -45,7 +45,7 @@ const StoryFields = ({
         label="Slotting"
         name="slotting"
         readOnly={!isEditMode}
-        selectFieldOptions={articleSlottingConfig}
+        selectFieldOptions={slottingConfig}
         type="Slot Value"
         valueType="number"
       />

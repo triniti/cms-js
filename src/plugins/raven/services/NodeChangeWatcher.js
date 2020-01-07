@@ -56,6 +56,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
     if (isCollaborating(state, nodeRef) && (
       schema.hasMixin('triniti:news:mixin:apple-news-article-synced')
       || schema.hasMixin('triniti:news:mixin:article-slotting-removed')
+      || schema.hasMixin('triniti:curator:mixin:teaser-slotting-removed')
     )) {
       return;
     }
