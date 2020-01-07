@@ -9,6 +9,7 @@ import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-pi
 import PropTypes from 'prop-types';
 import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
+import slottingConfig from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
 import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
@@ -62,7 +63,7 @@ const TeaserFields = ({
           label="Slotting"
           name="slotting"
           readOnly={!isEditMode}
-          selectFieldOptions={[{ label: 'home', value: 'home' }, { label: 'sports', value: 'sports' }]}
+          selectFieldOptions={slottingConfig}
           type="Slot Value"
           valueType="number"
         />
