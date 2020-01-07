@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
-import teaserSlottingConfig from 'config/teaserSlottingConfig'; // eslint-disable-line import/no-unresolved
+import { teaserSlottingConfig } from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
