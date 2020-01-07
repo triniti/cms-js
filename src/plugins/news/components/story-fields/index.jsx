@@ -1,3 +1,4 @@
+import articleSlottingConfig from 'config/articleSlottingConfig'; // eslint-disable-line import/no-unresolved
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 import { Field, FieldArray } from 'redux-form';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
@@ -44,7 +45,7 @@ const StoryFields = ({
         label="Slotting"
         name="slotting"
         readOnly={!isEditMode}
-        selectFieldOptions={[{ label: 'home', value: 'home' }, { label: 'sports', value: 'sports' }]}
+        selectFieldOptions={articleSlottingConfig}
         type="Slot Value"
         valueType="number"
       />
