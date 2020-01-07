@@ -1,5 +1,5 @@
-import articleSlottingConfig from 'config/articleSlottingConfig'; // eslint-disable-line import/no-unresolved
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
+import articleSlottingConfig from 'config/articleSlottingConfig'; // eslint-disable-line import/no-unresolved
 import { Field, FieldArray } from 'redux-form';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
 import KeyValuesField from '@triniti/cms/components/key-values-field';
