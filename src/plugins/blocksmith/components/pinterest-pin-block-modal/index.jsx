@@ -113,7 +113,7 @@ export default class PinterestPinBlockModal extends Component {
     const anchor = embed.querySelector('a');
     const pinWidth = anchor ? anchor.dataset.pinWidth : 'small';
     const pinTerse = anchor ? anchor.dataset.pinTerse : false;
-    console.log('URL: ', pinUrl);
+
     if (isValidUrl(pinUrl)) {
       errorMsg = '';
       isValid = true;
