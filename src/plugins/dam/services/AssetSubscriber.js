@@ -23,7 +23,7 @@ export default class AssetSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    ['_id', 'title', 'description', 'mime_type', 'linked_refs'].forEach((fieldName) => {
+    ['credit_url', 'cta_text', 'cta_url', 'display_title', 'description', '_id', 'linked_refs', 'mime_type', 'title'].forEach((fieldName) => {
       data[camelCase(fieldName)] = node.get(fieldName);
     });
 
@@ -47,6 +47,26 @@ export default class AssetSubscriber extends EventSubscriber {
     let error = getTextAreaFieldError(data, 'description', node);
     if (error) {
       formEvent.addError('description', error);
+    }
+
+    error = getTextAreaFieldError(data, 'credit_url', node);
+    if (error) {
+      formEvent.addError('credit_url', error);
+    }
+
+    error = getTextAreaFieldError(data, 'cta_text', node);
+    if (error) {
+      formEvent.addError('cta_text', error);
+    }
+
+    error = getTextAreaFieldError(data, 'cta_url', node);
+    if (error) {
+      formEvent.addError('cta_url', error);
+    }
+
+    error = getTextAreaFieldError(data, 'display_title', node);
+    if (error) {
+      formEvent.addError('display_title', error);
     }
 
     error = getTextFieldError(data, 'title', node);
@@ -98,7 +118,7 @@ export default class AssetSubscriber extends EventSubscriber {
       return;
     }
 
-    ['title', 'description', 'mime_type'].forEach((fieldName) => {
+    ['credit_url', 'cta_text', 'cta_url', 'display_title', 'description', 'mime_type', 'title'].forEach((fieldName) => {
       node.set(fieldName, data[camelCase(fieldName)]);
     });
 
