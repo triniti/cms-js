@@ -12,7 +12,6 @@ class MediaLiveScreen extends React.Component {
     alerts: PropTypes.arrayOf(PropTypes.object),
     exception: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     isFulfilled: PropTypes.bool.isRequired,
-    match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     handleSearch: PropTypes.func.isRequired,
     status: PropTypes.string.isRequired,
@@ -29,25 +28,21 @@ class MediaLiveScreen extends React.Component {
   }
 
   render() {
-    const { alerts, exception, isFulfilled, match: { url }, nodes, status } = this.props;
-    const urlParts = url.split('/');
+    const { alerts, exception, isFulfilled, nodes, status } = this.props;
     return (
       <Screen
         alerts={alerts}
-        breadcrumbs={[
-          {
-            to: `/${urlParts[1]}/${urlParts[2]}`,
-            text: 'Videos',
-          },
-          {
-            text: 'Livestreams',
-          },
-        ]}
+        breadcrumbs={{ length: false }} // temporary fix until admin-ui solution for no breadcrumbs
         body={(() => {
           if (exception) {
             return <StatusMessage status={status} exception={exception} />;
           }
-          return isFulfilled ? <MediaLiveChannelCards nodes={nodes} /> : <Spinner />;
+          if (!isFulfilled) {
+            return <Spinner />;
+          }
+          return nodes.length === 0
+            ? <p>No videos with MediaLive Channels found.</p>
+            : <MediaLiveChannelCards nodes={nodes} />;
         })()}
         title="Livestreams"
       />

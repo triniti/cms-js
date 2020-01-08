@@ -1,3 +1,4 @@
+import slottingConfig from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import { Field, FieldArray } from 'redux-form';
 import { FormGroup, Label } from '@triniti/admin-ui-plugin/components';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
@@ -32,6 +33,7 @@ const SearchTeasersRequestFields = ({ readOnly }) => (
     <Field name="q" component={TextField} label="Query" placeholder="Enter Query" readOnly={readOnly} />
     <Field name="page" component={NumberField} label="Page" min={1} max={255} readOnly={readOnly} />
     <Field name="count" component={NumberField} label="Count" min={1} max={255} readOnly={readOnly} />
+    <Field name="slottingKey" component={SelectField} label="Slotting Key" placeholder="Select Slotting Key" options={slottingConfig} disabled={readOnly} />
     <Field
       component={SelectField}
       label="Sort"

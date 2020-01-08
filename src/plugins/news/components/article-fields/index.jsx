@@ -10,6 +10,7 @@ import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
 import TextField from '@triniti/cms/components/text-field';
+import UserPickerField from '@triniti/cms/plugins/iam/components/user-picker-field';
 
 const ArticleFields = ({ article, isEditMode, schemas }) => (
   <>
@@ -37,6 +38,7 @@ const ArticleFields = ({ article, isEditMode, schemas }) => (
           <Field name="isHomepageNews" component={CheckboxField} disabled={!isEditMode} label="Homepage News" />
           <Field name="allowComments" component={CheckboxField} disabled={!isEditMode} label="Allow Comments" />
           <Field name="ampEnabled" component={CheckboxField} disabled={!isEditMode} label="Google Amp" />
+          <Field name="smartnewsEnabled" component={CheckboxField} disabled={!isEditMode} label="SmartNews" />
         </div>
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
           && <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />}
@@ -50,6 +52,13 @@ const ArticleFields = ({ article, isEditMode, schemas }) => (
             picklistId="article-themes"
           />
           )}
+        <FieldArray
+          component={UserPickerField}
+          isEditMode={isEditMode}
+          label="Author"
+          name="authorRefs"
+          placeholder="Select an author..."
+        />
       </CardBody>
     </Card>
     <Card>

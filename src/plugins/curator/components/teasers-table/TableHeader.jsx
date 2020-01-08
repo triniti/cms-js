@@ -30,6 +30,7 @@ const TableHeader = ({
           sortFieldDesc={SearchTeasersSort.TITLE_DESC.getValue()}
         />
       </th>
+      <th>Slotting</th>
       <th>
         Order Date
         &nbsp;

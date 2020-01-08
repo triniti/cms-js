@@ -14,7 +14,7 @@ const SponsorPickerField = ({ label, isEditMode, placeholder, ...rest }) => (
       isClearable
       isDisabled={!isEditMode}
       isMulti={false}
-      placeholder={placeholder || 'Select a sponsor...'}
+      placeholder={placeholder}
       schemas={schemas}
     />
   </FormGroup>
@@ -28,7 +28,7 @@ SponsorPickerField.propTypes = {
 
 SponsorPickerField.defaultProps = {
   label: 'Sponsor',
-  placeholder: null,
+  placeholder: 'Select a sponsor...',
 };
 
 export default SponsorPickerField;

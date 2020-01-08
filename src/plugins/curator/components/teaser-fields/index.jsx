@@ -3,12 +3,14 @@ import { Field, FieldArray } from 'redux-form';
 import CheckboxField from '@triniti/cms/components/checkbox-field';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field';
+import KeyValuesField from '@triniti/cms/components/key-values-field';
 import Message from '@gdbots/pbj/Message';
 import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
+import slottingConfig from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
@@ -54,6 +56,17 @@ const TeaserFields = ({
           schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
           && <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
         }
+
+        <FieldArray
+          component={KeyValuesField}
+          keyFieldComponent="selectField"
+          label="Slotting"
+          name="slotting"
+          readOnly={!isEditMode}
+          selectFieldOptions={slottingConfig}
+          type="Slot Value"
+          valueType="number"
+        />
 
         {
           AdditionalFields && (<AdditionalFields readOnly={!isEditMode} />)

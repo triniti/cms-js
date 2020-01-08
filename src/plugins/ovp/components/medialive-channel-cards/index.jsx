@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import MediaLiveChannelStateButton from '@triniti/cms/plugins/ovp/components/medialive-channel-state-button';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -20,7 +21,13 @@ import {
 import selector from './selector';
 import './styles.scss';
 
+const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
+  acc[cur.toString()] = cur.toString();
+  return acc;
+}, {});
+
 const MediaLiveChannelCards = ({ canViewIngests, getMediaLive, nodes }) => nodes.map((node) => {
+  const status = node.get('status').toString();
   const kalturaEntryId = node.get('kaltura_entry_id');
   const channelArn = node.get('medialive_channel_arn');
   const mediaLiveData = getMediaLive(NodeRef.fromNode(node));
@@ -30,6 +37,9 @@ const MediaLiveChannelCards = ({ canViewIngests, getMediaLive, nodes }) => nodes
   return (
     <Card key={node.get('_id')}>
       <CardHeader className="pr-2">
+        <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>
+          {status}
+        </small>
         <p className="mb-0 mr-2 medialive-channel-card__header-text">{node.get('title')}</p>
         <RouterLink to={pbjUrl(node, 'cms')}>
           <Button id={`view-${node.get('_id')}`} color="hover" radius="circle" className="mb-0 mr-1">

@@ -54,6 +54,8 @@ export default class ArticleSubscriber extends EventSubscriber {
       value,
     }));
 
+    data.authorRefs = node.has('author_ref') ? [node.get('author_ref')] : [];
+
     [
       'allow_comments',
       'amp_enabled',
@@ -64,6 +66,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       'is_homepage_news',
       'related_articles_heading',
       'show_related_articles',
+      'smartnews_enabled',
       'title',
     ].forEach((fieldName) => {
       if (node.has(fieldName)) {
@@ -134,6 +137,14 @@ export default class ArticleSubscriber extends EventSubscriber {
       }
     }
 
+    if (data.authorRefs) {
+      try {
+        node.set('author_ref', data.authorRefs[0]);
+      } catch (e) {
+        formEvent.addError('authorRefs', e.message);
+      }
+    }
+
     const redux = formEvent.getRedux();
     if (redux) {
       const meta = getFormMeta(formEvent.getName())(redux.getState());
@@ -168,6 +179,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       'is_homepage_news',
       'related_articles_heading',
       'show_related_articles',
+      'smartnews_enabled',
       'title',
     ].forEach((fieldName) => {
       const value = data[camelCase(fieldName)];
@@ -212,6 +224,11 @@ export default class ArticleSubscriber extends EventSubscriber {
     node.clear('related_article_refs');
     if (typeof data.relatedArticleRefs !== 'undefined') {
       node.addToList('related_article_refs', data.relatedArticleRefs);
+    }
+
+    node.clear('author_ref');
+    if (data.authorRefs && data.authorRefs.length) {
+      node.set('author_ref', data.authorRefs[0]);
     }
   }
 

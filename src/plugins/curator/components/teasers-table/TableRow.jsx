@@ -27,6 +27,12 @@ const TableRow = ({ disabled, handleCloneNode, node, onSelectRow, isSelected }) 
       {node.get('title')}
       <Collaborators nodeRef={NodeRef.fromNode(node)} />
     </td>
+    <td>{node.has('slotting')
+      ? Object.entries(node.get('slotting')).map(([key, slot]) => (
+        <span key={`${key}:${slot}`}>{key}:{slot} </span>
+      ))
+      : null}
+    </td>
     <td className="text-nowrap">{convertReadableTime(node.get('order_date'))}</td>
     <td className="text-nowrap">
       {node.has('published_at') && convertReadableTime(node.get('published_at'))}
