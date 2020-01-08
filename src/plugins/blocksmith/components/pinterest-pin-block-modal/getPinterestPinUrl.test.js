@@ -21,7 +21,23 @@ test('PinterestPinBlock', (t) => {
   const url = 'https://www.pinterest.com/pin/811070214128171365/';
   const actual = getPinterestPinId(url);
   const expected = 'https://www.pinterest.com/pin/811070214128171365';
-  t.equal(actual, expected, 'it should accept a pinterest pin embed url and return https://www.pinterest.com/pin/811070214128171365');
+  t.equal(actual, expected, 'it should accept a pinterest pin embed url with www and return https://www.pinterest.com/pin/811070214128171365');
+  t.end();
+});
+
+test('PinterestPinBlock', (t) => {
+  const url = 'https://pinterest.com/pin/811070214128171365/';
+  const actual = getPinterestPinId(url);
+  const expected = 'https://pinterest.com/pin/811070214128171365';
+  t.equal(actual, expected, 'it should accept a pinterest pin embed url with www and return https://pinterest.com/pin/811070214128171365');
+  t.end();
+});
+
+test('PinterestPinBlock', (t) => {
+  const url = '<a data-pin-do="embedPin" data-pin-width="large" href="https://pinterest.com/pin/811070214128171365/"></a>';
+  const actual = getPinterestPinId(url);
+  const expected = 'https://pinterest.com/pin/811070214128171365';
+  t.equal(actual, expected, 'it should accept a pinterest pin embed code and return https://pinterest.com/pin/811070214128171365');
   t.end();
 });
 
