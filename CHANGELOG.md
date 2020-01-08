@@ -12,6 +12,7 @@
 * Added Youtube Playlist Block
 * Added TikTok embed block
 * Use `@triniti/schemas` v1.1.5
+* Added Pinterest pin embed block
 * MediaLive UI Enhancements
 * Add Slotting On Teasers Screen
 * Add checkbox to enable or disable SmartNews.

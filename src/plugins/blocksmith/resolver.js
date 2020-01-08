@@ -58,6 +58,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'page-break-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/page-break-block-sidebar-button'));
       break;
+    case 'pinterest-pin-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/pinterest-pin-block-sidebar-button'));
+      break;
     case 'poll-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/poll-block-sidebar-button'));
       break;
@@ -151,6 +154,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-modal'));
     case 'page-break-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/page-break-block-modal'));
+    case 'pinterest-pin-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/pinterest-pin-block-modal'));
     case 'poll-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/poll-block-modal'));
     case 'poll-grid-block':
@@ -241,6 +246,9 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     case 'page-break-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/page-break-block-placeholder'));
       break;
+    case 'pinterest-pin-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/pinterest-pin-block-placeholder'));
+      break;
     case 'poll-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/poll-block-placeholder'));
       break;
@@ -325,6 +333,8 @@ export const getPreview = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview'));
     case 'page-break-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/page-break-block-preview'));
+    case 'pinterest-pin-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/pinterest-pin-block-preview'));
     case 'poll-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/poll-block-preview'));
     case 'poll-grid-block':
