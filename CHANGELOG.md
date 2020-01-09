@@ -21,6 +21,7 @@
 * Add Slotting On Teasers Screen
 * Add checkbox to enable or disable SmartNews.
 * Remove livestream screen breadcrumbs
+* Fixed broken artist embed in Spotify Embed Block
 
 
 ## v0.2.16

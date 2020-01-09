@@ -182,7 +182,11 @@ export default class SpotifyEmbedBlockModal extends React.Component {
             )}
           {
             isValid
-            && <SpotifyEmbedBlockPreview type={spotifyType} block={this.setBlock()} />
+            && (
+            <div className="d-flex justify-content-center">
+              <SpotifyEmbedBlockPreview type={spotifyType} block={this.setBlock()} />
+            </div>
+            )
           }
         </ModalBody>
         <ModalFooter>
