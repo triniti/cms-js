@@ -40,7 +40,7 @@ test('StoryFields render', (t) => {
   t.equal(wrapper.find(CardBody).length, 1, 'it should render CardBody component');
   t.equal(classification.length, 1, 'it should render the classification field');
   t.equal(wrapper.find(SlugEditor).length, 1, 'it should render the SlugEditor component');
-  t.equal(slottingFieldArray.props().selectFieldOptions, mockedConfig, 'slotting field is rendered correctly');
+  t.equal(slottingFieldArray.props().selectFieldOptions, mockedConfig, 'it should render a correct slotting config');
   t.end();
 });
 
