@@ -34,13 +34,16 @@ const MediaLiveChannelCards = ({ canViewIngests, getMediaLive, nodes }) => nodes
   const originEndpoints = get(mediaLiveData, 'originEndpoints', []);
   const cdnEndpoints = get(mediaLiveData, 'cdnEndpoints', []);
   const inputs = get(mediaLiveData, 'inputs', []);
+  const title = node.isInMap('tags', 'livestream_label')
+    ? `${node.getFromMap('tags', 'livestream_label')} | ${node.get('title')}`
+    : node.get('title');
   return (
     <Card key={node.get('_id')}>
       <CardHeader className="pr-2">
         <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>
           {status}
         </small>
-        <p className="mb-0 mr-2 medialive-channel-card__header-text">{node.get('title')}</p>
+        <p className="mb-0 mr-2 medialive-channel-card__header-text">{title}</p>
         <RouterLink to={pbjUrl(node, 'cms')}>
           <Button id={`view-${node.get('_id')}`} color="hover" radius="circle" className="mb-0 mr-1">
             <Icon imgSrc="eye" alt="view" />
