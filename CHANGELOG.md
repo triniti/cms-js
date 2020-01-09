@@ -3,6 +3,7 @@
 
 ## v0.3.1
 * Add support for livestream static label
+* Fix unit test error due to unresolved config file.
 
 
 ## v0.3.0

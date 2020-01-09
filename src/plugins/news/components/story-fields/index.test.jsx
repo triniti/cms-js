@@ -1,15 +1,17 @@
-/* import 'jsdom-global/register';
+import 'jsdom-global/register';
+import proxyquire from 'proxyquire';
 import React from 'react';
 import test from 'tape';
 import { Field } from 'redux-form';
 import { shallow } from 'enzyme';
-
 import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 import SlugEditor from '@triniti/cms/plugins/ncr/components/slug-editor';
 import { Card, CardBody } from '@triniti/admin-ui-plugin/components';
-import StoryFields from './index';
+
+proxyquire.noCallThru();
+const StoryFields = proxyquire('./index', { 'config/slottingConfig': [{ label: 'label', value: 'value' }] }).default;
 
 const schemas = {
   getNodeRequest: resolveSchema(ArticleV1Mixin, 'request', 'get-article-request'),
@@ -52,4 +54,4 @@ test('StoryFields isEditMode equals false props test.', (t) => {
   t.equal(titleField.props().readOnly, true, 'title field readonly prop is true');
   t.false(classification.props().isEditMode, 'classification field is not in edit mode');
   t.end();
-}); */
+});
