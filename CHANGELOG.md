@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.3.1
+* Add support for livestream static label
+
+
 ## v0.3.0
 * Make `UserPickerField` and use for `author_ref`
 * Issue: Add Imgur Post Block
