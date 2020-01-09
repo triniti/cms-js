@@ -34,6 +34,7 @@ const SpotifyEmbedBlockPreview = ({ block }) => {
     case 'episode':
       return podcastEmbed;
 
+    case 'artist':
     case 'album':
     case 'track':
     case 'playlist':
