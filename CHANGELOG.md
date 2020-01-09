@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v0.3.1
+* Add support for livestream static label
+* Fix unit test error due to unresolved config file.
+* Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
+
+
 ## v0.3.0
 * Make `UserPickerField` and use for `author_ref`
 * Issue: Add Imgur Post Block
@@ -17,6 +23,7 @@
 * Add Slotting On Teasers Screen
 * Add checkbox to enable or disable SmartNews.
 * Remove livestream screen breadcrumbs
+* Fixed broken artist embed in Spotify Embed Block
 
 
 ## v0.2.16

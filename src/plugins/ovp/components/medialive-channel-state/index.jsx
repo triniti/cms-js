@@ -8,9 +8,12 @@ const MediaLiveChannelState = ({ node }) => {
   if (!node) {
     return null;
   }
+  const header = node.isInMap('tags', 'livestream_label')
+    ? `Livestream (${node.getFromMap('tags', 'livestream_label')})`
+    : 'Livestream';
   return (
     <Card>
-      <CardHeader className="mb-4">Livestream</CardHeader>
+      <CardHeader className="mb-4">{header}</CardHeader>
       <Card>
         <CardBody className="pt-0">
           <Row>
