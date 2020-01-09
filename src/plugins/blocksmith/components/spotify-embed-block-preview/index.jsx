@@ -6,7 +6,7 @@ import Message from '@gdbots/pbj/Message';
 const SpotifyEmbedBlockPreview = ({ block }) => {
   const spotifyId = block.get('spotify_id');
   const spotifyType = block.get('spotify_type');
-
+  console.log({ id: spotifyType, type: spotifyType });
   const defaultEmbed = (
     <iframe
       src={`https://open.spotify.com/embed/${spotifyType}/${spotifyId}/`}
@@ -34,6 +34,7 @@ const SpotifyEmbedBlockPreview = ({ block }) => {
     case 'episode':
       return podcastEmbed;
 
+    case 'artist':
     case 'album':
     case 'track':
     case 'playlist':
