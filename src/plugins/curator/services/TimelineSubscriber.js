@@ -1,5 +1,5 @@
-import camelCase from 'lodash/camelCase';
 import get from 'lodash/get';
+import camelCase from 'lodash/camelCase';
 import { getFormMeta } from 'redux-form';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getDatePickerFieldError from '@triniti/cms/components/date-picker-field/getDatePickerFieldError';
@@ -28,6 +28,7 @@ export default class TimelineSubscriber extends EventSubscriber {
     [
       'allow_comments',
       'description',
+      'display_title',
       'title',
     ].forEach((fieldName) => {
       data[camelCase(fieldName)] = node.get(fieldName);
@@ -46,10 +47,10 @@ export default class TimelineSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    ['title'].forEach((fieldName) => { // field using TextField component
-      const error = getTextFieldError(data, fieldName, node);
+    ['title', 'display_title'].forEach((fieldName) => {
+      const error = getTextFieldError(data, camelCase(fieldName), node);
       if (error) {
-        formEvent.addError(fieldName, error);
+        formEvent.addError(camelCase(fieldName), error);
       }
     });
 
@@ -102,16 +103,17 @@ export default class TimelineSubscriber extends EventSubscriber {
       return;
     }
 
-    node.set('title', data.title);
+    node.set('allow_comments', data.allowComments);
     node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
+
+    ['description', 'display_title', 'title'].forEach((fieldName) => {
+      node.set(fieldName, data[camelCase(fieldName)]);
+    });
 
     node.clear('related_timeline_refs');
     if (get(data, 'relatedTimelineRefs.length')) {
       node.addToList('related_timeline_refs', get(data, 'relatedTimelineRefs'));
     }
-
-    node.set('allow_comments', data.allowComments);
-    node.set('description', data.description);
   }
 
   getSubscribedEvents() {

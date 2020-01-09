@@ -56,7 +56,27 @@ const TeaserFields = ({
           schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
           && <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
         }
-
+        <Field
+          name="caption"
+          component={TextField}
+          label="caption"
+          placeholder="enter caption"
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={PicklistPickerField}
+          isEditMode={isEditMode}
+          label="Credit"
+          name="credit"
+          picklistId="teaser-credits"
+        />
+        <Field
+          name="creditUrl"
+          component={TextField}
+          label="Credit Url"
+          placeholder="enter credit url"
+          readOnly={!isEditMode}
+        />
         <FieldArray
           component={KeyValuesField}
           keyFieldComponent="selectField"
