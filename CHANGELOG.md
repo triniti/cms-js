@@ -4,6 +4,7 @@
 ## v0.3.1
 * Add support for livestream static label
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+* Fix unit test error due to unresolved config file.
 * Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
 
 
