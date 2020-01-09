@@ -1,5 +1,5 @@
-import get from 'lodash/get';
 import camelCase from 'lodash/camelCase';
+import get from 'lodash/get';
 import { getFormMeta } from 'redux-form';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getDatePickerFieldError from '@triniti/cms/components/date-picker-field/getDatePickerFieldError';

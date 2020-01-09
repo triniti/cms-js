@@ -74,7 +74,7 @@ export default class TeaserSubscriber extends EventSubscriber {
       formEvent.addError('description', error);
     }
 
-    ['caption', 'credit_url', 'ctaText', 'title'].forEach((fieldName) => {
+    ['caption', 'credit_url', 'cta_text', 'title'].forEach((fieldName) => {
       error = getTextFieldError(data, camelCase(fieldName), node);
       if (error) {
         formEvent.addError(camelCase(fieldName), error);

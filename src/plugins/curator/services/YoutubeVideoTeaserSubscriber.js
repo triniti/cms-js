@@ -1,6 +1,5 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
-import camelCase from "lodash/camelCase";
 
 export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
   constructor() {
