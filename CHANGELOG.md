@@ -3,6 +3,7 @@
 
 ## v0.3.1
 * Add support for livestream static label
+* Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
 
 
 ## v0.3.0
