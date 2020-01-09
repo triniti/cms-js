@@ -4,6 +4,7 @@
 ## v0.3.1
 * Add support for livestream static label
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+* Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
 
 
 ## v0.3.0
@@ -22,6 +23,7 @@
 * Add Slotting On Teasers Screen
 * Add checkbox to enable or disable SmartNews.
 * Remove livestream screen breadcrumbs
+* Fixed broken artist embed in Spotify Embed Block
 
 
 ## v0.2.16

@@ -95,9 +95,8 @@ export default class WidgetHasSearchRequestSubscriber extends EventSubscriber {
           value: type,
         }));
 
-        const timelineRef = searchRequest.get('timeline_ref') ? searchRequest.get('timeline_ref').toString() : '';
-        if (timelineRef) {
-          data[camelCase(searchRequestType)].timelineRefs = [timelineRef];
+        if (searchRequest.has('timeline_ref')) {
+          data[camelCase(searchRequestType)].timelineRefs = [searchRequest.get('timeline_ref')];
         }
 
         if (searchRequest.has('gallery_ref')) {
