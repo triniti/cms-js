@@ -23,7 +23,17 @@ export default class AssetSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    ['_id', 'title', 'description', 'mime_type', 'linked_refs'].forEach((fieldName) => {
+    [
+      'credit_url',
+      'cta_text',
+      'cta_url',
+      'description',
+      'display_title',
+      '_id',
+      'linked_refs',
+      'mime_type',
+      'title',
+    ].forEach((fieldName) => {
       data[camelCase(fieldName)] = node.get(fieldName);
     });
 
@@ -44,19 +54,27 @@ export default class AssetSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
+    if (!data.title) {
+      formEvent.addError('title', 'Title is required');
+    }
+
     let error = getTextAreaFieldError(data, 'description', node);
     if (error) {
       formEvent.addError('description', error);
     }
 
-    error = getTextFieldError(data, 'title', node);
-    if (error) {
-      formEvent.addError('title', error);
-    }
-
-    if (!data.title) {
-      formEvent.addError('title', 'Title is required');
-    }
+    [
+      'credit_url',
+      'cta_text',
+      'cta_url',
+      'display_title',
+      'title',
+    ].forEach((fieldName) => {
+      error = getTextFieldError(data, camelCase(fieldName), node);
+      if (error) {
+        formEvent.addError(camelCase(fieldName), error);
+      }
+    });
 
     if (get(data, 'credit.value')) {
       try {
@@ -68,9 +86,7 @@ export default class AssetSubscriber extends EventSubscriber {
 
     if (!data.mimeType) {
       formEvent.addError('mimeType', 'mime type is required');
-    }
-
-    if (data.mimeType) {
+    } else {
       try {
         node.set('mime_type', data.mimeType);
       } catch (e) {
@@ -98,8 +114,20 @@ export default class AssetSubscriber extends EventSubscriber {
       return;
     }
 
-    ['title', 'description', 'mime_type'].forEach((fieldName) => {
-      node.set(fieldName, data[camelCase(fieldName)]);
+    [
+      'credit_url',
+      'cta_text',
+      'cta_url',
+      'description',
+      'display_title',
+      'mime_type',
+      'title',
+    ].forEach((fieldName) => {
+      if (data[camelCase(fieldName)]) {
+        node.set(fieldName, data[camelCase(fieldName)]);
+      } else {
+        node.clear(fieldName);
+      }
     });
 
     node.set('credit', get(data, 'credit.value', null));

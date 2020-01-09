@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+
+
 ## v0.3.0
 * Make `UserPickerField` and use for `author_ref`
 * Issue: Add Imgur Post Block

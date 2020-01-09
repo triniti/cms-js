@@ -25,11 +25,39 @@ const VideoAssetFields = ({ asset, isEditMode, schemas }) => ([
         size="xlg"
       />
       <Field
+        name="displayTitle"
+        component={TextField}
+        label="Display Title"
+        placeholder="enter display title"
+        readOnly={!isEditMode}
+      />
+      <Field
         component={PicklistPickerField}
         isEditMode={isEditMode}
         label="Credit"
         name="credit"
         picklistId="video-asset-credits"
+      />
+      <Field
+        name="creditUrl"
+        component={TextField}
+        label="Credit Url"
+        placeholder="enter credit url"
+        readOnly={!isEditMode}
+      />
+      <Field
+        name="ctaText"
+        component={TextField}
+        label="Cta Text"
+        placeholder="enter cta text"
+        readOnly={!isEditMode}
+      />
+      <Field
+        name="ctaUrl"
+        component={TextField}
+        label="Cta Url"
+        placeholder="enter cta url"
+        readOnly={!isEditMode}
       />
       <Field
         component={DatePickerField}
