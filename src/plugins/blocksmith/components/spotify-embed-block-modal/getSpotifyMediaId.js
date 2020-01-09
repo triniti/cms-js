@@ -16,7 +16,6 @@ const getSpotifyMediaId = (str) => {
     }
   }
 
-
   return { id: '', type: '' };
 };
 

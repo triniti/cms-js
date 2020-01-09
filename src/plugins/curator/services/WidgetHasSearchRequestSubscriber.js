@@ -6,7 +6,6 @@ import { getFormMeta } from 'redux-form';
 
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getDatePickerFieldError from '@triniti/cms/components/date-picker-field/getDatePickerFieldError';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import SearchArticlesRequestV1Mixin from '@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort';
 import SearchGalleriesRequestV1Mixin from '@triniti/schemas/triniti/curator/mixin/search-galleries-request/SearchGalleriesRequestV1Mixin';
