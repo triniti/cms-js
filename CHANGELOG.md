@@ -1,11 +1,14 @@
 # CHANGELOG
 
 
+## vN.N.N
+* YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
+
+
 ## v0.3.1
 * Add support for livestream static label
 * Fix unit test error due to unresolved config file.
 * Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
-* YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
 
 
 ## v0.3.0
