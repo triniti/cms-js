@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+* YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
 
 
 ## v0.3.1
