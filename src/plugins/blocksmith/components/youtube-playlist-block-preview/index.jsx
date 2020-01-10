@@ -106,7 +106,7 @@ class YoutubePlaylistBlockPreview extends React.Component {
 
     if (block.has('video_id')) {
       this.player.cueVideoById({ videoId: block.get('video_id') });
-    } else {
+    } else if (typeof this.player.cuePlaylist === 'function') {
       this.player.cuePlaylist({ list: block.get('playlist_id') });
     }
 
