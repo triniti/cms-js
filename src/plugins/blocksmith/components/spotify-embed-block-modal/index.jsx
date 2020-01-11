@@ -47,6 +47,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
       touched: false,
       spotifyId: block.get('spotify_id'),
       spotifyType: block.get('spotify_type'),
+      spotifyURI: '',
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -101,11 +102,12 @@ export default class SpotifyEmbedBlockModal extends React.Component {
   }
 
   handleChangeTextArea(event) {
-    let { errorMsg, isValid, spotifyId, spotifyType } = this.state;
+    let { errorMsg, isValid, spotifyId, spotifyType, spotifyURI } = this.state;
     const input = event.target.value;
     const data = getSpotifyMediaId(input);
 
     if (data === undefined) {
+      console.log('undefined', data);
       errorMsg = 'url or embed code is invalid';
       isValid = false;
       spotifyId = input;
@@ -115,12 +117,14 @@ export default class SpotifyEmbedBlockModal extends React.Component {
       isValid = true;
       spotifyId = data.id;
       spotifyType = data.type;
+      spotifyURI = `spotify:${data.type}:${data.id}`;
     }
 
     this.setState({
       errorMsg,
       spotifyId,
       spotifyType,
+      spotifyURI,
       isValid,
       touched: true,
     });
@@ -135,6 +139,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
       touched,
       spotifyId,
       spotifyType,
+      spotifyURI,
       updatedDate,
     } = this.state;
 
@@ -151,7 +156,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
               onChange={this.handleChangeTextArea}
               placeholder="enter embed code"
               type="textarea"
-              value={spotifyId || ''}
+              value={spotifyId ? spotifyURI : ''}
             />
           </FormGroup>
           {
