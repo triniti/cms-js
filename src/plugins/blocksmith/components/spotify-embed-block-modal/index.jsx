@@ -107,7 +107,6 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     const data = getSpotifyMediaId(input);
 
     if (data === undefined) {
-      console.log('undefined', data);
       errorMsg = 'url or embed code is invalid';
       isValid = false;
       spotifyId = input;
