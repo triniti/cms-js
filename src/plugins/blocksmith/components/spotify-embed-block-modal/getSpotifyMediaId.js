@@ -4,8 +4,6 @@ export const SPOTIFY_TRACK_REGEX = /spotify:track:[a-zA-Z0-9-]+/;
 export const SPOTIFY_URL_REGEX = /https?:\/\/open\.spotify\.com\/(show|episode|artist|album|track|playlist)\/[a-zA-Z0-9-]+/;
 export const SPOTIFY_IFRAME_REGEX = /https?:\/\/open\.spotify\.com\/(embed|embed-podcast)\/(show|episode|artist|album|track|playlist)\/[a-zA-Z0-9-]+/;
 
-// https://open.spotify.com/track/2rPw8mIZPu987REVeDbrjt
-
 const getSpotifyMediaId = (str) => {
   if (
     SPOTIFY_TRACK_REGEX.test(str)
