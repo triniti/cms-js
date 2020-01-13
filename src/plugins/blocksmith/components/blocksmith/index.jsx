@@ -530,7 +530,6 @@ class Blocksmith extends React.Component {
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
-            handleFocus: this.handleFocus,
           },
         };
       case 'unstyled':
@@ -539,6 +538,7 @@ class Blocksmith extends React.Component {
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
+            handleFocus: this.handleFocus,
           },
         };
       case 'ordered-list-item':

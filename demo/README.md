@@ -2,18 +2,16 @@ cms-js DEMO
 =======================
 
 ## Disclaimer
-Do not actually use `acme` anything. Wherever it says `acme` below, you need to replace that with the appropriate vendor name.
+Do not actually use `acme` anywhere. Wherever it says `acme` below, you need to replace that with the appropriate vendor name.
 
 ## Installation
 + Enter the repo `$ cd cms-js`
 + Run `$ nvm use`
++ Run `$ npm install`
++ Install your vendor schemas (Note: install in the root directory and not in the demo to avoid package version conflicts) ex: `$ npm install @acme/schemas --no-save` (the `--no-save` flag prevents the package from being added to `package.json`)
 + Go to the demo directory `$ cd demo`
 + Create a `.env` file with the desired vendor env information (see example below)
 + Create a `schemas.js` file that imports and exports your vendor schemas (see example below)
-+ Return to the root of the project `$ cd ..`
-+ Install your vendor schemas. ex: `$ npm install @acme/schemas --no-save` (the `--no-save` flag prevents them from being added to `package.json`)
-+ Run `$ npm install`
-+ Go to the demo directory `$ cd demo`
 + Run `$ npm install`
 + Run `$ npm start`
 + Open <https://localhost:3000> in a browser.
@@ -70,5 +68,3 @@ export default schemas;
 export const SearchArticlesRequest = SearchArticlesRequestV1;
 export const Video = VideoV1;
 ```
-
-
