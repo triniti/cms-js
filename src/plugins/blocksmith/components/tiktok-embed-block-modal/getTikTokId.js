@@ -1,4 +1,4 @@
-export const TIKTOK_URL_REGEX = /https:\/\/www\.tiktok\.com\/embed\/\d+/g;
+export const TIKTOK_URL_REGEX = /https:\/\/www\.tiktok\.com\/embed\/\d+/;
 export const TIKTOK_ID_REGEX = /\d{10,}/g;
 
 const getTikTokId = (str) => {
