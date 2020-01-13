@@ -52,7 +52,7 @@ const CustomizeOptions = ({
     <FormGroup inline className="d-flex justify-content-center form-group-mobile px-3 mb-2">
       <FormGroup>
         <Label className="d-flex justify-content-center text-nowrap align-items-center mb-0">
-          Link Text
+          Launch Text
           <Input size="sm" className="ml-2 w-auto" value={launchText} onChange={handleChangeLaunchText} />
         </Label>
       </FormGroup>
