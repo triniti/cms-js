@@ -1,8 +1,8 @@
-export const SPOTIFY_STRIP_MEDIA_ID_REGEX = /([0-9])\w+/g;
-export const SPOTIFY_STRIP_TYPE_REGEX = /(show|episode|artist|album|track|playlist)+/g;
-export const SPOTIFY_TRACK_REGEX = /spotify:track:[a-zA-Z0-9-]+/g;
-export const SPOTIFY_URL_REGEX = /http?s:\/\/open\.spotify\.com\/(show|episode|artist|album|track|playlist)\/[a-zA-Z0-9-]+/g;
-export const SPOTIFY_IFRAME_REGEX = /http?s:\/\/open\.spotify\.com\/(embed|embed-podcast)\/(show|episode|artist|album|track|playlist)\/[a-zA-Z0-9-]+/g;
+export const SPOTIFY_STRIP_MEDIA_ID_REGEX = /([0-9])\w+/;
+export const SPOTIFY_STRIP_TYPE_REGEX = /(show|episode|artist|album|track|playlist)+/;
+export const SPOTIFY_TRACK_REGEX = /spotify:track:[a-zA-Z0-9-]+/;
+export const SPOTIFY_URL_REGEX = /https?:\/\/open\.spotify\.com\/(show|episode|artist|album|track|playlist)\/[a-zA-Z0-9-]+/;
+export const SPOTIFY_IFRAME_REGEX = /https?:\/\/open\.spotify\.com\/(embed|embed-podcast)\/(show|episode|artist|album|track|playlist)\/[a-zA-Z0-9-]+/;
 
 const getSpotifyMediaId = (str) => {
   if (
