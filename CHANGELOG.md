@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.3.3
+* Fix for entering space or enter into youtube playlist block textarea.
+
+
 ## v0.3.2
 * Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used. 
 * Spotify Embed Block requires pasting of embeds twice.
