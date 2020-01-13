@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.3.2
 * Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used. 
 * Spotify Embed Block requires pasting of embeds twice.
 * YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
