@@ -1,5 +1,5 @@
-const PINTEREST_PIN_URL_REGEX = /http?s:\/\/(www\.)?pinterest\.com\/pin\/\w+/g;
-const PINTEREST_PIN_ID_REGEX = /^[0-9]*$/g;
+const PINTEREST_PIN_URL_REGEX = /http?s:\/\/(www\.)?pinterest\.com\/pin\/\w+/;
+const PINTEREST_PIN_ID_REGEX = /^[0-9]*$/;
 
 let isValidPinUrl = false;
 let isValidPinId = false;
