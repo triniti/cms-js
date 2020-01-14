@@ -37,13 +37,7 @@ export default class SluggableSubscriber extends EventSubscriber {
     const { slug: actualSlug, title } = formEvent.getData();
     const node = formEvent.getMessage();
 
-    let slug;
-    if (actualSlug) {
-      slug = actualSlug;
-    } else {
-      slug = createSlug(title);
-    }
-
+    const slug = createSlug(actualSlug || title);
     try {
       node.set('slug', this.shouldUseDatedSlug(formEvent.getName()) ? addDateToSlug(slug) : slug);
     } catch (e) {

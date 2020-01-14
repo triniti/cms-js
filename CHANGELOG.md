@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.3.4
+* Editing a slug during creation modal will result in a blank slug when hitting ENTER
+
+
 ## v0.3.3
 * Fix for entering space or enter into youtube playlist block textarea.
 
