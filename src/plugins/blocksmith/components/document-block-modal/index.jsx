@@ -169,11 +169,14 @@ class DocumentBlockModal extends React.Component {
     this.setState({ selectedImageNode: null }, this.refocusModal);
   }
 
-  handleToggleUploader() {
+  handleToggleUploader(assets) {
     this.setState(({ isUploaderOpen }) => ({ isUploaderOpen: !isUploaderOpen }), () => {
       const { isUploaderOpen } = this.state;
       if (!isUploaderOpen) {
         this.refocusModal();
+      }
+      if (assets) {
+        this.handleSearchDocumentAssets();
       }
     });
   }
@@ -353,6 +356,7 @@ class DocumentBlockModal extends React.Component {
           onEditBlock={this.handleEditBlock}
           onIncrementStep={this.handleIncrementStep}
           onToggleUploader={this.handleToggleUploader}
+
           toggle={toggle}
         />
       </Modal>
