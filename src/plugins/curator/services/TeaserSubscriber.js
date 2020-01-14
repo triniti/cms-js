@@ -33,13 +33,19 @@ export default class TeaserSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    ['cta_text', 'description', 'order_date', 'sync_with_target', 'title'].forEach((fieldName) => {
+    ['caption', 'credit_url', 'cta_text', 'description', 'order_date', 'sync_with_target', 'title'].forEach((fieldName) => {
       if (node.has(fieldName)) {
         data[camelCase(fieldName)] = node.get(fieldName);
       }
     });
 
+    data.credit = node.has('credit') ? {
+      label: node.get('credit'),
+      value: node.get('credit'),
+    } : undefined;
+
     data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
+
     data.slotting = !node.has('slotting') ? null : Object.entries(node.get('slotting')).map(([name, value]) => ({
       key: {
         label: name,
@@ -47,6 +53,7 @@ export default class TeaserSubscriber extends EventSubscriber {
       },
       value,
     }));
+
     data.timelineRefs = [];
     if (node.has('timeline_ref')) {
       data.timelineRefs.push(node.get('timeline_ref'));
@@ -62,21 +69,17 @@ export default class TeaserSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    let error;
-    // fields using TextField component
-    ['title', 'ctaText'].forEach((fieldName) => {
-      if (data[fieldName]) {
-        error = getTextFieldError(data, fieldName, node);
-        if (error) {
-          formEvent.addError(fieldName, error);
-        }
-      }
-    });
-
-    error = getTextAreaFieldError(data, 'description', node);
+    let error = getTextAreaFieldError(data, 'description', node);
     if (error) {
       formEvent.addError('description', error);
     }
+
+    ['caption', 'credit_url', 'cta_text', 'title'].forEach((fieldName) => {
+      error = getTextFieldError(data, camelCase(fieldName), node);
+      if (error) {
+        formEvent.addError(camelCase(fieldName), error);
+      }
+    });
 
     const redux = formEvent.getRedux();
     if (redux) {
@@ -127,6 +130,14 @@ export default class TeaserSubscriber extends EventSubscriber {
         formEvent.addError('timelineRef', e.message);
       }
     }
+
+    if (get(data, 'credit.value')) {
+      try {
+        node.set('credit', get(data, 'credit.value'));
+      } catch (e) {
+        formEvent.addError('credit', e.message);
+      }
+    }
   }
 
   /**
@@ -145,13 +156,15 @@ export default class TeaserSubscriber extends EventSubscriber {
       return;
     }
 
-    ['cta_text', 'description', 'title'].forEach((fieldName) => {
+    ['caption', 'credit_url', 'cta_text', 'description', 'title'].forEach((fieldName) => {
       if (data[camelCase(fieldName)]) {
         node.set(fieldName, data[camelCase(fieldName)]);
       } else {
         node.clear(fieldName);
       }
     });
+
+    node.set('credit', get(data, 'credit.value', null));
 
     node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
 
