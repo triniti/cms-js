@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+
+
 ## v0.3.3
 * Fix for entering space or enter into youtube playlist block textarea.
 
