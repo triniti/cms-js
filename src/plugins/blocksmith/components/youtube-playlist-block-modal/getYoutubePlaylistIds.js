@@ -1,6 +1,6 @@
 export const YOUTUBE_PLAYLIST_ID_QUERY_STRING_REGEX = /list=[a-zA-Z0-9_-]+/;
 export const YOUTUBE_VIDEO_ID_QUERY_STRING_REGEX = /v=[a-zA-Z0-9_-]+/;
-export const ID_REGEX = /[a-zA-Z0-9_-]/;
+export const ID_REGEX = /^[a-zA-Z0-9_-]+$/;
 
 /**
  * @param {string} str
