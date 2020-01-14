@@ -175,7 +175,7 @@ class DocumentBlockModal extends React.Component {
       if (!isUploaderOpen) {
         this.refocusModal();
       }
-      if (assets) {
+      if (!isUploaderOpen && assets) {
         this.handleSearchDocumentAssets();
       }
     });
@@ -356,7 +356,6 @@ class DocumentBlockModal extends React.Component {
           onEditBlock={this.handleEditBlock}
           onIncrementStep={this.handleIncrementStep}
           onToggleUploader={this.handleToggleUploader}
-
           toggle={toggle}
         />
       </Modal>
