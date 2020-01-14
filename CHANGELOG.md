@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Editing a slug during creation modal will result in a blank slug when hitting ENTER
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
 
 
