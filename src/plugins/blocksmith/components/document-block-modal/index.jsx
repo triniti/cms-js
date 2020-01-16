@@ -159,8 +159,8 @@ class DocumentBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleCloseUploader(assets) {
-    if (assets) {
+  handleCloseUploader(document) {
+    if (document) {
       this.handleSearchDocumentAssets();
     }
   }
@@ -169,14 +169,14 @@ class DocumentBlockModal extends React.Component {
     this.setState({ selectedImageNode: null }, this.refocusModal);
   }
 
-  handleToggleUploader(assets) {
+  handleToggleUploader(document) {
     this.setState(({ isUploaderOpen }) => ({ isUploaderOpen: !isUploaderOpen }), () => {
       const { isUploaderOpen } = this.state;
       if (!isUploaderOpen) {
         this.refocusModal();
-        if (assets) {
+        if (document) {
           this.handleSearchDocumentAssets();
-          this.handleSelectDocument(assets);
+          this.handleSelectDocument(document);
         }
       }
     });
