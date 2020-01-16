@@ -11,7 +11,7 @@ import { serviceIds } from './constants';
 
 export default class NotifyPlugin extends Plugin {
   constructor() {
-    super('triniti', 'notify', '0.3.0');
+    super('triniti', 'notify', '0.3.4');
   }
 
   configure(app, bottle) {
