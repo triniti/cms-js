@@ -4,8 +4,11 @@
 ## vN.N.N
 * Editing a slug during creation modal will result in a blank slug when hitting ENTER
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
-* When adding text to a text block, hovering your mouse to another block and back causes text to disappear.
 * Unselected images from Batch Edit once User clicks update.
+
+
+## v0.3.4
+* When adding text to a text block, hovering your mouse to another block and back causes text to disappear.
 
 
 ## v0.3.3
@@ -13,7 +16,7 @@
 
 
 ## v0.3.2
-* Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used.
+* Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used. 
 * Spotify Embed Block requires pasting of embeds twice.
 * YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
 * Text Editor toolbar does not appear after selecting option, leaving tab, and returning

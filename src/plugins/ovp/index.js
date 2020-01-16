@@ -10,7 +10,7 @@ import { serviceIds } from './constants';
 
 export default class OvpPlugin extends Plugin {
   constructor() {
-    super('triniti', 'ovp', '0.3.0');
+    super('triniti', 'ovp', '0.3.4');
   }
 
   configure(app, bottle) {
