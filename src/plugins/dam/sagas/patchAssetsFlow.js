@@ -6,11 +6,9 @@ import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
 import OperationTimedOut from '@triniti/cms/plugins/pbjx/exceptions/OperationTimedOut';
 
 /**
- * @param {Function} resolve
- * @param {Object} history
  * @param {Object} config
  */
-export function* successFlow(id, config) {
+export function* successFlow(config) {
   yield call([toast, 'close']);
   const message = get(config, 'action.successMsg', 'Success! File have been updated.');
   yield put(sendAlert({
@@ -23,7 +21,6 @@ export function* successFlow(id, config) {
 
 /**
  * command failure handler
- * @param {Function} reject
  * @param {Object} error
  */
 export function* failureFlow(error) {

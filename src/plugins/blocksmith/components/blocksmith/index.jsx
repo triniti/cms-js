@@ -221,11 +221,9 @@ class Blocksmith extends React.Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleCopyBlock = this.handleCopyBlock.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleDismissImagePreview = this.handleDismissImagePreview.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleEditCanvasBlock = this.handleEditCanvasBlock.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
     this.handleHoverInsert = this.handleHoverInsert.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -246,6 +244,10 @@ class Blocksmith extends React.Component {
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
     this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
+  }
+
+  componentDidMount() {
+    this.editor.blur();
   }
 
   /**
@@ -538,7 +540,6 @@ class Blocksmith extends React.Component {
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
-            handleFocus: this.handleFocus,
           },
         };
       case 'ordered-list-item':
@@ -683,13 +684,6 @@ class Blocksmith extends React.Component {
         });
       });
     });
-  }
-
-  /**
-   * Dismisses the image preview
-   */
-  handleDismissImagePreview() {
-    this.setState({ imagePreviewSrc: null });
   }
 
   /**
@@ -848,17 +842,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Return the focus on a set editor and guarantees to display the inline toolbar buttons
-   * each time highlighting/selecting of text block's content happens.
-   */
-  handleFocus() {
-    const { isSidebarOpen, readOnly } = this.state;
-    if (!isSidebarOpen && this.editor && !readOnly) {
-      this.editor.focus();
-    }
-  }
-
-  /**
    * Handles the custom command type(s) sent by keyBindingFn.
    *
    * @link https://draftjs.org/docs/advanced-topics-key-bindings.html
@@ -978,8 +961,6 @@ class Blocksmith extends React.Component {
     this.setState({
       isHoverInsertMode: false,
     });
-
-    this.handleFocus();
 
     const { isOptionKeyCommand, hasCommandModifier } = KeyBindingUtil;
     if (!hasFocus(editorState.getSelection()) || isOptionKeyCommand(e)) {
