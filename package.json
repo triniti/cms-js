@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "@triniti/cms is a single page app for managing triniti schemas and services.",
   "license": "Apache-2.0",
   "module": "./index.js",
