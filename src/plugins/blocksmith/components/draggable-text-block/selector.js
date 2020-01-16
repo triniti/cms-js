@@ -12,5 +12,4 @@
  */
 export default (state, { blockProps }) => ({
   draggable: !blockProps.getReadOnly(),
-  handleFocus: blockProps.handleFocus,
 });
