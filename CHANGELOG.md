@@ -4,6 +4,7 @@
 ## vN.N.N
 * Editing a slug during creation modal will result in a blank slug when hitting ENTER
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+* Uploading a new pdf to a content block does not auto select or show up
 * Unselected images from Batch Edit once User clicks update.
 
 
