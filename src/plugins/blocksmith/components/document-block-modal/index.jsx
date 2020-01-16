@@ -177,6 +177,7 @@ class DocumentBlockModal extends React.Component {
       }
       if (!isUploaderOpen && assets) {
         this.handleSearchDocumentAssets();
+        this.handleSelectDocument(assets);
       }
     });
   }
