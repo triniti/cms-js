@@ -19,7 +19,7 @@ import { serviceIds, auth0config } from './constants';
 
 export default class IamPlugin extends Plugin {
   constructor() {
-    super('triniti', 'iam', '0.3.0');
+    super('triniti', 'iam', '0.3.4');
   }
 
   configure(app, bottle) {
