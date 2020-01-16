@@ -174,10 +174,10 @@ class DocumentBlockModal extends React.Component {
       const { isUploaderOpen } = this.state;
       if (!isUploaderOpen) {
         this.refocusModal();
-      }
-      if (!isUploaderOpen && assets) {
-        this.handleSearchDocumentAssets();
-        this.handleSelectDocument(assets);
+        if (assets) {
+          this.handleSearchDocumentAssets();
+          this.handleSelectDocument(assets);
+        }
       }
     });
   }
