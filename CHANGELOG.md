@@ -8,6 +8,7 @@
 * Uploading a new pdf to a content block does not auto select or show up
 * Unselected images from Batch Edit once User clicks update.
 * Add YouTube and JW Player video fields
+* Add `aspect_ratio` ui for gallery and document blocks
 * Use `@triniti/schemas` v1.1.6
 
 
