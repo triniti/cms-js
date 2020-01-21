@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import {
   Button,
 } from '@triniti/admin-ui-plugin/components';
-import AssetPickerModal from '@triniti/cms/plugins/dam/components/asset-picker-modal';
+import ImageAssetPickerModal from '@triniti/cms/plugins/dam/components/image-asset-picker-modal';
 
 import { ImageAssetPicker } from './index';
 
@@ -25,7 +25,7 @@ test('ImageAssetPicker render', (t) => {
   let expected = 2;
   t.equal(actual, expected, 'it should render correct count of buttons');
 
-  actual = wrapper.find(AssetPickerModal).length;
+  actual = wrapper.find(ImageAssetPickerModal).length;
   expected = 1;
   t.equal(actual, expected, 'it should render an AssetPickerModal');
 
@@ -69,14 +69,14 @@ test('ImageAssetPicker onClearImage', (t) => {
 
 test('ImageAssetPicker onCloseUploader [with newly uploaded asset]', (t) => {
   const asset = 'mocked-new-uploaded-asset';
-  wrapper.find(AssetPickerModal).props().onCloseUploader({ asset });
+  wrapper.find(ImageAssetPickerModal).props().onCloseUploader({ asset });
   t.true(handleSelectImage.calledOnce, 'it should call the handleSelectImage function');
   t.end();
 });
 
 test('ImageAssetPicker onCloseUploader [with no uploaded asset]', (t) => {
   const asset = null;
-  wrapper.find(AssetPickerModal).props().onCloseUploader({ asset });
+  wrapper.find(ImageAssetPickerModal).props().onCloseUploader({ asset });
   t.false(handleSelectImage.calledOnce, 'it should not call the handleSelectImage function');
   t.end();
 });

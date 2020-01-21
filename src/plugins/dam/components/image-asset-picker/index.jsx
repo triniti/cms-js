@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
 
 import { Button } from '@triniti/admin-ui-plugin/components';
-import AssetPickerModal from '@triniti/cms/plugins/dam/components/asset-picker-modal';
+import ImageAssetPickerModal from '@triniti/cms/plugins/dam/components/image-asset-picker-modal';
 import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/ImageAssetV1Mixin';
 import Message from '@gdbots/pbj/Message';
 
@@ -52,7 +52,7 @@ export const ImageAssetPicker = ({
       >
         Clear Image
       </Button>
-      <AssetPickerModal
+      <ImageAssetPickerModal
         areLinkedImagesAllowed={areLinkedImagesAllowed}
         assetTypes={assetTypes}
         galleryNode={galleryNode}

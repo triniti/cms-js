@@ -5,7 +5,7 @@ import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/Im
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { Button, FormGroup, FormText, Label } from '@triniti/admin-ui-plugin/components';
-import AssetPickerModal from '@triniti/cms/plugins/dam/components/asset-picker-modal';
+import ImageAssetPickerModal from '@triniti/cms/plugins/dam/components/image-asset-picker-modal';
 
 const imageType = ImageAssetV1Mixin.findOne().getCurie().getMessage();
 
@@ -114,7 +114,7 @@ class ImageAssetPickerField extends React.Component {
           value && isEditMode
           && <Button onClick={onChange}>Clear Image</Button>
         }
-        <AssetPickerModal
+        <ImageAssetPickerModal
           areLinkedImagesAllowed={areLinkedImagesAllowed}
           assetTypes={[imageType]}
           isOpen={isModalOpen}
