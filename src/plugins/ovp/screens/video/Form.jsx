@@ -2,6 +2,7 @@ import { reduxForm } from 'redux-form';
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
 import History from '@triniti/cms/plugins/pbjx/components/history';
+import JwplayerMediaFields from '@triniti/cms/plugins/ovp/components/jwplayer-media-fields';
 import KalturaEntryFields from '@triniti/cms/plugins/ovp/components/kaltura-entry-fields';
 import Media from '@triniti/cms/plugins/dam/components/media';
 import MediaLiveChannelFields from '@triniti/cms/plugins/ovp/components/medialive-channel-fields';
@@ -48,6 +49,10 @@ const Form = ({ node: video, form, tab, isEditMode }) => {
           {
             schemas.node.hasMixin('triniti:ovp.kaltura:mixin:has-entry')
             && <KalturaEntryFields isEditMode={isEditMode} />
+          }
+          {
+            schemas.node.hasMixin('triniti:ovp.jwplayer:mixin:has-media')
+            && <JwplayerMediaFields />
           }
           {
             schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel')

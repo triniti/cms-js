@@ -219,6 +219,25 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
         </FormGroup>
       </CardBody>
     </Card>
+    <Card>
+      <CardHeader>YouTube</CardHeader>
+      <CardBody indent>
+        <Field
+          component={TextField}
+          label="YouTube ID"
+          name="youtubeVideoId"
+          placeholder="enter youtube id..."
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={TextField}
+          label="Custom YouTube ID"
+          name="youtubeCustomId"
+          placeholder="enter custom youtube id..."
+          readOnly={!isEditMode}
+        />
+      </CardBody>
+    </Card>
   </>
 );
 
