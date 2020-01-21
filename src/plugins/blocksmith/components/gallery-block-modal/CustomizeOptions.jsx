@@ -1,5 +1,7 @@
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import GalleryBlockPreview from '@triniti/cms/plugins/blocksmith/components/gallery-block-preview';
+import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
@@ -11,28 +13,40 @@ import {
   Icon,
   Input,
   Label,
+  Select,
 } from '@triniti/admin-ui-plugin/components';
+
+const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
+  format: 'map',
+  shouldStartCase: false,
+  except: [AspectRatioEnum.UNKNOWN],
+}).map(({ label, value }) => ({
+  label,
+  value,
+}));
 
 const CustomizeOptions = ({
   aside,
+  aspectRatio,
   block,
   hasUpdatedDate,
   isAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
+  onChangeAspectRatio: handleChangeAspectRatio,
   onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
-  onChangeStartAtPoster: handleChangeStartAtPoster,
   onChangeLaunchText: handleChangeLaunchText,
+  onChangeStartAtPoster: handleChangeStartAtPoster,
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleAssetPickerModal: handleToggleAssetPickerModal,
   selectedGallery,
   selectedImage,
-  updatedDate,
   startsAtPoster,
+  updatedDate,
 }) => (
   <div className="modal-body-blocksmith">
     <GalleryBlockPreview className="mb-3" block={block} />
@@ -51,6 +65,19 @@ const CustomizeOptions = ({
         selectedImage={selectedImage}
       />
     </FormGroup>
+    <div style={{ maxWidth: '350px', margin: '0 auto' }}>
+      <FormGroup>
+        <Label>Aspect Ratio</Label>
+        <Select
+          onChange={handleChangeAspectRatio}
+          value={!aspectRatio.value ? null : {
+            label: aspectRatio.value.replace('by', ' by '),
+            value: aspectRatio.value,
+          }}
+          options={aspectRatioOptions}
+        />
+      </FormGroup>
+    </div>
     <FormGroup inline className="d-flex justify-content-center form-group-mobile px-3 mb-2">
       <FormGroup>
         <Label className="d-flex justify-content-center text-nowrap align-items-center mb-0">
@@ -96,24 +123,26 @@ const CustomizeOptions = ({
 
 CustomizeOptions.propTypes = {
   aside: PropTypes.bool.isRequired,
+  aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
   isAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
+  onChangeAspectRatio: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
-  onChangeStartAtPoster: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
+  onChangeStartAtPoster: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   selectedGallery: PropTypes.instanceOf(Message).isRequired,
   selectedImage: PropTypes.instanceOf(Message),
-  updatedDate: PropTypes.instanceOf(Date).isRequired,
   startsAtPoster: PropTypes.bool.isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 CustomizeOptions.defaultProps = {
