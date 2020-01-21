@@ -52,7 +52,7 @@ const Form = ({ node: video, form, tab, isEditMode }) => {
           }
           {
             schemas.node.hasMixin('triniti:ovp.jwplayer:mixin:has-media')
-            && <JwplayerMediaFields />
+            && <JwplayerMediaFields isEditMode={isEditMode} />
           }
           {
             schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel')

@@ -1,3 +1,4 @@
+import camelCase from 'lodash/camelCase';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 
@@ -19,7 +20,15 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    data.jwplayerMediaId = node.get('jwplayer_media_id');
+    [
+      'jwplayer_media_id',
+      'jwplayer_sync_enabled',
+      'jwplayer_synced_at',
+    ].forEach((fieldName) => {
+      if (node.has(fieldName)) {
+        data[camelCase(fieldName)] = node.get(fieldName);
+      }
+    });
   }
 
   /**
@@ -31,10 +40,12 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    const error = getTextFieldError(data, 'jwplayerMediaId', node);
-    if (error) {
-      formEvent.addError('jwplayerMediaId', error);
-    }
+    ['jwplayerMediaId', 'jwplayerSyncedAt'].forEach((fieldName) => {
+      const error = getTextFieldError(data, fieldName, node);
+      if (error) {
+        formEvent.addError(fieldName, error);
+      }
+    });
   }
 
   /**
@@ -52,11 +63,11 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
       return;
     }
 
-    if (data.jwplayerMediaId) {
-      node.set('jwplayer_media_id', data.jwplayerMediaId);
-    } else {
-      node.clear('jwplayer_media_id');
-    }
+    ['jwplayer_media_id', 'jwplayer_synced_at'].forEach((fieldName) => {
+      node.set(fieldName, data[camelCase(fieldName)] || null);
+    });
+
+    node.set('jwplayer_sync_enabled', data.jwplayerSyncEnabled);
   }
 
   getSubscribedEvents() {
