@@ -1,5 +1,7 @@
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import DocumentBlockPreview from '@triniti/cms/plugins/blocksmith/components/document-block-preview';
+import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
@@ -11,16 +13,28 @@ import {
   Icon,
   Input,
   Label,
+  Select,
 } from '@triniti/admin-ui-plugin/components';
+
+const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
+  format: 'map',
+  shouldStartCase: false,
+  except: [AspectRatioEnum.UNKNOWN],
+}).map(({ label, value }) => ({
+  label,
+  value,
+}));
 
 const CustomizeOptions = ({
   aside,
+  aspectRatio,
   block,
   hasUpdatedDate,
   isAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
+  onChangeAspectRatio: handleChangeAspectRatio,
   onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
   onChangeLaunchText: handleChangeLaunchText,
@@ -48,23 +62,42 @@ const CustomizeOptions = ({
         onToggleAssetPickerModal={handleToggleAssetPickerModal}
       />
     </FormGroup>
-    <FormGroup inline className="d-flex justify-content-center form-group-mobile mb-4">
-      <Label>
-        Launch Text
-        <Input size="sm" className="ml-2 w-auto" value={launchText} onChange={handleChangeLaunchText} />
-      </Label>
-    </FormGroup>
-    <FormGroup className="mr-4">
-      <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
-        Is update
-      </Checkbox>
-    </FormGroup>
-    <FormGroup className="mr-4">
-      <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
-        Aside
-      </Checkbox>
-      <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-      <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+    <div style={{ maxWidth: '350px', margin: '0 auto' }}>
+      <FormGroup>
+        <Label>Aspect Ratio</Label>
+        <Select
+          onChange={handleChangeAspectRatio}
+          value={!aspectRatio.value ? null : {
+            label: aspectRatio.value.replace('by', ' by '),
+            value: aspectRatio.value,
+          }}
+          options={aspectRatioOptions}
+        />
+      </FormGroup>
+    </div>
+    <FormGroup inline className="d-flex justify-content-center form-group-mobile px-3 mb-2">
+      <FormGroup>
+        <Label className="d-flex justify-content-center text-nowrap align-items-center mb-0">
+          Launch Text
+          <Input
+            size="sm"
+            className="ml-2 mr-3 w-auto"
+            value={launchText}
+            onChange={handleChangeLaunchText}
+            placeholder="custom launch text..."
+          />
+        </Label>
+      </FormGroup>
+      <FormGroup className="mr-4">
+        <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
+          Is update
+        </Checkbox>
+        <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
+          Aside
+        </Checkbox>
+        <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
+        <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+      </FormGroup>
     </FormGroup>
     {hasUpdatedDate
     && (
@@ -79,12 +112,14 @@ const CustomizeOptions = ({
 
 CustomizeOptions.propTypes = {
   aside: PropTypes.bool.isRequired,
+  aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
   isAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
+  onChangeAspectRatio: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
