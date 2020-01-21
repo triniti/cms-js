@@ -17,16 +17,16 @@ const JwplayerMediaFields = ({ isEditMode }) => (
         readOnly={isEditMode}
       />
       <Field
-        component={CheckboxField}
-        disabled={!isEditMode}
-        label="JW Player Sync Enabled"
-        name="jwplayerSyncEnabled"
-      />
-      <Field
         component={TextField}
         label="JW Player Synced At"
         name="jwplayerSyncedAt"
         readOnly
+      />
+      <Field
+        component={CheckboxField}
+        disabled={!isEditMode}
+        label="JW Player Sync Enabled"
+        name="jwplayerSyncEnabled"
       />
     </CardBody>
   </Card>
