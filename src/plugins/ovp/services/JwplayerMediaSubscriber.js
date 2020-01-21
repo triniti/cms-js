@@ -1,6 +1,6 @@
-import camelCase from 'lodash/camelCase';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
+import Microtime from '@gdbots/pbj/well-known/Microtime';
 
 export default class JwplayerMediaSubscriber extends EventSubscriber {
   constructor() {
@@ -20,15 +20,11 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    [
-      'jwplayer_media_id',
-      'jwplayer_sync_enabled',
-      'jwplayer_synced_at',
-    ].forEach((fieldName) => {
-      if (node.has(fieldName)) {
-        data[camelCase(fieldName)] = node.get(fieldName);
-      }
-    });
+    data.jwplayerMediaId = node.get('jwplayer_media_id');
+    data.jwplayerSyncEnabled = node.get('jwplayer_sync_enabled');
+    data.jwplayerSyncedAt = node.has('jwplayer_synced_at')
+      ? Microtime.fromString(String(`${node.get('jwplayer_synced_at', 1574813280)}000000`)).toMoment().format('MMM DD, YYYY hh:mm A')
+      : null;
   }
 
   /**
@@ -40,12 +36,10 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    ['jwplayerMediaId', 'jwplayerSyncedAt'].forEach((fieldName) => {
-      const error = getTextFieldError(data, fieldName, node);
-      if (error) {
-        formEvent.addError(fieldName, error);
-      }
-    });
+    const error = getTextFieldError(data, 'jwplayerMediaId', node);
+    if (error) {
+      formEvent.addError('jwplayerMediaId', error);
+    }
   }
 
   /**
@@ -63,10 +57,7 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
       return;
     }
 
-    ['jwplayer_media_id', 'jwplayer_synced_at'].forEach((fieldName) => {
-      node.set(fieldName, data[camelCase(fieldName)] || null);
-    });
-
+    node.set('jwplayer_media_id', data.jwplayerMediaId || null);
     node.set('jwplayer_sync_enabled', data.jwplayerSyncEnabled);
   }
 

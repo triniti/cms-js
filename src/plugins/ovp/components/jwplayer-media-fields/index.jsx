@@ -14,7 +14,7 @@ const JwplayerMediaFields = ({ isEditMode }) => (
         label="JW Player Media ID"
         name="jwplayerMediaId"
         placeholder="enter jw player media id..."
-        readOnly={isEditMode}
+        readOnly={!isEditMode}
       />
       <Field
         component={TextField}
