@@ -58,7 +58,7 @@ class GalleryBlockModal extends React.Component {
       aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
       galleryQ: '',
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       launchText: block.get('launch_text') || '',
       selectedGallery: gallery || null,
@@ -81,7 +81,7 @@ class GalleryBlockModal extends React.Component {
     this.handleSearchGalleries = this.handleSearchGalleries.bind(this);
     this.handleSelectGallery = this.handleSelectGallery.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   componentDidMount() {
@@ -193,12 +193,12 @@ class GalleryBlockModal extends React.Component {
     this.setState({ selectedImage: image });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -213,18 +213,18 @@ class GalleryBlockModal extends React.Component {
 
   render() {
     const {
-      aside,
       activeStep,
+      aside,
       aspectRatio,
       galleryQ,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isReadyToDisplay,
       launchText,
       selectedGallery,
       selectedImage,
-      updatedDate,
       startsAtPoster,
+      updatedDate,
     } = this.state;
     const { isOpen, isFreshBlock, toggle, galleries, node } = this.props;
 
@@ -235,7 +235,7 @@ class GalleryBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen}
+        keyboard={!isImageAssetPickerModalOpen}
       >
         <Header activeStep={activeStep} isFreshBlock={isFreshBlock} toggle={toggle} />
         <ModalBody className="p-0">
@@ -267,7 +267,7 @@ class GalleryBlockModal extends React.Component {
                   aspectRatio={aspectRatio}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
                   isImageSelected={!!selectedImage}
                   launchText={launchText}
                   node={node}
@@ -279,12 +279,11 @@ class GalleryBlockModal extends React.Component {
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   selectedGallery={selectedGallery}
                   selectedImage={selectedImage}
                   startsAtPoster={startsAtPoster}
                   updatedDate={updatedDate}
-
                 />
               )}
               {isReadyToDisplay && activeStep === 0 && !galleries.length && (

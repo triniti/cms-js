@@ -64,7 +64,7 @@ class DocumentBlockModal extends React.Component {
       aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
       documentQ: '',
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       isUploaderOpen: false,
       launchText: block.get('launch_text') || '',
@@ -88,7 +88,7 @@ class DocumentBlockModal extends React.Component {
     this.handleSearchDocumentAssets = this.handleSearchDocumentAssets.bind(this);
     this.handleSelectDocument = this.handleSelectDocument.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
@@ -226,12 +226,12 @@ class DocumentBlockModal extends React.Component {
     this.setState({ selectedImageNode });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -251,7 +251,7 @@ class DocumentBlockModal extends React.Component {
       aspectRatio,
       documentQ,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isReadyToDisplay,
       isUploaderOpen,
       launchText,
@@ -276,7 +276,7 @@ class DocumentBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen && !isUploaderOpen}
+        keyboard={!isImageAssetPickerModalOpen && !isUploaderOpen}
       >
         <Header
           activeStep={activeStep}
@@ -328,7 +328,7 @@ class DocumentBlockModal extends React.Component {
                   aspectRatio={aspectRatio}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   launchText={launchText}
                   node={node}
@@ -339,7 +339,7 @@ class DocumentBlockModal extends React.Component {
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   updatedDate={updatedDate}
                 />
               )}

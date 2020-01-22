@@ -21,7 +21,7 @@ export const ImageAssetPicker = ({
   node,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
-  onToggleAssetPickerModal: handleToggleAssetPickerModal,
+  onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
   selectedImage,
 }) => {
   const handleCloseUploader = (image, toggleAllModals) => {
@@ -29,12 +29,12 @@ export const ImageAssetPicker = ({
       handleSelectImage(image);
     }
     if (toggleAllModals) {
-      handleToggleAssetPickerModal();
+      handleToggleImageAssetPickerModal();
     }
   };
   const handleSelect = (image) => {
     handleSelectImage(image);
-    handleToggleAssetPickerModal();
+    handleToggleImageAssetPickerModal();
   };
   return (
     <span>
@@ -42,7 +42,7 @@ export const ImageAssetPicker = ({
         className="mr-3"
         disabled={isDisabled}
         innerRef={innerRef}
-        onClick={handleToggleAssetPickerModal}
+        onClick={handleToggleImageAssetPickerModal}
       >
         {`Select a${isImageSelected ? ' new' : 'n'} Image`}
       </Button>
@@ -62,7 +62,7 @@ export const ImageAssetPicker = ({
         node={node}
         onCloseUploader={handleCloseUploader}
         onSelectImage={handleSelect}
-        onToggleModal={handleToggleAssetPickerModal}
+        onToggleModal={handleToggleImageAssetPickerModal}
         selectedImage={selectedImage}
       />
     </span>
@@ -81,7 +81,7 @@ ImageAssetPicker.propTypes = {
   node: PropTypes.instanceOf(Message),
   onClearImage: PropTypes.func,
   onSelectImage: PropTypes.func.isRequired,
-  onToggleAssetPickerModal: PropTypes.func.isRequired,
+  onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   selectedImage: PropTypes.instanceOf(Message),
 };
 

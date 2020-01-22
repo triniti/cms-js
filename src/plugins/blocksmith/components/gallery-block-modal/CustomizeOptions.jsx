@@ -30,7 +30,7 @@ const CustomizeOptions = ({
   aspectRatio,
   block,
   hasUpdatedDate,
-  isAssetPickerModalOpen,
+  isImageAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
@@ -42,7 +42,7 @@ const CustomizeOptions = ({
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
-  onToggleAssetPickerModal: handleToggleAssetPickerModal,
+  onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
   selectedGallery,
   selectedImage,
   startsAtPoster,
@@ -55,13 +55,13 @@ const CustomizeOptions = ({
         galleryNode={selectedGallery}
         isDisabled={false}
         isImageSelected={isImageSelected}
-        isModalOpen={isAssetPickerModalOpen}
+        isModalOpen={isImageAssetPickerModalOpen}
         label="Select A Gallery Block Poster Image"
         multiAssetErrorMessage="Invalid Action: Trying to assign multiple Gallery Block Poster images."
         node={node}
         onClearImage={handleClearImage}
         onSelectImage={handleSelectImage}
-        onToggleAssetPickerModal={handleToggleAssetPickerModal}
+        onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
         selectedImage={selectedImage}
       />
     </FormGroup>
@@ -126,7 +126,7 @@ CustomizeOptions.propTypes = {
   aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
-  isAssetPickerModalOpen: PropTypes.bool.isRequired,
+  isImageAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
@@ -138,7 +138,7 @@ CustomizeOptions.propTypes = {
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
-  onToggleAssetPickerModal: PropTypes.func.isRequired,
+  onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   selectedGallery: PropTypes.instanceOf(Message).isRequired,
   selectedImage: PropTypes.instanceOf(Message),
   startsAtPoster: PropTypes.bool.isRequired,

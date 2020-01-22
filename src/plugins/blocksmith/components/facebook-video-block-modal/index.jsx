@@ -58,7 +58,7 @@ class FacebookVideoBlockModal extends React.Component {
       autoplay: block.get('autoplay'),
       hasUpdatedDate: block.has('updated_date'),
       href: block.get('href'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isValid: true,
       selectedImageNode: imageNode || null,
       showCaptions: block.get('show_captions'),
@@ -66,15 +66,15 @@ class FacebookVideoBlockModal extends React.Component {
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
-    this.handleChangeAside = this.handleChangeAside.bind(this);
-    this.handleClearImage = this.handleClearImage.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   setBlock() {
@@ -153,12 +153,12 @@ class FacebookVideoBlockModal extends React.Component {
     this.setState(changedTime(time));
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -188,11 +188,11 @@ class FacebookVideoBlockModal extends React.Component {
 
   render() {
     const {
-      autoplay,
       aside,
+      autoplay,
       hasUpdatedDate,
       href,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isValid,
       selectedImageNode,
       showCaptions,
@@ -202,7 +202,7 @@ class FacebookVideoBlockModal extends React.Component {
 
     const { isOpen, isFreshBlock, node, toggle } = this.props;
     return (
-      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isAssetPickerModalOpen}>
+      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isImageAssetPickerModalOpen}>
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Facebook Video Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
@@ -228,15 +228,15 @@ class FacebookVideoBlockModal extends React.Component {
             )}
           <FormGroup className="mt-3">
             <ImageAssetPicker
-              multiAssetErrorMessage="Invalid Action: Trying to assign multiple Facebook Block Poster images."
-              isImageSelected={!!selectedImageNode}
-              isModalOpen={isAssetPickerModalOpen}
               isDisabled={!isValid || !href}
+              isImageSelected={!!selectedImageNode}
+              isModalOpen={isImageAssetPickerModalOpen}
               label="Select A Facebook Block Poster Image"
+              multiAssetErrorMessage="Invalid Action: Trying to assign multiple Facebook Block Poster images."
               node={node}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
-              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
             />
           </FormGroup>
           <FormGroup check>

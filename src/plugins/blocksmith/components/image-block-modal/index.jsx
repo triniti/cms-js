@@ -43,7 +43,7 @@ class ImageBlockModal extends React.Component {
       caption: block.get('caption') || '',
       hasCaption: block.has('caption'),
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: isFreshBlock,
+      isImageAssetPickerModalOpen: isFreshBlock,
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
@@ -65,7 +65,7 @@ class ImageBlockModal extends React.Component {
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   setBlock() {
@@ -161,12 +161,12 @@ class ImageBlockModal extends React.Component {
     this.setState({ selectedImage });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -186,7 +186,7 @@ class ImageBlockModal extends React.Component {
       caption,
       hasCaption,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isLink,
       isNsfw,
       isValid,
@@ -205,7 +205,7 @@ class ImageBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen}
+        keyboard={!isImageAssetPickerModalOpen}
       >
         <ModalHeader toggle={toggle}>
           <span className="nowrap">{`${isFreshBlock ? 'Add' : 'Update'} Image Block`}</span>
@@ -221,7 +221,7 @@ class ImageBlockModal extends React.Component {
               caption={caption}
               hasCaption={hasCaption}
               hasUpdatedDate={hasUpdatedDate}
-              isAssetPickerModalOpen={isAssetPickerModalOpen}
+              isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
               isLink={isLink}
               isNsfw={isNsfw}
               isValid={isValid}
@@ -237,7 +237,7 @@ class ImageBlockModal extends React.Component {
               onChangeUrl={this.handleChangeUrl}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
-              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
               selectedImage={selectedImage}
               theme={theme}
               updatedDate={updatedDate}

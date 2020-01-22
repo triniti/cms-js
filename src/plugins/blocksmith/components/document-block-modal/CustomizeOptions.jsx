@@ -30,7 +30,7 @@ const CustomizeOptions = ({
   aspectRatio,
   block,
   hasUpdatedDate,
-  isAssetPickerModalOpen,
+  isImageAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
@@ -41,7 +41,7 @@ const CustomizeOptions = ({
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
-  onToggleAssetPickerModal: handleToggleAssetPickerModal,
+  onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
   updatedDate,
 }) => (
   <div className="modal-body-blocksmith">
@@ -51,15 +51,15 @@ const CustomizeOptions = ({
     />
     <FormGroup>
       <ImageAssetPicker
-        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Article Block Poster images."
-        isImageSelected={isImageSelected}
-        isModalOpen={isAssetPickerModalOpen}
         isDisabled={false}
+        isImageSelected={isImageSelected}
+        isModalOpen={isImageAssetPickerModalOpen}
         label="Select A Document Block Poster Image"
+        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Article Block Poster images."
         node={node}
         onClearImage={handleClearImage}
         onSelectImage={handleSelectImage}
-        onToggleAssetPickerModal={handleToggleAssetPickerModal}
+        onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
       />
     </FormGroup>
     <div style={{ maxWidth: '350px', margin: '0 auto' }}>
@@ -115,7 +115,7 @@ CustomizeOptions.propTypes = {
   aspectRatio: PropTypes.instanceOf(AspectRatioEnum).isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
-  isAssetPickerModalOpen: PropTypes.bool.isRequired,
+  isImageAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
@@ -126,7 +126,7 @@ CustomizeOptions.propTypes = {
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
-  onToggleAssetPickerModal: PropTypes.func.isRequired,
+  onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
