@@ -1,4 +1,3 @@
-
 import { Button } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 import noop from 'lodash/noop';
@@ -68,7 +67,7 @@ class VideoAssetPicker extends React.Component {
           onCloseUploader={handleSelectVideoAsset}
           onSelectVideoAsset={handleSelectVideoAsset}
           onToggleModal={this.handleToggleVideoAssetPickerModal}
-          selectedVideo={selectedVideo}
+          selectedVideos={selectedVideo ? [selectedVideo] : []}
         />
       </span>
     );

@@ -17,7 +17,7 @@ import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
 import TrinaryField from '@triniti/cms/components/trinary-field';
 import TvpgRating from '@triniti/schemas/triniti/ovp/enums/TvpgRating';
-import VideoAssetPicker from '@triniti/cms/plugins/dam/components/video-asset-picker';
+import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field';
 import VideoPicker from '@triniti/cms/plugins/ovp/components/video-picker-field';
 
 const options = Object
@@ -140,7 +140,10 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           name="captions"
           readOnly={!isEditMode}
         />
-        <VideoAssetPicker
+        <Field
+          component={VideoAssetPickerField}
+          label="Mezzanine Video Asset"
+          name="mezzanineRef"
           isEditMode={isEditMode}
         />
         <Field

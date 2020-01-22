@@ -1,5 +1,3 @@
-import { Button, FormGroup, FormText, Label } from '@triniti/admin-ui-plugin/components';
-import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PropTypes from 'prop-types';
@@ -35,6 +33,7 @@ class VideoAssetPickerField extends React.Component {
     this.handleToggleModal = this.handleToggleModal.bind(this);
     this.handleSelectVideoAsset = this.handleSelectVideoAsset.bind(this);
     this.handleCloseUploader = this.handleCloseUploader.bind(this);
+    this.handleClearVideoAssets = this.handleClearVideoAssets.bind(this);
   }
 
   handleToggleModal() {
@@ -44,9 +43,9 @@ class VideoAssetPickerField extends React.Component {
     });
   }
 
-  handleSelectVideoAsset(videoAsset) {
+  handleSelectVideoAsset(nodeRef) {
     const { input } = this.props;
-    input.onChange(NodeRef.fromNode(videoAsset).toString());
+    input.onChange(nodeRef);
     this.handleToggleModal();
   }
 
@@ -60,9 +59,14 @@ class VideoAssetPickerField extends React.Component {
     }
   }
 
+  handleClearVideoAssets(...args) {
+    console.log('here:handleClearVideoAssets', args);
+  }
+
   render() {
     const { isModalOpen } = this.state;
     const {
+      getNode,
       input: { onChange, value },
       isEditMode,
       label,
@@ -71,7 +75,12 @@ class VideoAssetPickerField extends React.Component {
     } = this.props;
 
     return (
-      <VideoAssetPicker isDisabled={!isEditMode} />
+      <VideoAssetPicker
+        isEditMode={isEditMode}
+        onClearVideoAsset={this.handleClearVideoAssets}
+        onSelectVideoAsset={this.handleSelectVideoAsset}
+        selectedVideo={value}
+      />
     );
   }
 }

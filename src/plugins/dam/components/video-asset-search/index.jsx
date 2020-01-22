@@ -1,9 +1,10 @@
+import { connect } from 'react-redux';
+import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import createDelegateFactory from '@triniti/app/createDelegateFactory';
+import AssetsTable from '@triniti/cms/plugins/dam/components/assets-table';
 import {
   Button,
   Container,
@@ -50,6 +51,7 @@ class VideoAssetSearch extends React.Component {
     q: '',
     refreshSearch: 0,
     selectedVideoAsset: null,
+    selectedVideos: [],
   };
 
   constructor(props) {
@@ -61,30 +63,12 @@ class VideoAssetSearch extends React.Component {
 
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   componentDidMount() {
     const { delegate } = this.props;
     delegate.handleSearch({ q: '' }, 1);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      delegate,
-      q,
-      refreshSearch: nextRefreshSearch,
-      searchVideoAssetsRequestState: { status },
-    } = nextProps;
-
-    if (status === 'none') {
-      delegate.handleSearch({ q });
-      return;
-    }
-
-    const { refreshSearch: currentRefreshSearch } = this.props;
-    if (nextRefreshSearch !== currentRefreshSearch) {
-      this.handleSearch();
-    }
   }
 
   componentWillUnmount() {
@@ -98,54 +82,65 @@ class VideoAssetSearch extends React.Component {
     delegate.handleSearch({ q }, 1);
   }
 
+  handleSort(sortBy) {
+    const { delegate, searchVideoAssetsRequestState: { request } } = this.props;
+    delegate.handleSearch({ ...request.toObject(), sort: sortBy });
+  }
+
   handleChangeQ({ target: { value: q } }) {
-    const { onChangeQ } = this.props;
     this.setState({ q }, this.handleSearch);
-    onChangeQ(q);
   }
 
   render() {
     const {
       heightOffset,
-      videoAssets,
       innerRef,
       isFulfilled,
-      onSelectVideoAsset,
+      onSelectVideoAsset: handleSelectVideoAsset,
       onToggleUploader: handleToggleUploader,
-      selectedVideoAsset,
+      selectedVideos,
+      sort,
+      videoAssets,
     } = this.props;
     const { q } = this.state;
 
-    return [
-      <Container fluid className="sticky-top px-4 py-2 shadow-depth-2 bg-white" key="container">
-        <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
-          <InputGroup size="sm">
-            <Input
-              className="form-control"
-              innerRef={innerRef}
-              name="q"
-              onChange={this.handleChangeQ}
-              placeholder="Search Video Assets..."
-              type="search"
-              value={q}
-            />
-            <InputGroupAddon addonType="append">
-              <Button color="secondary" onClick={() => this.handleSearch()}>
-                <Icon imgSrc="search" className="mr-0" />
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
-        </Form>
-      </Container>,
-      <ScrollableContainer
-        className="bg-gray-400"
-        style={{ height: `calc(100vh - ${heightOffset}px)` }}
-        key="scrollable_container"
-      >
-        {
-          isFulfilled && (
+    return (
+      <>
+        <Container fluid className="sticky-top px-4 py-2 shadow-depth-2 bg-white">
+          <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+            <InputGroup size="sm">
+              <Input
+                className="form-control"
+                innerRef={innerRef}
+                name="q"
+                onChange={this.handleChangeQ}
+                placeholder="Search Video Assets..."
+                type="search"
+                value={q}
+              />
+              <InputGroupAddon addonType="append">
+                <Button color="secondary" onClick={() => this.handleSearch()}>
+                  <Icon imgSrc="search" className="mr-0" />
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
+          </Form>
+        </Container>
+        <ScrollableContainer
+          className="bg-gray-400"
+          style={{ height: `calc(100vh - ${heightOffset}px)` }}
+        >
+          {!isFulfilled && <Spinner className="p-4" />}
+          {isFulfilled && (
             videoAssets.length ? (
-              <p>i am the first one: {videoAssets[0].get('title')}</p>
+              <AssetsTable
+                hasMasterCheckbox={false}
+                nodes={videoAssets}
+                onSelectRow={handleSelectVideoAsset}
+                onSort={this.handleSort}
+                selectedRows={selectedVideos}
+                sort={sort}
+              />
             ) : (
               <div className="not-found-message">
                 <p>No video assets found that match your search. You can
@@ -161,11 +156,10 @@ class VideoAssetSearch extends React.Component {
                 </p>
               </div>
             )
-          )
-        }
-        {!isFulfilled && <Spinner className="p-4" />}
-      </ScrollableContainer>,
-    ];
+          )}
+        </ScrollableContainer>
+      </>
+    );
   }
 }
 

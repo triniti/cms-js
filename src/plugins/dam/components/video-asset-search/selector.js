@@ -21,6 +21,7 @@ export default (state) => {
   const videoAssets = (response && response.get('nodes')) || [];
   const currentPage = (request && request.get('page')) || 1;
   const q = (request && request.get('q')) || '';
+  const sort = (request && request.get('sort').getValue()) || '';
 
   return {
     currentPage,
@@ -29,6 +30,7 @@ export default (state) => {
     isRejected,
     q,
     searchVideoAssetsRequestState,
+    sort,
     videoAssets,
   };
 };

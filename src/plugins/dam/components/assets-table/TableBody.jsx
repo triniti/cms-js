@@ -13,6 +13,7 @@ const TableBody = ({
   assets,
   currentlyPlayingAssetId,
   disabled,
+  hasMasterCheckbox,
   onPlayerCommand,
   onSelectRow,
   selectedRows,

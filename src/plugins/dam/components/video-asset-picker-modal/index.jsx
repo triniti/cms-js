@@ -18,13 +18,13 @@ class VideoAssetPickerModal extends React.Component {
     onCloseUploader: PropTypes.func,
     onSelectVideoAsset: PropTypes.func.isRequired,
     onToggleModal: PropTypes.func.isRequired,
-    selectedVideo: PropTypes.instanceOf(Message),
+    selectedVideos: PropTypes.instanceOf(Message),
   };
 
   static defaultProps = {
     isOpen: false,
     onCloseUploader: noop,
-    selectedVideo: null,
+    selectedVideos: [],
   };
 
   constructor(props) {
@@ -49,7 +49,10 @@ class VideoAssetPickerModal extends React.Component {
     const {
       isOpen,
       onToggleModal,
-      selectedVideo,
+      selectedVideos,
+      onSelectVideoAsset,
+      onSort,
+      sort,
     } = this.props;
     const { isUploaderOpen } = this.state;
 
@@ -60,7 +63,12 @@ class VideoAssetPickerModal extends React.Component {
             <span className="nowrap">Select A Video Asset</span>
           </ModalHeader>
           <ModalBody className="p-0">
-            <VideoAssetSearch selectedVideo={selectedVideo} />
+            <VideoAssetSearch
+              selectedVideos={selectedVideos}
+              onSelectVideoAsset={onSelectVideoAsset}
+              onSort={onSort}
+              sort={sort}
+            />
           </ModalBody>
           <ModalFooter>
             <Button

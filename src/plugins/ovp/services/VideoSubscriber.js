@@ -31,10 +31,11 @@ export default class VideoSubscriber extends EventSubscriber {
       'description',
       'duration',
       'expires_at',
-      'is_live',
       'is_full_episode',
+      'is_live',
       'is_promo',
       'launch_text',
+      'mezzanine_ref',
       'mezzanine_url',
       'mpm',
       'original_air_date',
@@ -94,10 +95,11 @@ export default class VideoSubscriber extends EventSubscriber {
     }
 
     [
-      'title',
       'launchText',
+      'mezzanine_ref',
+      'mezzanine_url',
       'mpm',
-      'mezzanineUrl',
+      'title',
       'youtube_custom_id',
       'youtube_video_id',
     ].forEach((fieldName) => {
@@ -164,6 +166,7 @@ export default class VideoSubscriber extends EventSubscriber {
       'description',
       'expires_at',
       'launch_text',
+      'mezzanine_ref',
       'mezzanine_url',
       'mpm',
       'original_air_date',
