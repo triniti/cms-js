@@ -18,7 +18,7 @@ export default (state) => {
   const isFailed = status === STATUS_FAILED;
   const isFulfilled = status === STATUS_FULFILLED;
   const isRejected = status === STATUS_REJECTED;
-  const videoAssets = (response && response.get('nodes')) || [];
+  const assets = (response && response.get('nodes')) || [];
   const currentPage = (request && request.get('page')) || 1;
   const q = (request && request.get('q')) || '';
   const sort = (request && request.get('sort').getValue()) || '';
@@ -31,6 +31,6 @@ export default (state) => {
     q,
     searchVideoAssetsRequestState,
     sort,
-    videoAssets,
+    assets,
   };
 };

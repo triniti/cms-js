@@ -15,57 +15,53 @@ class VideoAssetPicker extends React.Component {
     isEditMode: PropTypes.bool,
     onClear: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
-    selected: PropTypes.instanceOf(Message),
+    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)).isRequired,
   };
 
   static defaultProps = {
     isEditMode: false,
     onClear: noop,
-    selected: null,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      isVideoAssetPickerModalOpen: false,
-      videoAssetRefreshFlag: 0, // when this changes it will trigger a new search
+      isModalOpen: false,
+      refreshSearchFlag: 0, // when this changes it will trigger a new search
     };
 
+    this.handleToggleModal = this.handleToggleModal.bind(this);
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
-    this.handleToggleVideoAssetPickerModal = this.handleToggleVideoAssetPickerModal.bind(this);
   }
 
-  handleToggleVideoAssetPickerModal() {
-    this.setState(({ isVideoAssetPickerModalOpen }) => ({
-      isVideoAssetPickerModalOpen: !isVideoAssetPickerModalOpen,
-    }));
+  handleToggleModal() {
+    this.setState(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
   }
 
   handleToggleUploader(...args) {
     const { onSelect } = this.props;
     if (args && args.length && args[0] instanceof Message) {
       onSelect(NodeRef.fromNode(args[0]));
-      this.setState(({ videoAssetRefreshFlag }) => ({
-        videoAssetRefreshFlag: +!videoAssetRefreshFlag,
-      }));
+      this.setState(({ refreshSearchFlag }) => ({ refreshSearchFlag: +!refreshSearchFlag }));
     }
   }
 
   render() {
     const {
       isEditMode,
-      onClear: handleClearVideoAsset,
-      onSelect: handleSelectVideoAsset,
+      onClear: handleClear,
+      onSelect: handleSelect,
       selected,
     } = this.props;
-    const { isVideoAssetPickerModalOpen, videoAssetRefreshFlag } = this.state;
+    const { isModalOpen, refreshSearchFlag } = this.state;
+
     return (
       <FormGroup>
         <Label>Video Asset</Label>
-        {selected && (
+        {selected && !!selected.length && (
         <FormGroup>
           <div style={{ maxWidth: '50%' }}>
-            <ReactPlayer url={damUrl(selected)} width="100%" height="auto" controls />
+            <ReactPlayer url={damUrl(selected[0])} width="100%" height="auto" controls />
           </div>
         </FormGroup>
         )}
@@ -74,25 +70,25 @@ class VideoAssetPicker extends React.Component {
             <Button
               className="mr-3"
               disabled={!isEditMode}
-              onClick={this.handleToggleVideoAssetPickerModal}
+              onClick={this.handleToggleModal}
             >
-              {`Select a${selected ? ' new' : ''} Video Asset`}
+              {`Select a${selected && !!selected.length ? ' new' : ''} Video Asset`}
             </Button>
-            {selected && (
+            {selected && !!selected.length && (
             <Button
-              onClick={handleClearVideoAsset}
+              onClick={handleClear}
               disabled={!isEditMode}
             >
             Clear Video Asset
             </Button>
             )}
             <VideoAssetPickerModal
-              isOpen={isVideoAssetPickerModalOpen}
-              onSelectVideoAsset={handleSelectVideoAsset}
-              onToggleModal={this.handleToggleVideoAssetPickerModal}
+              isOpen={isModalOpen}
+              onSelect={handleSelect}
+              onToggleModal={this.handleToggleModal}
               onToggleUploader={this.handleToggleUploader}
-              selectedVideos={selected ? [selected] : []}
-              videoAssetRefreshFlag={videoAssetRefreshFlag}
+              refreshSearchFlag={refreshSearchFlag}
+              selected={selected}
             />
           </span>
         </FormGroup>

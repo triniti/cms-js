@@ -1,5 +1,4 @@
-import Message from '@gdbots/pbj/Message';
-import noop from 'lodash/noop';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Uploader from '@triniti/cms/plugins/dam/components/uploader';
@@ -15,18 +14,15 @@ import {
 class VideoAssetPickerModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool,
-    onSelectVideoAsset: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     onToggleModal: PropTypes.func.isRequired,
-    onToggleUploader: PropTypes.func,
-    selectedVideos: PropTypes.instanceOf(Message),
-    // when this changes it will trigger a new search
-    videoAssetRefreshFlag: PropTypes.number.isRequired,
+    onToggleUploader: PropTypes.func.isRequired,
+    refreshSearchFlag: PropTypes.number.isRequired, // on change, triggers new search
+    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)).isRequired,
   };
 
   static defaultProps = {
     isOpen: false,
-    onToggleUploader: noop,
-    selectedVideos: [],
   };
 
   constructor(props) {
@@ -47,24 +43,26 @@ class VideoAssetPickerModal extends React.Component {
   render() {
     const {
       isOpen,
-      onSelectVideoAsset,
-      onToggleModal,
-      selectedVideos,
-      videoAssetRefreshFlag,
+      onSelect: handleSelect,
+      onToggleModal: handleToggleModal,
+      onToggleUploader: handleToggleUploader,
+      selected,
+      refreshSearchFlag,
     } = this.props;
     const { isUploaderOpen } = this.state;
 
     return (
       <div>
-        <Modal onOpened={this.handleOpened} centered size="xxl" isOpen={isOpen} toggle={onToggleModal}>
-          <ModalHeader toggle={onToggleModal}>
+        <Modal centered size="xxl" isOpen={isOpen} toggle={handleToggleModal}>
+          <ModalHeader toggle={handleToggleModal}>
             <span className="nowrap">Select A Video Asset</span>
           </ModalHeader>
           <ModalBody className="p-0">
             <VideoAssetSearch
-              onSelectVideoAsset={onSelectVideoAsset}
-              selectedVideos={selectedVideos}
-              videoAssetRefreshFlag={videoAssetRefreshFlag}
+              onSelect={handleSelect}
+              selected={selected}
+              refreshSearchFlag={refreshSearchFlag}
+              onToggleUploader={handleToggleUploader}
             />
           </ModalBody>
           <ModalFooter>
@@ -76,8 +74,8 @@ class VideoAssetPickerModal extends React.Component {
               Upload
             </Button>
             <Button
-              onClick={onToggleModal}
-              disabled={!selectedVideos.length}
+              onClick={handleToggleModal}
+              disabled={!selected.length}
             >
               Select
             </Button>

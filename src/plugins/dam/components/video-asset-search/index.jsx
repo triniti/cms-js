@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
-import noop from 'lodash/noop';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import PropTypes from 'prop-types';
 import React from 'react';
 import AssetsTable from '@triniti/cms/plugins/dam/components/assets-table';
@@ -22,32 +22,26 @@ import selector from './selector';
 
 class VideoAssetSearch extends React.Component {
   static propTypes = {
+    assets: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     delegate: PropTypes.shape({
       handleSearch: PropTypes.func.isRequired,
       handleClearChannel: PropTypes.func.isRequired,
     }).isRequired,
-    heightOffset: PropTypes.string,
-    innerRef: PropTypes.func,
     isFulfilled: PropTypes.bool.isRequired,
-    onSelectVideoAsset: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     onToggleUploader: PropTypes.func.isRequired,
     searchVideoAssetsRequestState: PropTypes.shape({
       request: PropTypes.instanceOf(Message),
       response: PropTypes.instanceOf(Message),
       status: PropTypes.string,
     }).isRequired,
-    selectedVideos: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)).isRequired,
     sort: PropTypes.string.isRequired,
-    videoAssets: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
-    // when this changes it will trigger a new search
-    videoAssetRefreshFlag: PropTypes.number.isRequired,
+    refreshSearchFlag: PropTypes.number.isRequired, // on change, triggers new search
   };
 
   static defaultProps = {
-    heightOffset: '212',
-    innerRef: noop,
-    selectedVideos: [],
-    videoAssets: [],
+    assets: [],
   };
 
   constructor(props) {
@@ -68,8 +62,8 @@ class VideoAssetSearch extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { videoAssetRefreshFlag } = this.props;
-    if (videoAssetRefreshFlag !== prevProps.videoAssetRefreshFlag) {
+    const { refreshSearchFlag } = this.props;
+    if (refreshSearchFlag !== prevProps.refreshSearchFlag) {
       const { delegate, searchVideoAssetsRequestState: { request } } = this.props;
       const newRequest = { ...request.toObject() };
       delete newRequest.request_id;
@@ -99,14 +93,12 @@ class VideoAssetSearch extends React.Component {
 
   render() {
     const {
-      heightOffset,
-      innerRef,
+      assets,
       isFulfilled,
-      onSelectVideoAsset: handleSelectVideoAsset,
+      onSelect: handleSelect,
       onToggleUploader: handleToggleUploader,
-      selectedVideos,
+      selected,
       sort,
-      videoAssets,
     } = this.props;
     const { q } = this.state;
 
@@ -117,7 +109,6 @@ class VideoAssetSearch extends React.Component {
             <InputGroup size="sm">
               <Input
                 className="form-control"
-                innerRef={innerRef}
                 name="q"
                 onChange={this.handleChangeQ}
                 placeholder="Search Video Assets..."
@@ -125,7 +116,7 @@ class VideoAssetSearch extends React.Component {
                 value={q}
               />
               <InputGroupAddon addonType="append">
-                <Button color="secondary" onClick={() => this.handleSearch()}>
+                <Button color="secondary" onClick={this.handleSearch}>
                   <Icon imgSrc="search" className="mr-0" />
                 </Button>
               </InputGroupAddon>
@@ -134,17 +125,17 @@ class VideoAssetSearch extends React.Component {
         </Container>
         <ScrollableContainer
           className="bg-gray-400"
-          style={{ height: `calc(100vh - ${heightOffset}px)` }}
+          style={{ height: 'calc(100vh - 212px)' }}
         >
           {!isFulfilled && <Spinner className="p-4" />}
           {isFulfilled && (
-            videoAssets.length ? (
+            assets.length ? (
               <AssetsTable
                 hasMasterCheckbox={false}
-                nodes={videoAssets}
-                onSelectRow={handleSelectVideoAsset}
+                nodes={assets}
+                onSelectRow={handleSelect}
                 onSort={this.handleSort}
-                selectedRows={selectedVideos}
+                selectedRows={selected}
                 sort={sort}
               />
             ) : (
