@@ -124,7 +124,7 @@ export default class NotificationSubscriber extends EventSubscriber {
         node.set('title', data.body.length > 25 ? `${data.body.substr(0, 25)}...` : data.body);
       }
 
-      node.set('content_ref', data.contentRefs[0] || null);
+      node.set('content_ref', data.contentRefs ? data.contentRefs[0] : null);
       node.set('app_ref', NodeRef.fromString(data.appRef.value));
     }
 
