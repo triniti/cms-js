@@ -8,7 +8,6 @@ import AssetsTable from '@triniti/cms/plugins/dam/components/assets-table';
 import {
   Button,
   Container,
-  Form,
   Icon,
   Input,
   InputGroup,
@@ -57,6 +56,7 @@ class VideoAssetSearch extends React.Component {
   }
 
   componentDidMount() {
+    setTimeout(() => { this.inputRef.focus(); });
     const { delegate } = this.props;
     delegate.handleSearch({ q: '' });
   }
@@ -105,23 +105,22 @@ class VideoAssetSearch extends React.Component {
     return (
       <>
         <Container fluid className="sticky-top px-4 py-2 shadow-depth-2 bg-white">
-          <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
-            <InputGroup size="sm">
-              <Input
-                className="form-control"
-                name="q"
-                onChange={this.handleChangeQ}
-                placeholder="Search Video Assets..."
-                type="search"
-                value={q}
-              />
-              <InputGroupAddon addonType="append">
-                <Button color="secondary" onClick={this.handleSearch}>
-                  <Icon imgSrc="search" className="mr-0" />
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-          </Form>
+          <InputGroup size="sm">
+            <Input
+              className="form-control"
+              innerRef={(e) => { this.inputRef = e; }}
+              name="q"
+              onChange={this.handleChangeQ}
+              placeholder="Search Video Assets..."
+              type="search"
+              value={q}
+            />
+            <InputGroupAddon addonType="append">
+              <Button color="secondary" onClick={this.handleSearch}>
+                <Icon imgSrc="search" className="mr-0" />
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
         </Container>
         <ScrollableContainer
           className="bg-gray-400"
@@ -145,7 +144,6 @@ class VideoAssetSearch extends React.Component {
                     className="ml-1 mr-1"
                     onClick={handleToggleUploader}
                     size="sm"
-                    style={{ marginBottom: '3px' }}
                     outlineText
                     color="primary"
                   ><Icon imgSrc="upload" size="xs" className="mr-1" /> upload

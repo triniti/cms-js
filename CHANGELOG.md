@@ -1,5 +1,4 @@
 # CHANGELOG
-todo: lazy load, autofocus
 
 
 ## vN.N.N
