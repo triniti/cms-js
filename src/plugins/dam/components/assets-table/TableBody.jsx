@@ -13,63 +13,65 @@ const TableBody = ({
   assets,
   currentlyPlayingAssetId,
   disabled,
-  hasMasterCheckbox,
   onPlayerCommand,
   onSelectRow,
   selectedRows,
-}) => (
-  <tbody>
-    {assets.map((asset) => {
-      const schema = asset.schema();
-      if (schema.hasMixin('triniti:dam:mixin:image-asset')) {
+}) => {
+  const getIsSelected = (asset) => selectedRows.some((item) => asset.get('_id').toString() === (item instanceof NodeRef ? item.getId() : item.get('_id').toString()));
+  return (
+    <tbody>
+      {assets.map((asset) => {
+        const schema = asset.schema();
+        if (schema.hasMixin('triniti:dam:mixin:image-asset')) {
+          return (
+            <TableRowImage
+              asset={asset}
+              disabled={disabled}
+              isSelected={getIsSelected(asset)}
+              key={asset.get('_id')}
+              onSelectRow={onSelectRow}
+            />
+          );
+        }
+        if (schema.hasMixin('triniti:dam:mixin:audio-asset')) {
+          return (
+            <TableRowAudio
+              asset={asset}
+              currentlyPlayingAssetId={currentlyPlayingAssetId}
+              disabled={disabled}
+              isSelected={getIsSelected(asset)}
+              key={asset.get('_id')}
+              onPlayerCommand={onPlayerCommand}
+              onSelectRow={onSelectRow}
+            />
+          );
+        }
+        if (schema.hasMixin('triniti:dam:mixin:video-asset')) {
+          return (
+            <TableRowVideo
+              asset={asset}
+              currentlyPlayingAssetId={currentlyPlayingAssetId}
+              disabled={disabled}
+              isSelected={getIsSelected(asset)}
+              key={asset.get('_id')}
+              onPlayerCommand={onPlayerCommand}
+              onSelectRow={onSelectRow}
+            />
+          );
+        }
         return (
-          <TableRowImage
+          <TableRowAsset
             asset={asset}
             disabled={disabled}
-            isSelected={selectedRows.some((item) => item.getId() === asset.get('_id').toString())}
+            isSelected={getIsSelected(asset)}
             key={asset.get('_id')}
             onSelectRow={onSelectRow}
           />
         );
-      }
-      if (schema.hasMixin('triniti:dam:mixin:audio-asset')) {
-        return (
-          <TableRowAudio
-            asset={asset}
-            currentlyPlayingAssetId={currentlyPlayingAssetId}
-            disabled={disabled}
-            isSelected={selectedRows.some((item) => item.getId() === asset.get('_id').toString())}
-            key={asset.get('_id')}
-            onPlayerCommand={onPlayerCommand}
-            onSelectRow={onSelectRow}
-          />
-        );
-      }
-      if (schema.hasMixin('triniti:dam:mixin:video-asset')) {
-        return (
-          <TableRowVideo
-            asset={asset}
-            currentlyPlayingAssetId={currentlyPlayingAssetId}
-            disabled={disabled}
-            isSelected={selectedRows.some((item) => item.getId() === asset.get('_id').toString())}
-            key={asset.get('_id')}
-            onPlayerCommand={onPlayerCommand}
-            onSelectRow={onSelectRow}
-          />
-        );
-      }
-      return (
-        <TableRowAsset
-          asset={asset}
-          disabled={disabled}
-          isSelected={selectedRows.some((item) => item.getId() === asset.get('_id').toString())}
-          key={asset.get('_id')}
-          onSelectRow={onSelectRow}
-        />
-      );
-    })}
-  </tbody>
-);
+      })}
+    </tbody>
+  );
+};
 
 TableBody.propTypes = {
   assets: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,

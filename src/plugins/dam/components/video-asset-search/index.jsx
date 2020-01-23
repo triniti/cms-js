@@ -68,7 +68,17 @@ class VideoAssetSearch extends React.Component {
 
   componentDidMount() {
     const { delegate } = this.props;
-    delegate.handleSearch({ q: '' }, 1);
+    delegate.handleSearch({ q: '' });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { videoAssetRefreshFlag } = this.props;
+    if (videoAssetRefreshFlag !== prevProps.videoAssetRefreshFlag) {
+      const { delegate, searchVideoAssetsRequestState: { request } } = this.props;
+      const newRequest = { ...request.toObject() };
+      delete newRequest.request_id;
+      delegate.handleSearch(newRequest);
+    }
   }
 
   componentWillUnmount() {
@@ -79,7 +89,7 @@ class VideoAssetSearch extends React.Component {
   handleSearch() {
     const { delegate } = this.props;
     const { q } = this.state;
-    delegate.handleSearch({ q }, 1);
+    delegate.handleSearch({ q });
   }
 
   handleSort(sortBy) {

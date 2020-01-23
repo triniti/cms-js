@@ -15,15 +15,16 @@ import {
 class VideoAssetPickerModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool,
-    onCloseUploader: PropTypes.func,
     onSelectVideoAsset: PropTypes.func.isRequired,
     onToggleModal: PropTypes.func.isRequired,
+    onToggleUploader: PropTypes.func,
     selectedVideos: PropTypes.instanceOf(Message),
+    videoAssetRefreshFlag: PropTypes.number.isRequired, // when this changes it will trigger a new search
   };
 
   static defaultProps = {
     isOpen: false,
-    onCloseUploader: noop,
+    onToggleUploader: noop,
     selectedVideos: [],
   };
 
@@ -36,23 +37,19 @@ class VideoAssetPickerModal extends React.Component {
   }
 
   handleToggleUploader(...args) {
-    this.setState(({ isUploaderOpen }) => ({ isUploaderOpen: !isUploaderOpen }), () => {
-      const { isUploaderOpen } = this.state;
-      if (!isUploaderOpen) {
-        const { onCloseUploader } = this.props;
-        onCloseUploader(...args);
-      }
-    });
+    const { onToggleUploader } = this.props;
+    this.setState(({ isUploaderOpen }) => ({
+      isUploaderOpen: !isUploaderOpen,
+    }), () => onToggleUploader(...args));
   }
 
   render() {
     const {
       isOpen,
+      onSelectVideoAsset,
       onToggleModal,
       selectedVideos,
-      onSelectVideoAsset,
-      onSort,
-      sort,
+      videoAssetRefreshFlag,
     } = this.props;
     const { isUploaderOpen } = this.state;
 
@@ -64,10 +61,9 @@ class VideoAssetPickerModal extends React.Component {
           </ModalHeader>
           <ModalBody className="p-0">
             <VideoAssetSearch
-              selectedVideos={selectedVideos}
               onSelectVideoAsset={onSelectVideoAsset}
-              onSort={onSort}
-              sort={sort}
+              selectedVideos={selectedVideos}
+              videoAssetRefreshFlag={videoAssetRefreshFlag}
             />
           </ModalBody>
           <ModalFooter>
@@ -80,17 +76,18 @@ class VideoAssetPickerModal extends React.Component {
             </Button>
             <Button
               onClick={onToggleModal}
-              innerRef={(el) => { this.cancelBtn = el; }}
+              disabled={!selectedVideos.length}
             >
-              Cancel
+              Select
             </Button>
           </ModalFooter>
         </Modal>
         {isUploaderOpen && (
         <Uploader
+          allowedMimeTypes={['video/x-flv', 'video/mp4', 'video/webm']}
           allowMultiUpload={false}
           isOpen={isUploaderOpen}
-          multiAssetErrorMessage="Invalid Action: Trying to pick multiple Video Assets."
+          multiAssetErrorMessage="Invalid Action: Trying to upload multiple Video Assets."
           onToggleUploader={this.handleToggleUploader}
         />
         )}
