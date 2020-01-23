@@ -10,6 +10,7 @@
 * Add YouTube and JW Player video fields
 * Add `aspect_ratio` ui for gallery and document blocks
 * Use `@triniti/schemas` v1.1.6
+* Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
 
 
 ## v0.3.4

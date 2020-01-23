@@ -16,18 +16,12 @@ export default (state) => {
   );
   const { request, response, status } = searchVideoAssetsRequestState;
   const isFailed = status === STATUS_FAILED;
-  const isFulfilled = status === STATUS_FULFILLED;
-  const isRejected = status === STATUS_REJECTED;
   const assets = (response && response.get('nodes')) || [];
-  const currentPage = (request && request.get('page')) || 1;
   const q = (request && request.get('q')) || '';
   const sort = (request && request.get('sort').getValue()) || '';
 
   return {
-    currentPage,
     isFailed,
-    isFulfilled,
-    isRejected,
     q,
     searchVideoAssetsRequestState,
     sort,

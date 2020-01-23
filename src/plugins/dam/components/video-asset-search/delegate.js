@@ -16,14 +16,14 @@ export default (dispatch) => ({
    * @param {number} page - paginated page number
    */
   handleSearch: throttle((data = {}, page = 1) => {
-    const requestData = Object.assign(data, {
+    const requestData = {
       count: 150,
       sort: SearchAssetsSort.CREATED_AT_DESC.getValue(),
       statuses: STATUSES,
       page,
       types: [videoType],
       ...data,
-    });
+    };
 
     const request = schemas.searchNodes.createMessage(requestData);
     dispatch(searchNodes(request, pbjxChannelNames.VIDEO_ASSET_SEARCH));
