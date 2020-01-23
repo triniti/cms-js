@@ -34,13 +34,14 @@ class VideoAssetSearch extends React.Component {
       response: PropTypes.instanceOf(Message),
       status: PropTypes.string,
     }).isRequired,
-    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)).isRequired,
+    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)),
     sort: PropTypes.string.isRequired,
     refreshSearchFlag: PropTypes.number.isRequired, // on change, triggers new search
   };
 
   static defaultProps = {
     assets: [],
+    selected: [],
   };
 
   constructor(props) {

@@ -18,11 +18,12 @@ class VideoAssetPickerModal extends React.Component {
     onToggleModal: PropTypes.func.isRequired,
     onToggleUploader: PropTypes.func.isRequired,
     refreshSearchFlag: PropTypes.number.isRequired, // on change, triggers new search
-    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)).isRequired,
+    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)),
   };
 
   static defaultProps = {
     isOpen: false,
+    selected: [],
   };
 
   constructor(props) {
@@ -66,17 +67,10 @@ class VideoAssetPickerModal extends React.Component {
             />
           </ModalBody>
           <ModalFooter>
-            <Button
-              className="mr-auto"
-              color="primary"
-              onClick={this.handleToggleUploader}
-            >
+            <Button className="mr-auto" color="primary" onClick={this.handleToggleUploader}>
               Upload
             </Button>
-            <Button
-              onClick={handleToggleModal}
-              disabled={!selected.length}
-            >
+            <Button onClick={handleToggleModal} disabled={!selected.length}>
               Select
             </Button>
           </ModalFooter>

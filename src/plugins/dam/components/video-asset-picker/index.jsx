@@ -15,12 +15,13 @@ class VideoAssetPicker extends React.Component {
     isEditMode: PropTypes.bool,
     onClear: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
-    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)).isRequired,
+    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)),
   };
 
   static defaultProps = {
     isEditMode: false,
     onClear: noop,
+    selected: [],
   };
 
   constructor(props) {
