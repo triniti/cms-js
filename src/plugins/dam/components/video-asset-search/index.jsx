@@ -29,29 +29,25 @@ class VideoAssetSearch extends React.Component {
     heightOffset: PropTypes.string,
     innerRef: PropTypes.func,
     isFulfilled: PropTypes.bool.isRequired,
-    onChangeQ: PropTypes.func,
     onSelectVideoAsset: PropTypes.func.isRequired,
     onToggleUploader: PropTypes.func.isRequired,
-    q: PropTypes.string,
-    refreshSearch: PropTypes.number,
     searchVideoAssetsRequestState: PropTypes.shape({
       request: PropTypes.instanceOf(Message),
       response: PropTypes.instanceOf(Message),
       status: PropTypes.string,
     }).isRequired,
-    selectedVideoAsset: PropTypes.instanceOf(Message),
+    selectedVideos: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+    sort: PropTypes.string.isRequired,
     videoAssets: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+    // when this changes it will trigger a new search
+    videoAssetRefreshFlag: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
     heightOffset: '212',
-    videoAssets: [],
     innerRef: noop,
-    onChangeQ: noop,
-    q: '',
-    refreshSearch: 0,
-    selectedVideoAsset: null,
     selectedVideos: [],
+    videoAssets: [],
   };
 
   constructor(props) {

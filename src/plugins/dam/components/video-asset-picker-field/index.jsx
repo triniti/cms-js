@@ -8,9 +8,9 @@ const VideoAssetPickerField = ({ input, isEditMode }) => {
   return (
     <VideoAssetPicker
       isEditMode={isEditMode}
-      onClearVideoAsset={() => input.onChange(null)}
-      onSelectVideoAsset={(nodeRef) => input.onChange(value && value.equals(nodeRef) ? null : nodeRef)}
-      selectedVideoAssetRef={value}
+      onClear={() => input.onChange(null)}
+      onSelect={(nodeRef) => input.onChange(value && value.equals(nodeRef) ? null : nodeRef)}
+      selectedRef={value}
     />
   );
 };

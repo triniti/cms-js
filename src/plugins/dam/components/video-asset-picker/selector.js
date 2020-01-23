@@ -6,6 +6,6 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  *
  * @returns {Object}
  */
-export default (state, { selectedVideoAssetRef }) => ({
-  selectedVideoAsset: getNode(state, selectedVideoAssetRef),
+export default (state, { selectedRef }) => ({
+  selectedRef: getNode(state, selectedRef),
 });

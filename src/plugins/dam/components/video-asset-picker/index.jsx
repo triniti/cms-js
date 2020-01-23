@@ -13,15 +13,15 @@ import damUrl from '../../utils/damUrl';
 class VideoAssetPicker extends React.Component {
   static propTypes = {
     isEditMode: PropTypes.bool,
-    onClearVideoAsset: PropTypes.func,
-    onSelectVideoAsset: PropTypes.func.isRequired,
-    selectedVideoAsset: PropTypes.instanceOf(Message),
+    onClear: PropTypes.func,
+    onSelect: PropTypes.func.isRequired,
+    selected: PropTypes.instanceOf(Message),
   };
 
   static defaultProps = {
     isEditMode: false,
-    onClearVideoAsset: noop,
-    selectedVideoAsset: null,
+    onClear: noop,
+    selected: null,
   };
 
   constructor(props) {
@@ -42,9 +42,9 @@ class VideoAssetPicker extends React.Component {
   }
 
   handleToggleUploader(...args) {
-    const { onSelectVideoAsset } = this.props;
+    const { onSelect } = this.props;
     if (args && args.length && args[0] instanceof Message) {
-      onSelectVideoAsset(NodeRef.fromNode(args[0]));
+      onSelect(NodeRef.fromNode(args[0]));
       this.setState(({ videoAssetRefreshFlag }) => ({
         videoAssetRefreshFlag: +!videoAssetRefreshFlag,
       }));
@@ -54,18 +54,18 @@ class VideoAssetPicker extends React.Component {
   render() {
     const {
       isEditMode,
-      onClearVideoAsset: handleClearVideoAsset,
-      onSelectVideoAsset: handleSelectVideoAsset,
-      selectedVideoAsset,
+      onClear: handleClearVideoAsset,
+      onSelect: handleSelectVideoAsset,
+      selected,
     } = this.props;
     const { isVideoAssetPickerModalOpen, videoAssetRefreshFlag } = this.state;
     return (
       <FormGroup>
         <Label>Video Asset</Label>
-        {selectedVideoAsset && (
+        {selected && (
         <FormGroup>
           <div style={{ maxWidth: '50%' }}>
-            <ReactPlayer url={damUrl(selectedVideoAsset)} width="100%" height="auto" controls />
+            <ReactPlayer url={damUrl(selected)} width="100%" height="auto" controls />
           </div>
         </FormGroup>
         )}
@@ -76,9 +76,9 @@ class VideoAssetPicker extends React.Component {
               disabled={!isEditMode}
               onClick={this.handleToggleVideoAssetPickerModal}
             >
-              {`Select a${selectedVideoAsset ? ' new' : ''} Video Asset`}
+              {`Select a${selected ? ' new' : ''} Video Asset`}
             </Button>
-            {selectedVideoAsset && (
+            {selected && (
             <Button
               onClick={handleClearVideoAsset}
               disabled={!isEditMode}
@@ -91,7 +91,7 @@ class VideoAssetPicker extends React.Component {
               onSelectVideoAsset={handleSelectVideoAsset}
               onToggleModal={this.handleToggleVideoAssetPickerModal}
               onToggleUploader={this.handleToggleUploader}
-              selectedVideos={selectedVideoAsset ? [selectedVideoAsset] : []}
+              selectedVideos={selected ? [selected] : []}
               videoAssetRefreshFlag={videoAssetRefreshFlag}
             />
           </span>

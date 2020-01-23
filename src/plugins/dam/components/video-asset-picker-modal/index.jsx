@@ -19,7 +19,8 @@ class VideoAssetPickerModal extends React.Component {
     onToggleModal: PropTypes.func.isRequired,
     onToggleUploader: PropTypes.func,
     selectedVideos: PropTypes.instanceOf(Message),
-    videoAssetRefreshFlag: PropTypes.number.isRequired, // when this changes it will trigger a new search
+    // when this changes it will trigger a new search
+    videoAssetRefreshFlag: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
