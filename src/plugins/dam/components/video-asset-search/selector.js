@@ -1,4 +1,4 @@
-import { STATUS_FAILED, STATUS_FULFILLED, STATUS_REJECTED } from '@triniti/app/constants';
+import { STATUS_FULFILLED } from '@triniti/app/constants';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getCommand';
 import { pbjxChannelNames } from './constants';
 import schemas from './schemas';
