@@ -15,7 +15,6 @@ export default (state) => {
     pbjxChannelNames.VIDEO_ASSET_SEARCH,
   );
   const { request, response, status } = searchVideoAssetsRequestState;
-  const isFailed = status === STATUS_FAILED;
   const isFulfilled = status === STATUS_FULFILLED;
   const assets = (response && response.get('nodes')) || [];
   const q = (request && request.get('q')) || '';
@@ -23,7 +22,6 @@ export default (state) => {
 
   return {
     assets,
-    isFailed,
     isFulfilled,
     q,
     searchVideoAssetsRequestState,
