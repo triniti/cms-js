@@ -246,72 +246,70 @@ export default class AbstractNodeScreen extends React.Component {
     const { isSaveDropDownOpen } = this.state;
 
     return (
-      <>
-        <Fragment key="primary-actions">
-          {delegate.isCollaborationEnabled() && (
-            <>
-              {isEditMode && <ActiveEditNotificationModal key="active-edit-notification" nodeRef={nodeRef} />}
-              <Collaborators key={`collaborators${isEditMode}`} nodeRef={nodeRef} />
-            </>
-          )}
-          {this.renderAdditionalPrimaryActions()}
-          <ActionButton
-            key="cancel"
-            onClick={this.handleCancel}
-            text="Cancel"
-          />
-          <InputGroup className="pr-2">
-            <InputGroupButtonDropdown addonType="prepend" isOpen={isSaveDropDownOpen} toggle={this.handleToggleSaveDropdown}>
+      <Fragment key="primary-actions">
+        {delegate.isCollaborationEnabled() && (
+          <>
+            {isEditMode && <ActiveEditNotificationModal key="active-edit-notification" nodeRef={nodeRef} />}
+            <Collaborators key={`collaborators${isEditMode}`} nodeRef={nodeRef} />
+          </>
+        )}
+        {this.renderAdditionalPrimaryActions()}
+        <ActionButton
+          key="cancel"
+          onClick={this.handleCancel}
+          text="Cancel"
+        />
+        <InputGroup className="pr-2">
+          <InputGroupButtonDropdown addonType="prepend" isOpen={isSaveDropDownOpen} toggle={this.handleToggleSaveDropdown}>
+            <ActionButton
+              disabled={isSaveDisabled}
+              icon="save"
+              onClick={delegate.handleSave}
+              text="Save"
+            />
+            <DropdownToggle
+              className="dropdown-toggle-save-options"
+              disabled={isSaveDisabled}
+              outline
+              split
+            />
+            <DropdownMenu right className="dropdown-menu-save-options px-2">
               <ActionButton
-                disabled={isSaveDisabled}
+                className="mb-2"
+                disabled={isSaveAndPublishDisabled}
                 icon="save"
-                onClick={delegate.handleSave}
-                text="Save"
+                onClick={delegate.handleSaveAndPublish}
+                text="Save &amp; Publish"
               />
-              <DropdownToggle
-                className="dropdown-toggle-save-options"
-                disabled={isSaveDisabled}
-                outline
-                split
-              />
-              <DropdownMenu right className="dropdown-menu-save-options px-2">
-                <ActionButton
-                  className="mb-2"
-                  disabled={isSaveAndPublishDisabled}
-                  icon="save"
-                  onClick={delegate.handleSaveAndPublish}
-                  text="Save &amp; Publish"
-                />
-                <ActionButton
-                  icon="save"
-                  onClick={delegate.handleSaveAndClose}
-                  text="Save &amp; Close"
-                />
-              </DropdownMenu>
-            </InputGroupButtonDropdown>
-          </InputGroup>
-          <ActionButton
-            disabled={isToggleDisabled}
-            key="toggle"
-            onClick={delegate.handleToggle}
-            text={isEditMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-          />
-          <UncontrolledDropdown key="delete">
-            <DropdownToggle className="px-1 mr-0">
-              <Icon imgSrc="more-vertical" alt="more" size="md" />
-            </DropdownToggle>
-            <DropdownMenu right className="px-2 dropdown-menu-arrow-right">
               <ActionButton
-                disabled={isDeleteDisabled}
-                icon="delete"
-                onClick={delegate.handleDelete}
-                text="Delete"
+                icon="save"
+                onClick={delegate.handleSaveAndClose}
+                text="Save &amp; Close"
               />
-              {this.renderNodeLock()}
             </DropdownMenu>
-          </UncontrolledDropdown>
-        </Fragment>
-      </>
+          </InputGroupButtonDropdown>
+        </InputGroup>
+        <ActionButton
+          disabled={isToggleDisabled}
+          key="toggle"
+          onClick={delegate.handleToggle}
+          text={isEditMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+        />
+        <UncontrolledDropdown key="delete">
+          <DropdownToggle className="px-1 mr-0">
+            <Icon imgSrc="more-vertical" alt="more" size="md" />
+          </DropdownToggle>
+          <DropdownMenu right className="px-2 dropdown-menu-arrow-right">
+            <ActionButton
+              disabled={isDeleteDisabled}
+              icon="delete"
+              onClick={delegate.handleDelete}
+              text="Delete"
+            />
+            {this.renderNodeLock()}
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </Fragment>
     );
   }
 
