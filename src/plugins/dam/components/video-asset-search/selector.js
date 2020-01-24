@@ -16,15 +16,17 @@ export default (state) => {
   );
   const { request, response, status } = searchVideoAssetsRequestState;
   const isFailed = status === STATUS_FAILED;
+  const isFulfilled = status === STATUS_FULFILLED;
   const assets = (response && response.get('nodes')) || [];
   const q = (request && request.get('q')) || '';
   const sort = (request && request.get('sort').getValue()) || '';
 
   return {
+    assets,
     isFailed,
+    isFulfilled,
     q,
     searchVideoAssetsRequestState,
     sort,
-    assets,
   };
 };
