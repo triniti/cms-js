@@ -41,7 +41,6 @@ export const formConfigs = {
     SCHEDULE_SEND: 'schedule-send',
     SEND_ON_PUBLISH: 'send-on-publish',
     DISABLE_SEND_NOW: [
-      { label: 'Send Now (content has not been published yet)', value: 'send-now', disabled: true },
       { label: 'Schedule Send', value: 'schedule-send' },
       { label: 'Send on Publish', value: 'send-on-publish' },
     ],
