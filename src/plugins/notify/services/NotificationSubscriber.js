@@ -120,10 +120,12 @@ export default class NotificationSubscriber extends EventSubscriber {
     }
 
     if (formEvent.getProps().isCreateForm) {
-      if (!data.contentRefs && !data.contentRefs.length && data.body) {
+      if (data.type.value === formConfigs.CONTENT_TYPE.GENERAL_MESSAGE) {
         node.set('title', data.body.length > 25 ? `${data.body.substr(0, 25)}...` : data.body);
+      } else {
+        node.set('content_ref', data.contentRefs[0]);
       }
-      node.set('content_ref', data.contentRefs[0]);
+
       node.set('app_ref', NodeRef.fromString(data.appRef.value));
     }
 
