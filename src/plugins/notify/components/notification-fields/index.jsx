@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import startCase from 'lodash/startCase';
 import { Field } from 'redux-form';
 
 import DatePickerField from '@triniti/cms/components/date-picker-field';
@@ -25,12 +26,18 @@ import {
 import { formConfigs } from '../../constants';
 
 const NotificationFields = ({ app, content, isEditMode, node, showDatePicker }) => {
-  const { DISABLE_SEND_NOW, DISABLE_SEND_ON_PUBLISH } = formConfigs.SEND_OPTIONS;
   const sendStatus = node.get('send_status');
-  let sendOptions = DISABLE_SEND_NOW;
+  const { SEND_NOW, SCHEDULE_SEND, SEND_ON_PUBLISH } = formConfigs.SEND_OPTIONS;
+  const sendOptions = [
+    { label: startCase(SEND_NOW.replace('-', ' ')), value: SEND_NOW },
+    { label: startCase(SCHEDULE_SEND.replace('-', ' ')), value: SCHEDULE_SEND },
+    { label: startCase(SEND_ON_PUBLISH.replace('-', ' ')), value: SEND_ON_PUBLISH },
+  ];
 
   if (!node.has('content_ref') || content.get('status') === NodeStatus.PUBLISHED) {
-    sendOptions = DISABLE_SEND_ON_PUBLISH;
+    sendOptions[2].isDisabled = true;
+  } else {
+    sendOptions[0].isDisabled = true;
   }
 
   return (
