@@ -12,6 +12,7 @@
 * Add `aspect_ratio` ui for gallery and document blocks
 * Use `@triniti/schemas` v1.1.6
 * Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
+* Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
 
 
 ## v0.3.4
