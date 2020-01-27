@@ -8,6 +8,7 @@
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
 * Uploading a new pdf to a content block does not auto select or show up
 * Unselected images from Batch Edit once User clicks update.
+* Removing key value pair shows entire field being removed in history.
 * Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
 
 
