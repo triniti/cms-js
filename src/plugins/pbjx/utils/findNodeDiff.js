@@ -1,24 +1,37 @@
 /* eslint-disable no-param-reassign */
 import { transform, isEqual, isObject } from 'lodash';
 
-export const difference = (object, base) => transform(object, (result, value, key) => {
+/**
+ * @param {Object} targetObject
+ * @param {Object} baseObject
+ *
+ * @returns {*}
+ */
+const difference = (targetObject, baseObject) => transform(targetObject, (result, value, key) => {
+  const baseObjectValue = baseObject[key];
+
   // Find any properties that were removed so it can be displayed to user
-  if (isObject(value) && isObject(base[key])) {
-    const oldNodeKeys = Object.keys(base[key]);
+  if (isObject(value) && isObject(baseObjectValue)) {
+    const oldNodeKeys = Object.keys(baseObjectValue);
     const newNodeKeys = Object.keys(value);
-    const missingKeys = oldNodeKeys.filter((x) => !newNodeKeys.includes(x));
+    const missingKeys = oldNodeKeys.filter((oldNodeKey) => !newNodeKeys.includes(oldNodeKey));
 
     missingKeys.forEach((missingKey) => {
       value[missingKey] = '[removed]';
     });
   }
-  // If object has etag then just compare etag
-  if (isObject(value) && isObject(base[key]) && (value.etag !== base[key].etag)) {
+
+  // if etags are different, then just assign the new value
+  if (isObject(value) && isObject(baseObjectValue) && (value.etag !== baseObjectValue.etag)) {
     result[key] = value;
+
     return;
   }
-  if (!isEqual(value, base[key])) {
-    result[key] = isObject(value) && isObject(base[key]) ? difference(value, base[key]) : value;
+
+  if (!isEqual(value, baseObjectValue)) {
+    result[key] = (isObject(value) && isObject(baseObjectValue))
+      ? difference(value, baseObjectValue)
+      : value;
   }
 });
 
