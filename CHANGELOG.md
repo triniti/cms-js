@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Rearrange badge/download button order
 * Email Notification General Message doesn't function
 * Add winking face emoji
 * Editing a slug during creation modal will result in a blank slug when hitting ENTER
