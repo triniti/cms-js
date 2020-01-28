@@ -9,7 +9,7 @@ import Message from '@gdbots/pbj/Message';
 
 const assetTypes = [ImageAssetV1Mixin.findOne().getCurie().getMessage()];
 
-export const ImageAssetPicker = ({
+const ImageAssetPicker = ({
   areLinkedImagesAllowed,
   galleryNode,
   innerRef,

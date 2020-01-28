@@ -8,7 +8,7 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import ImageAssetPickerModal from '@triniti/cms/plugins/dam/components/image-asset-picker-modal';
 
-import { ImageAssetPicker } from './index';
+import ImageAssetPicker from './index';
 
 const handleClearImage = sinon.spy();
 const handleSelectImage = sinon.spy();
