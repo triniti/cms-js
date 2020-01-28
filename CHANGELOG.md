@@ -8,11 +8,12 @@
 * Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
 * Uploading a new pdf to a content block does not auto select or show up
 * Unselected images from Batch Edit once User clicks update.
+* Removing key value pair shows entire field being removed in history.
+* Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
 * Add YouTube and JW Player video fields
 * Add `aspect_ratio` ui for gallery and document blocks
 * Use `@triniti/schemas` v1.1.6
 * Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
-* Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
 
 
 ## v0.3.4
