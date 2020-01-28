@@ -221,6 +221,10 @@ export default class AbstractNodeScreen extends React.Component {
     return [this.renderForm()];
   }
 
+  renderAdditionalPrimaryActions() {
+    return null;
+  }
+
   renderPrimaryActions() {
     const {
       delegate,
@@ -241,6 +245,7 @@ export default class AbstractNodeScreen extends React.Component {
             <Collaborators key={`collaborators${isEditMode}`} nodeRef={nodeRef} />
           </>
         )}
+        {this.renderAdditionalPrimaryActions()}
         <ActionButton
           key="cancel"
           onClick={this.handleCancel}

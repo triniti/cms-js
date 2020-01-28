@@ -1,5 +1,5 @@
 import memoize from 'lodash/memoize';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import AbstractNodeScreen from '@triniti/cms/plugins/ncr/screens/node';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
@@ -17,18 +17,15 @@ import { hasVariants } from '../../variants';
 const getBadgeConfig = memoize(getBadgeConfigFn);
 
 class AssetScreen extends AbstractNodeScreen {
-  renderPrimaryActions() {
+  renderAdditionalPrimaryActions() {
     const { nodeRef } = this.props;
 
     return (
-      <>
-        <ActionButton
-          key="download"
-          onClick={() => { window.open(damUrl(nodeRef), '_blank'); }}
-          text="Download"
-        />
-        {super.renderPrimaryActions()}
-      </>
+      <ActionButton
+        key="download"
+        onClick={() => { window.open(damUrl(nodeRef), '_blank'); }}
+        text="Download"
+      />
     );
   }
 
