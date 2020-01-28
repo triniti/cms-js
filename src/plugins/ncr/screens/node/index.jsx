@@ -125,10 +125,6 @@ export default class AbstractNodeScreen extends React.Component {
     delegate.componentWillUnmount();
   }
 
-  getAdditionalPrimaryActions() {
-    return null;
-  }
-
   getBreadcrumbs() {
     const { delegate } = this.props;
     const node = delegate.getNode();
@@ -182,14 +178,6 @@ export default class AbstractNodeScreen extends React.Component {
     this.setState(({ isSaveDropDownOpen }) => ({ isSaveDropDownOpen: !isSaveDropDownOpen }));
   }
 
-  renderAdditionalPrimaryActions() {
-    const { delegate } = this.props;
-    const node = delegate.getNode();
-    const AdditionalPrimaryActions = this.getAdditionalPrimaryActions();
-
-    return AdditionalPrimaryActions && node && <AdditionalPrimaryActions />;
-  }
-
   renderForm() {
     const { delegate, isEditMode, tab } = this.props;
     const node = delegate.getNode();
@@ -231,6 +219,10 @@ export default class AbstractNodeScreen extends React.Component {
     }
 
     return [this.renderForm()];
+  }
+
+  renderAdditionalPrimaryActions() {
+    return null;
   }
 
   renderPrimaryActions() {
