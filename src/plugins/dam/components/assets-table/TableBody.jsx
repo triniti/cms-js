@@ -18,6 +18,7 @@ const TableBody = ({
   selectedRows,
 }) => {
   const getIsSelected = (asset) => selectedRows.some((item) => asset.get('_id').toString() === (item instanceof NodeRef ? item.getId() : item.get('_id').toString()));
+
   return (
     <tbody>
       {assets.map((asset) => {

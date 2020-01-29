@@ -20,10 +20,7 @@ const aspectRatioOptions = humanizeEnums(AspectRatioEnum, {
   format: 'map',
   shouldStartCase: false,
   except: [AspectRatioEnum.UNKNOWN],
-}).map(({ label, value }) => ({
-  label,
-  value,
-}));
+});
 
 const CustomizeOptions = ({
   aside,

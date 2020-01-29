@@ -47,6 +47,7 @@ const TableHeader = ({ areAllChecked, hasMasterCheckbox, onChangeAllRows, onSort
 
 TableHeader.propTypes = {
   areAllChecked: PropTypes.bool.isRequired,
+  hasMasterCheckbox: PropTypes.bool.isRequired,
   onChangeAllRows: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,
