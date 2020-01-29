@@ -113,14 +113,17 @@ class GalleryBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { block } = this.props;
-    return block.schema().createMessage()
+    const setBlock = block.schema().createMessage()
       .set('aside', aside)
-      .set('aspect_ratio', aspectRatio)
       .set('launch_text', launchText || null)
       .set('node_ref', selectedGallery.get('_id').toNodeRef())
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
       .set('start_at_poster', startsAtPoster)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
+    if (aspectRatio !== AspectRatioEnum.AUTO) {
+      setBlock.set('aspect_ratio', aspectRatio);
+    }
+    return setBlock;
   }
 
   handleAddBlock() {

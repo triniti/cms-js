@@ -77,7 +77,7 @@ class VideoAssetPickerModal extends React.Component {
         </Modal>
         {isUploaderOpen && (
         <Uploader
-          allowedMimeTypes={['video/x-flv', 'video/mp4', 'video/webm']}
+          allowedMimeTypes={['application/mxf', 'video/x-flv', 'video/mp4', 'video/webm']}
           allowMultiUpload={false}
           isOpen={isUploaderOpen}
           multiAssetErrorMessage="Invalid Action: Trying to upload multiple Video Assets."

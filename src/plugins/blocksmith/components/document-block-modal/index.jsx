@@ -120,13 +120,16 @@ class DocumentBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { block } = this.props;
-    return block.schema().createMessage()
+    const setBlock = block.schema().createMessage()
       .set('aside', aside)
-      .set('aspect_ratio', aspectRatio)
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
       .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
+    if (aspectRatio !== AspectRatioEnum.AUTO) {
+      setBlock.set('aspect_ratio', aspectRatio);
+    }
+    return setBlock;
   }
 
   handleAddBlock() {
