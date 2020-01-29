@@ -61,7 +61,7 @@ class DocumentBlockModal extends React.Component {
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
-      aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
+      aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.AUTO,
       documentQ: '',
       hasUpdatedDate: block.has('updated_date'),
       isImageAssetPickerModalOpen: false,
