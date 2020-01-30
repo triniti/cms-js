@@ -59,7 +59,7 @@ class YouTubeVideoBlockModal extends React.Component {
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       id,
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isValid: true,
       selectedImageNode: imageNode || null,
       startAt: block.get('start_at'),
@@ -72,13 +72,13 @@ class YouTubeVideoBlockModal extends React.Component {
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeId = this.handleChangeId.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
-    this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
-    this.handleClearImage = this.handleClearImage.bind(this);
     this.handleChangeStartAt = this.handleChangeStartAt.bind(this);
+    this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleClearImage = this.handleClearImage.bind(this);
+    this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleSelectImage = this.handleSelectImage.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   setBlock() {
@@ -182,12 +182,12 @@ class YouTubeVideoBlockModal extends React.Component {
     }
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -220,7 +220,7 @@ class YouTubeVideoBlockModal extends React.Component {
       errorMsg,
       hasUpdatedDate,
       id,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isValid,
       selectedImageNode,
       startAt,
@@ -233,7 +233,7 @@ class YouTubeVideoBlockModal extends React.Component {
     const displayUrl = isValid && id ? `https://www.youtube.com/watch?v=${id}` : url;
 
     return (
-      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isAssetPickerModalOpen}>
+      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isImageAssetPickerModalOpen}>
         <ModalHeader toggle={toggle}>
           {`${isFreshBlock ? 'Add' : 'Update'} YouTube Video Block`}
         </ModalHeader>
@@ -276,15 +276,15 @@ class YouTubeVideoBlockModal extends React.Component {
             )}
           <FormGroup>
             <ImageAssetPicker
-              multiAssetErrorMessage="Invalid Action: Trying to assign multiple YouTube Block Poster images."
-              isImageSelected={!!selectedImageNode}
-              isModalOpen={isAssetPickerModalOpen}
               isDisabled={!isValid || !id}
+              isImageSelected={!!selectedImageNode}
+              isModalOpen={isImageAssetPickerModalOpen}
               label="Select A YouTube Block Poster Image"
+              multiAssetErrorMessage="Invalid Action: Trying to assign multiple YouTube Block Poster images."
               node={node}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
-              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
             />
           </FormGroup>
           <FormGroup>

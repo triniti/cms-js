@@ -31,10 +31,11 @@ export default class VideoSubscriber extends EventSubscriber {
       'description',
       'duration',
       'expires_at',
-      'is_live',
       'is_full_episode',
+      'is_live',
       'is_promo',
       'launch_text',
+      'mezzanine_ref',
       'mezzanine_url',
       'mpm',
       'original_air_date',
@@ -42,6 +43,8 @@ export default class VideoSubscriber extends EventSubscriber {
       'sharing_enabled',
       'show_related_videos',
       'title',
+      'youtube_custom_id',
+      'youtube_video_id',
     ].forEach((fieldName) => {
       if (node.has(fieldName)) {
         data[camelCase(fieldName)] = node.get(fieldName);
@@ -91,7 +94,15 @@ export default class VideoSubscriber extends EventSubscriber {
       formEvent.addError('description', error);
     }
 
-    ['title', 'launchText', 'mpm', 'mezzanineUrl'].forEach((fieldName) => {
+    [
+      'launchText',
+      'mezzanine_ref',
+      'mezzanine_url',
+      'mpm',
+      'title',
+      'youtube_custom_id',
+      'youtube_video_id',
+    ].forEach((fieldName) => {
       error = getTextFieldError(data, fieldName, node);
       if (error) {
         formEvent.addError(fieldName, error);
@@ -155,11 +166,14 @@ export default class VideoSubscriber extends EventSubscriber {
       'description',
       'expires_at',
       'launch_text',
+      'mezzanine_ref',
       'mezzanine_url',
       'mpm',
       'original_air_date',
       'related_videos_heading',
       'title',
+      'youtube_custom_id',
+      'youtube_video_id',
     ].forEach((fieldName) => {
       node.set(fieldName, data[camelCase(fieldName)] || null);
     });

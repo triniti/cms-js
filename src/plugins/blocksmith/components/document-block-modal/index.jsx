@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DocumentAssetsTable from '@triniti/cms/plugins/dam/components/document-assets-table';
 import Message from '@gdbots/pbj/Message';
@@ -60,17 +61,19 @@ class DocumentBlockModal extends React.Component {
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
+      aspectRatio: block.get('aspect_ratio', AspectRatioEnum.AUTO),
       documentQ: '',
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       isUploaderOpen: false,
-      launchText: block.get('launch_text') || '',
+      launchText: block.get('launch_text', ''),
       selectedDocumentNode: documentNode || null,
       selectedImageNode: imageNode || null,
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeAspectRatio = this.handleChangeAspectRatio.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
@@ -85,7 +88,7 @@ class DocumentBlockModal extends React.Component {
     this.handleSearchDocumentAssets = this.handleSearchDocumentAssets.bind(this);
     this.handleSelectDocument = this.handleSelectDocument.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
@@ -109,6 +112,7 @@ class DocumentBlockModal extends React.Component {
   setBlock() {
     const {
       aside,
+      aspectRatio,
       hasUpdatedDate,
       launchText,
       selectedDocumentNode,
@@ -117,17 +121,22 @@ class DocumentBlockModal extends React.Component {
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
-      .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
+      .set('aside', aside)
+      .set('aspect_ratio', aspectRatio)
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
-      .set('aside', aside);
+      .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
     const { onAddBlock, toggle } = this.props;
     onAddBlock(this.setBlock());
     toggle();
+  }
+
+  handleChangeAspectRatio(option) {
+    this.setState({ aspectRatio: AspectRatioEnum.create(option.value) });
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {
@@ -217,12 +226,12 @@ class DocumentBlockModal extends React.Component {
     this.setState({ selectedImageNode });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -239,9 +248,10 @@ class DocumentBlockModal extends React.Component {
     const {
       activeStep,
       aside,
+      aspectRatio,
       documentQ,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isReadyToDisplay,
       isUploaderOpen,
       launchText,
@@ -266,7 +276,7 @@ class DocumentBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen && !isUploaderOpen}
+        keyboard={!isImageAssetPickerModalOpen && !isUploaderOpen}
       >
         <Header
           activeStep={activeStep}
@@ -315,19 +325,21 @@ class DocumentBlockModal extends React.Component {
               && (
                 <CustomizeOptions
                   aside={aside}
+                  aspectRatio={aspectRatio}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   launchText={launchText}
                   node={node}
+                  onChangeAspectRatio={this.handleChangeAspectRatio}
                   onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   updatedDate={updatedDate}
                 />
               )}

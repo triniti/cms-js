@@ -6,18 +6,18 @@ import { shallow } from 'enzyme';
 import {
   Button,
 } from '@triniti/admin-ui-plugin/components';
-import AssetPickerModal from '@triniti/cms/plugins/dam/components/asset-picker-modal';
+import ImageAssetPickerModal from '@triniti/cms/plugins/dam/components/image-asset-picker-modal';
 
-import { ImageAssetPicker } from './index';
+import ImageAssetPicker from './index';
 
 const handleClearImage = sinon.spy();
 const handleSelectImage = sinon.spy();
-const handleToggleAssetPickerModal = sinon.spy();
+const handleToggleImageAssetPickerModal = sinon.spy();
 
 const wrapper = shallow(<ImageAssetPicker
   onClearImage={handleClearImage}
   onSelectImage={handleSelectImage}
-  onToggleAssetPickerModal={handleToggleAssetPickerModal}
+  onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
 />);
 
 test('ImageAssetPicker render', (t) => {
@@ -25,9 +25,9 @@ test('ImageAssetPicker render', (t) => {
   let expected = 2;
   t.equal(actual, expected, 'it should render correct count of buttons');
 
-  actual = wrapper.find(AssetPickerModal).length;
+  actual = wrapper.find(ImageAssetPickerModal).length;
   expected = 1;
-  t.equal(actual, expected, 'it should render an AssetPickerModal');
+  t.equal(actual, expected, 'it should render an ImageAssetPickerModal');
 
   actual = wrapper.find(Button).at(0).props().disabled;
   expected = true;
@@ -55,9 +55,9 @@ test('ImageAssetPicker render[isDisabled = false]', (t) => {
   t.end();
 });
 
-test('ImageAssetPicker onToggleAssetPickerModal', (t) => {
+test('ImageAssetPicker onToggleImageAssetPickerModal', (t) => {
   wrapper.find(Button).at(0).simulate('click');
-  t.true(handleToggleAssetPickerModal.calledOnce, 'it should call the handleToggleAssetPickerModal function');
+  t.true(handleToggleImageAssetPickerModal.calledOnce, 'it should call the handleToggleImageAssetPickerModal function');
   t.end();
 });
 
@@ -69,14 +69,14 @@ test('ImageAssetPicker onClearImage', (t) => {
 
 test('ImageAssetPicker onCloseUploader [with newly uploaded asset]', (t) => {
   const asset = 'mocked-new-uploaded-asset';
-  wrapper.find(AssetPickerModal).props().onCloseUploader({ asset });
+  wrapper.find(ImageAssetPickerModal).props().onCloseUploader({ asset });
   t.true(handleSelectImage.calledOnce, 'it should call the handleSelectImage function');
   t.end();
 });
 
 test('ImageAssetPicker onCloseUploader [with no uploaded asset]', (t) => {
   const asset = null;
-  wrapper.find(AssetPickerModal).props().onCloseUploader({ asset });
+  wrapper.find(ImageAssetPickerModal).props().onCloseUploader({ asset });
   t.false(handleSelectImage.calledOnce, 'it should not call the handleSelectImage function');
   t.end();
 });
