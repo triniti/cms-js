@@ -113,7 +113,7 @@ class ImageBlockModal extends React.Component {
   }
 
   handleChangeAspectRatio(option) {
-    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.AUTO });
+    this.setState({ aspectRatio: AspectRatioEnum.create(option.value) });
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {
