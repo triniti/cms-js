@@ -61,13 +61,13 @@ class DocumentBlockModal extends React.Component {
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
-      aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.AUTO,
+      aspectRatio: block.get('aspect_ratio', AspectRatioEnum.AUTO),
       documentQ: '',
       hasUpdatedDate: block.has('updated_date'),
       isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       isUploaderOpen: false,
-      launchText: block.get('launch_text') || '',
+      launchText: block.get('launch_text', ''),
       selectedDocumentNode: documentNode || null,
       selectedImageNode: imageNode || null,
       updatedDate: block.get('updated_date', new Date()),
@@ -120,16 +120,13 @@ class DocumentBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { block } = this.props;
-    const setBlock = block.schema().createMessage()
+    return block.schema().createMessage()
       .set('aside', aside)
+      .set('aspect_ratio', aspectRatio)
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
       .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
-    if (aspectRatio !== AspectRatioEnum.AUTO) {
-      setBlock.set('aspect_ratio', aspectRatio);
-    }
-    return setBlock;
   }
 
   handleAddBlock() {
@@ -139,7 +136,7 @@ class DocumentBlockModal extends React.Component {
   }
 
   handleChangeAspectRatio(option) {
-    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.AUTO });
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {

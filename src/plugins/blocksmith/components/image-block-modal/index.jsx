@@ -39,19 +39,19 @@ class ImageBlockModal extends React.Component {
     const { block, image, isFreshBlock } = props;
     this.state = {
       aside: block.get('aside'),
-      aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
-      caption: block.get('caption') || '',
+      aspectRatio: block.get('aspect_ratio', AspectRatioEnum.AUTO),
+      caption: block.get('caption', ''),
       hasCaption: block.has('caption'),
       hasUpdatedDate: block.has('updated_date'),
       isImageAssetPickerModalOpen: isFreshBlock,
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
-      launchText: block.get('launch_text') || null,
+      launchText: block.get('launch_text', null),
       selectedImage: image || null,
-      theme: block.has('theme') ? block.get('theme') : null,
+      theme: block.get('theme', null),
       updatedDate: block.get('updated_date', new Date()),
-      url: block.get('url') || '',
+      url: block.get('url', ''),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAspectRatio = this.handleChangeAspectRatio.bind(this);
@@ -113,7 +113,7 @@ class ImageBlockModal extends React.Component {
   }
 
   handleChangeAspectRatio(option) {
-    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.AUTO });
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {

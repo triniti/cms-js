@@ -55,12 +55,12 @@ class GalleryBlockModal extends React.Component {
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
-      aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.AUTO,
+      aspectRatio: block.get('aspect_ratio', AspectRatioEnum.AUTO),
       galleryQ: '',
       hasUpdatedDate: block.has('updated_date'),
       isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
-      launchText: block.get('launch_text') || '',
+      launchText: block.get('launch_text', ''),
       selectedGallery: gallery || null,
       selectedImage: image || null,
       startsAtPoster: block.get('start_at_poster'),
@@ -113,17 +113,14 @@ class GalleryBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { block } = this.props;
-    const setBlock = block.schema().createMessage()
+    return block.schema().createMessage()
       .set('aside', aside)
+      .set('aspect_ratio', aspectRatio)
       .set('launch_text', launchText || null)
       .set('node_ref', selectedGallery.get('_id').toNodeRef())
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
       .set('start_at_poster', startsAtPoster)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
-    if (aspectRatio !== AspectRatioEnum.AUTO) {
-      setBlock.set('aspect_ratio', aspectRatio);
-    }
-    return setBlock;
   }
 
   handleAddBlock() {
@@ -133,7 +130,7 @@ class GalleryBlockModal extends React.Component {
   }
 
   handleChangeAspectRatio(option) {
-    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.AUTO });
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {
