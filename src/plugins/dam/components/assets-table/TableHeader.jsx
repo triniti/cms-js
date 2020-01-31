@@ -4,16 +4,18 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import SortButton from '@triniti/cms/components/sort-button';
 import MasterCheckbox from '@triniti/cms/components/master-checkbox';
 
-const TableHeader = ({ areAllChecked, onChangeAllRows, onSort, sort }) => (
+const TableHeader = ({ areAllChecked, hasMasterCheckbox, onChangeAllRows, onSort, sort }) => (
   <thead>
     <tr>
       <th>
+        {hasMasterCheckbox && (
         <MasterCheckbox
           checkAllLabel=""
           isSelected={areAllChecked}
           onChange={onChangeAllRows}
           uncheckAllLabel=""
         />
+        )}
       </th>
       <th />
       <th>
@@ -45,6 +47,7 @@ const TableHeader = ({ areAllChecked, onChangeAllRows, onSort, sort }) => (
 
 TableHeader.propTypes = {
   areAllChecked: PropTypes.bool.isRequired,
+  hasMasterCheckbox: PropTypes.bool.isRequired,
   onChangeAllRows: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,

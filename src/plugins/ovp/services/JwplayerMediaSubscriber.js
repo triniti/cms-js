@@ -1,7 +1,8 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
+import moment from 'moment';
 
-export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
+export default class JwplayerMediaSubscriber extends EventSubscriber {
   constructor() {
     super();
     this.onInitForm = this.onInitForm.bind(this);
@@ -19,8 +20,11 @@ export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    data.youtubeVideoId = node.get('youtube_video_id');
-    data.youtubeCustomId = node.get('youtube_custom_id');
+    data.jwplayerMediaId = node.get('jwplayer_media_id');
+    data.jwplayerSyncEnabled = node.get('jwplayer_sync_enabled');
+    data.jwplayerSyncedAt = node.has('jwplayer_synced_at')
+      ? moment(node.get('jwplayer_synced_at')).format('MMM DD, YYYY hh:mm A')
+      : null;
   }
 
   /**
@@ -32,18 +36,9 @@ export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    let error = getTextFieldError(data, 'youtubeCustomId', node);
+    const error = getTextFieldError(data, 'jwplayerMediaId', node);
     if (error) {
-      formEvent.addError('youtubeCustomId', error);
-    }
-
-    if (!data.youtubeVideoId) {
-      formEvent.addError('youtubeVideoId', 'Video ID is required.');
-    } else {
-      error = getTextFieldError(data, 'youtubeVideoId', node);
-      if (error) {
-        formEvent.addError('youtubeVideoId', error);
-      }
+      formEvent.addError('jwplayerMediaId', error);
     }
   }
 
@@ -62,19 +57,15 @@ export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
       return;
     }
 
-    node.set('youtube_video_id', data.youtubeVideoId);
-    if (data.youtubeCustomId) {
-      node.set('youtube_custom_id', data.youtubeCustomId);
-    } else {
-      node.clear('youtube_custom_id');
-    }
+    node.set('jwplayer_media_id', data.jwplayerMediaId || null);
+    node.set('jwplayer_sync_enabled', data.jwplayerSyncEnabled);
   }
 
   getSubscribedEvents() {
     return {
-      'triniti:curator:mixin:youtube-video-teaser.init_form': this.onInitForm,
-      'triniti:curator:mixin:youtube-video-teaser.validate_form': this.onValidateForm,
-      'triniti:curator:mixin:youtube-video-teaser.submit_form': this.onSubmitForm,
+      'triniti:ovp.jwplayer:mixin:has-media.init_form': this.onInitForm,
+      'triniti:ovp.jwplayer:mixin:has-media.validate_form': this.onValidateForm,
+      'triniti:ovp.jwplayer:mixin:has-media.submit_form': this.onSubmitForm,
     };
   }
 }
