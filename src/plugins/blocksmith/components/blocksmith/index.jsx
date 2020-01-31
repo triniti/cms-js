@@ -1041,6 +1041,11 @@ class Blocksmith extends React.Component {
           }
         }
         break;
+      case 'ArrowDown':
+        if (!nextBlock) {
+          e.preventDefault();
+        }
+        break;
       default:
         break;
     }
