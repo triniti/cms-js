@@ -51,7 +51,6 @@ import createFocusPlugin, { getLines } from '../../plugins/focus';
 import constants from './constants';
 import delegateFactory from './delegate';
 import selector from './selector';
-import setSelection from '../../plugins/focus/modifiers/setSelection';
 
 import {
   addEmoji,
