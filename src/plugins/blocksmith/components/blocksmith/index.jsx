@@ -47,10 +47,12 @@ import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unor
 
 import decorators from './decorators';
 import customStyleMap from './customStyleMap';
-import createFocusPlugin from '../../plugins/focus';
+import createFocusPlugin, { getLines } from '../../plugins/focus';
 import constants from './constants';
 import delegateFactory from './delegate';
 import selector from './selector';
+import setSelection from '../../plugins/focus/modifiers/setSelection';
+
 import {
   addEmoji,
   areKeysSame,
@@ -512,7 +514,7 @@ class Blocksmith extends React.Component {
    *
    * @param {*} block - A DraftJs ContentBlock
    *
-   * @link https://draftjs.org/docs/advanced-topics-block-components.html
+   * @link https://draftjs.org/docs/advanced-topics-block-components
    * @link https://github.com/draft-js-plugins/draft-js-plugins
    *
    * @returns {?Object} a React component and config, or null if borked
@@ -844,7 +846,7 @@ class Blocksmith extends React.Component {
   /**
    * Handles the custom command type(s) sent by keyBindingFn.
    *
-   * @link https://draftjs.org/docs/advanced-topics-key-bindings.html
+   * @link https://draftjs.org/docs/advanced-topics-key-bindings
    *
    * @param {string} command - a command type
    *
@@ -998,6 +1000,13 @@ class Blocksmith extends React.Component {
     const currentBlock = getBlockForKey(contentState, anchorKey);
     const previousBlock = contentState.getBlockBefore(anchorKey);
     const nextBlock = contentState.getBlockAfter(anchorKey);
+    const lines = getLines(editorState, 'line-length-tester');
+
+    let offsetAtStartOfLastLine = 0;
+    for (let i = 0; i < lines.length - 1; i += 1) {
+      offsetAtStartOfLastLine += lines[i].length;
+    }
+
     switch (e.key) {
       case 'ArrowLeft':
         if (currentBlock.getType() === 'atomic') {
@@ -1042,7 +1051,12 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        if (!nextBlock) {
+        if (!nextBlock && (lines.length <= 1 || editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine)) {
+          e.preventDefault();
+        }
+        break;
+      case 'ArrowUp':
+        if (!previousBlock && (lines.length <= 1 || editorState.getSelection().getAnchorOffset() < lines[0].length)) {
           e.preventDefault();
         }
         break;
@@ -1271,7 +1285,7 @@ class Blocksmith extends React.Component {
    * Intercepts paste events. Oftentimes the HTML is malformed and as a result empty blocks
    * are inserted. This prevents that from happening.
    *
-   * @link https://draftjs.org/docs/api-reference-editor.html#handlepastedtext
+   * @link https://draftjs.org/docs/api-reference-editor#handlepastedtext
    * @link https://github.com/facebook/draft-js/blob/master/src/model/paste/DraftPasteProcessor.js
    * @link https://github.com/facebook/draft-js/blob/master/src/model/immutable/BlockMapBuilder.js
    *
@@ -1391,7 +1405,7 @@ class Blocksmith extends React.Component {
    * Case ' ' is the spacebar. For some reason pressing this while an atomic block is selected
    * will delete said block. This case prevents that.
    *
-   * @link https://draftjs.org/docs/advanced-topics-key-bindings.html
+   * @link https://draftjs.org/docs/advanced-topics-key-bindings
    *
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    *

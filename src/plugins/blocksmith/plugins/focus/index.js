@@ -22,7 +22,7 @@ const focusableBlockIsSelected = (editorState, blockKeyStore) => {
   return blockKeyStore.includes(block.getKey());
 };
 
-const getLines = (editorState, testClass) => {
+export const getLines = (editorState, testClass) => {
   let moreThanOneLine = false;
   let height;
   let testSpanHeight;
@@ -202,8 +202,8 @@ export default (config = {}) => {
       let offsetAtStartOfLastLine = 0;
       for (let i = 0; i < lines.length - 1; i += 1) {
         offsetAtStartOfLastLine += lines[i].length;
-      }
-      if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine) {
+      }     
+      if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'down', event);
           return;
@@ -220,7 +220,7 @@ export default (config = {}) => {
         const afterBlock = editorState.getCurrentContent().getBlockAfter(selectionKey);
         if (afterBlock && blockKeyStore.includes(afterBlock.getKey())) {
           setSelection(getEditorState, setEditorState, 'down', event);
-        }
+        }        
       }
     },
     onUpArrow: (event, { getEditorState, setEditorState }) => {
@@ -228,7 +228,7 @@ export default (config = {}) => {
 
       const editorState = getEditorState();
       const lines = getLines(editorState, testClass);
-      if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() < lines[0].length) {
+      if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() < lines[0].length) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'up', event);
         }
@@ -245,6 +245,7 @@ export default (config = {}) => {
         if (beforeBlock && blockKeyStore.includes(beforeBlock.getKey())) {
           setSelection(getEditorState, setEditorState, 'up', event);
         }
+        
       }
     },
     decorator: createDecorator({ theme, blockKeyStore }),
