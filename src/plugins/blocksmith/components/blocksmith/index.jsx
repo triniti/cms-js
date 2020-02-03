@@ -52,7 +52,6 @@ import createFocusPlugin from '../../plugins/focus';
 import constants from './constants';
 import delegateFactory from './delegate';
 import selector from './selector';
-
 import {
   addEmoji,
   areKeysSame,

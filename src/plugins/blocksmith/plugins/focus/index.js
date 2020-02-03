@@ -199,7 +199,6 @@ export default (config = {}) => {
         if (beforeBlock && blockKeyStore.includes(beforeBlock.getKey())) {
           setSelection(getEditorState, setEditorState, 'up', event);
         }
-        
       }
     },
     decorator: createDecorator({ theme, blockKeyStore }),
