@@ -30,6 +30,7 @@ const sidebarSectionsWithVendor = [{
 
 export default class Sidebar extends React.Component {
   static propTypes = {
+    activeBlockKey: PropTypes.string.isRequired,
     isHoverInsertMode: PropTypes.bool,
     isOpen: PropTypes.bool.isRequired,
     onHoverInsert: PropTypes.func.isRequired,
@@ -46,8 +47,11 @@ export default class Sidebar extends React.Component {
   constructor(props) {
     super(props);
 
+    const { activeBlockKey } = props;
+
     this.state = {
       q: '',
+      activeBlockKey,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -68,11 +72,14 @@ export default class Sidebar extends React.Component {
       onToggleBlockModal,
       onToggleSidebar,
     } = this.props;
+
+    const { activeBlockKey } = this.state;
+
     if (schema.getId().getMessage() === 'text-block') {
       onHoverInsert();
       onToggleSidebar();
     } else {
-      onToggleBlockModal(schema.createMessage(), true); // true is for isFreshBlock prop
+      onToggleBlockModal(schema.createMessage(), activeBlockKey, true); // true is for isFreshBlock prop
     }
   }
 

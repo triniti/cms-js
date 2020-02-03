@@ -1,10 +1,13 @@
 import noop from 'lodash/noop';
 import React from 'react';
 import PropTypes from 'prop-types';
+import Message from '@gdbots/pbj/Message';
 import { Button, ModalFooter } from '@triniti/admin-ui-plugin/components';
 
 const Footer = ({
   activeStep,
+  blockKey,
+  block,
   innerRef,
   isFreshBlock,
   isNextButtonDisabled,
@@ -31,15 +34,20 @@ const Footer = ({
     <Button
       innerRef={innerRef}
       disabled={activeStep !== 1}
-      onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
+      onClick={
+        isFreshBlock
+          ? () => handleAddBlock(block, blockKey)
+          : () => handleEditBlock(block, blockKey)
+}
     >
       {isFreshBlock ? 'Add' : 'Update'}
     </Button>
   </ModalFooter>
 );
-
 Footer.propTypes = {
   activeStep: PropTypes.oneOf([0, 1]).isRequired,
+  blockKey: PropTypes.string.isRequired,
+  block: PropTypes.instanceOf(Message).isRequired,
   innerRef: PropTypes.func,
   isFreshBlock: PropTypes.bool.isRequired,
   isNextButtonDisabled: PropTypes.bool.isRequired,

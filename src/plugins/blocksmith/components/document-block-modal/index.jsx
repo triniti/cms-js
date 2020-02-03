@@ -27,10 +27,11 @@ const DOCUMENT_TYPES = ['text/plain', 'text/rtf', 'application/pdf'];
 
 class DocumentBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     documentAssetNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     documentAssetSort: PropTypes.string.isRequired,
-    documentNode: PropTypes.instanceOf(Message),
+    // documentNode: PropTypes.instanceOf(Message),
     imageNode: PropTypes.instanceOf(Message),
     isDocumentAssetSearchFulfilled: PropTypes.bool.isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
@@ -57,6 +58,7 @@ class DocumentBlockModal extends React.Component {
   constructor(props) {
     super(props);
     const { block, imageNode, documentNode } = props;
+
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
@@ -115,9 +117,11 @@ class DocumentBlockModal extends React.Component {
       selectedImageNode,
       updatedDate,
     } = this.state;
+
     const { block } = this.props;
+
     return block.schema().createMessage()
-      .set('node_ref', NodeRef.fromNode(selectedDocumentNode))
+      .set('node_ref', NodeRef.from)
       .set('image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('launch_text', launchText || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
@@ -125,8 +129,14 @@ class DocumentBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
+    toggle();
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -180,12 +190,6 @@ class DocumentBlockModal extends React.Component {
         }
       }
     });
-  }
-
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
   }
 
   handleDecrementStep() {
@@ -250,6 +254,7 @@ class DocumentBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const {
+      blockKey,
       documentAssetNodes,
       documentAssetSort,
       request,
@@ -343,6 +348,8 @@ class DocumentBlockModal extends React.Component {
             />
           )}
         <Footer
+          blockKey={blockKey}
+          block={this.setBlock()}
           allowedMimeTypes={DOCUMENT_TYPES}
           activeStep={activeStep}
           innerRef={(el) => { this.button = el; }}

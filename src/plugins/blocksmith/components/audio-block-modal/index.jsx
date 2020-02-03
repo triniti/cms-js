@@ -28,6 +28,7 @@ class AudioBlockModal extends React.Component {
     audioAssetNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     audioAssetSort: PropTypes.string.isRequired,
     audioNode: PropTypes.instanceOf(Message),
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     delegate: PropTypes.shape({
       handleClearAudioAssetChannel: PropTypes.func.isRequired,
@@ -117,8 +118,8 @@ class AudioBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -160,8 +161,8 @@ class AudioBlockModal extends React.Component {
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -223,11 +224,13 @@ class AudioBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const {
+      audioAssetNodes,
+      audioAssetSort,
+      blockKey,
+      block,
       isFreshBlock,
       isOpen,
       node,
-      audioAssetNodes,
-      audioAssetSort,
       toggle,
     } = this.props;
 

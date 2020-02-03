@@ -24,6 +24,7 @@ import './styles.scss';
 
 class GalleryBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     galleries: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     gallery: PropTypes.instanceOf(Message),
@@ -112,15 +113,21 @@ class GalleryBlockModal extends React.Component {
     return block.schema().createMessage()
       .set('aside', aside)
       .set('launch_text', launchText || null)
-      .set('node_ref', selectedGallery.get('_id').toNodeRef())
+      .set('node_ref', selectedGallery ? selectedGallery.get('_id').toNodeRef(): null)
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
       .set('start_at_poster', startsAtPoster)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
+    toggle();
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -156,12 +163,6 @@ class GalleryBlockModal extends React.Component {
 
   handleIncrementStep() {
     this.setState(({ activeStep }) => ({ activeStep: activeStep + 1 }));
-  }
-
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
   }
 
   handleClearImage() {
@@ -216,7 +217,15 @@ class GalleryBlockModal extends React.Component {
       updatedDate,
       startsAtPoster,
     } = this.state;
-    const { isOpen, isFreshBlock, toggle, galleries, node } = this.props;
+
+    const {
+      blockKey, 
+      isOpen, 
+      isFreshBlock, 
+      toggle, 
+      galleries, 
+      node 
+    } = this.props;
 
     return (
       <Modal
@@ -287,6 +296,8 @@ class GalleryBlockModal extends React.Component {
           }
         </ModalBody>
         <Footer
+          blockKey={blockKey}
+          block={this.setBlock()}
           activeStep={activeStep}
           innerRef={(el) => {
             this.button = el;

@@ -27,6 +27,7 @@ import selector from './selector';
 
 class YoutubePlaylistBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
@@ -97,14 +98,14 @@ class YoutubePlaylistBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -173,7 +174,7 @@ class YoutubePlaylistBlockModal extends React.Component {
       touched,
       updatedDate,
     } = this.state;
-    const { isFreshBlock, isOpen, node, toggle } = this.props;
+    const { isFreshBlock, isOpen, node, toggle, blockKey } = this.props;
     const { isAssetPickerModalOpen, selectedImageNode } = this.state;
 
     return (
@@ -187,7 +188,7 @@ class YoutubePlaylistBlockModal extends React.Component {
               onChange={this.handleChangeTextarea}
               placeholder="enter embed code, url, or id"
               type="textarea"
-              value={playlistId || null}
+              value={playlistId || ''}
             />
           </FormGroup>
           {
@@ -240,7 +241,11 @@ class YoutubePlaylistBlockModal extends React.Component {
           <Button onClick={toggle} innerRef={this.buttonRef}>Cancel</Button>
           <Button
             disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+              ? () => this.handleAddBlock(this.setBlock(), blockKey) 
+              : () => this.handleEditBlock(this.setBlock(), blockKey)
+            }
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

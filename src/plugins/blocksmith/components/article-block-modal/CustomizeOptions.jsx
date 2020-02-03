@@ -105,7 +105,7 @@ CustomizeOptions.propTypes = {
   onSelectImage: PropTypes.func.isRequired,
   onToggleAssetPickerModal: PropTypes.func.isRequired,
   showImage: PropTypes.bool.isRequired,
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default CustomizeOptions;

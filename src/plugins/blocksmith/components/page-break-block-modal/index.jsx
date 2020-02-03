@@ -20,6 +20,7 @@ import changedTime from '../../utils/changedTime';
 
 class PageBreakBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
@@ -65,8 +66,14 @@ class PageBreakBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
+    toggle();
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -86,15 +93,9 @@ class PageBreakBlockModal extends React.Component {
     this.setState({ readMoreText });
   }
 
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
-  }
-
   render() {
     const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
-    const { isFreshBlock, isOpen, toggle } = this.props;
+    const { isFreshBlock, isOpen, toggle, blockKey } = this.props;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -132,7 +133,11 @@ class PageBreakBlockModal extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
-          <Button onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}>
+          <Button onClick={
+            isFreshBlock 
+            ? () => this.handleAddBlock(this.setBlock(), blockKey) 
+            : () => this.handleEditBlock(this.setBlock(), blockKey)
+          }>
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>
         </ModalFooter>

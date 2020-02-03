@@ -4,6 +4,8 @@ import { Button, ModalFooter } from '@triniti/admin-ui-plugin/components';
 
 const Footer = ({
   activeStep,
+  blockKey,
+  block,
   toggle,
   onDecrementStep: handleDecrementStep,
   onIncrementStep: handleIncrementStep,
@@ -29,7 +31,11 @@ const Footer = ({
     </Button>
     <Button
       disabled={activeStep !== 1}
-      onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
+      onClick={
+        isFreshBlock 
+        ? () => handleAddBlock(block, blockKey) 
+        : handleEditBlock(block, blockKey)
+      }
     >
       {isFreshBlock ? 'Add' : 'Update'}
     </Button>

@@ -24,6 +24,7 @@ import './styles.scss';
 
 class VideoBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     getNode: PropTypes.func.isRequired,
     imageNode: PropTypes.instanceOf(Message),
@@ -52,7 +53,9 @@ class VideoBlockModal extends React.Component {
 
   constructor(props) {
     super(props);
+
     const { block, imageNode, video } = props;
+
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
@@ -112,21 +115,21 @@ class VideoBlockModal extends React.Component {
       .set('autoplay', autoplay)
       .set('launch_text', (hasLaunchText && launchText) || null)
       .set('muted', isMuted)
-      .set('node_ref', selectedVideo.get('_id').toNodeRef())
+      .set('node_ref', selectedVideo ? selectedVideo.get('_id').toNodeRef() : null)
       .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('show_more_videos', willShowMoreVideos)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -225,6 +228,7 @@ class VideoBlockModal extends React.Component {
       sort,
       toggle,
       videos,
+      blockKey,
     } = this.props;
 
     return (
@@ -303,6 +307,8 @@ class VideoBlockModal extends React.Component {
           </ScrollableContainer>
         </ModalBody>
         <Footer
+          blockKey={blockKey}
+          block={this.setBlock()}
           activeStep={activeStep}
           innerRef={(el) => { this.button = el; }}
           isFreshBlock={isFreshBlock}

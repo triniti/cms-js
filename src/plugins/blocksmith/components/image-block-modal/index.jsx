@@ -20,6 +20,7 @@ import selector from './selector';
 
 class ImageBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     image: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
@@ -103,8 +104,14 @@ class ImageBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
+    toggle();
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -151,12 +158,6 @@ class ImageBlockModal extends React.Component {
     this.setState({ selectedImage: null }, this.refocusModal);
   }
 
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
-  }
-
   handleSelectImage(selectedImage) {
     this.setState({ selectedImage });
   }
@@ -196,7 +197,14 @@ class ImageBlockModal extends React.Component {
       updatedDate,
       url,
     } = this.state;
-    const { isFreshBlock, isOpen, node, toggle } = this.props;
+
+    const {
+      blockKey,
+      isFreshBlock, 
+      isOpen, 
+      node, 
+      toggle 
+    } = this.props;
 
     return (
       <Modal
@@ -249,7 +257,11 @@ class ImageBlockModal extends React.Component {
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>
           <Button
             disabled={!isValid || !selectedImage}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+              ? () => this.handleAddBlock(this.setBlock(), blockKey)
+              : () => this.handleEditBlock(this.setBlock(), blockKey)
+            }
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

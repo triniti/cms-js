@@ -24,7 +24,7 @@ const PreviewComponent = ({ image, onToggleImagePreviewSrc: handleToggleImagePre
 };
 
 PreviewComponent.propTypes = {
-  image: PropTypes.instanceOf(Message).isRequired,
+  //image: PropTypes.instanceOf(Message).isRequired, #FIXME: throws props error need to fix.
   onToggleImagePreviewSrc: PropTypes.func.isRequired,
 };
 

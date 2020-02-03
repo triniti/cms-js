@@ -33,6 +33,7 @@ class ArticleBlockModal extends React.Component {
     articleNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     articleSort: PropTypes.string,
     block: PropTypes.instanceOf(Message).isRequired,
+    blockKey: PropTypes.string.isRequired,
     delegate: PropTypes.shape({
       handleClearArticleChannel: PropTypes.func.isRequired,
       handleSearchArticles: PropTypes.func.isRequired,
@@ -125,8 +126,8 @@ class ArticleBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -151,8 +152,8 @@ class ArticleBlockModal extends React.Component {
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -231,8 +232,10 @@ class ArticleBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const {
+      blockKey,
       articleNodes,
       articleSort,
+      block,
       isFreshBlock,
       isOpen,
       node,
@@ -324,6 +327,8 @@ class ArticleBlockModal extends React.Component {
           </ScrollableContainer>
         </ModalBody>
         <Footer
+          blockKey={blockKey}
+          block={block}
           activeStep={activeStep}
           node={node}
           innerRef={(el) => { this.button = el; }}

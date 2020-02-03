@@ -42,7 +42,9 @@
 
 figure {
   margin: 0;
+  position: relative;
 }
+
 
 .btn-radius-round span:not(.badge-alert) {
   margin: 0 .25rem 0 0;
@@ -88,6 +90,10 @@ div[data-contents="true"] {
     color: #c90202;
   }
 
+  fingure {
+    position: relative;
+  }
+
   .block-preview {
     user-select: none; // selecting text in a preview will open the inline toolbar
 
@@ -117,12 +123,14 @@ div[data-contents="true"] {
   .drag-area {
     position: absolute;
     height: 10px;
-    width: calc(100% - 8rem);
+    width: 100%;
     outline: none;
   }
 
   .draggable {
     cursor: grab;
+    // need this due to container being too short for hover to take affect.
+    width: 116%;
   }
 
   .draggable-top {
@@ -206,7 +214,16 @@ div[data-contents="true"] {
   }
 }
 
+.block-buttons {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  z-index: 2;
+}
 
+.text-block .block-buttons {
+  top: -10px;
+}
 
 // END EDITOR STYLES //
 

@@ -59,7 +59,7 @@ export default class LinkModal extends React.Component {
     if (isValidUrl(url)) {
       const target = openInNewTab ? '_blank' : null;
       onAddLink(target, url);
-      toggle();
+      toggle(); 
     } else {
       this.setState(() => ({ isValid: false }));
     }

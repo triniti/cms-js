@@ -8,6 +8,8 @@ import { Button, ModalFooter } from '@triniti/admin-ui-plugin/components';
 import Uploader from '@triniti/cms/plugins/dam/components/uploader';
 
 const Footer = ({
+  block,
+  blockKey,
   allowedMimeTypes,
   activeStep,
   innerRef,
@@ -24,7 +26,7 @@ const Footer = ({
   toggle,
   isUploaderOpen,
 }) => (
-  <ModalFooter>
+    <ModalFooter>
     {
       activeStep === 0
       && (
@@ -63,12 +65,17 @@ const Footer = ({
     </Button>
     <Button
       disabled={activeStep !== 1 || !isImageSelected}
-      onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
+      onClick={
+        isFreshBlock 
+        ? () => handleAddBlock(block, blockKey) 
+        : () => handleEditBlock(block, blockKey)
+    }
     >
       {isFreshBlock ? 'Add' : 'Update'}
     </Button>
   </ModalFooter>
 );
+
 
 Footer.propTypes = {
   activeStep: PropTypes.oneOf([0, 1, 2]).isRequired,

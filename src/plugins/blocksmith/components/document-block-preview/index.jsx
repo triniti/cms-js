@@ -35,7 +35,7 @@ const DocumentBlockPreview = ({ className, documentNode, imageNode, block }) => 
 DocumentBlockPreview.propTypes = {
   block: PropTypes.instanceOf(Message).isRequired,
   className: PropTypes.string,
-  documentNode: PropTypes.instanceOf(Message).isRequired,
+  documentNode: PropTypes.instanceOf(Message),
   imageNode: PropTypes.instanceOf(Message),
 };
 

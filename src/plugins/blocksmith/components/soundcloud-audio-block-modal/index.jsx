@@ -32,6 +32,7 @@ const VISUAL_QUERY_STRING_REGEX = /(\?|&)visual=(true|false)/;
 
 class SoundcloudAudioBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
@@ -105,14 +106,14 @@ class SoundcloudAudioBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -221,7 +222,7 @@ class SoundcloudAudioBlockModal extends React.Component {
       willHideRelated,
       willShowComments,
     } = this.state;
-    const { isFreshBlock, isOpen, node, toggle } = this.props;
+    const { isFreshBlock, isOpen, node, toggle, blockKey } = this.props;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -336,7 +337,9 @@ class SoundcloudAudioBlockModal extends React.Component {
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>
           <Button
             disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+                ? () => this.handleAddBlock(this.setBlock(), blockKey) : () => this.handleEditBlock(this.setBlock(), blockKey)}
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

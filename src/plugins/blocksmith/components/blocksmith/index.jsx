@@ -7,7 +7,6 @@ import noop from 'lodash/noop';
 import moment from 'moment';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
 import swal from 'sweetalert2';
-import decorateComponentWithProps from 'decorate-component-with-props';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { getSelectionEntity } from 'draftjs-utils';
@@ -26,10 +25,9 @@ import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 
 import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-ui-plugin/components';
-import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
+import TextBlockWrapper from '@triniti/cms/plugins/blocksmith/components/text-block-wrapper';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
@@ -154,12 +152,8 @@ class Blocksmith extends React.Component {
     }
 
     this.state = {
-      activeBlockKey: null,
-      blockButtonsStyle: {
-        transform: 'scale(0)',
-      },
+      activeBlockKey: '',
       hoverBlockNode: null,
-      imagePreviewSrc: null,
       isDirty: false,
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
@@ -214,6 +208,7 @@ class Blocksmith extends React.Component {
     this.blockStyleFn = this.blockStyleFn.bind(this);
     this.getEditorState = this.getEditorState.bind(this);
     this.getReadOnly = this.getReadOnly.bind(this);
+    this.getCopiedBlock = this.getCopiedBlock.bind(this);
     this.handleAddCanvasBlock = this.handleAddCanvasBlock.bind(this);
     this.handleAddEmptyBlockAtEnd = this.handleAddEmptyBlockAtEnd.bind(this);
     this.handleAddLink = this.handleAddLink.bind(this);
@@ -387,6 +382,11 @@ class Blocksmith extends React.Component {
     return sidebarHolderStyle;
   }
 
+  getCopiedBlock = () => {
+    const { copiedBlock } = this.state;
+    return copiedBlock;
+  };
+
   /**
    * When moving the mouse, determine if it is "between" blocks and set state
    * accordingly.
@@ -452,9 +452,8 @@ class Blocksmith extends React.Component {
    * @param {*} canvasBlock                - a triniti canvas block
    * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
    */
-  handleAddCanvasBlock(canvasBlock, shouldSelectAndStyle = false) {
+  handleAddCanvasBlock(canvasBlock, key, shouldSelectAndStyle = false) {
     const {
-      activeBlockKey,
       editorState,
       isDirty,
       isHoverInsertModeBottom,
@@ -464,20 +463,20 @@ class Blocksmith extends React.Component {
     const contentState = editorState.getCurrentContent();
     let newContentState;
     let newBlockKey;
-    const activeBlock = getBlockForKey(contentState, activeBlockKey);
+    const activeBlock = getBlockForKey(contentState, key);
     if (isBlockEmpty(activeBlock)) {
       // active block is empty - just replace it with new block
       newContentState = replaceBlockAtKey(
         contentState,
         canvasBlock,
-        activeBlockKey,
+        key,
       );
     } else {
       // active block is not empty, add an empty and replace that with new block
       newBlockKey = genKey();
       newContentState = insertEmptyBlock(
         contentState,
-        activeBlockKey,
+        key,
         isHoverInsertModeBottom ? constants.POSITION_AFTER : constants.POSITION_BEFORE,
         newBlockKey,
       );
@@ -519,6 +518,19 @@ class Blocksmith extends React.Component {
    */
   blockRendererFn(block) {
     const { editorState, readOnly } = this.state;
+
+    const blockPropsConfig = {
+      getCopiedBlock: this.getCopiedBlock,
+      getEditorState: this.getEditorState,
+      getReadOnly: this.getReadOnly,
+      handleCopyBlock: this.handleCopyBlock,
+      handleDelete: this.handleDelete,
+      handleEdit: this.handleEdit,
+      handlePasteBlock: this.handlePasteBlock,
+      handleShiftBlock: this.handleShiftBlock,
+      handleToggleSpecialCharacterModal: this.handleToggleSpecialCharacterModal,
+    };
+
     switch (block.getType()) {
       case 'atomic':
         if (!block.getEntityAt(0)) {
@@ -531,15 +543,15 @@ class Blocksmith extends React.Component {
           ),
           editable: false,
           props: {
-            getReadOnly: this.getReadOnly,
+            ...blockPropsConfig,
           },
         };
       case 'unstyled':
         return {
-          component: DraggableTextBlock,
+          component: TextBlockWrapper,
           contentEditable: !readOnly,
           props: {
-            getReadOnly: this.getReadOnly,
+            ...blockPropsConfig,
           },
         };
       case 'ordered-list-item':
@@ -548,9 +560,10 @@ class Blocksmith extends React.Component {
           component: ListBlockWrapper,
           contentEditable: !readOnly,
           props: {
+            getReadOnly: this.getReadOnly,
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
-            getReadOnly: this.getReadOnly,
+            ...blockPropsConfig,
           },
         };
       default:
@@ -636,12 +649,13 @@ class Blocksmith extends React.Component {
   /**
    * Stores the triniti block payload in redux so that it is available for later pasting
    */
-  handleCopyBlock() {
-    const { activeBlockKey, editorState } = this.state;
+  handleCopyBlock(key) {
+    const { editorState } = this.state;
     const { delegate, copiedBlock } = this.props;
 
-    const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
+    const draftJsBlock = editorState.getCurrentContent().getBlockForKey(key);
     const entityKey = draftJsBlock.getEntityAt(0);
+
     if (entityKey) {
       const entity = editorState.getCurrentContent().getEntity(entityKey);
       const canvasBlock = entity.getData().block;
@@ -658,8 +672,8 @@ class Blocksmith extends React.Component {
    * Deletes the active block. A block's key is set as the active key (in positionComponents) when
    * the text indicator is moved into it or when the mouse is moved over it.
    */
-  handleDelete() {
-    const { activeBlockKey, editorState, isDirty } = this.state;
+  handleDelete(key) {
+    const { editorState, isDirty } = this.state;
     const { delegate, formName } = this.props;
 
     this.setState({ readOnly: true }, () => {
@@ -669,7 +683,7 @@ class Blocksmith extends React.Component {
             this.setState({
               editorState: EditorState.push(
                 editorState,
-                deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
+                deleteBlock(editorState.getCurrentContent(), key), 'remove-range',
               ),
             }, () => {
               if (!isDirty) {
@@ -772,7 +786,7 @@ class Blocksmith extends React.Component {
    * is moved over it.
    */
   handleEdit() {
-    const { activeBlockKey, editorState } = this.state;
+    const { editorState, activeBlockKey } = this.state;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const entityKey = draftJsBlock.getEntityAt(0);
     let entity;
@@ -788,7 +802,7 @@ class Blocksmith extends React.Component {
         canvasBlock.set('updated_date', entity.getData().updatedDate || moment().toDate());
       }
     }
-    this.handleToggleBlockModal(canvasBlock);
+    this.handleToggleBlockModal(canvasBlock, activeBlockKey);
   }
 
   /**
@@ -798,17 +812,16 @@ class Blocksmith extends React.Component {
    *
    * @param {*}      canvasBlock - a triniti canvas block
    */
-  handleEditCanvasBlock(canvasBlock) {
-    const { activeBlockKey, isDirty, editorState } = this.state;
+  handleEditCanvasBlock(canvasBlock, key) {
+    const { isDirty, editorState } = this.state;
     const { delegate, formName } = this.props;
     const newContentState = editorState.getCurrentContent();
     const activeBlockPosition = newContentState.getBlocksAsArray() // used later to re-position
-      .findIndex((block) => block.getKey() === activeBlockKey);
+      .findIndex((block) => block.getKey() === key);
 
     let entityType;
     let isRemoval = false;
     const entityData = {};
-
     if (canvasBlock.schema().getCurie().getMessage() !== 'text-block') {
       entityData.block = canvasBlock;
       entityType = canvasBlock.schema().getCurie().getMessage();
@@ -824,7 +837,7 @@ class Blocksmith extends React.Component {
     this.setState({
       editorState: EditorState.push(
         editorState,
-        forceRenderBlockEntity(newContentState, activeBlockKey, entityData, entityType, isRemoval),
+        forceRenderBlockEntity(newContentState, key, entityData, entityType, isRemoval),
         'apply-entity',
       ),
     }, () => {
@@ -1075,8 +1088,8 @@ class Blocksmith extends React.Component {
   /**
    * Remove any styling associated with an "active" editor
    */
-  handleMouseLeave() {
-    this.removeActiveStyling();
+  handleMouseLeave(event) {
+    event.target.classList.toggle('active');
   }
 
   /**
@@ -1086,9 +1099,11 @@ class Blocksmith extends React.Component {
    */
   handleMouseMove(e) {
     const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
+
     if (readOnly || isSidebarOpen) {
       return;
     }
+
     const { pageX, pageY } = e;
     let target = document.elementFromPoint(pageX, pageY);
 
@@ -1179,17 +1194,18 @@ class Blocksmith extends React.Component {
    * @param {?*}      canvasBlock  - a triniti canvas block (freshly created, when creating new)
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
-  handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
-    const { modalComponent } = this.state;
-
+  handleToggleBlockModal(canvasBlock, key, isFreshBlock = false) {
+    const { modalComponent, activeBlockKey } = this.state;
     if (modalComponent) {
       this.handleCloseModal();
     } else {
       const { node } = this.props;
       const message = canvasBlock.schema().getId().getCurie().getMessage();
       const ModalComponent = getModalComponent(message);
+
       this.handleOpenModal(() => (
         <ModalComponent
+          blockKey={activeBlockKey}
           block={canvasBlock}
           isFreshBlock={isFreshBlock}
           isOpen
@@ -1255,11 +1271,13 @@ class Blocksmith extends React.Component {
    */
   handlePasteBlock() {
     const { copiedBlock } = this.props;
+    const { activeBlockKey } = this.state;
+
     if (!copiedBlock) {
       return;
     }
 
-    this.handleAddCanvasBlock(copiedBlock, true);
+    this.handleAddCanvasBlock(copiedBlock, activeBlockKey);
   }
 
   /**
@@ -1498,14 +1516,6 @@ class Blocksmith extends React.Component {
 
     const blockBounds = selectedBlockNode.getBoundingClientRect();
 
-    const blockButtonsStyle = { ...this.state.blockButtonsStyle }; // eslint-disable-line
-    blockButtonsStyle.top = (blockBounds.top - editorBounds.top) - 10;
-    blockButtonsStyle.transform = `scale(${readOnly || isHoverInsertMode ? 0 : 1})`;
-
-    if (!contentState.getBlockForKey(activeBlockKey)) {
-      blockButtonsStyle.transform = 'scale(0)'; // escape hatch, buttons wont work without activeBlockKey
-    }
-
     const isSidebarVisible = isHoverInsertMode
       || (!readOnly && !isBlockAList(activeBlock));
 
@@ -1522,7 +1532,6 @@ class Blocksmith extends React.Component {
 
     this.setState({
       activeBlockKey: normalizeKey(blockKey),
-      blockButtonsStyle,
       // eslint-disable-next-line
       isSidebarOpen: this.state.isSidebarOpen && isSidebarVisible,
       sidebarHolderStyle,
@@ -1534,9 +1543,6 @@ class Blocksmith extends React.Component {
    */
   removeActiveStyling() {
     const { editorState, isSidebarOpen } = this.state;
-    // eslint-disable-next-line
-    const blockButtonsStyle = { ...this.state.blockButtonsStyle };
-    blockButtonsStyle.transform = 'scale(0)';
 
     // eslint-disable-next-line
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
@@ -1571,7 +1577,6 @@ class Blocksmith extends React.Component {
     }
 
     this.setState({
-      blockButtonsStyle,
       isHoverInsertMode: false,
       sidebarHolderStyle,
     });
@@ -1634,10 +1639,8 @@ class Blocksmith extends React.Component {
   }
 
   render() {
-    const { copiedBlock } = this.props;
     const {
       activeBlockKey,
-      blockButtonsStyle,
       editorState,
       isHoverInsertMode,
       isSidebarOpen,
@@ -1692,22 +1695,9 @@ class Blocksmith extends React.Component {
               ref={(ref) => { this.editor = ref; }}
               spellCheck
             />
-            <div style={blockButtonsStyle} className="block-buttons-holder">
-              <BlockButtons
-                activeBlockKey={activeBlockKey}
-                copiedBlock={copiedBlock}
-                editorState={editorState}
-                onCopyBlock={this.handleCopyBlock}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-                onPasteBlock={this.handlePasteBlock}
-                onShiftBlock={this.handleShiftBlock}
-                onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-                resetFlag={blockButtonsStyle.top}
-              />
-            </div>
             <div style={sidebarHolderStyle} className="sidebar-holder">
               <Sidebar
+                activeBlockKey={activeBlockKey}
                 isHoverInsertMode={isHoverInsertMode}
                 isOpen={isSidebarOpen}
                 onToggleSidebar={this.handleToggleSidebar}

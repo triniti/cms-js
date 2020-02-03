@@ -11,6 +11,8 @@ import { ALLOWED_MIME_TYPES } from './constants';
 
 const Footer = ({
   activeStep,
+  blockKey,
+  block,
   innerRef,
   isFreshBlock,
   isNextButtonDisabled,
@@ -60,7 +62,7 @@ const Footer = ({
     </Button>
     <Button
       disabled={activeStep === 0}
-      onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
+      onClick={isFreshBlock ? () => handleAddBlock(block, blockKey) : () => handleEditBlock(block, blockKey)}
     >
       {isFreshBlock ? 'Add' : 'Update'}
     </Button>
@@ -69,6 +71,8 @@ const Footer = ({
 
 Footer.propTypes = {
   activeStep: PropTypes.number.isRequired,
+  blockKey: PropTypes.string.isRequired,
+  block: PropTypes.instanceOf(Message).isRequired,
   innerRef: PropTypes.func.isRequired,
   isFreshBlock: PropTypes.bool.isRequired,
   isNextButtonDisabled: PropTypes.bool.isRequired,

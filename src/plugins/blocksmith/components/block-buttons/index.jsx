@@ -7,7 +7,7 @@ import EditButton from '@triniti/cms/plugins/blocksmith/components/edit-block-bu
 import Message from '@gdbots/pbj/Message';
 import PasteButton from '@triniti/cms/plugins/blocksmith/components/paste-block-button';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReorderButtons from '@triniti/cms/plugins/blocksmith/components/reorder-block-buttons';
 import { getBlockForKey, isBlockEmpty } from '../../utils';
 
@@ -20,15 +20,14 @@ export default class BlockButtons extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onPasteBlock: PropTypes.func.isRequired,
+
     onShiftBlock: PropTypes.func.isRequired,
     onToggleSpecialCharacterModal: PropTypes.func.isRequired,
-    resetFlag: PropTypes.number,
   };
 
   static defaultProps = {
     activeBlockKey: '',
     copiedBlock: null,
-    resetFlag: null,
   };
 
   constructor(props) {
@@ -36,25 +35,12 @@ export default class BlockButtons extends React.Component {
 
     this.state = {
       areShiftButtonsVisible: false,
-      resetFlag: props.resetFlag,
       timeoutId: null,
     };
 
-    this.handleHideShiftButtons = this.handleHideShiftButtons.bind(this);
     this.handleShiftBlock = this.handleShiftBlock.bind(this);
     this.handleShowShiftButtons = this.handleShowShiftButtons.bind(this);
-  }
-
-  componentWillReceiveProps({ resetFlag }) {
-    if (this.state.resetFlag !== resetFlag) { // eslint-disable-line react/destructuring-assignment
-      const { timeoutId } = this.state;
-      clearTimeout(timeoutId);
-      this.setState({
-        areShiftButtonsVisible: false,
-        resetFlag,
-        timeoutId: null,
-      });
-    }
+    this.handleHideShiftButtons = this.handleHideShiftButtons.bind(this);
   }
 
   handleHideShiftButtons(delay = 1000) {
@@ -119,6 +105,7 @@ export default class BlockButtons extends React.Component {
     let showCopyButton = false;
     let showCharacterButton = false;
     let copyText = 'Copy';
+
     if (activeBlock) {
       const type = activeBlock.getType();
       isEmpty = isBlockEmpty(activeBlock);
@@ -126,7 +113,7 @@ export default class BlockButtons extends React.Component {
       showCharacterButton = type.match(/(unstyled|(un)?ordered-list-item)/);
 
       if (showCopyButton && copiedBlock) {
-        const entityKey = activeBlock.getEntityAt(0);
+        const entityKey = activeBlock ? activeBlock.getEntityAt(0) : '';
         const entity = entityKey && contentState.getEntity(entityKey);
 
         if (entity) {
@@ -140,7 +127,8 @@ export default class BlockButtons extends React.Component {
 
     return (
       <div
-        className={classNames('d-flex align-items-center', { 'is-first': isFirstBlock, 'is-last': isLastBlock })}
+        className={classNames('d-flex align-items-center')}
+        style={{ position: 'absolute', top: '-10px', right: '10px' }}
       >
         {isEmpty && copiedBlock && <PasteButton onPasteBlock={handlePasteBlock} />}
         {!isEmpty && (
@@ -151,7 +139,7 @@ export default class BlockButtons extends React.Component {
               />
             )}
             {showCopyButton && <CopyButton onCopyBlock={handleCopyBlock} buttonText={copyText} />}
-            <EditButton onEdit={handleEdit} />
+            <EditButton onEdit={handleEdit} blockKey={activeBlockKey} />
             <ReorderButtons
               activeBlockKey={activeBlockKey}
               areShiftButtonsVisible={areShiftButtonsVisible}

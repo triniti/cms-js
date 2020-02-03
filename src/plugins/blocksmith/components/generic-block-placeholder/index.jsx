@@ -8,6 +8,7 @@ import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import { ContentBlock, ContentState } from 'draft-js';
 import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
+import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 
 import ImagePreview from './ImagePreview';
 import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus, styleUpdateBlocks } from '../../utils';
@@ -17,6 +18,16 @@ import './styles.scss';
 class GenericBlockPlaceholder extends React.PureComponent {
   static propTypes = {
     block: PropTypes.instanceOf(ContentBlock).isRequired,
+    blockProps: PropTypes.shape({
+      getEditorState: PropTypes.func.isRequired,
+      getCopiedBlock: PropTypes.func.isRequired,
+      handleCopyBlock: PropTypes.func.isRequired,
+      handleDelete: PropTypes.func.isRequired,
+      handleEdit: PropTypes.func.isRequired,
+      handlePasteBlock: PropTypes.func.isRequired,
+      handleShiftBlock: PropTypes.func.isRequired,
+      handleToggleSpecialCharacterModal: PropTypes.func.isRequired,
+    }).isRequired,
     config: PropTypes.oneOfType([
       PropTypes.shape({
         icon: PropTypes.shape({
@@ -64,9 +75,22 @@ class GenericBlockPlaceholder extends React.PureComponent {
   constructor() {
     super();
     this.state = {
+      hover: false,
       imagePreviewSrc: null,
     };
     this.handleToggleImagePreviewSrc = this.handleToggleImagePreviewSrc.bind(this);
+    this.handlerOnMouseEnter = this.handlerOnMouseEnter.bind(this);
+    this.handlerOnMouseLeave = this.handlerOnMouseLeave.bind(this);
+  }
+
+  handlerOnMouseEnter() {
+    const { hover } = this.state;
+    this.setState({ hover: !hover });
+  }
+
+  handlerOnMouseLeave() {
+    const { hover } = this.state;
+    this.setState({ hover: !hover });
   }
 
   handleToggleImagePreviewSrc(src = null) {
@@ -80,12 +104,28 @@ class GenericBlockPlaceholder extends React.PureComponent {
       config,
       draggable,
       block,
+      blockProps,
       contentState,
       showTitle,
       targetNode,
       ...rest
     } = this.props;
-    const { imagePreviewSrc } = this.state;
+
+    const {
+      getCopiedBlock,
+      getEditorState,
+      handleCopyBlock,
+      handleDelete,
+      handleEdit,
+      handlePasteBlock,
+      handleShiftBlock,
+      handleToggleSpecialCharacterModal,
+    } = blockProps;
+
+    const {
+      imagePreviewSrc,
+      hover,
+    } = this.state;
 
     const PreviewComponent = get(config, 'preview.component', null);
     const entityKey = block.getEntityAt(0);
@@ -110,6 +150,8 @@ class GenericBlockPlaceholder extends React.PureComponent {
         draggable={draggable}
         onDragStart={handleDragStart(block.getKey())}
         onDragEnd={handleDragEnd}
+        onMouseEnter={this.handlerOnMouseEnter}
+        onMouseLeave={this.handlerOnMouseLeave}
         role="presentation"
       >
         {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
@@ -117,6 +159,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
             { targetNodeStatus.toString() }
           </Badge>
         )}
+
         <>
           {imagePreviewSrc && (
             <ImagePreview
@@ -162,15 +205,30 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
         </>
+
         { config.label && (
-        <div
-          className="placeholder-label-holder ml-2 mt-1"
-          style={{ width: `calc(100% - ${labelOffset}px)` }}
-        >
-          <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-            <i>{config.label}{title}</i>
-          </p>
-        </div>
+          <div
+            className="placeholder-label-holder ml-2 mt-1"
+            style={{ width: `calc(100% - ${labelOffset}px)` }}
+          >
+            <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
+              <i>{config.label}{title}</i>
+            </p>
+          </div>
+        )}
+
+        {hover && (
+        <BlockButtons
+          activeBlockKey={block.getKey()}
+          copiedBlock={getCopiedBlock()}
+          editorState={getEditorState()}
+          onCopyBlock={() => handleCopyBlock(block.getKey())}
+          onDelete={() => handleDelete(block.getKey())}
+          onEdit={() => handleEdit(block.getKey())}
+          onPasteBlock={() => handlePasteBlock()}
+          onShiftBlock={() => handleShiftBlock()}
+          onToggleSpecialCharacterModal={() => handleToggleSpecialCharacterModal()}
+        />
         )}
       </div>
     );

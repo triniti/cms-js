@@ -27,7 +27,7 @@ const ReorderButtons = ({
         key="b1"
         onClick={() => handleShiftBlock('up')}
         onMouseEnter={handleShowShiftButtons}
-        onMouseLeave={() => handleHideShiftButtons()}
+        onMouseLeave={handleHideShiftButtons}
         outlineText
         radius="circle"
         size="xxs"

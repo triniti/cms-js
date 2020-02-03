@@ -4,6 +4,8 @@ import { Button, ModalFooter } from '@triniti/admin-ui-plugin/components';
 import Message from '@gdbots/pbj/Message';
 
 const Footer = ({
+  blockKey,
+  block,
   activeStep,
   innerRef,
   isFreshBlock,
@@ -29,7 +31,11 @@ const Footer = ({
     </Button>
     <Button
       disabled={activeStep !== 1}
-      onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
+      onClick={
+        isFreshBlock
+          ? () => handleAddBlock(block, blockKey)
+          : () => handleEditBlock(block, blockKey)
+      }
     >
       {isFreshBlock ? 'Add' : 'Update'}
     </Button>
@@ -38,6 +44,8 @@ const Footer = ({
 
 Footer.propTypes = {
   activeStep: PropTypes.oneOf([0, 1]).isRequired,
+  blockKey: PropTypes.string.isRequired,
+  block: PropTypes.instanceOf(Message).isRequired,
   innerRef: PropTypes.func.isRequired,
   isFreshBlock: PropTypes.bool.isRequired,
   onAddBlock: PropTypes.func.isRequired,

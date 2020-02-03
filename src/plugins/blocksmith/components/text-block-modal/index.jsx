@@ -19,6 +19,7 @@ export default class TextBlockModal extends React.Component {
     toggle: PropTypes.func.isRequired,
     isOpen: PropTypes.bool,
     onEditBlock: PropTypes.func.isRequired,
+    blockKey: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -39,8 +40,8 @@ export default class TextBlockModal extends React.Component {
 
   handleEditBlock() {
     const { updatedDate } = this.state;
-    const { block, onEditBlock, toggle } = this.props;
-    onEditBlock(block.clone().set('updated_date', updatedDate));
+    const { block, onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(block.clone().set('updated_date', updatedDate), blockKey);
     toggle();
   }
 
@@ -53,8 +54,8 @@ export default class TextBlockModal extends React.Component {
   }
 
   handleRemove() {
-    const { block, onEditBlock, toggle } = this.props;
-    onEditBlock(block.clone().clear('updated_date'));
+    const { block, onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(block.clone().clear('updated_date'), blockKey);
     toggle();
   }
 

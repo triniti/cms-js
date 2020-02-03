@@ -25,6 +25,7 @@ import changedTime from '../../utils/changedTime';
 
 class HeadingBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
@@ -75,8 +76,14 @@ class HeadingBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
+    toggle();
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -108,12 +115,6 @@ class HeadingBlockModal extends React.Component {
     });
   }
 
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
-  }
-
   render() {
     const {
       hasUpdatedDate,
@@ -123,7 +124,13 @@ class HeadingBlockModal extends React.Component {
       url,
       updatedDate,
     } = this.state;
-    const { isFreshBlock, isOpen, toggle } = this.props;
+
+    const { 
+      blockKey,
+      isFreshBlock, 
+      isOpen, 
+      toggle 
+    } = this.props;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -197,7 +204,11 @@ class HeadingBlockModal extends React.Component {
           <Button onClick={toggle}>Cancel</Button>
           <Button
             disabled={!text || !isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+              ? () => this.handleAddBlock(this.setBlock(), blockKey) 
+              : () => this.handleEditBlock(this.setBlock(), blockKey)
+            }
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

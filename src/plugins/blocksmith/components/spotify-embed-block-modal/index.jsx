@@ -24,6 +24,7 @@ import getSpotifyMediaId from './getSpotifyMediaId';
 
 export default class SpotifyEmbedBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
@@ -78,14 +79,14 @@ export default class SpotifyEmbedBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -142,7 +143,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
       updatedDate,
     } = this.state;
 
-    const { isFreshBlock, isOpen, toggle } = this.props;
+    const { isFreshBlock, isOpen, toggle, blockKey } = this.props;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -197,7 +198,10 @@ export default class SpotifyEmbedBlockModal extends React.Component {
           <Button onClick={toggle}>Cancel</Button>
           <Button
             disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+                ? () => this.handleAddBlock(this.setBlock(), blockKey)
+                : () => this.handleEditBlock(this.setBlock(), blockKey)}
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

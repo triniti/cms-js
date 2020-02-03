@@ -1,4 +1,4 @@
-# DraggableTextBlock
+# TextBlockWrapper
 
 This is used to render custom draggable text block inside the Blocksmith Draft.js editor by composing a DraftEditorBlock component and a few drag handle html elements.
 

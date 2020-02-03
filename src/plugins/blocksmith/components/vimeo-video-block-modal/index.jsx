@@ -39,6 +39,7 @@ const findUserId = (input, id) => input.match(USER_REGEX)[0]
 
 class VimeoVideoBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
@@ -123,14 +124,14 @@ class VimeoVideoBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -286,7 +287,7 @@ class VimeoVideoBlockModal extends React.Component {
       willShowTitle,
     } = this.state;
 
-    const { isFreshBlock, isOpen, node, toggle } = this.props;
+    const { isFreshBlock, isOpen, node, toggle, blockKey } = this.props;
 
     return (
       <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isAssetPickerModalOpen}>
@@ -411,7 +412,11 @@ class VimeoVideoBlockModal extends React.Component {
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>
           <Button
             disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+              ? () => this.handleAddBlock(this.setBlock(), blockKey) 
+              : () => this.handleEditBlock(this.setBLock(), blockKey)
+            }
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

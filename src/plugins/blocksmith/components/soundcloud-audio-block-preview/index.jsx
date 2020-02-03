@@ -19,6 +19,8 @@ const SoundcloudAudioBlockPreview = ({ block, width }) => {
   );
 };
 
+
+
 SoundcloudAudioBlockPreview.propTypes = {
   block: PropTypes.instanceOf(Message).isRequired,
   width: PropTypes.number.isRequired,

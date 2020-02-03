@@ -34,6 +34,7 @@ const FB_VIDEO_SHOW_TEXT_QUERY_STRING_REGEX = new RegExp('show_text=.');
 
 class FacebookVideoBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
@@ -100,14 +101,14 @@ class FacebookVideoBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -200,7 +201,14 @@ class FacebookVideoBlockModal extends React.Component {
       updatedDate,
     } = this.state;
 
-    const { isOpen, isFreshBlock, node, toggle } = this.props;
+    const { 
+      blockKey,
+      isOpen, 
+      isFreshBlock, 
+      node, 
+      toggle
+    } = this.props;
+
     return (
       <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isAssetPickerModalOpen}>
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'} Facebook Video Block`}</ModalHeader>
@@ -269,7 +277,11 @@ class FacebookVideoBlockModal extends React.Component {
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>
           <Button
             disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+              ? () => this.handleAddBlock(this.setBlock(), blockKey) 
+              : () => this.handleEditBlock(this.setBlock(), blockKey)
+            }
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>

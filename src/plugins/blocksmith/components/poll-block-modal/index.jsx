@@ -23,6 +23,7 @@ import selector from './selector';
 
 class PollBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     isFulfilled: PropTypes.bool.isRequired,
     isFreshBlock: PropTypes.bool.isRequired,
@@ -89,13 +90,19 @@ class PollBlockModal extends React.Component {
     const { block } = this.props;
     return block.schema().createMessage()
       .set('aside', aside)
-      .set('node_ref', selectedPoll.get('_id').toNodeRef())
+      .set('node_ref', selectedPoll ? selectedPoll.get('_id').toNodeRef() : null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
+    toggle();
+  }
+
+  handleEditBlock() {
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -117,12 +124,6 @@ class PollBlockModal extends React.Component {
 
   handleChangeStep() {
     this.setState(({ activeStep }) => ({ activeStep: activeStep ? 0 : 1 }));
-  }
-
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
-    toggle();
   }
 
   handleSearch() {
@@ -147,7 +148,15 @@ class PollBlockModal extends React.Component {
       selectedPoll,
       updatedDate,
     } = this.state;
-    const { isFreshBlock, isOpen, toggle, sort, polls } = this.props;
+
+    const {
+      blockKey,
+      isFreshBlock,
+      isOpen,
+      polls,
+      sort,
+      toggle,
+    } = this.props;
 
     return (
       <Modal centered isOpen={isOpen} toggle={toggle} size="xxl">
@@ -206,6 +215,8 @@ class PollBlockModal extends React.Component {
           </ScrollableContainer>
         </ModalBody>
         <Footer
+          blockKey={blockKey}
+          block={this.setBlock()}
           activeStep={activeStep}
           isFreshBlock={isFreshBlock}
           onAddBlock={this.handleAddBlock}

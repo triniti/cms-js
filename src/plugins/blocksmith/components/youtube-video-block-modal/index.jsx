@@ -31,6 +31,7 @@ const YOUTUBE_START_AT_REGEX = /\?(t|start)=[\w\d]+/;
 
 class YouTubeVideoBlockModal extends React.Component {
   static propTypes = {
+    blockKey: PropTypes.string.isRequired,
     block: PropTypes.instanceOf(Message).isRequired,
     imageNode: PropTypes.instanceOf(Message),
     isFreshBlock: PropTypes.bool.isRequired,
@@ -102,14 +103,14 @@ class YouTubeVideoBlockModal extends React.Component {
   }
 
   handleAddBlock() {
-    const { onAddBlock, toggle } = this.props;
-    onAddBlock(this.setBlock());
+    const { onAddBlock, toggle, blockKey } = this.props;
+    onAddBlock(this.setBlock(), blockKey);
     toggle();
   }
 
   handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
-    onEditBlock(this.setBlock());
+    const { onEditBlock, toggle, blockKey } = this.props;
+    onEditBlock(this.setBlock(), blockKey);
     toggle();
   }
 
@@ -229,7 +230,7 @@ class YouTubeVideoBlockModal extends React.Component {
       url,
     } = this.state;
 
-    const { isFreshBlock, isOpen, node, toggle } = this.props;
+    const { isFreshBlock, isOpen, node, toggle, blockKey } = this.props;
     const displayUrl = isValid && id ? `https://www.youtube.com/watch?v=${id}` : url;
 
     return (
@@ -319,7 +320,11 @@ class YouTubeVideoBlockModal extends React.Component {
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>
           <Button
             disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            onClick={
+              isFreshBlock 
+              ? () => this.handleAddBlock(this.setBlock(), blockKey) 
+              : () => this.handleEditBlock(this.setBlock(), blockKey)
+            }
           >
             {isFreshBlock ? 'Add' : 'Update'}
           </Button>
