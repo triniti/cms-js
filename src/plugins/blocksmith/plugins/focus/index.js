@@ -2,7 +2,6 @@
 // fixme: this is not originally our code, it is from https://github.com/draft-js-plugins/draft-js-plugins/tree/master/draft-js-focus-plugin. Hoping to merge in the fix described in https://github.com/draft-js-plugins/draft-js-plugins/issues/1044 so we don't have to keep this locally. If we keep it, lint it.
 
 import { EditorState } from 'draft-js';
-import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
 import insertNewLine from './modifiers/insertNewLine';
 import setSelection from './modifiers/setSelection';
 import setSelectionToBlock from './modifiers/setSelectionToBlock';
@@ -10,6 +9,7 @@ import createDecorator from './createDecorator';
 import createBlockKeyStore from './utils/createBlockKeyStore';
 import blockInSelection from './utils/blockInSelection';
 import getBlockMapKeys from './utils/getBlockMapKeys';
+import isOnLastLineOfBlock from '../../utils/isOnLastLineOfBlock';
 import defaultTheme from './style.scss';
 
 const focusableBlockIsSelected = (editorState, blockKeyStore) => {
@@ -20,52 +20,6 @@ const focusableBlockIsSelected = (editorState, blockKeyStore) => {
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(selection.getAnchorKey());
   return blockKeyStore.includes(block.getKey());
-};
-
-export const getLines = (editorState, testClass) => {
-  let moreThanOneLine = false;
-  let height;
-  let testSpanHeight;
-  let line = '';
-  let startPoint = 0;
-  const endWordIndices = [];
-  const lines = [];
-  const anchorKey = editorState.getSelection().getAnchorKey();
-  const offsetKey = DraftOffsetKey.encode(anchorKey, 0, 0);
-  const currentBlockNode = document.querySelectorAll(`[data-offset-key="${offsetKey}"]`)[0];
-  const computedStyle = getComputedStyle(currentBlockNode);
-  const width = +computedStyle.width.replace('px', '');
-  const testSpan = document.createElement('span');
-  testSpan.classList.add(testClass);
-  testSpan.setAttribute('style', `width: ${width}px`);
-  document.body.appendChild(testSpan);
-  const text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
-  const words = text.split(' ');
-  testSpan.innerHTML = words[0];
-  height = testSpan.getBoundingClientRect().height;
-  for (let i = 1; i < words.length; i += 1) {
-    testSpan.innerHTML += ` ${words[i]}`;
-    testSpanHeight = testSpan.getBoundingClientRect().height;
-    if (testSpanHeight > height) {
-      moreThanOneLine = true;
-      endWordIndices.push(i);
-      height = testSpanHeight;
-    }
-  }
-  endWordIndices.push(words.length - 1); // final word index
-  if (moreThanOneLine) {
-    for (let i = 0; i < endWordIndices.length; i += 1) {
-      for (let j = startPoint; j < endWordIndices[i]; j += 1) {
-        line += `${words[j]} `;
-      }
-      lines.push(line);
-      line = '';
-      startPoint = endWordIndices[i];
-    }
-    lines[lines.length - 1] += words[words.length - 1]; // final word
-  }
-  document.body.removeChild(testSpan);
-  return lines;
 };
 
 export default (config = {}) => {
@@ -196,9 +150,9 @@ export default (config = {}) => {
     // Handle down/up arrow events and set activeBlock/selection if necessary
     onDownArrow: (event, { getEditorState, setEditorState }) => {
       // TODO edgecase: if one block is selected and the user wants to expand the selection using the shift key
-
+      
       const editorState = getEditorState();
-      const lines = getLines(editorState, testClass);
+      const lines = isOnLastLineOfBlock(editorState, testClass);
       let offsetAtStartOfLastLine = 0;
       for (let i = 0; i < lines.length - 1; i += 1) {
         offsetAtStartOfLastLine += lines[i].length;
@@ -227,7 +181,7 @@ export default (config = {}) => {
       // TODO edgecase: if one block is selected and the user wants to expand the selection using the shift key
 
       const editorState = getEditorState();
-      const lines = getLines(editorState, testClass);
+      const lines = isOnLastLineOfBlock(editorState, testClass);
       if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() < lines[0].length) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'up', event);

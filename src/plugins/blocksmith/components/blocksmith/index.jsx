@@ -31,6 +31,7 @@ import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-t
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
@@ -47,7 +48,7 @@ import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unor
 
 import decorators from './decorators';
 import customStyleMap from './customStyleMap';
-import createFocusPlugin, { getLines } from '../../plugins/focus';
+import createFocusPlugin from '../../plugins/focus';
 import constants from './constants';
 import delegateFactory from './delegate';
 import selector from './selector';
@@ -999,7 +1000,7 @@ class Blocksmith extends React.Component {
     const currentBlock = getBlockForKey(contentState, anchorKey);
     const previousBlock = contentState.getBlockBefore(anchorKey);
     const nextBlock = contentState.getBlockAfter(anchorKey);
-    const lines = getLines(editorState, 'line-length-tester');
+    const lines = isOnLastLineOfBlock(editorState, 'line-length-tester');
 
     let offsetAtStartOfLastLine = 0;
     for (let i = 0; i < lines.length - 1; i += 1) {
