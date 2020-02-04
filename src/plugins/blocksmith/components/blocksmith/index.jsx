@@ -31,6 +31,7 @@ import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-t
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
@@ -999,12 +1000,8 @@ class Blocksmith extends React.Component {
     const currentBlock = getBlockForKey(contentState, anchorKey);
     const previousBlock = contentState.getBlockBefore(anchorKey);
     const nextBlock = contentState.getBlockAfter(anchorKey);
-    const lines = isOnLastLineOfBlock(editorState, 'line-length-tester');
-
-    let offsetAtStartOfLastLine = 0;
-    for (let i = 0; i < lines.length - 1; i += 1) {
-      offsetAtStartOfLastLine += lines[i].length;
-    }
+    const firstLine = isOnFirstLineOfBlock(editorState, 'line-length-tester');
+    const lastLine = isOnLastLineOfBlock(editorState, 'line-length-tester');
 
     switch (e.key) {
       case 'ArrowLeft':
@@ -1050,12 +1047,12 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        if (!nextBlock && (lines.length <= 1 || editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine)) {
+        if (!nextBlock && lastLine) {
           e.preventDefault();
         }
         break;
       case 'ArrowUp':
-        if (!previousBlock && (lines.length <= 1 || editorState.getSelection().getAnchorOffset() < lines[0].length)) {
+        if (!previousBlock && firstLine) {
           e.preventDefault();
         }
         break;

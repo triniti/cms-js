@@ -9,6 +9,7 @@ import createDecorator from './createDecorator';
 import createBlockKeyStore from './utils/createBlockKeyStore';
 import blockInSelection from './utils/blockInSelection';
 import getBlockMapKeys from './utils/getBlockMapKeys';
+import isOnFirstLineOfBlock from '../../utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '../../utils/isOnLastLineOfBlock';
 import defaultTheme from './style.scss';
 
@@ -152,12 +153,9 @@ export default (config = {}) => {
       // TODO edgecase: if one block is selected and the user wants to expand the selection using the shift key
       
       const editorState = getEditorState();
-      const lines = isOnLastLineOfBlock(editorState, testClass);
-      let offsetAtStartOfLastLine = 0;
-      for (let i = 0; i < lines.length - 1; i += 1) {
-        offsetAtStartOfLastLine += lines[i].length;
-      }     
-      if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine) {      
+      const lastLine = isOnLastLineOfBlock(editorState, testClass);
+      
+      if (lastLine) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'down', event);
           return;
@@ -179,10 +177,10 @@ export default (config = {}) => {
     },
     onUpArrow: (event, { getEditorState, setEditorState }) => {
       // TODO edgecase: if one block is selected and the user wants to expand the selection using the shift key
-
       const editorState = getEditorState();
-      const lines = isOnLastLineOfBlock(editorState, testClass);
-      if (lines.length <= 1 || editorState.getSelection().getAnchorOffset() < lines[0].length) {      
+      const firstLine = isOnFirstLineOfBlock(editorState, testClass);
+     
+      if (firstLine) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'up', event);
         }
