@@ -151,11 +151,9 @@ export default (config = {}) => {
     // Handle down/up arrow events and set activeBlock/selection if necessary
     onDownArrow: (event, { getEditorState, setEditorState }) => {
       // TODO edgecase: if one block is selected and the user wants to expand the selection using the shift key
-      
       const editorState = getEditorState();
-      const lastLine = isOnLastLineOfBlock(editorState, testClass);
       
-      if (lastLine) {      
+      if (isOnLastLineOfBlock(editorState)) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'down', event);
           return;
@@ -178,9 +176,8 @@ export default (config = {}) => {
     onUpArrow: (event, { getEditorState, setEditorState }) => {
       // TODO edgecase: if one block is selected and the user wants to expand the selection using the shift key
       const editorState = getEditorState();
-      const firstLine = isOnFirstLineOfBlock(editorState, testClass);
      
-      if (firstLine) {      
+      if (isOnFirstLineOfBlock(editorState)) {      
         if (focusableBlockIsSelected(editorState, blockKeyStore)) {
           setSelection(getEditorState, setEditorState, 'up', event);
         }

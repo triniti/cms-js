@@ -1000,8 +1000,6 @@ class Blocksmith extends React.Component {
     const currentBlock = getBlockForKey(contentState, anchorKey);
     const previousBlock = contentState.getBlockBefore(anchorKey);
     const nextBlock = contentState.getBlockAfter(anchorKey);
-    const firstLine = isOnFirstLineOfBlock(editorState, 'line-length-tester');
-    const lastLine = isOnLastLineOfBlock(editorState, 'line-length-tester');
 
     switch (e.key) {
       case 'ArrowLeft':
@@ -1047,12 +1045,12 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        if (!nextBlock && lastLine) {
+        if (!nextBlock && isOnLastLineOfBlock(editorState)) {
           e.preventDefault();
         }
         break;
       case 'ArrowUp':
-        if (!previousBlock && firstLine) {
+        if (!previousBlock && isOnFirstLineOfBlock(editorState)) {
           e.preventDefault();
         }
         break;

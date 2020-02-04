@@ -1,6 +1,6 @@
 import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
 
-export default (editorState, testClass) => {
+export default (editorState) => {
   let moreThanOneLine = false;
   let height;
   let testSpanHeight;
@@ -14,7 +14,7 @@ export default (editorState, testClass) => {
   const computedStyle = getComputedStyle(currentBlockNode);
   const width = +computedStyle.width.replace('px', '');
   const testSpan = document.createElement('span');
-  testSpan.classList.add(testClass);
+  testSpan.classList.add('line-length-tester');
   testSpan.setAttribute('style', `width: ${width}px`);
   document.body.appendChild(testSpan);
   const text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
