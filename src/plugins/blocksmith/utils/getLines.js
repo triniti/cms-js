@@ -1,5 +1,13 @@
 import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
 
+/**
+ * Calculates and returns an array of the individual lines of a text block. Useful for
+ * some keyboard navigation behavior.
+ *
+ * @param {EditorState} editorState - a state instance of a DraftJs Editor
+ *
+ * @returns {boolean}
+ */
 export default (editorState) => {
   let moreThanOneLine = false;
   let height;
