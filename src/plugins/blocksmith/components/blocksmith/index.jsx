@@ -7,8 +7,7 @@ import noop from 'lodash/noop';
 import moment from 'moment';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
 import swal from 'sweetalert2';
-import decorateComponentWithProps from 'decorate-component-with-props';
-import Editor, { composeDecorators } from 'draft-js-plugins-editor';
+import Editor from 'draft-js-plugins-editor';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { getSelectionEntity } from 'draftjs-utils';
 import { connect } from 'react-redux';
@@ -49,7 +48,6 @@ import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unor
 
 import decorators from './decorators';
 import customStyleMap from './customStyleMap';
-import createFocusPlugin from '../../plugins/focus';
 import constants from './constants';
 import delegateFactory from './delegate';
 import selector from './selector';
@@ -72,8 +70,6 @@ import {
   getWordCount,
   handleDocumentDragover,
   handleDocumentDrop,
-  hasFocus,
-  inlineToolbar,
   insertEmptyBlock,
   isBlockAList,
   isBlockEmpty,
@@ -161,7 +157,6 @@ class Blocksmith extends React.Component {
         transform: 'scale(0)',
       },
       hoverBlockNode: null,
-      imagePreviewSrc: null,
       isDirty: false,
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
@@ -191,15 +186,7 @@ class Blocksmith extends React.Component {
       },
     });
 
-    this.focusPlugin = createFocusPlugin({
-      theme: {}, // don't want to use their default theme
-      testClass: 'line-length-tester',
-    });
-
-    this.decorator = composeDecorators(this.focusPlugin.decorator);
-
     this.plugins = [
-      this.focusPlugin,
       this.inlineToolbarPlugin,
     ];
 
@@ -236,7 +223,6 @@ class Blocksmith extends React.Component {
     this.handlePastedText = this.handlePastedText.bind(this);
     this.handlePopoverClick = this.handlePopoverClick.bind(this);
     this.handleRemoveLink = this.handleRemoveLink.bind(this);
-    this.handleReturn = this.handleReturn.bind(this);
     this.handleSelectSpecialCharacter = this.handleSelectSpecialCharacter.bind(this);
     this.handleShiftBlock = this.handleShiftBlock.bind(this);
     this.handleToggleBlockModal = this.handleToggleBlockModal.bind(this);
@@ -269,7 +255,6 @@ class Blocksmith extends React.Component {
 
   componentWillUnmount() {
     blockParentNode.clearCache();
-    inlineToolbar.clearCache();
     sidebar.clearCache();
   }
 
@@ -306,7 +291,7 @@ class Blocksmith extends React.Component {
       isDirty,
     }, () => {
       this.positionComponents(editorState, selectionState.getAnchorKey());
-      if (!hasFocus(selectionState)) {
+      if (!selectionState.getHasFocus()) {
         this.removeActiveStyling();
       }
       callback();
@@ -499,7 +484,7 @@ class Blocksmith extends React.Component {
         delegate.handleDirtyEditor(formName);
       }
       /* eslint-disable react/destructuring-assignment */
-      if (!hasFocus(this.state.editorState.getSelection())) {
+      if (!this.state.editorState.getSelection().getHasFocus()) {
         delegate.handleStoreEditor(formName, this.state.editorState);
       }
       /* eslint-enable react/destructuring-assignment */
@@ -529,7 +514,6 @@ class Blocksmith extends React.Component {
         return {
           component: getPlaceholder(
             editorState.getCurrentContent().getEntity(block.getEntityAt(0)).getType(),
-            this.decorator,
           ),
           editable: false,
           props: {
@@ -620,9 +604,6 @@ class Blocksmith extends React.Component {
     const { editorState } = this.state;
     const { formName, delegate } = this.props;
     delegate.handleStoreEditor(formName, editorState);
-    // hide the inline toolbar. this is needed because of the
-    // issue where the editor thinks it has focus but doesn't
-    inlineToolbar.get().setAttribute('style', 'transform: translate(-50%) scale(0); visibility: hidden;');
   }
 
   /**
@@ -965,7 +946,7 @@ class Blocksmith extends React.Component {
     });
 
     const { isOptionKeyCommand, hasCommandModifier } = KeyBindingUtil;
-    if (!hasFocus(editorState.getSelection()) || isOptionKeyCommand(e)) {
+    if (!editorState.getSelection().getHasFocus() || isOptionKeyCommand(e)) {
       return; // currently not intercepting ctrl/option combos (eg alt+shift+arrow to select word)
     }
 
@@ -1045,12 +1026,18 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        if (!nextBlock && isOnLastLineOfBlock(editorState)) {
+        if (
+          (!nextBlock || (nextBlock === contentState.getLastBlock() && nextBlock.getType() === 'atomic'))
+          && isOnLastLineOfBlock(editorState)
+        ) {
           e.preventDefault();
         }
         break;
       case 'ArrowUp':
-        if (!previousBlock && isOnFirstLineOfBlock(editorState)) {
+        if (
+          (!previousBlock || (previousBlock === contentState.getFirstBlock() && previousBlock.getType() === 'atomic'))
+          && isOnFirstLineOfBlock(editorState)
+        ) {
           e.preventDefault();
         }
         break;
@@ -1324,34 +1311,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * For some reason (I suspect the focus plugin) the default behavior for pressing enter
-   * while an atomic block is selected is to insert a new text block with a single space.
-   * This overrides that and inserts an empty text block as one would expect.
-   */
-  handleReturn() {
-    const { editorState, activeBlockKey, isHoverInsertMode } = this.state;
-    if (isHoverInsertMode) {
-      return 'not-handled';
-    }
-    const activeBlock = getBlockForKey(editorState.getCurrentContent(), activeBlockKey);
-    if (activeBlock.getType() !== 'atomic') {
-      return 'not-handled';
-    }
-    const newBlockKey = genKey();
-    const newContentState = insertEmptyBlock(
-      editorState.getCurrentContent(),
-      activeBlockKey,
-      constants.POSITION_AFTER,
-      newBlockKey,
-    );
-    const newEditorState = EditorState.push(editorState, newContentState, 'insert-characters');
-    this.setState({
-      editorState: selectBlock(newEditorState, newBlockKey, 'end'),
-    }, () => this.positionComponents(newEditorState, newBlockKey));
-    return 'handled';
-  }
-
-  /**
    * Toggles the sidebar open state/styles. The isDocumentClick is related to the Popover
    * behavior inside the sidebar - if this is a click on the sidebar button itself then e
    * will be defined.
@@ -1563,7 +1522,7 @@ class Blocksmith extends React.Component {
 
     const styledBlock = document.querySelector('.block-active');
     const selectionState = editorState.getSelection();
-    if (hasFocus(selectionState)) {
+    if (selectionState.getHasFocus()) {
       // if the text indicator is in the editor, make sure that the
       // block with the text indicator is styled as active
       let anchorKey = selectionState.getAnchorKey();
@@ -1695,7 +1654,6 @@ class Blocksmith extends React.Component {
               editorState={editorState}
               handleKeyCommand={this.handleKeyCommand}
               handlePastedText={this.handlePastedText}
-              handleReturn={this.handleReturn}
               handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
               keyBindingFn={this.keyBindingFn}
               onBlur={this.handleBlur}

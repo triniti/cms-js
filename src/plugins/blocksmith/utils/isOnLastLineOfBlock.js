@@ -2,9 +2,14 @@ import getLines from './getLines';
 
 export default (editorState) => {
   const lines = getLines(editorState);
-  let offsetAtStartOfLastLine = 0;
-  for (let i = 0; i < lines.length - 1; i += 1) {
-    offsetAtStartOfLastLine += lines[i].length;
+  if (lines.length <= 1) {
+    return true;
   }
-  return lines.length <= 1 || editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine;
+  const offsetAtStartOfLastLine = lines.reduce((acc, cur, idx, src) => {
+    if (idx + 1 === src.length) {
+      return acc;
+    }
+    return acc + cur.length;
+  }, 0);
+  return editorState.getSelection().getAnchorOffset() + 1 > offsetAtStartOfLastLine;
 };

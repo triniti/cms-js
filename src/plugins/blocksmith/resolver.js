@@ -198,7 +198,7 @@ export const getModalComponent = (message) => {
  *
  * @returns {?Component} a React component that is intended to go inside the DraftJs editor
  */
-export const getPlaceholder = (type, decorator, props = {}) => {
+export const getPlaceholder = (type, props = {}) => {
   let component = null;
   switch (type) {
     case 'article-block':
@@ -288,7 +288,7 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     default:
       return null;
   }
-  return decorator(decorateComponentWithProps(component, props));
+  return decorateComponentWithProps(component, props);
 };
 
 /**
