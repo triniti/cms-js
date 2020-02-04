@@ -48,6 +48,7 @@ figure {
   margin: 0 .25rem 0 0;
 }
 
+// used in getLines util
 .line-length-tester {
   @include block();
 }

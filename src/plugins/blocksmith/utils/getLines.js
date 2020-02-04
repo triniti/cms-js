@@ -14,9 +14,7 @@ export default (editorState) => {
   const computedStyle = getComputedStyle(currentBlockNode);
   const width = +computedStyle.width.replace('px', '');
   const testSpan = document.createElement('span');
-  // this class is styled exactly the same way your text blocks are styled.
-  // we create a span these styles and add words to it until the line breaks,
-  // allowing the lines to be split up and returned as they would in the editor.
+  // declared in blocksmith styles, allows us to calculate lines based on style
   testSpan.classList.add('line-length-tester');
   testSpan.setAttribute('style', `width: ${width}px`);
   document.body.appendChild(testSpan);
