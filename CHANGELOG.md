@@ -15,6 +15,7 @@
 * Add `aspect_ratio` ui for gallery and document blocks
 * Use `@triniti/schemas` v1.1.6
 * Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
+* Remove blocksmith focus plugin and related code
 * Up/Down arrow key in blocks bug
 
 
