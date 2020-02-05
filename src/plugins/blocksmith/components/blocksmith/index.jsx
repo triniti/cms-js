@@ -835,59 +835,11 @@ class Blocksmith extends React.Component {
    * want to allow the editor to take over and resume default behavior).
    */
   handleKeyCommand(command) {
-    const { activeBlockKey, editorState } = this.state;
-    let anchorKey;
-    let currentBlock;
-    let newBlockKey;
+    const { editorState } = this.state;
     let newContentState;
     let newEditorState;
-    let nextBlock;
     let selectionState;
-    let previousBlockKey;
     switch (command) {
-      case constants.BACKSPACE_AFTER_ATOMIC_BLOCK:
-        anchorKey = editorState.getSelection().getAnchorKey();
-        currentBlock = getBlockForKey(
-          editorState.getCurrentContent(),
-          anchorKey,
-        );
-        if (currentBlock.getText() === '') {
-          // if current block is empty, delete that block and select the previous atomic block
-          previousBlockKey = editorState
-            .getCurrentContent()
-            .getBlockBefore(anchorKey)
-            .getKey();
-          newContentState = deleteBlock(
-            editorState.getCurrentContent(),
-            editorState.getSelection().getAnchorKey(),
-          );
-          newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
-          this.setState({
-            editorState: selectBlock(newEditorState, previousBlockKey),
-          }, () => this.positionComponents(newEditorState, previousBlockKey));
-        } else {
-          // if current block is not empty, replace the previous block with a selected empty block
-          currentBlock = getBlockForKey(
-            editorState.getCurrentContent(),
-            editorState.getSelection().getAnchorKey(),
-          );
-          previousBlockKey = editorState
-            .getCurrentContent()
-            .getBlockBefore(editorState.getSelection().getAnchorKey())
-            .getKey();
-          newBlockKey = genKey();
-          newContentState = insertEmptyBlock(
-            editorState.getCurrentContent(),
-            previousBlockKey,
-            constants.POSITION_AFTER,
-            newBlockKey,
-          );
-          newEditorState = EditorState.push(editorState, deleteBlock(newContentState, previousBlockKey), 'remove-range');
-          this.setState({
-            editorState: selectBlock(newEditorState, newBlockKey),
-          }, () => this.positionComponents(newEditorState, newBlockKey));
-        }
-        return 'handled';
       case constants.DOUBLE_ENTER_ON_LIST:
         selectionState = editorState.getSelection();
         newContentState = editorState.getCurrentContent();
@@ -896,30 +848,6 @@ class Blocksmith extends React.Component {
         this.setState({
           editorState: newEditorState,
         }, () => this.positionComponents(newEditorState, selectionState.getAnchorKey()));
-        return 'handled';
-      case constants.DELETE_BEFORE_ATOMIC_BLOCK:
-        currentBlock = getBlockForKey(
-          editorState.getCurrentContent(),
-          editorState.getSelection().getAnchorKey(),
-        );
-        nextBlock = editorState.getCurrentContent().getBlockAfter(activeBlockKey);
-        if (currentBlock.getText() === '') {
-          this.setState({
-            editorState: selectBlock(
-              EditorState.push(editorState, deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range'),
-              nextBlock.getKey(),
-            ),
-          });
-        } else if (editorState.getSelection().getAnchorOffset() === currentBlock.getText().length) {
-          newEditorState = selectBlock(
-            EditorState.push(editorState, deleteBlock(editorState.getCurrentContent(), nextBlock.getKey()), 'remove-range'),
-            activeBlockKey,
-            'end',
-          );
-          this.setState({
-            editorState: newEditorState,
-          }, () => this.positionComponents(newEditorState, activeBlockKey));
-        }
         return 'handled';
       case constants.SOFT_NEWLINE:
         this.setState({
@@ -975,70 +903,79 @@ class Blocksmith extends React.Component {
       }
     }
 
-    const contentState = editorState.getCurrentContent();
-    const selectionState = editorState.getSelection();
-    const anchorKey = editorState.getSelection().getAnchorKey();
-    const currentBlock = getBlockForKey(contentState, anchorKey);
-    const previousBlock = contentState.getBlockBefore(anchorKey);
-    const nextBlock = contentState.getBlockAfter(anchorKey);
+    /**
+     * little bit of duplicated code here but better to only do something with the
+     * variables if the right keypresses happened instead of declaring outside switch
+     * and doing it for every single keypress.
+     */
+    let anchorKey;
+    let areRestOfBlocksAtomic;
+    let blocksAsArray;
+    let contentState;
+    let currentBlock;
+    let currentBlockIndex;
+    let nextBlock;
+    let previousBlock;
+    let selectionState;
 
     switch (e.key) {
       case 'ArrowLeft':
-        if (currentBlock.getType() === 'atomic') {
-          e.preventDefault();
-          this.setState({
-            editorState: selectBlock(editorState, previousBlock, 'end'),
-          }, () => this.positionComponents(editorState, 'ignore', previousBlock));
-        } else if (
+        contentState = editorState.getCurrentContent();
+        anchorKey = editorState.getSelection().getAnchorKey();
+        previousBlock = contentState.getBlockBefore(anchorKey);
+        selectionState = editorState.getSelection();
+        if (
           previousBlock
           && previousBlock.getType() === 'atomic'
           && selectionState.getAnchorOffset() === 0
           && selectionState.getFocusOffset() === 0
         ) {
-          // if text indicator is at the first position
-          e.preventDefault();
-          if (previousBlock) {
-            this.setState({
-              editorState: selectBlock(editorState, previousBlock),
-            });
-          }
+          e.preventDefault(); // would be going "into" an atomic block
         }
         break;
       case 'ArrowRight':
-        if (currentBlock.getType() === 'atomic') {
-          e.preventDefault();
-          this.setState({
-            editorState: selectBlock(editorState, nextBlock, 'start'),
-          }, () => this.positionComponents(editorState, 'ignore', nextBlock));
-        } else if (
+        contentState = editorState.getCurrentContent();
+        anchorKey = editorState.getSelection().getAnchorKey();
+        currentBlock = getBlockForKey(contentState, anchorKey);
+        nextBlock = contentState.getBlockAfter(anchorKey);
+        selectionState = editorState.getSelection();
+        if (
           nextBlock
           && nextBlock.getType() === 'atomic'
           && selectionState.getAnchorOffset() === currentBlock.getText().length
           && selectionState.getFocusOffset() === currentBlock.getText().length
         ) {
-          // if text indicator is at the final position
-          e.preventDefault();
-          if (nextBlock) {
-            this.setState({
-              editorState: selectBlock(editorState, nextBlock),
-            });
-          }
+          e.preventDefault(); // would be going "into" an atomic block
         }
         break;
       case 'ArrowDown':
+        contentState = editorState.getCurrentContent();
+        anchorKey = editorState.getSelection().getAnchorKey();
+        currentBlock = getBlockForKey(contentState, anchorKey);
+        nextBlock = contentState.getBlockAfter(anchorKey);
+        blocksAsArray = contentState.getBlocksAsArray();
+        currentBlockIndex = contentState.getBlocksAsArray().findIndex((b) => b === currentBlock);
+        areRestOfBlocksAtomic = !blocksAsArray.slice(currentBlockIndex + 1, blocksAsArray.length).find((b) => b.getType() !== 'atomic');
         if (
-          (!nextBlock || (nextBlock === contentState.getLastBlock() && nextBlock.getType() === 'atomic'))
+          (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
         ) {
-          e.preventDefault();
+          e.preventDefault(); // would be going "into" an atomic block
         }
         break;
       case 'ArrowUp':
+        contentState = editorState.getCurrentContent();
+        anchorKey = editorState.getSelection().getAnchorKey();
+        currentBlock = getBlockForKey(contentState, anchorKey);
+        previousBlock = contentState.getBlockBefore(anchorKey);
+        blocksAsArray = contentState.getBlocksAsArray();
+        currentBlockIndex = contentState.getBlocksAsArray().findIndex((b) => b === currentBlock);
+        areRestOfBlocksAtomic = !blocksAsArray.slice(0, currentBlockIndex).find((b) => b.getType() !== 'atomic');
         if (
-          (!previousBlock || (previousBlock === contentState.getFirstBlock() && previousBlock.getType() === 'atomic'))
+          (!previousBlock || areRestOfBlocksAtomic)
           && isOnFirstLineOfBlock(editorState)
         ) {
-          e.preventDefault();
+          e.preventDefault(); // would be going "into" an atomic block
         }
         break;
       default:
@@ -1351,12 +1288,7 @@ class Blocksmith extends React.Component {
 
   /**
    * Custom key bindings.
-   * Case 'Backspace' allows deleting an atomic button with the backspace key
-   *  (without it the current block will be deleted instead).
    * Case 'Enter' allows breaking out of a list after pressing enter on an empty list item.
-   * Case 'Delete' smooths out the process of deleting atomic blocks
-   * Case ' ' is the spacebar. For some reason pressing this while an atomic block is selected
-   * will delete said block. This case prevents that.
    *
    * @link https://draftjs.org/docs/advanced-topics-key-bindings
    *
@@ -1365,30 +1297,13 @@ class Blocksmith extends React.Component {
    * @returns {string} a command type
    */
   keyBindingFn(e) {
-    const { activeBlockKey, editorState } = this.state;
+    const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
     // if nothing is selected
     if (selectionState.getAnchorOffset() === selectionState.getFocusOffset()) {
-      const previousBlock = contentState.getBlockBefore(selectionState.getAnchorKey());
       const currentBlock = getBlockForKey(contentState, selectionState.getAnchorKey());
-      const nextBlock = contentState.getBlockAfter(activeBlockKey);
       switch (e.key) {
-        case ' ':
-          if (currentBlock.getType() === 'atomic') {
-            e.preventDefault();
-          }
-          break;
-        case 'Backspace':
-          if (typeof previousBlock !== 'undefined' && currentBlock.getType() !== 'unstyled') {
-            if (
-              (previousBlock && previousBlock.getType() === 'atomic')
-              && (currentBlock.getText() === '' || selectionState.getAnchorOffset() === 0)
-            ) {
-              return constants.BACKSPACE_AFTER_ATOMIC_BLOCK;
-            }
-          }
-          break;
         case 'Enter':
           setTimeout(() => {
             // Under certain conditions (eg press enter while text indicator is at the start of an
@@ -1406,15 +1321,6 @@ class Blocksmith extends React.Component {
           }
           if (currentBlock.getText() === '' && isBlockAList(currentBlock)) {
             return constants.DOUBLE_ENTER_ON_LIST;
-          }
-          break;
-        case 'Delete':
-          if (
-            nextBlock
-            && nextBlock.getType() === 'atomic'
-            && editorState.getSelection().getAnchorOffset() === currentBlock.getText().length
-          ) {
-            return constants.DELETE_BEFORE_ATOMIC_BLOCK;
           }
           break;
         default:
