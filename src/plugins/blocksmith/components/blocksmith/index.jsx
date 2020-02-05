@@ -836,19 +836,17 @@ class Blocksmith extends React.Component {
    */
   handleKeyCommand(command) {
     const { editorState } = this.state;
-    let newContentState;
-    let newEditorState;
-    let selectionState;
     switch (command) {
-      case constants.DOUBLE_ENTER_ON_LIST:
-        selectionState = editorState.getSelection();
-        newContentState = editorState.getCurrentContent();
+      case constants.DOUBLE_ENTER_ON_LIST: {
+        const selectionState = editorState.getSelection();
+        let newContentState = editorState.getCurrentContent();
         newContentState = Modifier.setBlockType(newContentState, selectionState, 'unstyled');
-        newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
+        const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
         this.setState({
           editorState: newEditorState,
         }, () => this.positionComponents(newEditorState, selectionState.getAnchorKey()));
         return 'handled';
+      }
       case constants.SOFT_NEWLINE:
         this.setState({
           editorState: RichUtils.insertSoftNewline(editorState),
