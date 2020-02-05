@@ -17,6 +17,7 @@
 * Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
 * Remove blocksmith focus plugin and related code
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
+* Hashtags picker field fluid height
 
 
 ## v0.3.4
