@@ -18,9 +18,8 @@ export default (editorState) => {
   const lines = [];
   const anchorKey = editorState.getSelection().getAnchorKey();
   const offsetKey = DraftOffsetKey.encode(anchorKey, 0, 0);
-  const currentBlockNode = document.querySelectorAll(`[data-offset-key="${offsetKey}"]`)[0];
-  const computedStyle = getComputedStyle(currentBlockNode);
-  const width = +computedStyle.width.replace('px', '');
+  const currentBlockNode = document.querySelector(`[data-offset-key="${offsetKey}"] span span`);
+  const width = currentBlockNode.getBoundingClientRect().width;
   const testSpan = document.createElement('span');
   // declared in blocksmith styles, allows us to calculate lines based on style
   testSpan.classList.add('line-length-tester');
