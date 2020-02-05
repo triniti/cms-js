@@ -903,27 +903,22 @@ class Blocksmith extends React.Component {
       }
     }
 
-    /**
-     * little bit of duplicated code here but better to only do something with the
-     * variables if the right keypresses happened instead of declaring outside switch
-     * and doing it for every single keypress.
-     */
-    let anchorKey;
-    let areRestOfBlocksAtomic;
-    let blocksAsArray;
-    let contentState;
-    let currentBlock;
-    let currentBlockIndex;
-    let nextBlock;
-    let previousBlock;
-    let selectionState;
+    if (!/^Arrow(Up|Down|Left|Right)$/.test(e.key)) {
+      return;
+    }
+
+    const anchorKey = editorState.getSelection().getAnchorKey();
+    const contentState = editorState.getCurrentContent();
+    const blocksAsArray = contentState.getBlocksAsArray();
+    const currentBlock = getBlockForKey(contentState, anchorKey);
+    const currentBlockIndex = contentState.getBlocksAsArray().findIndex((b) => b === currentBlock);
+    const nextBlock = contentState.getBlockAfter(anchorKey);
+    const previousBlock = contentState.getBlockBefore(anchorKey);
+    const selectionState = editorState.getSelection();
+    let areRestOfBlocksAtomic = false;
 
     switch (e.key) {
       case 'ArrowLeft':
-        contentState = editorState.getCurrentContent();
-        anchorKey = editorState.getSelection().getAnchorKey();
-        previousBlock = contentState.getBlockBefore(anchorKey);
-        selectionState = editorState.getSelection();
         if (
           previousBlock
           && previousBlock.getType() === 'atomic'
@@ -934,11 +929,6 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowRight':
-        contentState = editorState.getCurrentContent();
-        anchorKey = editorState.getSelection().getAnchorKey();
-        currentBlock = getBlockForKey(contentState, anchorKey);
-        nextBlock = contentState.getBlockAfter(anchorKey);
-        selectionState = editorState.getSelection();
         if (
           nextBlock
           && nextBlock.getType() === 'atomic'
@@ -949,12 +939,6 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        contentState = editorState.getCurrentContent();
-        anchorKey = editorState.getSelection().getAnchorKey();
-        currentBlock = getBlockForKey(contentState, anchorKey);
-        nextBlock = contentState.getBlockAfter(anchorKey);
-        blocksAsArray = contentState.getBlocksAsArray();
-        currentBlockIndex = contentState.getBlocksAsArray().findIndex((b) => b === currentBlock);
         areRestOfBlocksAtomic = !blocksAsArray.slice(currentBlockIndex + 1, blocksAsArray.length).find((b) => b.getType() !== 'atomic');
         if (
           (!nextBlock || areRestOfBlocksAtomic)
@@ -964,12 +948,6 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowUp':
-        contentState = editorState.getCurrentContent();
-        anchorKey = editorState.getSelection().getAnchorKey();
-        currentBlock = getBlockForKey(contentState, anchorKey);
-        previousBlock = contentState.getBlockBefore(anchorKey);
-        blocksAsArray = contentState.getBlocksAsArray();
-        currentBlockIndex = contentState.getBlocksAsArray().findIndex((b) => b === currentBlock);
         areRestOfBlocksAtomic = !blocksAsArray.slice(0, currentBlockIndex).find((b) => b.getType() !== 'atomic');
         if (
           (!previousBlock || areRestOfBlocksAtomic)
