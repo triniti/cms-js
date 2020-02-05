@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## N.N.N
+* Hashtags picker field fluid height
+
+
 ## v0.3.4
 * When adding text to a text block, hovering your mouse to another block and back causes text to disappear.
 
