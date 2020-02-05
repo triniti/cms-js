@@ -193,8 +193,9 @@ export const getModalComponent = (message) => {
  *
  * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
- * @param {string} type - a block type eg 'code-block'
- *                        or canvasBlock.generateMessageRef().getCurie().getMessage()
+ * @param {string} type  - a block type eg 'code-block'
+ *                         or canvasBlock.generateMessageRef().getCurie().getMessage()
+ * @param {Object} props - optional probs to give to the placeholder
  *
  * @returns {?Component} a React component that is intended to go inside the DraftJs editor
  */

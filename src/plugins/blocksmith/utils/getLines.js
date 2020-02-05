@@ -6,7 +6,7 @@ import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
  *
  * @param {EditorState} editorState - a state instance of a DraftJs Editor
  *
- * @returns {boolean}
+ * @returns {Array}
  */
 export default (editorState) => {
   let moreThanOneLine = false;
