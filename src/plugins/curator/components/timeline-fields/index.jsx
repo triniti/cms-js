@@ -26,6 +26,13 @@ const TimelineFields = ({ formName, isEditMode, node, schemas }) => ([
         readOnly={!isEditMode}
         size="xlg"
       />
+      <Field
+        name="displayTitle"
+        component={TextField}
+        label="Display Title"
+        placeholder="enter display title"
+        readOnly={!isEditMode}
+      />
       <SlugEditor
         formName={formName}
         nodeRef={node.get('_id').toNodeRef()}

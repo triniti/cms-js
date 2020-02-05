@@ -10,6 +10,7 @@ import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from '@trini
 import AddGalleryAssetsModal from '@triniti/cms/plugins/dam/components/add-gallery-assets-modal';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
+import Exception from '@gdbots/common/Exception';
 import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/ImageAssetV1Mixin';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -45,6 +46,11 @@ class GalleryMedia extends React.Component {
     isReorderGranted: PropTypes.bool,
     nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     nodeRef: PropTypes.instanceOf(NodeRef).isRequired,
+    patchAssetsCommandState: PropTypes.shape({
+      command: PropTypes.instanceOf(Message),
+      exception: PropTypes.instanceOf(Exception),
+      status: PropTypes.string,
+    }).isRequired,
     searchNodesRequestState: PropTypes.shape({
       request: PropTypes.instanceOf(Message),
       response: PropTypes.instanceOf(Message),
@@ -74,6 +80,7 @@ class GalleryMedia extends React.Component {
     this.handleAddAssets = this.handleAddAssets.bind(this);
     this.handleAssetsUploaded = this.handleAssetsUploaded.bind(this);
     this.handleChangeSearchParam = this.handleChangeSearchParam.bind(this);
+    this.handleClearSelectedAssets = this.handleClearSelectedAssets.bind(this);
     this.handleDecreaseImagesPerRow = this.handleDecreaseImagesPerRow.bind(this);
     this.handleEditAsset = this.handleEditAsset.bind(this);
     this.handleEditSequence = this.handleEditSequence.bind(this);
@@ -106,11 +113,19 @@ class GalleryMedia extends React.Component {
     });
   }
 
-  componentDidUpdate({ nodes: prevNodes }) {
-    const { nodes } = this.props;
-    const { reorder: { nodesToUpdate } } = this.state;
+  componentDidUpdate({ nodes: prevNodes, patchAssetsCommandState: prevPatchAssetsCommandState }) {
+    const { nodes, patchAssetsCommandState } = this.props;
+    const { reorder: { nodesToUpdate }, selected } = this.state;
+
     if ((prevNodes.length !== nodes.length) && nodesToUpdate) {
       this.handleReorderOnGalleryChanged();
+    }
+
+    if (selected.length
+      && patchAssetsCommandState.status === STATUS_FULFILLED
+      && prevPatchAssetsCommandState.command.get('command_id')
+      !== patchAssetsCommandState.command.get('command_id')) {
+      this.handleClearSelectedAssets();
     }
   }
 
@@ -374,6 +389,12 @@ class GalleryMedia extends React.Component {
 
     delete newRequest.request_id;
     delegate.handleSearchGalleryAssets(newRequest);
+  }
+
+  handleClearSelectedAssets() {
+    this.setState({
+      selected: [],
+    });
   }
 
   handleSelect(node) {

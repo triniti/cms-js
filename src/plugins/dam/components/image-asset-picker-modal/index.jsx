@@ -22,7 +22,7 @@ import ImageSearch from '@triniti/cms/plugins/dam/components/image-search';
 import LinkedImages from '@triniti/cms/plugins/dam/components/linked-images';
 import GalleryImages from '@triniti/cms/plugins/curator/components/gallery-images';
 
-class AssetPickerModal extends React.Component {
+class ImageAssetPickerModal extends React.Component {
   static propTypes = {
     areLinkedImagesAllowed: PropTypes.bool,
     assetTypes: PropTypes.arrayOf(PropTypes.string),
@@ -250,4 +250,4 @@ class AssetPickerModal extends React.Component {
   }
 }
 
-export default AssetPickerModal;
+export default ImageAssetPickerModal;

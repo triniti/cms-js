@@ -74,6 +74,7 @@ const emojis = {
   ':tired_face:': '😫',
   ':victory_hand_medium_skin_tone:': '✌🏽',
   ':waving_hand_medium_skin_tone:': '👋🏽',
+  ':winking_face': '😉',
   ':woman_dancing_medium_skin_tone:': '💃🏽',
   ':worried_face:': '😟',
   ':yellow_heart:': '💛',

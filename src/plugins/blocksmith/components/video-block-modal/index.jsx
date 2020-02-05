@@ -59,7 +59,7 @@ class VideoBlockModal extends React.Component {
       autoplay: block.get('autoplay'),
       hasLaunchText: block.has('launch_text'),
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isMuted: block.get('muted'),
       launchText: block.get('launch_text'),
       q: '',
@@ -80,7 +80,7 @@ class VideoBlockModal extends React.Component {
     this.handleSearchVideos = this.handleSearchVideos.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
     this.handleSelectVideo = this.handleSelectVideo.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   componentDidMount() {
@@ -171,12 +171,12 @@ class VideoBlockModal extends React.Component {
     this.setState({ selectedVideo: getNode(nodeRef) });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -203,10 +203,11 @@ class VideoBlockModal extends React.Component {
   render() {
     const {
       activeStep,
+      aside,
       autoplay,
       hasLaunchText,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isMuted,
       launchText,
       q,
@@ -214,7 +215,6 @@ class VideoBlockModal extends React.Component {
       selectedVideo,
       updatedDate,
       willShowMoreVideos,
-      aside,
     } = this.state;
 
     const {
@@ -234,7 +234,7 @@ class VideoBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen}
+        keyboard={!isImageAssetPickerModalOpen}
       >
         <Header
           activeStep={activeStep}
@@ -279,12 +279,13 @@ class VideoBlockModal extends React.Component {
             {activeStep === 1
               && (
                 <CustomizeOptions
+                  aside={aside}
                   autoplay={autoplay}
                   block={this.setBlock()}
                   handleChangeLaunchText={this.handleChangeLaunchText}
                   hasLaunchText={hasLaunchText}
                   hasUpdatedDate={hasUpdatedDate}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   isMuted={isMuted}
                   launchText={launchText}
@@ -294,10 +295,9 @@ class VideoBlockModal extends React.Component {
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   updatedDate={updatedDate}
                   willShowMoreVideos={willShowMoreVideos}
-                  aside={aside}
                 />
               )}
           </ScrollableContainer>

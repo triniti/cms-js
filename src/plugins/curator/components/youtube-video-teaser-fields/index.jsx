@@ -20,13 +20,22 @@ const handleStripYoutubeId = (e, value, oldValue, fieldName, handleChange) => {
 };
 
 const renderPickerComponent = (handleChange) => (
-  <Field
-    component={TextField}
-    label="YouTube URL or Video Id"
-    onChange={(e, value, oldValue, fieldName) => handleStripYoutubeId(e, value, oldValue, fieldName, handleChange)} // eslint-disable-line max-len
-    name="youtubeVideoId"
-    readOnly={false}
-  />
+  <>
+    <Field
+      component={TextField}
+      label="YouTube URL or Video Id"
+      onChange={(e, value, oldValue, fieldName) => handleStripYoutubeId(e, value, oldValue, fieldName, handleChange)} // eslint-disable-line max-len
+      name="youtubeVideoId"
+      readOnly={false}
+    />
+    <Field
+      component={TextField}
+      label="YouTube Custom URL or Video Id"
+      onChange={(e, value, oldValue, fieldName) => handleStripYoutubeId(e, value, oldValue, fieldName, handleChange)} // eslint-disable-line max-len
+      name="youtubeCustomId"
+      readOnly={false}
+    />
+  </>
 );
 
 const YoutubeVideoTeaserFields = ({ handleChange, isEditMode, node, schemas }) => (

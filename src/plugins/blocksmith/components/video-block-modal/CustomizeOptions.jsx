@@ -20,7 +20,7 @@ const CustomizeOptions = ({
   handleChangeLaunchText,
   hasLaunchText,
   hasUpdatedDate,
-  isAssetPickerModalOpen,
+  isImageAssetPickerModalOpen,
   isImageSelected,
   isMuted,
   launchText,
@@ -30,7 +30,7 @@ const CustomizeOptions = ({
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
-  onToggleAssetPickerModal: handleToggleAssetPickerModal,
+  onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
   updatedDate,
   willShowMoreVideos,
 }) => (
@@ -42,15 +42,15 @@ const CustomizeOptions = ({
     />
     <FormGroup>
       <ImageAssetPicker
-        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Video Block Poster images."
-        isImageSelected={isImageSelected}
-        isModalOpen={isAssetPickerModalOpen}
         isDisabled={false}
+        isImageSelected={isImageSelected}
+        isModalOpen={isImageAssetPickerModalOpen}
         label="Select A Video Block Poster Image"
+        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Video Block Poster images."
         node={node}
         onClearImage={handleClearImage}
         onSelectImage={handleSelectImage}
-        onToggleAssetPickerModal={handleToggleAssetPickerModal}
+        onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
       />
     </FormGroup>
     <div style={{ maxWidth: '350px', margin: '0 auto' }}>
@@ -127,7 +127,7 @@ CustomizeOptions.propTypes = {
   handleChangeLaunchText: PropTypes.func.isRequired,
   hasLaunchText: PropTypes.bool.isRequired,
   hasUpdatedDate: PropTypes.bool.isRequired,
-  isAssetPickerModalOpen: PropTypes.bool.isRequired,
+  isImageAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
   isMuted: PropTypes.bool.isRequired,
   launchText: PropTypes.string,
@@ -137,9 +137,9 @@ CustomizeOptions.propTypes = {
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
-  onToggleAssetPickerModal: PropTypes.func.isRequired,
-  willShowMoreVideos: PropTypes.bool.isRequired,
+  onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   updatedDate: PropTypes.instanceOf(Date).isRequired,
+  willShowMoreVideos: PropTypes.bool.isRequired,
 };
 
 CustomizeOptions.defaultProps = {
