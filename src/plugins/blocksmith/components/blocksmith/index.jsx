@@ -909,7 +909,7 @@ class Blocksmith extends React.Component {
     const contentState = editorState.getCurrentContent();
     const blocksAsArray = contentState.getBlocksAsArray();
     const currentBlock = getBlockForKey(contentState, anchorKey);
-    const currentBlockIndex = contentState.getBlocksAsArray().findIndex((b) => b === currentBlock);
+    const currentBlockIndex = blocksAsArray.findIndex((b) => b === currentBlock);
     const nextBlock = contentState.getBlockAfter(anchorKey);
     const previousBlock = contentState.getBlockBefore(anchorKey);
     const selectionState = editorState.getSelection();
