@@ -13,6 +13,7 @@ export default (editorState) => {
   let height;
   let testSpanHeight;
   let line = '';
+  let matchIndex;
   let startPoint = 0;
   const endWordIndices = [];
   const lines = [];
@@ -26,7 +27,15 @@ export default (editorState) => {
   testSpan.classList.add('line-length-tester');
   testSpan.setAttribute('style', `width: ${width}px`);
   document.body.appendChild(testSpan);
-  const text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
+  let text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
+  while (/\r|\n/.test(text)) {
+    matchIndex = text.match(/\r|\n/).index;
+    lines.push(text.slice(0, matchIndex));
+    text = text.slice(matchIndex + 1, text.length);
+  }
+  if (lines.length) {
+    moreThanOneLine = true;
+  }
   const words = text.split(' ');
   testSpan.innerHTML = words[0];
   height = testSpan.getBoundingClientRect().height;
