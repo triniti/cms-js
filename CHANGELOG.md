@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.3.5
 * Rearrange badge/download button order
 * Email Notification General Message doesn't function
 * Add winking face emoji
@@ -16,6 +16,7 @@
 * Use `@triniti/schemas` v1.1.6
 * Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
 * Hashtags picker field fluid height
+* Bump `auth0-lock` from 11.20.3 to 11.21.0
 
 
 ## v0.3.4
