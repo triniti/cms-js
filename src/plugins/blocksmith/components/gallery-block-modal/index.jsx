@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import GalleryGrid from '@triniti/cms/plugins/curator/components/gallery-grid';
 import Message from '@gdbots/pbj/Message';
@@ -54,22 +55,24 @@ class GalleryBlockModal extends React.Component {
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
+      aspectRatio: block.get('aspect_ratio', AspectRatioEnum.AUTO),
       galleryQ: '',
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
-      launchText: block.get('launch_text') || '',
+      launchText: block.get('launch_text', ''),
       selectedGallery: gallery || null,
       selectedImage: image || null,
       startsAtPoster: block.get('start_at_poster'),
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
+    this.handleChangeAspectRatio = this.handleChangeAspectRatio.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeStartAtPoster = this.handleChangeStartAtPoster.bind(this);
     this.handleChangeLaunchText = this.handleChangeLaunchText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
+    this.handleChangeStartAtPoster = this.handleChangeStartAtPoster.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleDecrementStep = this.handleDecrementStep.bind(this);
@@ -78,7 +81,7 @@ class GalleryBlockModal extends React.Component {
     this.handleSearchGalleries = this.handleSearchGalleries.bind(this);
     this.handleSelectGallery = this.handleSelectGallery.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +104,7 @@ class GalleryBlockModal extends React.Component {
   setBlock() {
     const {
       aside,
+      aspectRatio,
       hasUpdatedDate,
       startsAtPoster,
       launchText,
@@ -111,6 +115,7 @@ class GalleryBlockModal extends React.Component {
     const { block } = this.props;
     return block.schema().createMessage()
       .set('aside', aside)
+      .set('aspect_ratio', aspectRatio)
       .set('launch_text', launchText || null)
       .set('node_ref', selectedGallery.get('_id').toNodeRef())
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
@@ -122,6 +127,10 @@ class GalleryBlockModal extends React.Component {
     const { onAddBlock, toggle } = this.props;
     onAddBlock(this.setBlock());
     toggle();
+  }
+
+  handleChangeAspectRatio(option) {
+    this.setState({ aspectRatio: AspectRatioEnum.create(option.value) });
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {
@@ -184,12 +193,12 @@ class GalleryBlockModal extends React.Component {
     this.setState({ selectedImage: image });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -204,17 +213,18 @@ class GalleryBlockModal extends React.Component {
 
   render() {
     const {
-      aside,
       activeStep,
+      aside,
+      aspectRatio,
       galleryQ,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isReadyToDisplay,
       launchText,
       selectedGallery,
       selectedImage,
-      updatedDate,
       startsAtPoster,
+      updatedDate,
     } = this.state;
     const { isOpen, isFreshBlock, toggle, galleries, node } = this.props;
 
@@ -225,7 +235,7 @@ class GalleryBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen}
+        keyboard={!isImageAssetPickerModalOpen}
       >
         <Header activeStep={activeStep} isFreshBlock={isFreshBlock} toggle={toggle} />
         <ModalBody className="p-0">
@@ -254,25 +264,26 @@ class GalleryBlockModal extends React.Component {
               {activeStep === 1 && (
                 <CustomizeOptions
                   aside={aside}
+                  aspectRatio={aspectRatio}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
                   isImageSelected={!!selectedImage}
                   launchText={launchText}
                   node={node}
+                  onChangeAspectRatio={this.handleChangeAspectRatio}
                   onChangeCheckBox={this.handleChangeCheckbox}
                   onChangeDate={this.handleChangeDate}
-                  onChangeStartAtPoster={this.handleChangeStartAtPoster}
                   onChangeLaunchText={this.handleChangeLaunchText}
+                  onChangeStartAtPoster={this.handleChangeStartAtPoster}
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   selectedGallery={selectedGallery}
                   selectedImage={selectedImage}
-                  updatedDate={updatedDate}
                   startsAtPoster={startsAtPoster}
-
+                  updatedDate={updatedDate}
                 />
               )}
               {isReadyToDisplay && activeStep === 0 && !galleries.length && (

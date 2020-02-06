@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import Plugin from '@triniti/app/Plugin';
+import JwplayerMediaSubscriber from './services/JwplayerMediaSubscriber';
 import KalturaEntrySubscriber from './services/KalturaEntrySubscriber';
 import MediaLiveChannelSubscriber from './services/MediaLiveChannelSubscriber';
 import VideoSubscriber from './services/VideoSubscriber';
@@ -18,6 +19,7 @@ export default class OvpPlugin extends Plugin {
     this.routes = routes;
     this.saga = saga;
 
+    bottle.service(serviceIds.JWPLAYER_MEDIA_SUBSCRIBER, JwplayerMediaSubscriber);
     bottle.service(serviceIds.KALTURA_ENTRY_SUBSCRIBER, KalturaEntrySubscriber);
     bottle.service(serviceIds.MEDIALIVE_CHANNEL_SUBSCRIBER, MediaLiveChannelSubscriber);
     bottle.service(serviceIds.VIDEO_SUBSCRIBER, VideoSubscriber);
@@ -28,6 +30,7 @@ export default class OvpPlugin extends Plugin {
    */
   getSubscriberServices() {
     return [
+      serviceIds.JWPLAYER_MEDIA_SUBSCRIBER,
       serviceIds.KALTURA_ENTRY_SUBSCRIBER,
       serviceIds.MEDIALIVE_CHANNEL_SUBSCRIBER,
       serviceIds.VIDEO_SUBSCRIBER,

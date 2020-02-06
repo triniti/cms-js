@@ -43,6 +43,7 @@ const Footer = ({
             mimeTypeErrorMessage="Invalid Action: attempt to upload non-document asset. Please upload only PDF or text files."
             onClose={handleCloseUploader}
             onToggleUploader={handleToggleUploader}
+            allowMultiUpload={false}
           />
         </div>
       )

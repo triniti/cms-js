@@ -20,6 +20,7 @@ export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
     const node = formEvent.getMessage();
 
     data.youtubeVideoId = node.get('youtube_video_id');
+    data.youtubeCustomId = node.get('youtube_custom_id');
   }
 
   /**
@@ -31,10 +32,15 @@ export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
+    let error = getTextFieldError(data, 'youtubeCustomId', node);
+    if (error) {
+      formEvent.addError('youtubeCustomId', error);
+    }
+
     if (!data.youtubeVideoId) {
       formEvent.addError('youtubeVideoId', 'Video ID is required.');
     } else {
-      const error = getTextFieldError(data, 'youtubeVideoId', node);
+      error = getTextFieldError(data, 'youtubeVideoId', node);
       if (error) {
         formEvent.addError('youtubeVideoId', error);
       }
@@ -57,6 +63,11 @@ export default class YoutubeVideoTeaserSubscriber extends EventSubscriber {
     }
 
     node.set('youtube_video_id', data.youtubeVideoId);
+    if (data.youtubeCustomId) {
+      node.set('youtube_custom_id', data.youtubeCustomId);
+    } else {
+      node.clear('youtube_custom_id');
+    }
   }
 
   getSubscribedEvents() {

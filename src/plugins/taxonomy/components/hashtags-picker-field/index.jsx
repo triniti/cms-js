@@ -78,6 +78,7 @@ const HashtagsPickerField = ({
         className="hidden-options-toggle"
         closeOnSelect={false}
         creatable
+        styles={{ control: () => ({ height: 'unset', minHeight: '40px' }) }}
         filterOptions={(o) => o.filter((opt) => opt.className !== 'Select-create-option-placeholder')}
         formatCreateLabel={(hashtag) => handlePromptTextCreator(hashtag, input.value)}
         inputValue={inputValue}
