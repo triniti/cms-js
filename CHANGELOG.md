@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Remove blocksmith focus plugin and related code
+* Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
+
+
 ## v0.3.5
 * Rearrange badge/download button order
 * Email Notification General Message doesn't function
@@ -15,8 +20,6 @@
 * Add `aspect_ratio` ui for gallery and document blocks
 * Use `@triniti/schemas` v1.1.6
 * Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
-* Remove blocksmith focus plugin and related code
-* Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
 * Hashtags picker field fluid height
 * Bump `auth0-lock` from 11.20.3 to 11.21.0
 
