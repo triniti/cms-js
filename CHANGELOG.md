@@ -6,7 +6,7 @@
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
 
 
-## v0.3.5
+## v0.4.0
 * Rearrange badge/download button order
 * Email Notification General Message doesn't function
 * Add winking face emoji
@@ -33,7 +33,7 @@
 
 
 ## v0.3.2
-* Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used. 
+* Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used.
 * Spotify Embed Block requires pasting of embeds twice.
 * YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
 * Text Editor toolbar does not appear after selecting option, leaving tab, and returning
