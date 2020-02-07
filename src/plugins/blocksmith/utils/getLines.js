@@ -12,12 +12,14 @@ const getLinesBrokenByLineBreaks = (txt) => {
   let text = txt;
   let matchIndex;
   const lines = [];
+
   while (/\r|\n/.test(text)) {
     matchIndex = text.match(/\r|\n/).index;
     lines.push(text.slice(0, matchIndex));
     text = text.slice(matchIndex + 1, text.length);
   }
   lines.push(text);
+
   return lines;
 };
 
@@ -39,6 +41,7 @@ const getLinesBrokenByStyle = (spanWidth, text) => {
   let startPoint = 0;
   let line = '';
   const lines = [];
+
   // declared in blocksmith styles, allows us to calculate lines based on style
   testSpan.classList.add('line-length-tester');
   testSpan.setAttribute('style', `width: ${spanWidth}px`);
@@ -46,6 +49,7 @@ const getLinesBrokenByStyle = (spanWidth, text) => {
   const words = text.split(' ');
   testSpan.innerHTML = words[0];
   height = testSpan.getBoundingClientRect().height;
+
   for (let i = 1; i < words.length; i += 1) {
     testSpan.innerHTML += ` ${words[i]}`;
     testSpanHeight = testSpan.getBoundingClientRect().height;
@@ -56,6 +60,7 @@ const getLinesBrokenByStyle = (spanWidth, text) => {
     }
   }
   endWordIndices.push(words.length - 1); // final word index
+
   if (moreThanOneLine) {
     for (let i = 0; i < endWordIndices.length; i += 1) {
       for (let j = startPoint; j < endWordIndices[i]; j += 1) {
@@ -89,6 +94,7 @@ export default (editorState) => {
 
   const text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
   const lines = getLinesBrokenByLineBreaks(text);
+
   return lines.reduce((acc, cur) => {
     const styleLines = getLinesBrokenByStyle(width, cur);
     if (!styleLines.length) {
