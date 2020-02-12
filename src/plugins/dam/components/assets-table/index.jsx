@@ -1,6 +1,6 @@
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player';
 import noop from 'lodash/noop';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -13,6 +13,7 @@ import TableHeader from './TableHeader';
 export default class AssetsTable extends React.Component {
   static propTypes = {
     areAllChecked: PropTypes.bool,
+    hasMasterCheckbox: PropTypes.bool,
     nodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
     onChangeAllRows: PropTypes.func,
     onSelectRow: PropTypes.func,
@@ -23,6 +24,7 @@ export default class AssetsTable extends React.Component {
 
   static defaultProps = {
     areAllChecked: false,
+    hasMasterCheckbox: true,
     onChangeAllRows: noop,
     onSelectRow: noop,
     selectedRows: [],
@@ -76,6 +78,7 @@ export default class AssetsTable extends React.Component {
     const { mediaPlayer } = this.state;
     const {
       areAllChecked,
+      hasMasterCheckbox,
       nodes,
       onChangeAllRows,
       onSelectRow,
@@ -135,6 +138,7 @@ export default class AssetsTable extends React.Component {
         <Table className="table-borderless table-stretch" hover responsive>
           <TableHeader
             areAllChecked={areAllChecked}
+            hasMasterCheckbox={hasMasterCheckbox}
             onChangeAllRows={onChangeAllRows}
             onSort={onSort}
             sort={sort}

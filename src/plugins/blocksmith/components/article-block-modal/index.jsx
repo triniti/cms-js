@@ -61,16 +61,16 @@ class ArticleBlockModal extends React.Component {
     super(props);
     const { block, imageRef, articleNode } = props;
     this.state = {
-      articleQ: '',
       activeStep: 0,
+      articleQ: '',
+      aside: block.get('aside'),
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       linkText: block.get('link_text') || '',
       selectedArticleNode: articleNode || null,
       selectedImageRef: imageRef || null,
       showImage: block.get('show_image'),
-      aside: block.get('aside'),
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -86,7 +86,7 @@ class ArticleBlockModal extends React.Component {
     this.handleSearchArticles = this.handleSearchArticles.bind(this);
     this.handleSelectArticle = this.handleSelectArticle.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   componentDidMount() {
@@ -199,12 +199,12 @@ class ArticleBlockModal extends React.Component {
     this.setState({ selectedImageRef: NodeRef.fromNode(selectedImageNode) });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -223,7 +223,7 @@ class ArticleBlockModal extends React.Component {
       articleQ,
       aside,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isReadyToDisplay,
       linkText,
       selectedArticleNode,
@@ -251,7 +251,7 @@ class ArticleBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen}
+        keyboard={!isImageAssetPickerModalOpen}
       >
         <Header
           activeStep={activeStep}
@@ -271,59 +271,55 @@ class ArticleBlockModal extends React.Component {
             className="bg-gray-400"
             style={{ height: `calc(100vh - ${activeStep === 0 ? 212 : 167}px)` }}
           >
-            {activeStep === 0 && isReadyToDisplay && !!articleNodes.length
-              && (
-                <ArticlesTable
-                  hasCheckboxes={false}
-                  nodes={articleNodes}
-                  onSelectRow={this.handleSelectArticle}
-                  onSort={(newSort) => this.handleSearchArticles(newSort)}
-                  options={{
-                    edit: false,
-                    view: false,
-                    openInNewTab: true,
-                  }}
-                  selectedRows={selectedArticleNode ? [NodeRef.fromNode(selectedArticleNode)] : []}
-                  sort={articleSort}
-                  striped
-                />
-              )}
-            {activeStep === 1
-              && (
-                <CustomizeOptions
-                  aside={aside}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
-                  node={node}
-                  onClearImage={this.handleClearImage}
-                  onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  hasUpdatedDate={hasUpdatedDate}
-                  isImageSelected={!!selectedImageRef}
-                  isArticleStep={activeStep === 0}
-                  linkText={linkText}
-                  block={this.setBlock()}
-                  onChangeCheckBox={this.handleChangeCheckbox}
-                  onChangeLinkText={this.handleChangeLinkText}
-                  showImage={showImage}
-                  updatedDate={updatedDate}
-                />
-              )}
-            {isReadyToDisplay && activeStep === 0 && !articleNodes.length
-              && (
-                <div className="not-found-message">
-                  <p>No articles found that match your search.</p>
-                </div>
-              )}
-            {!isReadyToDisplay && activeStep === 0
-              && (
-                <Spinner
-                  centered
-                  className={classNames({ 'mt-3': activeStep === 1 })}
-                  style={activeStep === 1 ? { height: 'auto' } : {}}
-                />
-              )}
+            {activeStep === 0 && isReadyToDisplay && !!articleNodes.length && (
+            <ArticlesTable
+              hasCheckboxes={false}
+              nodes={articleNodes}
+              onSelectRow={this.handleSelectArticle}
+              onSort={(newSort) => this.handleSearchArticles(newSort)}
+              options={{
+                edit: false,
+                view: false,
+                openInNewTab: true,
+              }}
+              selectedRows={selectedArticleNode ? [NodeRef.fromNode(selectedArticleNode)] : []}
+              sort={articleSort}
+              striped
+            />
+            )}
+            {activeStep === 1 && (
+            <CustomizeOptions
+              aside={aside}
+              block={this.setBlock()}
+              hasUpdatedDate={hasUpdatedDate}
+              isArticleStep={activeStep === 0}
+              isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
+              isImageSelected={!!selectedImageRef}
+              linkText={linkText}
+              node={node}
+              onChangeCheckBox={this.handleChangeCheckbox}
+              onChangeDate={this.handleChangeDate}
+              onChangeLinkText={this.handleChangeLinkText}
+              onChangeTime={this.handleChangeTime}
+              onClearImage={this.handleClearImage}
+              onSelectImage={this.handleSelectImage}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
+              showImage={showImage}
+              updatedDate={updatedDate}
+            />
+            )}
+            {isReadyToDisplay && activeStep === 0 && !articleNodes.length && (
+            <div className="not-found-message">
+              <p>No articles found that match your search.</p>
+            </div>
+            )}
+            {!isReadyToDisplay && activeStep === 0 && (
+            <Spinner
+              centered
+              className={classNames({ 'mt-3': activeStep === 1 })}
+              style={activeStep === 1 ? { height: 'auto' } : {}}
+            />
+            )}
           </ScrollableContainer>
         </ModalBody>
         <Footer

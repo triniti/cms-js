@@ -17,6 +17,7 @@ import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
 import TrinaryField from '@triniti/cms/components/trinary-field';
 import TvpgRating from '@triniti/schemas/triniti/ovp/enums/TvpgRating';
+import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field';
 import VideoPicker from '@triniti/cms/plugins/ovp/components/video-picker-field';
 
 const options = Object
@@ -140,6 +141,12 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           readOnly={!isEditMode}
         />
         <Field
+          component={VideoAssetPickerField}
+          label="Mezzanine Video Asset"
+          name="mezzanineRef"
+          isEditMode={isEditMode}
+        />
+        <Field
           component={TextField}
           label="Mezzanine URL"
           name="mezzanineUrl"
@@ -217,6 +224,25 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
         <FormGroup>
           <FieldArray name="relatedVideoRefs" component={VideoPicker} isEditMode={isEditMode} />
         </FormGroup>
+      </CardBody>
+    </Card>
+    <Card>
+      <CardHeader>YouTube</CardHeader>
+      <CardBody indent>
+        <Field
+          component={TextField}
+          label="YouTube ID"
+          name="youtubeVideoId"
+          placeholder="enter youtube id..."
+          readOnly={!isEditMode}
+        />
+        <Field
+          component={TextField}
+          label="Custom YouTube ID"
+          name="youtubeCustomId"
+          placeholder="enter custom youtube id..."
+          readOnly={!isEditMode}
+        />
       </CardBody>
     </Card>
   </>

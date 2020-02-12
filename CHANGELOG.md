@@ -1,7 +1,10 @@
 # CHANGELOG
 
-
 ## vN.N.N
+* Added blocksmith multi-select
+
+
+## v0.4.0
 * Rearrange badge/download button order
 * Email Notification General Message doesn't function
 * Add winking face emoji
@@ -11,7 +14,12 @@
 * Unselected images from Batch Edit once User clicks update.
 * Removing key value pair shows entire field being removed in history.
 * Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
-* Add blocksmith multi-select dragable components.
+* Add YouTube and JW Player video fields
+* Add `aspect_ratio` ui for gallery and document blocks
+* Use `@triniti/schemas` v1.1.6
+* Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
+* Hashtags picker field fluid height
+* Bump `auth0-lock` from 11.20.3 to 11.21.0
 
 
 ## v0.3.4

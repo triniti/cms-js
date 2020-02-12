@@ -71,10 +71,10 @@ class SoundcloudAudioBlockModal extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
-    this.handleClearImage = this.handleClearImage.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   componentDidMount() {
@@ -177,12 +177,12 @@ class SoundcloudAudioBlockModal extends React.Component {
     });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -212,7 +212,7 @@ class SoundcloudAudioBlockModal extends React.Component {
       autoplay,
       errorMsg,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isValid,
       isVisual,
       selectedImageNode,
@@ -248,15 +248,15 @@ class SoundcloudAudioBlockModal extends React.Component {
           }
           <FormGroup>
             <ImageAssetPicker
-              multiAssetErrorMessage="Invalid Action: Trying to assign multiple Soundcloud Block Poster images."
-              isImageSelected={!!selectedImageNode}
-              isModalOpen={isAssetPickerModalOpen}
               isDisabled={!isValid || !trackId}
+              isImageSelected={!!selectedImageNode}
+              isModalOpen={isImageAssetPickerModalOpen}
               label="Select A Soundcloud Block Poster Image"
+              multiAssetErrorMessage="Invalid Action: Trying to assign multiple Soundcloud Block Poster images."
               node={node}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
-              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
             />
           </FormGroup>
           <FormGroup>

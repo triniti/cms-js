@@ -40,19 +40,19 @@ class ImageBlockModal extends React.Component {
     const { block, image, isFreshBlock } = props;
     this.state = {
       aside: block.get('aside'),
-      aspectRatio: block.get('aspect_ratio') || AspectRatioEnum.create('auto'),
-      caption: block.get('caption') || '',
+      aspectRatio: block.get('aspect_ratio', AspectRatioEnum.AUTO),
+      caption: block.get('caption', ''),
       hasCaption: block.has('caption'),
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: isFreshBlock,
+      isImageAssetPickerModalOpen: isFreshBlock,
       isLink: block.has('url'),
       isNsfw: block.get('is_nsfw'),
       isValid: true,
-      launchText: block.get('launch_text') || null,
+      launchText: block.get('launch_text', null),
       selectedImage: image || null,
-      theme: block.has('theme') ? block.get('theme') : null,
+      theme: block.get('theme', null),
       updatedDate: block.get('updated_date', new Date()),
-      url: block.get('url') || '',
+      url: block.get('url', ''),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAspectRatio = this.handleChangeAspectRatio.bind(this);
@@ -66,7 +66,7 @@ class ImageBlockModal extends React.Component {
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
   }
 
   setBlock() {
@@ -120,7 +120,7 @@ class ImageBlockModal extends React.Component {
   }
 
   handleChangeAspectRatio(option) {
-    this.setState({ aspectRatio: option ? AspectRatioEnum.create(option.value) : AspectRatioEnum.create('auto') });
+    this.setState({ aspectRatio: AspectRatioEnum.create(option.value) });
   }
 
   handleChangeLaunchText({ target: { value: launchText } }) {
@@ -162,12 +162,12 @@ class ImageBlockModal extends React.Component {
     this.setState({ selectedImage });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -187,7 +187,7 @@ class ImageBlockModal extends React.Component {
       caption,
       hasCaption,
       hasUpdatedDate,
-      isAssetPickerModalOpen,
+      isImageAssetPickerModalOpen,
       isLink,
       isNsfw,
       isValid,
@@ -213,7 +213,7 @@ class ImageBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen}
+        keyboard={!isImageAssetPickerModalOpen}
       >
         <ModalHeader toggle={toggle}>
           <span className="nowrap">{`${isFreshBlock ? 'Add' : 'Update'} Image Block`}</span>
@@ -229,7 +229,7 @@ class ImageBlockModal extends React.Component {
               caption={caption}
               hasCaption={hasCaption}
               hasUpdatedDate={hasUpdatedDate}
-              isAssetPickerModalOpen={isAssetPickerModalOpen}
+              isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
               isLink={isLink}
               isNsfw={isNsfw}
               isValid={isValid}
@@ -245,7 +245,7 @@ class ImageBlockModal extends React.Component {
               onChangeUrl={this.handleChangeUrl}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
-              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
               selectedImage={selectedImage}
               theme={theme}
               updatedDate={updatedDate}

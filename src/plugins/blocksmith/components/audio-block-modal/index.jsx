@@ -56,12 +56,12 @@ class AudioBlockModal extends React.Component {
     this.state = {
       activeStep: 0,
       aside: block.get('aside'),
-      q: '',
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
       isUploaderOpen: false,
       launchText: block.get('launch_text') || '',
+      q: '',
       selectedAudioNode: audioNode || null,
       selectedImageNode: imageNode || null,
       updatedDate: block.get('updated_date', new Date()),
@@ -79,7 +79,7 @@ class AudioBlockModal extends React.Component {
     this.handleSearchAudioAssets = this.handleSearchAudioAssets.bind(this);
     this.handleSelectAudio = this.handleSelectAudio.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
@@ -191,12 +191,12 @@ class AudioBlockModal extends React.Component {
     this.setState({ selectedImageNode });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -213,12 +213,12 @@ class AudioBlockModal extends React.Component {
     const {
       activeStep,
       aside,
+      hasUpdatedDate,
+      isImageAssetPickerModalOpen,
       isReadyToDisplay,
+      isUploaderOpen,
       launchText,
       q,
-      hasUpdatedDate,
-      isAssetPickerModalOpen,
-      isUploaderOpen,
       selectedAudioNode,
       selectedImageNode,
       updatedDate,
@@ -241,7 +241,7 @@ class AudioBlockModal extends React.Component {
         isOpen={isOpen}
         toggle={toggle}
         size="xxl"
-        keyboard={!isAssetPickerModalOpen && !isUploaderOpen}
+        keyboard={!isImageAssetPickerModalOpen && !isUploaderOpen}
       >
         <Header
           activeStep={activeStep}
@@ -298,7 +298,7 @@ class AudioBlockModal extends React.Component {
                   aside={aside}
                   block={this.setBlock()}
                   hasUpdatedDate={hasUpdatedDate}
-                  isAssetPickerModalOpen={isAssetPickerModalOpen}
+                  isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
                   isImageSelected={!!selectedImageNode}
                   launchText={launchText}
                   node={node}
@@ -308,7 +308,7 @@ class AudioBlockModal extends React.Component {
                   onChangeTime={this.handleChangeTime}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
-                  onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+                  onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   updatedDate={updatedDate}
                 />
               )

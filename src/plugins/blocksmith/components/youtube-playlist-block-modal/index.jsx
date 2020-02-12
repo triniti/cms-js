@@ -52,7 +52,7 @@ class YoutubePlaylistBlockModal extends React.Component {
       autoplay: block.get('autoplay'),
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
-      isAssetPickerModalOpen: false,
+      isImageAssetPickerModalOpen: false,
       isValid: block.has('playlist_id'),
       playlistId: block.get('playlist_id'),
       selectedImageNode: imageNode || null,
@@ -61,7 +61,6 @@ class YoutubePlaylistBlockModal extends React.Component {
       videoId: block.get('video_id', null),
     };
     this.buttonRef = React.createRef();
-    this.inputElementRef = React.createRef();
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -70,7 +69,8 @@ class YoutubePlaylistBlockModal extends React.Component {
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleToggleAssetPickerModal = this.handleToggleAssetPickerModal.bind(this);
+    this.handleToggleImageAssetPickerModal = this.handleToggleImageAssetPickerModal.bind(this);
+    this.inputElementRef = React.createRef();
     this.refocusModal = this.refocusModal.bind(this);
   }
 
@@ -145,12 +145,12 @@ class YoutubePlaylistBlockModal extends React.Component {
     });
   }
 
-  handleToggleAssetPickerModal() {
-    this.setState(({ isAssetPickerModalOpen }) => ({
-      isAssetPickerModalOpen: !isAssetPickerModalOpen,
+  handleToggleImageAssetPickerModal() {
+    this.setState(({ isImageAssetPickerModalOpen }) => ({
+      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
-      const { isAssetPickerModalOpen } = this.state;
-      if (!isAssetPickerModalOpen) {
+      const { isImageAssetPickerModalOpen } = this.state;
+      if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
       }
     });
@@ -175,10 +175,10 @@ class YoutubePlaylistBlockModal extends React.Component {
       updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, node, toggle, blockKey } = this.props;
-    const { isAssetPickerModalOpen, selectedImageNode } = this.state;
+    const { isImageAssetPickerModalOpen, selectedImageNode } = this.state;
 
     return (
-      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isAssetPickerModalOpen}>
+      <Modal isOpen={isOpen} toggle={toggle} autoFocus={false} keyboard={!isImageAssetPickerModalOpen}>
         <ModalHeader toggle={toggle}>{`${isFreshBlock ? 'Add' : 'Update'}  Youtube Playlist Block`}</ModalHeader>
         <ModalBody>
           <FormGroup>
@@ -210,13 +210,13 @@ class YoutubePlaylistBlockModal extends React.Component {
             <ImageAssetPicker
               isDisabled={!isValid}
               isImageSelected={!!selectedImageNode}
-              isModalOpen={isAssetPickerModalOpen}
+              isModalOpen={isImageAssetPickerModalOpen}
               label="Select A Youtube Playlist Block Poster Image"
               multiAssetErrorMessage="Invalid Action: Trying to assign multiple Youtube Playlist Block Poster images."
               node={node}
               onClearImage={this.handleClearImage}
               onSelectImage={this.handleSelectImage}
-              onToggleAssetPickerModal={this.handleToggleAssetPickerModal}
+              onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
             />
           </FormGroup>
           <FormGroup check>
@@ -242,9 +242,9 @@ class YoutubePlaylistBlockModal extends React.Component {
           <Button
             disabled={!isValid}
             onClick={
-              isFreshBlock 
-              ? () => this.handleAddBlock(this.setBlock(), blockKey) 
-              : () => this.handleEditBlock(this.setBlock(), blockKey)
+              isFreshBlock
+                ? () => this.handleAddBlock(this.setBlock(), blockKey)
+                : () => this.handleEditBlock(this.setBlock(), blockKey)
             }
           >
             {isFreshBlock ? 'Add' : 'Update'}
