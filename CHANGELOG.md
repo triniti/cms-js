@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.4.1
+* Creating a node by pressing enter double dates slugs.
+
+
 ## v0.4.0
 * Rearrange badge/download button order
 * Email Notification General Message doesn't function
