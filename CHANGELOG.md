@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## patch
+## v0.4.1
 * Creating a node by pressing enter double dates slugs.
 
 
