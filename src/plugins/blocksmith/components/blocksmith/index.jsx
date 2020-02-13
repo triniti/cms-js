@@ -934,7 +934,7 @@ class Blocksmith extends React.Component {
         }
 
         if (!previousBlock && selectionState.getAnchorOffset() === 0) {
-          e.preventDefault();
+          e.preventDefault(); // prevent text indicator from being misplaced
         }
         break;
       case 'ArrowRight':
@@ -955,7 +955,7 @@ class Blocksmith extends React.Component {
         }
 
         if (!nextBlock && selectionState.getAnchorOffset() === currentBlock.getText().length) {
-          e.preventDefault();
+          e.preventDefault(); // prevent text indicator from being misplaced
         }
         break;
       case 'ArrowDown':
