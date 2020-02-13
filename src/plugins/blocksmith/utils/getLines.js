@@ -27,8 +27,8 @@ const getLinesBrokenByLineBreaks = (txt) => {
  * Calculates the number of lines for a given string using an actual dom node and what happens to
  * it as text is appended.
  *
- * @param {number} node - a node to fill with text to find the wrapped lines
- * @param {string} text - a string to check for wrapped text
+ * @param {HTMLElement} node - a node to fill with text to find the wrapped lines
+ * @param {string} text      - a string to check for wrapped text
  *
  * @returns {Array}
  */

@@ -919,21 +919,35 @@ class Blocksmith extends React.Component {
       case 'ArrowLeft':
         if (
           previousBlock
-          && previousBlock.getType() === 'atomic'
           && selectionState.getAnchorOffset() === 0
           && selectionState.getFocusOffset() === 0
         ) {
-          e.preventDefault(); // would be going "into" an atomic block
+          if (previousBlock.getType() === 'atomic') {
+            e.preventDefault(); // would be going "into" an atomic block
+          } else if (previousBlock.getType() === 'unstyled') {
+            e.preventDefault();
+            // native draft keyboard nav is often wonky, do it manually to avoid bugs
+            this.setState({
+              editorState: selectBlock(editorState, previousBlock, 'end'),
+            });
+          }
         }
         break;
       case 'ArrowRight':
         if (
           nextBlock
-          && nextBlock.getType() === 'atomic'
           && selectionState.getAnchorOffset() === currentBlock.getText().length
           && selectionState.getFocusOffset() === currentBlock.getText().length
         ) {
-          e.preventDefault(); // would be going "into" an atomic block
+          if (nextBlock.getType() === 'atomic') {
+            e.preventDefault(); // would be going "into" an atomic block
+          } else if (nextBlock.getType() === 'unstyled') {
+            e.preventDefault();
+            // native draft keyboard nav is often wonky, do it manually to avoid bugs
+            this.setState({
+              editorState: selectBlock(editorState, nextBlock, 'start'),
+            });
+          }
         }
         break;
       case 'ArrowDown':
