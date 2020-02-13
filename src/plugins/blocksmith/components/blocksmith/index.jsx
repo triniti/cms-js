@@ -932,6 +932,10 @@ class Blocksmith extends React.Component {
             });
           }
         }
+
+        if (!previousBlock && selectionState.getAnchorOffset() === 0) {
+          e.preventDefault();
+        }
         break;
       case 'ArrowRight':
         if (
@@ -948,6 +952,10 @@ class Blocksmith extends React.Component {
               editorState: selectBlock(editorState, nextBlock, 'start'),
             });
           }
+        }
+
+        if (!nextBlock && selectionState.getAnchorOffset() === currentBlock.getText().length) {
+          e.preventDefault();
         }
         break;
       case 'ArrowDown':
