@@ -6,6 +6,14 @@
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
 
 
+## v0.4.2
+* Slug changes are overwritten when pressing enter in create node modals.
+
+
+## v0.4.1
+* Creating a node by pressing enter double dates slugs.
+
+
 ## v0.4.0
 * Rearrange badge/download button order
 * Email Notification General Message doesn't function
