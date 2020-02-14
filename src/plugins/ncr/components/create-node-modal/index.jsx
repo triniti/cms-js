@@ -52,20 +52,26 @@ export default class CreateNodeModal extends React.Component {
   }
 
   handleKeyDown({ key }) {
-    const { delegate } = this.props;
+    const { delegate, formValues: { slug } } = this.props;
+
     if (key === 'Enter') {
-      delegate.handleSave();
+      const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
+      const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
+
+      delegate.handleChangeSlug(normalizedSlug);
+      // setTimeout is necessary to avoid the race condition between redux-form CHANGE and SUBMIT
+      setTimeout(delegate.handleSave);
     }
   }
 
   handleBlurSlug() {
-    const { delegate, formValues } = this.props;
+    const { delegate, formValues: { slug } } = this.props;
     const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
+    const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
+
     // without the setTimeout the change event fires but is then immediately
     // is followed by a blur event which overwrites our change with the stale value
-    setTimeout(() => {
-      delegate.handleChangeSlug(normalizeUnfinishedSlug(formValues.slug, formValues.slug, isDatedSlug));
-    });
+    setTimeout(() => { delegate.handleChangeSlug(normalizedSlug); });
   }
 
   renderForm() {
