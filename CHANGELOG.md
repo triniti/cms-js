@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.4.2
+* Slug changes are overwritten when pressing enter in create node modals.
+
+
 ## v0.4.1
 * Creating a node by pressing enter double dates slugs.
 
