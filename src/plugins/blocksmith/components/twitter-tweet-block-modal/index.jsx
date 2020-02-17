@@ -4,12 +4,9 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TwitterTweetBlockPreview from '@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview';
-
+import getTwitterTweetFields from './getTwitterTweetFields';
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-
-const TWITTER_TWEET_REGEX = /https?:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/[0-9\\.]+/;
-const TWITTER_EMBED_REGEX = /^<blockquote.+https?:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/[0-9\\.]+(\n|.)+<\/script>$/m;
 
 export default class TwitterTweetBlockModal extends React.Component {
   static propTypes = {
@@ -103,31 +100,19 @@ export default class TwitterTweetBlockModal extends React.Component {
   }
 
   handleChangeTextarea(event) {
-    let { errorMsg, isValid, screenName, tweetId, tweetText } = this.state;
-    let input = decodeURIComponent(event.target.value);
-    if (!TWITTER_EMBED_REGEX.test(input)) {
-      errorMsg = 'embed code is invalid';
-      isValid = false;
+    const newState = { ...this.state };
+    const twitterTweetFields = getTwitterTweetFields(event.target.value);
+    if (!twitterTweetFields.tweetId) {
+      newState.errorMsg = 'embed code is invalid';
+      newState.isValid = false;
     } else {
-      errorMsg = '';
-      isValid = true;
-      tweetText = input.replace(/<script.+<\/script>/, '')
-        .replace(/<blockquote.+?>/, '')
-        .replace('</blockquote>', '')
-        .replace('/\n/g', '');
-      input = input.match(TWITTER_TWEET_REGEX)[0];
-      screenName = input.split('/')[3];
-      tweetId = input.split('/')[5];
+      newState.errorMsg = '';
+      newState.isValid = true;
+      newState.screenName = twitterTweetFields.screenName;
+      newState.tweetId = twitterTweetFields.tweetId;
+      newState.tweetText = twitterTweetFields.tweetText;
     }
-    this.setState({
-      errorMsg,
-      isValid,
-      screenName,
-      touched: true,
-      tweetId,
-      tweetText,
-      url: event.target.value,
-    });
+    this.setState(newState);
   }
 
   render() {

@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.N.N
+* Twitter block not accepting certain embed codes/links
+
+
 ## v0.4.2
 * Slug changes are overwritten when pressing enter in create node modals.
 
