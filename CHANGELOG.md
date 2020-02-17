@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.4.3
 * Twitter block not accepting certain embed codes/links
 * User Cannot press enter when creating nodes after entering title, without tabbing over to auto generated slug first.
 
