@@ -20,7 +20,7 @@ test('Blocksmith.component.twitter-tweet-modal:getTwitterTweetFields', (t) => {
 });
 
 test('Blocksmith.component.twitter-tweet-modal:getTwitterTweetFields', (t) => {
-  const embed = '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">1000% False.<br><br>Bold-Faced Lie.<br><br>I did not, have not, and would not utter a racial-slur.<br><br>This is a disgusting and reckless attempt to assassinate my character. <a href="https://t.co/mZcEcC0tCl">https://t.co/mZcEcC0tCl</a></p>&mdash; Mason Rudolph (@Rudolph2Mason) <a href="https://twitter.com/Rudolph2Mason/status/1228691160396230656?ref_src=twsrc%5Etfw">February 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  const embed = '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">1000% %!@#$%^&*()_+=-`~\'";:/?.>[{]}| False.<br><br>Bold-Faced Lie.<br><br>I did not, have not, and would not utter a racial-slur.<br><br>This is a disgusting and reckless attempt to assassinate my character. <a href="https://t.co/mZcEcC0tCl">https://t.co/mZcEcC0tCl</a></p>&mdash; Mason Rudolph (@Rudolph2Mason) <a href="https://twitter.com/Rudolph2Mason/status/1228691160396230656?ref_src=twsrc%5Etfw">February 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
   const { screenName, tweetId, tweetText } = getTwitterTweetFields(embed);
   let actual = screenName;
   let expected = 'Rudolph2Mason';
@@ -31,7 +31,7 @@ test('Blocksmith.component.twitter-tweet-modal:getTwitterTweetFields', (t) => {
   t.deepEqual(actual, expected, `it should accept a Twitter Tweet embed and return tweetId: ${expected}`);
 
   actual = tweetText;
-  expected = '<p lang="en" dir="ltr">1000% False.<br><br>Bold-Faced Lie.<br><br>I did not, have not, and would not utter a racial-slur.<br><br>This is a disgusting and reckless attempt to assassinate my character. <a href="https://t.co/mZcEcC0tCl">https://t.co/mZcEcC0tCl</a></p>&mdash; Mason Rudolph (@Rudolph2Mason) <a href="https://twitter.com/Rudolph2Mason/status/1228691160396230656?ref_src=twsrc^tfw">February 15, 2020</a>';
+  expected = '<p lang="en" dir="ltr">1000% %!@#$%^&*()_+=-`~\'";:/?.>[{]}| False.<br><br>Bold-Faced Lie.<br><br>I did not, have not, and would not utter a racial-slur.<br><br>This is a disgusting and reckless attempt to assassinate my character. <a href="https://t.co/mZcEcC0tCl">https://t.co/mZcEcC0tCl</a></p>&mdash; Mason Rudolph (@Rudolph2Mason) <a href="https://twitter.com/Rudolph2Mason/status/1228691160396230656?ref_src=twsrc^tfw">February 15, 2020</a>';
   t.deepEqual(actual, expected, `it should accept a Twitter Tweet embed and return tweetText: ${expected}`);
 
   t.end();
