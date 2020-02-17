@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* User Cannot press enter when creating nodes after entering title, without tabbing over to auto generated slug first.
 * Remove blocksmith focus plugin and related code
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
 
