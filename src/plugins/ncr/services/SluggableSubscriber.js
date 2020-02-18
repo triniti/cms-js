@@ -38,6 +38,8 @@ export default class SluggableSubscriber extends EventSubscriber {
     const { slug: actualSlug, title } = formEvent.getData();
     const isDatedSlug = this.shouldUseDatedSlug(formEvent.getName());
     const node = formEvent.getMessage();
+    actualSlug.replace(/\s/g, '-');
+    console.log(actualSlug);
 
     // this ensures a dated slug will always have a date prepended to it
     let slug = isDatedSlug ? addDateToSlug(actualSlug) : actualSlug;

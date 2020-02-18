@@ -58,9 +58,9 @@ export default class CreateNodeModal extends React.Component {
     if (key === 'Enter') {
       const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
       const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
+      this.saveButton.current.focus();
 
       delegate.handleChangeSlug(normalizedSlug);
-      this.saveButton.current.focus();
       // setTimeout is necessary to avoid the race condition between redux-form CHANGE and SUBMIT
       setTimeout(delegate.handleSave);
     }
