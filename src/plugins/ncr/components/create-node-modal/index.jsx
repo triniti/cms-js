@@ -52,10 +52,13 @@ export default class CreateNodeModal extends React.Component {
     this.saveButton = React.createRef();
   }
 
-  handleKeyDown({ key }) {
-    const { delegate, formValues: { slug } } = this.props;
+  handleKeyDown(e) {
+    const { key } = e;
 
     if (key === 'Enter') {
+      e.preventDefault();
+
+      const { delegate, formValues: { slug } } = this.props;
       const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
       const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
 
@@ -71,7 +74,7 @@ export default class CreateNodeModal extends React.Component {
     const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
     const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
 
-    // without the setTimeout the change event fires but is then immediately
+    // without the setmeout the change event fires but is then immediately
     // is followed by a blur event which overwrites our change with the stale value
     setTimeout(() => { delegate.handleChangeSlug(normalizedSlug); });
   }
