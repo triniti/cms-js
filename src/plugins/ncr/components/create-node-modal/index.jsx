@@ -74,8 +74,8 @@ export default class CreateNodeModal extends React.Component {
     const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
     const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
 
-    // without the setmeout the change event fires but is then immediately
-    // is followed by a blur event which overwrites our change with the stale value
+    // without the setTimeout the change event fires but is then immediately
+    // followed by a blur event which overwrites our change with the stale value
     setTimeout(() => { delegate.handleChangeSlug(normalizedSlug); });
   }
 
