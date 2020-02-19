@@ -167,7 +167,6 @@ class ImageBlockModal extends React.Component {
       isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
     }), () => {
       const { isImageAssetPickerModalOpen, selectedImage } = this.state;
-      console.log('nanette', !selectedImage);
       if (!isImageAssetPickerModalOpen) {
         this.refocusModal();
         if (!selectedImage) {
