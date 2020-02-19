@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+Image Block modal first cancel button does not cancel
+
+
 ## v0.4.4
 * Pressing enter after you edit a slug saves a stale version.
 
