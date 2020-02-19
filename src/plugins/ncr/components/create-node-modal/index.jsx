@@ -49,16 +49,21 @@ export default class CreateNodeModal extends React.Component {
     this.handleBlurSlug = this.handleBlurSlug.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.renderForm = this.renderForm.bind(this);
+    this.saveButton = React.createRef();
   }
 
-  handleKeyDown({ key }) {
-    const { delegate, formValues: { slug } } = this.props;
+  handleKeyDown(e) {
+    const { key } = e;
 
     if (key === 'Enter') {
+      e.preventDefault();
+
+      const { delegate, formValues: { slug } } = this.props;
       const isDatedSlug = delegate.getSluggableConfig(delegate.getFormName());
       const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
 
       delegate.handleChangeSlug(normalizedSlug);
+      this.saveButton.current.focus();
       // setTimeout is necessary to avoid the race condition between redux-form CHANGE and SUBMIT
       setTimeout(delegate.handleSave);
     }
@@ -70,7 +75,7 @@ export default class CreateNodeModal extends React.Component {
     const normalizedSlug = normalizeUnfinishedSlug(slug, slug, isDatedSlug);
 
     // without the setTimeout the change event fires but is then immediately
-    // is followed by a blur event which overwrites our change with the stale value
+    // followed by a blur event which overwrites our change with the stale value
     setTimeout(() => { delegate.handleChangeSlug(normalizedSlug); });
   }
 
@@ -110,7 +115,12 @@ export default class CreateNodeModal extends React.Component {
           {this.renderForm()}
         </ModalBody>
         <ModalFooter>
-          <Button disabled={isCreateDisabled} onClick={delegate.handleSave}>{buttonText}</Button>
+          <Button
+            disabled={isCreateDisabled}
+            innerRef={this.saveButton}
+            onClick={delegate.handleSave}
+          >{buttonText}
+          </Button>
         </ModalFooter>
       </Modal>
     );
