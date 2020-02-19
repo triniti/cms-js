@@ -6,6 +6,11 @@
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
 
 
+## v0.4.3
+* Twitter block not accepting certain embed codes/links
+* User Cannot press enter when creating nodes after entering title, without tabbing over to auto generated slug first.
+
+
 ## v0.4.2
 * Slug changes are overwritten when pressing enter in create node modals.
 
