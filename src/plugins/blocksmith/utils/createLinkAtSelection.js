@@ -22,32 +22,11 @@ export default (editorState, target, url) => {
   if (selectionState.getAnchorKey() !== selectionState.getFocusKey()) {
     throw new Error('Multi-block links currently not supported');
   }
-  let existingEntity;
-  const contentBlock = editorState.getCurrentContent()
-    .getBlockForKey(selectionState.getAnchorKey());
-  for (let i = selectionState.getStartOffset(); i < selectionState.getEndOffset(); i += 1) {
-    if (contentBlock.getEntityAt(i)) {
-      existingEntity = editorState.getCurrentContent().getEntity(contentBlock.getEntityAt(i));
-      break;
-    }
-  }
-
-  let newEntityType = 'LINK';
-  let newEntityData = { rel, target, url };
-  if (existingEntity) {
-    newEntityData = {
-      ...existingEntity.getData(),
-      ...newEntityData,
-    };
-    if (existingEntity.getType().indexOf('LINK') < 0) {
-      newEntityType = `${existingEntity.getType()}-LINK`;
-    }
-  }
 
   const updatedEntityState = getEntityKey(editorState.getCurrentContent(), {
-    type: newEntityType,
+    type: 'LINK',
     mutability: 'MUTABLE',
-    data: newEntityData,
+    data: { rel, target, url },
   });
   const newEntityKey = updatedEntityState.entityKey;
   let newEditorState = RichUtils.toggleLink(

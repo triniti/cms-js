@@ -3,7 +3,7 @@ import {
   ContentBlock,
   ContentState,
 } from 'draft-js';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import areKeysSame from './areKeysSame';
 import getEntityKey from './getEntityKey';
 import normalizeKey from './normalizeKey';
@@ -34,7 +34,7 @@ export default (contentState, canvasBlock, key) => {
   });
   const draftJsBlock = new ContentBlock({
     characterList: new List([characterMetadata]),
-    data: { canvasBlock },
+    data: new Map({ canvasBlock }),
     key: normalizeKey(key),
     text: ' ',
     type: 'atomic',

@@ -10,7 +10,7 @@ import { ContentBlock, ContentState } from 'draft-js';
 import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 
 import ImagePreview from './ImagePreview';
-import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus, styleUpdateBlocks } from '../../utils';
+import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus, styleUpdateBlocks, styleUpdateBlocksNew } from '../../utils';
 import selector from './selector';
 import './styles.scss';
 
@@ -93,6 +93,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
 
     if (node.has('updated_date')) {
       styleUpdateBlocks(entityKey);
+      styleUpdateBlocksNew(block);
     }
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;

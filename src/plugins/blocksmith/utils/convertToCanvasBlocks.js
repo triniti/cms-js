@@ -23,36 +23,36 @@ export default (editorState) => {
   const options = {
     // renderer for our custom atomic blocks
     blockRenderers: {
-      atomic: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData())}`,
+      atomic: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
     },
-    entityStyleFn: (entity) => {
-      const entityData = entity.getData();
-      const entityType = entity.getType();
-      if (entityType.indexOf('UPDATE') < 0) {
-        return undefined;
-      }
-      switch (entityType) {
-        case 'UPDATE':
-          return {
-            element: 'div',
-            attributes: { // store date as string in data attr to be unpacked later ಠ_ಠ
-              'data-updated-date': entityData.updatedDate.toISOString(),
-            },
-          };
-        case 'UPDATE-LINK':
-          return {
-            element: 'a',
-            attributes: {
-              rel: entityData.rel,
-              target: entityData.target,
-              href: entityData.url,
-              'data-updated-date': entityData.updatedDate.toISOString(),
-            },
-          };
-        default:
-          return undefined;
-      }
-    },
+    // entityStyleFn: (entity) => {
+    //   const entityData = entity.getData();
+    //   const entityType = entity.getType();
+    //   if (entityType.indexOf('UPDATE') < 0) {
+    //     return undefined;
+    //   }
+    //   switch (entityType) {
+    //     case 'UPDATE':
+    //       return {
+    //         element: 'div',
+    //         attributes: { // store date as string in data attr to be unpacked later ಠ_ಠ
+    //           'data-updated-date': entityData.updatedDate.toISOString(),
+    //         },
+    //       };
+    //     case 'UPDATE-LINK':
+    //       return {
+    //         element: 'a',
+    //         attributes: {
+    //           rel: entityData.rel,
+    //           target: entityData.target,
+    //           href: entityData.url,
+    //           'data-updated-date': entityData.updatedDate.toISOString(),
+    //         },
+    //       };
+    //     default:
+    //       return undefined;
+    //   }
+    // },
     inlineStyles: {
       HIGHLIGHT: {
         element: 'span',
@@ -71,11 +71,20 @@ export default (editorState) => {
         acc.push(cur);
         return acc;
       }
-      const blockAsJson = JSON.parse(cur.replace(new RegExp(`^${CANVAS_BLOCK_TOKEN}`), '')).canvasBlock;
+      const blockAsJson = JSON.parse(cur.replace(new RegExp(`^${CANVAS_BLOCK_TOKEN}`), ''));
       const block = ObjectSerializer.deserialize(blockAsJson);
       acc.push(block);
       return acc;
     }, []);
+
+  const draftJsBlocks = contentState.getBlocksAsArray();
+
+  // for (let i = 0; i < draftJsBlocks.length; i += 1) {
+  //   const block = draftJsBlocks[i];
+  //   if (block.getType() === 'unstyled') {
+  //     debugger;
+  //   }
+  // }
 
   // const draftJsBlocks = contentState.getBlocksAsArray();
 
@@ -143,28 +152,37 @@ export default (editorState) => {
     })
     // insurance against mutant p tags eg <p>, </p>, or <p></p>
     .filter((block) => block instanceof Message || !/^<\/?p>(<\/p>)?$/.test(block))
-    .map((block) => {
+    .map((block, index) => {
       if (block instanceof Message) {
         return block;
       }
-      // anything here that is not already a block should become a text block
-      if (!UPDATED_DATE_ATTR.test(block)) {
-        return TextBlockV1Mixin.findOne().createMessage().set('text', block);
+      const canvasBlock = draftJsBlocks[index].getData().get('canvasBlock');
+      if (canvasBlock && canvasBlock.has('updated_date')) {
+        return TextBlockV1Mixin.findOne().createMessage()
+          .set('text', block)
+          .set('updated_date', canvasBlock.get('updated_date'));
       }
-      const dateString = block
-        .match(UPDATED_DATE_ATTR)[0]
-        .replace(/(data-updated-date=|")/g, '');
-      const originalBlockText = block
-        .replace(/data-updated-date=".+?"/g, '')
-        .replace(/((\s)|(&nbsp;))+<\/div><\/p>$/, '</p>')
-        .replace(/(<div.+?>|<\/div>)/g, '')
-        .replace(/(<br>)+/g, '<br>')
-        .replace(/<li><br><\/li>/g, '')
-        .replace(/<br><\/p>/g, '</p>')
-        .replace(/<p><br>/g, '<p>');
+      return TextBlockV1Mixin.findOne().createMessage().set('text', block);
+      // const dblocks = draftJsBlocks;
+      // debugger;
+      // // anything here that is not already a block should become a text block
+      // if (!UPDATED_DATE_ATTR.test(block)) {
+      //   return TextBlockV1Mixin.findOne().createMessage().set('text', block);
+      // }
+      // const dateString = block
+      //   .match(UPDATED_DATE_ATTR)[0]
+      //   .replace(/(data-updated-date=|")/g, '');
+      // const originalBlockText = block
+      //   .replace(/data-updated-date=".+?"/g, '')
+      //   .replace(/((\s)|(&nbsp;))+<\/div><\/p>$/, '</p>')
+      //   .replace(/(<div.+?>|<\/div>)/g, '')
+      //   .replace(/(<br>)+/g, '<br>')
+      //   .replace(/<li><br><\/li>/g, '')
+      //   .replace(/<br><\/p>/g, '</p>')
+      //   .replace(/<p><br>/g, '<p>');
 
-      return TextBlockV1Mixin.findOne().createMessage()
-        .set('text', originalBlockText)
-        .set('updated_date', moment(dateString, moment.ISO_8601).toDate());
+      // return TextBlockV1Mixin.findOne().createMessage()
+      //   .set('text', originalBlockText)
+      //   .set('updated_date', moment(dateString, moment.ISO_8601).toDate());
     });
 };

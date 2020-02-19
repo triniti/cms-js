@@ -40,6 +40,7 @@ import sidebarUtil from './sidebar';
 import styleBlockTargetNodeStatusFn from './styleBlockTargetNodeStatus';
 import styleDragTargetFn from './styleDragTarget';
 import styleUpdateBlocksFn from './styleUpdateBlocks';
+import styleUpdateBlocksNewFn from './styleUpdateBlocksNew';
 
 export const addEmoji = addEmojiFn;
 export const areKeysSame = areKeysSameFn;
@@ -82,3 +83,4 @@ export const sidebar = sidebarUtil;
 export const styleBlockTargetNodeStatus = styleBlockTargetNodeStatusFn;
 export const styleDragTarget = styleDragTargetFn;
 export const styleUpdateBlocks = styleUpdateBlocksFn;
+export const styleUpdateBlocksNew = styleUpdateBlocksNewFn;

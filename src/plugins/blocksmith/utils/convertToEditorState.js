@@ -6,7 +6,7 @@ import {
   EditorState,
   genKey,
 } from 'draft-js';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import isBlockAList from './isBlockAList';
 import getEntityKey from './getEntityKey';
 import attachImmutableEntitiesToEmojis from './attachImmutableEntitiesToEmojis';
@@ -123,59 +123,19 @@ function getListItems(canvasBlockText) {
  *   entity for said ContentBlock).
  */
 
-function applyUpdatedDateEntity(canvasBlock, contentState, contentBlock) {
-  if (!canvasBlock.has('updated_date')) {
-    return {
-      contentBlock,
-      newContentState: contentState,
-    };
-  }
-  let existingCharacterMetadata;
-  let newContentState = contentState;
-  let existingEntity;
-  let existingEntityKey;
-  let existingEntityType;
-  let newEntityType;
-  let existingEntityMutability = 'MUTABLE';
-  let existingEntityData = {};
-  const listArray = [];
-  for (let i = 0; i < contentBlock.getText().length; i += 1) {
-    existingCharacterMetadata = contentBlock.getCharacterList().get(i);
-    existingEntityKey = existingCharacterMetadata.getEntity();
-    if (existingEntityKey) {
-      existingEntity = newContentState.getEntity(existingEntityKey);
-      existingEntityType = existingEntity.getType();
-      existingEntityData = existingEntity.getData();
-      existingEntityMutability = existingEntity.getMutability();
-    }
-    newEntityType = `UPDATE${existingEntityType ? `-${existingEntityType}` : ''}`;
-    const updatedDateState = getEntityKey(newContentState, {
-      type: newEntityType,
-      mutability: existingEntityMutability,
-      data: {
-        updatedDate: canvasBlock.get('updated_date'),
-        ...existingEntityData,
-      },
-    });
-    const entityKey = updatedDateState.entityKey;
-    newContentState = updatedDateState.newContentState;
-    listArray[i] = CharacterMetadata.applyEntity(existingCharacterMetadata, entityKey);
-    existingEntityKey = null;
-    existingEntity = null;
-    existingEntityType = null;
-    existingEntityData = {};
-    existingEntityMutability = 'MUTABLE';
-  }
-  return {
-    contentBlock: new ContentBlock({
-      key: genKey(),
-      type: contentBlock.getType(),
-      text: contentBlock.getText(),
-      characterList: new List(listArray),
-    }),
-    newContentState,
-  };
-}
+// function applyUpdatedDateEntity(canvasBlock, contentState, contentBlock) {
+//   const newContentState = contentState;
+//   return {
+//     contentBlock: new ContentBlock({
+//       characterList: contentBlock.getCharacterList(),
+//       data: new Map({ canvasBlock }),
+//       key: genKey(),
+//       text: contentBlock.getText(),
+//       type: contentBlock.getType(),
+//     }),
+//     newContentState,
+//   };
+// }
 
 /**
  * Converts to ContentBlocks of type 'ordered-list-item' or 'unordered-list-item'. This is a
@@ -212,13 +172,26 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
       html = `<ul>${listItems[index]}</ul>`;
     }
     const block = convertFromHTML(html).contentBlocks[0];
-    const updatedDateState = applyUpdatedDateEntity(
-      canvasBlock,
+    const cb = canvasBlock.get('text').match(spanEndMatch)
+      ? getHighlightedTextBlock(listItems[index], block)
+      : block;
+    const updatedDateState = {
+      contentBlock: new ContentBlock({
+        characterList: cb.getCharacterList(),
+        data: new Map({ canvasBlock }),
+        key: genKey(),
+        text: cb.getText(),
+        type: cb.getType(),
+      }),
       newContentState,
-      canvasBlock.get('text').match(spanEndMatch)
-        ? getHighlightedTextBlock(listItems[index], block)
-        : block,
-    );
+    };
+    // const updatedDateState = applyUpdatedDateEntity(
+    //   canvasBlock,
+    //   newContentState,
+    //   canvasBlock.get('text').match(spanEndMatch)
+    //     ? getHighlightedTextBlock(listItems[index], block)
+    //     : block,
+    // );
     newContentState = updatedDateState.newContentState;
     contentBlocks.push(updatedDateState.contentBlock);
   });
@@ -256,14 +229,27 @@ function convertTextBlock(canvasBlock, contentState) {
   const listContentBlocks = []; // of type 'ordered-list-item' or 'unordered-list-item'
   (convertFromHTML(canvasBlockText).contentBlocks || []).forEach((block) => {
     if (!isBlockAList(block)) {
-      // hey alright it's just a bit of text with a span, this isn't too bad
-      const updatedDateState = applyUpdatedDateEntity(
-        canvasBlock,
+      const cb = canvasBlockText.match(spanEndMatch)
+        ? getHighlightedTextBlock(canvasBlockText, block)
+        : block;
+      const updatedDateState = {
+        contentBlock: new ContentBlock({
+          characterList: cb.getCharacterList(),
+          data: new Map({ canvasBlock }),
+          key: genKey(),
+          text: cb.getText(),
+          type: cb.getType(),
+        }),
         newContentState,
-        canvasBlockText.match(spanEndMatch)
-          ? getHighlightedTextBlock(canvasBlockText, block)
-          : block,
-      );
+      };
+      // hey alright it's just a bit of text with a span, this isn't too bad
+      // const updatedDateState = applyUpdatedDateEntity(
+      //   canvasBlock,
+      //   newContentState,
+      //   canvasBlockText.match(spanEndMatch)
+      //     ? getHighlightedTextBlock(canvasBlockText, block)
+      //     : block,
+      // );
       newContentState = updatedDateState.newContentState;
       contentBlocks.push(updatedDateState.contentBlock);
     } else {
@@ -318,7 +304,7 @@ function convertNonTextBlock(canvasBlock, contentState) {
   return {
     contentBlock: new ContentBlock({
       characterList: new List([CharacterMetadata.create({ entity: entityKey })]),
-      data: { canvasBlock },
+      data: new Map({ canvasBlock }),
       key: genKey(),
       text: ' ',
       type: 'atomic',
