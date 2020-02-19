@@ -7,7 +7,7 @@ import getEntityKey from './getEntityKey';
 /**
  * Turns selected text into a link
  *
- * @link https://draftjs.org/docs/api-reference-rich-utils.html#togglelink
+ * @link https://draftjs.org/docs/api-reference-rich-utils#togglelink
  *
  * @param {EditorState} editorState - a state instance of a DraftJs Editor
  * @param {string}      target      - the link target (ie '_blank')
