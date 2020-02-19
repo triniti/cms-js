@@ -434,7 +434,7 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Given a canvas block, creates a DraftJs block (with entity) for said block at the active block.
+   * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
    *
    * @param {*} canvasBlock                - a triniti canvas block
    * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
@@ -507,19 +507,19 @@ class Blocksmith extends React.Component {
   blockRendererFn(block) {
     const { editorState, readOnly } = this.state;
     switch (block.getType()) {
-      case 'atomic':
-        if (!block.getEntityAt(0)) {
+      case 'atomic': {
+        const data = block.getData();
+        if (!data) {
           return null;
         }
         return {
-          component: getPlaceholder(
-            editorState.getCurrentContent().getEntity(block.getEntityAt(0)).getType(),
-          ),
+          component: getPlaceholder(block.getData().canvasBlock.schema().getCurie().getMessage()),
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
           },
         };
+      }
       case 'unstyled':
         return {
           component: DraggableTextBlock,
@@ -624,17 +624,17 @@ class Blocksmith extends React.Component {
     const { delegate, copiedBlock } = this.props;
 
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
-    const entityKey = draftJsBlock.getEntityAt(0);
-    if (entityKey) {
-      const entity = editorState.getCurrentContent().getEntity(entityKey);
-      const canvasBlock = entity.getData().block;
-
-      if (copiedBlock && copiedBlock.get('etag') === canvasBlock.get('etag')) {
-        return;
-      }
-
-      delegate.handleCopyBlock(canvasBlock.clone());
+    const blockData = draftJsBlock.getData();
+    if (!blockData) {
+      return;
     }
+
+    const { canvasBlock } = blockData;
+    if (copiedBlock && copiedBlock.get('etag') === canvasBlock.get('etag')) {
+      return;
+    }
+
+    delegate.handleCopyBlock(canvasBlock.clone());
   }
 
   /**
@@ -757,16 +757,17 @@ class Blocksmith extends React.Component {
   handleEdit() {
     const { activeBlockKey, editorState } = this.state;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
-    const entityKey = draftJsBlock.getEntityAt(0);
-    let entity;
-    if (entityKey) {
-      entity = editorState.getCurrentContent().getEntity(entityKey);
-    }
+
     let canvasBlock;
     if (draftJsBlock.getType() === 'atomic') {
-      canvasBlock = entity.getData().block;
+      canvasBlock = draftJsBlock.getData().canvasBlock;
     } else {
       canvasBlock = TextBlockV1Mixin.findOne().createMessage();
+      const entityKey = draftJsBlock.getEntityAt(0);
+      let entity;
+      if (entityKey) {
+        entity = editorState.getCurrentContent().getEntity(entityKey);
+      }
       if (entity) {
         canvasBlock.set('updated_date', entity.getData().updatedDate || moment().toDate());
       }

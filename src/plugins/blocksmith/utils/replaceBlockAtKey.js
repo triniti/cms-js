@@ -33,10 +33,11 @@ export default (contentState, canvasBlock, key) => {
     entity: entityKey,
   });
   const draftJsBlock = new ContentBlock({
-    key: normalizeKey(key),
-    type: 'atomic',
-    text: ' ',
     characterList: new List([characterMetadata]),
+    data: { canvasBlock },
+    key: normalizeKey(key),
+    text: ' ',
+    type: 'atomic',
   });
   const blocksAsArray = newContentState.getBlocksAsArray();
   const newBlocksAsArray = blocksAsArray.map((block) => {

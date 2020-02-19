@@ -317,12 +317,11 @@ function convertNonTextBlock(canvasBlock, contentState) {
   });
   return {
     contentBlock: new ContentBlock({
+      characterList: new List([CharacterMetadata.create({ entity: entityKey })]),
+      data: { canvasBlock },
       key: genKey(),
-      type: 'atomic',
       text: ' ',
-      characterList: new List([CharacterMetadata.create({
-        entity: entityKey,
-      })]),
+      type: 'atomic',
     }),
     newContentState,
   };

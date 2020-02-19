@@ -1,10 +1,12 @@
 import moment from 'moment';
 import { stateToHTML } from 'draft-js-export-html';
 import Message from '@gdbots/pbj/Message';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 
-const EMPTY_BLOCK_REGEX = new RegExp('<p>(<br>)?<\\/p>');
-const UPDATED_DATE_ATTR = new RegExp('data-updated-date=".+?"');
+const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;
+const UPDATED_DATE_ATTR = /data-updated-date=".+?"/;
+const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';
 
 /**
  * Converts an EditorState instance from the DraftJs Editor into triniti canvas blocks
@@ -21,15 +23,7 @@ export default (editorState) => {
   const options = {
     // renderer for our custom atomic blocks
     blockRenderers: {
-      atomic: (block) => {
-        const atomicBlockEntityKey = block.getEntityAt(0);
-        if (!atomicBlockEntityKey) {
-          return undefined;
-        }
-        const atomicBlockEntity = contentState.getEntity(atomicBlockEntityKey);
-        // insert curie as placeholder to be replaced by actual canvasBlock
-        return atomicBlockEntity.getData().block.schema().getCurie().toString();
-      },
+      atomic: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData())}`,
     },
     entityStyleFn: (entity) => {
       const entityData = entity.getData();
@@ -71,23 +65,33 @@ export default (editorState) => {
 
   const blocks = stateToHTML(contentState, options)
     .replace(/<br>\n/g, '<br>') // consolidate br tags with newline to a single p line
-    .split('\n'); // split into individual blocks
-
-  const draftJsBlocks = contentState.getBlocksAsArray();
-
-  for (let i = 0; i < draftJsBlocks.length; i += 1) {
-    const block = draftJsBlocks[i];
-    if (block.getType() === 'atomic') {
-      const atomicBlockEntityKey = block.getEntityAt(0);
-      if (!atomicBlockEntityKey) {
-        break;
+    .split('\n') // split into individual blocks
+    .reduce((acc, cur) => {
+      if (!cur.startsWith(CANVAS_BLOCK_TOKEN)) {
+        acc.push(cur);
+        return acc;
       }
-      const atomicBlockEntity = contentState.getEntity(atomicBlockEntityKey);
-      const { curie } = atomicBlockEntity.getData().block.schema().getCurie();
-      // replace placeholder with actual canvasBlock
-      blocks[blocks.indexOf(curie)] = atomicBlockEntity.getData().block;
-    }
-  }
+      const blockAsJson = JSON.parse(cur.replace(new RegExp(`^${CANVAS_BLOCK_TOKEN}`), '')).canvasBlock;
+      const block = ObjectSerializer.deserialize(blockAsJson);
+      acc.push(block);
+      return acc;
+    }, []);
+
+  // const draftJsBlocks = contentState.getBlocksAsArray();
+
+  // for (let i = 0; i < draftJsBlocks.length; i += 1) {
+  //   const block = draftJsBlocks[i];
+  //   if (block.getType() === 'atomic') {
+  //     const atomicBlockEntityKey = block.getEntityAt(0);
+  //     if (!atomicBlockEntityKey) {
+  //       break;
+  //     }
+  //     const atomicBlockEntity = contentState.getEntity(atomicBlockEntityKey);
+  //     const { curie } = atomicBlockEntity.getData().block.schema().getCurie();
+  //     // replace placeholder with actual canvasBlock
+  //     blocks[blocks.indexOf(curie)] = atomicBlockEntity.getData().block;
+  //   }
+  // }
 
   const filteredNodeBlocks = blocks
     // remove "newlines" and empty p tags
@@ -140,27 +144,27 @@ export default (editorState) => {
     // insurance against mutant p tags eg <p>, </p>, or <p></p>
     .filter((block) => block instanceof Message || !/^<\/?p>(<\/p>)?$/.test(block))
     .map((block) => {
-      // anything here that is not already a block should become a text block
-      if (!(block instanceof Message)) {
-        if (!UPDATED_DATE_ATTR.test(block)) {
-          return TextBlockV1Mixin.findOne().createMessage().set('text', block);
-        }
-        const dateString = block
-          .match(UPDATED_DATE_ATTR)[0]
-          .replace(/(data-updated-date=|")/g, '');
-        const originalBlockText = block
-          .replace(/data-updated-date=".+?"/g, '')
-          .replace(/((\s)|(&nbsp;))+<\/div><\/p>$/, '</p>')
-          .replace(/(<div.+?>|<\/div>)/g, '')
-          .replace(/(<br>)+/g, '<br>')
-          .replace(/<li><br><\/li>/g, '')
-          .replace(/<br><\/p>/g, '</p>')
-          .replace(/<p><br>/g, '<p>');
-
-        return TextBlockV1Mixin.findOne().createMessage()
-          .set('text', originalBlockText)
-          .set('updated_date', moment(dateString, moment.ISO_8601).toDate());
+      if (block instanceof Message) {
+        return block;
       }
-      return block;
+      // anything here that is not already a block should become a text block
+      if (!UPDATED_DATE_ATTR.test(block)) {
+        return TextBlockV1Mixin.findOne().createMessage().set('text', block);
+      }
+      const dateString = block
+        .match(UPDATED_DATE_ATTR)[0]
+        .replace(/(data-updated-date=|")/g, '');
+      const originalBlockText = block
+        .replace(/data-updated-date=".+?"/g, '')
+        .replace(/((\s)|(&nbsp;))+<\/div><\/p>$/, '</p>')
+        .replace(/(<div.+?>|<\/div>)/g, '')
+        .replace(/(<br>)+/g, '<br>')
+        .replace(/<li><br><\/li>/g, '')
+        .replace(/<br><\/p>/g, '</p>')
+        .replace(/<p><br>/g, '<p>');
+
+      return TextBlockV1Mixin.findOne().createMessage()
+        .set('text', originalBlockText)
+        .set('updated_date', moment(dateString, moment.ISO_8601).toDate());
     });
 };
