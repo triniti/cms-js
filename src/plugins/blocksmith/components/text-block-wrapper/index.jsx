@@ -31,6 +31,10 @@ export class TextBlockWrapper extends Component {
       ...rest
     } = this.props;
 
+    if (!blockProps) {
+      return null;
+    }
+
     const {
       activeBlockKey,
       copiedBlock,
