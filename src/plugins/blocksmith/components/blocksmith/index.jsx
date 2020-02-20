@@ -83,6 +83,7 @@ import {
   shiftBlock,
   sidebar,
   styleDragTarget,
+  styleUpdateBlocksNewNew,
 } from '../../utils';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
@@ -1582,12 +1583,9 @@ class Blocksmith extends React.Component {
       sidebarResetFlag,
     } = this.state;
     let className = readOnly ? 'view-mode' : 'edit-mode';
-    try {
-      className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
-    } catch (e) {
-      debugger;
-    }
+    className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
+    styleUpdateBlocksNewNew(editorState);
 
     return (
       <Card>

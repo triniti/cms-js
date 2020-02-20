@@ -8,7 +8,7 @@ import selector from './selector';
 export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => {
   const canvasBlock = block.getData().get('canvasBlock');
   if (canvasBlock && canvasBlock.has('updated_date')) {
-    styleUpdateBlocksNew(block);
+    // styleUpdateBlocksNew(block);
   }
   return (
     <>

@@ -92,8 +92,8 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const node = contentState.getEntity(entityKey).getData().block;
 
     if (node.has('updated_date')) {
-      styleUpdateBlocks(entityKey);
-      styleUpdateBlocksNew(block);
+      // styleUpdateBlocks(entityKey);
+      // styleUpdateBlocksNew(block);
     }
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;

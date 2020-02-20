@@ -1,12 +1,20 @@
-import moment from 'moment';
 import { stateToHTML } from 'draft-js-export-html';
+import isUndefined from 'lodash/isUndefined';
+import isNumber from 'lodash/isNumber';
 import Message from '@gdbots/pbj/Message';
+import moment from 'moment';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
+import isBlockAList from './isBlockAList';
 
 const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;
 const UPDATED_DATE_ATTR = /data-updated-date=".+?"/;
 const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';
+const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
+const PADDED_CLOSING_P_TAG_REGEX = /((\s)|(&nbsp;))+<\/p>$/;
+const MUTANT_P_TAG_REGEX = /^<\/?p>(<\/p>)?$/;
+const LIST_TAG_REGEX = /<(o|u)l>.+?<\/(o|u)l>/g;
+const LIST_TAG_COUNT_REGEX = /(?:<\/?(o|u)l>)|(?:<\/?li>)/g;
 
 /**
  * Converts an EditorState instance from the DraftJs Editor into triniti canvas blocks
@@ -78,6 +86,46 @@ export default (editorState) => {
     }, []);
 
   const draftJsBlocks = contentState.getBlocksAsArray();
+  let currentOffset = 0;
+  let previousType = null;
+  const indexOffsets = draftJsBlocks.reduce((acc, cur) => {
+    // have to figure out how many list blocks there are so later if/when we apply updated_date we
+    // can get the correct one and its data payload
+    if (!isBlockAList(cur)) {
+      acc.push(currentOffset);
+      return acc;
+    }
+    if (previousType === cur.getType()) {
+      currentOffset += 1;
+      return acc;
+    }
+    if (previousType !== null) {
+      acc.push(currentOffset);
+    }
+    previousType = cur.getType();
+    return acc;
+  }, []);
+
+  // const draftJsBlocks = contentState.getBlocksAsArray();
+  // let currentIndex = 0;
+  // let previousBlockWasAList = false;
+  // const indexOffsets = draftJsBlocks.reduce((acc, cur) => {
+  //   // have to figure out how many list blocks there are so later if/when we apply updated_date we
+  //   // can get the correct one
+  //   if (!isBlockAList(cur)) {
+  //     if (previousBlockWasAList) {
+  //       currentIndex += 1;
+  //     }
+  //     previousBlockWasAList = false;
+  //     acc[currentIndex] = isUndefined(acc[currentIndex - 1]) ? 0 : acc[currentIndex - 1];
+  //     currentIndex += 1;
+  //     return acc;
+  //   }
+  //   previousBlockWasAList = true;
+  //   const previousValue = isUndefined(acc[currentIndex - 1]) ? 0 : acc[currentIndex - 1];
+  //   acc[currentIndex] = isUndefined(acc[currentIndex]) ? previousValue : acc[currentIndex] + 1;
+  //   return acc;
+  // }, []);
 
   // for (let i = 0; i < draftJsBlocks.length; i += 1) {
   //   const block = draftJsBlocks[i];
@@ -111,14 +159,13 @@ export default (editorState) => {
   const lists = filteredNodeBlocks
     .filter((block) => typeof block === 'string')
     .join('')
-    // match ordered and unordered list tags
-    .match(/<(o|u)l>.+?<\/(o|u)l>/g);
+    .match(LIST_TAG_REGEX); // match ordered and unordered list tags
 
   if (lists) {
     lists.forEach((list) => {
       const needle = list.slice(0, 4) === '<ol>' ? '<ol>' : '<ul>';
       const startPoint = filteredNodeBlocks.indexOf(needle);
-      const count = (list.match(/(<\/?(o|u)l>)|(<\/?li>)/g).length / 2) + 1;
+      const count = (list.match(LIST_TAG_COUNT_REGEX).length / 2) + 1;
       // replace individual tag (ol, ul, li) entries with the complete
       // list (ie <ol><li>whatever</li></ol>)
       filteredNodeBlocks.splice(startPoint, count, list);
@@ -134,7 +181,7 @@ export default (editorState) => {
       // for each character that is not otherwise styled the same - ie a bold and italic character
       // next to each other that are both highlighted will have two separate spans when they don't
       // need to. so remove that unnecessary stuff here.
-      let normalizedText = block.replace(new RegExp('</span><span class="highlight-text">', 'g'), '');
+      let normalizedText = block.replace(UNNECESARY_SPAN_REGEX, '');
 
       // Just makes sure each text block is a valid p tag - added this after finding the pasting
       // of br tags can result in invalid html.
@@ -146,17 +193,20 @@ export default (editorState) => {
       }
 
       // trim spaces from end of text
-      normalizedText = normalizedText.replace(/((\s)|(&nbsp;))+<\/p>$/, '</p>');
+      normalizedText = normalizedText.replace(PADDED_CLOSING_P_TAG_REGEX, '</p>');
 
       return normalizedText;
     })
     // insurance against mutant p tags eg <p>, </p>, or <p></p>
-    .filter((block) => block instanceof Message || !/^<\/?p>(<\/p>)?$/.test(block))
+    .filter((block) => block instanceof Message || !MUTANT_P_TAG_REGEX.test(block))
     .map((block, index) => {
       if (block instanceof Message) {
         return block;
       }
-      const canvasBlock = draftJsBlocks[index].getData().get('canvasBlock');
+      const offset = isNumber(indexOffsets[index])
+        ? indexOffsets[index]
+        : indexOffsets[indexOffsets.length - 1];
+      const canvasBlock = draftJsBlocks[index + offset].getData().get('canvasBlock');
       if (canvasBlock && canvasBlock.has('updated_date')) {
         return TextBlockV1Mixin.findOne().createMessage()
           .set('text', block)
