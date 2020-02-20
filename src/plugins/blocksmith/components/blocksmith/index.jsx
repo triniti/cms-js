@@ -1,6 +1,6 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
-f
+
 import { Map } from 'immutable';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -84,7 +84,7 @@ import {
   shiftBlock,
   sidebar,
   styleDragTarget,
-  styleUpdateBlocksNewNew,
+  updateBlocks,
 } from '../../utils';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
@@ -259,6 +259,7 @@ class Blocksmith extends React.Component {
   componentWillUnmount() {
     blockParentNode.clearCache();
     sidebar.clearCache();
+    updateBlocks.clearCache();
   }
 
   /**
@@ -274,8 +275,6 @@ class Blocksmith extends React.Component {
     const lastChangeType = editorState.getLastChangeType();
     const selectionState = editorState.getSelection();
     let callback = noop;
-
-    window.wtfEditorState = editorState;
 
     /**
      * just clicking around the editor counts as a change (of type null),
@@ -513,12 +512,12 @@ class Blocksmith extends React.Component {
     const { editorState, readOnly } = this.state;
     switch (block.getType()) {
       case blockTypes.ATOMIC: {
-        const canvasBlock = block.getData().get('canvasBlock');
-        if (!canvasBlock) {
+        const blockData = block.getData();
+        if (!blockData || !blockData.get('canvasBlock')) {
           return null;
         }
         return { // eslint-disable-next-line newline-per-chained-call
-          component: getPlaceholder(canvasBlock.schema().getCurie().getMessage()),
+          component: getPlaceholder(blockData.get('canvasBlock').schema().getCurie().getMessage()),
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
@@ -629,16 +628,16 @@ class Blocksmith extends React.Component {
     const { delegate, copiedBlock } = this.props;
 
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
-    const canvasBlock = draftJsBlock.getData().get('canvasBlock');
-    if (!canvasBlock) {
+    const blockData = draftJsBlock.getData();
+    if (!blockData || !blockData.get('canvasBlock')) {
       return;
     }
 
-    if (copiedBlock && copiedBlock.get('etag') === canvasBlock.get('etag')) {
+    if (copiedBlock && copiedBlock.get('etag') === blockData.get('canvasBlock'.get('etag'))) {
       return;
     }
 
-    delegate.handleCopyBlock(canvasBlock.clone());
+    delegate.handleCopyBlock(blockData.get('canvasBlock').clone());
   }
 
   /**
@@ -671,29 +670,6 @@ class Blocksmith extends React.Component {
         });
       });
     });
-
-    // this.setState({ readOnly: true }, () => {
-    //   Blocksmith.confirmDelete().then((result) => {
-    //     this.setState({ readOnly: false }, () => {
-    //       if (result.value) {
-    //         this.setState({
-    //           editorState: EditorState.push(
-    //             editorState,
-    //             deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
-    //           ),
-    //         }, () => {
-    //           if (!isDirty) {
-    //             delegate.handleDirtyEditor(formName);
-    //           }
-    //           // eslint-disable-next-line react/destructuring-assignment
-    //           delegate.handleStoreEditor(formName, this.state.editorState);
-    //         });
-    //       } else {
-    //         // do nothing, user declined to delete
-    //       }
-    //     });
-    //   });
-    // });
   }
 
   /**
@@ -784,24 +760,16 @@ class Blocksmith extends React.Component {
   handleEdit() {
     const { activeBlockKey, editorState } = this.state;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
+    const blockData = draftJsBlock.getData();
 
     let canvasBlock;
     if (draftJsBlock.getType() === blockTypes.ATOMIC) {
-      canvasBlock = draftJsBlock.getData().get('canvasBlock');
+      canvasBlock = blockData.get('canvasBlock');
     } else {
       canvasBlock = TextBlockV1Mixin.findOne().createMessage().set('updated_date', moment().toDate());
-      const blockData = draftJsBlock.getData();
       if (blockData && blockData.get('canvasBlock')) {
         canvasBlock.set('updated_date', blockData.get('canvasBlock').get('updated_date'));
       }
-      // const entityKey = draftJsBlock.getEntityAt(0);
-      // let entity;
-      // if (entityKey) {
-      //   entity = editorState.getCurrentContent().getEntity(entityKey);
-      // }
-      // if (entity) {
-      //   canvasBlock.set('updated_date', entity.getData().updatedDate || moment().toDate());
-      // }
     }
     this.handleToggleBlockModal(canvasBlock);
   }
@@ -1586,7 +1554,7 @@ class Blocksmith extends React.Component {
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
-    styleUpdateBlocksNewNew(editorState);
+    updateBlocks.style(editorState);
 
     return (
       <Card>
