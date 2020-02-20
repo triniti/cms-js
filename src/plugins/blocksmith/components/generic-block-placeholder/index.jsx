@@ -136,7 +136,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
       handleToggleSpecialCharacterModal,
     } = blockProps;
 
-    console.log('Hidden: ', isHidden);
     return (
       <div
         className={classNames({ draggable }, { 'block-preview': config.preview })}
@@ -202,7 +201,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
         {!isHidden && (
           <BlockButtons
             isHidden={isHidden}
-            activeBlockKey={activeBlockKey}
+            activeBlockKey={activeBlockKey || ''}
             copiedBlock={copiedBlock}
             editorState={editorState}
             onCopyBlock={handleCopyBlock}

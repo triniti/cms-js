@@ -2,6 +2,7 @@ import { change, formValueSelector } from 'redux-form';
 import addDateToSlug from '@gdbots/common/addDateToSlug';
 import createSlug from '@gdbots/common/createSlug';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
+import isValidSlug from '@gdbots/common/isValidSlug';
 import slugContainsDate from '@gdbots/common/slugContainsDate';
 
 export default class SluggableSubscriber extends EventSubscriber {
@@ -35,11 +36,18 @@ export default class SluggableSubscriber extends EventSubscriber {
    */
   onSubmitForm(formEvent) {
     const { slug: actualSlug, title } = formEvent.getData();
+    const isDatedSlug = this.shouldUseDatedSlug(formEvent.getName());
     const node = formEvent.getMessage();
 
-    const slug = createSlug(actualSlug || title);
+    // this ensures a dated slug will always have a date prepended to it
+    let slug = isDatedSlug ? addDateToSlug(actualSlug) : actualSlug;
+
+    if (!isValidSlug(actualSlug.trim(), isDatedSlug)) {
+      slug = isDatedSlug ? addDateToSlug(createSlug(title)) : createSlug(title);
+    }
+
     try {
-      node.set('slug', this.shouldUseDatedSlug(formEvent.getName()) ? addDateToSlug(slug) : slug);
+      node.set('slug', slug);
     } catch (e) {
       formEvent.addError('slug', e.message);
     }
@@ -54,12 +62,7 @@ export default class SluggableSubscriber extends EventSubscriber {
     const { meta: { field, form }, payload } = event.getAction();
     const store = event.getRedux();
 
-    if (field !== 'title' || payload === '') {
-      return;
-    }
-
-    const currentSlug = formValueSelector(form)(store.getState(), 'slug');
-    if (currentSlug && currentSlug !== undefined) {
+    if (field !== 'title' || payload === '' || formValueSelector(form)(store.getState(), 'slug')) {
       return;
     }
 

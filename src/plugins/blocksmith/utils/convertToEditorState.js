@@ -331,7 +331,7 @@ function convertNonTextBlock(canvasBlock, contentState) {
 /**
  * Converts triniti canvas blocks into an EditorState instance for the Draft.js Editor.
  *
- * @link https://draftjs.org/docs/advanced-topics-decorators.html#compositedecorator
+ * @link https://draftjs.org/docs/advanced-topics-decorators#compositedecorator
  *
  * @param {Array}              canvasBlocks - An array of triniti canvas blocks (each
  *                                            has triniti:canvas:mixin:block).

@@ -193,12 +193,13 @@ export const getModalComponent = (message) => {
  *
  * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
- * @param {string} type - a block type eg 'code-block'
- *                        or canvasBlock.generateMessageRef().getCurie().getMessage()
+ * @param {string} type  - a block type eg 'code-block'
+ *                         or canvasBlock.generateMessageRef().getCurie().getMessage()
+ * @param {Object} props - optional probs to give to the placeholder
  *
  * @returns {?Component} a React component that is intended to go inside the DraftJs editor
  */
-export const getPlaceholder = (type, decorator, props = {}) => {
+export const getPlaceholder = (type, props = {}) => {
   let component = null;
   switch (type) {
     case 'article-block':
@@ -288,7 +289,7 @@ export const getPlaceholder = (type, decorator, props = {}) => {
     default:
       return null;
   }
-  return decorator(decorateComponentWithProps(component, props));
+  return decorateComponentWithProps(component, props);
 };
 
 /**
