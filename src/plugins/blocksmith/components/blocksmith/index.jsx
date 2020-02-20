@@ -7,7 +7,6 @@ import noop from 'lodash/noop';
 import moment from 'moment';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
 import swal from 'sweetalert2';
-import decorateComponentWithProps from 'decorate-component-with-props';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { getSelectionEntity } from 'draftjs-utils';
@@ -26,10 +25,9 @@ import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 
 import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-ui-plugin/components';
-import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
+import TextBlockWrapper from '@triniti/cms/plugins/blocksmith/components/text-block-wrapper';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
@@ -159,7 +157,6 @@ class Blocksmith extends React.Component {
         transform: 'scale(0)',
       },
       hoverBlockNode: null,
-      imagePreviewSrc: null,
       isDirty: false,
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
@@ -518,7 +515,21 @@ class Blocksmith extends React.Component {
    * @returns {?Object} a React component and config, or null if borked
    */
   blockRendererFn(block) {
-    const { editorState, readOnly } = this.state;
+    const { editorState, readOnly, activeBlockKey } = this.state;
+    const { copiedBlock } = this.props;
+    const blockConfig = {
+      activeBlockKey,
+      copiedBlock,
+      editorState,
+      getReadOnly: this.getReadOnly,
+      handleCopyBlock: this.handleCopyBlock,
+      handleDelete: this.handleDelete,
+      handleEdit: this.handleEdit,
+      handlePasteBlock: this.handlePasteBlock,
+      handleShiftBlock: this.handleShiftBlock,
+      handleToggleSpecialCharacterModal: this.handleToggleSpecialCharacterModal,
+    };
+
     switch (block.getType()) {
       case 'atomic':
         if (!block.getEntityAt(0)) {
@@ -531,15 +542,15 @@ class Blocksmith extends React.Component {
           ),
           editable: false,
           props: {
-            getReadOnly: this.getReadOnly,
+            ...blockConfig,
           },
         };
       case 'unstyled':
         return {
-          component: DraggableTextBlock,
+          component: TextBlockWrapper,
           contentEditable: !readOnly,
           props: {
-            getReadOnly: this.getReadOnly,
+            ...blockConfig,
           },
         };
       case 'ordered-list-item':
@@ -550,7 +561,7 @@ class Blocksmith extends React.Component {
           props: {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
-            getReadOnly: this.getReadOnly,
+            ...blockConfig,
           },
         };
       default:
@@ -1634,10 +1645,7 @@ class Blocksmith extends React.Component {
   }
 
   render() {
-    const { copiedBlock } = this.props;
     const {
-      activeBlockKey,
-      blockButtonsStyle,
       editorState,
       isHoverInsertMode,
       isSidebarOpen,
@@ -1646,6 +1654,7 @@ class Blocksmith extends React.Component {
       sidebarHolderStyle,
       sidebarResetFlag,
     } = this.state;
+
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
@@ -1692,20 +1701,7 @@ class Blocksmith extends React.Component {
               ref={(ref) => { this.editor = ref; }}
               spellCheck
             />
-            <div style={blockButtonsStyle} className="block-buttons-holder">
-              <BlockButtons
-                activeBlockKey={activeBlockKey}
-                copiedBlock={copiedBlock}
-                editorState={editorState}
-                onCopyBlock={this.handleCopyBlock}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-                onPasteBlock={this.handlePasteBlock}
-                onShiftBlock={this.handleShiftBlock}
-                onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-                resetFlag={blockButtonsStyle.top}
-              />
-            </div>
+
             <div style={sidebarHolderStyle} className="sidebar-holder">
               <Sidebar
                 isHoverInsertMode={isHoverInsertMode}

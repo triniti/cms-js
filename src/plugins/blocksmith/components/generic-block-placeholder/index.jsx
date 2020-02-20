@@ -6,9 +6,9 @@ import get from 'lodash/get';
 
 import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { ContentBlock, ContentState } from 'draft-js';
+import { ContentBlock, ContentState, EditorState } from 'draft-js';
 import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
-
+import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 import ImagePreview from './ImagePreview';
 import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus, styleUpdateBlocks } from '../../utils';
 import selector from './selector';
@@ -17,6 +17,17 @@ import './styles.scss';
 class GenericBlockPlaceholder extends React.PureComponent {
   static propTypes = {
     block: PropTypes.instanceOf(ContentBlock).isRequired,
+    blockProps: PropTypes.shape({
+      activeBlockKey: PropTypes.string.isRequired,
+      copiedBlock: PropTypes.instanceOf(Message),
+      editorState: PropTypes.instanceOf(EditorState),
+      handleCopyBlock: PropTypes.func.isRequired,
+      handleDelete: PropTypes.func.isRequired,
+      handleEdit: PropTypes.func.isRequired,
+      handlePasteBlock: PropTypes.func.isRequired,
+      handleShiftBlock: PropTypes.func.isRequired,
+      handleToggleSpecialCharacterModal: PropTypes.func.isRequired,
+    }).isRequired,
     config: PropTypes.oneOfType([
       PropTypes.shape({
         icon: PropTypes.shape({
@@ -64,9 +75,18 @@ class GenericBlockPlaceholder extends React.PureComponent {
   constructor() {
     super();
     this.state = {
+      isHidden: true,
       imagePreviewSrc: null,
     };
     this.handleToggleImagePreviewSrc = this.handleToggleImagePreviewSrc.bind(this);
+    this.toggleIsHidden = this.toggleIsHidden.bind(this);
+  }
+
+  toggleIsHidden() {
+    const { isHidden } = this.state;
+    this.setState({
+      isHidden: !isHidden,
+    });
   }
 
   handleToggleImagePreviewSrc(src = null) {
@@ -80,12 +100,13 @@ class GenericBlockPlaceholder extends React.PureComponent {
       config,
       draggable,
       block,
+      blockProps,
       contentState,
       showTitle,
       targetNode,
       ...rest
     } = this.props;
-    const { imagePreviewSrc } = this.state;
+    const { imagePreviewSrc, isHidden } = this.state;
 
     const PreviewComponent = get(config, 'preview.component', null);
     const entityKey = block.getEntityAt(0);
@@ -103,11 +124,26 @@ class GenericBlockPlaceholder extends React.PureComponent {
       styleBlockTargetNodeStatus(entityKey);
     }
 
+    const {
+      activeBlockKey,
+      copiedBlock,
+      editorState,
+      handleCopyBlock,
+      handleDelete,
+      handleEdit,
+      handlePasteBlock,
+      handleShiftBlock,
+      handleToggleSpecialCharacterModal,
+    } = blockProps;
+
+    console.log('Hidden: ', isHidden);
     return (
       <div
         className={classNames({ draggable }, { 'block-preview': config.preview })}
         data-entity-key={entityKey}
         draggable={draggable}
+        onMouseEnter={this.toggleIsHidden}
+        onMouseLeave={this.toggleIsHidden}
         onDragStart={handleDragStart(block.getKey())}
         onDragEnd={handleDragEnd}
         role="presentation"
@@ -162,6 +198,23 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
         </>
+
+        {!isHidden && (
+          <BlockButtons
+            isHidden={isHidden}
+            activeBlockKey={activeBlockKey}
+            copiedBlock={copiedBlock}
+            editorState={editorState}
+            onCopyBlock={handleCopyBlock}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onPasteBlock={handlePasteBlock}
+            onShiftBlock={handleShiftBlock}
+            onToggleSpecialCharacterModal={handleToggleSpecialCharacterModal}
+            resetFlag={0}
+          />
+        )}
+
         { config.label && (
         <div
           className="placeholder-label-holder ml-2 mt-1"

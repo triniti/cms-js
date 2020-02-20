@@ -119,6 +119,7 @@ export default class BlockButtons extends React.Component {
     let showCopyButton = false;
     let showCharacterButton = false;
     let copyText = 'Copy';
+
     if (activeBlock) {
       const type = activeBlock.getType();
       isEmpty = isBlockEmpty(activeBlock);
@@ -140,7 +141,11 @@ export default class BlockButtons extends React.Component {
 
     return (
       <div
-        className={classNames('d-flex align-items-center', { 'is-first': isFirstBlock, 'is-last': isLastBlock })}
+        className={classNames(
+          'block-buttons-holder',
+          'd-flex align-items-center',
+          { 'is-first': isFirstBlock, 'is-last': isLastBlock },
+        )}
       >
         {isEmpty && copiedBlock && <PasteButton onPasteBlock={handlePasteBlock} />}
         {!isEmpty && (

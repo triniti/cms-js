@@ -22,7 +22,7 @@ class ActiveEditNotificationModal extends React.Component {
     };
 
     if (!shouldShowImmediately) {
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.setState({ ready: true });
       }, 3000);
     }
@@ -31,6 +31,10 @@ class ActiveEditNotificationModal extends React.Component {
     this.handleContinueInEditMode = this.handleContinueInEditMode.bind(this);
     this.handleContinueInViewMode = this.handleContinueInViewMode.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
   }
 
   componentDidUpdate(prevProps, prevState) {

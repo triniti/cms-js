@@ -2,7 +2,7 @@
 
 @mixin block() {
   display: block;
-  padding: 4px 7rem 4px 1rem;
+  padding: 4px 1rem 4px 1rem;
   background-color: #f7f7f7;
   font-family: 'Source Sans Pro', arial, sans-serif;
   margin-bottom: 4px;
@@ -10,6 +10,7 @@
   word-spacing: .17em;
   min-height: 47px;
   border-radius: 2px;
+  position: relative;
 }
 
 #block-editor {
@@ -42,6 +43,7 @@
 
 figure {
   margin: 0;
+  position: relative;
 }
 
 .btn-radius-round span:not(.badge-alert) {
@@ -171,8 +173,7 @@ div[data-contents="true"] {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      position: relative;
-      padding: 5px 9.5rem 6px 1rem;
+      padding: 5px 1rem 6px 1rem;
     }
   }
 
@@ -187,6 +188,7 @@ div[data-contents="true"] {
 
 .block-buttons-holder {
   right: 15px;
+  top: -10px;
   position: absolute;
 
   .is-first {
