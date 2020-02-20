@@ -1,21 +1,17 @@
 import { stateToHTML } from 'draft-js-export-html';
-import isUndefined from 'lodash/isUndefined';
 import isNumber from 'lodash/isNumber';
 import Message from '@gdbots/pbj/Message';
-import moment from 'moment';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
-import isBlockAList from '../isBlockAList';
 import getIndexOffsets from './getIndexOffsets';
 
-const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;
-const UPDATED_DATE_ATTR = /data-updated-date=".+?"/;
 const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';
-const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
-const PADDED_CLOSING_P_TAG_REGEX = /((\s)|(&nbsp;))+<\/p>$/;
-const MUTANT_P_TAG_REGEX = /^<\/?p>(<\/p>)?$/;
-const LIST_TAG_REGEX = /<(o|u)l>.+?<\/(o|u)l>/g;
+const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;
 const LIST_TAG_COUNT_REGEX = /(?:<\/?(o|u)l>)|(?:<\/?li>)/g;
+const LIST_TAG_REGEX = /<(o|u)l>.+?<\/(o|u)l>/g;
+const MUTANT_P_TAG_REGEX = /^<\/?p>(<\/p>)?$/;
+const PADDED_CLOSING_P_TAG_REGEX = /((\s)|(&nbsp;))+<\/p>$/;
+const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
 
 /**
  * Converts an EditorState instance from the DraftJs Editor into triniti canvas blocks
@@ -34,34 +30,6 @@ export default (editorState) => {
     blockRenderers: {
       atomic: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
     },
-    // entityStyleFn: (entity) => {
-    //   const entityData = entity.getData();
-    //   const entityType = entity.getType();
-    //   if (entityType.indexOf('UPDATE') < 0) {
-    //     return undefined;
-    //   }
-    //   switch (entityType) {
-    //     case 'UPDATE':
-    //       return {
-    //         element: 'div',
-    //         attributes: { // store date as string in data attr to be unpacked later ಠ_ಠ
-    //           'data-updated-date': entityData.updatedDate.toISOString(),
-    //         },
-    //       };
-    //     case 'UPDATE-LINK':
-    //       return {
-    //         element: 'a',
-    //         attributes: {
-    //           rel: entityData.rel,
-    //           target: entityData.target,
-    //           href: entityData.url,
-    //           'data-updated-date': entityData.updatedDate.toISOString(),
-    //         },
-    //       };
-    //     default:
-    //       return undefined;
-    //   }
-    // },
     inlineStyles: {
       HIGHLIGHT: {
         element: 'span',
@@ -88,50 +56,6 @@ export default (editorState) => {
 
   const draftJsBlocks = contentState.getBlocksAsArray();
   const indexOffsets = getIndexOffsets(draftJsBlocks);
-
-  // const draftJsBlocks = contentState.getBlocksAsArray();
-  // let currentIndex = 0;
-  // let previousBlockWasAList = false;
-  // const indexOffsets = draftJsBlocks.reduce((acc, cur) => {
-  //   // have to figure out how many list blocks there are so later if/when we apply updated_date we
-  //   // can get the correct one
-  //   if (!isBlockAList(cur)) {
-  //     if (previousBlockWasAList) {
-  //       currentIndex += 1;
-  //     }
-  //     previousBlockWasAList = false;
-  //     acc[currentIndex] = isUndefined(acc[currentIndex - 1]) ? 0 : acc[currentIndex - 1];
-  //     currentIndex += 1;
-  //     return acc;
-  //   }
-  //   previousBlockWasAList = true;
-  //   const previousValue = isUndefined(acc[currentIndex - 1]) ? 0 : acc[currentIndex - 1];
-  //   acc[currentIndex] = isUndefined(acc[currentIndex]) ? previousValue : acc[currentIndex] + 1;
-  //   return acc;
-  // }, []);
-
-  // for (let i = 0; i < draftJsBlocks.length; i += 1) {
-  //   const block = draftJsBlocks[i];
-  //   if (block.getType() === 'unstyled') {
-  //     debugger;
-  //   }
-  // }
-
-  // const draftJsBlocks = contentState.getBlocksAsArray();
-
-  // for (let i = 0; i < draftJsBlocks.length; i += 1) {
-  //   const block = draftJsBlocks[i];
-  //   if (block.getType() === 'atomic') {
-  //     const atomicBlockEntityKey = block.getEntityAt(0);
-  //     if (!atomicBlockEntityKey) {
-  //       break;
-  //     }
-  //     const atomicBlockEntity = contentState.getEntity(atomicBlockEntityKey);
-  //     const { curie } = atomicBlockEntity.getData().block.schema().getCurie();
-  //     // replace placeholder with actual canvasBlock
-  //     blocks[blocks.indexOf(curie)] = atomicBlockEntity.getData().block;
-  //   }
-  // }
 
   const filteredNodeBlocks = blocks
     // remove "newlines" and empty p tags
@@ -196,26 +120,5 @@ export default (editorState) => {
           .set('updated_date', canvasBlock.get('updated_date'));
       }
       return TextBlockV1Mixin.findOne().createMessage().set('text', block);
-      // const dblocks = draftJsBlocks;
-      // debugger;
-      // // anything here that is not already a block should become a text block
-      // if (!UPDATED_DATE_ATTR.test(block)) {
-      //   return TextBlockV1Mixin.findOne().createMessage().set('text', block);
-      // }
-      // const dateString = block
-      //   .match(UPDATED_DATE_ATTR)[0]
-      //   .replace(/(data-updated-date=|")/g, '');
-      // const originalBlockText = block
-      //   .replace(/data-updated-date=".+?"/g, '')
-      //   .replace(/((\s)|(&nbsp;))+<\/div><\/p>$/, '</p>')
-      //   .replace(/(<div.+?>|<\/div>)/g, '')
-      //   .replace(/(<br>)+/g, '<br>')
-      //   .replace(/<li><br><\/li>/g, '')
-      //   .replace(/<br><\/p>/g, '</p>')
-      //   .replace(/<p><br>/g, '<p>');
-
-      // return TextBlockV1Mixin.findOne().createMessage()
-      //   .set('text', originalBlockText)
-      //   .set('updated_date', moment(dateString, moment.ISO_8601).toDate());
     });
 };
