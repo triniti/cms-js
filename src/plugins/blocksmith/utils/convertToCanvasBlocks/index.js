@@ -5,7 +5,8 @@ import Message from '@gdbots/pbj/Message';
 import moment from 'moment';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
-import isBlockAList from './isBlockAList';
+import isBlockAList from '../isBlockAList';
+import getIndexOffsets from './getIndexOffsets';
 
 const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;
 const UPDATED_DATE_ATTR = /data-updated-date=".+?"/;
@@ -86,25 +87,7 @@ export default (editorState) => {
     }, []);
 
   const draftJsBlocks = contentState.getBlocksAsArray();
-  let currentOffset = 0;
-  let previousType = null;
-  const indexOffsets = draftJsBlocks.reduce((acc, cur) => {
-    // have to figure out how many list blocks there are so later if/when we apply updated_date we
-    // can get the correct one and its data payload
-    if (!isBlockAList(cur)) {
-      acc.push(currentOffset);
-      return acc;
-    }
-    if (previousType === cur.getType()) {
-      currentOffset += 1;
-      return acc;
-    }
-    if (previousType !== null) {
-      acc.push(currentOffset);
-    }
-    previousType = cur.getType();
-    return acc;
-  }, []);
+  const indexOffsets = getIndexOffsets(draftJsBlocks);
 
   // const draftJsBlocks = contentState.getBlocksAsArray();
   // let currentIndex = 0;
