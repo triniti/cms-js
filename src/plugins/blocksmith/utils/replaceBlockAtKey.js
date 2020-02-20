@@ -4,6 +4,7 @@ import {
   ContentState,
 } from 'draft-js';
 import { List, Map } from 'immutable';
+import { blockTypes } from '../constants';
 import areKeysSame from './areKeysSame';
 import getEntityKey from './getEntityKey';
 import normalizeKey from './normalizeKey';
@@ -37,7 +38,7 @@ export default (contentState, canvasBlock, key) => {
     data: new Map({ canvasBlock }),
     key: normalizeKey(key),
     text: ' ',
-    type: 'atomic',
+    type: blockTypes.ATOMIC,
   });
   const blocksAsArray = newContentState.getBlocksAsArray();
   const newBlocksAsArray = blocksAsArray.map((block) => {

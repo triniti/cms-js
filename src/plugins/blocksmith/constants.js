@@ -22,3 +22,10 @@ export const pbjxChannelNames = {
   POLL_SEARCH: t('pollSearch'),
   VIDEO_SEARCH: t('videoSearch'),
 };
+
+export const blockTypes = {
+  ATOMIC: 'atomic',
+  ORDERED_LIST_ITEM: 'ordered-list-item',
+  UNORDERED_LIST_ITEM: 'unordered-list-item',
+  UNSTYLED: 'unstyled',
+};

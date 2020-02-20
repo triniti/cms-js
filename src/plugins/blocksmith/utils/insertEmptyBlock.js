@@ -4,6 +4,7 @@ import {
   genKey,
 } from 'draft-js';
 import { List } from 'immutable';
+import { blockTypes } from '../constants';
 import constants from '../components/blocksmith/constants';
 import getBlockForKey from './getBlockForKey';
 import getListBlockNodes from './getListBlockNodes';
@@ -27,7 +28,7 @@ export default (contentState, key, position, newBlockKey = genKey()) => {
   }
   const emptyBlock = new ContentBlock({
     key: normalizeKey(newBlockKey),
-    type: 'unstyled',
+    type: blockTypes.UNSTYLED,
     text: '',
     characterList: new List([]),
   });

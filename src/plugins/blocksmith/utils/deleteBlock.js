@@ -1,4 +1,5 @@
 import { ContentState, EditorState } from 'draft-js';
+import { blockTypes } from '../constants';
 import deleteListBlock from './deleteListBlock';
 import findBlock from './findBlock';
 
@@ -15,8 +16,8 @@ export default (contentState, id) => {
   const block = findBlock(contentState, id);
   let newContentState;
   switch (block.getType()) {
-    case 'atomic':
-    case 'unstyled':
+    case blockTypes.ATOMIC:
+    case blockTypes.UNSTYLED:
       newContentState = ContentState.createFromBlockArray(
         contentState.getBlocksAsArray().filter((b) => b !== block),
         contentState.getEntityMap(),
@@ -30,8 +31,8 @@ export default (contentState, id) => {
         );
       }
       break;
-    case 'ordered-list-item':
-    case 'unordered-list-item':
+    case blockTypes.ORDERED_LIST_ITEM:
+    case blockTypes.UNORDERED_LIST_ITEM:
       newContentState = deleteListBlock(contentState, block.getKey());
       break;
     default:

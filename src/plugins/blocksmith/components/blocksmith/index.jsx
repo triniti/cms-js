@@ -1,6 +1,6 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
-
+f
 import { Map } from 'immutable';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -47,6 +47,7 @@ import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontro
 import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
 import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
 
+import { blockTypes } from '../../constants';
 import decorators from './decorators';
 import customStyleMap from './customStyleMap';
 import constants from './constants';
@@ -361,8 +362,8 @@ class Blocksmith extends React.Component {
     let finalListBlockBounds;
     if (isHoverInsertMode) {
       switch (activeBlock.getType()) {
-        case 'ordered-list-item':
-        case 'unordered-list-item':
+        case blockTypes.ORDERED_LIST_ITEM:
+        case blockTypes.UNORDERED_LIST_ITEM:
           listBlockNodes = getListBlockNodes(contentState, activeBlock);
           finalListBlockNode = listBlockNodes[listBlockNodes.length - 1];
           finalListBlockBounds = finalListBlockNode.getBoundingClientRect();
@@ -511,7 +512,7 @@ class Blocksmith extends React.Component {
   blockRendererFn(block) {
     const { editorState, readOnly } = this.state;
     switch (block.getType()) {
-      case 'atomic': {
+      case blockTypes.ATOMIC: {
         const canvasBlock = block.getData().get('canvasBlock');
         if (!canvasBlock) {
           return null;
@@ -524,7 +525,7 @@ class Blocksmith extends React.Component {
           },
         };
       }
-      case 'unstyled':
+      case blockTypes.UNSTYLED:
         return {
           component: DraggableTextBlock,
           contentEditable: !readOnly,
@@ -532,8 +533,8 @@ class Blocksmith extends React.Component {
             getReadOnly: this.getReadOnly,
           },
         };
-      case 'ordered-list-item':
-      case 'unordered-list-item':
+      case blockTypes.ORDERED_LIST_ITEM:
+      case blockTypes.UNORDERED_LIST_ITEM:
         return {
           component: ListBlockWrapper,
           contentEditable: !readOnly,
@@ -553,10 +554,10 @@ class Blocksmith extends React.Component {
   // currently being styled via dom drilling in styles.scss
   blockStyleFn(block) {
     switch (block.getType()) {
-      case 'unstyled':
+      case blockTypes.UNSTYLED:
         return 'text-block';
-      case 'ordered-list-item':
-      case 'unordered-list-item':
+      case blockTypes.ORDERED_LIST_ITEM:
+      case blockTypes.UNORDERED_LIST_ITEM:
         return 'list-block';
       default:
         return null;
@@ -785,7 +786,7 @@ class Blocksmith extends React.Component {
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
 
     let canvasBlock;
-    if (draftJsBlock.getType() === 'atomic') {
+    if (draftJsBlock.getType() === blockTypes.ATOMIC) {
       canvasBlock = draftJsBlock.getData().get('canvasBlock');
     } else {
       canvasBlock = TextBlockV1Mixin.findOne().createMessage().set('updated_date', moment().toDate());
@@ -901,7 +902,7 @@ class Blocksmith extends React.Component {
       case constants.DOUBLE_ENTER_ON_LIST: {
         const selectionState = editorState.getSelection();
         let newContentState = editorState.getCurrentContent();
-        newContentState = Modifier.setBlockType(newContentState, selectionState, 'unstyled');
+        newContentState = Modifier.setBlockType(newContentState, selectionState, blockTypes.UNSTYLED);
         const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
         this.setState({
           editorState: newEditorState,
@@ -983,9 +984,9 @@ class Blocksmith extends React.Component {
           && selectionState.getAnchorOffset() === 0
           && selectionState.getFocusOffset() === 0
         ) {
-          if (previousBlock.getType() === 'atomic') {
+          if (previousBlock.getType() === blockTypes.ATOMIC) {
             e.preventDefault(); // would be going "into" an atomic block
-          } else if (previousBlock.getType() === 'unstyled') {
+          } else if (previousBlock.getType() === blockTypes.UNSTYLED) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
@@ -1004,9 +1005,9 @@ class Blocksmith extends React.Component {
           && selectionState.getAnchorOffset() === currentBlock.getText().length
           && selectionState.getFocusOffset() === currentBlock.getText().length
         ) {
-          if (nextBlock.getType() === 'atomic') {
+          if (nextBlock.getType() === blockTypes.ATOMIC) {
             e.preventDefault(); // would be going "into" an atomic block
-          } else if (nextBlock.getType() === 'unstyled') {
+          } else if (nextBlock.getType() === blockTypes.UNSTYLED) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
@@ -1020,7 +1021,7 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        areRestOfBlocksAtomic = !blocksAsArray.slice(currentBlockIndex + 1, blocksAsArray.length).find((b) => b.getType() !== 'atomic');
+        areRestOfBlocksAtomic = !blocksAsArray.slice(currentBlockIndex + 1, blocksAsArray.length).find((b) => b.getType() !== blockTypes.ATOMIC);
         if (
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
@@ -1029,7 +1030,7 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowUp':
-        areRestOfBlocksAtomic = !blocksAsArray.slice(0, currentBlockIndex).find((b) => b.getType() !== 'atomic');
+        areRestOfBlocksAtomic = !blocksAsArray.slice(0, currentBlockIndex).find((b) => b.getType() !== blockTypes.ATOMIC);
         if (
           (!previousBlock || areRestOfBlocksAtomic)
           && isOnFirstLineOfBlock(editorState)

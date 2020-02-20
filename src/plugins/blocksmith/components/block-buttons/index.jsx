@@ -9,6 +9,7 @@ import PasteButton from '@triniti/cms/plugins/blocksmith/components/paste-block-
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import ReorderButtons from '@triniti/cms/plugins/blocksmith/components/reorder-block-buttons';
+import { blockTypes } from '../../constants';
 import { getBlockForKey, isBlockEmpty } from '../../utils';
 
 export default class BlockButtons extends React.Component {
@@ -122,7 +123,7 @@ export default class BlockButtons extends React.Component {
     if (activeBlock) {
       const type = activeBlock.getType();
       isEmpty = isBlockEmpty(activeBlock);
-      showCopyButton = type === 'atomic';
+      showCopyButton = type === blockTypes.ATOMIC;
       showCharacterButton = type.match(/(unstyled|(un)?ordered-list-item)/);
 
       if (showCopyButton && copiedBlock) {

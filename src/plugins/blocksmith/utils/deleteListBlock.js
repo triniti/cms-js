@@ -1,6 +1,7 @@
 import { genKey, ContentBlock, ContentState } from 'draft-js';
 import { List, Map } from 'immutable';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
+import { blockTypes } from '../constants';
 import getListBlocks from './getListBlocks';
 
 /**
@@ -33,7 +34,7 @@ export default (contentState, id) => {
         data: new Map({ canvasBlock: TextBlockV1Mixin.findOne().createMessage() }),
         key: genKey(),
         text: '',
-        type: 'unstyled',
+        type: blockTypes.UNSTYLED,
       }),
     ],
     newContentState.getEntityMap(),

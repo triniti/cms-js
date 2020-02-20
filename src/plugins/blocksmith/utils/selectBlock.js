@@ -1,7 +1,5 @@
-import {
-  EditorState,
-  SelectionState,
-} from 'draft-js';
+import { EditorState, SelectionState } from 'draft-js';
+import { blockTypes } from '../constants';
 import findBlock from './findBlock';
 import getBlockForKey from './getBlockForKey';
 import getBlockNode from './getBlockNode';
@@ -55,7 +53,7 @@ export default (editorState, id, position = 'all') => {
       default:
         break;
     }
-  } else if (blockToSelect.getType() === 'atomic') {
+  } else if (blockToSelect.getType() === blockTypes.ATOMIC) {
     // set the native selection to the node so the caret is not in the text and
     // the selectionState matches the native selection
     // taken from https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-focus-plugin/src/modifiers/setSelection.js

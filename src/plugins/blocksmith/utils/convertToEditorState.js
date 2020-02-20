@@ -7,6 +7,7 @@ import {
   genKey,
 } from 'draft-js';
 import { List, Map } from 'immutable';
+import { blockTypes } from '../constants';
 import isBlockAList from './isBlockAList';
 import getEntityKey from './getEntityKey';
 import attachImmutableEntitiesToEmojis from './attachImmutableEntitiesToEmojis';
@@ -166,7 +167,7 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
   // that behavior may cause extreme pain in the future.
   listContentBlocks.forEach((contentBlock, index) => {
     let html;
-    if (contentBlock.getType() === 'ordered-list-item') {
+    if (contentBlock.getType() === blockTypes.ORDERED_LIST_ITEM) {
       html = `<ol>${listItems[index]}</ol>`;
     } else {
       html = `<ul>${listItems[index]}</ul>`;
@@ -307,7 +308,7 @@ function convertNonTextBlock(canvasBlock, contentState) {
       data: new Map({ canvasBlock }),
       key: genKey(),
       text: ' ',
-      type: 'atomic',
+      type: blockTypes.ATOMIC,
     }),
     newContentState,
   };
