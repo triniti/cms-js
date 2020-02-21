@@ -3,7 +3,7 @@ import { blockTypes } from '../constants';
 import findBlock from './findBlock';
 import getBlockForKey from './getBlockForKey';
 import getBlockNode from './getBlockNode';
-import getListBlockNodes from './getListBlockNodes';
+import getListBlocks from './getListBlocks';
 import isBlockAList from './isBlockAList';
 
 /**
@@ -28,9 +28,9 @@ export default (editorState, id, position = 'all') => {
   let focusOffset = position === 'start' ? 0 : blockToSelect.getText().length;
 
   if (isBlockAList(blockToSelect)) {
-    const listBlockNodes = getListBlockNodes(contentState, blockToSelect);
-    const firstListBlock = getBlockForKey(contentState, listBlockNodes[0].getAttribute('data-offset-key'));
-    const lastListBlock = getBlockForKey(contentState, listBlockNodes[listBlockNodes.length - 1].getAttribute('data-offset-key'));
+    const listBlocks = getListBlocks(contentState, blockToSelect);
+    const firstListBlock = getBlockForKey(contentState, listBlocks[0].getKey());
+    const lastListBlock = getBlockForKey(contentState, listBlocks[listBlocks.length - 1].getKey());
     switch (position) {
       case 'all':
         anchorKey = firstListBlock.getKey();
@@ -47,8 +47,8 @@ export default (editorState, id, position = 'all') => {
       case 'end':
         anchorKey = lastListBlock.getKey();
         focusKey = lastListBlock.getKey();
-        anchorOffset = lastListBlock.getKey().length;
-        focusOffset = lastListBlock.getKey().length;
+        anchorOffset = lastListBlock.getText().length;
+        focusOffset = lastListBlock.getText().length;
         break;
       default:
         break;

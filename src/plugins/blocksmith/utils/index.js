@@ -2,6 +2,7 @@
 
 import { handleDragEnd as handleDragEndFn, handleDragStart as handleDragStartFn } from './handleDrag';
 import addEmojiFn from './addEmoji';
+import areAllBlocksSelectedFn from './areAllBlocksSelected';
 import areKeysSameFn from './areKeysSame';
 import attachImmutableEntitiesToEmojisFn from './attachImmutableEntitiesToEmojis';
 import blockParentNodeUtil from './blockParentNode';
@@ -41,6 +42,7 @@ import styleDragTargetFn from './styleDragTarget';
 import updateBlocksFn from './updateBlocks';
 
 export const addEmoji = addEmojiFn;
+export const areAllBlocksSelected = areAllBlocksSelectedFn;
 export const areKeysSame = areKeysSameFn;
 export const attachImmutableEntitiesToEmojis = attachImmutableEntitiesToEmojisFn;
 export const blockParentNode = blockParentNodeUtil;

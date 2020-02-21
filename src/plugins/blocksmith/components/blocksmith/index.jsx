@@ -55,6 +55,7 @@ import delegateFactory from './delegate';
 import selector from './selector';
 import {
   addEmoji,
+  areAllBlocksSelected,
   areKeysSame,
   blockParentNode,
   convertToEditorState,
@@ -1277,7 +1278,6 @@ class Blocksmith extends React.Component {
 
   /**
    * Custom key bindings.
-   * Case 'Enter' allows breaking out of a list after pressing enter on an empty list item.
    *
    * @link https://draftjs.org/docs/advanced-topics-key-bindings
    *
@@ -1289,6 +1289,11 @@ class Blocksmith extends React.Component {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
+    console.log('here', e.key);
+    if (e.key === 'Backspace') {
+      console.log('here', areAllBlocksSelected(editorState));
+      debugger;
+    }
     // if nothing is selected
     if (selectionState.getAnchorOffset() === selectionState.getFocusOffset()) {
       const currentBlock = getBlockForKey(contentState, selectionState.getAnchorKey());
