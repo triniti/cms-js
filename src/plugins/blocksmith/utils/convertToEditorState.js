@@ -129,34 +129,29 @@ function getListItems(canvasBlockText) {
  */
 function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listItems) {
   const contentBlocks = [];
-  let newContentState = contentState;
+  const newContentState = contentState;
   // you have to split out each list item as if it were the only list item in its list and
   // apply styles that way. if you don't you will surely regret it. because the style will
   // bleed into the list items that come after. fortunately draft will combine them, although
   // that behavior may cause extreme pain in the future.
-  listContentBlocks.forEach((contentBlock, index) => {
+  listContentBlocks.forEach((listContentBlock, index) => {
     let html;
-    if (contentBlock.getType() === blockTypes.ORDERED_LIST_ITEM) {
+    if (listContentBlock.getType() === blockTypes.ORDERED_LIST_ITEM) {
       html = `<ol>${listItems[index]}</ol>`;
     } else {
       html = `<ul>${listItems[index]}</ul>`;
     }
     const block = convertFromHTML(html).contentBlocks[0];
-    const cb = canvasBlock.get('text').match(SPAN_END_REGEX)
+    const contentBlock = canvasBlock.get('text').match(SPAN_END_REGEX)
       ? getHighlightedTextBlock(listItems[index], block)
       : block;
-    const updatedDateState = {
-      contentBlock: new ContentBlock({
-        characterList: cb.getCharacterList(),
-        data: new Map({ canvasBlock }),
-        key: genKey(),
-        text: cb.getText(),
-        type: cb.getType(),
-      }),
-      newContentState,
-    };
-    newContentState = updatedDateState.newContentState;
-    contentBlocks.push(updatedDateState.contentBlock);
+    contentBlocks.push(new ContentBlock({
+      characterList: contentBlock.getCharacterList(),
+      data: new Map({ canvasBlock }),
+      key: genKey(),
+      text: contentBlock.getText(),
+      type: contentBlock.getType(),
+    }));
   });
   return {
     contentBlocks,
@@ -175,7 +170,6 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
  *
  * @returns
  * {
- *  contentBlock,
  *  contentBlocks,
  *  newContentState
  * }
@@ -185,7 +179,6 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
 function convertTextBlock(canvasBlock, contentState) {
   let newContentState = contentState;
   const canvasBlockText = canvasBlock.get('text');
-  let contentBlock;
   let converted;
   const contentBlocks = [];
   const listContentBlocks = []; // of type 'ordered-list-item' or 'unordered-list-item'
@@ -193,21 +186,16 @@ function convertTextBlock(canvasBlock, contentState) {
     if (isBlockAList(block)) {
       listContentBlocks.push(block);
     } else {
-      const cb = canvasBlockText.match(SPAN_END_REGEX)
+      const contentBlock = canvasBlockText.match(SPAN_END_REGEX)
         ? getHighlightedTextBlock(canvasBlockText, block)
         : block;
-      const updatedDateState = {
-        contentBlock: new ContentBlock({
-          characterList: cb.getCharacterList(),
-          data: new Map({ canvasBlock }),
-          key: genKey(),
-          text: cb.getText(),
-          type: cb.getType(),
-        }),
-        newContentState,
-      };
-      newContentState = updatedDateState.newContentState;
-      contentBlocks.push(updatedDateState.contentBlock);
+      contentBlocks.push(new ContentBlock({
+        characterList: contentBlock.getCharacterList(),
+        data: new Map({ canvasBlock }),
+        key: genKey(),
+        text: contentBlock.getText(),
+        type: contentBlock.getType(),
+      }));
     }
   });
   if (listContentBlocks.length) {
@@ -223,7 +211,6 @@ function convertTextBlock(canvasBlock, contentState) {
     newContentState = converted.newContentState;
   }
   return {
-    contentBlock,
     contentBlocks,
     newContentState,
   };
@@ -284,9 +271,6 @@ export default function (canvasBlocks, decorator = null) {
     switch (canvasBlock.schema().getQName().getMessage()) {
       case 'text-block':
         converted = convertTextBlock(canvasBlock, contentState);
-        if (converted.contentBlock) {
-          masterContentBlocks.push(converted.contentBlock);
-        }
         if (converted.contentBlocks.length) {
           masterContentBlocks.push(...converted.contentBlocks);
         }
