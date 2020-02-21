@@ -69,9 +69,9 @@ export default class IframeBlockModal extends React.Component {
       align: block.get('align'),
       data: block.get('data') || {},
       hasManualDimensions: block.has('height') || block.has('width'),
-      hasScrollingEnabled: false,
       hasUpdatedDate: block.has('updated_date'),
       height: block.has('height') ? Number(block.get('height').replace('px', '')) : null,
+      scrollingEnabled: block.get('scrolling_enabled'),
       src: block.get('src'),
       updatedDate: block.get('updated_date', new Date()),
       width: block.has('width') ? Number(block.get('width').replace('px', '')) : null,
@@ -99,7 +99,7 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
-      hasScrollingEnabled,
+      scrollingEnabled,
       hasUpdatedDate,
       height,
       src,
@@ -110,7 +110,7 @@ export default class IframeBlockModal extends React.Component {
     const setBlock = block.schema().createMessage()
       .set('align', align || null)
       .set('height', hasManualDimensions && height ? `${height}px` : null)
-      .set('scrolling_enabled', hasScrollingEnabled)
+      .set('scrolling_enabled', scrollingEnabled)
       .set('src', src || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('width', hasManualDimensions && width ? `${width}px` : null);
@@ -238,7 +238,7 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
-      hasScrollingEnabled,
+      scrollingEnabled,
       hasUpdatedDate,
       height,
       src,
@@ -330,7 +330,7 @@ export default class IframeBlockModal extends React.Component {
                 )}
             </FormGroup>
             <FormGroup className="mr-4">
-              <Checkbox id="hasScrollingEnabled" size="sd" checked={hasScrollingEnabled} onChange={this.handleChangeCheckbox}>
+              <Checkbox id="scrollingEnabled" size="sd" checked={scrollingEnabled} onChange={this.handleChangeCheckbox}>
                 Scrolling
               </Checkbox>
             </FormGroup>
