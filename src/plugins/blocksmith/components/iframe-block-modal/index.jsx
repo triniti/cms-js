@@ -68,7 +68,8 @@ export default class IframeBlockModal extends React.Component {
     this.state = {
       align: block.get('align'),
       data: block.get('data') || {},
-      hasManualDimensions: block.has('height') && block.has('width'),
+      hasManualDimensions: block.has('height') || block.has('width'),
+      hasScrollingEnabled: false,
       hasUpdatedDate: block.has('updated_date'),
       height: block.has('height') ? Number(block.get('height').replace('px', '')) : null,
       src: block.get('src'),
@@ -98,6 +99,7 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
+      hasScrollingEnabled,
       hasUpdatedDate,
       height,
       src,
@@ -108,6 +110,7 @@ export default class IframeBlockModal extends React.Component {
     const setBlock = block.schema().createMessage()
       .set('align', align || null)
       .set('height', hasManualDimensions && height ? `${height}px` : null)
+      .set('scrolling_enabled', hasScrollingEnabled)
       .set('src', src || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('width', hasManualDimensions && width ? `${width}px` : null);
@@ -235,6 +238,7 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
+      hasScrollingEnabled,
       hasUpdatedDate,
       height,
       src,
@@ -324,6 +328,11 @@ export default class IframeBlockModal extends React.Component {
                     />
                   </>
                 )}
+            </FormGroup>
+            <FormGroup className="mr-4">
+              <Checkbox id="hasScrollingEnabled" size="sd" checked={hasScrollingEnabled} onChange={this.handleChangeCheckbox}>
+                Scrolling
+              </Checkbox>
             </FormGroup>
             <FormGroup className="mr-4">
               <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
