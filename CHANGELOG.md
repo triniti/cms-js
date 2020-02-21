@@ -2,6 +2,9 @@
 
 
 ## vN.N.N
+* Remove blocksmith focus plugin and related code
+* Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
+* Image Block modal first cancel button does not cancel
 * Iframe block doesn't properly show height/width when set, add scrolling checkbox
 
 
