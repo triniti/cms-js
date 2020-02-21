@@ -1,6 +1,8 @@
 import isEqual from 'lodash/isEqual';
 import { entityTypes, mutabilityTypes } from '../constants';
 
+const MUTABILITY_TYPES = Object.values(mutabilityTypes);
+
 /**
  * Util for getting entity keys for data payloads. When one does not already exist, one
  * is created. This is useful because each character in a ContentBlock has to be individually
@@ -12,9 +14,6 @@ import { entityTypes, mutabilityTypes } from '../constants';
  *
  * @returns {string}
  */
-
-const MUTABILITY_TYPES = Object.values(mutabilityTypes);
-
 export default (contentState, entity) => {
   const { type, mutability, data } = entity;
   if (!type) {

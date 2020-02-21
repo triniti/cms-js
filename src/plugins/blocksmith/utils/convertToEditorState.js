@@ -22,6 +22,7 @@ const SPAN_START = '<span class="highlight-text">';
 const SPAN_START_REGEX = new RegExp(SPAN_START, 'g');
 const START_A_TAG_REGEX = /<a.+?>/g;
 const TAG_REGEX = /<\/?(p|strong|del|em|ul?|ol|li)>/g;
+const LINK_TAG_REGEX = /<\/?(?:o|u)l>/g;
 
 const getNumberOfSpans = (text) => (text.match(SPAN_START_REGEX) || []).length;
 
@@ -32,7 +33,6 @@ const getNumberOfSpans = (text) => (text.match(SPAN_START_REGEX) || []).length;
  *
  * @returns {string} - The text with the unwanted tags removed.
  */
-
 function stripTags(text) {
   return text.replace(TAG_REGEX, '').replace(START_A_TAG_REGEX, '').replace(END_A_TAG_REGEX, '');
 }
@@ -49,7 +49,6 @@ function stripTags(text) {
  * @returns {contentBlock} - The provided ContentBlock, but now with an inline style
  *                           'HIGHLIGHT' applied where expected.
  */
-
 function getHighlightedTextBlock(canvasBlockText, contentBlock) {
   let highlightContentBlock = contentBlock;
   let contentBlockText = highlightContentBlock.getText();
@@ -67,7 +66,10 @@ function getHighlightedTextBlock(canvasBlockText, contentBlock) {
       existingCharacterMetadata = highlightContentBlock.getCharacterList().get(j);
       if (j >= startPoint && j < endPoint) {
         // merge character's existing style with our highlight style (eg BOLD, ITALIC)
-        listArray[j] = CharacterMetadata.applyStyle(existingCharacterMetadata, inlineStyleTypes.HIGHLIGHT);
+        listArray[j] = CharacterMetadata.applyStyle(
+          existingCharacterMetadata,
+          inlineStyleTypes.HIGHLIGHT,
+        );
       } else {
         listArray[j] = existingCharacterMetadata;
       }
@@ -94,9 +96,8 @@ function getHighlightedTextBlock(canvasBlockText, contentBlock) {
  *
  * @returns {string[]} - Each individual li tag from the provided ul/ol tag string.
  */
-
 function getListItems(canvasBlockText) {
-  let formattingText = canvasBlockText.replace(new RegExp('</?(o|u)l>', 'g'), '');
+  let formattingText = canvasBlockText.replace(LINK_TAG_REGEX, '');
   let listItem;
   const listItems = [];
   while (formattingText.length) {
@@ -106,37 +107,6 @@ function getListItems(canvasBlockText) {
   }
   return listItems;
 }
-
-/**
- * Takes an existing ContentBlock and recreates it as a new ContentBlock with an entity that
- * contains the updated_date value from the source canvasBlock.
- *
- * @param {Object}       canvasBlock  - A triniti canvas block.
- * @param {ContentState} contentState - A Draft.js ContentState object.
- * @param {ContentBlock} contentBlock - A Draft.js ContentBlock object.
- *
- * @returns
- * {
- *  contentBlock,
- *  newContentState
- * }
- * - The newly created ContentBlock and the newContentState (which contains the newly created
- *   entity for said ContentBlock).
- */
-
-// function applyUpdatedDateEntity(canvasBlock, contentState, contentBlock) {
-//   const newContentState = contentState;
-//   return {
-//     contentBlock: new ContentBlock({
-//       characterList: contentBlock.getCharacterList(),
-//       data: new Map({ canvasBlock }),
-//       key: genKey(),
-//       text: contentBlock.getText(),
-//       type: contentBlock.getType(),
-//     }),
-//     newContentState,
-//   };
-// }
 
 /**
  * Converts to ContentBlocks of type 'ordered-list-item' or 'unordered-list-item'. This is a
@@ -157,7 +127,6 @@ function getListItems(canvasBlockText) {
  * - The newly created ContentBlocks and the newContentState (which contains the newly created
  *   entity for said ContentBlocks).
  */
-
 function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listItems) {
   const contentBlocks = [];
   let newContentState = contentState;
@@ -186,13 +155,6 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
       }),
       newContentState,
     };
-    // const updatedDateState = applyUpdatedDateEntity(
-    //   canvasBlock,
-    //   newContentState,
-    //   canvasBlock.get('text').match(spanEndMatch)
-    //     ? getHighlightedTextBlock(listItems[index], block)
-    //     : block,
-    // );
     newContentState = updatedDateState.newContentState;
     contentBlocks.push(updatedDateState.contentBlock);
   });
@@ -220,7 +182,6 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
  * - The newly created ContentBlock(s) and the newContentState (which contains the newly created
  *   entity(s) for said ContentBlocks).
  */
-
 function convertTextBlock(canvasBlock, contentState) {
   let newContentState = contentState;
   const canvasBlockText = canvasBlock.get('text');
@@ -229,7 +190,9 @@ function convertTextBlock(canvasBlock, contentState) {
   const contentBlocks = [];
   const listContentBlocks = []; // of type 'ordered-list-item' or 'unordered-list-item'
   (convertFromHTML(canvasBlockText).contentBlocks || []).forEach((block) => {
-    if (!isBlockAList(block)) {
+    if (isBlockAList(block)) {
+      listContentBlocks.push(block);
+    } else {
       const cb = canvasBlockText.match(SPAN_END_REGEX)
         ? getHighlightedTextBlock(canvasBlockText, block)
         : block;
@@ -243,19 +206,8 @@ function convertTextBlock(canvasBlock, contentState) {
         }),
         newContentState,
       };
-      // hey alright it's just a bit of text with a span, this isn't too bad
-      // const updatedDateState = applyUpdatedDateEntity(
-      //   canvasBlock,
-      //   newContentState,
-      //   canvasBlockText.match(spanEndMatch)
-      //     ? getHighlightedTextBlock(canvasBlockText, block)
-      //     : block,
-      // );
       newContentState = updatedDateState.newContentState;
       contentBlocks.push(updatedDateState.contentBlock);
-    } else {
-      // oh noes...
-      listContentBlocks.push(block);
     }
   });
   if (listContentBlocks.length) {
@@ -292,7 +244,6 @@ function convertTextBlock(canvasBlock, contentState) {
  * - The newly created ContentBlock and the newContentState (which contains the newly created entity
  *   for said ContentBlock).
  */
-
 function convertNonTextBlock(canvasBlock, contentState) {
   const { entityKey, newContentState } = getEntityKey(contentState, {
     type: canvasBlock.schema().getQName().getMessage(),
@@ -325,7 +276,6 @@ function convertNonTextBlock(canvasBlock, contentState) {
  *
  * @returns {EditorState} a Draft.js EditorState instance to be used in Blocksmith.
  */
-
 export default function (canvasBlocks, decorator = null) {
   const editorState = EditorState.createEmpty();
   let contentState = editorState.getCurrentContent();
