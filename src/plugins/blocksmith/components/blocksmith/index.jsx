@@ -81,6 +81,7 @@ import {
   removeLinkAtSelection,
   replaceBlockAtKey,
   selectBlock,
+  selectBlockSelectionTypes,
   shiftBlock,
   sidebar,
   styleDragTarget,
@@ -738,7 +739,7 @@ class Blocksmith extends React.Component {
     const newEditorState = selectBlock(
       EditorState.push(editorState, newContentState, 'move-block'),
       draggedBlockKey,
-      'end',
+      selectBlockSelectionTypes.END,
     );
     this.setState({
       editorState: newEditorState,
@@ -921,7 +922,7 @@ class Blocksmith extends React.Component {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
-              editorState: selectBlock(editorState, previousBlock, 'end'),
+              editorState: selectBlock(editorState, previousBlock, selectBlockSelectionTypes.END),
             });
           }
         }
@@ -942,7 +943,7 @@ class Blocksmith extends React.Component {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
-              editorState: selectBlock(editorState, nextBlock, 'start'),
+              editorState: selectBlock(editorState, nextBlock, selectBlockSelectionTypes.START),
             });
           }
         }

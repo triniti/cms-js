@@ -2,7 +2,7 @@
 
 import { Modifier, EditorState } from 'draft-js';
 import { entityTypes, mutabilityTypes } from '../constants';
-import selectBlock from './selectBlock';
+import selectBlock, { selectionTypes } from './selectBlock';
 
 /**
  * @param {EditorState}             editorState
@@ -16,7 +16,7 @@ export default (editorState, emoji, blockIdentifier = null) => {
   let originalSelectionState;
   if (blockIdentifier) {
     originalSelectionState = newEditorState.getSelection(); // save selection for later
-    newEditorState = selectBlock(newEditorState, blockIdentifier, 'end');
+    newEditorState = selectBlock(newEditorState, blockIdentifier, selectionTypes.END);
   }
   const contentState = newEditorState.getCurrentContent();
   const contentStateWithEntity = contentState.createEntity(entityTypes.EMOJI, mutabilityTypes.IMMUTABLE, { emoji });

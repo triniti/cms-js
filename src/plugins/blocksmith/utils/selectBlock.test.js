@@ -2,7 +2,7 @@ import { ContentBlock, ContentState, EditorState, genKey } from 'draft-js';
 import { List, Map } from 'immutable';
 import test from 'tape';
 import { blockTypes } from '../constants';
-import selectBlock from './selectBlock';
+import selectBlock, { selectionTypes } from './selectBlock';
 
 const generateRandomLengthString = () => {
   let text = '';
@@ -83,7 +83,7 @@ test('Blocksmith:util:selectBlock:unstyled', (t) => {
   t.equal(actual, expected, `after selecting ALL, the focusOffset should be ${expected}`);
 
 
-  editorState = selectBlock(editorState, key, 'start');
+  editorState = selectBlock(editorState, key, selectionTypes.START);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
   expected = key;
@@ -102,7 +102,7 @@ test('Blocksmith:util:selectBlock:unstyled', (t) => {
   t.equal(actual, expected, 'after selecting START, the focusOffset should be 0');
 
 
-  editorState = selectBlock(editorState, key, 'end');
+  editorState = selectBlock(editorState, key, selectionTypes.END);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
   expected = key;
@@ -211,7 +211,7 @@ test('Blocksmith:util:selectBlock:ordered-list-item', (t) => {
   t.equal(actual, expected, `after selecting ALL, the focusOffset should be ${expected}`);
 
 
-  editorState = selectBlock(editorState, keys[2], 'start');
+  editorState = selectBlock(editorState, keys[2], selectionTypes.START);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
   expected = keys[0];
@@ -230,7 +230,7 @@ test('Blocksmith:util:selectBlock:ordered-list-item', (t) => {
   t.equal(actual, expected, 'after selecting START, the focusOffset should be 0');
 
 
-  editorState = selectBlock(editorState, keys[0], 'end');
+  editorState = selectBlock(editorState, keys[0], selectionTypes.END);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
   expected = keys[2];

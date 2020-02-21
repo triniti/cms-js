@@ -6,45 +6,51 @@ import getBlockNode from './getBlockNode';
 import getListBlocks from './getListBlocks';
 import isBlockAList from './isBlockAList';
 
+export const selectionTypes = {
+  ALL: 'ALL',
+  END: 'END',
+  START: 'START',
+};
+
 /**
  * Selects a block, placing the cursor at the beginning, the end, or selecting the entire block.
  *
  * @param {EditorState} editorState   - a state instance of a DraftJs Editor
  * @param {(object|number|string)} id - a block, a block index, or a block key
- * @param {?string} position          - what to select/where to put the cursor. defaults to 'all'
+ * @param {?string} position          - what to select/where to put the cursor. defaults to 'ALL'
  *
  * @returns {EditorState} an EditorState instance
  */
 
-export default (editorState, id, position = 'all') => {
-  if (position !== 'start' && position !== 'end' && position !== 'all') {
-    throw new Error(`['${position}'] is not a valid position. Enter 'start', 'end', 'all', or omit to default to 'all'`);
+export default (editorState, id, position = selectionTypes.ALL) => {
+  if (!Object.values(selectionTypes).includes(position)) {
+    throw new Error(`['${position}'] is not a valid position. Enter ${selectionTypes.START}, ${selectionTypes.END}, ${selectionTypes.ALL}, or omit to default to ${selectionTypes.ALL}`);
   }
   const contentState = editorState.getCurrentContent();
   const blockToSelect = findBlock(contentState, id);
   let anchorKey = blockToSelect.getKey();
   let focusKey = blockToSelect.getKey();
-  let anchorOffset = position === 'end' ? blockToSelect.getText().length : 0;
-  let focusOffset = position === 'start' ? 0 : blockToSelect.getText().length;
+  let anchorOffset = position === selectionTypes.END ? blockToSelect.getText().length : 0;
+  let focusOffset = position === selectionTypes.START ? 0 : blockToSelect.getText().length;
 
   if (isBlockAList(blockToSelect)) {
     const listBlocks = getListBlocks(contentState, blockToSelect);
     const firstListBlock = getBlockForKey(contentState, listBlocks[0].getKey());
     const lastListBlock = getBlockForKey(contentState, listBlocks[listBlocks.length - 1].getKey());
     switch (position) {
-      case 'all':
+      case selectionTypes.ALL:
         anchorKey = firstListBlock.getKey();
         focusKey = lastListBlock.getKey();
         anchorOffset = 0;
         focusOffset = lastListBlock.getText().length;
         break;
-      case 'start':
+      case selectionTypes.START:
         anchorKey = firstListBlock.getKey();
         focusKey = firstListBlock.getKey();
         anchorOffset = 0;
         focusOffset = 0;
         break;
-      case 'end':
+      case selectionTypes.END:
         anchorKey = lastListBlock.getKey();
         focusKey = lastListBlock.getKey();
         anchorOffset = lastListBlock.getText().length;
