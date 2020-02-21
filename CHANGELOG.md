@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Iframe block doesn't properly show height/width when set, add scrolling checkbox
+
+
 ## v0.4.4
 * Pressing enter after you edit a slug saves a stale version.
 
