@@ -3,7 +3,7 @@ import isNumber from 'lodash/isNumber';
 import Message from '@gdbots/pbj/Message';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
-import { inlineStyleTypes } from '../../constants';
+import { inlineStyleTypes } from '../constants';
 import getIndexOffsets from './getIndexOffsets';
 
 const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';

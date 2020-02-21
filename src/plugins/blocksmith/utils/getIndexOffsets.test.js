@@ -1,7 +1,7 @@
 import test from 'tape';
 import { List, Map } from 'immutable';
 import { ContentBlock, ContentState, EditorState, genKey } from 'draft-js';
-import { blockTypes } from '../../constants';
+import { blockTypes } from '../constants';
 import getIndexOffsets from './getIndexOffsets';
 
 test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {

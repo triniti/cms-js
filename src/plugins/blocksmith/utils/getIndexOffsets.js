@@ -1,4 +1,4 @@
-import isBlockAList from '../isBlockAList';
+import isBlockAList from './isBlockAList';
 
 /**
  * Since our "list" blocks are a single canvas block, but draft treats them as separate
