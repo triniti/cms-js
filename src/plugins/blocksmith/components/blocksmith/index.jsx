@@ -909,6 +909,10 @@ class Blocksmith extends React.Component {
     const selectionState = editorState.getSelection();
     let areRestOfBlocksAtomic = false;
 
+    /**
+     * fixme: address left/right when on the first/last list item in a list block. it will just
+     * keep going back to the start/end of the same line
+     */
     switch (e.key) {
       case 'ArrowLeft':
         if (
@@ -918,7 +922,10 @@ class Blocksmith extends React.Component {
         ) {
           if (previousBlock.getType() === blockTypes.ATOMIC) {
             e.preventDefault(); // would be going "into" an atomic block
-          } else if (previousBlock.getType() === blockTypes.UNSTYLED) {
+          } else if (
+            previousBlock.getType() === blockTypes.UNSTYLED
+            || isBlockAList(previousBlock)
+          ) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
@@ -939,7 +946,7 @@ class Blocksmith extends React.Component {
         ) {
           if (nextBlock.getType() === blockTypes.ATOMIC) {
             e.preventDefault(); // would be going "into" an atomic block
-          } else if (nextBlock.getType() === blockTypes.UNSTYLED) {
+          } else if (nextBlock.getType() === blockTypes.UNSTYLED || isBlockAList(nextBlock)) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
@@ -953,7 +960,9 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        areRestOfBlocksAtomic = !blocksAsArray.slice(currentBlockIndex + 1, blocksAsArray.length).find((b) => b.getType() !== blockTypes.ATOMIC);
+        areRestOfBlocksAtomic = !blocksAsArray
+          .slice(currentBlockIndex + 1, blocksAsArray.length)
+          .find((b) => b.getType() !== blockTypes.ATOMIC);
         if (
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
@@ -962,7 +971,9 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowUp':
-        areRestOfBlocksAtomic = !blocksAsArray.slice(0, currentBlockIndex).find((b) => b.getType() !== blockTypes.ATOMIC);
+        areRestOfBlocksAtomic = !blocksAsArray
+          .slice(0, currentBlockIndex)
+          .find((b) => b.getType() !== blockTypes.ATOMIC);
         if (
           (!previousBlock || areRestOfBlocksAtomic)
           && isOnFirstLineOfBlock(editorState)
