@@ -7,7 +7,7 @@ import {
   genKey,
 } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes } from '../constants';
+import { blockTypes, inlineStyleTypes, mutabilityTypes } from '../constants';
 import isBlockAList from './isBlockAList';
 import getEntityKey from './getEntityKey';
 import attachImmutableEntitiesToEmojis from './attachImmutableEntitiesToEmojis';
@@ -15,15 +15,15 @@ import attachImmutableEntitiesToEmojis from './attachImmutableEntitiesToEmojis';
 // pushed onto in various ways, then used to create the final ContentState
 const masterContentBlocks = [];
 
-const spanStart = '<span class="highlight-text">';
-const spanStartMatch = new RegExp(spanStart, 'g');
-const spanEnd = '</span>';
-const spanEndMatch = new RegExp(spanEnd, 'g');
-const tagMatch = /<\/?(p|strong|del|em|ul?|ol|li)>/g;
-const aStartMatch = /<a.+?>/g;
-const aEndMatch = /<\/a>/g;
+const END_A_TAG_REGEX = /<\/a>/g;
+const SPAN_END = '</span>';
+const SPAN_END_REGEX = new RegExp(SPAN_END, 'g');
+const SPAN_START = '<span class="highlight-text">';
+const SPAN_START_REGEX = new RegExp(SPAN_START, 'g');
+const START_A_TAG_REGEX = /<a.+?>/g;
+const TAG_REGEX = /<\/?(p|strong|del|em|ul?|ol|li)>/g;
 
-const getNumberOfSpans = (text) => (text.match(spanStartMatch) || []).length;
+const getNumberOfSpans = (text) => (text.match(SPAN_START_REGEX) || []).length;
 
 /**
  * Strips unwanted HTML tags (eg strong, del, etc.) from an HTML string.
@@ -34,7 +34,7 @@ const getNumberOfSpans = (text) => (text.match(spanStartMatch) || []).length;
  */
 
 function stripTags(text) {
-  return text.replace(tagMatch, '').replace(aStartMatch, '').replace(aEndMatch, '');
+  return text.replace(TAG_REGEX, '').replace(START_A_TAG_REGEX, '').replace(END_A_TAG_REGEX, '');
 }
 
 /**
@@ -61,13 +61,13 @@ function getHighlightedTextBlock(canvasBlockText, contentBlock) {
   strippedText = stripTags(canvasBlockText);
   const numberOfSpans = getNumberOfSpans(strippedText);
   for (let i = 0; i < numberOfSpans; i += 1) {
-    startPoint = strippedText.indexOf(spanStart);
-    endPoint = strippedText.replace(spanStart, '').indexOf(spanEnd);
+    startPoint = strippedText.indexOf(SPAN_START);
+    endPoint = strippedText.replace(SPAN_START, '').indexOf(SPAN_END);
     for (let j = 0; j < contentBlockText.length; j += 1) {
       existingCharacterMetadata = highlightContentBlock.getCharacterList().get(j);
       if (j >= startPoint && j < endPoint) {
         // merge character's existing style with our highlight style (eg BOLD, ITALIC)
-        listArray[j] = CharacterMetadata.applyStyle(existingCharacterMetadata, 'HIGHLIGHT');
+        listArray[j] = CharacterMetadata.applyStyle(existingCharacterMetadata, inlineStyleTypes.HIGHLIGHT);
       } else {
         listArray[j] = existingCharacterMetadata;
       }
@@ -80,7 +80,7 @@ function getHighlightedTextBlock(canvasBlockText, contentBlock) {
     });
     contentBlockText = highlightContentBlock.getText();
     listArray = [];
-    strippedText = strippedText.replace(spanStart, '').replace(spanEnd, '');
+    strippedText = strippedText.replace(SPAN_START, '').replace(SPAN_END, '');
   }
   return highlightContentBlock;
 }
@@ -173,7 +173,7 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
       html = `<ul>${listItems[index]}</ul>`;
     }
     const block = convertFromHTML(html).contentBlocks[0];
-    const cb = canvasBlock.get('text').match(spanEndMatch)
+    const cb = canvasBlock.get('text').match(SPAN_END_REGEX)
       ? getHighlightedTextBlock(listItems[index], block)
       : block;
     const updatedDateState = {
@@ -230,7 +230,7 @@ function convertTextBlock(canvasBlock, contentState) {
   const listContentBlocks = []; // of type 'ordered-list-item' or 'unordered-list-item'
   (convertFromHTML(canvasBlockText).contentBlocks || []).forEach((block) => {
     if (!isBlockAList(block)) {
-      const cb = canvasBlockText.match(spanEndMatch)
+      const cb = canvasBlockText.match(SPAN_END_REGEX)
         ? getHighlightedTextBlock(canvasBlockText, block)
         : block;
       const updatedDateState = {
@@ -296,7 +296,7 @@ function convertTextBlock(canvasBlock, contentState) {
 function convertNonTextBlock(canvasBlock, contentState) {
   const { entityKey, newContentState } = getEntityKey(contentState, {
     type: canvasBlock.schema().getQName().getMessage(),
-    mutability: 'IMMUTABLE',
+    mutability: mutabilityTypes.IMMUTABLE,
     data: {
       block:
       canvasBlock,

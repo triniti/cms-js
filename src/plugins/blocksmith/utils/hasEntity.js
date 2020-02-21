@@ -8,7 +8,6 @@ import getCurrentEntity from './getCurrentEntity';
  *
  * @returns {boolean}
  */
-
 export default (editorState, entityType) => {
   const entity = getCurrentEntity(editorState);
   return entity && entity.getType() === entityType;

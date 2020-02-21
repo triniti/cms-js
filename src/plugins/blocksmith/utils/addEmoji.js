@@ -1,6 +1,7 @@
 // modified from https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-emoji-plugin/src/modifiers/addEmoji.js
 
 import { Modifier, EditorState } from 'draft-js';
+import { entityTypes, mutabilityTypes } from '../constants';
 import selectBlock from './selectBlock';
 
 /**
@@ -18,7 +19,7 @@ export default (editorState, emoji, blockIdentifier = null) => {
     newEditorState = selectBlock(newEditorState, blockIdentifier, 'end');
   }
   const contentState = newEditorState.getCurrentContent();
-  const contentStateWithEntity = contentState.createEntity('emoji', 'IMMUTABLE', { emoji });
+  const contentStateWithEntity = contentState.createEntity(entityTypes.EMOJI, mutabilityTypes.IMMUTABLE, { emoji });
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const currentSelectionState = newEditorState.getSelection();
 

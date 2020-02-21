@@ -48,6 +48,6 @@ export default {
           styleUpdateBlock(block);
         }
       });
-    }, 0);
+    });
   },
 };

@@ -1,4 +1,5 @@
 import isEqual from 'lodash/isEqual';
+import { entityTypes, mutabilityTypes } from '../constants';
 
 /**
  * Util for getting entity keys for data payloads. When one does not already exist, one
@@ -12,15 +13,15 @@ import isEqual from 'lodash/isEqual';
  * @returns {string}
  */
 
-const MUTABILITY_TYPES = ['MUTABLE', 'IMMUTABLE', 'SEGMENTED'];
+const MUTABILITY_TYPES = Object.values(mutabilityTypes);
 
 export default (contentState, entity) => {
   const { type, mutability, data } = entity;
   if (!type) {
-    throw new Error('Entities must have a type (eg \'LINK\').');
+    throw new Error(`Entities must have a type (eg '${Object.values(entityTypes)[0]}').`);
   }
   if (!mutability) {
-    throw new Error('Entities must have a mutability (eg \'MUTABLE\').');
+    throw new Error(`Entities must have a mutability (eg '${MUTABILITY_TYPES[0]}').`);
   } else if (!MUTABILITY_TYPES.includes(mutability)) {
     throw new Error(`Entities must have a valid mutability (one of: ${MUTABILITY_TYPES}).`);
   }

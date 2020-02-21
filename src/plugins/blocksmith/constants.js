@@ -29,3 +29,17 @@ export const blockTypes = {
   UNORDERED_LIST_ITEM: 'unordered-list-item',
   UNSTYLED: 'unstyled',
 };
+
+export const inlineStyleTypes = {
+  HIGHLIGHT: 'HIGHLIGHT',
+};
+
+export const mutabilityTypes = {
+  MUTABLE: 'MUTABLE',
+  IMMUTABLE: 'IMMUTABLE',
+};
+
+export const entityTypes = {
+  EMOJI: 'EMOJI',
+  LINK: 'LINK',
+};

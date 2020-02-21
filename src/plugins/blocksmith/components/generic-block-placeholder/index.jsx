@@ -95,13 +95,12 @@ class GenericBlockPlaceholder extends React.Component {
     let labelOffset = config.preview ? 156 : 70;
     if (targetNode && targetNodeStatus !== NodeStatus.PUBLISHED) {
       labelOffset += 65;
-      // styleBlockTargetNodeStatus(entityKey);
+      styleBlockTargetNodeStatus(block);
     }
 
     return (
       <div
         className={classNames({ draggable }, { 'block-preview': config.preview })}
-        // data-entity-key={entityKey}
         draggable={draggable}
         onDragStart={handleDragStart(block.getKey())}
         onDragEnd={handleDragEnd}

@@ -127,14 +127,13 @@ export default class BlockButtons extends React.Component {
       showCharacterButton = type.match(/(unstyled|(un)?ordered-list-item)/);
 
       if (showCopyButton && copiedBlock) {
-        const entityKey = activeBlock.getEntityAt(0);
-        const entity = entityKey && contentState.getEntity(entityKey);
-
-        if (entity) {
-          const canvasBlock = entity.getData().block;
-          if (canvasBlock.get('etag') === copiedBlock.get('etag')) {
-            copyText = 'Copied to clipboard!';
-          }
+        const blockData = activeBlock.getData();
+        if (
+          blockData
+          && blockData.get('canvasBlock')
+          && blockData.get('canvasBlock').get('etag') === copiedBlock.get('etag')
+        ) {
+          copyText = 'Copied to clipboard!';
         }
       }
     }

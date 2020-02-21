@@ -5,6 +5,7 @@
  * @link https://github.com/draft-js-plugins/draft-js-plugins/blob/master/FAQ.md#how-can-i-use-custom-decorators-with-the-plugin-editor
  */
 import Link from '@triniti/cms/plugins/blocksmith/components/link';
+import { entityTypes } from '../../constants';
 
 function linkStrategy(contentBlock, cb, contentState) {
   if (!contentState) {
@@ -14,7 +15,7 @@ function linkStrategy(contentBlock, cb, contentState) {
     const entityKey = character.getEntity();
     return (
       entityKey !== null
-      && contentState.getEntity(entityKey).getType() === 'LINK'
+      && contentState.getEntity(entityKey).getType() === entityTypes.LINK
     );
   }, cb);
 }

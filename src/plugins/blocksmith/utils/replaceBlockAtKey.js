@@ -4,7 +4,7 @@ import {
   ContentState,
 } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes } from '../constants';
+import { blockTypes, mutabilityTypes } from '../constants';
 import areKeysSame from './areKeysSame';
 import getEntityKey from './getEntityKey';
 import normalizeKey from './normalizeKey';
@@ -24,7 +24,7 @@ export default (contentState, canvasBlock, key) => {
   const type = canvasBlock.schema().getId().getMessage();
   const { entityKey, newContentState } = getEntityKey(contentState, {
     type,
-    mutability: 'IMMUTABLE',
+    mutability: mutabilityTypes.IMMUTABLE,
     data: {
       block:
       canvasBlock,

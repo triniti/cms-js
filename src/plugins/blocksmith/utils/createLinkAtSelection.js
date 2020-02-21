@@ -2,6 +2,7 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
+import { entityTypes, mutabilityTypes } from '../constants';
 import getEntityKey from './getEntityKey';
 
 /**
@@ -15,7 +16,6 @@ import getEntityKey from './getEntityKey';
  *
  * @returns {EditorState} an EditorState instance
  */
-
 export default (editorState, target, url) => {
   const rel = target === '_blank' ? 'noopener noreferrer' : null;
   const selectionState = editorState.getSelection();
@@ -24,8 +24,8 @@ export default (editorState, target, url) => {
   }
 
   const updatedEntityState = getEntityKey(editorState.getCurrentContent(), {
-    type: 'LINK',
-    mutability: 'MUTABLE',
+    type: entityTypes.LINK,
+    mutability: mutabilityTypes.MUTABLE,
     data: { rel, target, url },
   });
   const newEntityKey = updatedEntityState.entityKey;
