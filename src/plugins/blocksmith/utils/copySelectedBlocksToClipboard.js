@@ -10,7 +10,8 @@ export default (editorState) => {
     newEditorState,
     editorState.getCurrentContent(),
   );
-  const newContentState = ContentState.createFromBlockArray(getSelectedBlocksList(editorState).toArray());
+  const selectedBlocks = getSelectedBlocksList(editorState);
+  const newContentState = ContentState.createFromBlockArray(selectedBlocks.toArray());
   newEditorState = EditorState.push(
     newEditorState,
     newContentState,

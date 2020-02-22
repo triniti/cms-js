@@ -62,6 +62,7 @@ import {
   copySelectedBlocksToClipboard,
   createLinkAtSelection,
   deleteBlock,
+  deleteSelectedBlocks,
   dropBlock,
   findBlock,
   getBlockForKey,
@@ -84,6 +85,7 @@ import {
   replaceBlockAtKey,
   selectBlock,
   selectBlockSelectionTypes,
+  selection,
   shiftBlock,
   sidebar,
   styleDragTarget,
@@ -262,6 +264,7 @@ class Blocksmith extends React.Component {
   componentWillUnmount() {
     blockParentNode.clearCache();
     sidebar.clearCache();
+    selection.clearCache();
     updateBlocks.clearCache();
   }
 
@@ -848,6 +851,11 @@ class Blocksmith extends React.Component {
           editorState: RichUtils.insertSoftNewline(editorState),
         });
         return 'handled';
+      case constants.BLOCKS_CUT:
+        this.setState({
+          editorState: deleteSelectedBlocks(editorState),
+        });
+        return 'handled';
       default:
         return 'not-handled';
     }
@@ -1332,12 +1340,14 @@ class Blocksmith extends React.Component {
       }
     } else if (e.ctrlKey || e.metaKey) {
       if (e.key === 'c') {
+        selection.capture(editorState);
         copySelectedBlocksToClipboard(editorState);
-        // need to restore selection apparently
-      } else if (e.key === 'x') {
+        selection.restore();
+        return constants.BLOCKS_COPIED; // just to prevent draft from doing anything
+      }
+      if (e.key === 'x') {
         copySelectedBlocksToClipboard(editorState);
-        // also need to remove the selected blocks apparently
-        // need to restore selection apparently
+        return constants.BLOCKS_CUT;
       }
     }
     return getDefaultKeyBinding(e);

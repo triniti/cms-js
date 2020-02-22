@@ -6,8 +6,8 @@ import {
 import { List } from 'immutable';
 import { blockTypes } from '../constants';
 import constants from '../components/blocksmith/constants';
-import getBlockForKey from './getBlockForKey';
-import getListBlockNodes from './getListBlockNodes';
+import findBlock from './findBlock';
+import getListBlocks from './getListBlocks';
 import isBlockAList from './isBlockAList';
 import normalizeKey from './normalizeKey';
 
@@ -32,10 +32,10 @@ export default (contentState, key, position, newBlockKey = genKey()) => {
     text: '',
     characterList: new List([]),
   });
-  let block = getBlockForKey(contentState, key);
+  let block = findBlock(contentState, key);
   if (isBlockAList(block)) {
-    const [finalListBlockNode] = getListBlockNodes(contentState, block).slice(-1);
-    block = getBlockForKey(contentState, finalListBlockNode.getAttribute('data-offset-key'));
+    const [finalListBlockNode] = getListBlocks(contentState, block).slice(-1);
+    block = findBlock(contentState, finalListBlockNode.getAttribute('data-offset-key'));
   }
   const blocksAsArray = contentState.getBlocksAsArray();
   const blockIndex = blocksAsArray.indexOf(block);
