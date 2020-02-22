@@ -7,12 +7,10 @@ import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import swal from 'sweetalert2';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
   FormGroup,
-  Icon,
   Input,
   InputGroup,
   Label,
@@ -238,9 +236,9 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
-      scrollingEnabled,
       hasUpdatedDate,
       height,
+      scrollingEnabled,
       src,
       updatedDate,
       width,
