@@ -17,27 +17,26 @@ export const selectionTypes = {
  *
  * @param {EditorState} editorState   - a state instance of a DraftJs Editor
  * @param {(object|number|string)} id - a block, a block index, or a block key
- * @param {?string} position          - what to select/where to put the cursor. defaults to 'ALL'
+ * @param {?string} selectionType     - what to select/where to put the cursor. defaults to 'ALL'
  *
  * @returns {EditorState} an EditorState instance
  */
-
-export default (editorState, id, position = selectionTypes.ALL) => {
-  if (!Object.values(selectionTypes).includes(position)) {
-    throw new Error(`['${position}'] is not a valid position. Enter ${selectionTypes.START}, ${selectionTypes.END}, ${selectionTypes.ALL}, or omit to default to ${selectionTypes.ALL}`);
+export default (editorState, id, selectionType = selectionTypes.ALL) => {
+  if (!Object.values(selectionTypes).includes(selectionType)) {
+    throw new Error(`['${selectionType}'] is not a valid position. Enter ${selectionTypes.START}, ${selectionTypes.END}, ${selectionTypes.ALL}, or omit to default to ${selectionTypes.ALL}`);
   }
   const contentState = editorState.getCurrentContent();
   const blockToSelect = findBlock(contentState, id);
   let anchorKey = blockToSelect.getKey();
   let focusKey = blockToSelect.getKey();
-  let anchorOffset = position === selectionTypes.END ? blockToSelect.getText().length : 0;
-  let focusOffset = position === selectionTypes.START ? 0 : blockToSelect.getText().length;
+  let anchorOffset = selectionType === selectionTypes.END ? blockToSelect.getText().length : 0;
+  let focusOffset = selectionType === selectionTypes.START ? 0 : blockToSelect.getText().length;
 
   if (isBlockAList(blockToSelect)) {
     const listBlocks = getListBlocks(contentState, blockToSelect);
     const firstListBlock = getBlockForKey(contentState, listBlocks[0].getKey());
     const lastListBlock = getBlockForKey(contentState, listBlocks[listBlocks.length - 1].getKey());
-    switch (position) {
+    switch (selectionType) {
       case selectionTypes.ALL:
         anchorKey = firstListBlock.getKey();
         focusKey = lastListBlock.getKey();

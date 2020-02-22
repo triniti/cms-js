@@ -43,3 +43,7 @@ export const entityTypes = {
   EMOJI: 'EMOJI',
   LINK: 'LINK',
 };
+
+export const tokens = {
+  BLOCKSMITH_COPIED_CONTENT_TOKEN: 'BLOCKSMITH_COPIED_CONTENT_TOKEN:',
+};

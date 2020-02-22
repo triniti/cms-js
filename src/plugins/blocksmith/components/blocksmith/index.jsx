@@ -2,6 +2,7 @@
 // todo: wrap text blocks and position the buttons in the normal react way
 
 import { Map } from 'immutable';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import React from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
@@ -47,7 +48,7 @@ import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontro
 import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
 import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
 
-import { blockTypes } from '../../constants';
+import { blockTypes, tokens } from '../../constants';
 import decorators from './decorators';
 import customStyleMap from './customStyleMap';
 import constants from './constants';
@@ -55,10 +56,10 @@ import delegateFactory from './delegate';
 import selector from './selector';
 import {
   addEmoji,
-  areAllBlocksSelected,
   areKeysSame,
   blockParentNode,
   convertToEditorState,
+  copySelectedBlocksToClipboard,
   createLinkAtSelection,
   deleteBlock,
   dropBlock,
@@ -72,6 +73,7 @@ import {
   getWordCount,
   handleDocumentDragover,
   handleDocumentDrop,
+  insertCanvasBlocks,
   insertEmptyBlock,
   isBlockAList,
   isBlockEmpty,
@@ -1213,7 +1215,7 @@ class Blocksmith extends React.Component {
    * @param {?HTMLElement} html - pasted html
    */
   handlePastedText(text, html) {
-    const { editorState } = this.state;
+    const { activeBlockKey, editorState } = this.state;
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(html);
       if (contentBlocks) {
@@ -1229,6 +1231,18 @@ class Blocksmith extends React.Component {
         });
         return 'handled';
       }
+    } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
+      const newContentState = editorState.getCurrentContent();
+      const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
+        .map((b) => ObjectSerializer.deserialize(b));
+
+      this.setState({
+        editorState: EditorState.push(
+          editorState,
+          insertCanvasBlocks(newContentState, activeBlockKey, constants.POSITION_AFTER, blocks),
+        ),
+      });
+      return 'handled';
     }
     return 'not-handled';
   }
@@ -1301,11 +1315,6 @@ class Blocksmith extends React.Component {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
-    console.log('here', e.key);
-    if (e.key === 'Backspace') {
-      console.log('here', areAllBlocksSelected(editorState));
-      debugger;
-    }
     // if nothing is selected
     if (selectionState.getAnchorOffset() === selectionState.getFocusOffset()) {
       const currentBlock = getBlockForKey(contentState, selectionState.getAnchorKey());
@@ -1320,6 +1329,15 @@ class Blocksmith extends React.Component {
           break;
         default:
           break;
+      }
+    } else if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'c') {
+        copySelectedBlocksToClipboard(editorState);
+        // need to restore selection apparently
+      } else if (e.key === 'x') {
+        copySelectedBlocksToClipboard(editorState);
+        // also need to remove the selected blocks apparently
+        // need to restore selection apparently
       }
     }
     return getDefaultKeyBinding(e);
