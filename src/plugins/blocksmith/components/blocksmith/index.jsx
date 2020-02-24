@@ -74,6 +74,7 @@ import {
   getWordCount,
   handleDocumentDragover,
   handleDocumentDrop,
+  isAtomicBlockSelected,
   insertCanvasBlocks,
   insertEmptyBlock,
   isBlockAList,
@@ -839,7 +840,11 @@ class Blocksmith extends React.Component {
       case constants.DOUBLE_ENTER_ON_LIST: {
         const selectionState = editorState.getSelection();
         let newContentState = editorState.getCurrentContent();
-        newContentState = Modifier.setBlockType(newContentState, selectionState, blockTypes.UNSTYLED);
+        newContentState = Modifier.setBlockType(
+          newContentState,
+          selectionState,
+          blockTypes.UNSTYLED,
+        );
         const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
         this.setState({
           editorState: newEditorState,
@@ -851,7 +856,7 @@ class Blocksmith extends React.Component {
           editorState: RichUtils.insertSoftNewline(editorState),
         });
         return 'handled';
-      case constants.BLOCKS_CUT:
+      case constants.ATOMIC_BLOCKS_CUT:
         this.setState({
           editorState: deleteSelectedBlocks(editorState),
         });
@@ -1240,14 +1245,15 @@ class Blocksmith extends React.Component {
         return 'handled';
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
-      const newContentState = editorState.getCurrentContent();
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
         .map((b) => ObjectSerializer.deserialize(b));
 
       this.setState({
-        editorState: EditorState.push(
+        editorState: insertCanvasBlocks(
           editorState,
-          insertCanvasBlocks(newContentState, activeBlockKey, constants.POSITION_AFTER, blocks),
+          activeBlockKey,
+          constants.POSITION_AFTER,
+          blocks,
         ),
       });
       return 'handled';
@@ -1339,15 +1345,17 @@ class Blocksmith extends React.Component {
           break;
       }
     } else if (e.ctrlKey || e.metaKey) {
-      if (e.key === 'c') {
-        selection.capture(editorState);
-        copySelectedBlocksToClipboard(editorState);
-        selection.restore();
-        return constants.BLOCKS_COPIED; // just to prevent draft from doing anything
-      }
-      if (e.key === 'x') {
-        copySelectedBlocksToClipboard(editorState);
-        return constants.BLOCKS_CUT;
+      if (isAtomicBlockSelected(editorState)) {
+        if (e.key === 'c') {
+          selection.capture(editorState);
+          copySelectedBlocksToClipboard(editorState);
+          selection.restore();
+          return constants.ATOMIC_BLOCKS_COPIED; // just to prevent draft from doing anything
+        }
+        if (e.key === 'x') {
+          copySelectedBlocksToClipboard(editorState);
+          return constants.ATOMIC_BLOCKS_CUT;
+        }
       }
     }
     return getDefaultKeyBinding(e);

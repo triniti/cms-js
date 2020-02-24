@@ -1,5 +1,7 @@
 import blockParentNode from './blockParentNode';
 
+// todo: remove clearCache since this will heal itself?
+
 const UPDATE_CLASS = 'block-update';
 let styledNodes = null;
 
@@ -13,6 +15,8 @@ const styleUpdateBlock = (block) => {
     styledNodes.push(updateDateNode);
   });
 };
+
+const getBlockForNode = (contentState, node) => contentState.getBlockForKey(node.getAttribute('data-offset-key').replace(/-\d-\d$/, ''));
 
 export default {
   /**
@@ -31,11 +35,11 @@ export default {
         return;
       }
       const contentState = editorState.getCurrentContent();
-      if (!styledNodes) {
+      if (!styledNodes || (styledNodes.length && !getBlockForNode(contentState, styledNodes[0]))) {
         styledNodes = Array.from(parentNode.querySelectorAll('.block-update'));
       }
       styledNodes.forEach((node) => {
-        const block = contentState.getBlockForKey(node.getAttribute('data-offset-key').replace(/-\d-\d$/, ''));
+        const block = getBlockForNode(contentState, node);
         const blockData = block.getData();
         if (!blockData || !blockData.get('canvasBlock') || !blockData.get('canvasBlock').has('updated_date')) {
           node.classList.remove(UPDATE_CLASS);

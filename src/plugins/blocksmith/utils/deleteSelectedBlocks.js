@@ -10,7 +10,7 @@ export default (editorState) => {
   let newContentState = editorState.getCurrentContent();
   const selectedBlocksList = getSelectedBlocksList(editorState).toArray();
   if (!selectedBlocksList.length) {
-    return editorState;
+    return newEditorState;
   }
   const firstSelectedBlock = selectedBlocksList[0];
   const blocks = newContentState.getBlocksAsArray();

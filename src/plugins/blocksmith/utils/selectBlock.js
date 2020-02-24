@@ -7,9 +7,9 @@ import getListBlocks from './getListBlocks';
 import isBlockAList from './isBlockAList';
 
 export const selectionTypes = {
-  ALL: 'ALL',
-  END: 'END',
-  START: 'START',
+  ALL: Symbol('ALL'),
+  END: Symbol('END'),
+  START: Symbol('START'),
 };
 
 /**
@@ -23,7 +23,7 @@ export const selectionTypes = {
  */
 export default (editorState, id, selectionType = selectionTypes.ALL) => {
   if (!Object.values(selectionTypes).includes(selectionType)) {
-    throw new Error(`['${selectionType}'] is not a valid position. Enter ${selectionTypes.START}, ${selectionTypes.END}, ${selectionTypes.ALL}, or omit to default to ${selectionTypes.ALL}`);
+    throw new Error(`['${String(selectionType)}'] is not a valid position. Enter ${String(selectionTypes.START)}, ${String(selectionTypes.END)}, ${String(selectionTypes.ALL)}, or omit to default to ${String(selectionTypes.ALL)}`);
   }
   const contentState = editorState.getCurrentContent();
   const blockToSelect = findBlock(contentState, id);

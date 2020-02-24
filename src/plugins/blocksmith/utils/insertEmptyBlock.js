@@ -21,7 +21,6 @@ import normalizeKey from './normalizeKey';
  *
  * @returns {ContentState} a ContentState instance
  */
-
 export default (contentState, key, position, newBlockKey = genKey()) => {
   if (position !== constants.POSITION_BEFORE && position !== constants.POSITION_AFTER) {
     throw new Error('You must provide a valid insertion position.');

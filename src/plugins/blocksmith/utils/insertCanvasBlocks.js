@@ -2,25 +2,29 @@ import { ContentState, EditorState } from 'draft-js';
 import constants from '../components/blocksmith/constants';
 import convertToEditorState from './convertToEditorState';
 import convertToCanvasBlocks from './convertToCanvasBlocks';
-import updateBlocks from './updateBlocks';
+import selectBlock, { selectionTypes } from './selectBlock';
 
 /**
  * Inserts a list of canvas blocks into the draft editor (as draft blocks with data, entity, etc).
  *
- * @param {ContentState} contentState - a state instance of a DraftJs Editor
- * @param {string}       key          - a DraftJs block key
- * @param {string}       position     - POSITION_BEFORE or POSITION_AFTER
- * @param {Array}        canvasBlocks - the blocks to be inserted into the editor
+ * @param {EditorState} editorState  - a state instance of a DraftJs Editor
+ * @param {string}      key          - a DraftJs block key
+ * @param {string}      position     - POSITION_BEFORE or POSITION_AFTER
+ * @param {Array}       canvasBlocks - the blocks to be inserted into the editor
  *
  * @returns {ContentState} a ContentState instance
  */
-export default (contentState, key, position, canvasBlocks) => {
+export default (editorState, key, position, canvasBlocks) => {
   if (position !== constants.POSITION_BEFORE && position !== constants.POSITION_AFTER) {
     throw new Error('You must provide a valid insertion position.');
   }
-  const newContentState = contentState;
+  if (!canvasBlocks.length) {
+    return editorState;
+  }
+  let newEditorState = editorState;
+  const newContentState = newEditorState.getCurrentContent();
   let haveEncounteredKey = false;
-  const { blocksBefore, blocksAfter } = contentState.getBlocksAsArray().reduce((acc, cur) => {
+  const { blocksBefore, blocksAfter } = newContentState.getBlocksAsArray().reduce((acc, cur) => {
     if (!haveEncounteredKey) {
       if (cur.getKey() !== key) {
         acc.blocksBefore.push(cur);
@@ -47,12 +51,19 @@ export default (contentState, key, position, canvasBlocks) => {
   ));
   const canvasBlocksBefore = convertToCanvasBlocks(editorStateBefore);
   const canvasBlocksAfter = convertToCanvasBlocks(editorStateAfter);
-  const newEditorState = convertToEditorState([
+  newEditorState = convertToEditorState([
     ...canvasBlocksBefore,
     ...canvasBlocks,
     ...canvasBlocksAfter,
   ]);
-  // todo: place cursor at end of inserted blocks
-  updateBlocks.clearCache(); // old keys are gone
-  return newEditorState.getCurrentContent();
+  newEditorState = EditorState.push(
+    editorState,
+    newEditorState.getCurrentContent(),
+  );
+  newEditorState = selectBlock(
+    newEditorState,
+    (canvasBlocksBefore.length + canvasBlocks.length) - 1,
+    selectionTypes.END,
+  );
+  return newEditorState;
 };
