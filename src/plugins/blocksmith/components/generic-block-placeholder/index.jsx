@@ -14,7 +14,7 @@ import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../.
 import selector from './selector';
 import './styles.scss';
 
-class GenericBlockPlaceholder extends React.Component {
+class GenericBlockPlaceholder extends React.PureComponent {
   static propTypes = {
     block: PropTypes.instanceOf(ContentBlock).isRequired,
     config: PropTypes.oneOfType([

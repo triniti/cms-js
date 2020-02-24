@@ -5,6 +5,13 @@ import getSelectedBlocksList from './getSelectedBlocksList';
 import insertEmptyBlock from './insertEmptyBlock';
 import selectBlock from './selectBlock';
 
+/**
+ * Deletes all blocks included in selectionState.
+ *
+ * @param {EditorState} editorState - a state instance of a DraftJs Editor
+ *
+ * @returns {EditorState}
+ */
 export default (editorState) => {
   let newEditorState = editorState;
   let newContentState = editorState.getCurrentContent();
@@ -19,9 +26,9 @@ export default (editorState) => {
   for (let i = 0; i < blocks.length; i += 1) {
     block = blocks[i];
     if (block.getKey() === firstSelectedBlock.getKey()) {
+      unselectedBlocksBeforeCount = i;
       break;
     }
-    unselectedBlocksBeforeCount += 1;
   }
   selectedBlocksList.forEach((selectedBlock) => {
     newContentState = deleteBlock(newContentState, selectedBlock.getKey());

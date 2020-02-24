@@ -25,8 +25,7 @@ export default (contentState, canvasBlock, key) => {
     type,
     mutability: mutabilityTypes.IMMUTABLE,
     data: {
-      block:
-      canvasBlock,
+      msg: 'dummy text, entities must have a data payload',
     },
   });
   const characterMetadata = CharacterMetadata.create({

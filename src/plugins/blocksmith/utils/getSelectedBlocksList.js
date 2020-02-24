@@ -1,5 +1,5 @@
 /**
- * Function returns collection of currently selected blocks.
+ * Returns collection of currently selected blocks.
  *
  * @link https://github.com/jpuri/draftjs-utils/blob/master/js/block.js
  *

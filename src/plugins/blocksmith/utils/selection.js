@@ -2,10 +2,18 @@ let windowSelection = {};
 let draftSelection = null;
 
 export default {
+  /**
+   * Clear cached window and draft selection
+   */
   clearCache: () => {
     windowSelection = {};
     draftSelection = null;
   },
+  /**
+   * Captures the selection state, to be later restored.
+   *
+   * @param {EditorState} editorState - a state instance of a DraftJs Editor
+   */
   capture: (editorState) => {
     const selection = window.getSelection();
     draftSelection = editorState.getSelection();
@@ -21,6 +29,9 @@ export default {
       windowSelection.focusOffset = selection.focusOffset;
     }
   },
+  /**
+   * Restores the window's selection state to that which was captured.
+   */
   restore: () => {
     const selection = window.getSelection();
     const range = document.createRange();

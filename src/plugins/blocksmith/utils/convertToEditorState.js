@@ -236,8 +236,7 @@ function convertNonTextBlock(canvasBlock, contentState) {
     type: canvasBlock.schema().getQName().getMessage(),
     mutability: mutabilityTypes.IMMUTABLE,
     data: {
-      block:
-      canvasBlock,
+      msg: 'dummy text, entities must have a data payload',
     },
   });
   return {

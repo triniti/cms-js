@@ -32,8 +32,10 @@ import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-t
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import isMacOS from '@triniti/cms/utils/isMacOS';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
+import isWindows from '@triniti/cms/utils/isWindows';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
@@ -631,6 +633,7 @@ class Blocksmith extends React.Component {
    * Stores the triniti block payload in redux so that it is available for later pasting
    */
   handleCopyBlock() {
+    // todo: update this to use actual clipboard and object de/serialization
     const { activeBlockKey, editorState } = this.state;
     const { delegate, copiedBlock } = this.props;
 
@@ -1205,7 +1208,8 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * If there is a copied block available in redux, use it to create a draft block.
+   * If there is a copied block available in redux, use it to create a draft block with it as the
+   * data payload.
    */
   handlePasteBlock() {
     const { copiedBlock } = this.props;
@@ -1246,7 +1250,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map((b) => ObjectSerializer.deserialize(b));
+        .map(ObjectSerializer.deserialize);
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
@@ -1349,18 +1353,20 @@ class Blocksmith extends React.Component {
         default:
           break;
       }
-    } else if (e.ctrlKey || e.metaKey) {
-      if (isAtomicBlockSelected(editorState)) {
-        if (e.key === 'c') {
-          selection.capture(editorState);
-          copySelectedBlocksToClipboard(editorState);
-          selection.restore();
-          return constants.ATOMIC_BLOCKS_COPIED; // just to prevent draft from doing anything
-        }
-        if (e.key === 'x') {
-          copySelectedBlocksToClipboard(editorState);
-          return constants.ATOMIC_BLOCKS_CUT;
-        }
+    } else if (
+      /^[cx]$/.test(e.key)
+      && ((e.metaKey && isMacOS()) || (e.ctrlKey && isWindows()))
+      && isAtomicBlockSelected(editorState)
+    ) {
+      if (e.key === 'c') {
+        selection.capture(editorState);
+        copySelectedBlocksToClipboard(editorState);
+        selection.restore();
+        return constants.ATOMIC_BLOCKS_COPIED; // just to prevent draft from doing anything
+      }
+      if (e.key === 'x') {
+        copySelectedBlocksToClipboard(editorState);
+        return constants.ATOMIC_BLOCKS_CUT;
       }
     }
     return getDefaultKeyBinding(e);

@@ -60,9 +60,19 @@ export default (editorState, key, position, canvasBlocks) => {
     editorState,
     newEditorState.getCurrentContent(),
   );
+  const newBlocks = newEditorState.getCurrentContent().getBlocksAsArray();
+  let newBlock;
+  let blockIndexToSelect = 0;
+  for (let i = newBlocks.length - 1; i >= 0; i -= 1) {
+    newBlock = newBlocks[i];
+    if (newBlock.getData().get('canvasBlock') === canvasBlocks[canvasBlocks.length - 1]) {
+      blockIndexToSelect = i;
+      break;
+    }
+  }
   newEditorState = selectBlock(
     newEditorState,
-    (canvasBlocksBefore.length + canvasBlocks.length) - 1,
+    blockIndexToSelect,
     selectionTypes.END,
   );
   return newEditorState;

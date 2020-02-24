@@ -1,7 +1,5 @@
 import blockParentNode from './blockParentNode';
 
-// todo: remove clearCache since this will heal itself?
-
 const UPDATE_CLASS = 'block-update';
 let styledNodes = null;
 

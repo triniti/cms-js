@@ -34,7 +34,7 @@ export default (contentState, key, position, newBlockKey = genKey()) => {
   let block = findBlock(contentState, key);
   if (isBlockAList(block)) {
     const [finalListBlockNode] = getListBlocks(contentState, block).slice(-1);
-    block = findBlock(contentState, finalListBlockNode.getAttribute('data-offset-key'));
+    block = findBlock(contentState, finalListBlockNode.getKey());
   }
   const blocksAsArray = contentState.getBlocksAsArray();
   const blockIndex = blocksAsArray.indexOf(block);
