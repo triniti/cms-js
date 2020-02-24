@@ -1228,7 +1228,7 @@ class Blocksmith extends React.Component {
    * @param {?HTMLElement} html - pasted html
    */
   handlePastedText(text, html) {
-    const { activeBlockKey, editorState } = this.state;
+    const { editorState } = this.state;
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(html);
       if (contentBlocks) {
@@ -1248,14 +1248,19 @@ class Blocksmith extends React.Component {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
         .map((b) => ObjectSerializer.deserialize(b));
 
+      const selectionState = editorState.getSelection();
+      const insertionKey = selectionState.getIsBackward()
+        ? selectionState.getAnchorKey()
+        : selectionState.getFocusKey();
+
       this.setState({
         editorState: insertCanvasBlocks(
           editorState,
-          activeBlockKey,
+          insertionKey,
           constants.POSITION_AFTER,
           blocks,
         ),
-      });
+      }, this.removeActiveStyling);
       return 'handled';
     }
     return 'not-handled';
