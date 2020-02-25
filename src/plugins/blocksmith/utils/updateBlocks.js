@@ -45,8 +45,12 @@ export default {
       }
       styledNodes.forEach((node) => {
         const block = getBlockForNode(contentState, node);
-        const blockData = block.getData();
-        if (!blockData || !blockData.get('canvasBlock') || !blockData.get('canvasBlock').has('updated_date')) {
+        if (
+          !block
+          || !block.getData()
+          || !block.getData().get('canvasBlock')
+          || !block.getData().get('canvasBlock').has('updated_date')
+        ) {
           node.classList.remove(UPDATE_CLASS);
           styledNodes = styledNodes.filter((n) => n !== node);
         }
