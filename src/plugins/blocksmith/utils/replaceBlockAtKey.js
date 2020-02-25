@@ -1,12 +1,7 @@
-import {
-  CharacterMetadata,
-  ContentBlock,
-  ContentState,
-} from 'draft-js';
+import { ContentBlock, ContentState } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes, mutabilityTypes } from '../constants';
+import { blockTypes } from '../constants';
 import areKeysSame from './areKeysSame';
-import getEntityKey from './getEntityKey';
 import normalizeKey from './normalizeKey';
 
 /**
@@ -20,19 +15,9 @@ import normalizeKey from './normalizeKey';
  * @returns {ContentState} an EditorState instance
  */
 export default (contentState, canvasBlock, key) => {
-  const type = canvasBlock.schema().getId().getMessage();
-  const { entityKey, newContentState } = getEntityKey(contentState, {
-    type,
-    mutability: mutabilityTypes.IMMUTABLE,
-    data: {
-      msg: 'dummy text, entities must have a data payload',
-    },
-  });
-  const characterMetadata = CharacterMetadata.create({
-    entity: entityKey,
-  });
+  const newContentState = contentState;
   const draftJsBlock = new ContentBlock({
-    characterList: new List([characterMetadata]),
+    characterList: new List([]),
     data: new Map({ canvasBlock }),
     key: normalizeKey(key),
     text: ' ',

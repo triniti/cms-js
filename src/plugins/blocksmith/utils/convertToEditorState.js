@@ -7,9 +7,8 @@ import {
   genKey,
 } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes, inlineStyleTypes, mutabilityTypes, tokens } from '../constants';
+import { blockTypes, inlineStyleTypes, tokens } from '../constants';
 import isBlockAList from './isBlockAList';
-import getEntityKey from './getEntityKey';
 import attachImmutableEntitiesToEmojis from './attachImmutableEntitiesToEmojis';
 
 // pushed onto in various ways, then used to create the final ContentState
@@ -217,41 +216,6 @@ function convertTextBlock(canvasBlock, contentState) {
 }
 
 /**
- * Converts a canvasBlock (not text-block) into an atomic Draft.js contentBlock with corresponding
- * entity that contains the data payload of the entire canvasBlock.
- *
- * @param {Object}       canvasBlock  - A triniti canvas block (has triniti:canvas:mixin:block).
- * @param {ContentState} contentState - A Draft.js ContentState object.
- *
- * @returns
- * {
- *  contentBlock,
- *  newContentState
- * }
- * - The newly created ContentBlock and the newContentState (which contains the newly created entity
- *   for said ContentBlock).
- */
-function convertNonTextBlock(canvasBlock, contentState) {
-  const { entityKey, newContentState } = getEntityKey(contentState, {
-    type: canvasBlock.schema().getQName().getMessage(),
-    mutability: mutabilityTypes.IMMUTABLE,
-    data: {
-      msg: 'dummy text, entities must have a data payload',
-    },
-  });
-  return {
-    contentBlock: new ContentBlock({
-      characterList: new List([CharacterMetadata.create({ entity: entityKey })]),
-      data: new Map({ canvasBlock }),
-      key: genKey(),
-      text: ' ',
-      type: blockTypes.ATOMIC,
-    }),
-    newContentState,
-  };
-}
-
-/**
  * Converts triniti canvas blocks into an EditorState instance for the Draft.js Editor.
  *
  * @link https://draftjs.org/docs/advanced-topics-decorators#compositedecorator
@@ -276,9 +240,13 @@ export default function (canvasBlocks, decorator = null) {
         contentState = converted.newContentState;
         break;
       default:
-        converted = convertNonTextBlock(canvasBlock, contentState);
-        masterContentBlocks.push(converted.contentBlock);
-        contentState = converted.newContentState;
+        masterContentBlocks.push(new ContentBlock({
+          characterList: new List([]),
+          data: new Map({ canvasBlock }),
+          key: genKey(),
+          text: ' ',
+          type: blockTypes.ATOMIC,
+        }));
         break;
     }
   });

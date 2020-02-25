@@ -3,7 +3,6 @@ import {
   RichUtils,
 } from 'draft-js';
 import { entityTypes, mutabilityTypes } from '../constants';
-import getEntityKey from './getEntityKey';
 
 /**
  * Turns selected text into a link
@@ -23,16 +22,16 @@ export default (editorState, target, url) => {
     throw new Error('Multi-block links currently not supported');
   }
 
-  const updatedEntityState = getEntityKey(editorState.getCurrentContent(), {
-    type: entityTypes.LINK,
-    mutability: mutabilityTypes.MUTABLE,
-    data: { rel, target, url },
-  });
-  const newEntityKey = updatedEntityState.entityKey;
+  const contentState = editorState.getCurrentContent().createEntity(
+    entityTypes.LINK,
+    mutabilityTypes.MUTABLE,
+    { rel, target, url },
+  );
+  const entityKey = contentState.getLastCreatedEntityKey();
   let newEditorState = RichUtils.toggleLink(
     editorState,
     selectionState,
-    newEntityKey,
+    entityKey,
   );
 
   newEditorState = EditorState.acceptSelection(newEditorState, newEditorState.getSelection());
