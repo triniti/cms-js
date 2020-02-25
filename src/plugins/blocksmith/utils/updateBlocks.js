@@ -5,12 +5,19 @@ let styledNodes = null;
 
 const styleUpdateBlock = (block) => {
   Array.from(document.querySelectorAll(`[data-offset-key="${block.getKey()}-0-0"]`)).forEach((node) => {
-    let updateDateNode = node;
-    while (!blockParentNode.is(updateDateNode.parentNode)) {
-      updateDateNode = updateDateNode.parentNode;
+    try {
+      let updateDateNode = node;
+      while (!blockParentNode.is(updateDateNode.parentNode)) {
+        updateDateNode = updateDateNode.parentNode;
+      }
+      updateDateNode.classList.add(UPDATE_CLASS);
+      styledNodes.push(updateDateNode);
+    } catch (e) {
+      // on cut, draft may recreate its dom tree including the parent node which will cause this to
+      // throw. so just clear it out and try again.
+      blockParentNode.clearCache();
+      styleUpdateBlock(block);
     }
-    updateDateNode.classList.add(UPDATE_CLASS);
-    styledNodes.push(updateDateNode);
   });
 };
 

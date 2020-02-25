@@ -227,6 +227,8 @@ class Blocksmith extends React.Component {
     this.handleHoverInsert = this.handleHoverInsert.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleMouseCopy = this.handleMouseCopy.bind(this);
+    this.handleMouseCut = this.handleMouseCut.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -1037,6 +1039,23 @@ class Blocksmith extends React.Component {
     this.removeActiveStyling();
   }
 
+  handleMouseCopy(e) {
+    e.preventDefault();
+    const { editorState } = this.state;
+    selection.capture(editorState);
+    copySelectedBlocksToClipboard(editorState);
+    selection.restore();
+  }
+
+  handleMouseCut(e) {
+    e.preventDefault();
+    const { editorState } = this.state;
+    copySelectedBlocksToClipboard(editorState);
+    this.setState({
+      editorState: deleteSelectedBlocks(editorState),
+    });
+  }
+
   /**
    * Positions sidebar/button controls on blocks as the mouse is moved over them
    *
@@ -1587,6 +1606,8 @@ class Blocksmith extends React.Component {
         </CardHeader>
         <CardBody indent>
           <div
+            onCopy={this.handleMouseCopy}
+            onCut={this.handleMouseCopy}
             onDrop={this.handleDrop}
             onMouseLeave={this.handleMouseLeave}
             onMouseMove={this.handleMouseMove}
