@@ -19,7 +19,10 @@ export default (editorState) => {
   if (!selectedBlocksList.length) {
     return newEditorState;
   }
-  const wereAllBlocksSelected = areAllBlocksSelected(newEditorState);
+  const wereAllBlocksSelected = areAllBlocksSelected(editorState);
+  const wasFirstBlockSelected = selectedBlocksList
+    .map((b) => b.getKey())
+    .includes(newContentState.getFirstBlock().getKey());
   const firstSelectedBlock = selectedBlocksList[0];
   const blocks = newContentState.getBlocksAsArray();
   let block;
@@ -40,19 +43,19 @@ export default (editorState) => {
     newEditorState,
     newContentState,
   );
-  const blockToSelectKey = wereAllBlocksSelected
-    ? newContentState.getFirstBlock().getKey()
-    : genKey();
-  if (!wereAllBlocksSelected) {
-    newEditorState = EditorState.push(
-      newEditorState,
-      insertEmptyBlock(
-        newEditorState.getCurrentContent(),
-        unselectedBlocksBeforeCount,
-        constants.POSITION_AFTER,
-        blockToSelectKey,
-      ),
-    );
-  }
+  const position = !wereAllBlocksSelected && wasFirstBlockSelected
+    ? constants.POSITION_BEFORE
+    : constants.POSITION_AFTER;
+  const blockToSelectKey = genKey();
+  newEditorState = EditorState.push(
+    newEditorState,
+    insertEmptyBlock(
+      newEditorState.getCurrentContent(),
+      unselectedBlocksBeforeCount,
+      position,
+      blockToSelectKey,
+    ),
+  );
+
   return selectBlock(newEditorState, blockToSelectKey);
 };

@@ -25,24 +25,29 @@ export default (contentState, key, position, newBlockKey = genKey()) => {
   if (position !== constants.POSITION_BEFORE && position !== constants.POSITION_AFTER) {
     throw new Error('You must provide a valid insertion position.');
   }
+  let newBlocksAsArray = [];
   const emptyBlock = new ContentBlock({
     key: normalizeKey(newBlockKey),
     type: blockTypes.UNSTYLED,
     text: '',
     characterList: new List([]),
   });
-  let block = findBlock(contentState, key);
-  if (isBlockAList(block)) {
-    const [finalListBlockNode] = getListBlocks(contentState, block).slice(-1);
-    block = findBlock(contentState, finalListBlockNode.getKey());
+  if (!contentState.getBlocksAsArray().length) {
+    newBlocksAsArray.push(emptyBlock);
+  } else {
+    let block = findBlock(contentState, key);
+    if (isBlockAList(block)) {
+      const [finalListBlockNode] = getListBlocks(contentState, block).slice(-1);
+      block = findBlock(contentState, finalListBlockNode.getKey());
+    }
+    const blocksAsArray = contentState.getBlocksAsArray();
+    const blockIndex = blocksAsArray.indexOf(block);
+    const offset = position === constants.POSITION_AFTER ? 1 : 0;
+    newBlocksAsArray = blocksAsArray
+      .slice(0, blockIndex + offset)
+      .concat([emptyBlock])
+      .concat(blocksAsArray.slice(blockIndex + offset, blocksAsArray.length));
   }
-  const blocksAsArray = contentState.getBlocksAsArray();
-  const blockIndex = blocksAsArray.indexOf(block);
-  const offset = position === constants.POSITION_AFTER ? 1 : 0;
-  const newBlocksAsArray = blocksAsArray
-    .slice(0, blockIndex + offset)
-    .concat([emptyBlock])
-    .concat(blocksAsArray.slice(blockIndex + offset, blocksAsArray.length));
   return ContentState.createFromBlockArray(
     newBlocksAsArray,
     contentState.getEntityMap(),
