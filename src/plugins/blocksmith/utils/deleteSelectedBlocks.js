@@ -1,4 +1,5 @@
 import { EditorState, genKey } from 'draft-js';
+import areAllBlocksSelected from './areAllBlocksSelected';
 import constants from '../components/blocksmith/constants';
 import deleteBlock from './deleteBlock';
 import getSelectedBlocksList from './getSelectedBlocksList';
@@ -19,6 +20,7 @@ export default (editorState) => {
   if (!selectedBlocksList.length) {
     return newEditorState;
   }
+  const wereAllBlocksSelected = areAllBlocksSelected(editorState);
   const firstSelectedBlock = selectedBlocksList[0];
   const blocks = newContentState.getBlocksAsArray();
   let block;
@@ -26,7 +28,7 @@ export default (editorState) => {
   for (let i = 0; i < blocks.length; i += 1) {
     block = blocks[i];
     if (block.getKey() === firstSelectedBlock.getKey()) {
-      unselectedBlocksBeforeCount = i;
+      unselectedBlocksBeforeCount = i === 0 ? i : i - 1;
       break;
     }
   }
@@ -37,15 +39,19 @@ export default (editorState) => {
     newEditorState,
     newContentState,
   );
-  const newBlockKey = genKey();
-  newEditorState = EditorState.push(
-    newEditorState,
-    insertEmptyBlock(
-      newEditorState.getCurrentContent(),
-      unselectedBlocksBeforeCount,
-      constants.POSITION_BEFORE,
-      newBlockKey,
-    ),
-  );
-  return selectBlock(newEditorState, newBlockKey);
+  const blockToSelectKey = wereAllBlocksSelected
+    ? newContentState.getFirstBlock().getKey()
+    : genKey();
+  if (!wereAllBlocksSelected) {
+    newEditorState = EditorState.push(
+      newEditorState,
+      insertEmptyBlock(
+        newEditorState.getCurrentContent(),
+        unselectedBlocksBeforeCount,
+        constants.POSITION_AFTER,
+        blockToSelectKey,
+      ),
+    );
+  }
+  return selectBlock(newEditorState, blockToSelectKey);
 };
