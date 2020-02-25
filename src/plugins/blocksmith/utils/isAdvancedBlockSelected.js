@@ -16,6 +16,10 @@ export default (editorState) => {
     if (contentBlock.getType() === blockTypes.ATOMIC) {
       return true;
     }
+    const blockData = contentBlock.getData();
+    if (blockData && blockData.has('canvasBlock') && blockData.get('canvasBlock').has('updated_date')) {
+      return true;
+    }
     let hasAdvancedStyle = false;
     contentBlock.findStyleRanges((characterMetaData) => {
       if (!hasAdvancedStyle && characterMetaData.hasStyle(inlineStyleTypes.HIGHLIGHT)) {

@@ -113,7 +113,7 @@ export default (editorState) => {
       }
       const offset = isNumber(indexOffsets[index])
         ? indexOffsets[index]
-        : indexOffsets[indexOffsets.length - 1] - 1;
+        : indexOffsets[indexOffsets.length - 1];
       const canvasBlock = draftJsBlocks[index + offset].getData().get('canvasBlock');
       if (canvasBlock && canvasBlock.has('updated_date')) {
         return TextBlockV1Mixin.findOne().createMessage()
