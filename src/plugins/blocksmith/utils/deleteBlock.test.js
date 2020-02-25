@@ -129,7 +129,8 @@ test('Blocksmith:util:deleteBlock', (t) => {
   t.equal(actual, expected, 'It should report the correct number of blocks after deleting by index.');
 
   actual = editorState.getCurrentContent().getBlocksAsArray().map((block) => block.getKey());
-  expected = [block3, block4, block5, block6, block7, block8, block9].map((block) => block.getKey());
+  expected = [block3, block4, block5, block6, block7, block8, block9]
+    .map((block) => block.getKey());
   t.deepEqual(actual, expected, 'It should report the correct keys for the blocks after deleting by index.');
 
   editorState = EditorState.push(

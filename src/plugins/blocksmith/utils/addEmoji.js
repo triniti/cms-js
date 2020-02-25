@@ -19,7 +19,11 @@ export default (editorState, emoji, blockIdentifier = null) => {
     newEditorState = selectBlock(newEditorState, blockIdentifier, selectionTypes.END);
   }
   const contentState = newEditorState.getCurrentContent();
-  const contentStateWithEntity = contentState.createEntity(entityTypes.EMOJI, mutabilityTypes.IMMUTABLE, { emoji });
+  const contentStateWithEntity = contentState.createEntity(
+    entityTypes.EMOJI,
+    mutabilityTypes.IMMUTABLE,
+    { emoji },
+  );
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const currentSelectionState = newEditorState.getSelection();
 
