@@ -778,10 +778,10 @@ class Blocksmith extends React.Component {
     if (draftJsBlock.getType() === blockTypes.ATOMIC) {
       canvasBlock = blockData.get('canvasBlock');
     } else {
-      canvasBlock = TextBlockV1Mixin.findOne().createMessage().set('updated_date', moment().toDate());
-      if (blockData && blockData.get('canvasBlock')) {
-        canvasBlock.set('updated_date', blockData.get('canvasBlock').get('updated_date'));
-      }
+      canvasBlock = TextBlockV1Mixin.findOne().createMessage()
+        .set('updated_date', (() => (blockData && blockData.has('canvasBlock') && blockData.get('canvasBlock').has('updated_date')
+          ? blockData.get('canvasBlock').get('updated_date')
+          : moment().toDate()))());
     }
     this.handleToggleBlockModal(canvasBlock);
   }

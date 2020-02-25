@@ -46,4 +46,5 @@ export const entityTypes = {
 
 export const tokens = {
   BLOCKSMITH_COPIED_CONTENT_TOKEN: 'BLOCKSMITH_COPIED_CONTENT_TOKEN:',
+  EMPTY_BLOCK_TOKEN: 'EMPTY_BLOCK_TOKEN:',
 };

@@ -11,7 +11,6 @@ import findBlock from './findBlock';
  *
  * @returns {ContentState} a ContentState instance
  */
-
 export default (contentState, id) => {
   const block = findBlock(contentState, id);
   let newContentState;

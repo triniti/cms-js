@@ -12,9 +12,10 @@ import isBlockAList from './isBlockAList';
 export default (draftJsBlocks) => {
   let currentOffset = 0;
   let previousType = null;
-  return draftJsBlocks.reduce((acc, cur) => {
+  return draftJsBlocks.reduce((acc, cur, idx, src) => {
     if (!isBlockAList(cur)) {
       acc.push(currentOffset);
+      previousType = cur.getType();
       return acc;
     }
     if (previousType === cur.getType()) {

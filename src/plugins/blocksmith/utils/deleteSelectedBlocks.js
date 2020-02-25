@@ -1,7 +1,6 @@
-import { EditorState, genKey } from 'draft-js';
+import { ContentState, EditorState, genKey } from 'draft-js';
 import areAllBlocksSelected from './areAllBlocksSelected';
 import constants from '../components/blocksmith/constants';
-import deleteBlock from './deleteBlock';
 import getSelectedBlocksList from './getSelectedBlocksList';
 import insertEmptyBlock from './insertEmptyBlock';
 import selectBlock from './selectBlock';
@@ -16,11 +15,11 @@ import selectBlock from './selectBlock';
 export default (editorState) => {
   let newEditorState = editorState;
   let newContentState = editorState.getCurrentContent();
-  const selectedBlocksList = getSelectedBlocksList(editorState).toArray();
+  const selectedBlocksList = getSelectedBlocksList(newEditorState).toArray();
   if (!selectedBlocksList.length) {
     return newEditorState;
   }
-  const wereAllBlocksSelected = areAllBlocksSelected(editorState);
+  const wereAllBlocksSelected = areAllBlocksSelected(newEditorState);
   const firstSelectedBlock = selectedBlocksList[0];
   const blocks = newContentState.getBlocksAsArray();
   let block;
@@ -32,9 +31,12 @@ export default (editorState) => {
       break;
     }
   }
-  selectedBlocksList.forEach((selectedBlock) => {
-    newContentState = deleteBlock(newContentState, selectedBlock.getKey());
-  });
+  const SELECTED_BLOCK_KEY_REGEX = new RegExp(`^(?:${selectedBlocksList.reduce((acc, cur) => `${acc}|${cur.getKey()}`, '').replace(/^\|/, '')})$`);
+  newContentState = ContentState.createFromBlockArray(
+    newContentState.getBlocksAsArray()
+      .filter((b) => !SELECTED_BLOCK_KEY_REGEX.test(b.getKey())),
+    newContentState.getEntityMap(),
+  );
   newEditorState = EditorState.push(
     newEditorState,
     newContentState,

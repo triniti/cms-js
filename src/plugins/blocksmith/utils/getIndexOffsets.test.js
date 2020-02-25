@@ -72,7 +72,7 @@ test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
   t.end();
 });
 
-test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
+test('Blocksmith:util:getIndexOffsets', (t) => {
   let editorState = EditorState.createEmpty();
   editorState = EditorState.push(
     editorState,
@@ -113,7 +113,7 @@ test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
   t.end();
 });
 
-test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
+test('Blocksmith:util:getIndexOffsets', (t) => {
   let editorState = EditorState.createEmpty();
   editorState = EditorState.push(
     editorState,
@@ -149,7 +149,7 @@ test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
     ]),
   );
   const indexOffsets = getIndexOffsets(editorState.getCurrentContent().getBlocksAsArray());
-  const expectedArray = [0, 1, 1];
+  const expectedArray = [0, 0, 1];
   let actual;
   let expected;
   indexOffsets.forEach((offset, index) => {
@@ -161,7 +161,7 @@ test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
   t.end();
 });
 
-test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
+test('Blocksmith:util:getIndexOffsets', (t) => {
   let editorState = EditorState.createEmpty();
   editorState = EditorState.push(
     editorState,
@@ -218,7 +218,7 @@ test('Blocksmith:util:convertToCanvasBlocks:getIndexOffsets', (t) => {
     ]),
   );
   const indexOffsets = getIndexOffsets(editorState.getCurrentContent().getBlocksAsArray());
-  const expectedArray = [0, 2, 3, 3];
+  const expectedArray = [0, 0, 2, 2];
   let actual;
   let expected;
   indexOffsets.forEach((offset, index) => {

@@ -3,7 +3,7 @@ import isNumber from 'lodash/isNumber';
 import Message from '@gdbots/pbj/Message';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
-import { inlineStyleTypes } from '../constants';
+import { blockTypes, inlineStyleTypes, tokens } from '../constants';
 import getIndexOffsets from './getIndexOffsets';
 
 const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';
@@ -17,19 +17,26 @@ const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
 /**
  * Converts an EditorState instance from the DraftJs Editor into triniti canvas blocks
  *
- * @param {*} editorState - an EditorState instance of a DraftJs Editor
+ * @param {EditorState} editorState      - an EditorState instance of a DraftJs Editor
+ * @param {boolean}     allowEmptyBlocks - whether or not to allow empty blocks
  *
  * @returns {Array} an array of triniti canvas blocks
  */
 
-export default (editorState) => {
+export default (editorState, allowEmptyBlocks = false) => {
   // fixme: this could take contentState only
   const contentState = editorState.getCurrentContent();
 
   const options = {
     // renderer for our custom atomic blocks
     blockRenderers: {
-      atomic: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
+      [blockTypes.ATOMIC]: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
+      [blockTypes.UNSTYLED]: (block) => {
+        if (allowEmptyBlocks && block.getText() === '') {
+          return `<p>${tokens.EMPTY_BLOCK_TOKEN}</p>`;
+        }
+        return undefined;
+      },
     },
     inlineStyles: {
       [inlineStyleTypes.HIGHLIGHT]: {

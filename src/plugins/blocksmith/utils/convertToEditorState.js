@@ -7,7 +7,7 @@ import {
   genKey,
 } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes, inlineStyleTypes, mutabilityTypes } from '../constants';
+import { blockTypes, inlineStyleTypes, mutabilityTypes, tokens } from '../constants';
 import isBlockAList from './isBlockAList';
 import getEntityKey from './getEntityKey';
 import attachImmutableEntitiesToEmojis from './attachImmutableEntitiesToEmojis';
@@ -193,7 +193,7 @@ function convertTextBlock(canvasBlock, contentState) {
         characterList: contentBlock.getCharacterList(),
         data: new Map({ canvasBlock }),
         key: genKey(),
-        text: contentBlock.getText(),
+        text: contentBlock.getText() === tokens.EMPTY_BLOCK_TOKEN ? '' : contentBlock.getText(),
         type: contentBlock.getType(),
       }));
     }

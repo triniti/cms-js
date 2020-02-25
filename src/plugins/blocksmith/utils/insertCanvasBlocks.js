@@ -49,17 +49,13 @@ export default (editorState, key, position, canvasBlocks) => {
     blocksAfter,
     newContentState.getEntityMap(),
   ));
-  const canvasBlocksBefore = convertToCanvasBlocks(editorStateBefore);
-  const canvasBlocksAfter = convertToCanvasBlocks(editorStateAfter);
+  const canvasBlocksBefore = convertToCanvasBlocks(editorStateBefore, true);
+  const canvasBlocksAfter = convertToCanvasBlocks(editorStateAfter, true);
   newEditorState = convertToEditorState([
     ...canvasBlocksBefore,
     ...canvasBlocks,
     ...canvasBlocksAfter,
   ]);
-  newEditorState = EditorState.push(
-    editorState,
-    newEditorState.getCurrentContent(),
-  );
   const newBlocks = newEditorState.getCurrentContent().getBlocksAsArray();
   let newBlock;
   let blockIndexToSelect = 0;
