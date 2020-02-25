@@ -76,9 +76,9 @@ import {
   getWordCount,
   handleDocumentDragover,
   handleDocumentDrop,
-  isAtomicBlockSelected,
   insertCanvasBlocks,
   insertEmptyBlock,
+  isAdvancedBlockSelected,
   isBlockAList,
   isBlockEmpty,
   isFirstListBlock,
@@ -1039,21 +1039,36 @@ class Blocksmith extends React.Component {
     this.removeActiveStyling();
   }
 
+  /**
+   * Allows copying advanced blocks to the clipboard, via serialization, to be pasted later.
+   *
+   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
+   */
   handleMouseCopy(e) {
-    e.preventDefault();
     const { editorState } = this.state;
+    if (!isAdvancedBlockSelected(editorState)) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
     selection.capture(editorState);
     copySelectedBlocksToClipboard(editorState);
     selection.restore();
   }
 
+  /**
+   * Allows cutting advanced blocks to the clipboard, via serialization, to be pasted later.
+   *
+   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
+   */
   handleMouseCut(e) {
-    e.preventDefault();
     const { editorState } = this.state;
+    if (!isAdvancedBlockSelected(editorState)) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
     copySelectedBlocksToClipboard(editorState);
-    this.setState({
-      editorState: deleteSelectedBlocks(editorState),
-    });
   }
 
   /**
@@ -1375,7 +1390,7 @@ class Blocksmith extends React.Component {
     } else if (
       /^[cx]$/.test(e.key)
       && ((e.metaKey && isMacOS()) || (e.ctrlKey && isWindows()))
-      && isAtomicBlockSelected(editorState)
+      && isAdvancedBlockSelected(editorState)
     ) {
       if (e.key === 'c') {
         selection.capture(editorState);
@@ -1607,7 +1622,7 @@ class Blocksmith extends React.Component {
         <CardBody indent>
           <div
             onCopy={this.handleMouseCopy}
-            onCut={this.handleMouseCopy}
+            onCut={this.handleMouseCut}
             onDrop={this.handleDrop}
             onMouseLeave={this.handleMouseLeave}
             onMouseMove={this.handleMouseMove}
