@@ -65,11 +65,7 @@ export default (editorState, allowEmptyBlocks = false) => {
   const draftJsBlocks = contentState.getBlocksAsArray();
   const indexOffsets = getIndexOffsets(draftJsBlocks);
 
-  const filteredNodeBlocks = blocks
-    // remove "newlines" and empty p tags
-    .filter((block) => !EMPTY_BLOCK_REGEX.test(block))
-    // trim strings
-    .map((block) => (typeof block === 'string' ? block.trim() : block));
+  const filteredNodeBlocks = blocks.map((block) => (typeof block === 'string' ? block.trim() : block));
 
   const lists = filteredNodeBlocks
     .filter((block) => typeof block === 'string')
@@ -114,19 +110,23 @@ export default (editorState, allowEmptyBlocks = false) => {
     })
     // insurance against mutant p tags eg <p>, </p>, or <p></p>
     .filter((block) => block instanceof Message || !MUTANT_P_TAG_REGEX.test(block))
-    .map((block, index) => {
+    .reduce((acc, block, index) => {
       if (block instanceof Message) {
-        return block;
+        acc.push(block);
+        return acc;
+      }
+      if (EMPTY_BLOCK_REGEX.test(block)) {
+        return acc;
       }
       const offset = isNumber(indexOffsets[index])
         ? indexOffsets[index]
         : indexOffsets[indexOffsets.length - 1];
       const canvasBlock = draftJsBlocks[index + offset].getData().get('canvasBlock');
+      const textBlock = TextBlockV1Mixin.findOne().createMessage().set('text', block);
       if (canvasBlock && canvasBlock.has('updated_date')) {
-        return TextBlockV1Mixin.findOne().createMessage()
-          .set('text', block)
-          .set('updated_date', canvasBlock.get('updated_date'));
+        textBlock.set('updated_date', canvasBlock.get('updated_date'));
       }
-      return TextBlockV1Mixin.findOne().createMessage().set('text', block);
-    });
+      acc.push(textBlock);
+      return acc;
+    }, []);
 };

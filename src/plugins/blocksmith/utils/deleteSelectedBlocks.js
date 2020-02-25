@@ -31,10 +31,9 @@ export default (editorState) => {
       break;
     }
   }
-  const SELECTED_BLOCK_KEY_REGEX = new RegExp(`^(?:${selectedBlocksList.reduce((acc, cur) => `${acc}|${cur.getKey()}`, '').replace(/^\|/, '')})$`);
+  const selectedBlockKeys = selectedBlocksList.map((b) => b.getKey());
   newContentState = ContentState.createFromBlockArray(
-    newContentState.getBlocksAsArray()
-      .filter((b) => !SELECTED_BLOCK_KEY_REGEX.test(b.getKey())),
+    newContentState.getBlocksAsArray().filter((b) => !selectedBlockKeys.includes(b.getKey())),
     newContentState.getEntityMap(),
   );
   newEditorState = EditorState.push(

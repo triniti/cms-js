@@ -1,3 +1,4 @@
+import throttle from 'lodash/throttle';
 import blockParentNode from './blockParentNode';
 
 const UPDATE_CLASS = 'block-update';
@@ -33,7 +34,7 @@ export default {
    *
    * @param {EditorState} editorState
    */
-  style: (editorState) => {
+  style: throttle((editorState) => {
     setTimeout(() => {
       const parentNode = blockParentNode.get();
       if (!parentNode) {
@@ -62,5 +63,5 @@ export default {
         }
       });
     });
-  },
+  }, 500),
 };

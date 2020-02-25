@@ -5,7 +5,8 @@ import convertToCanvasBlocks from './convertToCanvasBlocks';
 import selectBlock, { selectionTypes } from './selectBlock';
 
 /**
- * Inserts a list of canvas blocks into the draft editor (as draft blocks with data, entity, etc).
+ * Inserts a list of canvas blocks into the draft editor (as draft blocks with data, entity, etc)
+ * and places the text indicator at the end of the final pasted block.
  *
  * @param {EditorState} editorState  - a state instance of a DraftJs Editor
  * @param {string}      key          - a DraftJs block key
@@ -25,37 +26,46 @@ export default (editorState, key, position, canvasBlocks) => {
   const newContentState = newEditorState.getCurrentContent();
   let haveEncounteredKey = false;
   const { blocksBefore, blocksAfter } = newContentState.getBlocksAsArray().reduce((acc, cur) => {
-    if (!haveEncounteredKey) {
-      if (cur.getKey() !== key) {
-        acc.blocksBefore.push(cur);
-        return acc;
-      }
-      haveEncounteredKey = true;
-      if (position === constants.POSITION_BEFORE) {
-        acc.blocksAfter.push(cur);
-      } else {
-        acc.blocksBefore.push(cur);
-      }
+    if (haveEncounteredKey) {
+      acc.blocksAfter.push(cur);
       return acc;
     }
-    acc.blocksAfter.push(cur);
+    if (cur.getKey() !== key) {
+      acc.blocksBefore.push(cur);
+      return acc;
+    }
+    if (!haveEncounteredKey) {
+      haveEncounteredKey = true;
+      return acc;
+    }
+    if (position === constants.POSITION_BEFORE) {
+      acc.blocksAfter.push(cur);
+    } else {
+      acc.blocksBefore.push(cur);
+    }
     return acc;
   }, { blocksBefore: [], blocksAfter: [] });
-  const editorStateBefore = EditorState.createWithContent(ContentState.createFromBlockArray(
-    blocksBefore,
-    newContentState.getEntityMap(),
-  ));
-  const editorStateAfter = EditorState.createWithContent(ContentState.createFromBlockArray(
-    blocksAfter,
-    newContentState.getEntityMap(),
-  ));
-  const canvasBlocksBefore = convertToCanvasBlocks(editorStateBefore, true);
-  const canvasBlocksAfter = convertToCanvasBlocks(editorStateAfter, true);
-  newEditorState = convertToEditorState([
-    ...canvasBlocksBefore,
-    ...canvasBlocks,
-    ...canvasBlocksAfter,
-  ]);
+  const newCanvasBlocks = [];
+  if (blocksBefore.length) {
+    const editorStateBefore = EditorState.createWithContent(ContentState.createFromBlockArray(
+      blocksBefore,
+      newContentState.getEntityMap(),
+    ));
+    newCanvasBlocks.push(...convertToCanvasBlocks(editorStateBefore, true));
+  }
+  newCanvasBlocks.push(...canvasBlocks);
+  if (blocksAfter.length) {
+    const editorStateAfter = EditorState.createWithContent(ContentState.createFromBlockArray(
+      blocksAfter,
+      newContentState.getEntityMap(),
+    ));
+    newCanvasBlocks.push(...convertToCanvasBlocks(editorStateAfter, true));
+  }
+  newEditorState = convertToEditorState(newCanvasBlocks);
+  newEditorState = EditorState.push(
+    editorState,
+    newEditorState.getCurrentContent(),
+  );
   const newBlocks = newEditorState.getCurrentContent().getBlocksAsArray();
   let newBlock;
   let blockIndexToSelect = 0;

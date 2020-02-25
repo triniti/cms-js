@@ -218,7 +218,7 @@ test('Blocksmith:util:getIndexOffsets', (t) => {
     ]),
   );
   const indexOffsets = getIndexOffsets(editorState.getCurrentContent().getBlocksAsArray());
-  const expectedArray = [0, 0, 2, 2];
+  const expectedArray = [0, 0, 2, 3];
   let actual;
   let expected;
   indexOffsets.forEach((offset, index) => {
