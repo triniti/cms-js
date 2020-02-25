@@ -24,12 +24,11 @@ const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
  *                                         blocks. but now that we are doing de/serialization
  *                                         mid-edit, it can make sense to leave them.
  *                                         convertToEditorState will detect "empty" canvas blocks
- *                                         and convert them to truly empty ContentBlocks
+ *                                         and convert them to truly empty ContentBlocks.
  *
  * @returns {Array} an array of triniti canvas blocks
  */
-
-export default (editorState, allowEmptyBlocks = false) => {
+export default (editorState, allowEmptyTextBlocks = false) => {
   // fixme: this could take contentState only
   const contentState = editorState.getCurrentContent();
 
@@ -38,7 +37,7 @@ export default (editorState, allowEmptyBlocks = false) => {
     blockRenderers: {
       [blockTypes.ATOMIC]: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
       [blockTypes.UNSTYLED]: (block) => {
-        if (allowEmptyBlocks && block.getText() === '') {
+        if (allowEmptyTextBlocks && block.getText() === '') {
           return `<p>${tokens.EMPTY_BLOCK_TOKEN}</p>`;
         }
         return undefined;
