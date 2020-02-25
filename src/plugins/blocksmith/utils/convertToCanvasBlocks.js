@@ -18,7 +18,13 @@ const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
  * Converts an EditorState instance from the DraftJs Editor into triniti canvas blocks
  *
  * @param {EditorState} editorState      - an EditorState instance of a DraftJs Editor
- * @param {boolean}     allowEmptyBlocks - whether or not to allow empty blocks
+ * @param {boolean}     allowEmptyBlocks - whether or not to allow empty blocks. traditionally
+ *                                         this util was only used to convert to canvas blocks
+ *                                         in order to save them, and we don't save empty text
+ *                                         blocks. but now that we are doing de/serialization
+ *                                         mid-edit, it can make sense to leave them.
+ *                                         convertToEditorState will detect "empty" canvas blocks
+ *                                         and convert them to truly empty ContentBlocks
  *
  * @returns {Array} an array of triniti canvas blocks
  */
