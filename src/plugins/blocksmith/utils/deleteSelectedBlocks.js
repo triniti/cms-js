@@ -26,11 +26,11 @@ export default (editorState) => {
   const firstSelectedBlock = selectedBlocksList[0];
   const blocks = newContentState.getBlocksAsArray();
   let block;
-  let unselectedBlocksBeforeCount = 0;
+  let newBlockInsertionPoint = 0;
   for (let i = 0; i < blocks.length; i += 1) {
     block = blocks[i];
     if (block.getKey() === firstSelectedBlock.getKey()) {
-      unselectedBlocksBeforeCount = i === 0 ? i : i - 1;
+      newBlockInsertionPoint = i === 0 ? i : i - 1;
       break;
     }
   }
@@ -39,10 +39,6 @@ export default (editorState) => {
     newContentState.getBlocksAsArray().filter((b) => !selectedBlockKeys.includes(b.getKey())),
     newContentState.getEntityMap(),
   );
-  newEditorState = EditorState.push(
-    newEditorState,
-    newContentState,
-  );
   const position = !wereAllBlocksSelected && wasFirstBlockSelected
     ? constants.POSITION_BEFORE
     : constants.POSITION_AFTER;
@@ -50,8 +46,8 @@ export default (editorState) => {
   newEditorState = EditorState.push(
     newEditorState,
     insertEmptyBlock(
-      newEditorState.getCurrentContent(),
-      unselectedBlocksBeforeCount,
+      newContentState,
+      newBlockInsertionPoint,
       position,
       blockToSelectKey,
     ),
