@@ -7,6 +7,7 @@
 * Image Block modal first cancel button does not cancel
 * Sometimes Blocks are converting to text blocks after publish.
 * Some Text Blocks are causing asset blocks to convert to text blocks due to <figure></figure> in html
+* Fix bug where expanded block image previews are draggable in view mode
 
 
 ## v0.4.4

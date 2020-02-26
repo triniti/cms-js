@@ -114,6 +114,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
         <>
           {imagePreviewSrc && (
             <ImagePreview
+              draggable={draggable}
               onDismissImagePreview={this.handleToggleImagePreviewSrc}
               src={imagePreviewSrc}
             />
