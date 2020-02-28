@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -13,13 +13,17 @@ const ReorderButtons = ({
   areShiftButtonsVisible,
   isFirstBlock,
   isLastBlock,
+  onHandleDraggableBlocks: handleDraggableBlocks,
   onShiftBlock: handleShiftBlock,
   onHideShiftButtons: handleHideShiftButtons,
   onShowShiftButtons: handleShowShiftButtons,
 }) => {
   const className = classNames('mb-1 btn btn-outline-text-light btn-light btn-sm btn-radius-circle', { 'mr-2': !areShiftButtonsVisible });
+
   return isFirstBlock && isLastBlock ? null : (
-    <div className="d-inline-flex align-items-center flex-column">
+    <div 
+      className="d-inline-flex align-items-center flex-column"
+    >
       <Button
         className="mb-1"
         disabled={isFirstBlock || !areShiftButtonsVisible}
@@ -55,8 +59,10 @@ const ReorderButtons = ({
           draggable
           id={constants.DRAG_BUTTON_ID}
           key="b2"
+          onKeyUp={() => {}}
           onDragStart={handleDragStart(activeBlockKey)}
           onDragEnd={handleDragEnd}
+          onMouseUp={handleDraggableBlocks}
           onMouseEnter={handleShowShiftButtons}
           onMouseLeave={() => handleHideShiftButtons(750)}
           role="button"

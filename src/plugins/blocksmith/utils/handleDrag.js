@@ -15,5 +15,7 @@ export const handleDragStart = (blockKey) => (event) => {
 };
 
 export const handleDragEnd = () => {
-  draggedBlockNode.style.opacity = 1;
+  if (draggedBlockNode) {
+    draggedBlockNode.style.opacity = 1;
+  }
 };

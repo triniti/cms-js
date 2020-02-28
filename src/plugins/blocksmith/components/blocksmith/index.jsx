@@ -28,7 +28,7 @@ import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-
 import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
+import TextBlockWrapper from '@triniti/cms/plugins/blocksmith/components/text-block-wrapper';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
@@ -156,6 +156,7 @@ class Blocksmith extends React.Component {
       blockButtonsStyle: {
         transform: 'scale(0)',
       },
+      draggableBlockList: [],
       hoverBlockNode: null,
       isDirty: false,
       isHoverInsertMode: false,
@@ -232,6 +233,9 @@ class Blocksmith extends React.Component {
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
     this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
+    this.handleDraggableBlocks = this.handleDraggableBlocks.bind(this);
+    this.addDraggableBlock = this.addDraggableBlock.bind(this);
+    this.removeDraggableBlock = this.removeDraggableBlock.bind(this);
   }
 
   componentDidMount() {
@@ -256,6 +260,44 @@ class Blocksmith extends React.Component {
   componentWillUnmount() {
     blockParentNode.clearCache();
     sidebar.clearCache();
+  }
+
+  /**
+    Draggable Blocks
+   */
+
+  handleDraggableBlocks(e) {
+    const { draggableBlockList } = this.state;
+    const key = e.currentTarget.getAttribute('data-dragged-block-key');
+    const hasKey = draggableBlockList.includes(key);
+    const block = e.currentTarget.parentNode.parentNode.parentNode;
+    !hasKey ? this.addDraggableBlock(key, block) : this.removeDraggableBlock(key, block);
+  }
+
+  addDraggableBlock(key, block) {
+    const { draggableBlockList } = this.state;
+    this.setState({
+      draggableBlockList: [...draggableBlockList, key]
+    });
+    
+    while (!blockParentNode.is(block.parentNode)) {
+      block = block.parentNode;
+    }
+
+    block.classList.add('drag-block-active');
+  }
+
+  removeDraggableBlock(key, block) {
+    const { draggableBlockList } = this.state;
+    this.setState({
+      draggableBlockList: draggableBlockList.filter(blockKey => blockKey !== key)
+    });
+
+    while (!blockParentNode.is(block.parentNode)) {
+      block = block.parentNode;
+    }
+
+    block.classList.remove('drag-block-active');
   }
 
   /**
@@ -505,7 +547,22 @@ class Blocksmith extends React.Component {
    * @returns {?Object} a React component and config, or null if borked
    */
   blockRendererFn(block) {
-    const { editorState, readOnly } = this.state;
+    const { editorState, readOnly, activeBlockKey, copiedBlock, resetFlag } = this.state;
+
+    const blockConfig = {
+      activeBlockKey,
+      copiedBlock,
+      editorState,
+      onHandleDraggableBlocks: this.handleDraggableBlocks,
+      onCopyBlock: this.handleCopyBlock,
+      onDelete: this.handleDelete,
+      onEdit: this.handleEdit,
+      onPasteBlock: this.handlePasteBlock,
+      onShiftBlock: this.handleShiftBlock,
+      onToggleSpecialCharacterModal: this.handleToggleSpecialCharacterModal,
+      resetFlag,
+    };
+
     switch (block.getType()) {
       case 'atomic':
         if (!block.getEntityAt(0)) {
@@ -518,14 +575,16 @@ class Blocksmith extends React.Component {
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
+            blockButtonComponent: (props) => <BlockButtons {...props} {...blockConfig} />,
           },
         };
       case 'unstyled':
         return {
-          component: DraggableTextBlock,
+          component: TextBlockWrapper,
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
+            blockButtonComponent: (props) => <BlockButtons {...props} {...blockConfig} />,
           },
         };
       case 'ordered-list-item':
@@ -537,6 +596,7 @@ class Blocksmith extends React.Component {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
             getReadOnly: this.getReadOnly,
+            blockButtonComponent: (props) => <BlockButtons {...props} {...blockConfig} />,
           },
         };
       default:
@@ -723,7 +783,8 @@ class Blocksmith extends React.Component {
     }
     draggedBlock.classList.remove('hidden-block');
 
-    const { editorState, isDirty } = this.state;
+    const { editorState, isDirty, draggableBlockList } = this.state;
+
     const newContentState = dropBlock(
       editorState.getCurrentContent(),
       draggedBlockKey,
@@ -732,6 +793,7 @@ class Blocksmith extends React.Component {
       isDropTargetAList,
       draggedBlockListKeys,
     );
+
     const newEditorState = selectBlock(
       EditorState.push(editorState, newContentState, 'move-block'),
       draggedBlockKey,
@@ -1525,7 +1587,6 @@ class Blocksmith extends React.Component {
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
-
     return (
       <Card>
         <CardHeader>
@@ -1567,20 +1628,6 @@ class Blocksmith extends React.Component {
               ref={(ref) => { this.editor = ref; }}
               spellCheck
             />
-            <div style={blockButtonsStyle} className="block-buttons-holder">
-              <BlockButtons
-                activeBlockKey={activeBlockKey}
-                copiedBlock={copiedBlock}
-                editorState={editorState}
-                onCopyBlock={this.handleCopyBlock}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-                onPasteBlock={this.handlePasteBlock}
-                onShiftBlock={this.handleShiftBlock}
-                onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-                resetFlag={blockButtonsStyle.top}
-              />
-            </div>
             <div style={sidebarHolderStyle} className="sidebar-holder">
               <Sidebar
                 isHoverInsertMode={isHoverInsertMode}

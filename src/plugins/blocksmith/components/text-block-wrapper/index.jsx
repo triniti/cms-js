@@ -6,7 +6,7 @@ import { ContentBlock, EditorBlock } from 'draft-js';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
-export const ListBlockWrapper = (props) => {
+export const TextBlockWrapper = (props) => {
   const {
     block,
     blockProps,
@@ -14,22 +14,25 @@ export const ListBlockWrapper = (props) => {
     draggable,
   } = props;
 
-  const { blockButtonComponent: BlockButtonComponent } = blockProps;
+  const {
+    blockButtonComponent: BlockButtonComponent,
+  } = blockProps;
 
   return (
     <>
-      {draggable && blockProps.isFirst && (
-        <div
-          className="drag-area draggable-top"
-          contentEditable={false}
-          draggable
-          onDragEnd={handleDragEnd}
-          onDragStart={handleDragStart(block.getKey())}
-        />
+      {draggable && (
+      <div
+        className="drag-area draggable-top"
+        contentEditable={false}
+        draggable
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart(block.getKey())}
+      />
       )}
       <span
         data-offset-key={offsetKey}
         style={{ cursor: 'text' }}
+        role="presentation"
       >
         <EditorBlock
           block={block}
@@ -39,33 +42,27 @@ export const ListBlockWrapper = (props) => {
 
         <BlockButtonComponent />
       </span>
-      {draggable && blockProps.isLast && (
-        <div
-          className="drag-area draggable-bottom"
-          contentEditable={false}
-          draggable
-          onDragEnd={handleDragEnd}
-          onDragStart={handleDragStart(block.getKey())}
-        />
+      {draggable && (
+      <div
+        className="drag-area draggable-bottom"
+        contentEditable={false}
+        draggable
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart(block.getKey())}
+      />
       )}
     </>
   );
 };
 
-ListBlockWrapper.propTypes = {
+TextBlockWrapper.propTypes = {
   block: PropTypes.instanceOf(ContentBlock).isRequired,
   blockProps: PropTypes.shape({
-    isFirst: PropTypes.bool.isRequired,
-    isLast: PropTypes.bool.isRequired,
     getReadOnly: PropTypes.func.isRequired,
     blockButtonComponent: PropTypes.func.isRequired,
   }).isRequired,
-  draggable: PropTypes.bool,
+  draggable: PropTypes.bool.isRequired,
   offsetKey: PropTypes.string.isRequired,
 };
 
-ListBlockWrapper.defaultProps = {
-  draggable: true,
-};
-
-export default connect(selector)(ListBlockWrapper);
+export default connect(selector)(TextBlockWrapper);

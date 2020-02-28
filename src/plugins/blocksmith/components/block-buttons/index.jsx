@@ -7,7 +7,7 @@ import EditButton from '@triniti/cms/plugins/blocksmith/components/edit-block-bu
 import Message from '@gdbots/pbj/Message';
 import PasteButton from '@triniti/cms/plugins/blocksmith/components/paste-block-button';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReorderButtons from '@triniti/cms/plugins/blocksmith/components/reorder-block-buttons';
 import { getBlockForKey, isBlockEmpty } from '../../utils';
 
@@ -43,6 +43,12 @@ export default class BlockButtons extends React.Component {
     this.handleHideShiftButtons = this.handleHideShiftButtons.bind(this);
     this.handleShiftBlock = this.handleShiftBlock.bind(this);
     this.handleShowShiftButtons = this.handleShowShiftButtons.bind(this);
+  }
+
+  // need this here to avoid memory leak error.
+  componentWillUnmount() {
+    const { timeoutId } = this.state;
+    clearTimeout(timeoutId);
   }
 
   componentWillReceiveProps({ resetFlag }) {
@@ -99,6 +105,7 @@ export default class BlockButtons extends React.Component {
       activeBlockKey,
       copiedBlock,
       editorState,
+      onHandleDraggableBlocks: handleDraggableBlocks,
       onCopyBlock: handleCopyBlock,
       onDelete: handleDelete,
       onEdit: handleEdit,
@@ -137,10 +144,10 @@ export default class BlockButtons extends React.Component {
         }
       }
     }
-
+    
     return (
       <div
-        className={classNames('d-flex align-items-center', { 'is-first': isFirstBlock, 'is-last': isLastBlock })}
+        className={classNames('d-flex align-items-center block-buttons-holder', { 'is-first': isFirstBlock, 'is-last': isLastBlock })}
       >
         {isEmpty && copiedBlock && <PasteButton onPasteBlock={handlePasteBlock} />}
         {!isEmpty && (
@@ -157,6 +164,7 @@ export default class BlockButtons extends React.Component {
               areShiftButtonsVisible={areShiftButtonsVisible}
               isFirstBlock={isFirstBlock}
               isLastBlock={isLastBlock}
+              onHandleDraggableBlocks={handleDraggableBlocks}
               onHideShiftButtons={this.handleHideShiftButtons}
               onShiftBlock={this.handleShiftBlock}
               onShowShiftButtons={this.handleShowShiftButtons}

@@ -80,12 +80,17 @@ class GenericBlockPlaceholder extends React.PureComponent {
       config,
       draggable,
       block,
+      blockProps,
       contentState,
       showTitle,
       targetNode,
       ...rest
     } = this.props;
     const { imagePreviewSrc } = this.state;
+
+    const {
+      blockButtonComponent: BlockButtonComponent,
+    } = blockProps;
 
     const PreviewComponent = get(config, 'preview.component', null);
     const entityKey = block.getEntityAt(0);
@@ -162,6 +167,9 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
         </>
+
+        <BlockButtonComponent />
+
         { config.label && (
         <div
           className="placeholder-label-holder ml-2 mt-1"

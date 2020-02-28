@@ -30,6 +30,7 @@
 
 figure {
   margin: 0;
+  position: relative;
 }
 
 .btn-radius-round span:not(.badge-alert) {
@@ -71,6 +72,8 @@ div[data-contents="true"] {
   a {
     color: #c90202;
   }
+
+  position: relative;
 
   .block-preview {
     user-select: none; // selecting text in a preview will open the inline toolbar
@@ -121,7 +124,7 @@ div[data-contents="true"] {
 
   & > * {
     display: block;
-    padding: 4px 7rem 4px 1rem;
+    padding: 4px 1rem;
     background-color: #f7f7f7;
     font-family: 'Source Sans Pro', arial, sans-serif;
     margin-bottom: 4px;
@@ -130,6 +133,15 @@ div[data-contents="true"] {
     min-height: 47px;
     border-radius: 2px;
     background: none;
+    position: relative;
+    transition: all 1s ease-in-out;
+
+    &:hover {
+      .block-buttons-holder {
+        display: absolute;
+        opacity: 1;
+      }
+    }
 
     &.hidden-block {
       opacity: 0 !important;
@@ -163,7 +175,7 @@ div[data-contents="true"] {
       flex-direction: column;
       justify-content: center;
       position: relative;
-      padding: 5px 9.5rem 6px 1rem;
+      padding: 5px 1rem 6px 1rem;
     }
   }
 
@@ -178,6 +190,8 @@ div[data-contents="true"] {
 
 .block-buttons-holder {
   right: 15px;
+  top: -12px;
+  opacity: 0;
   position: absolute;
 
   .is-first {
@@ -197,7 +211,9 @@ div[data-contents="true"] {
   }
 }
 
-
+.drag-block-active {
+  border: 1px dashed #04c5a2;
+}
 
 // END EDITOR STYLES //
 
