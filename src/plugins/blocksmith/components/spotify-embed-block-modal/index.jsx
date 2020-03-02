@@ -139,7 +139,6 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     } = this.state;
 
     const { isFreshBlock, isOpen, toggle } = this.props;
-    const spotifyURI = spotifyId ? `spotify:${spotifyType}:${spotifyId}` : ''
 
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
@@ -152,7 +151,7 @@ export default class SpotifyEmbedBlockModal extends React.Component {
               onChange={this.handleChangeTextArea}
               placeholder="enter embed code"
               type="textarea"
-              value={spotifyURI}
+              value={spotifyId ? `spotify:${spotifyType}:${spotifyId}` : ''}
             />
           </FormGroup>
           {
