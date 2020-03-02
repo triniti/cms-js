@@ -645,7 +645,7 @@ class Blocksmith extends React.Component {
       return;
     }
 
-    if (copiedBlock && copiedBlock.get('etag') === blockData.get('canvasBlock'.get('etag'))) {
+    if (copiedBlock && copiedBlock.get('etag') === blockData.get('canvasBlock').get('etag')) {
       return;
     }
 
