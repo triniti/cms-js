@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.5.0
 * Spotify embed code not visible when user clicks update
 * Remove blocksmith focus plugin and related code
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
