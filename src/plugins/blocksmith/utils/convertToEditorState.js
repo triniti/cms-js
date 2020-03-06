@@ -121,10 +121,12 @@ function getListItems(canvasBlockText) {
  */
 function convertToListBlocks(canvasBlock, listContentBlocks, listItems) {
   const contentBlocks = [];
-  // you have to split out each list item as if it were the only list item in its list and
-  // apply styles that way. if you don't you will surely regret it. because the style will
-  // bleed into the list items that come after. fortunately draft will combine them, although
-  // that behavior may cause extreme pain in the future.
+  /**
+   * you have to split out each list item as if it were the only list item in its list and apply
+   * styles that way. if you don't you will surely regret it. because the style will bleed into the
+   * list items that come after. fortunately draft will combine them, although that behavior may
+   * cause extreme pain in the future.
+   */
   listContentBlocks.forEach((listContentBlock, index) => {
     const html = listContentBlock.getType() === blockTypes.ORDERED_LIST_ITEM
       ? `<ol>${listItems[index]}</ol>`
