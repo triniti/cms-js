@@ -7,9 +7,9 @@ import getListBlocks from './getListBlocks';
 import isBlockAList from './isBlockAList';
 
 export const selectionTypes = {
-  ALL: Symbol('ALL'),
-  END: Symbol('END'),
-  START: Symbol('START'),
+  ALL: 'ALL',
+  END: 'END',
+  START: 'START',
 };
 
 /**
