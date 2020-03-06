@@ -7,7 +7,7 @@ import EditButton from '@triniti/cms/plugins/blocksmith/components/edit-block-bu
 import Message from '@gdbots/pbj/Message';
 import PasteButton from '@triniti/cms/plugins/blocksmith/components/paste-block-button';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReorderButtons from '@triniti/cms/plugins/blocksmith/components/reorder-block-buttons';
 import { blockTypes } from '../../constants';
 import { getBlockForKey, isBlockEmpty } from '../../utils';

@@ -6,7 +6,7 @@ import get from 'lodash/get';
 
 import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { ContentBlock, ContentState } from 'draft-js';
+import { ContentBlock } from 'draft-js';
 import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 
 import ImagePreview from './ImagePreview';
@@ -41,7 +41,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
         preview: PropTypes.func,
       }),
     ]),
-    contentState: PropTypes.instanceOf(ContentState).isRequired,
     draggable: PropTypes.bool,
     label: PropTypes.string,
     showTitle: PropTypes.bool,
@@ -80,7 +79,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
       config,
       draggable,
       block,
-      contentState,
       showTitle,
       targetNode,
       ...rest

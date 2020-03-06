@@ -45,7 +45,7 @@ function stripTags(text) {
  * @param {string}       canvasBlockText - The text from a canvasBlock of type 'text-block'.
  * @param {ContentBlock} contentBlock    - A Draft.js ContentBlock object.
  *
- * @returns {contentBlock} - The provided ContentBlock, but now with an inline style
+ * @returns {ContentBlock} - The provided ContentBlock, but now with an inline style
  *                           'HIGHLIGHT' applied where expected.
  */
 function getHighlightedTextBlock(canvasBlockText, contentBlock) {
@@ -114,32 +114,22 @@ function getListItems(canvasBlockText) {
  *
  * @param {Object}       canvasBlock       - A triniti canvas block. This is the canvasBlock from
  *                                           which listContentBlocks and listItems were generated.
- * @param {ContentState} contentState      - A Draft.js ContentState object.
  * @param {Object}       listContentBlocks - One or more Draft.js ContentBlocks.
  * @param {string[]}     listItems         - One more more individual list items eg '<li>derp</li>'
  *
- * @returns
- * {
- *  contentBlocks,
- *  newContentState
- * }
- * - The newly created ContentBlocks and the newContentState (which contains the newly created
- *   entity for said ContentBlocks).
+ * @returns {ContentBlocks[]} - The newly created ContentBlocks and the newContentState (which
+ *                              contains the newly created entity for said ContentBlocks).
  */
-function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listItems) {
+function convertToListBlocks(canvasBlock, listContentBlocks, listItems) {
   const contentBlocks = [];
-  const newContentState = contentState;
   // you have to split out each list item as if it were the only list item in its list and
   // apply styles that way. if you don't you will surely regret it. because the style will
   // bleed into the list items that come after. fortunately draft will combine them, although
   // that behavior may cause extreme pain in the future.
   listContentBlocks.forEach((listContentBlock, index) => {
-    let html;
-    if (listContentBlock.getType() === blockTypes.ORDERED_LIST_ITEM) {
-      html = `<ol>${listItems[index]}</ol>`;
-    } else {
-      html = `<ul>${listItems[index]}</ul>`;
-    }
+    const html = listContentBlock.getType() === blockTypes.ORDERED_LIST_ITEM
+      ? `<ol>${listItems[index]}</ol>`
+      : `<ul>${listItems[index]}</ul>`;
     const block = convertFromHTML(html).contentBlocks[0];
     const contentBlock = canvasBlock.get('text').match(SPAN_END_REGEX)
       ? getHighlightedTextBlock(listItems[index], block)
@@ -152,10 +142,7 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
       type: contentBlock.getType(),
     }));
   });
-  return {
-    contentBlocks,
-    newContentState,
-  };
+  return contentBlocks;
 }
 
 /**
@@ -165,20 +152,13 @@ function convertToListBlocks(canvasBlock, contentState, listContentBlocks, listI
  * (eg 'UPDATE') or inline styles (eg 'HIGHLIGHT') applied to them.
  *
  * @param {Object}       canvasBlock  - A triniti canvas block (has triniti:canvas:mixin:block).
- * @param {ContentState} contentState - A Draft.js ContentState object.
  *
- * @returns
- * {
- *  contentBlocks,
- *  newContentState
- * }
- * - The newly created ContentBlock(s) and the newContentState (which contains the newly created
- *   entity(s) for said ContentBlocks).
+ * @returns {ContentBlock[]} - The newly created ContentBlock(s) and the newContentState (which
+ *                             contains the newly created entity(s) for said ContentBlocks).
  */
-function convertTextBlock(canvasBlock, contentState) {
-  let newContentState = contentState;
+function convertTextBlock(canvasBlock) {
   const canvasBlockText = canvasBlock.get('text');
-  let converted;
+  let convertedListBlocks = [];
   const contentBlocks = [];
   const listContentBlocks = []; // of type 'ordered-list-item' or 'unordered-list-item'
   (convertFromHTML(canvasBlockText).contentBlocks || []).forEach((block) => {
@@ -198,21 +178,16 @@ function convertTextBlock(canvasBlock, contentState) {
     }
   });
   if (listContentBlocks.length) {
-    converted = convertToListBlocks(
+    convertedListBlocks = convertToListBlocks(
       canvasBlock,
-      newContentState,
       listContentBlocks,
       getListItems(canvasBlockText),
     );
-    if (converted.contentBlocks.length) {
-      contentBlocks.push(...converted.contentBlocks);
+    if (convertedListBlocks.length) {
+      contentBlocks.push(...convertedListBlocks);
     }
-    newContentState = converted.newContentState;
   }
-  return {
-    contentBlocks,
-    newContentState,
-  };
+  return contentBlocks;
 }
 
 /**
@@ -228,16 +203,15 @@ function convertTextBlock(canvasBlock, contentState) {
  */
 export default function (canvasBlocks, decorator = null) {
   const editorState = EditorState.createEmpty();
-  let contentState = editorState.getCurrentContent();
-  let converted;
+  const contentState = editorState.getCurrentContent();
+  let convertedTextBlocks = [];
   canvasBlocks.forEach((canvasBlock) => {
     switch (canvasBlock.schema().getQName().getMessage()) {
       case 'text-block':
-        converted = convertTextBlock(canvasBlock, contentState);
-        if (converted.contentBlocks.length) {
-          masterContentBlocks.push(...converted.contentBlocks);
+        convertedTextBlocks = convertTextBlock(canvasBlock);
+        if (convertedTextBlocks.length) {
+          masterContentBlocks.push(...convertedTextBlocks);
         }
-        contentState = converted.newContentState;
         break;
       default:
         masterContentBlocks.push(new ContentBlock({

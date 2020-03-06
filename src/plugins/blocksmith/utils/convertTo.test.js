@@ -16,25 +16,31 @@ const blocks = [
     isSimple: true,
     block: TextBlockV1.create()
       .set('text', '<p>wtf</p>')
-      .set('updated_date', new Date('2010/10/03')),
+      .set('updated_date', new Date('2010/01/01')),
   },
   {
     isSimple: false,
     block: TextBlockV1.create() // eslint-disable-next-line no-useless-escape
       .set('text', '<p><u>w</u><del><u>h</u></del><a href=\"https://www.google.com\"><del><u>y</u></del><del> </del><del><em>th</em></del><del><u><em>e</em></u></del><del><u> </u></del><del><u><strong>w</strong></u></del><u><strong>h</strong></u><strong>a</strong><em><strong>t</strong></em><em> </em><span class=\"highlight-text\"><em>okee</em></span><em> </em><del><em>d</em></del></a><del><em>ok</em></del><del>ey</del></p>')
-      .set('updated_date', new Date('2011/12/03')),
+      .set('updated_date', new Date('2011/02/02')),
   },
   {
     isSimple: false,
     block: TextBlockV1.create() // eslint-disable-next-line no-useless-escape
       .set('text', '<p><ol><li>list</li><li>w<del>ha</del>t</li><li>jan 1</li><li>w<strong>h</strong><del><strong>i</strong></del><a href=\"https://www.google.com/\"><del><strong>th</strong></del><del><em><strong> lo</strong></em></del><span class=\"highlight-text\"><del><em><strong>t</strong></em></del></span><del><em><strong>s </strong></em></del><del><u><em><strong>o</strong></em></u></del></a><del><u><em><strong>f w</strong></em></u></del><u><em>eir</em></u><span class=\"highlight-text\"><u><em>d</em></u><u> st</u>uff goi</span>ng</li><li>o<u>n in th</u>e</li><li>place</li><li><span class=\"highlight-text\">w<u>oo</u><u><strong>p </strong></u></span><u><strong>d</strong></u><del><u><em><strong>e</strong></em></u></del><del><em><strong> w</strong></em></del><a href=\"https://www.google.com/\"><del><em>oo</em></del></a><del><em>p</em></del><del>d</del>y</li></ol></p>')
-      .set('updated_date', new Date('2011/12/03')),
+      .set('updated_date', new Date('2012/03/03')),
+  },
+  {
+    isSimple: false,
+    block: TextBlockV1.create() // eslint-disable-next-line no-useless-escape
+      .set('text', '<p><ul><li>t<del><em>hi</em></del><del>s o</del><del><strong>n</strong></del>e</li><li>i<span class=\"highlight-text\"><em>s u</em>no<strong>rd</strong></span><strong>ere</strong>d</li><li><em>th</em><a href=\"https://www.google.com\"><em>o</em></a></li></ul></p>')
+      .set('updated_date', new Date('2013/04/04')),
   },
   {
     isSimple: true,
     block: ImageBlockV1.create()
       .set('node_ref', NodeRef.fromString('acme:image-asset:image_jpeg_20200211_293d14038daa48c786ffbb2fbee64236'))
-      .set('updated_date', new Date('2012/01/04')),
+      .set('updated_date', new Date('2014/05/05')),
   },
 ];
 

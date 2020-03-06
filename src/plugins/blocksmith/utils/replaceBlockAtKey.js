@@ -15,7 +15,6 @@ import normalizeKey from './normalizeKey';
  * @returns {ContentState} an EditorState instance
  */
 export default (contentState, canvasBlock, key) => {
-  const newContentState = contentState;
   const draftJsBlock = new ContentBlock({
     characterList: new List([]),
     data: new Map({ canvasBlock }),
@@ -23,7 +22,7 @@ export default (contentState, canvasBlock, key) => {
     text: ' ',
     type: blockTypes.ATOMIC,
   });
-  const blocksAsArray = newContentState.getBlocksAsArray();
+  const blocksAsArray = contentState.getBlocksAsArray();
   const newBlocksAsArray = blocksAsArray.map((block) => {
     if (areKeysSame(block.getKey(), key)) {
       return draftJsBlock;
@@ -32,6 +31,6 @@ export default (contentState, canvasBlock, key) => {
   });
   return ContentState.createFromBlockArray(
     newBlocksAsArray,
-    newContentState.getEntityMap(),
+    contentState.getEntityMap(),
   );
 };

@@ -24,5 +24,6 @@ export default (editorState) => {
       && anchorOffset === 0
       && focusOffset === lastBlock.getText().length;
   }
+
   return areAllBlocksSelected;
 };

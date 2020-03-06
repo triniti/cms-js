@@ -16,7 +16,7 @@ import normalizeKey from './normalizeKey';
  *
  * @param {ContentState} contentState - a state instance of a DraftJs Editor
  * @param {string}       key          - a DraftJs block key
- * @param {string}       position     - POSITION_BEFORE or POSITION_AFTER
+ * @param {Symbol}       position     - POSITION_BEFORE or POSITION_AFTER
  * @param {?string}      newBlockKey  - a new DraftJs block key to use for the new block
  *
  * @returns {ContentState} a ContentState instance

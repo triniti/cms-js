@@ -8,9 +8,7 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  */
 export default (state, { block, blockProps }) => {
   const blockData = block.getData();
-  const node = blockData && blockData.has('canvasBlock')
-    ? blockData.get('canvasBlock')
-    : null;
+  const node = blockData ? blockData.get('canvasBlock', null) : null;
 
   return {
     targetNode: (node && node.has('node_ref')) ? getNode(state, node.get('node_ref')) : null,

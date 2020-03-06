@@ -12,19 +12,19 @@ const LIST_TAG_COUNT_REGEX = /(?:<\/?(o|u)l>)|(?:<\/?li>)/g;
 const LIST_TAG_REGEX = /<(o|u)l>.+?<\/(o|u)l>/g;
 const MUTANT_P_TAG_REGEX = /^<\/?p>(<\/p>)?$/;
 const PADDED_CLOSING_P_TAG_REGEX = /((\s)|(&nbsp;))+<\/p>$/;
-const UNNECESARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
+const UNNECESSARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
 
 /**
  * Converts an EditorState instance from the DraftJs Editor into triniti canvas blocks
  *
  * @param {EditorState} editorState      - an EditorState instance of a DraftJs Editor
- * @param {boolean}     allowEmptyBlocks - whether or not to allow empty blocks. traditionally
- *                                         this util was only used to convert to canvas blocks
- *                                         in order to save them, and we don't save empty text
- *                                         blocks. but now that we are doing de/serialization
- *                                         mid-edit, it can make sense to leave them.
- *                                         convertToEditorState will detect "empty" canvas blocks
- *                                         and convert them to truly empty ContentBlocks.
+ * @param {boolean}     allowEmptyTextBlocks - whether or not to allow empty blocks. traditionally
+ *                                             this util was only used to convert to canvas blocks
+ *                                             in order to save them, and we don't save empty text
+ *                                             blocks. but now that we are doing de/serialization
+ *                                             mid-edit, it can make sense to leave them.
+ *                                             convertToEditorState will detect "empty" canvas
+ *                                             blocks and convert them to truly empty ContentBlocks
  *
  * @returns {Array} an array of triniti canvas blocks
  */
@@ -97,7 +97,7 @@ export default (editorState, allowEmptyTextBlocks = false) => {
       // for each character that is not otherwise styled the same - ie a bold and italic character
       // next to each other that are both highlighted will have two separate spans when they don't
       // need to. so remove that unnecessary stuff here.
-      let normalizedText = block.replace(UNNECESARY_SPAN_REGEX, '');
+      let normalizedText = block.replace(UNNECESSARY_SPAN_REGEX, '');
 
       // Just makes sure each text block is a valid p tag - added this after finding the pasting
       // of br tags can result in invalid html.

@@ -13,7 +13,7 @@ import selectBlock, { selectionTypes } from './selectBlock';
  * @param {string}      position     - POSITION_BEFORE or POSITION_AFTER
  * @param {Array}       canvasBlocks - the blocks to be inserted into the editor
  *
- * @returns {ContentState} a ContentState instance
+ * @returns {EditorState} a EditorState instance
  */
 export default (editorState, key, position, canvasBlocks) => {
   if (position !== constants.POSITION_BEFORE && position !== constants.POSITION_AFTER) {

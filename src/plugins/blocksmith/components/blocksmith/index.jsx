@@ -527,7 +527,7 @@ class Blocksmith extends React.Component {
         if (!blockData || !blockData.get('canvasBlock')) {
           return null;
         }
-        return { // eslint-disable-next-line newline-per-chained-call
+        return {
           component: getPlaceholder(blockData.get('canvasBlock').schema().getCurie().getMessage()),
           editable: false,
           props: {
@@ -664,21 +664,20 @@ class Blocksmith extends React.Component {
       Blocksmith.confirmDelete().then((result) => {
         this.setState({ readOnly: false }, () => {
           if (!result.value) {
-            // do nothing, user declined to delete
-          } else {
-            this.setState({
-              editorState: EditorState.push(
-                editorState,
-                deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
-              ),
-            }, () => {
-              if (!isDirty) {
-                delegate.handleDirtyEditor(formName);
-              }
-              // eslint-disable-next-line react/destructuring-assignment
-              delegate.handleStoreEditor(formName, this.state.editorState);
-            });
+            return; // do nothing, user declined to delete
           }
+          this.setState({
+            editorState: EditorState.push(
+              editorState,
+              deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
+            ),
+          }, () => {
+            if (!isDirty) {
+              delegate.handleDirtyEditor(formName);
+            }
+            // eslint-disable-next-line react/destructuring-assignment
+            delegate.handleStoreEditor(formName, this.state.editorState);
+          });
         });
       });
     });
@@ -778,10 +777,13 @@ class Blocksmith extends React.Component {
     if (draftJsBlock.getType() === blockTypes.ATOMIC) {
       canvasBlock = blockData.get('canvasBlock');
     } else {
-      canvasBlock = TextBlockV1Mixin.findOne().createMessage()
-        .set('updated_date', blockData && blockData.has('canvasBlock') && blockData.get('canvasBlock').has('updated_date')
-          ? blockData.get('canvasBlock').get('updated_date')
-          : moment().toDate());
+      canvasBlock = TextBlockV1Mixin.findOne().createMessage();
+      const blockDataCanvasBlock = blockData && blockData.has('canvasBlock') && blockData.get('canvasBlock');
+      if (blockDataCanvasBlock && blockDataCanvasBlock.has('updated_date')) {
+        canvasBlock.set('updated_date', blockDataCanvasBlock.get('updated_date'));
+      } else {
+        canvasBlock.set('updated_date', moment().toDate());
+      }
     }
     this.handleToggleBlockModal(canvasBlock);
   }
@@ -801,10 +803,7 @@ class Blocksmith extends React.Component {
       .getCurrentContent()
       .getBlocksAsArray()
       .findIndex((block) => block.getKey() === activeBlockKey);
-    newEditorState = selectBlock(
-      newEditorState,
-      activeBlockKey,
-    );
+    newEditorState = selectBlock(newEditorState, activeBlockKey);
     const newContentState = Modifier.setBlockData(
       newEditorState.getCurrentContent(),
       newEditorState.getSelection(),
@@ -1375,17 +1374,13 @@ class Blocksmith extends React.Component {
     // if nothing is selected
     if (selectionState.getAnchorOffset() === selectionState.getFocusOffset()) {
       const currentBlock = getBlockForKey(contentState, selectionState.getAnchorKey());
-      switch (e.key) {
-        case 'Enter':
-          if (e.shiftKey) {
-            return constants.SOFT_NEWLINE;
-          }
-          if (currentBlock.getText() === '' && isBlockAList(currentBlock)) {
-            return constants.DOUBLE_ENTER_ON_LIST;
-          }
-          break;
-        default:
-          break;
+      if (e.key === 'Enter') {
+        if (e.shiftKey) {
+          return constants.SOFT_NEWLINE;
+        }
+        if (currentBlock.getText() === '' && isBlockAList(currentBlock)) {
+          return constants.DOUBLE_ENTER_ON_LIST;
+        }
       }
     } else if (
       /^[cx]$/.test(e.key)
