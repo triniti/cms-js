@@ -117,8 +117,7 @@ function getListItems(canvasBlockText) {
  * @param {Object}       listContentBlocks - One or more Draft.js ContentBlocks.
  * @param {string[]}     listItems         - One more more individual list items eg '<li>derp</li>'
  *
- * @returns {ContentBlocks[]} - The newly created ContentBlocks and the newContentState (which
- *                              contains the newly created entity for said ContentBlocks).
+ * @returns {ContentBlocks[]} - The newly created ContentBlocks.
  */
 function convertToListBlocks(canvasBlock, listContentBlocks, listItems) {
   const contentBlocks = [];
@@ -153,8 +152,7 @@ function convertToListBlocks(canvasBlock, listContentBlocks, listItems) {
  *
  * @param {Object}       canvasBlock  - A triniti canvas block (has triniti:canvas:mixin:block).
  *
- * @returns {ContentBlock[]} - The newly created ContentBlock(s) and the newContentState (which
- *                             contains the newly created entity(s) for said ContentBlocks).
+ * @returns {ContentBlock[]} - The newly created ContentBlocks.
  */
 function convertTextBlock(canvasBlock) {
   const canvasBlockText = canvasBlock.get('text');
