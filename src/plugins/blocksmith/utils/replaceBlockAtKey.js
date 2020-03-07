@@ -1,15 +1,11 @@
-import {
-  CharacterMetadata,
-  ContentBlock,
-  ContentState,
-} from 'draft-js';
-import { List } from 'immutable';
+import { ContentBlock, ContentState } from 'draft-js';
+import { List, Map } from 'immutable';
+import { blockTypes } from '../constants';
 import areKeysSame from './areKeysSame';
-import getEntityKey from './getEntityKey';
 import normalizeKey from './normalizeKey';
 
 /**
- * Given a canvas block and a key, creates an atomic DraftJs block (with entity) at that key
+ * Given a canvas block and a key, creates an atomic DraftJs block (with data) at that key
  * position. Because this replaces the block, this should usually be used on empty blocks.
  *
  * @param {ContentState} contentState - a state instance of a DraftJs Editor
@@ -18,27 +14,15 @@ import normalizeKey from './normalizeKey';
  *
  * @returns {ContentState} an EditorState instance
  */
-
 export default (contentState, canvasBlock, key) => {
-  const type = canvasBlock.schema().getId().getMessage();
-  const { entityKey, newContentState } = getEntityKey(contentState, {
-    type,
-    mutability: 'IMMUTABLE',
-    data: {
-      block:
-      canvasBlock,
-    },
-  });
-  const characterMetadata = CharacterMetadata.create({
-    entity: entityKey,
-  });
   const draftJsBlock = new ContentBlock({
+    characterList: new List([]),
+    data: new Map({ canvasBlock }),
     key: normalizeKey(key),
-    type: 'atomic',
     text: ' ',
-    characterList: new List([characterMetadata]),
+    type: blockTypes.ATOMIC,
   });
-  const blocksAsArray = newContentState.getBlocksAsArray();
+  const blocksAsArray = contentState.getBlocksAsArray();
   const newBlocksAsArray = blocksAsArray.map((block) => {
     if (areKeysSame(block.getKey(), key)) {
       return draftJsBlock;
@@ -47,6 +31,6 @@ export default (contentState, canvasBlock, key) => {
   });
   return ContentState.createFromBlockArray(
     newBlocksAsArray,
-    newContentState.getEntityMap(),
+    contentState.getEntityMap(),
   );
 };

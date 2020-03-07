@@ -7,7 +7,6 @@ import getBlockForKey from './getBlockForKey';
  *
  * @returns {?string} the entity key, or null if there is no entity
  */
-
 export default (editorState) => {
   const selectionState = editorState.getSelection();
   const anchorBlock = getBlockForKey(

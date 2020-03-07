@@ -1,11 +1,14 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.5.0
 * Spotify embed code not visible when user clicks update
 * Remove blocksmith focus plugin and related code
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
 * Image Block modal first cancel button does not cancel
+* Sometimes Blocks are converting to text blocks after publish.
+* Some Text Blocks are causing asset blocks to convert to text blocks due to <figure></figure> in html
+* Fix bug where expanded block image previews are draggable in view mode
 
 
 ## v0.4.4
