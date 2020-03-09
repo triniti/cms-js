@@ -9,6 +9,7 @@ import PasteButton from '@triniti/cms/plugins/blocksmith/components/paste-block-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReorderButtons from '@triniti/cms/plugins/blocksmith/components/reorder-block-buttons';
+import { blockTypes } from '../../constants';
 import { getBlockForKey, isBlockEmpty } from '../../utils';
 
 export default class BlockButtons extends React.Component {
@@ -129,18 +130,17 @@ export default class BlockButtons extends React.Component {
     if (activeBlock) {
       const type = activeBlock.getType();
       isEmpty = isBlockEmpty(activeBlock);
-      showCopyButton = type === 'atomic';
+      showCopyButton = type === blockTypes.ATOMIC;
       showCharacterButton = type.match(/(unstyled|(un)?ordered-list-item)/);
 
       if (showCopyButton && copiedBlock) {
-        const entityKey = activeBlock.getEntityAt(0);
-        const entity = entityKey && contentState.getEntity(entityKey);
-
-        if (entity) {
-          const canvasBlock = entity.getData().block;
-          if (canvasBlock.get('etag') === copiedBlock.get('etag')) {
-            copyText = 'Copied to clipboard!';
-          }
+        const blockData = activeBlock.getData();
+        if (
+          blockData
+          && blockData.get('canvasBlock')
+          && blockData.get('canvasBlock').get('etag') === copiedBlock.get('etag')
+        ) {
+          copyText = 'Copied to clipboard!';
         }
       }
     }

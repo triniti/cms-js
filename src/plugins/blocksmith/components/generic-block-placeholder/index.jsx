@@ -6,11 +6,11 @@ import get from 'lodash/get';
 
 import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { ContentBlock, ContentState } from 'draft-js';
+import { ContentBlock } from 'draft-js';
 import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 
 import ImagePreview from './ImagePreview';
-import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus, styleUpdateBlocks } from '../../utils';
+import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../../utils';
 import selector from './selector';
 import './styles.scss';
 
@@ -41,7 +41,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
         preview: PropTypes.func,
       }),
     ]),
-    contentState: PropTypes.instanceOf(ContentState).isRequired,
     draggable: PropTypes.bool,
     label: PropTypes.string,
     showTitle: PropTypes.bool,
@@ -93,25 +92,19 @@ class GenericBlockPlaceholder extends React.PureComponent {
     } = blockProps;
 
     const PreviewComponent = get(config, 'preview.component', null);
-    const entityKey = block.getEntityAt(0);
-    const node = contentState.getEntity(entityKey).getData().block;
-
-    if (node.has('updated_date')) {
-      styleUpdateBlocks(entityKey);
-    }
+    const node = block.getData().get('canvasBlock') || null;
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;
     const targetNodeStatus = targetNode && targetNode.get('status');
     let labelOffset = config.preview ? 156 : 70;
     if (targetNode && targetNodeStatus !== NodeStatus.PUBLISHED) {
       labelOffset += 65;
-      styleBlockTargetNodeStatus(entityKey);
+      styleBlockTargetNodeStatus(block);
     }
 
     return (
       <div
         className={classNames({ draggable }, { 'block-preview': config.preview })}
-        data-entity-key={entityKey}
         draggable={draggable}
         onDragStart={handleDragStart(block.getKey())}
         onDragEnd={handleDragEnd}
@@ -125,6 +118,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
         <>
           {imagePreviewSrc && (
             <ImagePreview
+              draggable={draggable}
               onDismissImagePreview={this.handleToggleImagePreviewSrc}
               src={imagePreviewSrc}
             />

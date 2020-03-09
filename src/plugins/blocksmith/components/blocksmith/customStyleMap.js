@@ -1,3 +1,5 @@
+import { inlineStyleTypes } from '../../constants';
+
 /**
  * Defines custom style types.
  *
@@ -5,5 +7,5 @@
  */
 
 export default {
-  HIGHLIGHT: { backgroundColor: 'yellow' },
+  [inlineStyleTypes.HIGHLIGHT]: { backgroundColor: 'yellow' },
 };

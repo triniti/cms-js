@@ -1,6 +1,8 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
 
+import { Map } from 'immutable';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import React from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
@@ -30,8 +32,10 @@ import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-t
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import TextBlockWrapper from '@triniti/cms/plugins/blocksmith/components/text-block-wrapper';
 import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import isMacOS from '@triniti/cms/utils/isMacOS';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
+import isWindows from '@triniti/cms/utils/isWindows';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
@@ -46,6 +50,7 @@ import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontro
 import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
 import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
 
+import { blockTypes, tokens } from '../../constants';
 import decorators from './decorators';
 import customStyleMap from './customStyleMap';
 import constants from './constants';
@@ -56,11 +61,12 @@ import {
   areKeysSame,
   blockParentNode,
   convertToEditorState,
+  copySelectedBlocksToClipboard,
   createLinkAtSelection,
   deleteBlock,
+  deleteSelectedBlocks,
   dropBlock,
   findBlock,
-  forceRenderBlockEntity,
   getBlockForKey,
   getBlockNode,
   getDraggedBlockNode,
@@ -70,7 +76,9 @@ import {
   getWordCount,
   handleDocumentDragover,
   handleDocumentDrop,
+  insertCanvasBlocks,
   insertEmptyBlock,
+  isAdvancedBlockSelected,
   isBlockAList,
   isBlockEmpty,
   isFirstListBlock,
@@ -79,9 +87,12 @@ import {
   removeLinkAtSelection,
   replaceBlockAtKey,
   selectBlock,
+  selectBlockSelectionTypes,
+  selection,
   shiftBlock,
   sidebar,
   styleDragTarget,
+  updateBlocks,
 } from '../../utils';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
@@ -217,6 +228,8 @@ class Blocksmith extends React.Component {
     this.handleHoverInsert = this.handleHoverInsert.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleMouseCopy = this.handleMouseCopy.bind(this);
+    this.handleMouseCut = this.handleMouseCut.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -260,6 +273,8 @@ class Blocksmith extends React.Component {
   componentWillUnmount() {
     blockParentNode.clearCache();
     sidebar.clearCache();
+    selection.clearCache();
+    updateBlocks.clearCache();
   }
 
   /**
@@ -277,9 +292,9 @@ class Blocksmith extends React.Component {
   addDraggableBlock(key, block) {
     const { draggableBlockList } = this.state;
     this.setState({
-      draggableBlockList: [...draggableBlockList, key]
+      draggableBlockList: [...draggableBlockList, key],
     });
-    
+
     while (!blockParentNode.is(block.parentNode)) {
       block = block.parentNode;
     }
@@ -290,7 +305,7 @@ class Blocksmith extends React.Component {
   removeDraggableBlock(key, block) {
     const { draggableBlockList } = this.state;
     this.setState({
-      draggableBlockList: draggableBlockList.filter(blockKey => blockKey !== key)
+      draggableBlockList: draggableBlockList.filter((blockKey) => blockKey !== key),
     });
 
     while (!blockParentNode.is(block.parentNode)) {
@@ -399,8 +414,8 @@ class Blocksmith extends React.Component {
     let finalListBlockBounds;
     if (isHoverInsertMode) {
       switch (activeBlock.getType()) {
-        case 'ordered-list-item':
-        case 'unordered-list-item':
+        case blockTypes.ORDERED_LIST_ITEM:
+        case blockTypes.UNORDERED_LIST_ITEM:
           listBlockNodes = getListBlockNodes(contentState, activeBlock);
           finalListBlockNode = listBlockNodes[listBlockNodes.length - 1];
           finalListBlockBounds = finalListBlockNode.getBoundingClientRect();
@@ -476,7 +491,7 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Given a canvas block, creates a DraftJs block (with entity) for said block at the active block.
+   * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
    *
    * @param {*} canvasBlock                - a triniti canvas block
    * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
@@ -564,21 +579,21 @@ class Blocksmith extends React.Component {
     };
 
     switch (block.getType()) {
-      case 'atomic':
-        if (!block.getEntityAt(0)) {
+      case blockTypes.ATOMIC: {
+        const blockData = block.getData();
+        if (!blockData || !blockData.get('canvasBlock')) {
           return null;
         }
         return {
-          component: getPlaceholder(
-            editorState.getCurrentContent().getEntity(block.getEntityAt(0)).getType(),
-          ),
+          component: getPlaceholder(blockData.get('canvasBlock').schema().getCurie().getMessage()),
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
             blockButtonComponent: (props) => <BlockButtons {...props} {...blockConfig} />,
           },
         };
-      case 'unstyled':
+      }
+      case blockTypes.UNSTYLED:
         return {
           component: TextBlockWrapper,
           contentEditable: !readOnly,
@@ -587,8 +602,8 @@ class Blocksmith extends React.Component {
             blockButtonComponent: (props) => <BlockButtons {...props} {...blockConfig} />,
           },
         };
-      case 'ordered-list-item':
-      case 'unordered-list-item':
+      case blockTypes.ORDERED_LIST_ITEM:
+      case blockTypes.UNORDERED_LIST_ITEM:
         return {
           component: ListBlockWrapper,
           contentEditable: !readOnly,
@@ -609,10 +624,10 @@ class Blocksmith extends React.Component {
   // currently being styled via dom drilling in styles.scss
   blockStyleFn(block) {
     switch (block.getType()) {
-      case 'unstyled':
+      case blockTypes.UNSTYLED:
         return 'text-block';
-      case 'ordered-list-item':
-      case 'unordered-list-item':
+      case blockTypes.ORDERED_LIST_ITEM:
+      case blockTypes.UNORDERED_LIST_ITEM:
         return 'list-block';
       default:
         return null;
@@ -680,21 +695,21 @@ class Blocksmith extends React.Component {
    * Stores the triniti block payload in redux so that it is available for later pasting
    */
   handleCopyBlock() {
+    // todo: update this to use actual clipboard and object de/serialization
     const { activeBlockKey, editorState } = this.state;
     const { delegate, copiedBlock } = this.props;
 
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
-    const entityKey = draftJsBlock.getEntityAt(0);
-    if (entityKey) {
-      const entity = editorState.getCurrentContent().getEntity(entityKey);
-      const canvasBlock = entity.getData().block;
-
-      if (copiedBlock && copiedBlock.get('etag') === canvasBlock.get('etag')) {
-        return;
-      }
-
-      delegate.handleCopyBlock(canvasBlock.clone());
+    const blockData = draftJsBlock.getData();
+    if (!blockData || !blockData.get('canvasBlock')) {
+      return;
     }
+
+    if (copiedBlock && copiedBlock.get('etag') === blockData.get('canvasBlock').get('etag')) {
+      return;
+    }
+
+    delegate.handleCopyBlock(blockData.get('canvasBlock').clone());
   }
 
   /**
@@ -708,22 +723,21 @@ class Blocksmith extends React.Component {
     this.setState({ readOnly: true }, () => {
       Blocksmith.confirmDelete().then((result) => {
         this.setState({ readOnly: false }, () => {
-          if (result.value) {
-            this.setState({
-              editorState: EditorState.push(
-                editorState,
-                deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
-              ),
-            }, () => {
-              if (!isDirty) {
-                delegate.handleDirtyEditor(formName);
-              }
-              // eslint-disable-next-line react/destructuring-assignment
-              delegate.handleStoreEditor(formName, this.state.editorState);
-            });
-          } else {
-            // do nothing, user declined to delete
+          if (!result.value) {
+            return; // do nothing, user declined to delete
           }
+          this.setState({
+            editorState: EditorState.push(
+              editorState,
+              deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
+            ),
+          }, () => {
+            if (!isDirty) {
+              delegate.handleDirtyEditor(formName);
+            }
+            // eslint-disable-next-line react/destructuring-assignment
+            delegate.handleStoreEditor(formName, this.state.editorState);
+          });
         });
       });
     });
@@ -797,7 +811,7 @@ class Blocksmith extends React.Component {
     const newEditorState = selectBlock(
       EditorState.push(editorState, newContentState, 'move-block'),
       draggedBlockKey,
-      'end',
+      selectBlockSelectionTypes.END,
     );
     this.setState({
       editorState: newEditorState,
@@ -819,25 +833,25 @@ class Blocksmith extends React.Component {
   handleEdit() {
     const { activeBlockKey, editorState } = this.state;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
-    const entityKey = draftJsBlock.getEntityAt(0);
-    let entity;
-    if (entityKey) {
-      entity = editorState.getCurrentContent().getEntity(entityKey);
-    }
+    const blockData = draftJsBlock.getData();
+
     let canvasBlock;
-    if (draftJsBlock.getType() === 'atomic') {
-      canvasBlock = entity.getData().block;
+    if (draftJsBlock.getType() === blockTypes.ATOMIC) {
+      canvasBlock = blockData.get('canvasBlock');
     } else {
       canvasBlock = TextBlockV1Mixin.findOne().createMessage();
-      if (entity) {
-        canvasBlock.set('updated_date', entity.getData().updatedDate || moment().toDate());
+      const blockDataCanvasBlock = blockData && blockData.has('canvasBlock') && blockData.get('canvasBlock');
+      if (blockDataCanvasBlock && blockDataCanvasBlock.has('updated_date')) {
+        canvasBlock.set('updated_date', blockDataCanvasBlock.get('updated_date'));
+      } else {
+        canvasBlock.set('updated_date', moment().toDate());
       }
     }
     this.handleToggleBlockModal(canvasBlock);
   }
 
   /**
-   * Updates the entity data payload for an existing draft entity using the provided canvas block.
+   * Updates the data payload for an existing draft block using the provided canvas block.
    *
    * @link https://github.com/facebook/draft-js/blob/master/docs/Advanced-Topics-Entities.md
    *
@@ -846,31 +860,21 @@ class Blocksmith extends React.Component {
   handleEditCanvasBlock(canvasBlock) {
     const { activeBlockKey, isDirty, editorState } = this.state;
     const { delegate, formName } = this.props;
-    const newContentState = editorState.getCurrentContent();
-    const activeBlockPosition = newContentState.getBlocksAsArray() // used later to re-position
+    let newEditorState = editorState;
+    const activeBlockPosition = newEditorState // used later to re-position
+      .getCurrentContent()
+      .getBlocksAsArray()
       .findIndex((block) => block.getKey() === activeBlockKey);
-
-    let entityType;
-    let isRemoval = false;
-    const entityData = {};
-
-    if (canvasBlock.schema().getCurie().getMessage() !== 'text-block') {
-      entityData.block = canvasBlock;
-      entityType = canvasBlock.schema().getCurie().getMessage();
-    } else {
-      entityType = 'UPDATE';
-      if (canvasBlock.has('updated_date')) {
-        entityData.updatedDate = canvasBlock.get('updated_date');
-      } else {
-        isRemoval = true;
-      }
-    }
-
+    newEditorState = selectBlock(newEditorState, activeBlockKey);
+    const newContentState = Modifier.setBlockData(
+      newEditorState.getCurrentContent(),
+      newEditorState.getSelection(),
+      new Map({ canvasBlock }),
+    );
     this.setState({
       editorState: EditorState.push(
-        editorState,
-        forceRenderBlockEntity(newContentState, activeBlockKey, entityData, entityType, isRemoval),
-        'apply-entity',
+        newEditorState,
+        newContentState,
       ),
     }, () => {
       this.positionComponents(
@@ -902,7 +906,11 @@ class Blocksmith extends React.Component {
       case constants.DOUBLE_ENTER_ON_LIST: {
         const selectionState = editorState.getSelection();
         let newContentState = editorState.getCurrentContent();
-        newContentState = Modifier.setBlockType(newContentState, selectionState, 'unstyled');
+        newContentState = Modifier.setBlockType(
+          newContentState,
+          selectionState,
+          blockTypes.UNSTYLED,
+        );
         const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
         this.setState({
           editorState: newEditorState,
@@ -912,6 +920,11 @@ class Blocksmith extends React.Component {
       case constants.SOFT_NEWLINE:
         this.setState({
           editorState: RichUtils.insertSoftNewline(editorState),
+        });
+        return 'handled';
+      case constants.ATOMIC_BLOCKS_CUT:
+        this.setState({
+          editorState: deleteSelectedBlocks(editorState),
         });
         return 'handled';
       default:
@@ -977,6 +990,10 @@ class Blocksmith extends React.Component {
     const selectionState = editorState.getSelection();
     let areRestOfBlocksAtomic = false;
 
+    /**
+     * fixme: address left/right when on the first/last list item in a list block. it will just
+     * keep going back to the start/end of the same line
+     */
     switch (e.key) {
       case 'ArrowLeft':
         if (
@@ -984,13 +1001,16 @@ class Blocksmith extends React.Component {
           && selectionState.getAnchorOffset() === 0
           && selectionState.getFocusOffset() === 0
         ) {
-          if (previousBlock.getType() === 'atomic') {
+          if (previousBlock.getType() === blockTypes.ATOMIC) {
             e.preventDefault(); // would be going "into" an atomic block
-          } else if (previousBlock.getType() === 'unstyled') {
+          } else if (
+            previousBlock.getType() === blockTypes.UNSTYLED
+            || isBlockAList(previousBlock)
+          ) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
-              editorState: selectBlock(editorState, previousBlock, 'end'),
+              editorState: selectBlock(editorState, previousBlock, selectBlockSelectionTypes.END),
             });
           }
         }
@@ -1005,13 +1025,13 @@ class Blocksmith extends React.Component {
           && selectionState.getAnchorOffset() === currentBlock.getText().length
           && selectionState.getFocusOffset() === currentBlock.getText().length
         ) {
-          if (nextBlock.getType() === 'atomic') {
+          if (nextBlock.getType() === blockTypes.ATOMIC) {
             e.preventDefault(); // would be going "into" an atomic block
-          } else if (nextBlock.getType() === 'unstyled') {
+          } else if (nextBlock.getType() === blockTypes.UNSTYLED || isBlockAList(nextBlock)) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
             this.setState({
-              editorState: selectBlock(editorState, nextBlock, 'start'),
+              editorState: selectBlock(editorState, nextBlock, selectBlockSelectionTypes.START),
             });
           }
         }
@@ -1021,7 +1041,9 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowDown':
-        areRestOfBlocksAtomic = !blocksAsArray.slice(currentBlockIndex + 1, blocksAsArray.length).find((b) => b.getType() !== 'atomic');
+        areRestOfBlocksAtomic = !blocksAsArray
+          .slice(currentBlockIndex + 1, blocksAsArray.length)
+          .find((b) => b.getType() !== blockTypes.ATOMIC);
         if (
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
@@ -1030,7 +1052,9 @@ class Blocksmith extends React.Component {
         }
         break;
       case 'ArrowUp':
-        areRestOfBlocksAtomic = !blocksAsArray.slice(0, currentBlockIndex).find((b) => b.getType() !== 'atomic');
+        areRestOfBlocksAtomic = !blocksAsArray
+          .slice(0, currentBlockIndex)
+          .find((b) => b.getType() !== blockTypes.ATOMIC);
         if (
           (!previousBlock || areRestOfBlocksAtomic)
           && isOnFirstLineOfBlock(editorState)
@@ -1074,6 +1098,38 @@ class Blocksmith extends React.Component {
    */
   handleMouseLeave() {
     this.removeActiveStyling();
+  }
+
+  /**
+   * Allows copying advanced blocks to the clipboard, via serialization, to be pasted later.
+   *
+   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
+   */
+  handleMouseCopy(e) {
+    const { editorState } = this.state;
+    if (!isAdvancedBlockSelected(editorState)) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    selection.capture(editorState);
+    copySelectedBlocksToClipboard(editorState);
+    selection.restore();
+  }
+
+  /**
+   * Allows cutting advanced blocks to the clipboard, via serialization, to be pasted later.
+   *
+   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
+   */
+  handleMouseCut(e) {
+    const { editorState } = this.state;
+    if (!isAdvancedBlockSelected(editorState)) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    copySelectedBlocksToClipboard(editorState);
   }
 
   /**
@@ -1248,7 +1304,7 @@ class Blocksmith extends React.Component {
 
   /**
    * If there is a copied block available in redux, use it to create a draft block with it as the
-   * entity payload
+   * data payload.
    */
   handlePasteBlock() {
     const { copiedBlock } = this.props;
@@ -1287,6 +1343,24 @@ class Blocksmith extends React.Component {
         });
         return 'handled';
       }
+    } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
+      const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
+        .map(ObjectSerializer.deserialize);
+
+      const selectionState = editorState.getSelection();
+      const insertionKey = selectionState.getIsBackward()
+        ? selectionState.getAnchorKey()
+        : selectionState.getFocusKey();
+
+      this.setState({
+        editorState: insertCanvasBlocks(
+          editorState,
+          insertionKey,
+          constants.POSITION_AFTER,
+          blocks,
+        ),
+      }, this.removeActiveStyling);
+      return 'handled';
     }
     return 'not-handled';
   }
@@ -1348,7 +1422,6 @@ class Blocksmith extends React.Component {
 
   /**
    * Custom key bindings.
-   * Case 'Enter' allows breaking out of a list after pressing enter on an empty list item.
    *
    * @link https://draftjs.org/docs/advanced-topics-key-bindings
    *
@@ -1363,28 +1436,28 @@ class Blocksmith extends React.Component {
     // if nothing is selected
     if (selectionState.getAnchorOffset() === selectionState.getFocusOffset()) {
       const currentBlock = getBlockForKey(contentState, selectionState.getAnchorKey());
-      switch (e.key) {
-        case 'Enter':
-          setTimeout(() => {
-            // Under certain conditions (eg press enter while text indicator is at the start of an
-            // UPDATE text block) there can be blocks that are styled as block-update when they
-            // shouldn't be, so correct that here. The class is added by the Update component, which
-            // is used as the decorator for characters with the 'UPDATE' entity.
-            Array.from(document.querySelectorAll('.block-update:not(ol):not(ul)')).forEach((node) => {
-              if (!node.firstChild.firstChild.hasAttribute('data-entity-key')) {
-                node.classList.remove('block-update');
-              }
-            });
-          }, 0);
-          if (e.shiftKey) {
-            return constants.SOFT_NEWLINE;
-          }
-          if (currentBlock.getText() === '' && isBlockAList(currentBlock)) {
-            return constants.DOUBLE_ENTER_ON_LIST;
-          }
-          break;
-        default:
-          break;
+      if (e.key === 'Enter') {
+        if (e.shiftKey) {
+          return constants.SOFT_NEWLINE;
+        }
+        if (currentBlock.getText() === '' && isBlockAList(currentBlock)) {
+          return constants.DOUBLE_ENTER_ON_LIST;
+        }
+      }
+    } else if (
+      /^[cx]$/.test(e.key)
+      && ((e.metaKey && isMacOS()) || (e.ctrlKey && isWindows()))
+      && isAdvancedBlockSelected(editorState)
+    ) {
+      if (e.key === 'c') {
+        selection.capture(editorState);
+        copySelectedBlocksToClipboard(editorState);
+        selection.restore();
+        return constants.ATOMIC_BLOCKS_COPIED; // just to prevent draft from doing anything
+      }
+      if (e.key === 'x') {
+        copySelectedBlocksToClipboard(editorState);
+        return constants.ATOMIC_BLOCKS_CUT;
       }
     }
     return getDefaultKeyBinding(e);
@@ -1603,6 +1676,8 @@ class Blocksmith extends React.Component {
         </CardHeader>
         <CardBody indent>
           <div
+            onCopy={this.handleMouseCopy}
+            onCut={this.handleMouseCut}
             onDrop={this.handleDrop}
             onMouseLeave={this.handleMouseLeave}
             onMouseMove={this.handleMouseMove}

@@ -6,12 +6,13 @@ import {
   EditorState,
   genKey,
 } from 'draft-js';
+import { blockTypes } from '../constants';
 import getBlockForKey from './getBlockForKey';
 
 let editorState = EditorState.createEmpty();
 const block1Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 1',
   characterList: List(),
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { ContentBlock, EditorBlock } from 'draft-js';
-
+import PropTypes from 'prop-types';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
