@@ -20,6 +20,7 @@ export default class BlockButtons extends React.Component {
     onCopyBlock: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onHandleDraggableBlocks: PropTypes.func.isRequired,
     onPasteBlock: PropTypes.func.isRequired,
     onShiftBlock: PropTypes.func.isRequired,
     onToggleSpecialCharacterModal: PropTypes.func.isRequired,
@@ -104,6 +105,7 @@ export default class BlockButtons extends React.Component {
     const { areShiftButtonsVisible } = this.state;
     const {
       activeBlockKey,
+      block,
       copiedBlock,
       editorState,
       onHandleDraggableBlocks: handleDraggableBlocks,
@@ -164,7 +166,7 @@ export default class BlockButtons extends React.Component {
               areShiftButtonsVisible={areShiftButtonsVisible}
               isFirstBlock={isFirstBlock}
               isLastBlock={isLastBlock}
-              onHandleDraggableBlocks={handleDraggableBlocks}
+              onHandleDraggableBlocks={() => handleDraggableBlocks(block.getKey())}
               onHideShiftButtons={this.handleHideShiftButtons}
               onShiftBlock={this.handleShiftBlock}
               onShowShiftButtons={this.handleShowShiftButtons}

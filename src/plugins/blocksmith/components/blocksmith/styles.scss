@@ -134,7 +134,7 @@ div[data-contents="true"] {
     border-radius: 2px;
     background: none;
     position: relative;
-    transition: all 1s ease-in-out;
+    transition: all .5s ease-in-out;
 
     &:hover {
       .block-buttons-holder {

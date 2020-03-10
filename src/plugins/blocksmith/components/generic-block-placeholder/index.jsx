@@ -17,6 +17,10 @@ import './styles.scss';
 class GenericBlockPlaceholder extends React.PureComponent {
   static propTypes = {
     block: PropTypes.instanceOf(ContentBlock).isRequired,
+    blockProps: PropTypes.shape({
+      getReadOnly: PropTypes.func.isRequired,
+      blockButtonComponent: PropTypes.func.isRequired,
+    }).isRequired,
     config: PropTypes.oneOfType([
       PropTypes.shape({
         icon: PropTypes.shape({
@@ -80,7 +84,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
       draggable,
       block,
       blockProps,
-      contentState,
       showTitle,
       targetNode,
       ...rest
@@ -96,7 +99,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;
     const targetNodeStatus = targetNode && targetNode.get('status');
-    let labelOffset = config.preview ? 156 : 70;
+    let labelOffset = config.preview ? 250 : 125;
     if (targetNode && targetNodeStatus !== NodeStatus.PUBLISHED) {
       labelOffset += 65;
       styleBlockTargetNodeStatus(block);

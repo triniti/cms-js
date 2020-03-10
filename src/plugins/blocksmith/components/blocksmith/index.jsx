@@ -167,7 +167,7 @@ class Blocksmith extends React.Component {
       blockButtonsStyle: {
         transform: 'scale(0)',
       },
-      draggableBlockList: [],
+      dragBlocks: [],
       hoverBlockNode: null,
       isDirty: false,
       isHoverInsertMode: false,
@@ -247,12 +247,10 @@ class Blocksmith extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
     this.handleDraggableBlocks = this.handleDraggableBlocks.bind(this);
-    this.addDraggableBlock = this.addDraggableBlock.bind(this);
-    this.removeDraggableBlock = this.removeDraggableBlock.bind(this);
   }
 
   componentDidMount() {
-    this.editor.blur();
+    this.editor.focus();
   }
 
   /**
@@ -275,44 +273,6 @@ class Blocksmith extends React.Component {
     sidebar.clearCache();
     selection.clearCache();
     updateBlocks.clearCache();
-  }
-
-  /**
-    Draggable Blocks
-   */
-
-  handleDraggableBlocks(e) {
-    const { draggableBlockList } = this.state;
-    const key = e.currentTarget.getAttribute('data-dragged-block-key');
-    const hasKey = draggableBlockList.includes(key);
-    const block = e.currentTarget.parentNode.parentNode.parentNode;
-    !hasKey ? this.addDraggableBlock(key, block) : this.removeDraggableBlock(key, block);
-  }
-
-  addDraggableBlock(key, block) {
-    const { draggableBlockList } = this.state;
-    this.setState({
-      draggableBlockList: [...draggableBlockList, key],
-    });
-
-    while (!blockParentNode.is(block.parentNode)) {
-      block = block.parentNode;
-    }
-
-    block.classList.add('drag-block-active');
-  }
-
-  removeDraggableBlock(key, block) {
-    const { draggableBlockList } = this.state;
-    this.setState({
-      draggableBlockList: draggableBlockList.filter((blockKey) => blockKey !== key),
-    });
-
-    while (!blockParentNode.is(block.parentNode)) {
-      block = block.parentNode;
-    }
-
-    block.classList.remove('drag-block-active');
   }
 
   /**
@@ -491,6 +451,30 @@ class Blocksmith extends React.Component {
   }
 
   /**
+    Draggable Blocks
+   */
+
+  handleDraggableBlocks(key) {
+    const { dragBlocks, editorState } = this.state;
+    const block = getBlockNode(editorState.getCurrentContent(), key);
+
+    while (!blockParentNode.is(block.parentNode)) {
+      // eslint-disable-next-line no-param-reassign
+      block = block.parentNode;
+    }
+
+    if (!dragBlocks.includes(key)) {
+      this.setState(prevState => ({ dragBlocks: [...prevState.dragBlocks, key] }), () => {
+        block.classList.add('drag-block-active');
+      });
+    } else {
+      this.setState(prevState => ({ dragBlocks: dragBlocks.filter(k => k !== key) }), () => {
+        block.classList.remove('drag-block-active');
+      });
+    }
+  }
+
+  /**
    * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
    *
    * @param {*} canvasBlock                - a triniti canvas block
@@ -566,6 +550,7 @@ class Blocksmith extends React.Component {
 
     const blockConfig = {
       activeBlockKey,
+      block,
       copiedBlock,
       editorState,
       onHandleDraggableBlocks: this.handleDraggableBlocks,
@@ -752,10 +737,10 @@ class Blocksmith extends React.Component {
    * @param {event} e - a drop event
    */
   handleDrop(e) {
+    const { dragBlocks } = this.state;
     clearDragCache();
     const raw = e.dataTransfer.getData('block');
     const data = raw ? raw.split(':') : [];
-
     if (data.length !== 2) {
       return undefined;
     }
@@ -797,31 +782,78 @@ class Blocksmith extends React.Component {
     }
     draggedBlock.classList.remove('hidden-block');
 
-    const { editorState, isDirty, draggableBlockList } = this.state;
+    const { editorState, isDirty } = this.state;
 
-    const newContentState = dropBlock(
-      editorState.getCurrentContent(),
-      draggedBlockKey,
-      dropTargetKey,
-      dropTargetPosition,
-      isDropTargetAList,
-      draggedBlockListKeys,
-    );
+    let newContentState;
 
-    const newEditorState = selectBlock(
-      EditorState.push(editorState, newContentState, 'move-block'),
-      draggedBlockKey,
-      selectBlockSelectionTypes.END,
-    );
-    this.setState({
-      editorState: newEditorState,
-    }, () => {
-      const { formName, delegate } = this.props;
-      delegate.handleStoreEditor(formName, newEditorState);
-      if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+    const clearDragBlockStyles = (key) => {
+      const styledDragBlock = getBlockNode(editorState.getCurrentContent(), key);
+      styledDragBlock.classList.remove('drag-block-active');
+    }
+    
+    const finalEditorState = (newEditorState) => {
+      this.setState({
+        editorState: newEditorState,
+      }, () => {
+        const { formName, delegate } = this.props;
+        delegate.handleStoreEditor(formName, newEditorState);
+
+        if (!isDirty) {
+          delegate.handleDirtyEditor(formName);
+          dragBlocks.map(key => clearDragBlockStyles(key));
+        }
+      });
+    }
+
+    if (dragBlocks.length && dragBlocks.includes(draggedBlockKey)) {
+      
+      newContentState = dropBlock(
+        editorState.getCurrentContent(),
+        draggedBlockKey,
+        dropTargetKey,
+        dropTargetPosition,
+        isDropTargetAList,
+        draggedBlockListKeys,
+      );
+
+      if (dragBlocks.length > 1) {
+        let newDraggedBlockKey;
+        let newDropTargetKey;
+        const newDropTargetPosition = constants.POSITION_BELOW;
+
+        for (let i = 1; i < dragBlocks.length; i++) {
+          newDropTargetKey = dragBlocks[i - 1];
+          newDraggedBlockKey = dragBlocks[i];
+          newContentState = dropBlock(
+            newContentState,
+            newDraggedBlockKey,
+            newDropTargetKey,
+            newDropTargetPosition,
+            false,
+          );
+        }
+
+        finalEditorState(EditorState.push(editorState, newContentState));
       }
-    });
+    } else {
+      newContentState = dropBlock(
+        editorState.getCurrentContent(),
+        draggedBlockKey,
+        dropTargetKey,
+        dropTargetPosition,
+        isDropTargetAList,
+        draggedBlockListKeys,
+      );
+
+      const newEditorState = selectBlock(
+        EditorState.push(editorState, newContentState, 'move-block'),
+        draggedBlockKey,
+        selectBlockSelectionTypes.END,
+      );
+
+      finalEditorState(newEditorState);
+    }
+
     return 'handled';
   }
 
@@ -1645,10 +1677,7 @@ class Blocksmith extends React.Component {
   }
 
   render() {
-    const { copiedBlock } = this.props;
     const {
-      activeBlockKey,
-      blockButtonsStyle,
       editorState,
       isHoverInsertMode,
       isSidebarOpen,
@@ -1660,6 +1689,7 @@ class Blocksmith extends React.Component {
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
+
     return (
       <Card>
         <CardHeader>

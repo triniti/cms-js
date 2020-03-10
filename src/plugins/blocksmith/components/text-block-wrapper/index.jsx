@@ -12,6 +12,7 @@ export const TextBlockWrapper = (props) => {
     blockProps,
     offsetKey,
     draggable,
+    config
   } = props;
 
   const {
@@ -31,7 +32,7 @@ export const TextBlockWrapper = (props) => {
       )}
       <span
         data-offset-key={offsetKey}
-        style={{ cursor: 'text' }}
+        style={{ cursor: 'text', width: 'calc(100% - 150px)'}}
         role="presentation"
       >
         <EditorBlock

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## vN.N.N
+* Added multi-select drag n drop to blocksmith blocks.
+
 
 ## v0.5.0
 * Spotify embed code not visible when user clicks update
