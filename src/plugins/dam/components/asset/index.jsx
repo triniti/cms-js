@@ -11,7 +11,7 @@ const Asset = ({ asset, isHovering, isOverlayOnlyVisibleOnHover, showEditSequenc
   return (
     <Media aspectRatio="1by1" className="mt-0" style={cssStyleImg}>
       <BackgroundImage
-        imgSrc={damUrl(asset)}
+        imgSrc={damUrl(asset, 'o', 'sm')}
         alt=""
       />
       {

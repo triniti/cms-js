@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Loading small images by default for anything that displays a dam asset through component.
+* Fixing actual quality sizes available.
+
+
 ## v0.4.4
 * Pressing enter after you edit a slug saves a stale version.
 
