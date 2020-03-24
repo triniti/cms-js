@@ -15,7 +15,7 @@ const sizes = {
   },
 };
 
-const quality = ['low', 'medium'];
+const quality = ['xl', 'lg', 'md', 'sm', 'xs', 'xxs'];
 
 const hasVariants = (assetId) => !isUndefined(sizes[`${assetId.type}-asset`]);
 

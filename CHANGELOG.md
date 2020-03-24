@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Loading small images by default for anything that displays a dam asset through component.
+* Fixing actual quality sizes available.
+
+
 ## v0.5.0
 * Spotify embed code not visible when user clicks update
 * Remove blocksmith focus plugin and related code
