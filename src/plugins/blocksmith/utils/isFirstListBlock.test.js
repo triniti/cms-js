@@ -6,12 +6,13 @@ import {
   EditorState,
   genKey,
 } from 'draft-js';
+import { blockTypes } from '../constants';
 import isFirstListBlock from './isFirstListBlock';
 
 let editorState = EditorState.createEmpty();
 const block1Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 1',
   characterList: List(),
 };
@@ -19,7 +20,7 @@ const block1 = new ContentBlock(block1Data);
 
 const block2Data = {
   key: genKey(),
-  type: 'ordered-list-item',
+  type: blockTypes.ORDERED_LIST_ITEM,
   text: 'i am block 2',
   characterList: List(),
 };
@@ -27,7 +28,7 @@ const block2 = new ContentBlock(block2Data);
 
 const block3Data = {
   key: genKey(),
-  type: 'ordered-list-item',
+  type: blockTypes.ORDERED_LIST_ITEM,
   text: 'i am block 3',
   characterList: List(),
 };
@@ -35,7 +36,7 @@ const block3 = new ContentBlock(block3Data);
 
 const block4Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 4',
   characterList: List(),
 };

@@ -6,4 +6,4 @@
  * @returns {boolean}
  */
 
-export default (contentBlock) => (contentBlock.getType() === 'ordered-list-item' || contentBlock.getType() === 'unordered-list-item');
+export default (contentBlock) => /^(?:un)?ordered-list-item$/.test(contentBlock.getType());
