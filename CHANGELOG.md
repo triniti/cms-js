@@ -1,11 +1,6 @@
 # CHANGELOG
 
 
-## v0.5.1
-* Loading small images by default for anything that displays a dam asset through component.
-* Fixing actual quality sizes available.
-
-
 ## v0.5.0
 * Spotify embed code not visible when user clicks update
 * Remove blocksmith focus plugin and related code
@@ -14,6 +9,8 @@
 * Sometimes Blocks are converting to text blocks after publish.
 * Some Text Blocks are causing asset blocks to convert to text blocks due to <figure></figure> in html
 * Fix bug where expanded block image previews are draggable in view mode
+* Loading small images by default for anything that displays a dam asset through component.
+* Fixing actual quality sizes available.
 
 
 ## v0.4.4
