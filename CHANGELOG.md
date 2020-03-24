@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.5.1
 * Loading small images by default for anything that displays a dam asset through component.
 * Fixing actual quality sizes available.
 
