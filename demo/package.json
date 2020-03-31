@@ -11,7 +11,7 @@
     "start": "cd .. && npm run init-git-hooks && cd demo/ && BABEL_ENV=browser webpack-dev-server --env.NODE_ENV=development --debug --progress --profile --colors --history-api-fallback"
   },
   "devDependencies": {
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "css-loader": "^3.2.1",
     "dotenv": "^8.1.0",
     "file-loader": "^4.3.0",
@@ -19,13 +19,13 @@
     "postcss-loader": "^3.0.0",
     "prop-types": "^15.7.2",
     "raw-loader": "^3.1.0",
-    "react-hot-loader": "^4.12.18",
+    "react-hot-loader": "^4.12.20",
     "sass-loader": "^8.0.0",
     "sass-resources-loader": "^2.0.1",
     "style-loader": "^1.0.1",
-    "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7",
-    "webpack-dev-server": "^3.9.0"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "browserslist": [
     "defaults"

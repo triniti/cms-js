@@ -6,6 +6,7 @@ import {
   EditorState,
   genKey,
 } from 'draft-js';
+import { blockTypes } from '../constants';
 import getWordCount from './getWordCount';
 
 test('Blocksmith:util:getWordCount [null editorState]', (t) => {
@@ -41,20 +42,20 @@ test('Blocksmith:util:getWordCount [empty editorState]', (t) => {
 let editorState2 = EditorState.createEmpty();
 const block1Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 1',
 };
 const block1 = new ContentBlock(block1Data);
 const block2Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 2',
 };
 const block2 = new ContentBlock(block2Data);
 
 const block3Data = {
   key: genKey(),
-  type: 'ordered-list-item',
+  type: blockTypes.ORDERED_LIST_ITEM,
   characterList: List(),
 };
 const block3 = new ContentBlock(block3Data);

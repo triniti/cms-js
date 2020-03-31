@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Icon } from '@triniti/admin-ui-plugin/components';
+import { entityTypes } from '../../constants';
 import { hasEntity } from '../../utils';
 
 const LinkButton = ({ getEditorState, onToggleLinkModal }) => (
@@ -11,7 +12,7 @@ const LinkButton = ({ getEditorState, onToggleLinkModal }) => (
     role="presentation"
   >
     <button
-      className={classNames('inline-toolbar-button', { 'inline-toolbar-button-active': hasEntity(getEditorState(), 'LINK') })}
+      className={classNames('inline-toolbar-button', { 'inline-toolbar-button-active': hasEntity(getEditorState(), entityTypes.LINK) })}
       onClick={onToggleLinkModal}
       type="button"
     >

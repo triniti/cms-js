@@ -6,12 +6,13 @@ import {
   EditorState,
   genKey,
 } from 'draft-js';
+import { blockTypes } from '../constants';
 import findBlock from './findBlock';
 
 let editorState = EditorState.createEmpty();
 const block1Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 1',
   characterList: List(),
 };
@@ -19,7 +20,7 @@ const block1 = new ContentBlock(block1Data);
 
 const block2Data = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am block 2',
   characterList: List(),
 };
