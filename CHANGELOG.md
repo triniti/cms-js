@@ -11,6 +11,8 @@
 * Fix bug where expanded block image previews are draggable in view mode
 * Loading small images by default for anything that displays a dam asset through component.
 * Fixing actual quality sizes available.
+* Use `@gdbots/schemas` v1.6.5
+* Use `@triniti/schemas` 1.1.8
 
 
 ## v0.4.4
