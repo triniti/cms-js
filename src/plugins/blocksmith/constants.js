@@ -22,3 +22,29 @@ export const pbjxChannelNames = {
   POLL_SEARCH: t('pollSearch'),
   VIDEO_SEARCH: t('videoSearch'),
 };
+
+export const blockTypes = {
+  ATOMIC: 'atomic',
+  ORDERED_LIST_ITEM: 'ordered-list-item',
+  UNORDERED_LIST_ITEM: 'unordered-list-item',
+  UNSTYLED: 'unstyled',
+};
+
+export const inlineStyleTypes = {
+  HIGHLIGHT: 'HIGHLIGHT',
+};
+
+export const mutabilityTypes = {
+  MUTABLE: 'MUTABLE',
+  IMMUTABLE: 'IMMUTABLE',
+};
+
+export const entityTypes = {
+  EMOJI: 'EMOJI',
+  LINK: 'LINK',
+};
+
+export const tokens = {
+  BLOCKSMITH_COPIED_CONTENT_TOKEN: 'BLOCKSMITH_COPIED_CONTENT_TOKEN:',
+  EMPTY_BLOCK_TOKEN: 'EMPTY_BLOCK_TOKEN',
+};

@@ -4,11 +4,10 @@ import getCurrentEntity from './getCurrentEntity';
  * Checks if the current entity is of a certain type
  *
  * @param {*} editorState     - an EditorState instance of a DraftJs Editor
- * @param {string} entityType - an entity type (ie 'LINK' or 'code-block')
+ * @param {string} entityType - an entity type (eg 'LINK')
  *
  * @returns {boolean}
  */
-
 export default (editorState, entityType) => {
   const entity = getCurrentEntity(editorState);
   return entity && entity.getType() === entityType;

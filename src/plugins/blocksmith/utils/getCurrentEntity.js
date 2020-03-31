@@ -7,7 +7,6 @@ import getCurrentEntityKey from './getCurrentEntityKey';
  *
  * @returns {?DraftEntityInstance} the entity, or null if there is no entity
  */
-
 export default (editorState) => {
   const contentState = editorState.getCurrentContent();
   const entityKey = getCurrentEntityKey(editorState);

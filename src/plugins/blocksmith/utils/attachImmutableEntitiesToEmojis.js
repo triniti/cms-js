@@ -1,6 +1,7 @@
 // modified from https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-emoji-plugin/src/modifiers/attachImmutableEntitiesToEmojis.js
 
 import { Modifier, SelectionState } from 'draft-js';
+import { entityTypes, mutabilityTypes } from '../constants';
 import applyToBlockText from './applyToBlockText';
 
 let emojiRegex = /$^/; // matches nothing (just so tests dont die)
@@ -32,7 +33,7 @@ export default (contentState) => {
       if (existingEntityKey) {
         // avoid manipulation in case the emoji already has an entity
         const entity = newContentState.getEntity(existingEntityKey);
-        if (entity && entity.get('type') === 'emoji') {
+        if (entity && entity.get('type') === entityTypes.EMOJI) {
           return;
         }
       }
@@ -40,7 +41,11 @@ export default (contentState) => {
       const selection = SelectionState.createEmpty(block.getKey())
         .set('anchorOffset', start)
         .set('focusOffset', end);
-      newContentState = newContentState.createEntity('emoji', 'IMMUTABLE', { emoji });
+      newContentState = newContentState.createEntity(
+        entityTypes.EMOJI,
+        mutabilityTypes.IMMUTABLE,
+        { emoji },
+      );
       const entityKey = newContentState.getLastCreatedEntityKey();
 
       newContentState = Modifier.replaceText(

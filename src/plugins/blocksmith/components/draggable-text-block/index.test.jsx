@@ -9,11 +9,12 @@ import {
   genKey,
 } from 'draft-js';
 
+import { blockTypes } from '../../constants';
 import { DraggableTextBlock } from './index';
 
 const blockData = {
   key: genKey(),
-  type: 'unstyled',
+  type: blockTypes.UNSTYLED,
   text: 'i am a great test block',
   characterList: List(),
 };

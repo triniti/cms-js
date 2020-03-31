@@ -7,12 +7,10 @@ import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import swal from 'sweetalert2';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
   FormGroup,
-  Icon,
   Input,
   InputGroup,
   Label,
@@ -68,9 +66,10 @@ export default class IframeBlockModal extends React.Component {
     this.state = {
       align: block.get('align'),
       data: block.get('data') || {},
-      hasManualDimensions: block.has('height') && block.has('width'),
+      hasManualDimensions: block.has('height') || block.has('width'),
       hasUpdatedDate: block.has('updated_date'),
       height: block.has('height') ? Number(block.get('height').replace('px', '')) : null,
+      scrollingEnabled: block.get('scrolling_enabled'),
       src: block.get('src'),
       updatedDate: block.get('updated_date', new Date()),
       width: block.has('width') ? Number(block.get('width').replace('px', '')) : null,
@@ -98,6 +97,7 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
+      scrollingEnabled,
       hasUpdatedDate,
       height,
       src,
@@ -108,6 +108,7 @@ export default class IframeBlockModal extends React.Component {
     const setBlock = block.schema().createMessage()
       .set('align', align || null)
       .set('height', hasManualDimensions && height ? `${height}px` : null)
+      .set('scrolling_enabled', scrollingEnabled)
       .set('src', src || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('width', hasManualDimensions && width ? `${width}px` : null);
@@ -237,6 +238,7 @@ export default class IframeBlockModal extends React.Component {
       hasManualDimensions,
       hasUpdatedDate,
       height,
+      scrollingEnabled,
       src,
       updatedDate,
       width,
@@ -324,6 +326,11 @@ export default class IframeBlockModal extends React.Component {
                     />
                   </>
                 )}
+            </FormGroup>
+            <FormGroup className="mr-4">
+              <Checkbox id="scrollingEnabled" size="sd" checked={scrollingEnabled} onChange={this.handleChangeCheckbox}>
+                Scrolling
+              </Checkbox>
             </FormGroup>
             <FormGroup className="mr-4">
               <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>

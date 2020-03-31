@@ -2,12 +2,12 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
-import getEntityKey from './getEntityKey';
+import { entityTypes, mutabilityTypes } from '../constants';
 
 /**
  * Turns selected text into a link
  *
- * @link https://draftjs.org/docs/api-reference-rich-utils.html#togglelink
+ * @link https://draftjs.org/docs/api-reference-rich-utils#togglelink
  *
  * @param {EditorState} editorState - a state instance of a DraftJs Editor
  * @param {string}      target      - the link target (ie '_blank')
@@ -15,45 +15,23 @@ import getEntityKey from './getEntityKey';
  *
  * @returns {EditorState} an EditorState instance
  */
-
 export default (editorState, target, url) => {
   const rel = target === '_blank' ? 'noopener noreferrer' : null;
   const selectionState = editorState.getSelection();
   if (selectionState.getAnchorKey() !== selectionState.getFocusKey()) {
     throw new Error('Multi-block links currently not supported');
   }
-  let existingEntity;
-  const contentBlock = editorState.getCurrentContent()
-    .getBlockForKey(selectionState.getAnchorKey());
-  for (let i = selectionState.getStartOffset(); i < selectionState.getEndOffset(); i += 1) {
-    if (contentBlock.getEntityAt(i)) {
-      existingEntity = editorState.getCurrentContent().getEntity(contentBlock.getEntityAt(i));
-      break;
-    }
-  }
 
-  let newEntityType = 'LINK';
-  let newEntityData = { rel, target, url };
-  if (existingEntity) {
-    newEntityData = {
-      ...existingEntity.getData(),
-      ...newEntityData,
-    };
-    if (existingEntity.getType().indexOf('LINK') < 0) {
-      newEntityType = `${existingEntity.getType()}-LINK`;
-    }
-  }
-
-  const updatedEntityState = getEntityKey(editorState.getCurrentContent(), {
-    type: newEntityType,
-    mutability: 'MUTABLE',
-    data: newEntityData,
-  });
-  const newEntityKey = updatedEntityState.entityKey;
+  const contentState = editorState.getCurrentContent().createEntity(
+    entityTypes.LINK,
+    mutabilityTypes.MUTABLE,
+    { rel, target, url },
+  );
+  const entityKey = contentState.getLastCreatedEntityKey();
   let newEditorState = RichUtils.toggleLink(
     editorState,
     selectionState,
-    newEntityKey,
+    entityKey,
   );
 
   newEditorState = EditorState.acceptSelection(newEditorState, newEditorState.getSelection());

@@ -6,12 +6,12 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  *
  * @returns {Object}
  */
-export default (state, { block, blockProps, contentState }) => {
-  const entityKey = block.getEntityAt(0);
-  const node = contentState.getEntity(entityKey).getData().block;
+export default (state, { block, blockProps }) => {
+  const blockData = block.getData();
+  const node = blockData ? blockData.get('canvasBlock', null) : null;
 
   return {
-    targetNode: node.has('node_ref') ? getNode(state, node.get('node_ref')) : null,
+    targetNode: (node && node.has('node_ref')) ? getNode(state, node.get('node_ref')) : null,
     draggable: !blockProps.getReadOnly(),
   };
 };
