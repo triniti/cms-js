@@ -1,247 +1,248 @@
 # CHANGELOG
 
-
 ## v0.5.0
-* Spotify embed code not visible when user clicks update
-* Remove blocksmith focus plugin and related code
-* Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
-* Image Block modal first cancel button does not cancel
-* Sometimes Blocks are converting to text blocks after publish.
-* Some Text Blocks are causing asset blocks to convert to text blocks due to <figure></figure> in html
-* Fix bug where expanded block image previews are draggable in view mode
-* Loading small images by default for anything that displays a dam asset through component.
-* Fixing actual quality sizes available.
-* Use `@gdbots/schemas` v1.6.5
-* Use `@triniti/schemas` 1.1.8
 
+- Spotify embed code not visible when user clicks update
+- Remove blocksmith focus plugin and related code
+- Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
+- Image Block modal first cancel button does not cancel
+- Sometimes Blocks are converting to text blocks after publish.
+- Some Text Blocks are causing asset blocks to convert to text blocks due to <figure></figure> in html
+- Fix bug where expanded block image previews are draggable in view mode
+- Loading small images by default for anything that displays a dam asset through component.
+- Fixing actual quality sizes available.
+- Iframe block doesn't properly show height/width when set, add scrolling checkbox
+- Use `@gdbots/schemas` v1.6.5
+- Use `@triniti/schemas` 1.1.8
 
 ## v0.4.4
-* Pressing enter after you edit a slug saves a stale version.
 
+- Pressing enter after you edit a slug saves a stale version.
 
 ## v0.4.3
-* Twitter block not accepting certain embed codes/links
-* User Cannot press enter when creating nodes after entering title, without tabbing over to auto generated slug first.
 
+- Twitter block not accepting certain embed codes/links
+- User Cannot press enter when creating nodes after entering title, without tabbing over to auto generated slug first.
 
 ## v0.4.2
-* Slug changes are overwritten when pressing enter in create node modals.
 
+- Slug changes are overwritten when pressing enter in create node modals.
 
 ## v0.4.1
-* Creating a node by pressing enter double dates slugs.
 
+- Creating a node by pressing enter double dates slugs.
 
 ## v0.4.0
-* Rearrange badge/download button order
-* Email Notification General Message doesn't function
-* Add winking face emoji
-* Editing a slug during creation modal will result in a blank slug when hitting ENTER
-* Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
-* Uploading a new pdf to a content block does not auto select or show up
-* Unselected images from Batch Edit once User clicks update.
-* Removing key value pair shows entire field being removed in history.
-* Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
-* Add YouTube and JW Player video fields
-* Add `aspect_ratio` ui for gallery and document blocks
-* Use `@triniti/schemas` v1.1.6
-* Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
-* Hashtags picker field fluid height
-* Bump `auth0-lock` from 11.20.3 to 11.21.0
 
+- Rearrange badge/download button order
+- Email Notification General Message doesn't function
+- Add winking face emoji
+- Editing a slug during creation modal will result in a blank slug when hitting ENTER
+- Add More Fields On Designated Screens (display_title, credit_url, cta_text, cta_url, etc.)
+- Uploading a new pdf to a content block does not auto select or show up
+- Unselected images from Batch Edit once User clicks update.
+- Removing key value pair shows entire field being removed in history.
+- Adjust Notification Send Options To Exclude 'Send Now' On Unpublished Content
+- Add YouTube and JW Player video fields
+- Add `aspect_ratio` ui for gallery and document blocks
+- Use `@triniti/schemas` v1.1.6
+- Create `VideoAssetPickerField` and use for video `mezzanine_ref`.
+- Hashtags picker field fluid height
+- Bump `auth0-lock` from 11.20.3 to 11.21.0
 
 ## v0.3.4
-* When adding text to a text block, hovering your mouse to another block and back causes text to disappear.
 
+- When adding text to a text block, hovering your mouse to another block and back causes text to disappear.
 
 ## v0.3.3
-* Fix for entering space or enter into youtube playlist block textarea.
 
+- Fix for entering space or enter into youtube playlist block textarea.
 
 ## v0.3.2
-* Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used.
-* Spotify Embed Block requires pasting of embeds twice.
-* YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
-* Text Editor toolbar does not appear after selecting option, leaving tab, and returning
 
+- Add Spotify URI to text area of spotify embed block to make it more clear which content type is being used.
+- Spotify Embed Block requires pasting of embeds twice.
+- YouTube Playlist block: If user manually types anything into input field for EMBED CODE, URL, OR ID the CMS will crash
+- Text Editor toolbar does not appear after selecting option, leaving tab, and returning
 
 ## v0.3.1
-* Add support for livestream static label
-* Fix unit test error due to unresolved config file.
-* Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
 
+- Add support for livestream static label
+- Fix unit test error due to unresolved config file.
+- Fix `WidgetHasSearchRequestSubscriber` `timeline_ref` handling.
 
 ## v0.3.0
-* Make `UserPickerField` and use for `author_ref`
-* Issue: Add Imgur Post Block
-* issue: Add Spotify Embed Block
-* include status in `MediaLiveChannelCards` Card headers.
-* Added tabs for dashboard (News and Active)
-* MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
-* Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
-* Added Youtube Playlist Block
-* Added TikTok embed block
-* Use `@triniti/schemas` v1.1.5
-* Added Pinterest pin embed block
-* MediaLive UI Enhancements
-* Add Slotting On Teasers Screen
-* Add checkbox to enable or disable SmartNews.
-* Remove livestream screen breadcrumbs
-* Fixed broken artist embed in Spotify Embed Block
 
+- Make `UserPickerField` and use for `author_ref`
+- Issue: Add Imgur Post Block
+- issue: Add Spotify Embed Block
+- include status in `MediaLiveChannelCards` Card headers.
+- Added tabs for dashboard (News and Active)
+- MediaLive tweaks: increase delay waiting for event, add toast message, and add "no videos found" message
+- Removed asides from code, divider, heading, iframe, page-breakquote and text blocks.
+- Added Youtube Playlist Block
+- Added TikTok embed block
+- Use `@triniti/schemas` v1.1.5
+- Added Pinterest pin embed block
+- MediaLive UI Enhancements
+- Add Slotting On Teasers Screen
+- Add checkbox to enable or disable SmartNews.
+- Remove livestream screen breadcrumbs
+- Fixed broken artist embed in Spotify Embed Block
 
 ## v0.2.16
-* Fix mediaLive reducer bug where endpoints can be duplicated.
 
+- Fix mediaLive reducer bug where endpoints can be duplicated.
 
 ## v0.2.15
-* Add MediaLive Channel support
 
+- Add MediaLive Channel support
 
 ## v0.2.14
-* Reset `NodePickerfield` to initial state on menu close.
 
+- Reset `NodePickerfield` to initial state on menu close.
 
 ## v0.2.13
-* More node picker field adjustments for search text stickyness and buggyness
-* Update instagram regex to allow for underscores.
 
+- More node picker field adjustments for search text stickyness and buggyness
+- Update instagram regex to allow for underscores.
 
 ## v0.2.12
-* Move `@gdbots/schemas` and `@triniti/schemas` to peerDependencies.
-* Use `@gdbots/pbj` v1.0.1 with more forgiving identifier and enum type checks.
 
+- Move `@gdbots/schemas` and `@triniti/schemas` to peerDependencies.
+- Use `@gdbots/pbj` v1.0.1 with more forgiving identifier and enum type checks.
 
 ## v0.2.11
-* issue #126: Fixed instagram media block not allowing hyphens in embed url.
-* Can edit ad-widget size while in view mode
-* Remove error message when editing/creating slugs
-* Re-enable collaboration reducer on `MESSAGE_RECEIVED`.
-* Made picker field search query persistent
 
+- issue #126: Fixed instagram media block not allowing hyphens in embed url.
+- Can edit ad-widget size while in view mode
+- Remove error message when editing/creating slugs
+- Re-enable collaboration reducer on `MESSAGE_RECEIVED`.
+- Made picker field search query persistent
 
 ## v0.2.10
-* User can see stale article data
 
+- User can see stale article data
 
 ## v0.2.9
-* issue #13: batch edit support from gallery media section
-* Add `UpdateNodeEnricher.js` which will add all paths (aka fields) that have changed during the `gdbots:ncr:mixin:update-node.enrich` lifecycle event.
-* Add `autocomplete: true` to the search nodes request in node picker field.
-* Correct `isClearable` behavior for `Select` components.
-* Correct `pbjUrl` template for poll and widget pickers.
-* Do not replace trailing space with a dash when constructing slugs.
-* Fix broken thumbnail on asset uploader.
-* Fix node type filtering is not sticky when leaving and re-entering the page.
-* Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
-* When node is selected open icon turns white.
 
+- issue #13: batch edit support from gallery media section
+- Add `UpdateNodeEnricher.js` which will add all paths (aka fields) that have changed during the `gdbots:ncr:mixin:update-node.enrich` lifecycle event.
+- Add `autocomplete: true` to the search nodes request in node picker field.
+- Correct `isClearable` behavior for `Select` components.
+- Correct `pbjUrl` template for poll and widget pickers.
+- Do not replace trailing space with a dash when constructing slugs.
+- Fix broken thumbnail on asset uploader.
+- Fix node type filtering is not sticky when leaving and re-entering the page.
+- Fix structure > teasers if pressing 1 to change order date, the selector/cursor will lose focus.
+- When node is selected open icon turns white.
 
 ## v0.2.8
-* Update `isMulti` prop for `SelectField`
 
+- Update `isMulti` prop for `SelectField`
 
 ## v0.2.7
-* Update `peoplePickerField` to have labels link to person canonical
 
+- Update `peoplePickerField` to have labels link to person canonical
 
 ## v0.2.6
-* optimize Gallery Reorder - Batching
-* Bug: slug editor curser jumping to end of field issue
-* allow pickers to stretch to fit content
-* refinements to poll picker for poll grid block modal
-* allow clearing widget data source
 
+- optimize Gallery Reorder - Batching
+- Bug: slug editor curser jumping to end of field issue
+- allow pickers to stretch to fit content
+- refinements to poll picker for poll grid block modal
+- allow clearing widget data source
 
 ## v0.2.5
-* style nodes in `nodePickerField` that are navigated to via keyboard
-* enable deleting nodes from `nodePickerField` with backspace
-* fix a bunch of other `nodePickerField` wrinkles
-* remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
 
+- style nodes in `nodePickerField` that are navigated to via keyboard
+- enable deleting nodes from `nodePickerField` with backspace
+- fix a bunch of other `nodePickerField` wrinkles
+- remove delay on `successFlow` and move up toast fork in `linkAssetsFlow`.
 
 ## v0.2.4
-* update all node pickers to request 25 per page
-* fix `nodePickerField` double scrollbar and overflow issues
-* clear `nodePickerField` search string on select
 
+- update all node pickers to request 25 per page
+- fix `nodePickerField` double scrollbar and overflow issues
+- clear `nodePickerField` search string on select
 
 ## v0.2.3
-* un-style `SelectField` `menuList`
-* fix nodePickerField innerProps
-* fix image block `updated_date`
 
+- un-style `SelectField` `menuList`
+- fix nodePickerField innerProps
+- fix image block `updated_date`
 
 ## v0.2.2
-* fix double scrollbar mojave issue
-* fix notification screen crash
-* add a check `isThemeable` before calling get/set on `image-block`
-* blocks delete on delete key press
-* more keyValuesField styling
-* Bug: Unable to paste into slug field(URL) and keep formatting.
-* Fix picker not scrolling which was actually options being filtered.
-* Bug: block modal search bar non functional
-* fix blocksmith inline toolbar
-* issue #51: Updated regex on instagram block modal to handle /tv and /p urls
-* fix node picker field flicker
-* fix status filters in search users screen doesn't work
 
+- fix double scrollbar mojave issue
+- fix notification screen crash
+- add a check `isThemeable` before calling get/set on `image-block`
+- blocks delete on delete key press
+- more keyValuesField styling
+- Bug: Unable to paste into slug field(URL) and keep formatting.
+- Fix picker not scrolling which was actually options being filtered.
+- Bug: block modal search bar non functional
+- fix blocksmith inline toolbar
+- issue #51: Updated regex on instagram block modal to handle /tv and /p urls
+- fix node picker field flicker
+- fix status filters in search users screen doesn't work
 
 ## v0.2.1
-* Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
 
+- Add label to `GalleryFields` for related galleries title and fix gallery picker sortable bug.
 
 ## v0.2.0
-* issue #6: Modal does not auto-close when selecting a new block
-* issue #18: cannot duplicate nodes
-* issue #22: Drop down react-select component for widgets missing in promotions.
-* issue #43: Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
-* issue #51: Update regex instagram block modal.
-* Add divider block into blocksmith
-* Add fix for cutting and pasting a text block
-* Add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
-* Add label to `GalleryFields` for related galleries title
-* Add theme pick list to image block
-* Allow seo meta keywords and hashtags to be selected using comma key
-* Fix asset variant dropzone spinner
-* Fix for edit-gallery-screen crashing when node is not available in state yet.
-* Fix for node picker crashing when node is not found
-* Increase width of value field in key-values-field
-* Pre-fill notification modal when opened from article screen
-* Style (in triniti) the key values field select component
-* Style (in triniti) the save buttons
-* Style fragments selector
-* Style video captions selector
-* Update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
-* Update site-logo to new triniti logo
 
+- issue #6: Modal does not auto-close when selecting a new block
+- issue #18: cannot duplicate nodes
+- issue #22: Drop down react-select component for widgets missing in promotions.
+- issue #43: Redesign history stream so it's simpler (no diff logic) and easier to review and copy from and has paging.
+- issue #51: Update regex instagram block modal.
+- Add divider block into blocksmith
+- Add fix for cutting and pasting a text block
+- Add fix for widget redux form fields re-mounting and getting caught in infinite validation loop
+- Add label to `GalleryFields` for related galleries title
+- Add theme pick list to image block
+- Allow seo meta keywords and hashtags to be selected using comma key
+- Fix asset variant dropzone spinner
+- Fix for edit-gallery-screen crashing when node is not available in state yet.
+- Fix for node picker crashing when node is not found
+- Increase width of value field in key-values-field
+- Pre-fill notification modal when opened from article screen
+- Style (in triniti) the key values field select component
+- Style (in triniti) the save buttons
+- Style fragments selector
+- Style video captions selector
+- Update `changedDate` and `changedTime` tests to not use `new Date()` because then it may fail if you do it at exactly the right (wrong) time.
+- Update site-logo to new triniti logo
 
 ## v0.1.1
-* issue #2: updated css to have correct color on save btn hover
-* issue #4: Set up CMS to handle new type: asset-teaser.
-* issue #15: fixed sweetalert call to solve issue deleting nodes
-* issue #17: use DAM_BASE_URL and IMAGE_BASE_URL env globals in damUrl.js
-* issue #27: updated css to fix slotting dropdown width
-* Fixed search bar bug by overriding bootstraps css
-* added pagination to document block.
-* expose `baseUrls` in `plugins/dam/utils/damUrl.js` so sites can customize the urls.
-* Fix a few still-broken React Selects.
-* Fix bug: User can create slugs with two dashes
-* Fixed bug for document blocks showing all mime-types
-* block `updated_date` fixes
-* Fixed search bar bug by overriding bootstraps css
-* Fixed sweetalert call to solve issue deleting blocks
-* implement pre-push git hooks
-* remove deprecated sponsor-picker-field
-* Update seo meta keywords to be multi-select
-* Fix error message when renaming channel slug
-* Fix widget dfp unit path removal bug
-* Fix asset tags
-* allow clearing video rating
-* Fix widget picker `isEditMode`
-* clear getAllChannels response after successful update
-* Fix input padding
 
+- issue #2: updated css to have correct color on save btn hover
+- issue #4: Set up CMS to handle new type: asset-teaser.
+- issue #15: fixed sweetalert call to solve issue deleting nodes
+- issue #17: use DAM_BASE_URL and IMAGE_BASE_URL env globals in damUrl.js
+- issue #27: updated css to fix slotting dropdown width
+- Fixed search bar bug by overriding bootstraps css
+- added pagination to document block.
+- expose `baseUrls` in `plugins/dam/utils/damUrl.js` so sites can customize the urls.
+- Fix a few still-broken React Selects.
+- Fix bug: User can create slugs with two dashes
+- Fixed bug for document blocks showing all mime-types
+- block `updated_date` fixes
+- Fixed search bar bug by overriding bootstraps css
+- Fixed sweetalert call to solve issue deleting blocks
+- implement pre-push git hooks
+- remove deprecated sponsor-picker-field
+- Update seo meta keywords to be multi-select
+- Fix error message when renaming channel slug
+- Fix widget dfp unit path removal bug
+- Fix asset tags
+- allow clearing video rating
+- Fix widget picker `isEditMode`
+- clear getAllChannels response after successful update
+- Fix input padding
 
 ## v0.1.0
-* initial version
+
+- initial version
