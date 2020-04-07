@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.5.1
+* Use `@triniti/admin-ui-plugin` v1.0.2
+
+
 ## v0.5.0
 * Spotify embed code not visible when user clicks update
 * Remove blocksmith focus plugin and related code
