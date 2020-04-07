@@ -82,6 +82,10 @@ export default (editorState) => {
   const offsetKey = DraftOffsetKey.encode(anchorKey, 0, 0);
   const currentBlockNode = document.querySelector(`[data-offset-key="${offsetKey}"] span div span span`);
 
+  if (!currentBlockNode) {
+    return [''];
+  }
+
   const testNode = currentBlockNode.cloneNode();
   testNode.style.opacity = 0;
   testNode.style.position = 'fixed';
