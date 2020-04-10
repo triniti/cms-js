@@ -1,4 +1,5 @@
 import merge from 'lodash/merge';
+import mime from 'mime-types';
 import createReducer from '@triniti/app/createReducer';
 import BigNumber from '@gdbots/pbj/well-known/BigNumber';
 import GetUploadUrlsResponseV1Mixin
@@ -192,7 +193,7 @@ const onGetUploadUrlsResponse = (prevState, { pbj }) => {
     const prevFileInfo = prevState.files[hashName];
     const asset = fromAssetId(assetIds[hashName]);
     asset.set('title', prevFileInfo.file.name);
-    asset.set('mime_type', prevFileInfo.file.type);
+    asset.set('mime_type', prevFileInfo.file.type || mime.lookup(prevFileInfo.file.name));
     asset.set('file_size', new BigNumber(prevFileInfo.file.size || 0));
     /* eslint no-param-reassign: off */
     accumulator[hashName] = {
