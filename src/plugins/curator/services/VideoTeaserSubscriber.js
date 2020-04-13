@@ -58,6 +58,7 @@ export default class VideoTeaserSubscriber extends EventSubscriber {
     if (isCreateForm && target) {
       node
         .set('target_ref', NodeRef.fromNode(target))
+        .set('image_ref', target.get('image_ref'))
         .set('title', target.get('title'));
 
       if (target.has('description')) {

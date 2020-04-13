@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Apply image_ref from target on video teaser creation.
+
+
 ## v0.5.1
 * Use `@triniti/admin-ui-plugin` v1.0.2
 * fix small bug for: Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks
