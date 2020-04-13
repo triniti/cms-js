@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Setting default mime type because browser can be unreliable.
 * Apply image_ref from target on video teaser creation.
 
 
