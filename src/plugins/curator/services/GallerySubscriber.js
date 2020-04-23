@@ -26,7 +26,7 @@ export default class GallerySubscriber extends EventSubscriber {
     data._id = node.get('_id'); // eslint-disable-line no-underscore-dangle
     data.relatedGalleryRefs = node.get('related_gallery_refs', []);
 
-    ['title', 'description', 'allow_comments', 'launch_text'].forEach((fieldName) => {
+    ['title', 'description', 'allow_comments', 'launch_text', 'credit_url'].forEach((fieldName) => {
       if (node.has(fieldName)) {
         data[camelCase(fieldName)] = node.get(fieldName);
       }
@@ -95,7 +95,7 @@ export default class GallerySubscriber extends EventSubscriber {
     node.set('title', data.title);
 
     if (!formEvent.getProps().isCreateForm) {
-      ['description', 'allow_comments', 'title', 'launch_text'].forEach((fieldName) => {
+      ['description', 'allow_comments', 'title', 'launch_text', 'credit_url'].forEach((fieldName) => {
         const value = data[camelCase(fieldName)];
         node.set(fieldName, !isUndefined(value) ? value : null);
       });
