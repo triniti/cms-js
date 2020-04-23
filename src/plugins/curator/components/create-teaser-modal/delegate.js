@@ -9,16 +9,6 @@ class Delegate extends AbstractDelegate {
       formName: formNames.CREATE_TEASER,
     }, dependencies);
   }
-
-  /**
-   * @inheritdoc
-   */
-  handleSubmit(data, formDispatch, formProps) {
-    // Copy image to primary image when an asset teaser is created.
-    const dataImageRef = data.type.value === 'asset-teaser' ? { ...data, imageRef: data.targetRef } : data;
-
-    return super.handleSubmit(dataImageRef, formDispatch, formProps);
-  }
 }
 
 export { Delegate }; // to allow for site level customization
