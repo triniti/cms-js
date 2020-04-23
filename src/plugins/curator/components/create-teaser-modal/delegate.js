@@ -10,6 +10,9 @@ class Delegate extends AbstractDelegate {
     }, dependencies);
   }
 
+  /**
+   * @inheritdoc
+   */
   handleSubmit(data, formDispatch, formProps) {
     // Copy image to primary image when an asset teaser is created.
     if (data.type.value === 'asset-teaser') {
