@@ -15,11 +15,9 @@ class Delegate extends AbstractDelegate {
    */
   handleSubmit(data, formDispatch, formProps) {
     // Copy image to primary image when an asset teaser is created.
-    if (data.type.value === 'asset-teaser') {
-      data.imageRef = data.targetRef;
-    }
+    const dataImageRef = data.type.value === 'asset-teaser' ? { ...data, imageRef: data.targetRef } : data;
 
-    return super.handleSubmit(data, formDispatch, formProps);
+    return super.handleSubmit(dataImageRef, formDispatch, formProps);
   }
 }
 
