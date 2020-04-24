@@ -58,8 +58,6 @@ export default class AssetTeaserSubscriber extends EventSubscriber {
     if (isCreateForm && target) {
       node
         .set('image_ref', NodeRef.fromNode(target))
-        .set('target_ref', NodeRef.fromNode(target))
-        .set('title', target.get('title'));
     }
   }
 

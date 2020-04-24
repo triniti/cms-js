@@ -1,4 +1,3 @@
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 
@@ -57,11 +56,6 @@ export default class PageTeaserSubscriber extends EventSubscriber {
     }
 
     if (isCreateForm && target) {
-      node
-        .set('target_ref', NodeRef.fromNode(target))
-        .set('image_ref', target.get('image_ref'))
-        .set('title', target.get('title'));
-
       if (target.has('description')) {
         node.set('description', target.get('description'));
       } else if (target.has('blocks')) {

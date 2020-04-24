@@ -1,4 +1,3 @@
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 
 export default class VideoTeaserSubscriber extends EventSubscriber {
@@ -6,7 +5,6 @@ export default class VideoTeaserSubscriber extends EventSubscriber {
     super();
     this.onInitForm = this.onInitForm.bind(this);
     this.onValidateForm = this.onValidateForm.bind(this);
-    this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
   /**
@@ -40,38 +38,10 @@ export default class VideoTeaserSubscriber extends EventSubscriber {
     }
   }
 
-  /**
-   * Binds data from the redux form to the command.
-   * This occurs AFTER a form has been submitted
-   * but before the command is dispatched.
-   *
-   * @param {FormEvent} formEvent
-   */
-  onSubmitForm(formEvent) {
-    const node = formEvent.getMessage();
-    const { isCreateForm, target } = formEvent.getProps();
-
-    if (node.isFrozen()) {
-      return;
-    }
-
-    if (isCreateForm && target) {
-      node
-        .set('image_ref', target.get('image_ref'))
-        .set('target_ref', NodeRef.fromNode(target))
-        .set('title', target.get('title'));
-
-      if (target.has('description')) {
-        node.set('description', target.get('description'));
-      }
-    }
-  }
-
   getSubscribedEvents() {
     return {
       'triniti:curator:mixin:video-teaser.init_form': this.onInitForm,
       'triniti:curator:mixin:video-teaser.validate_form': this.onValidateForm,
-      'triniti:curator:mixin:video-teaser.submit_form': this.onSubmitForm,
     };
   }
 }

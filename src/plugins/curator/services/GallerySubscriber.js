@@ -56,7 +56,7 @@ export default class GallerySubscriber extends EventSubscriber {
     }
 
     if (!formEvent.getProps().isCreateForm) {
-      ['title', 'description', 'launch_text'].forEach((schemaFieldName) => {
+      ['title', 'description', 'launch_text', 'credit_url'].forEach((schemaFieldName) => {
         const formFieldName = camelCase(schemaFieldName);
         if (data[formFieldName]) {
           try {

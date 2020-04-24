@@ -10,6 +10,7 @@ import getTextAreaFieldError from '@triniti/cms/components/textarea-field/getTex
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import LinkTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/link-teaser/LinkTeaserV1Mixin';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 import YoutubeVideoTeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/youtube-video-teaser/YoutubeVideoTeaserV1Mixin';
 import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
 import { formNames } from '../constants';
@@ -150,7 +151,7 @@ export default class TeaserSubscriber extends EventSubscriber {
   onSubmitForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
-    const { isCreateForm, schemas } = formEvent.getProps();
+    const { isCreateForm, schemas, target } = formEvent.getProps();
 
     if (node.isFrozen()) {
       return;
@@ -187,6 +188,31 @@ export default class TeaserSubscriber extends EventSubscriber {
         node.addToMap('slotting', key.label, +value);
       }
     });
+
+    if (isCreateForm && target) {
+      node
+        .set('target_ref', NodeRef.fromNode(target))
+        .set('title', target.get('title'));
+
+      if (target.get('image_ref')) {
+        node.set('image_ref', target.get('image_ref'));
+      }
+
+      if (target.has('description')) {
+        node.set('description', target.get('description'));
+      } else if (target.has('blocks')) {
+        const firstTextBlock = target.get('blocks')
+          .find((block) => block.schema() === TextBlockV1Mixin.findOne());
+        if (firstTextBlock) {
+          node.set(
+            'description',
+            firstTextBlock.get('text')
+              .replace(/(<span.+?>|<a.+?>|<\/?(a|p|ul|ol|span|strong|em|del|u)>)/g, '')
+              .replace(/(<br>|<\/li><li>)/g, ' '),
+          );
+        }
+      }
+    }
   }
 
   /**
