@@ -64,7 +64,7 @@ class GalleryBlockModal extends React.Component {
       selectedGallery: gallery || null,
       selectedImage: image || null,
       startsAtPoster: block.get('start_at_poster'),
-      title: block.get('title'),
+      title: block.get('title', ''),
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -123,7 +123,7 @@ class GalleryBlockModal extends React.Component {
       .set('node_ref', selectedGallery.get('_id').toNodeRef())
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
       .set('start_at_poster', startsAtPoster)
-      .set('title', title)
+      .set('title', title || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 

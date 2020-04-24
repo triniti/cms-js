@@ -16,10 +16,10 @@ export default class PersonTeaserSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    data.targetRefs = [];
-    if (node.has('target_ref')) {
-      data.targetRefs.push(node.get('target_ref'));
-    }
+    // data.targetRefs = [];
+    // if (node.has('target_ref')) {
+    //   data.targetRefs.push(node.get('target_ref'));
+    // }
   }
 
   getSubscribedEvents() {

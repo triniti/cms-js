@@ -59,6 +59,13 @@ export default class TeaserSubscriber extends EventSubscriber {
     if (node.has('timeline_ref')) {
       data.timelineRefs.push(node.get('timeline_ref'));
     }
+
+    if (node.schema().hasMixin('triniti:curator:mixin:teaser-has-target')) {
+      data.targetRefs = [];
+      if (node.has('target_ref')) {
+        data.targetRefs.push(node.get('target_ref'));
+      }
+    }
   }
 
   /**
@@ -139,6 +146,18 @@ export default class TeaserSubscriber extends EventSubscriber {
         formEvent.addError('credit', e.message);
       }
     }
+
+    if (
+      node.schema().hasMixin('triniti:curator:mixin:teaser-has-target')
+      && data.targetRefs
+      && data.targetRefs.length
+    ) {
+      try {
+        node.set('target_ref', data.targetRefs[0]);
+      } catch (e) {
+        formEvent.addError('targetRefs', e.message);
+      }
+    }
   }
 
   /**
@@ -151,7 +170,7 @@ export default class TeaserSubscriber extends EventSubscriber {
   onSubmitForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
-    const { isCreateForm, schemas, target } = formEvent.getProps();
+    const { isCreateForm, target } = formEvent.getProps();
 
     if (node.isFrozen()) {
       return;
@@ -174,7 +193,7 @@ export default class TeaserSubscriber extends EventSubscriber {
       node.set('timeline_ref', data.timelineRefs[0]);
     }
 
-    if (isCreateForm && schemas.node.hasMixin('triniti:curator:mixin:teaser-has-target')) {
+    if (isCreateForm && node.schema().hasMixin('triniti:curator:mixin:teaser-has-target')) {
       node.set('sync_with_target', true);
     } else if (isBoolean(data.syncWithTarget)) {
       node.set('sync_with_target', data.syncWithTarget);
@@ -194,7 +213,7 @@ export default class TeaserSubscriber extends EventSubscriber {
         .set('target_ref', NodeRef.fromNode(target))
         .set('title', target.get('title'));
 
-      if (target.get('image_ref')) {
+      if (target.has('image_ref')) {
         node.set('image_ref', target.get('image_ref'));
       }
 
