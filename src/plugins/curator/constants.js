@@ -16,6 +16,7 @@ export const serviceIds = {
   EXPIRABLE_SUBSCRIBER: t('expirable_subscriber'),
   GALLERY_SUBSCRIBER: t('gallery_subscriber'),
   LINK_TEASER_SUBSCRIBER: t('link_teaser_subscriber'),
+  PLAYLIST_WIDGET_SUBSCRIBER: t('playlist_widget_subscriber'),
   PROMOTION_SUBSCRIBER: t('promotion_subscriber'),
   SEO_SUBSCRIBER: t('seo_subscriber'),
   SHOWTIMES_WIDGET_SUBSCRIBER: t('showtimes_widget_subscriber'),

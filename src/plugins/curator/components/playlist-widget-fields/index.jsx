@@ -31,6 +31,12 @@ const PlaylistWidgetFields = ({ formValues, isEditMode, node, type }) => (
           label="Show Border"
           name="showBorder"
         />
+        <Field
+          component={CheckboxField}
+          disabled={!isEditMode}
+          label="Autoplay"
+          name="autoplay"
+        />
       </div>
       <Field
         component={TextField}

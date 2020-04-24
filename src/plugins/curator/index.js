@@ -10,6 +10,7 @@ import CarouselWidgetSubscriber from './services/CarouselWidgetSubscriber';
 import CodeWidgetSubscriber from './services/CodeWidgetSubscriber';
 import GallerySubscriber from './services/GallerySubscriber';
 import LinkTeaserSubscriber from './services/LinkTeaserSubscriber';
+import PlaylistWidgetSubscriber from './services/PlaylistWidgetSubscriber';
 import PromotionSubscriber from './services/PromotionSubscriber';
 import ShowtimesWidgetSubscriber from './services/ShowtimesWidgetSubscriber';
 import TeaserableSubscriber from './services/TeaserableSubscriber';
@@ -40,6 +41,7 @@ export default class CuratorPlugin extends Plugin {
     bottle.service(serviceIds.EXPIRABLE_SUBSCRIBER, ExpirableSubscriber);
     bottle.service(serviceIds.GALLERY_SUBSCRIBER, GallerySubscriber);
     bottle.service(serviceIds.LINK_TEASER_SUBSCRIBER, LinkTeaserSubscriber);
+    bottle.service(serviceIds.PLAYLIST_WIDGET_SUBSCRIBER, PlaylistWidgetSubscriber);
     bottle.service(serviceIds.PROMOTION_SUBSCRIBER, PromotionSubscriber);
     bottle.service(serviceIds.SEO_SUBSCRIBER, SeoSubscriber);
     bottle.service(serviceIds.SHOWTIMES_WIDGET_SUBSCRIBER, ShowtimesWidgetSubscriber);
@@ -67,6 +69,7 @@ export default class CuratorPlugin extends Plugin {
       serviceIds.EXPIRABLE_SUBSCRIBER,
       serviceIds.GALLERY_SUBSCRIBER,
       serviceIds.LINK_TEASER_SUBSCRIBER,
+      serviceIds.PLAYLIST_WIDGET_SUBSCRIBER,
       serviceIds.PROMOTION_SUBSCRIBER,
       serviceIds.SEO_SUBSCRIBER,
       serviceIds.SHOWTIMES_WIDGET_SUBSCRIBER,
