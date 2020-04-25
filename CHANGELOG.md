@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.6.0
+* Setting default mime type because browser can be unreliable.
+* Copy image_ref from target on all teaser-has-target creation.
+* Set asset-teaser image_ref to target's node ref when target is an image-asset.
+* Add gallery credit_url field.
+* Add playlist widget autoplay field.
+
+
 ## v0.5.1
 * Use `@triniti/admin-ui-plugin` v1.0.2
 * fix small bug for: Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks

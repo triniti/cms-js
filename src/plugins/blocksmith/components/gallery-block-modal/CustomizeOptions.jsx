@@ -37,12 +37,14 @@ const CustomizeOptions = ({
   onChangeLaunchText: handleChangeLaunchText,
   onChangeStartAtPoster: handleChangeStartAtPoster,
   onChangeTime: handleChangeTime,
+  onChangeTitle: handleChangeTitle,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
   selectedGallery,
   selectedImage,
   startsAtPoster,
+  title,
   updatedDate,
 }) => (
   <div className="modal-body-blocksmith">
@@ -90,7 +92,7 @@ const CustomizeOptions = ({
       </FormGroup>
       <FormGroup className="mr-4">
         <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
-          Is update
+          Is Update
         </Checkbox>
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
           Aside
@@ -105,6 +107,14 @@ const CustomizeOptions = ({
         >
           Start At Poster Image
         </Checkbox>
+      </FormGroup>
+    </FormGroup>
+    <FormGroup inline className="d-flex justify-content-center form-group-mobile px-3 mb-2">
+      <FormGroup>
+        <Label className="d-flex justify-content-center text-nowrap align-items-center mb-0">
+          Custom Title
+          <Input size="sm" className="ml-2 mr-3 w-auto" value={title} onChange={handleChangeTitle} />
+        </Label>
       </FormGroup>
     </FormGroup>
     {hasUpdatedDate
@@ -133,12 +143,14 @@ CustomizeOptions.propTypes = {
   onChangeLaunchText: PropTypes.func.isRequired,
   onChangeStartAtPoster: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
+  onChangeTitle: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   selectedGallery: PropTypes.instanceOf(Message).isRequired,
   selectedImage: PropTypes.instanceOf(Message),
   startsAtPoster: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 

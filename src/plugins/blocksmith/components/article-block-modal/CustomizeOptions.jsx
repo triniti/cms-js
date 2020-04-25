@@ -20,10 +20,12 @@ const CustomizeOptions = ({
   hasUpdatedDate,
   isImageAssetPickerModalOpen,
   isImageSelected,
+  ctaText,
   linkText,
   node,
   onChangeCheckBox: handleChangeCheckbox,
   onChangeDate: handleChangeDate,
+  onChangeCtaText: handleChangeCtaText,
   onChangeLinkText: handleChangeLinkText,
   onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
@@ -66,13 +68,21 @@ const CustomizeOptions = ({
       </FormGroup>
       <FormGroup className="mr-4">
         <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
-          Is update
+          Is Update
         </Checkbox>
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
           Aside
         </Checkbox>
         <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
         <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
+      </FormGroup>
+    </FormGroup>
+    <FormGroup inline className="d-flex justify-content-center form-group-mobile px-3 mb-2">
+      <FormGroup>
+        <Label className="d-flex justify-content-center text-nowrap align-items-center mb-0">
+          Call To Action
+          <Input size="sm" className="ml-2 mr-3 w-auto" value={ctaText} onChange={handleChangeCtaText} />
+        </Label>
       </FormGroup>
     </FormGroup>
     {hasUpdatedDate
@@ -92,10 +102,12 @@ CustomizeOptions.propTypes = {
   hasUpdatedDate: PropTypes.bool.isRequired,
   isImageAssetPickerModalOpen: PropTypes.bool.isRequired,
   isImageSelected: PropTypes.bool.isRequired,
+  ctaText: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
+  onChangeCtaText: PropTypes.func.isRequired,
   onChangeLinkText: PropTypes.func.isRequired,
   onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
