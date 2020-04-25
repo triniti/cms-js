@@ -115,9 +115,7 @@ export default class AssetSubscriber extends EventSubscriber {
     }
 
     [
-      'credit_url',
       'cta_text',
-      'cta_url',
       'description',
       'display_title',
       'mime_type',
@@ -130,7 +128,9 @@ export default class AssetSubscriber extends EventSubscriber {
       }
     });
 
+    node.set('credit_url', data.creditUrl || null);
     node.set('credit', get(data, 'credit.value', null));
+    node.set('cta_url', data.ctaUrl || null);
 
     node.set('file_size', new BigNumber(data.fileSize));
 

@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.6.1
+* Fix the setting of `credit_url` and `cta_url` in AssetSubscriber, GallerySubscriber and TeaserSubscriber.
+
+
 ## v0.6.0
 * Setting default mime type because browser can be unreliable.
 * Copy image_ref from target on all teaser-has-target creation.
