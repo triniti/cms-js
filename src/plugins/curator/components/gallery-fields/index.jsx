@@ -110,7 +110,7 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
           isEditMode={isEditMode}
           label="Credit Url"
           name="creditUrl"
-          />
+        />
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
           && <FieldArray label="Sponsor" name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />}
       </CardBody>

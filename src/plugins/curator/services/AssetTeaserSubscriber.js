@@ -55,9 +55,8 @@ export default class AssetTeaserSubscriber extends EventSubscriber {
       return;
     }
 
-    if (isCreateForm && target) {
-      node
-        .set('image_ref', NodeRef.fromNode(target));
+    if (isCreateForm && target && target.schema().hasMixin('triniti:dam:mixin:image-asset')) {
+      node.set('image_ref', NodeRef.fromNode(target));
     }
   }
 
