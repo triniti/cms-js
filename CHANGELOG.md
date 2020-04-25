@@ -2,7 +2,7 @@
 
 
 ## v0.6.1
-* Fix `caption_url` in GallerySubscriber.
+* Fix `credit_url` in GallerySubscriber.
 
 
 ## v0.6.0
