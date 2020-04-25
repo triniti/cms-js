@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.6.1
+* Fix `caption_url` in GallerySubscriber.
+
+
 ## v0.6.0
 * Setting default mime type because browser can be unreliable.
 * Copy image_ref from target on all teaser-has-target creation.

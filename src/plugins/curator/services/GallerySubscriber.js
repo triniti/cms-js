@@ -95,11 +95,12 @@ export default class GallerySubscriber extends EventSubscriber {
     node.set('title', data.title);
 
     if (!formEvent.getProps().isCreateForm) {
-      ['description', 'allow_comments', 'title', 'launch_text', 'credit_url'].forEach((fieldName) => {
+      ['description', 'allow_comments', 'title', 'launch_text'].forEach((fieldName) => {
         const value = data[camelCase(fieldName)];
         node.set(fieldName, !isUndefined(value) ? value : null);
       });
 
+      node.set('credit_url', data.creditUrl || null);
       node.set('credit', get(data, 'credit.value', null));
       node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
 
