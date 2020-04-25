@@ -2,7 +2,7 @@
 
 
 ## v0.6.1
-* Fix `credit_url` in GallerySubscriber.
+* Fix the setting of `credit_url` and `cta_url` in AssetSubscriber, GallerySubscriber and TeaserSubscriber.
 
 
 ## v0.6.0

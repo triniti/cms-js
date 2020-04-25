@@ -176,7 +176,7 @@ export default class TeaserSubscriber extends EventSubscriber {
       return;
     }
 
-    ['caption', 'credit_url', 'cta_text', 'description', 'title'].forEach((fieldName) => {
+    ['caption', 'cta_text', 'description', 'title'].forEach((fieldName) => {
       if (data[camelCase(fieldName)]) {
         node.set(fieldName, data[camelCase(fieldName)]);
       } else {
@@ -184,6 +184,7 @@ export default class TeaserSubscriber extends EventSubscriber {
       }
     });
 
+    node.set('credit_url', data.creditUrl || null);
     node.set('credit', get(data, 'credit.value', null));
 
     node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
