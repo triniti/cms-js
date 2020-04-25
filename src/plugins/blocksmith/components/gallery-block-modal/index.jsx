@@ -64,6 +64,7 @@ class GalleryBlockModal extends React.Component {
       selectedGallery: gallery || null,
       selectedImage: image || null,
       startsAtPoster: block.get('start_at_poster'),
+      title: block.get('title', ''),
       updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -74,6 +75,7 @@ class GalleryBlockModal extends React.Component {
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleChangeStartAtPoster = this.handleChangeStartAtPoster.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleDecrementStep = this.handleDecrementStep.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
@@ -110,6 +112,7 @@ class GalleryBlockModal extends React.Component {
       launchText,
       selectedImage,
       selectedGallery,
+      title,
       updatedDate,
     } = this.state;
     const { block } = this.props;
@@ -120,6 +123,7 @@ class GalleryBlockModal extends React.Component {
       .set('node_ref', selectedGallery.get('_id').toNodeRef())
       .set('poster_image_ref', selectedImage ? NodeRef.fromNode(selectedImage) : null)
       .set('start_at_poster', startsAtPoster)
+      .set('title', title || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
@@ -149,6 +153,10 @@ class GalleryBlockModal extends React.Component {
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeTitle({ target: { value: title } }) {
+    this.setState({ title });
   }
 
   handleChangeTime({ target: { value: time } }) {
@@ -224,6 +232,7 @@ class GalleryBlockModal extends React.Component {
       selectedGallery,
       selectedImage,
       startsAtPoster,
+      title,
       updatedDate,
     } = this.state;
     const { isOpen, isFreshBlock, toggle, galleries, node } = this.props;
@@ -277,12 +286,14 @@ class GalleryBlockModal extends React.Component {
                   onChangeLaunchText={this.handleChangeLaunchText}
                   onChangeStartAtPoster={this.handleChangeStartAtPoster}
                   onChangeTime={this.handleChangeTime}
+                  onChangeTitle={this.handleChangeTitle}
                   onClearImage={this.handleClearImage}
                   onSelectImage={this.handleSelectImage}
                   onToggleImageAssetPickerModal={this.handleToggleImageAssetPickerModal}
                   selectedGallery={selectedGallery}
                   selectedImage={selectedImage}
                   startsAtPoster={startsAtPoster}
+                  title={title}
                   updatedDate={updatedDate}
                 />
               )}

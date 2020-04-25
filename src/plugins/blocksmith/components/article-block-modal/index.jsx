@@ -63,10 +63,11 @@ class ArticleBlockModal extends React.Component {
       activeStep: 0,
       articleQ: '',
       aside: block.get('aside'),
+      ctaText: block.get('cta_text', ''),
       hasUpdatedDate: block.has('updated_date'),
       isImageAssetPickerModalOpen: false,
       isReadyToDisplay: false,
-      linkText: block.get('link_text') || '',
+      linkText: block.get('link_text', ''),
       selectedArticleNode: articleNode || null,
       selectedImageRef: imageRef || null,
       showImage: block.get('show_image'),
@@ -75,6 +76,7 @@ class ArticleBlockModal extends React.Component {
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeCtaText = this.handleChangeCtaText.bind(this);
     this.handleChangeLinkText = this.handleChangeLinkText.bind(this);
     this.handleChangeQ = this.handleChangeQ.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
@@ -108,6 +110,7 @@ class ArticleBlockModal extends React.Component {
     const {
       aside,
       hasUpdatedDate,
+      ctaText,
       linkText,
       selectedArticleNode,
       selectedImageRef,
@@ -120,6 +123,7 @@ class ArticleBlockModal extends React.Component {
       .set('show_image', !!showImage)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('image_ref', selectedImageRef || null)
+      .set('cta_text', ctaText || null)
       .set('link_text', linkText || null)
       .set('aside', aside);
   }
@@ -136,6 +140,10 @@ class ArticleBlockModal extends React.Component {
 
   handleChangeDate(date) {
     this.setState(changedDate(date));
+  }
+
+  handleChangeCtaText({ target: { value: ctaText } }) {
+    this.setState({ ctaText });
   }
 
   handleChangeLinkText({ target: { value: linkText } }) {
@@ -221,6 +229,7 @@ class ArticleBlockModal extends React.Component {
       activeStep,
       articleQ,
       aside,
+      ctaText,
       hasUpdatedDate,
       isImageAssetPickerModalOpen,
       isReadyToDisplay,
@@ -288,6 +297,7 @@ class ArticleBlockModal extends React.Component {
             <CustomizeOptions
               aside={aside}
               block={this.setBlock()}
+              ctaText={ctaText}
               hasUpdatedDate={hasUpdatedDate}
               isArticleStep={activeStep === 0}
               isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
@@ -296,6 +306,7 @@ class ArticleBlockModal extends React.Component {
               node={node}
               onChangeCheckBox={this.handleChangeCheckbox}
               onChangeDate={this.handleChangeDate}
+              onChangeCtaText={this.handleChangeCtaText}
               onChangeLinkText={this.handleChangeLinkText}
               onChangeTime={this.handleChangeTime}
               onClearImage={this.handleClearImage}

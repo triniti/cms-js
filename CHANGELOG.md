@@ -1,9 +1,12 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.6.0
 * Setting default mime type because browser can be unreliable.
-* Apply image_ref from target on video teaser creation.
+* Copy image_ref from target on all teaser-has-target creation.
+* Set asset-teaser image_ref to target's node ref when target is an image-asset.
+* Add gallery credit_url field.
+* Add playlist widget autoplay field.
 
 
 ## v0.5.1
