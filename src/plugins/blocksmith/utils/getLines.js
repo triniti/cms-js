@@ -95,7 +95,7 @@ export default (editorState) => {
 
   const text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
   const lines = getLinesBrokenByLineBreaks(text).reduce((acc, cur) => {
-    const styleLines = getLinesBrokenByStyle(testNode, cur);  
+    const styleLines = getLinesBrokenByStyle(testNode, cur);
     testNode.innerHTML = '';
     if (!styleLines.length) {
       acc.push(cur);
