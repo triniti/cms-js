@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## vN.N.N
+* issue #922: Fixing cursor issues with going to line that doesn't exist. Adding support to move cursor to end of last text block.
+
 
 ## v0.6.1
 * Fix the setting of `credit_url` and `cta_url` in AssetSubscriber, GallerySubscriber and TeaserSubscriber.
