@@ -80,21 +80,22 @@ const getLinesBrokenByStyle = (node, text) => {
 export default (editorState) => {
   const anchorKey = editorState.getSelection().getAnchorKey();
   const offsetKey = DraftOffsetKey.encode(anchorKey, 0, 0);
-  const currentBlockNode = document.querySelector(`[data-offset-key="${offsetKey}"] span div span span`);
+  const currentBlockNode = document.querySelector(`[data-offset-key="${offsetKey}"] span div`);
+  const currentBlockNodeContents = document.querySelector(`[data-offset-key="${offsetKey}"] span div span span`);
 
   if (!currentBlockNode) {
     return [''];
   }
 
-  const testNode = currentBlockNode.cloneNode();
+  const testNode = currentBlockNodeContents.cloneNode();
   testNode.style.opacity = 0;
   testNode.style.position = 'fixed';
   testNode.style.width = `${currentBlockNode.getBoundingClientRect().width}px`;
-  currentBlockNode.parentNode.insertBefore(testNode, currentBlockNode);
+  currentBlockNodeContents.parentNode.insertBefore(testNode, currentBlockNodeContents);
 
   const text = editorState.getCurrentContent().getBlockForKey(anchorKey).getText();
   const lines = getLinesBrokenByLineBreaks(text).reduce((acc, cur) => {
-    const styleLines = getLinesBrokenByStyle(testNode, cur);
+    const styleLines = getLinesBrokenByStyle(testNode, cur);  
     testNode.innerHTML = '';
     if (!styleLines.length) {
       acc.push(cur);
@@ -104,7 +105,7 @@ export default (editorState) => {
     return acc;
   }, []);
 
-  currentBlockNode.parentNode.removeChild(testNode);
+  currentBlockNodeContents.parentNode.removeChild(testNode);
 
   return lines;
 };

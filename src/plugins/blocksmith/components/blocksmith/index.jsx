@@ -83,6 +83,7 @@ import {
   isBlockEmpty,
   isFirstListBlock,
   isLastListBlock,
+  moveSelectionToEndOfBlock,
   normalizeKey,
   removeLinkAtSelection,
   replaceBlockAtKey,
@@ -986,6 +987,9 @@ class Blocksmith extends React.Component {
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
         ) {
+          this.setState({
+            editorState: moveSelectionToEndOfBlock(editorState, currentBlock),
+          });
           e.preventDefault(); // would be going "into" an atomic block
         }
         break;
