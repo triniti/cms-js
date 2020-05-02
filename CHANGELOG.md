@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## vN.N.N
-* issue #922: Fixing cursor issues with going to line that doesn't exist. Adding support to move cursor to end of last text block.
+* Fixing cursor issues with going to line that doesn't exist. Adding support to move cursor to end of last text block.
 
 
 ## v0.6.1
