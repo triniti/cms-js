@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add custom code tab to timeline screen.
+
+
 ## v0.6.1
 * Fix the setting of `credit_url` and `cta_url` in AssetSubscriber, GallerySubscriber and TeaserSubscriber.
 

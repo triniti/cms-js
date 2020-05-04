@@ -8,6 +8,7 @@ import Message from '@gdbots/pbj/Message';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import History from '@triniti/cms/plugins/pbjx/components/history';
 import RawContent from '@triniti/cms/components/raw-content';
+import CustomCodeFields from '@triniti/cms/plugins/common/components/custom-code-fields';
 import TimelineFields from '@triniti/cms/plugins/curator/components/timeline-fields';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
@@ -26,6 +27,8 @@ const Form = ({ form, node, tab, isEditMode }) => {
       );
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
+    case 'code':
+      return <CustomCodeFields isEditMode={isEditMode} />;
     case 'history':
       return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
