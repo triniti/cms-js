@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.6.2
 * Add custom code tab to timeline screen.
 
 
