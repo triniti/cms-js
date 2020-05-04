@@ -28,7 +28,7 @@ const Form = ({ form, node, tab, isEditMode }) => {
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
     case 'code':
-      return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
+      return <CustomCodeFields isEditMode={isEditMode} />;
     case 'history':
       return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
