@@ -14,6 +14,7 @@ class TimelineScreen extends AbstractNodeScreen {
   getTabs() {
     return [
       'details',
+      delegate.getSchemas().node.hasMixin('triniti:common:mixin:custom-code') && 'code',
       'taxonomy',
       schemas.node.hasMixin('triniti:common:mixin:seo') && 'seo',
     ];
