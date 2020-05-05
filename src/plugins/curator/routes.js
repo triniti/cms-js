@@ -17,7 +17,7 @@ const routes = {
     component: import('./screens/teaser'),
   },
   [routeIds.TIMELINE]: {
-    path: '/curator/timelines/:node_id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/:tab(details|seo|history|raw|taxonomy)?/:mode(edit)?',
+    path: '/curator/timelines/:node_id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/:tab(details|code|seo|history|raw|taxonomy)?/:mode(edit)?',
     component: import('./screens/timeline'),
   },
   [routeIds.WIDGET]: {
