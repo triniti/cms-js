@@ -36,7 +36,7 @@ class FileList extends React.Component {
 
   componentDidUpdate() {
     // Raven is making `componentDidUpdate` fire on each heart beat thus
-    // the uploader module jumps when users with a small screen (like a 13" mbp)
+    // the uploader modal jumps when users with a small screen (like a 13" mbp)
     // scrolls down. This will check if the user's browser is about a 13" screen
     // or less and prevent the scrolling into view from happening.
     if (document.documentElement.clientHeight > 792) {
