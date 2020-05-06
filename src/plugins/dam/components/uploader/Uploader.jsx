@@ -167,7 +167,7 @@ class Uploader extends React.Component {
           <ModalBody className="p-0">
             <div className="dam-uploader-wrapper">
               <div className="dam-content">
-                <div className="dam-left-col border-right">
+                <div className="dam-left-col">
                   <div className="dam-drop-zone">
                     <DropArea
                       onDrop={delegate.handleFileDrop}
@@ -185,7 +185,7 @@ class Uploader extends React.Component {
                   </div>
                 </div>
 
-                <div className="meta-form">
+                <div className="meta-form border-left">
                   <Card className="pt-3 px-3 pb-1 mb-0">
                     {activeHashName && activeAsset
                       // Form `key` is REQUIRED to update the form

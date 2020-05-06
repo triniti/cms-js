@@ -1,7 +1,16 @@
-$height: 563px;
+$normalHeight: 620px;
+$smallHeight: calc(100vh - 180px);
+$viewportMaxHeight: 800px;
 
 .dam-uploader-wrapper {
-  min-height: $height;
+  @media (min-height: $viewportMaxHeight) {
+    min-height: $normalHeight;
+  }
+
+  @media (max-height: $viewportMaxHeight) {
+    height: $smallHeight;
+    overflow: auto;
+  }
 }
 
 .dam-content {
@@ -60,7 +69,13 @@ $height: 563px;
 }
 
 .meta-form {
-  min-height: $height;
+  @media (min-height: $viewportMaxHeight) {
+    min-height: $normalHeight;
+  }
+
+  @media (max-height: $viewportMaxHeight - 1px) {
+    min-height: $smallHeight;
+  }
   flex: 1 1 auto;
 }
 
