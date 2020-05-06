@@ -10,7 +10,7 @@ import ImageAssetSubscriber from './services/ImageAssetSubscriber';
 
 export default class DamPlugin extends Plugin {
   constructor() {
-    super('triniti', 'dam', '0.3.4');
+    super('triniti', 'dam', '0.6.3');
   }
 
   configure(app, bottle) {

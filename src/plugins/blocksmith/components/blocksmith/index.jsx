@@ -986,6 +986,9 @@ class Blocksmith extends React.Component {
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
         ) {
+          this.setState({
+            editorState: selectBlock(editorState, currentBlock.getKey(), selectBlockSelectionTypes.END),
+          });
           e.preventDefault(); // would be going "into" an atomic block
         }
         break;
