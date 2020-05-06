@@ -1,4 +1,4 @@
-$height: 563px;
+$height: 620px;
 
 .batch-edit-wrapper {
   min-height: $height;
@@ -19,9 +19,4 @@ $height: 563px;
       text-align: left !important;
     }
   }
-}
-
-.meta-form {
-  min-height: $height;
-  flex: 1 1 auto;
 }
