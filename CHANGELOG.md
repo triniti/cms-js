@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## vN.N.N
+* Preventing uploader from moving scroll position around on small screens and allowing dynamic height of uploader if viewing area is tiny.
+
 
 ## v0.6.2
 * Add custom code tab to timeline screen.
