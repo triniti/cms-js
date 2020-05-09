@@ -20,6 +20,7 @@ import { STATUS_FULFILLED, STATUS_NONE, STATUS_PENDING } from '@triniti/app/cons
 import UserLink from './UserLink';
 import EventDetails from './EventDetails';
 import RawViewButton from '../raw-view-button';
+import RevertButton from '../revert-button';
 
 class EventStream extends React.Component {
   static propTypes = {
@@ -108,6 +109,7 @@ class EventStream extends React.Component {
               const occurredAt = moment(event.get('occurred_at').toDate()).format('MMM DD, YYYY hh:mm:ss A');
               const occurredAtAgo = moment(event.get('occurred_at').toDate()).fromNow();
               const user = event.get('ctx_user_ref') && getUser(event.get('ctx_user_ref'));
+              const schema = event.schema();
               return (
                 <ListGroupItem key={event.get('occurred_at')} className="mb-0">
                   <div className="d-flex justify-content-between">
@@ -122,7 +124,10 @@ class EventStream extends React.Component {
                         <span>{occurredAt}</span>
                       </div>
                     </div>
-                    <span><RawViewButton event={event} /></span>
+                    <span>
+                      { schema.hasMixin('gdbots:ncr:mixin:node-updated') && <RevertButton event={event} /> }
+                      <RawViewButton event={event} />
+                    </span>
                   </div>
                   <span>
                     <EventDetails event={event} />

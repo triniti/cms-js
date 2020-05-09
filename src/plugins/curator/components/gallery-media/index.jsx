@@ -56,13 +56,13 @@ class GalleryMedia extends React.Component {
       response: PropTypes.instanceOf(Message),
       status: PropTypes.string,
     }).isRequired,
-  };
+  }
 
   static defaultProps = {
     isEditMode: false,
     isReorderGranted: false,
     nodes: [],
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -75,7 +75,7 @@ class GalleryMedia extends React.Component {
         nodes: [],
         nodesToUpdate: null,
       },
-    };
+    }
 
     this.handleAddAssets = this.handleAddAssets.bind(this);
     this.handleAssetsUploaded = this.handleAssetsUploaded.bind(this);
