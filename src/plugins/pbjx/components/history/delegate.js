@@ -1,5 +1,6 @@
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import { change } from 'redux-form';
+import camelCase from 'lodash/camelCase';
 
 export default (dispatch) => ({
   /**
@@ -32,7 +33,7 @@ export default (dispatch) => ({
   handleRevert: (formName, selected) => {
     selected.forEach((item) => {
       const { id, value } = item;
-      dispatch(change(formName, id, value));
+      dispatch(change(formName, camelCase(id), value));
     });
   },
 

@@ -11,11 +11,11 @@ import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
-const Form = ({ node: role, tab, isEditMode }) => {
+const Form = ({ form, node: role, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`role.history:${role.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={role} />;

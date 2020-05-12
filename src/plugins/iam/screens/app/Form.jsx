@@ -40,7 +40,7 @@ const getFieldsComponent = (type) => {
   }
 };
 
-const Form = ({ node, tab, type, isEditMode }) => {
+const Form = ({ form, node, tab, type, isEditMode }) => {
   const AppFields = type ? getFieldsComponent(type) : null;
   const streamId = StreamId.fromString(`${type}.history:${node.get('_id')}`);
 
@@ -53,7 +53,7 @@ const Form = ({ node, tab, type, isEditMode }) => {
       return <RolesList roles={node.get('roles', [])} />;
 
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={node} />;

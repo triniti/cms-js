@@ -12,7 +12,7 @@ import UserFields from '@triniti/cms/plugins/iam/components/user-fields';
 
 import schemas from './schemas';
 
-const Form = ({ node: user, tab, isEditMode }) => {
+const Form = ({ form, node: user, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`user.history:${user.get('_id')}`);
   switch (tab) {
     case 'roles':
@@ -23,7 +23,7 @@ const Form = ({ node: user, tab, isEditMode }) => {
       return <RolesList roles={user.get('roles', [])} />;
 
     case 'history':
-      return <History schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={user} />;

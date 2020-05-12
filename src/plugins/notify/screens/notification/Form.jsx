@@ -51,7 +51,7 @@ const getFieldsComponent = (type) => {
   return fieldsComponents[type];
 };
 
-const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
+const Form = ({ form, node, getNode, tab, type, isEditMode, showDatePicker }) => {
   useEffect(() => () => { fieldsComponents = {}; }, []);
   const streamId = StreamId.fromString(
     `${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`,
@@ -60,7 +60,7 @@ const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
 
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={node} />;

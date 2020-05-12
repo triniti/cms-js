@@ -11,7 +11,7 @@ import RawContent from '@triniti/cms/components/raw-content';
 import schemas from './schemas';
 
 const Form = ({
-  node: redirect, tab, isEditMode,
+  form, node: redirect, tab, isEditMode,
 }) => {
   const streamId = StreamId.fromString(`redirect.history:${redirect.get('_id')}`);
   switch (tab) {
@@ -23,7 +23,7 @@ const Form = ({
         />
       );
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={redirect} />;
     default:

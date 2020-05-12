@@ -10,11 +10,11 @@ import PicklistFields from '../../components/picklist-fields';
 
 import schemas from './schemas';
 
-const Form = ({ node: picklist, tab, isEditMode }) => {
+const Form = ({ form, node: picklist, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`picklist.history:${picklist.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={picklist} />;
     default:

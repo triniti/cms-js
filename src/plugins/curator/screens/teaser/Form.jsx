@@ -50,14 +50,14 @@ const getFieldsComponent = (type) => {
   }
 };
 
-const Form = ({ node, tab, type, isEditMode }) => {
+const Form = ({ form, node, tab, type, isEditMode }) => {
   const [TeaserFields, setTeaserFields] = useState(null);
   const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   schemas.node = node.schema();
 
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;

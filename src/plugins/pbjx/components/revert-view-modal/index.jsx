@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import swal from 'sweetalert2';
 import Message from '@gdbots/pbj/Message';
 import {
   Button,
@@ -12,6 +13,17 @@ import {
 import RevertDetails from './RevertDetails';
 
 class RevertViewer extends React.Component {
+
+  static async revertComplete() {
+    return swal.fire({
+      title: 'Revert complete!',
+      text: 'Please double check changes before saving work.',
+      icon: 'success',
+      confirmButtonText: 'Ok!',
+      confirmButtonClass: 'btn btn-primary',
+      reverseButtons: true,
+    });
+  }
 
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
@@ -32,6 +44,7 @@ class RevertViewer extends React.Component {
     }
 
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
+    this.handleRevertSwal = this.handleRevertSwal.bind(this);
   }
 
   handleChangeCheckbox({ target: { id, checked, value } }) {
@@ -44,12 +57,19 @@ class RevertViewer extends React.Component {
     }    
   }
 
+  handleRevertSwal() {
+    const { formName, onRevert: handleRevert, onToggleRevertViewer: handleToggleRevertViewer, } = this.props;
+    const { selected } = this.state;
+    handleRevert(formName, selected);
+    RevertViewer.revertComplete().then(() => {
+      handleToggleRevertViewer();
+    });
+  }
+
   render() {
     const {
       event,
-      formName,
       isOpen,
-      onRevert: handleRevert,
       onToggleRevertViewer: handleToggleRevertViewer,
     } = this.props;
     const { selected } = this.state;
@@ -69,7 +89,7 @@ class RevertViewer extends React.Component {
             Cancel
           </Button>
           <Button
-            onClick={() => handleRevert(formName, selected)}
+            onClick={this.handleRevertSwal}
             disabled={selected.length < 1}
           >
             Apply

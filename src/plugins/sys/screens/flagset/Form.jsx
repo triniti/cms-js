@@ -9,11 +9,11 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import FlagsetFields from '../../components/flagset-fields';
 import schemas from './schemas';
 
-const Form = ({ node: flagset, tab, isEditMode }) => {
+const Form = ({ form, node: flagset, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`flagset.history:${flagset.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={flagset} />;
     default:

@@ -12,12 +12,12 @@ import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fi
 
 import schemas from './schemas';
 
-const Form = ({ isEditMode, node, tab }) => {
+const Form = ({ isEditMode, form, node, tab }) => {
   const streamId = StreamId.fromString(`poll.history:${node.get('_id')}`);
 
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={node} />;
     case 'taxonomy':
