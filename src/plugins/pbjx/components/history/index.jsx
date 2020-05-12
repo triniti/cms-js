@@ -14,6 +14,7 @@ class History extends React.Component {
     delegate: PropTypes.shape({
       handleInitialize: PropTypes.func,
       handleLoadMore: PropTypes.func,
+      handleRevert: PropTypes.func,
     }).isRequired,
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getHistoryRequestState: PropTypes.shape({
@@ -23,6 +24,7 @@ class History extends React.Component {
       status: PropTypes.string,
     }).isRequired,
     getUser: PropTypes.func.isRequired,
+    formName: PropTypes.string.isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
     streamId: PropTypes.instanceOf(StreamId).isRequired,
   };
@@ -49,6 +51,7 @@ class History extends React.Component {
       events,
       getUser,
       getHistoryRequestState: { response, status, exception },
+      formName,
       streamId,
       schema,
     } = this.props;
@@ -57,11 +60,13 @@ class History extends React.Component {
       <EventStream
         events={events}
         getUser={getUser}
+        formName={formName}
         status={status}
         exception={exception}
         response={response}
-        onRefresh={() => delegate.handleInitialize(streamId, schema)}
         onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
+        onRefresh={() => delegate.handleInitialize(streamId, schema)}
+        onRevert={delegate.handleRevert}
       />
     );
   }

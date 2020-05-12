@@ -21,7 +21,7 @@ const Form = ({ form, node, tab, isEditMode }) => {
     case 'code':
       return <PromotionCodeFields isEditMode={isEditMode} />;
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={node} />;
     default:

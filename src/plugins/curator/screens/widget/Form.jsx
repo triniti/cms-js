@@ -83,7 +83,7 @@ const Form = ({ form, isEditMode, node, tab, type }) => {
 
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={node} />;
     case 'code':

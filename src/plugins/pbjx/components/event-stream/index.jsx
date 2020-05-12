@@ -26,9 +26,11 @@ class EventStream extends React.Component {
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getUser: PropTypes.func.isRequired,
+    formName: PropTypes.string.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onRevert: PropTypes.func.isRequired,
     status: PropTypes.string,
     exception: PropTypes.instanceOf(Exception),
   };
@@ -86,6 +88,8 @@ class EventStream extends React.Component {
       response,
       status,
       exception,
+      formName,
+      onRevert: handleRevert,
     } = this.props;
 
     const { allEvents, loadMore } = this.state;
@@ -125,7 +129,7 @@ class EventStream extends React.Component {
                       </div>
                     </div>
                     <span>
-                      { schema.hasMixin('gdbots:ncr:mixin:node-updated') && <RevertButton event={event} /> }
+                      { schema.hasMixin('gdbots:ncr:mixin:node-updated') && <RevertButton event={event} formName={formName} onRevert={handleRevert} /> }
                       <RawViewButton event={event} />
                     </span>
                   </div>

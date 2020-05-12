@@ -23,7 +23,7 @@ const Form = ({ node: video, form, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`video.history:${video.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'media':
       return <Media nodeRef={nodeRef} />;

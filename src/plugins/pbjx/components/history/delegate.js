@@ -1,4 +1,5 @@
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
+import { change } from 'redux-form';
 
 export default (dispatch) => ({
   /**
@@ -26,6 +27,13 @@ export default (dispatch) => ({
       stream_id: streamId,
       since,
     }));
+  },
+
+  handleRevert: (formName, selected) => {
+    selected.forEach(item => {
+      const { id, value } = item;
+      dispatch(change(formName, id, value));
+    });
   },
 
   /**

@@ -7,6 +7,8 @@ import Message from '@gdbots/pbj/Message';
 export default class RevertButton extends React.Component {
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
+    formName: PropTypes.string.isRequired,
+    onRevert: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -26,6 +28,8 @@ export default class RevertButton extends React.Component {
   render() {
     const {
       event,
+      formName,
+      onRevert: handleRevert,
       ...btnProps
     } = this.props;
 
@@ -39,6 +43,8 @@ export default class RevertButton extends React.Component {
         key="b"
         isOpen={isRevertOpen}
         event={event}
+        formName={formName}
+        onRevert={handleRevert}
         onToggleRevertViewer={this.handleToggleRevertViewer}
       />
       ),

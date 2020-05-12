@@ -64,7 +64,7 @@ const Form = ({ node: article, blocksmithState, form, isEditMode, tab }) => {
       return <Media nodeRef={nodeRef} />;
 
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={article} />;

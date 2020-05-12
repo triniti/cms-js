@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import RevertDetails from './RevertDetails';
 import Message from '@gdbots/pbj/Message';
 import {
   Button,
@@ -10,12 +9,15 @@ import {
   ModalFooter,
   ScrollableContainer,
 } from '@triniti/admin-ui-plugin/components';
+import RevertDetails from './RevertDetails';
 
 class RevertViewer extends React.Component {
 
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
     isOpen: PropTypes.bool,
+    formName: PropTypes.string.isRequired,
+    onRevert: PropTypes.func.isRequired,
     onToggleRevertViewer: PropTypes.func.isRequired,
   }
 
@@ -43,12 +45,18 @@ class RevertViewer extends React.Component {
   }
 
   render() {
-    const { event, isOpen, onToggleRevertViewer, } = this.props;
+    const {
+      event,
+      formName,
+      isOpen,
+      onRevert: handleRevert,
+      onToggleRevertViewer: handleToggleRevertViewer,
+    } = this.props;
     const { selected } = this.state;
 
     return (
-      <Modal centered isOpen={isOpen} toggle={onToggleRevertViewer} size="xl">
-        <ModalHeader toggle={onToggleRevertViewer}>Revert Fields</ModalHeader>
+      <Modal centered isOpen={isOpen} toggle={handleToggleRevertViewer} size="xl">
+        <ModalHeader toggle={handleToggleRevertViewer}>Revert Fields</ModalHeader>
         <ModalBody className="p-0 modal-body-break">
           <ScrollableContainer className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
             <RevertDetails event={event} onChangeCheckbox={this.handleChangeCheckbox} />
@@ -56,7 +64,12 @@ class RevertViewer extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button
-            // onClick={delegate.handleSave}
+            onClick={handleToggleRevertViewer}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => handleRevert(formName, selected)}
             disabled={selected.length < 1}
           >
             Apply

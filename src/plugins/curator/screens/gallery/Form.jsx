@@ -33,7 +33,7 @@ const Form = ({ node: gallery, form, isEditMode, tab }) => {
       return <GalleryMedia nodeRef={NodeRef.fromNode(gallery)} isEditMode={isEditMode} />;
 
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={gallery} />;
