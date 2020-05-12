@@ -47,7 +47,7 @@ class RevertViewer extends React.Component {
     this.handleRevertSwal = this.handleRevertSwal.bind(this);
   }
 
-  handleChangeCheckbox({ target: { id, checked, value } }) {
+  handleChangeCheckbox(id, value, checked) {
     const { selected } = this.state;
     if (checked) {
       selected.push({ id, value });
