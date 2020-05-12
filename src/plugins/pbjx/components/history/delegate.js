@@ -30,7 +30,7 @@ export default (dispatch) => ({
   },
 
   handleRevert: (formName, selected) => {
-    selected.forEach(item => {
+    selected.forEach((item) => {
       const { id, value } = item;
       dispatch(change(formName, id, value));
     });
