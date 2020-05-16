@@ -43,11 +43,22 @@ class RevertViewer extends React.Component {
       selected: [],
     }
 
-    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
+    this.isFieldSelected = this.isFieldSelected.bind(this);
+    this.handleSelectField = this.handleSelectField.bind(this);
     this.handleRevertSwal = this.handleRevertSwal.bind(this);
   }
 
-  handleChangeCheckbox(id, value, checked) {
+  isFieldSelected(id) {
+    const { selected } = this.state;
+    for (const { id: itemId } of selected) {
+      if (id === itemId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  handleSelectField(id, value, checked) {
     const { selected } = this.state;
     if (checked) {
       selected.push({ id, value });
@@ -79,7 +90,7 @@ class RevertViewer extends React.Component {
         <ModalHeader toggle={handleToggleRevertViewer}>Revert Fields</ModalHeader>
         <ModalBody className="p-0 modal-body-break">
           <ScrollableContainer className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
-            <RevertDetails event={event} onChangeCheckbox={this.handleChangeCheckbox} />
+            <RevertDetails event={event} onSelectField={this.handleSelectField} isFieldSelected={this.isFieldSelected} />
           </ScrollableContainer>
         </ModalBody>
         <ModalFooter>

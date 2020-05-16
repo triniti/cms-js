@@ -23,6 +23,7 @@ class History extends React.Component {
       response: PropTypes.object,
       status: PropTypes.string,
     }).isRequired,
+    isEditMode: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
@@ -49,6 +50,7 @@ class History extends React.Component {
     const {
       delegate,
       events,
+      isEditMode,
       getUser,
       getHistoryRequestState: { response, status, exception },
       formName,
@@ -62,6 +64,7 @@ class History extends React.Component {
         getUser={getUser}
         formName={formName}
         status={status}
+        isEditMode={isEditMode}
         exception={exception}
         response={response}
         onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}

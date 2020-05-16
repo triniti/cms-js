@@ -1,4 +1,5 @@
 import createReducer from '@triniti/app/createReducer';
+import isUndefined from 'lodash/isUndefined';
 import { actionTypes } from '../constants';
 
 export const initialState = {};
@@ -43,10 +44,11 @@ const onEditorDirtied = (prevState = {}, action) => {
 };
 
 const onEditorStored = (prevState = {}, action) => {
-  const { formName, editorState } = action;
+  const { formName, editorState, isDirty } = action;
   const state = { ...prevState };
   state[formName] = { ...state[formName] };
   state[formName].editorState = editorState;
+  state[formName].isDirty = isDirty;
   return state;
 };
 

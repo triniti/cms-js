@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
-const RevertPropertiesTable = ({ data, onChangeCheckbox: handleChangeCheckbox }) => (
+const RevertPropertiesTable = ({ data, isFieldSelected, onSelectField: handleSelectField }) => (
   <Card>
     <Table striped responsive>
       <thead>
@@ -24,7 +24,8 @@ const RevertPropertiesTable = ({ data, onChangeCheckbox: handleChangeCheckbox })
       <tbody>
         {Object.entries(data).map((property, idx) => (
           <TableRow
-            onChangeCheckbox={handleChangeCheckbox}
+            isFieldSelected={isFieldSelected}
+            onSelectField={handleSelectField}
             key={idx}
             property={property}
           />
@@ -36,7 +37,8 @@ const RevertPropertiesTable = ({ data, onChangeCheckbox: handleChangeCheckbox })
 
 RevertPropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  onChangeCheckbox: PropTypes.func.isRequired,
+  isFieldSelected: PropTypes.func.isRequired,
+  onSelectField: PropTypes.func.isRequired,
 };
 
 export default RevertPropertiesTable;

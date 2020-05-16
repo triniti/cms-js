@@ -24,7 +24,7 @@ const Form = ({
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
     case 'history':
-      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={channel} />;
     default:

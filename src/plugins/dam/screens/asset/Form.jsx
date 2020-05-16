@@ -66,7 +66,7 @@ const Form = ({ form, node: asset, tab, isEditMode, type }) => {
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
 
     case 'history':
-      return <History formName={form} schema={getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={getNodeHistoryRequest} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={asset} />;

@@ -23,7 +23,7 @@ const Form = ({ form, node: user, tab, isEditMode }) => {
       return <RolesList roles={user.get('roles', [])} />;
 
     case 'history':
-      return <History formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={user} />;

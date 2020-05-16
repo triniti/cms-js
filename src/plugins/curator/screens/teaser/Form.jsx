@@ -57,7 +57,7 @@ const Form = ({ form, node, tab, type, isEditMode }) => {
 
   switch (tab) {
     case 'history':
-      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
 
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;

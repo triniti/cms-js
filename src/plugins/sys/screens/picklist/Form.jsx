@@ -14,7 +14,7 @@ const Form = ({ form, node: picklist, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`picklist.history:${picklist.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={picklist} />;
     default:

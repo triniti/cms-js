@@ -1,4 +1,7 @@
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
+import storeEditor from '@triniti/cms/plugins/blocksmith/actions/storeEditor';
+import convertToEditorState from '@triniti/cms/plugins/blocksmith/utils/convertToEditorState';
+import Message from '@gdbots/pbj/Message';
 import { change } from 'redux-form';
 import camelCase from 'lodash/camelCase';
 
@@ -33,7 +36,13 @@ export default (dispatch) => ({
   handleRevert: (formName, selected) => {
     selected.forEach((item) => {
       const { id, value } = item;
-      dispatch(change(formName, camelCase(id), value));
+      if (id === 'blocks') {
+        const canvasBlocks = value.filter(item => item !== null).map(item => Message.fromObject(item));
+        const editorState = convertToEditorState(canvasBlocks);
+        dispatch(storeEditor(formName, editorState, true));
+      } else {
+        dispatch(change(formName, camelCase(id), value));
+      }
     });
   },
 

@@ -30,7 +30,7 @@ const Form = ({ form, node, tab, isEditMode }) => {
     case 'code':
       return <CustomCodeFields isEditMode={isEditMode} />;
     case 'history':
-      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={node} />;
     default:

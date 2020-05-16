@@ -27,6 +27,7 @@ class EventStream extends React.Component {
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
+    isEditMode: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
@@ -84,6 +85,7 @@ class EventStream extends React.Component {
 
   render() {
     const {
+      isEditMode,
       getUser,
       response,
       status,
@@ -114,6 +116,7 @@ class EventStream extends React.Component {
               const occurredAtAgo = moment(event.get('occurred_at').toDate()).fromNow();
               const user = event.get('ctx_user_ref') && getUser(event.get('ctx_user_ref'));
               const schema = event.schema();
+              const pathsLength = event.get('paths', []).length;
               return (
                 <ListGroupItem key={event.get('occurred_at')} className="mb-0">
                   <div className="d-flex justify-content-between">
@@ -129,7 +132,12 @@ class EventStream extends React.Component {
                       </div>
                     </div>
                     <span>
-                      { schema.hasMixin('gdbots:ncr:mixin:node-updated') && <RevertButton event={event} formName={formName} onRevert={handleRevert} /> }
+                      {
+                        isEditMode && 
+                        schema.hasMixin('gdbots:ncr:mixin:node-updated') &&
+                        pathsLength &&
+                        <RevertButton event={event} formName={formName} onRevert={handleRevert} />
+                      }
                       <RawViewButton event={event} />
                     </span>
                   </div>

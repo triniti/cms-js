@@ -29,7 +29,7 @@ const Form = ({
     case 'taxonomy':
       return <TaxonomyFields schemas={schemas} isEditMode={isEditMode} />;
     case 'history':
-      return <History formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={page} />;
     default:
