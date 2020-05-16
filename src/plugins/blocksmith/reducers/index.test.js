@@ -16,7 +16,7 @@ test('Blocksmith:reducer:index:cleanEditor', (t) => {
   const formName = 'someFormName';
 
   let actual = reducer(undefined, storeEditor(formName, emptyEditorState));
-  let expected = { [formName]: { editorState: emptyEditorState, isDirty: false } };
+  let expected = { [formName]: { editorState: emptyEditorState } };
   t.deepEqual(actual, expected, 'it should initialize an editorState for a formName if there is no previous state');
 
   actual = reducer(
@@ -38,7 +38,7 @@ test('Blocksmith:reducer:index:destroyEditor', (t) => {
   const formName = 'someFormName';
 
   let actual = reducer(undefined, storeEditor(formName, emptyEditorState));
-  let expected = { [formName]: { editorState: emptyEditorState, isDirty: false } };
+  let expected = { [formName]: { editorState: emptyEditorState } };
   t.deepEqual(actual, expected, 'it should initialize a current EditorState for a formName if there is no previous state');
 
   actual = reducer(
@@ -60,7 +60,7 @@ test('Blocksmith:reducer:index:dirtyEditor', (t) => {
   const formName = 'someFormName';
 
   let actual = reducer(undefined, storeEditor(formName, emptyEditorState));
-  let expected = { [formName]: { editorState: emptyEditorState, isDirty: false } };
+  let expected = { [formName]: { editorState: emptyEditorState } };
   t.deepEqual(actual, expected, 'it should initialize a current EditorState for a formName if there is no previous state');
 
   actual = reducer(
@@ -82,7 +82,7 @@ test('Blocksmith:reducer:index:storeEditor', (t) => {
   const formName = 'someFormName';
 
   let actual = reducer(undefined, storeEditor(formName, emptyEditorState));
-  let expected = { [formName]: { editorState: emptyEditorState, isDirty: false } };
+  let expected = { [formName]: { editorState: emptyEditorState } };
   t.deepEqual(actual, expected, 'it should initialize a current EditorState for a formName if there is no previous state');
 
   const html = '<b>Bold text</b>,<i>Italic text</i><br /><br /><a href="http://www.google.com">Example link</a>';
@@ -98,7 +98,7 @@ test('Blocksmith:reducer:index:storeEditor', (t) => {
     { [formName]: { editorState: emptyEditorState } },
     storeEditor(formName, filledEditorState),
   );
-  expected = { [formName]: { editorState: filledEditorState, isDirty: false } };
+  expected = { [formName]: { editorState: filledEditorState } };
   t.deepEqual(actual, expected, 'it should update the current EditorState for a formName if there is previous state');
 
   t.end();
