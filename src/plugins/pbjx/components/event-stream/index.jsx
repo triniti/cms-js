@@ -28,6 +28,7 @@ class EventStream extends React.Component {
     getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
     isEditMode: PropTypes.bool.isRequired,
+    isRevertGranted: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
@@ -86,6 +87,7 @@ class EventStream extends React.Component {
   render() {
     const {
       isEditMode,
+      isRevertGranted,
       getUser,
       response,
       status,
@@ -134,6 +136,7 @@ class EventStream extends React.Component {
                     <span>
                       {
                         isEditMode && 
+                        isRevertGranted &&
                         schema.hasMixin('gdbots:ncr:mixin:node-updated') &&
                         pathsLength &&
                         <RevertButton event={event} formName={formName} onRevert={handleRevert} />
