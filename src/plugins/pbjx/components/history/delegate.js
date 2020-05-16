@@ -37,7 +37,7 @@ export default (dispatch) => ({
     selected.forEach((item) => {
       const { id, value } = item;
       if (id === 'blocks') {
-        const canvasBlocks = value.filter(item => item !== null).map(item => Message.fromObject(item));
+        const canvasBlocks = value.filter((x) => x !== null).map((x) => Message.fromObject(x));
         const editorState = convertToEditorState(canvasBlocks);
         dispatch(storeEditor(formName, editorState, true));
       } else {
