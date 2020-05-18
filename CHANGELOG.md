@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Adjusting support to move cursor to the end of last text block.
+
+
 ## v0.6.3
 * Preventing uploader from moving scroll position around on small screens and allowing dynamic height of uploader if viewing area is tiny.
 * Fixing cursor issues with going to line that doesn't exist. Adding support to move cursor to end of last text block.
