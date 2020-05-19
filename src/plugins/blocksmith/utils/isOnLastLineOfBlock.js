@@ -18,5 +18,5 @@ export default (editorState) => {
     }
     return acc + cur.length;
   }, 0);
-  return editorState.getSelection().getAnchorOffset() > offsetAtStartOfLastLine;
+  return editorState.getSelection().getAnchorOffset() >= offsetAtStartOfLastLine;
 };
