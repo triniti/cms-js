@@ -9,6 +9,7 @@ export default class RevertButton extends React.Component {
     event: PropTypes.instanceOf(Message).isRequired,
     formName: PropTypes.string.isRequired,
     onRevert: PropTypes.func.isRequired,
+    node: PropTypes.instanceOf(Message).isRequired,
   };
 
   constructor(props) {
@@ -29,6 +30,7 @@ export default class RevertButton extends React.Component {
     const {
       event,
       formName,
+      node,
       onRevert: handleRevert,
       ...btnProps
     } = this.props;
@@ -44,6 +46,7 @@ export default class RevertButton extends React.Component {
         isOpen={isRevertOpen}
         event={event}
         formName={formName}
+        node={node}
         onRevert={handleRevert}
         onToggleRevertViewer={this.handleToggleRevertViewer}
       />

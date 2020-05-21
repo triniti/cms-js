@@ -15,7 +15,7 @@ const Form = ({ form, node: sponsor, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`sponsor.history:${sponsor.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={sponsor} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={sponsor} />;
     default:

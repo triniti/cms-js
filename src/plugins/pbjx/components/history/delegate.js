@@ -2,8 +2,9 @@ import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import storeEditor from '@triniti/cms/plugins/blocksmith/actions/storeEditor';
 import convertToEditorState from '@triniti/cms/plugins/blocksmith/utils/convertToEditorState';
 import Message from '@gdbots/pbj/Message';
-import { change } from 'redux-form';
+import { change, touch } from 'redux-form';
 import camelCase from 'lodash/camelCase';
+import isString from 'lodash/isString';
 
 export default (dispatch) => ({
   /**
@@ -33,7 +34,7 @@ export default (dispatch) => ({
     }));
   },
 
-  handleRevert: (formName, selected) => {
+  handleRevert: (formName, selected, node) => {
     selected.forEach((item) => {
       const { id, value } = item;
       if (id === 'blocks') {
@@ -41,7 +42,12 @@ export default (dispatch) => ({
         const editorState = convertToEditorState(canvasBlocks);
         dispatch(storeEditor(formName, editorState, true));
       } else {
-        dispatch(change(formName, camelCase(id), value));
+        const fieldType = node.schema().getField(id).getType().typeName.name;
+        if (fieldType === 'DATE_TIME' && value) {
+          dispatch(change(formName, camelCase(id), new Date(value)));
+        } else {
+          dispatch(change(formName, camelCase(id), value));
+        }
       }
     });
   },

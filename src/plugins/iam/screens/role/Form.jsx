@@ -15,7 +15,7 @@ const Form = ({ form, node: role, tab, isEditMode }) => {
   const streamId = StreamId.fromString(`role.history:${role.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={role} schema={schemas.getNodeHistory} streamId={streamId} />;
 
     case 'raw':
       return <RawContent pbj={role} />;

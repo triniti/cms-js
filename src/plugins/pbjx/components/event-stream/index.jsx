@@ -89,6 +89,7 @@ class EventStream extends React.Component {
       isEditMode,
       isRevertGranted,
       getUser,
+      node,
       response,
       status,
       exception,
@@ -139,7 +140,7 @@ class EventStream extends React.Component {
                         isRevertGranted &&
                         schema.hasMixin('gdbots:ncr:mixin:node-updated') &&
                         pathsLength &&
-                        <RevertButton event={event} formName={formName} onRevert={handleRevert} />
+                        <RevertButton event={event} formName={formName} node={node} onRevert={handleRevert} />
                       }
                       <RawViewButton event={event} />
                     </span>

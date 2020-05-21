@@ -27,6 +27,7 @@ class History extends React.Component {
     isRevertGranted: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
+    node: PropTypes.instanceOf(Message).isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
     streamId: PropTypes.instanceOf(StreamId).isRequired,
   };
@@ -56,6 +57,7 @@ class History extends React.Component {
       getUser,
       getHistoryRequestState: { response, status, exception },
       formName,
+      node,
       streamId,
       schema,
     } = this.props;
@@ -65,6 +67,7 @@ class History extends React.Component {
         events={events}
         getUser={getUser}
         formName={formName}
+        node={node}
         status={status}
         isEditMode={isEditMode}
         isRevertGranted={isRevertGranted}

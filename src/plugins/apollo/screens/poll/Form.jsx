@@ -17,7 +17,7 @@ const Form = ({ isEditMode, form, node, tab }) => {
 
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
     case 'raw':
       return <RawContent pbj={node} />;
     case 'taxonomy':

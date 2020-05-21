@@ -31,6 +31,7 @@ class RevertViewer extends React.Component {
     formName: PropTypes.string.isRequired,
     onRevert: PropTypes.func.isRequired,
     onToggleRevertViewer: PropTypes.func.isRequired,
+    node: PropTypes.instanceOf(Message).isRequired,
   }
 
   static defaultProps = {
@@ -69,9 +70,9 @@ class RevertViewer extends React.Component {
   }
 
   handleRevertSwal() {
-    const { formName, onRevert: handleRevert, onToggleRevertViewer: handleToggleRevertViewer, } = this.props;
+    const { formName, node, onRevert: handleRevert, onToggleRevertViewer: handleToggleRevertViewer, } = this.props;
     const { selected } = this.state;
-    handleRevert(formName, selected);
+    handleRevert(formName, selected, node);
     RevertViewer.revertComplete().then(() => {
       handleToggleRevertViewer();
     });
