@@ -1,6 +1,6 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
-import moment from 'moment';
+import Microtime from '@gdbots/pbj/well-known/Microtime';
 
 export default class JwplayerMediaSubscriber extends EventSubscriber {
   constructor() {
@@ -23,7 +23,9 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
     data.jwplayerMediaId = node.get('jwplayer_media_id');
     data.jwplayerSyncEnabled = node.get('jwplayer_sync_enabled');
     data.jwplayerSyncedAt = node.has('jwplayer_synced_at')
-      ? moment(node.get('jwplayer_synced_at')).format('MMM DD, YYYY hh:mm A')
+      ? Microtime.fromString(String(`${node.get('jwplayer_synced_at')}000000`))
+        .toMoment()
+        .format('MMM DD, YYYY hh:mm A')
       : null;
   }
 
