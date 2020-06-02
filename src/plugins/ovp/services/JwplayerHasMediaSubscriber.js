@@ -1,8 +1,9 @@
+import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import Microtime from '@gdbots/pbj/well-known/Microtime';
 
-export default class JwplayerMediaSubscriber extends EventSubscriber {
+export default class JwplayerHasMediaSubscriber extends EventSubscriber {
   constructor() {
     super();
     this.onInitForm = this.onInitForm.bind(this);
@@ -23,9 +24,7 @@ export default class JwplayerMediaSubscriber extends EventSubscriber {
     data.jwplayerMediaId = node.get('jwplayer_media_id');
     data.jwplayerSyncEnabled = node.get('jwplayer_sync_enabled');
     data.jwplayerSyncedAt = node.has('jwplayer_synced_at')
-      ? Microtime.fromString(String(`${node.get('jwplayer_synced_at')}000000`))
-        .toMoment()
-        .format('MMM DD, YYYY hh:mm A')
+      ? convertReadableTime(Microtime.fromString(String(`${node.get('jwplayer_synced_at')}000000`)))
       : null;
   }
 

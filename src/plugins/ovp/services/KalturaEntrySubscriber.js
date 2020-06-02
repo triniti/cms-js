@@ -1,6 +1,7 @@
+import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
-import Microtime from '@gdbots/pbj/well-known/Microtime';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
+import Microtime from '@gdbots/pbj/well-known/Microtime';
 
 export default class KalturaEntrySubscriber extends EventSubscriber {
   constructor() {
@@ -19,12 +20,13 @@ export default class KalturaEntrySubscriber extends EventSubscriber {
   onInitForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
-    const syncedAt = node.get('kaltura_synced_at') ? Microtime.fromString(String(`${node.get('kaltura_synced_at')}000000`)) : null;
 
+    data.kalturaSyncedAt = node.get('kaltura_synced_at')
+      ? convertReadableTime(Microtime.fromString(String(`${node.get('kaltura_synced_at')}000000`)))
+      : '';
     data.kalturaEntryId = node.get('kaltura_entry_id');
     data.kalturaPartnerId = node.get('kaltura_partner_id');
     data.kalturaSyncEnabled = node.get('kaltura_sync_enabled');
-    data.kalturaSyncedAt = syncedAt ? syncedAt.toMoment().format('MMM DD, YYYY hh:mm A') : '';
     data.kalturaMp4Url = node.get('kaltura_mp4_url');
     data.kalturaMetadata = node.get('kaltura_metadata') ? JSON.stringify(node.get('kaltura_metadata'), null, 2) : '';
     data.kalturaFlavors = node.get('kaltura_flavors') ? JSON.stringify(node.get('kaltura_flavors'), null, 2) : '';
