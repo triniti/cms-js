@@ -28,8 +28,8 @@ export default class KalturaEntrySubscriber extends EventSubscriber {
     data.kalturaPartnerId = node.get('kaltura_partner_id');
     data.kalturaSyncEnabled = node.get('kaltura_sync_enabled');
     data.kalturaMp4Url = node.get('kaltura_mp4_url');
-    data.kalturaMetadata = node.get('kaltura_metadata') ? JSON.stringify(node.get('kaltura_metadata'), null, 2) : '';
-    data.kalturaFlavors = node.get('kaltura_flavors') ? JSON.stringify(node.get('kaltura_flavors'), null, 2) : '';
+    data.kalturaMetadata = node.has('kaltura_metadata') ? JSON.stringify(node.get('kaltura_metadata'), null, 2) : '';
+    data.kalturaFlavors = node.has('kaltura_flavors') ? JSON.stringify(node.get('kaltura_flavors'), null, 2) : '';
   }
 
   /**
