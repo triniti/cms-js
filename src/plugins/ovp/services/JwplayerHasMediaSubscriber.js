@@ -24,7 +24,7 @@ export default class JwplayerHasMediaSubscriber extends EventSubscriber {
     data.jwplayerMediaId = node.get('jwplayer_media_id');
     data.jwplayerSyncEnabled = node.get('jwplayer_sync_enabled');
     data.jwplayerSyncedAt = node.has('jwplayer_synced_at')
-      ? convertReadableTime(Microtime.fromString(String(`${node.get('jwplayer_synced_at')}000000`)))
+      ? convertReadableTime(node.get('jwplayer_synced_at'))
       : null;
   }
 

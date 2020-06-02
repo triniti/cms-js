@@ -21,9 +21,9 @@ export default class KalturaEntrySubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
-    data.kalturaSyncedAt = node.get('kaltura_synced_at')
-      ? convertReadableTime(Microtime.fromString(String(`${node.get('kaltura_synced_at')}000000`)))
-      : '';
+    data.kalturaSyncedAt = node.has('kaltura_synced_at')
+      ? convertReadableTime(node.get('kaltura_synced_at'))
+      : null;
     data.kalturaEntryId = node.get('kaltura_entry_id');
     data.kalturaPartnerId = node.get('kaltura_partner_id');
     data.kalturaSyncEnabled = node.get('kaltura_sync_enabled');
