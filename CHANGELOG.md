@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Adjusting support to move cursor to the end of last text block.
+* Fix formatting of `jwplayer_synced_at`.
 
 
 ## v0.6.3
