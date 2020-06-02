@@ -1,7 +1,6 @@
 import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
-import Microtime from '@gdbots/pbj/well-known/Microtime';
 
 export default class JwplayerHasMediaSubscriber extends EventSubscriber {
   constructor() {
