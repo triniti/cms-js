@@ -24,7 +24,6 @@ class History extends React.Component {
       status: PropTypes.string,
     }).isRequired,
     isEditMode: PropTypes.bool.isRequired,
-    isRevertGranted: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
     node: PropTypes.instanceOf(Message).isRequired,

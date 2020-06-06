@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button } from '@triniti/admin-ui-plugin/components';
-import RevertViewer from '@triniti/cms/plugins/pbjx/components/revert-view-modal';
+import RevertModal from '@triniti/cms/plugins/pbjx/components/revert-modal';
 import Message from '@gdbots/pbj/Message';
 
 export default class RevertButton extends React.Component {
@@ -16,14 +16,14 @@ export default class RevertButton extends React.Component {
     super(props);
 
     this.state = {
-      isRevertOpen: false,
+      isModalOpen: false,
     };
 
-    this.handleToggleRevertViewer = this.handleToggleRevertViewer.bind(this);
+    this.handleToggleRevertModal = this.handleToggleRevertModal.bind(this);
   }
 
-  handleToggleRevertViewer() {
-    this.setState(({ isRevertOpen }) => ({ isRevertOpen: !isRevertOpen }));
+  handleToggleRevertModal() {
+    this.setState(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
   }
 
   render() {
@@ -35,20 +35,20 @@ export default class RevertButton extends React.Component {
       ...btnProps
     } = this.props;
 
-    const { isRevertOpen } = this.state;
+    const { isModalOpen } = this.state;
 
     return ([
-      <Button key="a" color="light" size="sm" radius="round" className="mr-2" onClick={this.handleToggleRevertViewer} {...btnProps}>Revert</Button>,
-      isRevertOpen // This lazy loads the raw viewer form only when isRawViewerOpen is set to true
+      <Button key="a" color="light" size="sm" radius="round" className="mr-2" onClick={this.handleToggleRevertModal} {...btnProps}>Revert</Button>,
+      isModalOpen
       && (
-      <RevertViewer
+      <RevertModal
         key="b"
-        isOpen={isRevertOpen}
+        isOpen={isModalOpen}
         event={event}
         formName={formName}
         node={node}
         onRevert={handleRevert}
-        onToggleRevertViewer={this.handleToggleRevertViewer}
+        onToggleRevertModal={this.handleToggleRevertModal}
       />
       ),
     ]);

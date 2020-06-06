@@ -16,13 +16,10 @@ export default (state, { schema, streamId }) => {
   const { response } = getHistoryRequestState;
   const events = (response && response.get('events')) || [];
 
-  const isRevertGranted = isGranted(state, 'cms-history-revert');
-
   return {
     events,
     getHistoryRequestState,
     getUser,
-    isRevertGranted,
     schema,
     streamId,
   };

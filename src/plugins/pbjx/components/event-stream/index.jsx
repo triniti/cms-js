@@ -12,6 +12,7 @@ import {
   ListGroupItem,
   StatusMessage,
 } from '@triniti/admin-ui-plugin/components';
+import { connect } from 'react-redux';
 import startCase from 'lodash/startCase';
 import moment from 'moment';
 import Message from '@gdbots/pbj/Message';
@@ -21,6 +22,7 @@ import UserLink from './UserLink';
 import EventDetails from './EventDetails';
 import RawViewButton from '../raw-view-button';
 import RevertButton from '../revert-button';
+import selector from './selector';
 
 class EventStream extends React.Component {
   static propTypes = {
@@ -139,7 +141,8 @@ class EventStream extends React.Component {
                         isEditMode && 
                         isRevertGranted &&
                         schema.hasMixin('gdbots:ncr:mixin:node-updated') &&
-                        pathsLength &&
+                        event.get('new_etag') !== event.get('old_etag') &&
+                        pathsLength > 0 &&
                         <RevertButton event={event} formName={formName} node={node} onRevert={handleRevert} />
                       }
                       <RawViewButton event={event} />
@@ -165,4 +168,4 @@ class EventStream extends React.Component {
   }
 }
 
-export default EventStream;
+export default connect(selector)(EventStream);

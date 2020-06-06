@@ -44,13 +44,10 @@ const onEditorDirtied = (prevState = {}, action) => {
 };
 
 const onEditorStored = (prevState = {}, action) => {
-  const { formName, editorState, isDirty } = action;
+  const { formName, editorState } = action;
   const state = { ...prevState };
   state[formName] = { ...state[formName] };
   state[formName].editorState = editorState;
-  if (isBoolean(isDirty)) {
-    state[formName].isDirty = isDirty;
-  }
   return state;
 };
 

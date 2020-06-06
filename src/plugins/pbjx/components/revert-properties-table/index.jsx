@@ -16,17 +16,17 @@ const RevertPropertiesTable = ({ data, isFieldSelected, onSelectField: handleSel
           <th className="pl-3 left-col--revert-properties-table">
             Field
           </th>
-          <th className="right-col--revert-properties-table">
+          <th>
             Data
           </th>
         </tr>
       </thead>
       <tbody>
-        {Object.entries(data).map((property, idx) => (
+        {Object.entries(data).map((property) => (
           <TableRow
             isFieldSelected={isFieldSelected}
             onSelectField={handleSelectField}
-            key={idx}
+            key={property[0]}
             property={property}
           />
         ))}

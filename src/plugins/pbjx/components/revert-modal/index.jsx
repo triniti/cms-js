@@ -12,7 +12,7 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import RevertDetails from './RevertDetails';
 
-class RevertViewer extends React.Component {
+class RevertModal extends React.Component {
 
   static async revertComplete() {
     return swal.fire({
@@ -30,7 +30,7 @@ class RevertViewer extends React.Component {
     isOpen: PropTypes.bool,
     formName: PropTypes.string.isRequired,
     onRevert: PropTypes.func.isRequired,
-    onToggleRevertViewer: PropTypes.func.isRequired,
+    onToggleRevertModal: PropTypes.func.isRequired,
     node: PropTypes.instanceOf(Message).isRequired,
   }
 
@@ -70,11 +70,11 @@ class RevertViewer extends React.Component {
   }
 
   handleRevertSwal() {
-    const { formName, node, onRevert: handleRevert, onToggleRevertViewer: handleToggleRevertViewer, } = this.props;
+    const { formName, node, onRevert: handleRevert, onToggleRevertModal: handleToggleRevertModal, } = this.props;
     const { selected } = this.state;
     handleRevert(formName, selected, node);
-    RevertViewer.revertComplete().then(() => {
-      handleToggleRevertViewer();
+    RevertModal.revertComplete().then(() => {
+      handleToggleRevertModal();
     });
   }
 
@@ -82,13 +82,13 @@ class RevertViewer extends React.Component {
     const {
       event,
       isOpen,
-      onToggleRevertViewer: handleToggleRevertViewer,
+      onToggleRevertModal: handleToggleRevertModal,
     } = this.props;
     const { selected } = this.state;
 
     return (
-      <Modal centered isOpen={isOpen} toggle={handleToggleRevertViewer} size="xl">
-        <ModalHeader toggle={handleToggleRevertViewer}>Revert Fields</ModalHeader>
+      <Modal centered isOpen={isOpen} toggle={handleToggleRevertModal} size="xl">
+        <ModalHeader toggle={handleToggleRevertModal}>Revert Fields</ModalHeader>
         <ModalBody className="p-0 modal-body-break">
           <ScrollableContainer className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
             <RevertDetails event={event} onSelectField={this.handleSelectField} isFieldSelected={this.isFieldSelected} />
@@ -96,7 +96,7 @@ class RevertViewer extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button
-            onClick={handleToggleRevertViewer}
+            onClick={handleToggleRevertModal}
           >
             Cancel
           </Button>
@@ -113,4 +113,4 @@ class RevertViewer extends React.Component {
 
 }
 
-export default RevertViewer;
+export default RevertModal;

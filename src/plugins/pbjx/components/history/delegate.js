@@ -1,10 +1,11 @@
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
+import dirtyEditor from '@triniti/cms/plugins/blocksmith/actions/dirtyEditor';
 import storeEditor from '@triniti/cms/plugins/blocksmith/actions/storeEditor';
 import convertToEditorState from '@triniti/cms/plugins/blocksmith/utils/convertToEditorState';
 import Message from '@gdbots/pbj/Message';
-import { change, touch } from 'redux-form';
+import DateTimeType from '@gdbots/pbj/types/DateTimeType';
+import { change } from 'redux-form';
 import camelCase from 'lodash/camelCase';
-import isString from 'lodash/isString';
 
 export default (dispatch) => ({
   /**
@@ -37,16 +38,19 @@ export default (dispatch) => ({
   handleRevert: (formName, selected, node) => {
     selected.forEach((item) => {
       const { id, value } = item;
+      let idFormatted = id === 'live_m3u8_url' ? 'liveM3u8Url' : camelCase(id);
+
       if (id === 'blocks') {
         const canvasBlocks = value.filter((x) => x !== null).map((x) => Message.fromObject(x));
         const editorState = convertToEditorState(canvasBlocks);
-        dispatch(storeEditor(formName, editorState, true));
+        dispatch(storeEditor(formName, editorState));
+        dispatch(dirtyEditor(formName));
       } else {
-        const fieldType = node.schema().getField(id).getType().typeName.name;
-        if (fieldType === 'DATE_TIME' && value) {
-          dispatch(change(formName, camelCase(id), new Date(value)));
+        const fieldType = node.schema().getField(id).getType();
+        if (fieldType instanceof DateTimeType && value) {
+          dispatch(change(formName, idFormatted, new Date(value)));
         } else {
-          dispatch(change(formName, camelCase(id), value));
+          dispatch(change(formName, idFormatted, value));
         }
       }
     });
