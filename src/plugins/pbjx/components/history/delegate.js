@@ -38,7 +38,7 @@ export default (dispatch) => ({
   handleRevert: (formName, selected, node) => {
     selected.forEach((item) => {
       const { id, value } = item;
-      let idFormatted = id === 'live_m3u8_url' ? 'liveM3u8Url' : camelCase(id);
+      const idFormatted = id === 'live_m3u8_url' ? 'liveM3u8Url' : camelCase(id);
 
       if (id === 'blocks') {
         const canvasBlocks = value.filter((x) => x !== null).map((x) => Message.fromObject(x));
