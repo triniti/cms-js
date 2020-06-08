@@ -38,7 +38,7 @@ export default (dispatch, ownProps) => ({
 
   /**
    * Handles Revert.
-   * 
+   *
    * @param {array} selected
    */
   handleRevert: (selected) => {
