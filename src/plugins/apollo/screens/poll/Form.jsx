@@ -7,17 +7,14 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import PollFields from '@triniti/cms/plugins/apollo/components/poll-fields';
 import RawContent from '@triniti/cms/components/raw-content';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 
 import schemas from './schemas';
 
 const Form = ({ isEditMode, form, node, tab }) => {
-  const streamId = StreamId.fromString(`poll.history:${node.get('_id')}`);
-
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={node} />;
     case 'taxonomy':

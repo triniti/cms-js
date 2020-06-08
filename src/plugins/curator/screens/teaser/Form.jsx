@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React, { useState } from 'react';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 import schemas from './schemas';
 
@@ -52,12 +51,10 @@ const getFieldsComponent = (type) => {
 
 const Form = ({ form, node, tab, type, isEditMode }) => {
   const [TeaserFields, setTeaserFields] = useState(null);
-  const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
-  schemas.node = node.schema();
 
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
 
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;

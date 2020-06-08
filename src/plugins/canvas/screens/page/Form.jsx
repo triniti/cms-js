@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form';
 import { EditorState } from 'draft-js';
 
 import Message from '@gdbots/pbj/Message';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
 import Blocksmith from '@triniti/cms/plugins/blocksmith/components/blocksmith';
@@ -20,7 +19,6 @@ import schemas from './schemas';
 const Form = ({
   node: page, form, tab, isEditMode, blocksmithState, layouts,
 }) => {
-  const streamId = StreamId.fromString(`page.history:${page.get('_id')}`);
   switch (tab) {
     case 'code':
       return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
@@ -29,7 +27,7 @@ const Form = ({
     case 'taxonomy':
       return <TaxonomyFields schemas={schemas} isEditMode={isEditMode} />;
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={page} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={page} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={page} />;
     default:

@@ -10,13 +10,11 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import RawContent from '@triniti/cms/components/raw-content';
 import CustomCodeFields from '@triniti/cms/plugins/common/components/custom-code-fields';
 import TimelineFields from '@triniti/cms/plugins/curator/components/timeline-fields';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 
 import schemas from './schemas';
 
 const Form = ({ form, node, tab, isEditMode }) => {
-  const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   switch (tab) {
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && (
@@ -30,7 +28,7 @@ const Form = ({ form, node, tab, isEditMode }) => {
     case 'code':
       return <CustomCodeFields isEditMode={isEditMode} />;
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={node} />;
     default:

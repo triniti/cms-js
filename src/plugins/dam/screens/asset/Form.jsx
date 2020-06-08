@@ -5,7 +5,6 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React from 'react';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 import schemas from './schemas';
 
@@ -51,7 +50,6 @@ const getFieldsComponent = (type) => {
 
 const Form = ({ form, node: asset, tab, isEditMode, type }) => {
   const AssetFields = type ? getFieldsComponent(type) : null;
-  const streamId = StreamId.fromString(`${asset.schema().getCurie().getMessage()}.history:${asset.get('_id')}`);
   const Variants = createLazyComponent(import('@triniti/cms/plugins/dam/components/variants'));
   schemas.node = schemas.nodes.find((schema) => schema.getCurie().getMessage() === type);
 
@@ -66,7 +64,7 @@ const Form = ({ form, node: asset, tab, isEditMode, type }) => {
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={getNodeHistoryRequest} />;
 
     case 'raw':
       return <RawContent pbj={asset} />;

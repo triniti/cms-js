@@ -10,21 +10,19 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
 const Form = ({
   node: channel, form, tab, isEditMode,
 }) => {
-  const streamId = StreamId.fromString(`channel.history:${channel.get('_id')}`);
   switch (tab) {
     case 'code':
       return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={channel} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={channel} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={channel} />;
     default:

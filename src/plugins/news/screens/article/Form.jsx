@@ -18,14 +18,12 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import StoryFields from '@triniti/cms/plugins/news/components/story-fields';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 
 import schemas from './schemas';
 
 const Form = ({ node: article, blocksmithState, form, isEditMode, tab }) => {
   const nodeRef = NodeRef.fromNode(article);
-  const streamId = StreamId.fromString(`article.history:${article.get('_id')}`);
 
   switch (tab) {
     case 'details':
@@ -64,7 +62,7 @@ const Form = ({ node: article, blocksmithState, form, isEditMode, tab }) => {
       return <Media nodeRef={nodeRef} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={article} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={article} schema={schemas.getNodeHistoryRequest} />;
 
     case 'raw':
       return <RawContent pbj={article} />;

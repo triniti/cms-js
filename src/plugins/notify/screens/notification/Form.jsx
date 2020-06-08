@@ -5,7 +5,6 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React, { useEffect } from 'react';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import schemas from './schemas';
 
 /**
@@ -53,14 +52,11 @@ const getFieldsComponent = (type) => {
 
 const Form = ({ form, node, getNode, tab, type, isEditMode, showDatePicker }) => {
   useEffect(() => () => { fieldsComponents = {}; }, []);
-  const streamId = StreamId.fromString(
-    `${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`,
-  );
   const Fields = type ? getFieldsComponent(type) : null;
 
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
 
     case 'raw':
       return <RawContent pbj={node} />;

@@ -6,7 +6,6 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React, { useEffect } from 'react';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import WidgetCodeFields from '@triniti/cms/plugins/curator/components/widget-code-fields';
 import WidgetHasSearchRequestFields from '@triniti/cms/plugins/curator/components/widget-has-search-request-fields';
 import schemas from './schemas';
@@ -78,12 +77,11 @@ const getFieldsComponent = (type) => {
 const Form = ({ form, isEditMode, node, tab, type }) => {
   useEffect(() => () => { fieldsComponents = {}; }, []);
   const WidgetFields = type ? getFieldsComponent(type) : null;
-  const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   schemas.node = node.schema();
 
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={node} />;
     case 'code':

@@ -6,36 +6,43 @@ import Message from '@gdbots/pbj/Message';
 import DateTimeType from '@gdbots/pbj/types/DateTimeType';
 import { change } from 'redux-form';
 import camelCase from 'lodash/camelCase';
+import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
-export default (dispatch) => ({
+
+export default (dispatch, ownProps) => ({
   /**
    * Initializes the container.
    *
    * This is needed because state is not wiped out
    * when components/container are unmounted.
-   *
-   * @param {StreamId} streamId - An instance of StreamId
-   * @param {Schema} schema - An instance of Schema to use to create requests.
    */
-  handleInitialize: (streamId, schema) => {
+  handleInitialize: () => {
+    const { node, schema } = ownProps;
+    const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
     dispatch(schema.createMessage().set('stream_id', streamId));
   },
 
   /**
    * Handles load more events.
    *
-   * @param {StreamId} streamId - An instance of StreamId
-   * @param {Schema} schema - An instance of Schema to use to create requests.
    * @param {string} since - Return events since this time.
    */
-  handleLoadMore: (streamId, schema, since) => {
+  handleLoadMore: (since) => {
+    const { node, schema } = ownProps;
+    const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
     dispatch(schema.createMessage({
       stream_id: streamId,
       since,
     }));
   },
 
-  handleRevert: (formName, selected, node) => {
+  /**
+   * Handles Revert.
+   * 
+   * @param {array} selected
+   */
+  handleRevert: (selected) => {
+    const { node, formName } = ownProps;
     selected.forEach((item) => {
       const { id, value } = item;
       const idFormatted = id === 'live_m3u8_url' ? 'liveM3u8Url' : camelCase(id);

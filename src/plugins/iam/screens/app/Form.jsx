@@ -7,7 +7,6 @@ import RawContent from '@triniti/cms/components/raw-content';
 import React from 'react';
 import RolesList from '@triniti/cms/plugins/iam/components/roles-list';
 import RolesPicker from '@triniti/cms/plugins/iam/components/roles-picker';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import schemas from './schemas';
 
 /**
@@ -42,7 +41,6 @@ const getFieldsComponent = (type) => {
 
 const Form = ({ form, node, tab, type, isEditMode }) => {
   const AppFields = type ? getFieldsComponent(type) : null;
-  const streamId = StreamId.fromString(`${type}.history:${node.get('_id')}`);
 
   switch (tab) {
     case 'roles':
@@ -53,7 +51,7 @@ const Form = ({ form, node, tab, type, isEditMode }) => {
       return <RolesList roles={node.get('roles', [])} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
 
     case 'raw':
       return <RawContent pbj={node} />;

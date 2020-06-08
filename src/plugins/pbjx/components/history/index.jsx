@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
-import Schema from '@gdbots/pbj/Schema';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import EventStream from '../event-stream';
 import selector from './selector';
 import delegateFactory from './delegate';
@@ -27,8 +25,6 @@ class History extends React.Component {
     getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
     node: PropTypes.instanceOf(Message).isRequired,
-    schema: PropTypes.instanceOf(Schema).isRequired,
-    streamId: PropTypes.instanceOf(StreamId).isRequired,
   };
 
   static defaultProps = {
@@ -36,8 +32,8 @@ class History extends React.Component {
   };
 
   componentDidMount() {
-    const { delegate, streamId, schema } = this.props;
-    delegate.handleInitialize(streamId, schema);
+    const { delegate } = this.props;
+    delegate.handleInitialize();
   }
 
   componentWillUnmount() {
@@ -57,8 +53,6 @@ class History extends React.Component {
       getHistoryRequestState: { response, status, exception },
       formName,
       node,
-      streamId,
-      schema,
     } = this.props;
 
     return (
@@ -72,8 +66,8 @@ class History extends React.Component {
         isRevertGranted={isRevertGranted}
         exception={exception}
         response={response}
-        onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
-        onRefresh={() => delegate.handleInitialize(streamId, schema)}
+        onLoadMore={() => delegate.handleLoadMore(response.get('last_occurred_at'))}
+        onRefresh={() => delegate.handleInitialize()}
         onRevert={delegate.handleRevert}
       />
     );

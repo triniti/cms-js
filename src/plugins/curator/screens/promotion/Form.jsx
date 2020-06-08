@@ -9,19 +9,17 @@ import PromotionCodeFields from '@triniti/cms/plugins/curator/components/promoti
 import PromotionDetailsFields from '@triniti/cms/plugins/curator/components/promotion-details-fields';
 import PromotionScheduleFields from '@triniti/cms/plugins/curator/components/promotion-schedule-fields';
 import RawContent from '@triniti/cms/components/raw-content';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
 const Form = ({ form, node, tab, isEditMode }) => {
-  const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
   switch (tab) {
     case 'schedule':
       return <PromotionScheduleFields isEditMode={isEditMode} formName={form} />;
     case 'code':
       return <PromotionCodeFields isEditMode={isEditMode} />;
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={node} />;
     default:

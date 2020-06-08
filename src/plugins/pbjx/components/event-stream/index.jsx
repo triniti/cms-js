@@ -28,7 +28,6 @@ class EventStream extends React.Component {
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getUser: PropTypes.func.isRequired,
-    formName: PropTypes.string.isRequired,
     isEditMode: PropTypes.bool.isRequired,
     isRevertGranted: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
@@ -91,11 +90,9 @@ class EventStream extends React.Component {
       isEditMode,
       isRevertGranted,
       getUser,
-      node,
       response,
       status,
       exception,
-      formName,
       onRevert: handleRevert,
     } = this.props;
 
@@ -143,7 +140,7 @@ class EventStream extends React.Component {
                         schema.hasMixin('gdbots:ncr:mixin:node-updated') &&
                         event.get('new_etag') !== event.get('old_etag') &&
                         pathsLength > 0 &&
-                        <RevertButton event={event} formName={formName} node={node} onRevert={handleRevert} />
+                        <RevertButton event={event} onRevert={handleRevert} />
                       }
                       <RawViewButton event={event} />
                     </span>

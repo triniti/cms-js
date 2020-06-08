@@ -7,15 +7,13 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import RawContent from '@triniti/cms/components/raw-content';
 import SponsorFields from '@triniti/cms/plugins/boost/components/sponsor-fields';
 import Message from '@gdbots/pbj/Message';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
 const Form = ({ form, node: sponsor, tab, isEditMode }) => {
-  const streamId = StreamId.fromString(`sponsor.history:${sponsor.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={sponsor} schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={sponsor} schema={schemas.getNodeHistoryRequest} />;
     case 'raw':
       return <RawContent pbj={sponsor} />;
     default:

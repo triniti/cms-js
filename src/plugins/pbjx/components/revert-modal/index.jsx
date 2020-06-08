@@ -28,10 +28,8 @@ class RevertModal extends React.Component {
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
     isOpen: PropTypes.bool,
-    formName: PropTypes.string.isRequired,
     onRevert: PropTypes.func.isRequired,
     onToggleRevertModal: PropTypes.func.isRequired,
-    node: PropTypes.instanceOf(Message).isRequired,
   }
 
   static defaultProps = {
@@ -70,9 +68,9 @@ class RevertModal extends React.Component {
   }
 
   handleRevertSwal() {
-    const { formName, node, onRevert: handleRevert, onToggleRevertModal: handleToggleRevertModal, } = this.props;
+    const { onRevert: handleRevert, onToggleRevertModal: handleToggleRevertModal, } = this.props;
     const { selected } = this.state;
-    handleRevert(formName, selected, node);
+    handleRevert(selected);
     RevertModal.revertComplete().then(() => {
       handleToggleRevertModal();
     });

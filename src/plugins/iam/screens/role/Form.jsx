@@ -7,15 +7,13 @@ import Message from '@gdbots/pbj/Message';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import RawContent from '@triniti/cms/components/raw-content';
 import RoleFields from '@triniti/cms/plugins/iam/components/role-fields';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
 const Form = ({ form, node: role, tab, isEditMode }) => {
-  const streamId = StreamId.fromString(`role.history:${role.get('_id')}`);
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={role} schema={schemas.getNodeHistory} streamId={streamId} />;
+      return <History isEditMode={isEditMode} formName={form} node={role} schema={schemas.getNodeHistory} />;
 
     case 'raw':
       return <RawContent pbj={role} />;
