@@ -29,6 +29,12 @@ const omitKeys = [
   'word_count',
 ];
 
+const omitRevertKeys = omitKeys.concat([
+  'jwplayer_synced_at',
+]);
+
+export const filterRevertableData = (data) => omitBy(data, (value, key) => omitRevertKeys.includes(key));
+
 /**
  * filter out object keys that may not need to display in event stream
  * @param data [object]

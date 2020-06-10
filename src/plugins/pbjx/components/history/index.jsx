@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
+import Schema from '@gdbots/pbj/Schema';
 import EventStream from '../event-stream';
 import selector from './selector';
 import delegateFactory from './delegate';
@@ -10,6 +11,7 @@ import delegateFactory from './delegate';
 class History extends React.Component {
   static propTypes = {
     delegate: PropTypes.shape({
+      componentWillUnmount: PropTypes.func,
       handleInitialize: PropTypes.func,
       handleLoadMore: PropTypes.func,
       handleRevert: PropTypes.func,
@@ -22,8 +24,9 @@ class History extends React.Component {
       status: PropTypes.string,
     }).isRequired,
     isEditMode: PropTypes.bool.isRequired,
-    getUser: PropTypes.func.isRequired,
     formName: PropTypes.string.isRequired,
+    getUser: PropTypes.func.isRequired,
+    schema: PropTypes.instanceOf(Schema).isRequired,
     node: PropTypes.instanceOf(Message).isRequired,
   };
 
@@ -48,7 +51,6 @@ class History extends React.Component {
       delegate,
       events,
       isEditMode,
-      isRevertGranted,
       getUser,
       getHistoryRequestState: { response, status, exception },
       formName,
@@ -63,7 +65,6 @@ class History extends React.Component {
         node={node}
         status={status}
         isEditMode={isEditMode}
-        isRevertGranted={isRevertGranted}
         exception={exception}
         response={response}
         onLoadMore={() => delegate.handleLoadMore(response.get('last_occurred_at'))}

@@ -135,12 +135,12 @@ class EventStream extends React.Component {
                     </div>
                     <span>
                       {
-                        isEditMode && 
-                        isRevertGranted &&
-                        schema.hasMixin('gdbots:ncr:mixin:node-updated') &&
-                        event.get('new_etag') !== event.get('old_etag') &&
-                        pathsLength > 0 &&
-                        <RevertButton event={event} onRevert={handleRevert} />
+                        isEditMode
+                        && isRevertGranted
+                        && schema.hasMixin('gdbots:ncr:mixin:node-updated')
+                        && event.get('new_etag') !== event.get('old_etag')
+                        && pathsLength > 0
+                        && <RevertButton event={event} onRevert={handleRevert} />
                       }
                       <RawViewButton event={event} />
                     </span>

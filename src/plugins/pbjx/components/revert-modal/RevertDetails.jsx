@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
-import isPlainObject from 'lodash/isPlainObject'
+import isPlainObject from 'lodash/isPlainObject';
 import RevertPropertiesTable from '../revert-properties-table';
-import filterData from '../../utils/filterData';
+import { filterRevertableData } from '../../utils/filterData';
 import findNodeDiff from '../../utils/findNodeDiff';
 
 /**
@@ -11,18 +11,20 @@ import findNodeDiff from '../../utils/findNodeDiff';
  * to revert specific keys in a block list or multiselect list is difficult
  * because the data might have changed greatly. So we just put it back
  * completely to the original state.
- * 
- * @param {Object} newNode 
- * @param {Object} origNode 
+ *
+ * @param {Object} newNode
+ * @param {Object} origNode
  */
 const fullMapsAndLists = (newNode, origNode) => {
-  for (let [key, value] of Object.entries(newNode)) {
+  const newerNode = { ...newNode };
+  Object.entries(newerNode).forEach((item) => {
+    const [key, value] = item;
     if (Array.isArray(value) || isPlainObject(value)) {
-      newNode[key] = origNode[key];
+      newerNode[key] = origNode[key];
     }
-  }
-  return newNode;
-}
+  });
+  return newerNode;
+};
 
 const RevertDetails = ({ event, isFieldSelected, onSelectField: handleSelectField }) => {
   // find properties in node that were removed
@@ -36,9 +38,9 @@ const RevertDetails = ({ event, isFieldSelected, onSelectField: handleSelectFiel
     newNode[key] = null;
   });
 
-  const diffNode = findNodeDiff(filterData(newNode), filterData(oldNode));
+  const diffNode = findNodeDiff(filterRevertableData(newNode), filterRevertableData(oldNode));
 
-  return <RevertPropertiesTable data={fullMapsAndLists(filterData(diffNode), newNode)} isFieldSelected={isFieldSelected} onSelectField={handleSelectField} />;
+  return <RevertPropertiesTable data={fullMapsAndLists(filterRevertableData(diffNode), newNode)} isFieldSelected={isFieldSelected} onSelectField={handleSelectField} />;
 };
 
 RevertDetails.propTypes = {

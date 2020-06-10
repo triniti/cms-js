@@ -1,5 +1,4 @@
 import createReducer from '@triniti/app/createReducer';
-import isBoolean from 'lodash/isBoolean';
 import { actionTypes } from '../constants';
 
 export const initialState = {};

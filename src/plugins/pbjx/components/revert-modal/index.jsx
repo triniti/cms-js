@@ -40,7 +40,7 @@ class RevertModal extends React.Component {
     super(props);
     this.state = {
       selected: [],
-    }
+    };
 
     this.isFieldSelected = this.isFieldSelected.bind(this);
     this.handleSelectField = this.handleSelectField.bind(this);
@@ -49,12 +49,14 @@ class RevertModal extends React.Component {
 
   isFieldSelected(id) {
     const { selected } = this.state;
-    for (const { id: itemId } of selected) {
-      if (id === itemId) {
-        return true;
+    let found = false;
+    selected.forEach((item) => {
+      const { id: itemId } = item;
+      if (!found && id === itemId) {
+        found = true;
       }
-    }
-    return false;
+    });
+    return found;
   }
 
   handleSelectField(id, value, checked) {
@@ -63,8 +65,8 @@ class RevertModal extends React.Component {
       selected.push({ id, value });
       this.setState({ selected });
     } else {
-      this.setState({ selected: selected.filter(({id: itemId}) => itemId !== id) });
-    }    
+      this.setState({ selected: selected.filter(({ id: itemId }) => itemId !== id) });
+    }
   }
 
   handleRevertSwal() {
@@ -108,7 +110,6 @@ class RevertModal extends React.Component {
       </Modal>
     );
   }
-
 }
 
 export default RevertModal;

@@ -1,5 +1,4 @@
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import isGranted from '@triniti/cms/plugins/iam/selectors/isGranted';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 
