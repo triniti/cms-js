@@ -19,6 +19,7 @@ import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import StoryFields from '@triniti/cms/plugins/news/components/story-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -62,7 +63,15 @@ const Form = ({ node: article, blocksmithState, form, isEditMode, tab }) => {
       return <Media nodeRef={nodeRef} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={article} schema={schemas.getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={article}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={article} />;

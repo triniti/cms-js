@@ -7,13 +7,22 @@ import Message from '@gdbots/pbj/Message';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import RawContent from '@triniti/cms/components/raw-content';
 import RoleFields from '@triniti/cms/plugins/iam/components/role-fields';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
 const Form = ({ form, node: role, tab, isEditMode }) => {
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={role} schema={schemas.getNodeHistory} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={role}
+          schema={schemas.getNodeHistory}
+          setBlocks={setBlocks}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={role} />;

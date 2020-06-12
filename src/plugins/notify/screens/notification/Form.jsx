@@ -5,6 +5,7 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React, { useEffect } from 'react';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import schemas from './schemas';
 
 /**
@@ -56,7 +57,15 @@ const Form = ({ form, node, getNode, tab, type, isEditMode, showDatePicker }) =>
 
   switch (tab) {
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={node}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={node} />;

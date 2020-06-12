@@ -13,6 +13,7 @@ import CustomCodeFields from '@triniti/cms/plugins/common/components/custom-code
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 import PageFields from '@triniti/cms/plugins/canvas/components/page-fields';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -27,7 +28,15 @@ const Form = ({
     case 'taxonomy':
       return <TaxonomyFields schemas={schemas} isEditMode={isEditMode} />;
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={page} schema={schemas.getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={page}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
     case 'raw':
       return <RawContent pbj={page} />;
     default:

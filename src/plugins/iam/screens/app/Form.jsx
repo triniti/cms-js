@@ -7,6 +7,7 @@ import RawContent from '@triniti/cms/components/raw-content';
 import React from 'react';
 import RolesList from '@triniti/cms/plugins/iam/components/roles-list';
 import RolesPicker from '@triniti/cms/plugins/iam/components/roles-picker';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import schemas from './schemas';
 
 /**
@@ -51,7 +52,15 @@ const Form = ({ form, node, tab, type, isEditMode }) => {
       return <RolesList roles={node.get('roles', [])} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={schemas.getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={node}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={node} />;

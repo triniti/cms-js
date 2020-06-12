@@ -6,6 +6,7 @@ import Message from '@gdbots/pbj/Message';
 import History from '@triniti/cms/plugins/pbjx/components/history';
 import RedirectFields from '@triniti/cms/plugins/sys/components/redirect-fields';
 import RawContent from '@triniti/cms/components/raw-content';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -21,7 +22,15 @@ const Form = ({
         />
       );
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={redirect} schema={schemas.getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={redirect}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
     case 'raw':
       return <RawContent pbj={redirect} />;
     default:

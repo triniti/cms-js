@@ -1,8 +1,4 @@
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
-import dirtyEditor from '@triniti/cms/plugins/blocksmith/actions/dirtyEditor';
-import storeEditor from '@triniti/cms/plugins/blocksmith/actions/storeEditor';
-import convertToEditorState from '@triniti/cms/plugins/blocksmith/utils/convertToEditorState';
-import Message from '@gdbots/pbj/Message';
 import DateTimeType from '@gdbots/pbj/types/DateTimeType';
 import { change } from 'redux-form';
 import camelCase from 'lodash/camelCase';
@@ -42,21 +38,13 @@ export default (dispatch, ownProps) => ({
    * @param {array} selected
    */
   handleRevert: (selected) => {
-    const { node, formName } = ownProps;
+    const { node, formName, setBlocks } = ownProps;
     selected.forEach((item) => {
       const { id, value } = item;
       const idFormatted = id === 'live_m3u8_url' ? 'liveM3u8Url' : camelCase(id);
 
       if (id === 'blocks') {
-        const canvasBlocks = value.reduce((accumulator, currentBlock) => {
-          if (currentBlock !== null) {
-            accumulator.push(Message.fromObject(currentBlock));
-          }
-          return accumulator;
-        }, []);
-        const editorState = convertToEditorState(canvasBlocks);
-        dispatch(storeEditor(formName, editorState));
-        dispatch(dirtyEditor(formName));
+        setBlocks(dispatch, formName, value, true);
       } else {
         const fieldType = node.schema().getField(id).getType();
         if (fieldType instanceof DateTimeType && value) {

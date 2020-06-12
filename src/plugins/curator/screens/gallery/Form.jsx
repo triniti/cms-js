@@ -12,6 +12,7 @@ import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fi
 import CustomCodeFields from '@triniti/cms/plugins/common/components/custom-code-fields';
 import GalleryFields from '@triniti/cms/plugins/curator/components/gallery-fields';
 import History from '@triniti/cms/plugins/pbjx/components/history';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import GalleryMedia from '../../components/gallery-media';
 import schemas from './schemas';
@@ -31,7 +32,15 @@ const Form = ({ node: gallery, form, isEditMode, tab }) => {
       return <GalleryMedia nodeRef={NodeRef.fromNode(gallery)} isEditMode={isEditMode} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={gallery} schema={schemas.getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={gallery}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={gallery} />;

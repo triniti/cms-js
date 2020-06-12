@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React from 'react';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import schemas from './schemas';
 
 /**
@@ -64,7 +65,15 @@ const Form = ({ form, node: asset, tab, isEditMode, type }) => {
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
 
     case 'history':
-      return <History isEditMode={isEditMode} formName={form} node={node} schema={getNodeHistoryRequest} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={asset}
+          schema={getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={asset} />;
