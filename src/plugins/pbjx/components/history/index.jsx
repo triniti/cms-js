@@ -24,10 +24,8 @@ class History extends React.Component {
       status: PropTypes.string,
     }).isRequired,
     isEditMode: PropTypes.bool.isRequired,
-    formName: PropTypes.string.isRequired,
     getUser: PropTypes.func.isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
-    node: PropTypes.instanceOf(Message).isRequired,
   };
 
   static defaultProps = {
@@ -53,16 +51,12 @@ class History extends React.Component {
       isEditMode,
       getUser,
       getHistoryRequestState: { response, status, exception },
-      formName,
-      node,
     } = this.props;
 
     return (
       <EventStream
         events={events}
         getUser={getUser}
-        formName={formName}
-        node={node}
         status={status}
         isEditMode={isEditMode}
         exception={exception}

@@ -48,7 +48,12 @@ export default (dispatch, ownProps) => ({
       const idFormatted = id === 'live_m3u8_url' ? 'liveM3u8Url' : camelCase(id);
 
       if (id === 'blocks') {
-        const canvasBlocks = value.filter((x) => x !== null).map((x) => Message.fromObject(x));
+        const canvasBlocks = value.reduce((accumulator, currentBlock) => {
+          if (currentBlock !== null) {
+            accumulator.push(Message.fromObject(currentBlock));
+          }
+          return accumulator;
+        }, []);
         const editorState = convertToEditorState(canvasBlocks);
         dispatch(storeEditor(formName, editorState));
         dispatch(dirtyEditor(formName));
