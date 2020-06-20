@@ -1,18 +1,20 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
-
-import { Map } from 'immutable';
-import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import React from 'react';
-import PropTypes from 'prop-types';
-import noop from 'lodash/noop';
-import moment from 'moment';
+/* eslint-disable import/no-named-as-default */
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import swal from 'sweetalert2';
+import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
 import Editor from 'draft-js-plugins-editor';
+import moment from 'moment';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { getSelectionEntity } from 'draftjs-utils';
+import noop from 'lodash/noop';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
+import PropTypes from 'prop-types';
+import React from 'react';
+import swal from 'sweetalert2';
 import { connect } from 'react-redux';
+import { getSelectionEntity } from 'draftjs-utils';
+import { Map } from 'immutable';
 import {
   BlockMapBuilder,
   CompositeDecorator,
@@ -23,10 +25,7 @@ import {
   Modifier,
   RichUtils,
 } from 'draft-js';
-import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
-import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 
-import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-ui-plugin/components';
 import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
@@ -49,13 +48,17 @@ import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/T
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
 import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
+import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-ui-plugin/components';
 
-import { blockTypes, tokens } from '../../constants';
-import decorators from './decorators';
-import customStyleMap from './customStyleMap';
+import './styles.scss';
 import constants from './constants';
+import customStyleMap from './customStyleMap';
+import decorators from './decorators';
 import delegateFactory from './delegate';
 import selector from './selector';
+import { blockTypes, tokens } from '../../constants';
+import { clearDragCache } from '../../utils/styleDragTarget';
+import { getModalComponent, getPlaceholder } from '../../resolver';
 import {
   addEmoji,
   areKeysSame,
@@ -94,9 +97,6 @@ import {
   styleDragTarget,
   updateBlocks,
 } from '../../utils';
-import { clearDragCache } from '../../utils/styleDragTarget';
-import { getModalComponent, getPlaceholder } from '../../resolver';
-import './styles.scss';
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -142,8 +142,8 @@ class Blocksmith extends React.Component {
       blocksmithState,
       delegate,
       formName,
-      node,
       isEditMode,
+      node,
     } = props;
 
     const decorator = new MultiDecorator([new CompositeDecorator(decorators)]);
@@ -1269,19 +1269,23 @@ class Blocksmith extends React.Component {
    */
   handlePastedText(text, html) {
     const { editorState } = this.state;
+
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(html);
       if (contentBlocks) {
         const fragment = BlockMapBuilder
           .createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
+
         const newContentState = Modifier.replaceWithFragment(
           editorState.getCurrentContent(),
           editorState.getSelection(),
           fragment,
         );
+
         this.setState({
           editorState: EditorState.push(editorState, newContentState, 'insert-characters'),
         });
+
         return 'handled';
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {

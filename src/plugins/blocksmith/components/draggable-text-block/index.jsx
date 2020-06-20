@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
-import { ContentBlock, EditorBlock } from 'draft-js';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { handleDragEnd, handleDragStart } from '../../utils';
+import { connect } from 'react-redux';
+import { ContentBlock, EditorBlock } from 'draft-js';
 import selector from './selector';
+import { handleDragEnd, handleDragStart } from '../../utils';
 
 // todo: incorporate the block buttons into this component and rename to TextBlockWrapper
 export const DraggableTextBlock = ({ block, draggable, offsetKey, ...rest }) => (
