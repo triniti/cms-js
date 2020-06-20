@@ -15,7 +15,7 @@ export default (dispatch, ownProps) => ({
   handleInitialize: () => {
     const { node, schema } = ownProps;
     const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
-    dispatch(schema.createMessage().set('stream_id', streamId));
+    dispatch(schema.createMessage().set('stream_id', streamId).set('count', 10));
   },
 
   /**
@@ -27,6 +27,7 @@ export default (dispatch, ownProps) => ({
     const { node, schema } = ownProps;
     const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
     dispatch(schema.createMessage({
+      count: 10,
       stream_id: streamId,
       since,
     }));

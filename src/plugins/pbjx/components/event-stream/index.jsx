@@ -98,6 +98,8 @@ class EventStream extends React.Component {
 
     const { allEvents, loadMore } = this.state;
 
+    let index = 0;
+
     return (
       <Card>
         <CardHeader>
@@ -119,6 +121,7 @@ class EventStream extends React.Component {
               const user = event.get('ctx_user_ref') && getUser(event.get('ctx_user_ref'));
               const schema = event.schema();
               const pathsLength = event.get('paths', []).length;
+              index += 1;
               return (
                 <ListGroupItem key={event.get('occurred_at')} className="mb-0">
                   <div className="d-flex justify-content-between">
@@ -136,6 +139,7 @@ class EventStream extends React.Component {
                     <span>
                       {
                         isEditMode
+                        && index > 1
                         && isRevertGranted
                         && schema.hasMixin('gdbots:ncr:mixin:node-updated')
                         && event.get('new_etag') !== event.get('old_etag')
