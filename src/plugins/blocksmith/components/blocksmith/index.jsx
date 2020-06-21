@@ -30,7 +30,8 @@ import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-butto
 import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
-import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import HighlightButton
+  from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
 import isMacOS from '@triniti/cms/utils/isMacOS';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
@@ -40,15 +41,26 @@ import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-t
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
 import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
 import Message from '@gdbots/pbj/Message';
-import OrderedListButton from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
+import OrderedListButton
+  from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
 import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
 import SpecialCharacterModal from '@triniti/cms/plugins/common/components/special-character-modal';
-import StrikethroughButton from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
+import StrikethroughButton
+  from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
-import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
-import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-ui-plugin/components';
+import UnderlineButton
+  from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
+import UnorderedListButton
+  from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Icon,
+} from '@triniti/admin-ui-plugin/components';
 
 import './styles.scss';
 import constants from './constants';
@@ -1266,6 +1278,8 @@ class Blocksmith extends React.Component {
    *
    * @param {string}       text - pasted text
    * @param {?HTMLElement} html - pasted html
+   *
+   * @returns {string}
    */
   handlePastedText(text, html) {
     const { editorState } = this.state;
