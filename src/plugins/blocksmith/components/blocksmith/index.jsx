@@ -1681,6 +1681,7 @@ class Blocksmith extends React.Component {
               blockStyleFn={this.blockStyleFn}
               customStyleMap={customStyleMap}
               decorators={decorators}
+              defaultBlockRenderMap={false}
               editorState={editorState}
               handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
               handleKeyCommand={this.handleKeyCommand}
