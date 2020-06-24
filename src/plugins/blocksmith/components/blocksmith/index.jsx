@@ -1616,10 +1616,38 @@ class Blocksmith extends React.Component {
       sidebarHolderStyle,
       sidebarResetFlag,
     } = this.state;
+
+    const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
+
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
-    const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
+
     updateBlocks.style(editorState);
+
+    /**
+     * allows to overwrite the default block render map, this will ensure the pasted text will
+     * only convert to Draft block types if the element is listed in the map below.
+     *
+     * e.g., when a h3 element is pasted into  blocksmith, it will be converted to <p> tags
+     *
+     * @link https://draftjs.org/docs/advanced-topics-custom-block-render-map
+     */
+    const blockRenderMap = Map({
+      atomic: {
+        element: 'figure',
+      },
+      'ordered-list-item': {
+        element: 'li',
+        wrapper: <ol />,
+      },
+      'unordered-list-item': {
+        element: 'li',
+        wrapper: <ul />,
+      },
+      unstyled: {
+        element: 'div',
+      },
+    });
 
     return (
       <Card>
@@ -1649,13 +1677,14 @@ class Blocksmith extends React.Component {
           >
             <Editor
               blockRendererFn={this.blockRendererFn}
+              blockRenderMap={blockRenderMap}
               blockStyleFn={this.blockStyleFn}
               customStyleMap={customStyleMap}
               decorators={decorators}
               editorState={editorState}
+              handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
               handleKeyCommand={this.handleKeyCommand}
               handlePastedText={this.handlePastedText}
-              handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
               keyBindingFn={this.keyBindingFn}
               onBlur={this.handleBlur}
               onChange={this.onChange}
