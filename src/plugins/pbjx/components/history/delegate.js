@@ -101,12 +101,6 @@ export default (dispatch, ownProps) => ({
         setBlocks(dispatch, formName, formValue, true);
       } else {
         const fieldType = node.schema().getField(id).getType();
-        console.log('Richard', {
-          fieldType,
-          formValue,
-          formName,
-          formId,
-        });
         if (fieldType instanceof DateTimeType && formValue) {
           dispatch(change(formName, formId, new Date(formValue)));
         } else {
