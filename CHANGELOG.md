@@ -4,7 +4,7 @@
 ## vN.N.N
 * Adjusting support to move cursor to the end of last text block.
 * Fix formatting of `jwplayer_synced_at`.
-* issue #232: sanitize input before pasting into blocksmith.
+* issue #232: add blockRenderMap to avoid creation of header tags when pasting content.
 
 
 ## v0.6.3
