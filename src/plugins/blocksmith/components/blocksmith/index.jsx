@@ -220,6 +220,31 @@ class Blocksmith extends React.Component {
       },
     ];
 
+    /**
+     * allows to overwrite the default block render map, this will ensure the pasted text will
+     * only convert to Draft block types if the element is listed in the map below.
+     *
+     * e.g., when a h3 element is pasted into  blocksmith, it will be converted to <p> tags
+     *
+     * @link https://draftjs.org/docs/advanced-topics-custom-block-render-map
+     */
+    this.blockRenderMap = Map({
+      [blockTypes.ATOMIC]: {
+        element: 'figure',
+      },
+      [blockTypes.ORDERED_LIST_ITEM]: {
+        element: 'li',
+        wrapper: <ol />,
+      },
+      [blockTypes.UNORDERED_LIST_ITEM]: {
+        element: 'li',
+        wrapper: <ul />,
+      },
+      [blockTypes.UNSTYLED]: {
+        element: 'div',
+      },
+    });
+
     this.popoverRef = React.createRef();
 
     this.blockRendererFn = this.blockRendererFn.bind(this);
@@ -1285,7 +1310,7 @@ class Blocksmith extends React.Component {
     const { editorState } = this.state;
 
     if (html) {
-      const { contentBlocks } = DraftPasteProcessor.processHTML(html);
+      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
       if (contentBlocks) {
         const fragment = BlockMapBuilder
           .createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
@@ -1624,31 +1649,6 @@ class Blocksmith extends React.Component {
 
     updateBlocks.style(editorState);
 
-    /**
-     * allows to overwrite the default block render map, this will ensure the pasted text will
-     * only convert to Draft block types if the element is listed in the map below.
-     *
-     * e.g., when a h3 element is pasted into  blocksmith, it will be converted to <p> tags
-     *
-     * @link https://draftjs.org/docs/advanced-topics-custom-block-render-map
-     */
-    const blockRenderMap = Map({
-      atomic: {
-        element: 'figure',
-      },
-      'ordered-list-item': {
-        element: 'li',
-        wrapper: <ol />,
-      },
-      'unordered-list-item': {
-        element: 'li',
-        wrapper: <ul />,
-      },
-      unstyled: {
-        element: 'div',
-      },
-    });
-
     return (
       <Card>
         <CardHeader>
@@ -1677,7 +1677,7 @@ class Blocksmith extends React.Component {
           >
             <Editor
               blockRendererFn={this.blockRendererFn}
-              blockRenderMap={blockRenderMap}
+              blockRenderMap={this.blockRenderMap}
               blockStyleFn={this.blockStyleFn}
               customStyleMap={customStyleMap}
               decorators={decorators}
