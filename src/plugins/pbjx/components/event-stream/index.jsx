@@ -98,8 +98,6 @@ class EventStream extends React.Component {
 
     const { allEvents, loadMore } = this.state;
 
-    let index = 0;
-
     return (
       <Card>
         <CardHeader>
@@ -114,14 +112,13 @@ class EventStream extends React.Component {
             && <div className="ml-4"><StatusMessage status={status} exception={exception} /></div>
           }
           <ListGroup borderless>
-            {allEvents.map((event) => {
+            {allEvents.map((event, index) => {
               const eventAction = startCase(event.generateMessageRef().getCurie().getMessage());
               const occurredAt = moment(event.get('occurred_at').toDate()).format('MMM DD, YYYY hh:mm:ss A');
               const occurredAtAgo = moment(event.get('occurred_at').toDate()).fromNow();
               const user = event.get('ctx_user_ref') && getUser(event.get('ctx_user_ref'));
               const schema = event.schema();
               const pathsLength = event.get('paths', []).length;
-              index += 1;
               return (
                 <ListGroupItem key={event.get('occurred_at')} className="mb-0">
                   <div className="d-flex justify-content-between">
@@ -139,7 +136,7 @@ class EventStream extends React.Component {
                     <span>
                       {
                         isEditMode
-                        && index > 1
+                        && index + 1 > 1
                         && isRevertGranted
                         && schema.hasMixin('gdbots:ncr:mixin:node-updated')
                         && event.get('new_etag') !== event.get('old_etag')
