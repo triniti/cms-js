@@ -14,8 +14,7 @@ const formatIdAndValue = ({ id, value }) => {
 
     case 'channel_ref':
     case 'sponsor_ref':
-      formId = camelCase(id.substr(0, id.lastIndexOf('_')));
-      formId += 'Refs';
+      formId = camelCase(`${id.substr(0, id.lastIndexOf('_'))}_refs`);
       break;
 
     default:
@@ -42,13 +41,10 @@ const formatIdAndValue = ({ id, value }) => {
         });
       }
     } else if (id === 'hashtags' && Array.isArray(value)) {
-      formValue = value.reduce((accumulator, currentValue) => {
-        accumulator.push({
-          label: currentValue,
-          value: currentValue,
-        });
-        return accumulator;
-      }, []);
+      formValue = value.map((currentValue) => ({
+        label: currentValue,
+        value: currentValue,
+      }));
     }
   }
 

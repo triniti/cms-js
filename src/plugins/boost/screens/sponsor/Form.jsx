@@ -7,7 +7,6 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import RawContent from '@triniti/cms/components/raw-content';
 import SponsorFields from '@triniti/cms/plugins/boost/components/sponsor-fields';
 import Message from '@gdbots/pbj/Message';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -20,7 +19,6 @@ const Form = ({ form, node: sponsor, tab, isEditMode }) => {
           formName={form}
           node={sponsor}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':

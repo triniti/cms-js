@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import noop from 'lodash/noop';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import Schema from '@gdbots/pbj/Schema';
@@ -26,10 +27,13 @@ class History extends React.Component {
     isEditMode: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
+    /* eslint-disable react/no-unused-prop-types */
+    setBlocks: PropTypes.func,
   };
 
   static defaultProps = {
     events: [],
+    setBlocks: noop,
   };
 
   componentDidMount() {

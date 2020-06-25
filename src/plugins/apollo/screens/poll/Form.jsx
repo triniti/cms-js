@@ -8,7 +8,6 @@ import Message from '@gdbots/pbj/Message';
 import PollFields from '@triniti/cms/plugins/apollo/components/poll-fields';
 import RawContent from '@triniti/cms/components/raw-content';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -21,7 +20,6 @@ const Form = ({ isEditMode, form, node, tab }) => {
           formName={form}
           node={node}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':
