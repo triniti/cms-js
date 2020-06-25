@@ -3,7 +3,7 @@ import storeEditor from '@triniti/cms/plugins/blocksmith/actions/storeEditor';
 import convertToEditorState from '@triniti/cms/plugins/blocksmith/utils/convertToEditorState';
 import Message from '@gdbots/pbj/Message';
 
-export default (dispatch, formName, blocks, isDirty = false) => {
+export default (dispatch, formName, blocks) => {
   const canvasBlocks = blocks.reduce((accumulator, currentBlock) => {
     if (currentBlock !== null) {
       accumulator.push(Message.fromObject(currentBlock));
@@ -13,7 +13,5 @@ export default (dispatch, formName, blocks, isDirty = false) => {
 
   const editorState = convertToEditorState(canvasBlocks);
   dispatch(storeEditor(formName, editorState));
-  if (isDirty) {
-    dispatch(dirtyEditor(formName));
-  }
+  dispatch(dirtyEditor(formName));
 };

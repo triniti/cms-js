@@ -94,7 +94,7 @@ export default (dispatch, ownProps) => ({
       const { id } = item;
       const { formId, formValue } = formatIdAndValue(item);
       if (id === 'blocks') {
-        setBlocks(dispatch, formName, formValue, true);
+        setBlocks(dispatch, formName, formValue);
       } else {
         const fieldType = node.schema().getField(id).getType();
         if (fieldType instanceof DateTimeType && formValue) {
