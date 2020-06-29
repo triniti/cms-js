@@ -4,7 +4,7 @@
 ## vN.N.N
 * Adjusting support to move cursor to the end of last text block.
 * Fix formatting of `jwplayer_synced_at`.
-* issue #232: add blockRenderMap to avoid creation of header tags when pasting content.
+* issue #232: add custom `blockRenderMap` to avoid creation of unsupported block types when pasting content into blocksmith.
 
 
 ## v0.6.3
