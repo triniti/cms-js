@@ -55,7 +55,7 @@ const formatIdAndValue = ({ id, value }) => {
 };
 
 const formatHfValue = (id, value, origHf) => {
-  const newHf = { ...origHf };
+  const newHf = [...origHf];
   const sizes = {
     1: 'XL',
     2: 'L',
