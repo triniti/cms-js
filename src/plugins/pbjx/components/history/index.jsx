@@ -18,6 +18,7 @@ class History extends React.Component {
       handleRevert: PropTypes.func,
     }).isRequired,
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+    formValues: PropTypes.shape({}).isRequired,
     getHistoryRequestState: PropTypes.shape({
       exception: PropTypes.object,
       request: PropTypes.object,
@@ -37,8 +38,8 @@ class History extends React.Component {
   };
 
   componentDidMount() {
-    const { delegate } = this.props;
-    delegate.handleInitialize();
+    const { delegate, formValues } = this.props;
+    delegate.handleInitialize(formValues);
   }
 
   componentWillUnmount() {

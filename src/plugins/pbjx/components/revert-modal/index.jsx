@@ -13,7 +13,6 @@ import {
 import RevertDetails from './RevertDetails';
 
 class RevertModal extends React.Component {
-
   static async revertComplete() {
     return swal.fire({
       title: 'Revert complete!',
@@ -70,7 +69,7 @@ class RevertModal extends React.Component {
   }
 
   handleRevertSwal() {
-    const { onRevert: handleRevert, onToggleRevertModal: handleToggleRevertModal, } = this.props;
+    const { onRevert: handleRevert, onToggleRevertModal: handleToggleRevertModal } = this.props;
     const { selected } = this.state;
     handleRevert(selected);
     RevertModal.revertComplete().then(() => {
