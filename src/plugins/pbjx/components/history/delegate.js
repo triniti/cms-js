@@ -7,7 +7,6 @@ import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import { filterRevertableData } from '../../utils/filterData';
 import findNodeDiff from '../../utils/findNodeDiff';
 import fullMapsAndLists from '../../utils/fullMapsAndLists';
-import { values } from 'lodash';
 
 
 /**
