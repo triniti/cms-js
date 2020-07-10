@@ -140,7 +140,6 @@ class EventStream extends React.Component {
                     <span>
                       {
                         isEditMode
-                        && index + 1 > 1
                         && isRevertGranted
                         && schema.hasMixin('gdbots:ncr:mixin:node-updated')
                         && event.get('new_etag') !== event.get('old_etag')
@@ -150,7 +149,7 @@ class EventStream extends React.Component {
                             event={event}
                             onRevert={handleRevert}
                             isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
-                            disabled={!hasDifferentDbValues(event)}
+                            disabled={!index || !hasDifferentDbValues(event)}
                           />
                         )
                       }

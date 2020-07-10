@@ -219,9 +219,9 @@ class Delegate {
 
     const diffNode = findNodeDiff(filterRevertableData(newNode), filterRevertableData(oldNode));
     const data = fullMapsAndLists(filterRevertableData(diffNode), newNode);
-    const aDiffField = data[Object.keys(data).find((dbField) => this.isDbValueSameAsNodeValue(dbField, data[dbField]))];
+    const aDiffField = data[Object.keys(data).find((dbField) => !this.isDbValueSameAsNodeValue(dbField, data[dbField]))];
 
-    return aDiffField === undefined;
+    return aDiffField !== undefined;
   }
 }
 
