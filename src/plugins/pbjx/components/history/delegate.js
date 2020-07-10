@@ -7,6 +7,7 @@ import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import { filterRevertableData } from '../../utils/filterData';
 import findNodeDiff from '../../utils/findNodeDiff';
 import fullMapsAndLists from '../../utils/fullMapsAndLists';
+import { values } from 'lodash';
 
 
 /**
@@ -43,30 +44,44 @@ const toFormId = (id) => {
  * @returns {*}
  */
 const toFormValue = (id, value) => {
+  if (!value) {
+    return value;
+  }
+
   let formValue = value;
-  if (value) {
-    if (id.endsWith('refs') && !Array.isArray(value)) {
-      formValue = [value];
-    } else if (['classification', 'swipe', 'theme'].includes(id)) {
-      formValue = {
-        label: value,
-        value,
-      };
-    } else if (['dfp_cust_params', 'tags'].includes(id)) {
-      formValue = [];
-      /* eslint-disable no-restricted-syntax */
-      for (const [key, keyValue] of Object.entries(value)) {
-        formValue.push({
-          key,
-          value: keyValue,
-        });
-      }
-    } else if (id === 'hashtags' && Array.isArray(value)) {
-      formValue = value.map((currentValue) => ({
-        label: currentValue,
-        value: currentValue,
-      }));
+
+  if (id.endsWith('refs') && !Array.isArray(value)) {
+    formValue = [value];
+  } else if (['classification', 'swipe', 'theme'].includes(id)) {
+    formValue = {
+      label: value,
+      value,
+    };
+  } else if (['dfp_cust_params', 'tags'].includes(id)) {
+    formValue = [];
+    /* eslint-disable no-restricted-syntax */
+    for (const [key, keyValue] of Object.entries(value)) {
+      formValue.push({
+        key,
+        value: keyValue,
+      });
     }
+  } else if (id === 'slotting') {
+    formValue = [];
+    for (const [key, keyValue] of Object.entries(value)) {
+      formValue.push({
+        key: {
+          label: key,
+          value: key,
+        },
+        value: keyValue,
+      });
+    }
+  } else if (id === 'hashtags' && Array.isArray(value)) {
+    formValue = value.map((currentValue) => ({
+      label: currentValue,
+      value: currentValue,
+    }));
   }
   return formValue;
 };
