@@ -26,6 +26,7 @@ class RevertModal extends React.Component {
 
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
+    isDbValueSameAsNodeValue: PropTypes.func.isRequired,
     isOpen: PropTypes.bool,
     onRevert: PropTypes.func.isRequired,
     onToggleRevertModal: PropTypes.func.isRequired,
@@ -80,6 +81,7 @@ class RevertModal extends React.Component {
   render() {
     const {
       event,
+      isDbValueSameAsNodeValue,
       isOpen,
       onToggleRevertModal: handleToggleRevertModal,
     } = this.props;
@@ -90,7 +92,7 @@ class RevertModal extends React.Component {
         <ModalHeader toggle={handleToggleRevertModal}>Revert Fields</ModalHeader>
         <ModalBody className="p-0 modal-body-break">
           <ScrollableContainer className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
-            <RevertDetails event={event} onSelectField={this.handleSelectField} isFieldSelected={this.isFieldSelected} />
+            <RevertDetails event={event} onSelectField={this.handleSelectField} isDbValueSameAsNodeValue={isDbValueSameAsNodeValue} isFieldSelected={this.isFieldSelected} />
           </ScrollableContainer>
         </ModalBody>
         <ModalFooter>

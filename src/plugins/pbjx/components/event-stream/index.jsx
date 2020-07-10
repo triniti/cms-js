@@ -28,7 +28,9 @@ class EventStream extends React.Component {
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getUser: PropTypes.func.isRequired,
+    hasDifferentDbValues: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool.isRequired,
+    isDbValueSameAsNodeValue: PropTypes.func.isRequired,
     isRevertGranted: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
@@ -87,7 +89,9 @@ class EventStream extends React.Component {
 
   render() {
     const {
+      hasDifferentDbValues,
       isEditMode,
+      isDbValueSameAsNodeValue,
       isRevertGranted,
       getUser,
       response,
@@ -141,7 +145,14 @@ class EventStream extends React.Component {
                         && schema.hasMixin('gdbots:ncr:mixin:node-updated')
                         && event.get('new_etag') !== event.get('old_etag')
                         && pathsLength > 0
-                        && <RevertButton event={event} onRevert={handleRevert} />
+                        && (
+                          <RevertButton
+                            event={event}
+                            onRevert={handleRevert}
+                            isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+                            disabled={!hasDifferentDbValues(event)}
+                          />
+                        )
                       }
                       <RawViewButton event={event} />
                     </span>

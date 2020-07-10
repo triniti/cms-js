@@ -1,7 +1,6 @@
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
-import { getFormValues } from 'redux-form';
 
 /**
  * @param {Object} state     - The entire redux state.
@@ -9,7 +8,7 @@ import { getFormValues } from 'redux-form';
  *
  * @returns {Object}
  */
-export default (state, { schema, streamId, formName }) => {
+export default (state, { schema, streamId }) => {
   const getHistoryRequestState = getRequest(state, schema.getCurie());
   const getUser = (messageRef) => getNode(state, NodeRef.fromMessageRef(messageRef));
 
@@ -18,7 +17,6 @@ export default (state, { schema, streamId, formName }) => {
 
   return {
     events,
-    formValues: getFormValues(formName)(state),
     getHistoryRequestState,
     getUser,
     schema,

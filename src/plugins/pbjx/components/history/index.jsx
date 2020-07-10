@@ -13,12 +13,13 @@ class History extends React.Component {
   static propTypes = {
     delegate: PropTypes.shape({
       componentWillUnmount: PropTypes.func,
+      isDbValueSameAsNodeValue: PropTypes.func,
       handleInitialize: PropTypes.func,
       handleLoadMore: PropTypes.func,
       handleRevert: PropTypes.func,
+      hasDifferentDbValues: PropTypes.func,
     }).isRequired,
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
-    formValues: PropTypes.shape({}).isRequired,
     getHistoryRequestState: PropTypes.shape({
       exception: PropTypes.object,
       request: PropTypes.object,
@@ -38,8 +39,8 @@ class History extends React.Component {
   };
 
   componentDidMount() {
-    const { delegate, formValues } = this.props;
-    delegate.handleInitialize(formValues);
+    const { delegate } = this.props;
+    delegate.handleInitialize();
   }
 
   componentWillUnmount() {
@@ -61,14 +62,16 @@ class History extends React.Component {
     return (
       <EventStream
         events={events}
-        getUser={getUser}
-        status={status}
-        isEditMode={isEditMode}
         exception={exception}
+        isDbValueSameAsNodeValue={delegate.isDbValueSameAsNodeValue}
+        isEditMode={isEditMode}
+        hasDifferentDbValues={delegate.hasDifferentDbValues}
+        getUser={getUser}
         response={response}
         onLoadMore={() => delegate.handleLoadMore(response.get('last_occurred_at'))}
         onRefresh={() => delegate.handleInitialize()}
         onRevert={delegate.handleRevert}
+        status={status}
       />
     );
   }

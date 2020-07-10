@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
-const RevertPropertiesTable = ({ data, isFieldSelected, onSelectField: handleSelectField }) => (
+const RevertPropertiesTable = ({ data, isDbValueSameAsNodeValue, isFieldSelected, onSelectField: handleSelectField }) => (
   <Card>
     <Table striped responsive>
       <thead>
@@ -23,12 +23,15 @@ const RevertPropertiesTable = ({ data, isFieldSelected, onSelectField: handleSel
       </thead>
       <tbody>
         {Object.entries(data).map((property) => (
+          !isDbValueSameAsNodeValue(property[0], property[1])
+          && (
           <TableRow
             isFieldSelected={isFieldSelected}
             onSelectField={handleSelectField}
             key={property[0]}
             property={property}
           />
+          )
         ))}
       </tbody>
     </Table>
@@ -37,6 +40,7 @@ const RevertPropertiesTable = ({ data, isFieldSelected, onSelectField: handleSel
 
 RevertPropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isDbValueSameAsNodeValue: PropTypes.func.isRequired,
   isFieldSelected: PropTypes.func.isRequired,
   onSelectField: PropTypes.func.isRequired,
 };
