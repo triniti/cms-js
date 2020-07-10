@@ -20,6 +20,7 @@ class History extends React.Component {
       hasDifferentDbValues: PropTypes.func,
     }).isRequired,
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+    formValues: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     getHistoryRequestState: PropTypes.shape({
       exception: PropTypes.object,
       request: PropTypes.object,
@@ -39,8 +40,8 @@ class History extends React.Component {
   };
 
   componentDidMount() {
-    const { delegate } = this.props;
-    delegate.handleInitialize();
+    const { delegate, formValues } = this.props;
+    delegate.handleInitialize(formValues);
   }
 
   componentWillUnmount() {

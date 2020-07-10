@@ -138,7 +138,8 @@ class Delegate {
    * This is needed because state is not wiped out
    * when components/container are unmounted.
    */
-  handleInitialize() {
+  handleInitialize(formValues) {
+    this.formValues = formValues;
     const { node, schema } = this.ownProps;
     const streamId = StreamId.fromString(`${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`);
     this.dispatch(schema.createMessage().set('stream_id', streamId).set('count', 10));
@@ -166,7 +167,6 @@ class Delegate {
    */
   handleRevert(selected) {
     const { node, formName, setBlocks } = this.ownProps;
-    const origFormValues = this.formValues;
     selected.forEach((item) => {
       const { id, value } = item;
       const formId = toFormId(id);
@@ -174,7 +174,7 @@ class Delegate {
       if (id === 'blocks') {
         setBlocks(this.dispatch, formName, formValue);
       } else if (['hf', 'hf_sizes', 'hf_styles'].includes(id)) {
-        this.dispatch(change(formName, 'hf', formatHfValue(id, value, origFormValues.hf)));
+        this.dispatch(change(formName, 'hf', formatHfValue(id, value, this.formValues.hf)));
       } else {
         const fieldType = node.schema().getField(id).getType();
         if (fieldType instanceof DateTimeType && formValue) {
