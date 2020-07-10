@@ -68,6 +68,7 @@ const toFormValue = (id, value) => {
     }
   } else if (id === 'slotting') {
     formValue = [];
+    /* eslint-disable no-restricted-syntax */
     for (const [key, keyValue] of Object.entries(value)) {
       formValue.push({
         key: {
