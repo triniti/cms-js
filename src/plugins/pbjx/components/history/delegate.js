@@ -77,7 +77,7 @@ const toFormValue = (id, value) => {
         value: keyValue,
       });
     }
-  } else if (id === 'hashtags' && Array.isArray(value)) {
+  } else if (['hashtags', 'meta_keywords'].includes(id) && Array.isArray(value)) {
     formValue = value.map((currentValue) => ({
       label: currentValue,
       value: currentValue,
