@@ -4,7 +4,7 @@ import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldEr
 import SlotV1 from '@triniti/schemas/triniti/curator/SlotV1';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
 import isEmpty from 'lodash/isEmpty';
-import startCase from "lodash/startCase";
+import startCase from 'lodash/startCase';
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const abbrv = (day) => day.substr(0, 3);
