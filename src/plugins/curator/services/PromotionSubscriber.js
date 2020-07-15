@@ -1,6 +1,10 @@
 import camelCase from 'lodash/camelCase';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
+import SlotV1 from '@triniti/schemas/triniti/curator/SlotV1';
+import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
+import isEmpty from 'lodash/isEmpty';
+import startCase from "lodash/startCase";
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const abbrv = (day) => day.substr(0, 3);
@@ -46,6 +50,15 @@ export default class PromotionSubscriber extends EventSubscriber {
     });
     data.startAt = '00:00:00';
     data.endAt = '11:59:59';
+
+    data.slots = node.get('slots', []).map((slot) => ({
+      name: slot.get('name'),
+      rendering: {
+        label: startCase(slot.get('rendering').toString()),
+        value: slot.get('rendering').toString(),
+      },
+      widgetRef: slot.get('widget_ref') ? [slot.get('widget_ref')] : null,
+    }));
   }
 
   /**
@@ -90,6 +103,32 @@ export default class PromotionSubscriber extends EventSubscriber {
           formEvent.addError(`${abbrv(day)}EndAt`, 'Start at time must be earlier than end at time.');
         }
       });
+
+      if (data.slots && data.slots.length > 0) {
+        const slotsErrors = [];
+
+        data.slots.forEach((slotsData, index) => {
+          const error = {};
+
+          if (slotsData) {
+            if (!slotsData.name) {
+              error.name = 'slot name is required';
+            }
+
+            if (!slotsData.widgetRef) {
+              error.widgetRef = 'slot widget_ref is required';
+            }
+          }
+
+          if (!isEmpty(error)) {
+            slotsErrors[index] = error;
+          }
+        });
+
+        if (slotsErrors.length > 0) {
+          formEvent.addError('slots', slotsErrors);
+        }
+      }
     }
   }
 
@@ -103,6 +142,7 @@ export default class PromotionSubscriber extends EventSubscriber {
   onSubmitForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
+    const slotSchema = SlotV1.schema();
 
     if (node.isFrozen()) {
       return;
@@ -148,6 +188,23 @@ export default class PromotionSubscriber extends EventSubscriber {
           node.clear(`${abbrv(day)}_end_at`);
         }
       });
+
+      node.clear('slots');
+      if (data.slots) {
+        const slots = data.slots.map((slotData) => {
+          const slotNode = slotSchema.createMessage();
+          const { name, rendering, widgetRef } = slotData;
+
+          slotNode
+            .set('name', name)
+            .set('rendering', rendering.value ? SlotRendering.create(rendering.value) : null)
+            .set('widget_ref', widgetRef[0]);
+
+          return slotNode;
+        });
+
+        node.addToList('slots', slots || []);
+      }
     }
   }
 
