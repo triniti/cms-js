@@ -3,6 +3,7 @@ import DateTimeType from '@gdbots/pbj/types/DateTimeType';
 import { change } from 'redux-form';
 import camelCase from 'lodash/camelCase';
 import isEqual from 'lodash/isEqual';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import { filterRevertableData } from '../../utils/filterData';
 import filterRemoved from '../../utils/filterRemoved';
@@ -51,7 +52,7 @@ const toFormValue = (id, value) => {
   let formValue = value;
 
   if ((id.endsWith('refs') || ['channel_ref', 'sponsor_ref'].includes(id)) && !Array.isArray(value)) {
-    formValue = [value];
+    formValue = [NodeRef.fromString(value)];
   } else if (['classification', 'swipe', 'theme'].includes(id)) {
     formValue = {
       label: value,
