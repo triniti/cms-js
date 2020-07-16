@@ -3,8 +3,11 @@ import isPlainObject from 'lodash/isPlainObject';
 /**
  * Removes "[removed]" entries from nodes changeset.
  */
-const filterRemoved = (data) => (
-  Object.keys(data).reduce((accumulator, index) => {
+const filterRemoved = (data) => {
+  if (!isPlainObject(data)) {
+    return data;
+  }
+  return Object.keys(data).reduce((accumulator, index) => {
     const value = data[index];
     if (value === '[removed]') {
       return accumulator;
@@ -18,7 +21,7 @@ const filterRemoved = (data) => (
     }
 
     return accumulator;
-  }, {})
-);
+  }, {});
+};
 
 export default filterRemoved;

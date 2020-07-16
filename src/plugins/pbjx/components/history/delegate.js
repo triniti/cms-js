@@ -50,7 +50,7 @@ const toFormValue = (id, value) => {
 
   let formValue = value;
 
-  if ((id.endsWith('refs') || id === 'channel_ref') && !Array.isArray(value)) {
+  if ((id.endsWith('refs') || ['channel_ref', 'sponsor_ref'].includes(id)) && !Array.isArray(value)) {
     formValue = [value];
   } else if (['classification', 'swipe', 'theme'].includes(id)) {
     formValue = {
