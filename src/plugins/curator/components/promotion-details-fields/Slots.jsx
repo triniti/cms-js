@@ -86,7 +86,8 @@ export default class Slots extends React.Component {
 
         {fields.getAll().map((slot, index) => (
           <ListGroupItem
-            className="p-0 pt-3 sortable-slots"
+            style={{"z-index": String(9999999 - index)}}
+            className="pt-3 sortable-slots"
             data-id={slot.name}
             key={slot.name}
           >
@@ -162,8 +163,6 @@ export default class Slots extends React.Component {
                       label="Rendering"
                       options={renderingOptions}
                     />
-                  </Col>
-                  <Col xs="12" sm="12">
                     <FieldArray
                       component={WidgetPickerField}
                       isEditMode={!readOnly}
