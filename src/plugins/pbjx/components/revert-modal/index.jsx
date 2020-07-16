@@ -11,6 +11,7 @@ import {
   ScrollableContainer,
 } from '@triniti/admin-ui-plugin/components';
 import RevertDetails from './RevertDetails';
+import filterRemoved from '../../utils/filterRemoved';
 
 class RevertModal extends React.Component {
   static async revertComplete() {
@@ -62,7 +63,7 @@ class RevertModal extends React.Component {
   handleSelectField(id, value, checked) {
     const { selected } = this.state;
     if (checked) {
-      selected.push({ id, value });
+      selected.push({ id, value: filterRemoved(value) });
       this.setState({ selected });
     } else {
       this.setState({ selected: selected.filter(({ id: itemId }) => itemId !== id) });

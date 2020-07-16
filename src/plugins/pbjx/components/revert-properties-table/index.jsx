@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
-const RevertPropertiesTable = ({ data, displayData, isDbValueSameAsNodeValue, isFieldSelected, onSelectField: handleSelectField }) => (
+const RevertPropertiesTable = ({ data, isDbValueSameAsNodeValue, isFieldSelected, onSelectField: handleSelectField }) => (
   <Card>
     <Table striped responsive>
       <thead>
@@ -30,7 +30,6 @@ const RevertPropertiesTable = ({ data, displayData, isDbValueSameAsNodeValue, is
             onSelectField={handleSelectField}
             key={property[0]}
             property={property}
-            displayData={displayData[property[0]]}
           />
           )
         ))}
@@ -41,7 +40,6 @@ const RevertPropertiesTable = ({ data, displayData, isDbValueSameAsNodeValue, is
 
 RevertPropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  displayData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   isDbValueSameAsNodeValue: PropTypes.func.isRequired,
   isFieldSelected: PropTypes.func.isRequired,
   onSelectField: PropTypes.func.isRequired,

@@ -5,13 +5,6 @@ import ValueRenderer from '../event-stream/ValueRenderer';
 
 class TableRow extends React.Component {
   static propTypes = {
-    displayData: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.bool,
-      PropTypes.number,
-      PropTypes.object,
-      PropTypes.string,
-    ]).isRequired,
     property: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
     isFieldSelected: PropTypes.func.isRequired,
     onSelectField: PropTypes.func.isRequired,
@@ -29,7 +22,6 @@ class TableRow extends React.Component {
 
   render() {
     const {
-      displayData,
       property: [label, value],
       isFieldSelected,
       onSelectField: handleSelectField,
@@ -40,7 +32,7 @@ class TableRow extends React.Component {
           <Checkbox size="sd" id={label} checked={isFieldSelected(label)} onChange={({ target: { checked } }) => { handleSelectField(label, value, checked); }} />
         </th>
         <th scope="row" className="pl-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>{label}</th>
-        <td style={{ borderColor: '#efefef' }}><ValueRenderer value={displayData} /></td>
+        <td style={{ borderColor: '#efefef' }}><ValueRenderer value={value} /></td>
       </tr>
     );
   }

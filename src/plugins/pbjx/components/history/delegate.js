@@ -5,6 +5,7 @@ import camelCase from 'lodash/camelCase';
 import isEqual from 'lodash/isEqual';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import { filterRevertableData } from '../../utils/filterData';
+import filterRemoved from '../../utils/filterRemoved';
 import findNodeDiff from '../../utils/findNodeDiff';
 import fullMapsAndLists from '../../utils/fullMapsAndLists';
 
@@ -233,7 +234,7 @@ class Delegate {
     });
 
     const diffNode = findNodeDiff(filterRevertableData(newNode), filterRevertableData(oldNode));
-    const data = fullMapsAndLists(filterRevertableData(diffNode), newNode);
+    const data = filterRemoved(fullMapsAndLists(filterRevertableData(diffNode), newNode));
     const aDiffField = data[Object.keys(data).find((dbField) => !this.isDbValueSameAsNodeValue(dbField, data[dbField]))];
 
     return aDiffField !== undefined;
