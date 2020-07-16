@@ -82,6 +82,7 @@ const toFormValue = (id, value) => {
     formValue = value.map((currentValue) => ({
       label: currentValue,
       value: currentValue,
+      __isNew__: true,
     }));
   }
   return formValue;
