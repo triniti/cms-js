@@ -51,8 +51,12 @@ const toFormValue = (id, value) => {
 
   let formValue = value;
 
-  if ((id.endsWith('refs') || ['channel_ref', 'sponsor_ref'].includes(id)) && !Array.isArray(value)) {
-    formValue = [NodeRef.fromString(value)];
+  if (id.endsWith('refs') || ['channel_ref', 'sponsor_ref'].includes(id)) {
+    if (!Array.isArray(value)) {
+      formValue = [NodeRef.fromString(value)];
+    } else {
+      formValue = value.map((v) => NodeRef.fromString(v));
+    }
   } else if (['classification', 'swipe', 'theme'].includes(id)) {
     formValue = {
       label: value,
