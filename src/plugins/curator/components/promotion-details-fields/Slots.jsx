@@ -6,7 +6,6 @@ import TextField from '@triniti/cms/components/text-field';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import SelectField from '@triniti/cms/components/select-field';
-import UuidIdentifier from '@gdbots/pbj/well-known/UuidIdentifier';
 import { Button, Col, FormGroup, Icon, ListGroupItem } from '@triniti/admin-ui-plugin/components';
 import WidgetPickerField from '@triniti/cms/plugins/curator/components/widget-picker-field';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
@@ -78,7 +77,7 @@ export default class Slots extends React.Component {
       <ul className="list-group list-group-flush" ref={(el) => { this.sortableListRef = el; }}>
         <ListGroupItem className="p-0 pb-2">
           {!readOnly && (
-            <Button color="primary" onClick={() => fields.push({ name: UuidIdentifier.generate() })}>
+            <Button color="primary" onClick={() => fields.push({ name: "add-slot" })}>
               <Icon imgSrc="plus" alt="+" className="mr-1" />Add a Slot
             </Button>
           )}
