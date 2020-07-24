@@ -77,7 +77,7 @@ export default class Slots extends React.Component {
       <ul className="list-group list-group-flush" ref={(el) => { this.sortableListRef = el; }}>
         <ListGroupItem className="p-0 pb-2">
           {!readOnly && (
-            <Button color="primary" onClick={() => fields.push({ name: "add-slot" })}>
+            <Button color="primary" onClick={() => fields.push({ name: "" })}>
               <Icon imgSrc="plus" alt="+" className="mr-1" />Add a Slot
             </Button>
           )}
