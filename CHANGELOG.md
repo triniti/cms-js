@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.6.4
 * Adjusting support to move cursor to the end of last text block.
 * Fix formatting of `jwplayer_synced_at`.
 * issue #232: add custom `blockRenderMap` to avoid creation of unsupported block types when pasting content into blocksmith.
