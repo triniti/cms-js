@@ -17,7 +17,7 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import GalleryMedia from '../../components/gallery-media';
 import schemas from './schemas';
 
-const Form = ({ node: gallery, form, isEditMode, tab }) => {
+const Form = ({ getNodeRequestState, node: gallery, form, isEditMode, tab }) => {
   switch (tab) {
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
@@ -37,6 +37,7 @@ const Form = ({ node: gallery, form, isEditMode, tab }) => {
           isEditMode={isEditMode}
           formName={form}
           node={gallery}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
           setBlocks={setBlocks}
         />
@@ -69,6 +70,9 @@ const Form = ({ node: gallery, form, isEditMode, tab }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   isEditMode: PropTypes.bool,
   tab: PropTypes.string,

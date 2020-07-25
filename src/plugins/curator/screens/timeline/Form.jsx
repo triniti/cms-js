@@ -15,7 +15,7 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
-const Form = ({ form, node, tab, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node, tab, isEditMode }) => {
   switch (tab) {
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && (
@@ -34,6 +34,7 @@ const Form = ({ form, node, tab, isEditMode }) => {
           isEditMode={isEditMode}
           formName={form}
           node={node}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
           setBlocks={setBlocks}
         />
@@ -64,6 +65,9 @@ const Form = ({ form, node, tab, isEditMode }) => {
 
 Form.propTypes = {
   form: PropTypes.string.isRequired,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   tab: PropTypes.string,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,

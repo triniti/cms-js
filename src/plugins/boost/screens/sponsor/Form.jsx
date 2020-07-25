@@ -10,7 +10,7 @@ import Message from '@gdbots/pbj/Message';
 
 import schemas from './schemas';
 
-const Form = ({ form, node: sponsor, tab, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node: sponsor, tab, isEditMode }) => {
   switch (tab) {
     case 'history':
       return (
@@ -18,6 +18,7 @@ const Form = ({ form, node: sponsor, tab, isEditMode }) => {
           isEditMode={isEditMode}
           formName={form}
           node={sponsor}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
         />
       );
@@ -36,6 +37,9 @@ const Form = ({ form, node: sponsor, tab, isEditMode }) => {
 
 Form.propTypes = {
   isEditMode: PropTypes.bool,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,
 };

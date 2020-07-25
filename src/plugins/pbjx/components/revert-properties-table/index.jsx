@@ -1,11 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Card, Table } from '@triniti/admin-ui-plugin/components';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
-const RevertPropertiesTable = ({ data, isDbValueSameAsNodeValue, isFieldSelected, onSelectField: handleSelectField }) => (
+const RevertPropertiesTable = ({
+  data,
+  isDbValueSameAsNodeValue,
+  isFieldSelected,
+  onSelectField: handleSelectField,
+  node,
+}) => (
   <Card>
     <Table striped responsive>
       <thead>
@@ -27,9 +34,10 @@ const RevertPropertiesTable = ({ data, isDbValueSameAsNodeValue, isFieldSelected
           && (
           <TableRow
             isFieldSelected={isFieldSelected}
-            onSelectField={handleSelectField}
             key={property[0]}
             property={property}
+            node={node}
+            onSelectField={handleSelectField}
           />
           )
         ))}
@@ -43,6 +51,7 @@ RevertPropertiesTable.propTypes = {
   isDbValueSameAsNodeValue: PropTypes.func.isRequired,
   isFieldSelected: PropTypes.func.isRequired,
   onSelectField: PropTypes.func.isRequired,
+  node: PropTypes.instanceOf(Message).isRequired,
 };
 
 export default RevertPropertiesTable;

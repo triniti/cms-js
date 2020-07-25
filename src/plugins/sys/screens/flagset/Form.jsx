@@ -9,7 +9,7 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import FlagsetFields from '../../components/flagset-fields';
 import schemas from './schemas';
 
-const Form = ({ form, node: flagset, tab, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node: flagset, tab, isEditMode }) => {
   switch (tab) {
     case 'history':
       return (
@@ -17,6 +17,7 @@ const Form = ({ form, node: flagset, tab, isEditMode }) => {
           isEditMode={isEditMode}
           formName={form}
           node={flagset}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistory}
           setBlocks={setBlocks}
         />
@@ -29,6 +30,9 @@ const Form = ({ form, node: flagset, tab, isEditMode }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

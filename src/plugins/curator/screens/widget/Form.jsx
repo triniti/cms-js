@@ -75,7 +75,7 @@ const getFieldsComponent = (type) => {
   return fieldsComponents[type];
 };
 
-const Form = ({ form, isEditMode, node, tab, type }) => {
+const Form = ({ form, getNodeRequestState, isEditMode, node, tab, type }) => {
   useEffect(() => () => { fieldsComponents = {}; }, []);
   const WidgetFields = type ? getFieldsComponent(type) : null;
   schemas.node = node.schema();
@@ -87,6 +87,7 @@ const Form = ({ form, isEditMode, node, tab, type }) => {
           isEditMode={isEditMode}
           formName={form}
           node={node}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
           setBlocks={setBlocks}
         />
@@ -111,6 +112,9 @@ const Form = ({ form, isEditMode, node, tab, type }) => {
 
 Form.propTypes = {
   form: PropTypes.string.isRequired,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

@@ -11,7 +11,7 @@ import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fi
 
 import schemas from './schemas';
 
-const Form = ({ isEditMode, form, node, tab }) => {
+const Form = ({ isEditMode, form, getNodeRequestState, node, tab }) => {
   switch (tab) {
     case 'history':
       return (
@@ -19,6 +19,7 @@ const Form = ({ isEditMode, form, node, tab }) => {
           isEditMode={isEditMode}
           formName={form}
           node={node}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
         />
       );
@@ -40,6 +41,9 @@ const Form = ({ isEditMode, form, node, tab }) => {
 
 Form.propTypes = {
   isEditMode: PropTypes.bool,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,
 };

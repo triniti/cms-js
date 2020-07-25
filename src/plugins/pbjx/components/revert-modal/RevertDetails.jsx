@@ -24,6 +24,7 @@ const RevertDetails = ({ event, isFieldSelected, isDbValueSameAsNodeValue, onSel
   return (
     <RevertPropertiesTable
       data={data}
+      node={event.get('new_node')}
       isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
       isFieldSelected={isFieldSelected}
       onSelectField={handleSelectField}

@@ -93,7 +93,12 @@ class RevertModal extends React.Component {
         <ModalHeader toggle={handleToggleRevertModal}>Revert Fields</ModalHeader>
         <ModalBody className="p-0 modal-body-break">
           <ScrollableContainer className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
-            <RevertDetails event={event} onSelectField={this.handleSelectField} isDbValueSameAsNodeValue={isDbValueSameAsNodeValue} isFieldSelected={this.isFieldSelected} />
+            <RevertDetails
+              event={event}
+              isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+              isFieldSelected={this.isFieldSelected}
+              onSelectField={this.handleSelectField}
+            />
           </ScrollableContainer>
         </ModalBody>
         <ModalFooter>

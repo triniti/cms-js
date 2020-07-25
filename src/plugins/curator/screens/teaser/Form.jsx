@@ -50,7 +50,7 @@ const getFieldsComponent = (type) => {
   }
 };
 
-const Form = ({ form, node, tab, type, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
   const [TeaserFields, setTeaserFields] = useState(null);
 
   switch (tab) {
@@ -60,6 +60,7 @@ const Form = ({ form, node, tab, type, isEditMode }) => {
           isEditMode={isEditMode}
           formName={form}
           node={node}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
           setBlocks={setBlocks}
         />
@@ -100,6 +101,9 @@ const Form = ({ form, node, tab, type, isEditMode }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   tab: PropTypes.string,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,

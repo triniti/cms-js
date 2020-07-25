@@ -51,7 +51,7 @@ const getFieldsComponent = (type) => {
   return fieldsComponents[type];
 };
 
-const Form = ({ form, node, getNode, tab, type, isEditMode, showDatePicker }) => {
+const Form = ({ form, getNodeRequestState, node, getNode, tab, type, isEditMode, showDatePicker }) => {
   useEffect(() => () => { fieldsComponents = {}; }, []);
   const Fields = type ? getFieldsComponent(type) : null;
 
@@ -62,6 +62,7 @@ const Form = ({ form, node, getNode, tab, type, isEditMode, showDatePicker }) =>
           isEditMode={isEditMode}
           formName={form}
           node={node}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
           setBlocks={setBlocks}
         />
@@ -86,6 +87,9 @@ const Form = ({ form, node, getNode, tab, type, isEditMode, showDatePicker }) =>
 
 Form.propTypes = {
   getNode: PropTypes.func.isRequired,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   showDatePicker: PropTypes.bool,

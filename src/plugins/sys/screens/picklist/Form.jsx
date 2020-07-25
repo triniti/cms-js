@@ -10,7 +10,7 @@ import PicklistFields from '../../components/picklist-fields';
 
 import schemas from './schemas';
 
-const Form = ({ form, node: picklist, tab, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node: picklist, tab, isEditMode }) => {
   switch (tab) {
     case 'history':
       return (
@@ -18,6 +18,7 @@ const Form = ({ form, node: picklist, tab, isEditMode }) => {
           isEditMode={isEditMode}
           formName={form}
           node={picklist}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistory}
           setBlocks={setBlocks}
         />
@@ -30,6 +31,9 @@ const Form = ({ form, node: picklist, tab, isEditMode }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

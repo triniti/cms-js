@@ -49,7 +49,7 @@ const getFieldsComponent = (type) => {
   return components[type];
 };
 
-const Form = ({ form, node: asset, tab, isEditMode, type }) => {
+const Form = ({ form, getNodeRequestState, node: asset, tab, isEditMode, type }) => {
   const AssetFields = type ? getFieldsComponent(type) : null;
   const Variants = createLazyComponent(import('@triniti/cms/plugins/dam/components/variants'));
   schemas.node = schemas.nodes.find((schema) => schema.getCurie().getMessage() === type);
@@ -70,6 +70,7 @@ const Form = ({ form, node: asset, tab, isEditMode, type }) => {
           isEditMode={isEditMode}
           formName={form}
           node={asset}
+          nodeRequest={getNodeRequestState.request}
           schema={getNodeHistoryRequest}
           setBlocks={setBlocks}
         />
@@ -84,6 +85,9 @@ const Form = ({ form, node: asset, tab, isEditMode, type }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

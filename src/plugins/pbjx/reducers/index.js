@@ -39,7 +39,19 @@ const onResponseCleared = (prevState = {}, action) => {
   return state;
 };
 
+const onUpdateResponseNode = (prevState = {}, { node, channel, curie }) => {
+  const state = { ...prevState };
+  const curieStr = `${curie}`;
+  const newResponse = state[channel][curieStr].response.clone();
+
+  newResponse.set('node', node);
+  state[channel][curieStr].response = newResponse;
+
+  return state;
+};
+
 export default createReducer(initialState, {
   [pbjxActionTypes.CHANNEL_CLEARED]: onChannelCleared,
   [pbjxActionTypes.RESPONSE_CLEARED]: onResponseCleared,
+  [pbjxActionTypes.UPDATE_RESPONSE_NODE]: onUpdateResponseNode,
 });

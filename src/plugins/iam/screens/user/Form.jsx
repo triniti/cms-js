@@ -12,7 +12,7 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
-const Form = ({ form, node: user, tab, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node: user, tab, isEditMode }) => {
   switch (tab) {
     case 'roles':
       if (isEditMode) {
@@ -27,6 +27,7 @@ const Form = ({ form, node: user, tab, isEditMode }) => {
           isEditMode={isEditMode}
           formName={form}
           node={user}
+          nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistory}
           setBlocks={setBlocks}
         />
@@ -41,6 +42,9 @@ const Form = ({ form, node: user, tab, isEditMode }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   tab: PropTypes.string,
   node: PropTypes.instanceOf(Message).isRequired,
