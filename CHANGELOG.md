@@ -6,6 +6,12 @@
 * Adjusting support to move cursor to the end of last text block.
 
 
+## v0.6.4
+* Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks.
+* Fix formatting of `jwplayer_synced_at`.
+* issue #232: add custom `blockRenderMap` to avoid creation of unsupported block types when pasting content into blocksmith.
+
+
 ## v0.6.3
 * Preventing uploader from moving scroll position around on small screens and allowing dynamic height of uploader if viewing area is tiny.
 * Fixing cursor issues with going to line that doesn't exist. Adding support to move cursor to end of last text block.
