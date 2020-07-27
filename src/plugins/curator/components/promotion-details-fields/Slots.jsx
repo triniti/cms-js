@@ -26,6 +26,7 @@ export default class Slots extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleAdd = this.handleAdd.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
   }
@@ -52,6 +53,17 @@ export default class Slots extends React.Component {
     });
   }
 
+  handleAdd() {
+    const { fields } = this.props;
+    fields.push({ name: "" });
+
+    if (fields.length < 1) {
+      return;
+    }
+
+    this.scrollToSlot(this.sortableListRef.scrollHeight + 300);
+  }
+
   handleMoveDown(index) {
     const { fields } = this.props;
     if (index === fields.length - 1) {
@@ -70,6 +82,11 @@ export default class Slots extends React.Component {
     fields.move(index, index - 1);
   }
 
+  scrollToSlot(offset) {
+    const screenBody = document.getElementsByClassName('screen-body')[0];
+    screenBody.scrollTo({ top: offset, behavior: 'smooth' });
+  }
+
   render() {
     const { fields, readOnly, borderClass } = this.props;
 
@@ -77,7 +94,7 @@ export default class Slots extends React.Component {
       <ul className="list-group list-group-flush" ref={(el) => { this.sortableListRef = el; }}>
         <ListGroupItem className="p-0 pb-2">
           {!readOnly && (
-            <Button color="primary" onClick={() => fields.push({ name: "" })}>
+            <Button color="primary" onClick={() => this.handleAdd()}>
               <Icon imgSrc="plus" alt="+" className="mr-1" />Add a Slot
             </Button>
           )}
