@@ -87,8 +87,8 @@ export default class Slots extends React.Component {
           <ListGroupItem
             style={{"z-index": String(99 - index)}}
             className="pt-3 sortable-slots"
-            data-id={slot.name}
-            key={slot.name}
+            data-id={index}
+            key={index}
           >
             <FormSection
               className="justify-content-between align-items-start"
