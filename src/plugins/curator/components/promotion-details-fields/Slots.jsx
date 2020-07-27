@@ -61,7 +61,7 @@ export default class Slots extends React.Component {
       return;
     }
 
-    this.scrollToSlot(this.sortableListRef.scrollHeight + 300);
+    this.scrollToSlot(this.sortableListRef.scrollHeight + 600);
   }
 
   handleMoveDown(index) {
