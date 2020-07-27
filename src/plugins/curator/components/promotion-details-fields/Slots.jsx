@@ -87,7 +87,7 @@ export default class Slots extends React.Component {
           <ListGroupItem
             style={{"z-index": String(99 - index)}}
             className="pt-3 sortable-slots"
-            data-id={index}
+            data-id={JSON.stringify(slot)}
             key={index}
           >
             <FormSection
