@@ -31,6 +31,7 @@ class EventStream extends React.Component {
     hasDifferentDbValues: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool.isRequired,
     isDbValueSameAsNodeValue: PropTypes.func.isRequired,
+    isFormDirty: PropTypes.bool.isRequired,
     isRevertGranted: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
@@ -92,6 +93,7 @@ class EventStream extends React.Component {
       hasDifferentDbValues,
       isEditMode,
       isDbValueSameAsNodeValue,
+      isFormDirty,
       isRevertGranted,
       getUser,
       response,
@@ -146,10 +148,11 @@ class EventStream extends React.Component {
                         && pathsLength > 0
                         && (
                           <RevertButton
-                            event={event}
-                            onRevert={handleRevert}
-                            isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
                             disabled={!index || !hasDifferentDbValues(event)}
+                            event={event}
+                            isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+                            isFormDirty={isFormDirty}
+                            onRevert={handleRevert}
                           />
                         )
                       }

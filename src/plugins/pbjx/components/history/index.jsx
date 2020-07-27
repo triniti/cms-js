@@ -27,6 +27,7 @@ class History extends React.Component {
       status: PropTypes.string,
     }).isRequired,
     isEditMode: PropTypes.bool.isRequired,
+    isFormDirty: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
     /* eslint-disable react/no-unused-prop-types */
@@ -55,6 +56,7 @@ class History extends React.Component {
       delegate,
       events,
       isEditMode,
+      isFormDirty,
       getUser,
       getHistoryRequestState: { response, status, exception },
     } = this.props;
@@ -65,6 +67,7 @@ class History extends React.Component {
         exception={exception}
         isDbValueSameAsNodeValue={delegate.isDbValueSameAsNodeValue}
         isEditMode={isEditMode}
+        isFormDirty={isFormDirty}
         hasDifferentDbValues={delegate.hasDifferentDbValues}
         getUser={getUser}
         response={response}

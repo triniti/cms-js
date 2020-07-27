@@ -8,6 +8,7 @@ export default class RevertButton extends React.Component {
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
     isDbValueSameAsNodeValue: PropTypes.func.isRequired,
+    isFormDirty: PropTypes.bool.isRequired,
     onRevert: PropTypes.func.isRequired,
   };
 
@@ -29,6 +30,7 @@ export default class RevertButton extends React.Component {
     const {
       event,
       isDbValueSameAsNodeValue,
+      isFormDirty,
       onRevert: handleRevert,
       ...btnProps
     } = this.props;
@@ -42,6 +44,7 @@ export default class RevertButton extends React.Component {
       <RevertModal
         key="b"
         isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+        isFormDirty={isFormDirty}
         isOpen={isModalOpen}
         event={event}
         onRevert={handleRevert}

@@ -28,6 +28,7 @@ class RevertModal extends React.Component {
   static propTypes = {
     event: PropTypes.instanceOf(Message).isRequired,
     isDbValueSameAsNodeValue: PropTypes.func.isRequired,
+    isFormDirty: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
     onRevert: PropTypes.func.isRequired,
     onToggleRevertModal: PropTypes.func.isRequired,
@@ -83,6 +84,7 @@ class RevertModal extends React.Component {
     const {
       event,
       isDbValueSameAsNodeValue,
+      isFormDirty,
       isOpen,
       onToggleRevertModal: handleToggleRevertModal,
     } = this.props;
@@ -102,6 +104,11 @@ class RevertModal extends React.Component {
           </ScrollableContainer>
         </ModalBody>
         <ModalFooter>
+          {isFormDirty && (
+            <span className="text-danger">
+              Please save your changes before attempting revert.
+            </span>
+          )}
           <Button
             onClick={handleToggleRevertModal}
           >
@@ -109,7 +116,7 @@ class RevertModal extends React.Component {
           </Button>
           <Button
             onClick={this.handleRevertSwal}
-            disabled={selected.length < 1}
+            disabled={isFormDirty || selected.length < 1}
           >
             Apply
           </Button>
