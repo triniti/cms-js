@@ -115,7 +115,7 @@ export default class PromotionSubscriber extends EventSubscriber {
               error.name = 'slot name is required';
             }
 
-            if (!slotsData.widgetRef) {
+            if (isEmpty(slotsData.widgetRef)) {
               error.widgetRef = 'slot widget_ref is required';
             }
           }
