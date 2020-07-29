@@ -55,7 +55,7 @@ export default class Slots extends React.Component {
 
   handleAdd() {
     const { fields } = this.props;
-    fields.push({ name: "" });
+    fields.push({ name: '' });
 
     if (fields.length < 1) {
       return;
@@ -102,7 +102,7 @@ export default class Slots extends React.Component {
 
         {fields.getAll().map((slot, index) => (
           <ListGroupItem
-            style={{"z-index": String(99 - index)}}
+            style={{zIndex: String(99 - index)}}
             className="pt-3 sortable-slots"
             data-id={JSON.stringify(slot)}
             key={index}
@@ -202,7 +202,7 @@ export default class Slots extends React.Component {
                       placement="right"
                       target={`btn-sort-trash-${index}`}
                     >
-                      Trash
+                      Delete Slot
                     </UncontrolledTooltip>
                   </span>
                 )}
