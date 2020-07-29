@@ -5,7 +5,6 @@ import Message from '@gdbots/pbj/Message';
 
 import RawContent from '@triniti/cms/components/raw-content';
 import History from '@triniti/cms/plugins/pbjx/components/history';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import PicklistFields from '../../components/picklist-fields';
 
 import schemas from './schemas';
@@ -20,7 +19,6 @@ const Form = ({ form, getNodeRequestState, node: picklist, tab, isEditMode }) =>
           node={picklist}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistory}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':

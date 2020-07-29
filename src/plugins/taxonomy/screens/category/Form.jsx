@@ -10,7 +10,6 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -30,7 +29,6 @@ const Form = ({
           node={category}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':

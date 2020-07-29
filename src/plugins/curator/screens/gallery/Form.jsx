@@ -12,7 +12,6 @@ import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fi
 import CustomCodeFields from '@triniti/cms/plugins/common/components/custom-code-fields';
 import GalleryFields from '@triniti/cms/plugins/curator/components/gallery-fields';
 import History from '@triniti/cms/plugins/pbjx/components/history';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import GalleryMedia from '../../components/gallery-media';
 import schemas from './schemas';
@@ -39,7 +38,6 @@ const Form = ({ getNodeRequestState, node: gallery, form, isEditMode, tab }) => 
           node={gallery}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
 

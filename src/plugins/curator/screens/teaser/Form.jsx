@@ -9,7 +9,6 @@ import RawContent from '@triniti/cms/components/raw-content';
 import React, { useState } from 'react';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import schemas from './schemas';
 
 /**
@@ -62,7 +61,6 @@ const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
           node={node}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
 

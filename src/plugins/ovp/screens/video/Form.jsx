@@ -14,7 +14,6 @@ import React from 'react';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 import VideoFields from '@triniti/cms/plugins/ovp/components/video-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -29,7 +28,6 @@ const Form = ({ getNodeRequestState, node: video, form, tab, isEditMode }) => {
           node={video}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
 

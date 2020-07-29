@@ -12,7 +12,9 @@ class AppScreen extends AbstractNodeScreen {
   }
 
   getFormRenderProps() {
+    const { getNodeRequestState } = this.props;
     return {
+      getNodeRequestState,
       type: this.props.match.params.type,
     };
   }

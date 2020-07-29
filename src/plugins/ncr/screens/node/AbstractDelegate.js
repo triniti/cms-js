@@ -299,8 +299,7 @@ export default class AbstractDelegate {
     const node = this.component.props.getNodeRequestState.response.get('node');
     const formEvent = this.createFormEvent({}, { node, form: this.getFormName() });
     this.pbjx.trigger(formEvent.getMessage(), SUFFIX_INIT_FORM, formEvent);
-    // Force dirty is used for history revert.
-    return { ...formEvent.getData(), _forceDirty: false };
+    return formEvent.getData();
   }
 
   /**

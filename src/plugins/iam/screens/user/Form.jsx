@@ -8,7 +8,6 @@ import RawContent from '@triniti/cms/components/raw-content';
 import RolesList from '@triniti/cms/plugins/iam/components/roles-list';
 import RolesPicker from '@triniti/cms/plugins/iam/components/roles-picker';
 import UserFields from '@triniti/cms/plugins/iam/components/user-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -29,7 +28,6 @@ const Form = ({ form, getNodeRequestState, node: user, tab, isEditMode }) => {
           node={user}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistory}
-          setBlocks={setBlocks}
         />
       );
 

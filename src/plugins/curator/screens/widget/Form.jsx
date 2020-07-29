@@ -8,7 +8,6 @@ import RawContent from '@triniti/cms/components/raw-content';
 import React, { useEffect } from 'react';
 import WidgetCodeFields from '@triniti/cms/plugins/curator/components/widget-code-fields';
 import WidgetHasSearchRequestFields from '@triniti/cms/plugins/curator/components/widget-has-search-request-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import schemas from './schemas';
 
 /**
@@ -89,7 +88,6 @@ const Form = ({ form, getNodeRequestState, isEditMode, node, tab, type }) => {
           node={node}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':

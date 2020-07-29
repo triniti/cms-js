@@ -11,7 +11,6 @@ import RawContent from '@triniti/cms/components/raw-content';
 import CustomCodeFields from '@triniti/cms/plugins/common/components/custom-code-fields';
 import TimelineFields from '@triniti/cms/plugins/curator/components/timeline-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
@@ -36,7 +35,6 @@ const Form = ({ form, getNodeRequestState, node, tab, isEditMode }) => {
           node={node}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistoryRequest}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':

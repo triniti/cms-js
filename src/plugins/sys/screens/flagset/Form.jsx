@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form';
 import Message from '@gdbots/pbj/Message';
 import RawContent from '@triniti/cms/components/raw-content';
 import History from '@triniti/cms/plugins/pbjx/components/history';
-import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import FlagsetFields from '../../components/flagset-fields';
 import schemas from './schemas';
@@ -19,7 +18,6 @@ const Form = ({ form, getNodeRequestState, node: flagset, tab, isEditMode }) => 
           node={flagset}
           nodeRequest={getNodeRequestState.request}
           schema={schemas.getNodeHistory}
-          setBlocks={setBlocks}
         />
       );
     case 'raw':
