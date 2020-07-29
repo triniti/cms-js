@@ -90,9 +90,7 @@ class Delegate {
 
     this.dispatch(updateReponseNode(updatedNode, nodeRequest.schema().getCurie()));
 
-    setTimeout(() => {
-      this.dispatch(change(formName, '_forceDirty', true));
-    }, 1000);
+    setTimeout(() => this.dispatch(change(formName, '_forceDirty', true)));
   }
 
   /**
