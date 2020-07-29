@@ -102,7 +102,7 @@ export default class Slots extends React.Component {
 
         {fields.getAll().map((slot, index) => (
           <ListGroupItem
-            style={{zIndex: String(99 - index)}}
+            style={{ zIndex: String(99 - index) }}
             className="pt-3 sortable-slots"
             data-id={JSON.stringify(slot)}
             key={index}
