@@ -13,8 +13,7 @@
     "init-git-hooks": "git init; find .git/hooks -type l -exec rm {} \\; && find .githooks -type f -exec ln -sf ../../{} .git/hooks/ \\;",
     "lint": "BABEL_ENV=eslint eslint src",
     "pub": "npm run build && cd dist && npm publish --access public",
-    "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet",
-    "erictest": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/plugins/ovp/utils/artifactUrl.test.js' | faucet"
+    "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "peerDependencies": {
     "@gdbots/schemas": "^1.6.2",

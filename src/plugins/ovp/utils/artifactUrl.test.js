@@ -15,33 +15,33 @@ test('Ovp:util:artifactUrl', (t) => {
     .set('_id', AssetId.fromString(`video_${ext}_20200729_${uuid}`))
     .set('mime_type', 'image/jpeg');
 
-  let expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.wav`;
   let actual = artifactUrl(videoAsset, 'audio');
-  t.same(expected, actual);
+  let expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.wav`;
+  t.same(actual, expected);
 
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.m3u8`;
   actual = artifactUrl(videoAsset, 'manifest');
-  t.same(expected, actual);
+  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.m3u8`;
+  t.same(actual, expected);
 
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-original.${ext}`;
   actual = artifactUrl(videoAsset, 'original');
-  t.same(expected, actual);
+  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-original.${ext}`;
+  t.same(actual, expected);
 
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-sprite.jpg`;
   actual = artifactUrl(videoAsset, 'tooltip-thumbnail-sprite');
-  t.same(expected, actual);
+  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-sprite.jpg`;
+  t.same(actual, expected);
 
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-track.vtt`;
   actual = artifactUrl(videoAsset, 'tooltip-thumbnail-track');
-  t.same(expected, actual);
+  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-track.vtt`;
+  t.same(actual, expected);
 
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-transcribed.json`;
   actual = artifactUrl(videoAsset, 'transcription');
-  t.same(expected, actual);
+  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-transcribed.json`;
+  t.same(actual, expected);
 
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.mp4`;
   actual = artifactUrl(videoAsset, 'video');
-  t.same(expected, actual);
+  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.mp4`;
+  t.same(actual, expected);
 
   t.end();
 });
