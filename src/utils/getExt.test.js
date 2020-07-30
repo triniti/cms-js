@@ -1,4 +1,3 @@
-/* globals DAM_BASE_URL */
 import test from 'tape';
 import getExt from './getExt';
 

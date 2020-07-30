@@ -1,5 +1,4 @@
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
-import getExt from '@triniti/cms/utils/getExt';
 import insertBeforeExt from '@triniti/cms/utils/insertBeforeExt';
 import removeExt from '@triniti/cms/utils/removeExt';
 
