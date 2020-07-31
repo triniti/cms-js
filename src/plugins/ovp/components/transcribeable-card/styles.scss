@@ -1,0 +1,18 @@
+.transcribable-card {
+  .status-completed {
+    background-color: #e1f6f3;
+  }
+
+  .status-processing {
+    background-color: #fff8db;
+  }
+
+  .status-failed,
+  .status-canceled {
+    background-color: #fef1f1;
+  }
+
+  .status-unknown {
+    background-color: #eaeaed;
+  }
+}
