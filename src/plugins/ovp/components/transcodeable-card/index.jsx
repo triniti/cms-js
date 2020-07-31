@@ -1,4 +1,4 @@
-import { Button, Card, Collapse, CardBody, CardHeader, RouterLink } from '@triniti/admin-ui-plugin/components';
+import { Card, CardBody, CardHeader, RouterLink, Table } from '@triniti/admin-ui-plugin/components';
 import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import camelCase from 'lodash/camelCase';
@@ -8,14 +8,12 @@ import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import startCase from 'lodash/startCase';
 
 import './styles.scss';
 
 const TranscodeableCard = ({ node }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const status = node.has('transcoding_status') ? node.get('transcoding_status').getValue() : 'unknown';
   const videoId = AssetId.fromString(NodeRef.fromNode(node).getId());
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
@@ -23,8 +21,8 @@ const TranscodeableCard = ({ node }) => {
 
   return (
     <Card key={node.get('_id')} className="transcodeable-card">
-      <CardHeader toggler className="pr-2">
-        <Button color="toggler" onClick={() => setIsOpen(!isOpen)} active={isOpen}>Transcoding</Button>
+      <CardHeader className="pr-2">
+        Transcoding
         <div>
           <small className="text-uppercase status-copy mr-0 pr-0">
             status:
@@ -34,39 +32,48 @@ const TranscodeableCard = ({ node }) => {
           </small>
         </div>
       </CardHeader>
-      <Collapse isOpen={isOpen}>
-        <CardBody className="pb-3">
-          {status !== 'completed'
-            ? <p>{`No artifacts available. Transcoding status: ${status}.`}</p>
-            : (
-              <ul className="pl-4">
+      <CardBody className="pb-3">
+        {status !== 'completed'
+          ? <p>{`No artifacts available. Transcoding status: ${status}.`}</p>
+          : (
+            <Table className="table-sm" borderless hover responsive>
+              <tbody>
                 {['original', 'manifest', 'video', 'tooltip-thumbnail-sprite', 'tooltip-thumbnail-track'].map((type) => (
-                  <li className="mb-1">{`${startCase(camelCase(type))}:`}
+                  <tr>
+                    <td className="pl-1">{`${startCase(camelCase(type))}:`}</td>
+                    <td>
+                      <a
+                        href={artifactUrl(node, type)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {` ${artifactUrl(node, type)}`}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="pl-1">Image:</td>
+                  <td>
                     <a
-                      href={artifactUrl(node, type)}
+                      href={damUrl(imageId)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {` ${artifactUrl(node, type)}`}
+                      {` ${damUrl(imageId)}`}
                     </a>
-                  </li>
-                ))}
-                <li className="mb-1">Image:
-                  <a
-                    href={damUrl(imageId)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {` ${damUrl(imageId)}`}
-                  </a>
-                </li>
-                <li className="mb-1">Image Asset:
-                  <RouterLink to={pbjUrl(image, 'cms')}>{` ${pbjUrl(image, 'cms')}`}</RouterLink>
-                </li>
-              </ul>
-            )}
-        </CardBody>
-      </Collapse>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="pl-1">Image Asset:</td>
+                  <td>
+                    <RouterLink to={pbjUrl(image, 'cms')}>{` ${pbjUrl(image, 'cms')}`}</RouterLink>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          )}
+      </CardBody>
     </Card>
   );
 };
