@@ -1,5 +1,6 @@
 import { Button, FormGroup, Label } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
+import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import noop from 'lodash/noop';
@@ -8,7 +9,6 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 import VideoAssetPickerModal from '@triniti/cms/plugins/dam/components/video-asset-picker-modal';
 import selector from './selector';
-import damUrl from '../../utils/damUrl';
 
 class VideoAssetPicker extends React.Component {
   static propTypes = {
@@ -62,7 +62,7 @@ class VideoAssetPicker extends React.Component {
         {selected && !!selected.length && (
         <FormGroup>
           <div style={{ maxWidth: '50%' }}>
-            <ReactPlayer url={damUrl(selected[0])} width="100%" height="auto" controls />
+            <ReactPlayer url={artifactUrl(selected[0], 'video')} width="100%" height="auto" controls />
           </div>
         </FormGroup>
         )}
@@ -80,7 +80,7 @@ class VideoAssetPicker extends React.Component {
               onClick={handleClear}
               disabled={!isEditMode}
             >
-            Clear Video Asset
+              Clear Video Asset
             </Button>
             )}
             <VideoAssetPickerModal

@@ -1,10 +1,11 @@
-import { Button, Card, Collapse, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
+import { Button, Card, Collapse, CardBody, CardHeader, RouterLink } from '@triniti/admin-ui-plugin/components';
 import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
-import camelCase from 'lodash/camelCase';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
+import DocumentAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/document-asset/DocumentAssetV1Mixin';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import startCase from 'lodash/startCase';
@@ -17,6 +18,7 @@ const TranscribeableCard = ({ node }) => {
   const status = node.has('transcription_status') ? node.get('transcription_status').getValue() : 'unknown';
   const videoId = AssetId.fromString(NodeRef.fromNode(node).getId());
   const documentId = AssetId.fromString(`document_vtt_${videoId.getDate()}_${videoId.getUuid()}`);
+  const document = DocumentAssetV1Mixin.findOne().createMessage().set('_id', documentId);
 
   return (
     <Card key={node.get('_id')} className="transcribable-card">
@@ -56,6 +58,9 @@ const TranscribeableCard = ({ node }) => {
                   >
                     {` ${damUrl(documentId)}`}
                   </a>
+                </li>
+                <li className="mb-1">Caption Asset:
+                  <RouterLink to={pbjUrl(document, 'cms')}>{` ${pbjUrl(document, 'cms')}`}</RouterLink>
                 </li>
               </ul>
             )}

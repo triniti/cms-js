@@ -1,10 +1,12 @@
-import { Button, Card, Collapse, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
+import { Button, Card, Collapse, CardBody, CardHeader, RouterLink } from '@triniti/admin-ui-plugin/components';
 import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import camelCase from 'lodash/camelCase';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
+import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/ImageAssetV1Mixin';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import startCase from 'lodash/startCase';
@@ -17,6 +19,7 @@ const TranscodeableCard = ({ node }) => {
   const status = node.has('transcoding_status') ? node.get('transcoding_status').getValue() : 'unknown';
   const videoId = AssetId.fromString(NodeRef.fromNode(node).getId());
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
+  const image = ImageAssetV1Mixin.findOne().createMessage().set('_id', imageId);
 
   return (
     <Card key={node.get('_id')} className="transcodeable-card">
@@ -56,6 +59,9 @@ const TranscodeableCard = ({ node }) => {
                   >
                     {` ${damUrl(imageId)}`}
                   </a>
+                </li>
+                <li className="mb-1">Image Asset:
+                  <RouterLink to={pbjUrl(image, 'cms')}>{` ${pbjUrl(image, 'cms')}`}</RouterLink>
                 </li>
               </ul>
             )}
