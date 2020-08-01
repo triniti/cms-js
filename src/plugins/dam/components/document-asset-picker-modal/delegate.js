@@ -4,7 +4,8 @@ import { pbjxChannelNames } from '@triniti/cms/plugins/dam/constants';
 import clearChannel from '../../../pbjx/actions/clearChannel';
 import schemas from './schemas';
 
-export default (dispatch) => ({
+// todo: do we need clearChannel here?
+export default (dispatch, { searchDocumentsQ }) => ({
   handleClearDocumentAssetChannel: () => {
     dispatch(clearChannel(pbjxChannelNames.DOCUMENT_ASSET_SEARCH));
   },
@@ -14,11 +15,11 @@ export default (dispatch) => ({
    */
   handleSearchDocumentAssets: throttle((data = {}) => {
     dispatch(searchNodes(schemas.searchAssets.createMessage({
-      count: 50,
+      count: 25,
       page: 1,
       types: ['document-asset'],
       ...data,
-      q: `-mime_type:text/srt ${data.q}`,
+      q: `${searchDocumentsQ || ''} ${data.q}`,
     }), pbjxChannelNames.DOCUMENT_ASSET_SEARCH));
   }, 500),
 });

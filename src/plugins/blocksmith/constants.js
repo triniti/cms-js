@@ -15,7 +15,6 @@ export const actionTypes = {
 export const pbjxChannelNames = {
   ARTICLE_SEARCH: t('articleSearch'),
   AUDIO_ASSET_SEARCH: t('audioAssetSearch'),
-  DOCUMENT_ASSET_SEARCH: t('documentAssetSearch'),
   GALLERY_SEARCH: t('gallerySearch'),
   IMAGE_ASSET_SEARCH: t('imageAssetSearch'),
   LINKED_IMAGE_ASSET_SEARCH: t('linkedImageAssetSearch'),

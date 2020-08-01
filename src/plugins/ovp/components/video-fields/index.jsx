@@ -4,6 +4,7 @@ import CaptionUrlsField from '@triniti/cms/plugins/ovp/components/caption-urls-f
 import CheckboxField from '@triniti/cms/components/checkbox-field';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field';
+import DocumentAssetPickerField from '@triniti/cms/plugins/dam/components/document-asset-picker-field';
 import Message from '@gdbots/pbj/Message';
 import NumberField from '@triniti/cms/components/number-field';
 import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
@@ -135,9 +136,18 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           trueText="True"
         />
         <Field
+          component={DocumentAssetPickerField}
+          isEditMode={isEditMode}
+          label="Caption"
+          name="captionRef"
+          node={video}
+          documentRef={video.get('caption_ref')}
+          searchDocumentsQ="-mime_type:application/pdf"
+        />
+        <Field
           component={CaptionUrlsField}
-          label="Captions"
-          name="captions"
+          label="Caption URLs"
+          name="captionUrls"
           readOnly={!isEditMode}
         />
         <Field
