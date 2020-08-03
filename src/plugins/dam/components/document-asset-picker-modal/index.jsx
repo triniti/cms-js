@@ -5,7 +5,6 @@ import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
 import Uploader from '@triniti/cms/plugins/dam/components/uploader';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import {
   Button,
   Modal,

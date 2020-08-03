@@ -2,7 +2,8 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 
 /**
- * @param {Object} state - The entire redux state.
+ * @param {Object} state     - The entire redux state.
+ * @param {Object} ownProps  - Props given to the component.
  *
  * @returns {Object}
  */
