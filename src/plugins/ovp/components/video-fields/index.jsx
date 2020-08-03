@@ -137,11 +137,12 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
         />
         <Field
           component={DocumentAssetPickerField}
+          documentRef={video.get('caption_ref')}
           isEditMode={isEditMode}
           label="Caption"
+          multiAssetErrorMessage="Invalid Action: Trying to upload more than one caption file."
           name="captionRef"
           node={video}
-          documentRef={video.get('caption_ref')}
           searchDocumentsQ="-mime_type:application/pdf"
         />
         <Field

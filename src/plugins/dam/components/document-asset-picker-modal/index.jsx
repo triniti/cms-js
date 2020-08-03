@@ -25,6 +25,14 @@ import selector from './selector';
 
 class DocumentAssetPickerModal extends React.Component {
   static propTypes = {
+    delegate: PropTypes.shape({
+      handleClearDocumentAssetChannel: PropTypes.func.isRequired,
+      handleSearchDocumentAssets: PropTypes.func.isRequired,
+    }).isRequired,
+    documentAssetNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+    documentAssetSort: PropTypes.string.isRequired,
+    initiallySelected: PropTypes.instanceOf(Message),
+    isDocumentAssetSearchFulfilled: PropTypes.bool,
     isOpen: PropTypes.bool,
     label: PropTypes.string,
     multiAssetErrorMessage: PropTypes.string,
@@ -32,16 +40,19 @@ class DocumentAssetPickerModal extends React.Component {
     onCloseUploader: PropTypes.func,
     onSelectDocument: PropTypes.func.isRequired,
     onToggleModal: PropTypes.func.isRequired,
-    initiallySelected: PropTypes.instanceOf(Message),
+    request: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
+    documentAssetNodes: [],
+    initiallySelected: null,
+    isDocumentAssetSearchFulfilled: false,
     isOpen: false,
     label: 'Select Document',
-    multiAssetErrorMessage: 'Invalid Action: Trying to assign multiple files as a Primary Media.',
+    multiAssetErrorMessage: 'Invalid Action: Trying to upload more than one document.',
     node: null,
     onCloseUploader: noop,
-    initiallySelected: null,
+    request: null,
   };
 
   constructor(props) {

@@ -11,7 +11,7 @@ import schemas from './schemas';
  *
  * @returns {Object}
  */
-export default (state, { documentRef, node }) => {
+export default (state, { documentRef }) => {
   const { response, request, status } = getRequest(
     state,
     schemas.searchAssets.getCurie(),

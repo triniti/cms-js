@@ -1,13 +1,19 @@
-import { Button, FormGroup, FormText, Label } from '@triniti/admin-ui-plugin/components';
+import { Button, FormGroup, FormText, Label, Icon, RouterLink } from '@triniti/admin-ui-plugin/components';
+import { connect } from 'react-redux';
+import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 import DocumentAssetPickerModal from '@triniti/cms/plugins/dam/components/document-asset-picker-modal';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import startCase from 'lodash/startCase';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import selector from './selector';
 
 class DocumentAssetPickerField extends React.Component {
   static propTypes = {
+    currentDocument: PropTypes.instanceOf(Message),
     documentRef: PropTypes.instanceOf(NodeRef),
     input: PropTypes.shape({
       onChange: PropTypes.func,
@@ -19,14 +25,17 @@ class DocumentAssetPickerField extends React.Component {
     isEditMode: PropTypes.bool,
     label: PropTypes.string,
     meta: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    multiAssetErrorMessage: PropTypes.string,
     node: PropTypes.instanceOf(Message),
     searchDocumentsQ: PropTypes.string,
   };
 
   static defaultProps = {
+    currentDocument: null,
     documentRef: null,
     isEditMode: true,
     label: '',
+    multiAssetErrorMessage: 'Invalid Action: Trying to upload more than one document.',
     node: null,
     searchDocumentsQ: '',
   };
@@ -68,20 +77,48 @@ class DocumentAssetPickerField extends React.Component {
   render() {
     const { isModalOpen } = this.state;
     const {
+      currentDocument,
       documentRef,
-      searchDocumentsQ,
       input: { onChange, value },
       isEditMode,
       label,
       meta: { error },
+      multiAssetErrorMessage,
       node,
+      searchDocumentsQ,
     } = this.props;
 
     return (
       <div className="mb-4">
         <FormGroup className="mb-0">
           <Label>{label}</Label>
-          {value && <p>{value}</p>}
+          {currentDocument && (
+          <>
+            <RouterLink to={pbjUrl(currentDocument, 'cms')}>
+              <Button id={`view-${currentDocument.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 ml-2">
+                <Icon imgSrc="eye" alt="view" />
+              </Button>
+              <UncontrolledTooltip placement="auto" target={`view-${currentDocument.get('_id')}`}>View</UncontrolledTooltip>
+            </RouterLink>
+            <RouterLink to={`${pbjUrl(currentDocument, 'cms')}/edit`}>
+              <Button id={`edit-${currentDocument.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 mx-1">
+                <Icon imgSrc="pencil" alt="edit" />
+              </Button>
+              <UncontrolledTooltip placement="auto" target={`edit-${currentDocument.get('_id')}`}>Edit</UncontrolledTooltip>
+            </RouterLink>
+            <a
+              href={damUrl(NodeRef.fromNode(currentDocument))}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button id={`open-in-new-tab-${currentDocument.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1">
+                <Icon imgSrc="external" alt="open" />
+              </Button>
+              <UncontrolledTooltip placement="auto" target={`open-in-new-tab-${currentDocument.get('_id')}`}>Open in new tab</UncontrolledTooltip>
+            </a>
+          </>
+          )}
+          {value && <p>{currentDocument ? currentDocument.get('title') : value}</p>}
         </FormGroup>
         {isEditMode && (
         <Button
@@ -98,9 +135,10 @@ class DocumentAssetPickerField extends React.Component {
           && <Button onClick={onChange}>{`Clear ${startCase(label)}`}</Button>}
         {isModalOpen && (
           <DocumentAssetPickerModal
-            isOpen={isModalOpen}
-            node={node}
             documentRef={documentRef}
+            isOpen={isModalOpen}
+            multiAssetErrorMessage={multiAssetErrorMessage}
+            node={node}
             onCloseUploader={this.handleCloseUploader}
             onSelectDocument={this.handleSelectDocument}
             onToggleModal={this.handleToggleModal}
@@ -112,4 +150,4 @@ class DocumentAssetPickerField extends React.Component {
   }
 }
 
-export default DocumentAssetPickerField;
+export default connect(selector)(DocumentAssetPickerField);
