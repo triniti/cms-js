@@ -199,9 +199,9 @@ class DocumentAssetPickerModal extends React.Component {
         </Modal>
         {isUploaderOpen && (
         <Uploader
+          allowedMimeTypes={['text/plain', 'text/vtt', 'text/srt']}
           allowMultiUpload={false}
           isOpen={isUploaderOpen}
-          linkedRefs={node ? [NodeRef.fromNode(node)] : []}
           multiAssetErrorMessage={multiAssetErrorMessage}
           onToggleUploader={this.handleToggleUploader}
         />
