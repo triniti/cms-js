@@ -6,6 +6,7 @@ import Form from '@triniti/cms/plugins/ovp/screens/video/Form';
 import MediaLiveChannelState from '@triniti/cms/plugins/ovp/components/medialive-channel-state';
 import React from 'react';
 import selector from '@triniti/cms/plugins/ovp/screens/video/selector';
+import VideoPreview from '@triniti/cms/plugins/ovp/components/video-preview';
 
 class VideoScreen extends AbstractNodeScreen {
   getForm() {
@@ -22,12 +23,14 @@ class VideoScreen extends AbstractNodeScreen {
   }
 
   renderSidebar() {
-    const node = this.props.delegate.getNode();
+    const { delegate, mezzanine } = this.props;
+    const node = delegate.getNode();
     return [
       this.renderPreviewButtons(),
       this.renderNodeStatus(),
       this.renderPublishForm(),
       node && node.has('medialive_channel_arn') && <MediaLiveChannelState node={node} key="medialive-channel-state" />,
+      mezzanine && <VideoPreview node={mezzanine} key="video-preview" />,
       this.renderChat(),
     ];
   }
