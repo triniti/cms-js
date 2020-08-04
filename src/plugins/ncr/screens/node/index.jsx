@@ -4,6 +4,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import get from 'lodash/get';
 import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
 import isEmpty from 'lodash/isEmpty';
+import Labels from '@triniti/cms/plugins/ncr/components/labels';
 import NodeLock from '@triniti/cms/plugins/ncr/components/node-lock';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import NodeStatus from '@triniti/cms/plugins/ncr/components/node-status';
@@ -319,6 +320,25 @@ export default class AbstractNodeScreen extends React.Component {
     return <Chat key="chat" nodeRef={nodeRef} />;
   }
 
+  renderLabels() {
+    const { delegate, match, isSaveDisabled } = this.props;
+    const nodeSchema = delegate.config.schemas.node || delegate.config.schemas.nodes
+      .find((schema) => schema.getCurie().getMessage().includes(match.params.type));
+
+    if (!nodeSchema.hasMixin('gdbots:common:mixin:labelable')) {
+      return null;
+    }
+
+    return (
+      <Labels
+        disabled={!isSaveDisabled}
+        key="labels"
+        node={delegate.getNode()}
+        schemas={delegate.getSchemas()}
+      />
+    );
+  }
+
   renderNodeLock() {
     const {
       delegate,
@@ -342,16 +362,16 @@ export default class AbstractNodeScreen extends React.Component {
     );
   }
 
-  renderPreviewButtons() {
-    const { delegate } = this.props;
-    const node = delegate.getNode();
-    return <PreviewButtons key="PreviewButtons" node={node} />;
-  }
-
   renderNodeStatus() {
     const { delegate } = this.props;
     const node = delegate.getNode();
     return node ? <NodeStatus key="NodeStatus" node={node} /> : null;
+  }
+
+  renderPreviewButtons() {
+    const { delegate } = this.props;
+    const node = delegate.getNode();
+    return <PreviewButtons key="PreviewButtons" node={node} />;
   }
 
   renderPublishForm() {
@@ -382,6 +402,7 @@ export default class AbstractNodeScreen extends React.Component {
       this.renderPreviewButtons(),
       this.renderNodeStatus(),
       this.renderPublishForm(),
+      this.renderLabels(),
       this.renderChat(),
     ];
   }
