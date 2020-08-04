@@ -4,11 +4,17 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactPlayer from 'react-player';
+import TranscodingStatus from '@triniti/schemas/triniti/ovp/enums/TranscodingStatus';
 
-const VideoPreview = ({ node }) => {
-  if (!node) {
+const VideoAssetPreview = ({ node }) => {
+  if (
+    !node
+    || !node.has('transcoding_status')
+    || node.get('transcoding_status') !== TranscodingStatus.COMPLETED
+  ) {
     return null;
   }
+
   return (
     <Card>
       <CardHeader className="mb-4">Video Preview</CardHeader>
@@ -25,12 +31,12 @@ const VideoPreview = ({ node }) => {
   );
 };
 
-VideoPreview.propTypes = {
+VideoAssetPreview.propTypes = {
   node: PropTypes.instanceOf(Message),
 };
 
-VideoPreview.defaultProps = {
+VideoAssetPreview.defaultProps = {
   node: null,
 };
 
-export default VideoPreview;
+export default VideoAssetPreview;

@@ -1,27 +1,29 @@
-import { Button, FormGroup, Label } from '@triniti/admin-ui-plugin/components';
+import { Button, FormGroup, Icon, Label, RouterLink } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
-import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import noop from 'lodash/noop';
+import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactPlayer from 'react-player';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import VideoAssetPickerModal from '@triniti/cms/plugins/dam/components/video-asset-picker-modal';
 import selector from './selector';
 
 class VideoAssetPicker extends React.Component {
   static propTypes = {
     isEditMode: PropTypes.bool,
+    label: PropTypes.string,
     onClear: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
-    selected: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)),
+    selected: PropTypes.instanceOf(Message),
   };
 
   static defaultProps = {
     isEditMode: false,
+    label: 'Video Asset',
     onClear: noop,
-    selected: [],
+    selected: null,
   };
 
   constructor(props) {
@@ -50,6 +52,7 @@ class VideoAssetPicker extends React.Component {
   render() {
     const {
       isEditMode,
+      label,
       onClear: handleClear,
       onSelect: handleSelect,
       selected,
@@ -58,14 +61,24 @@ class VideoAssetPicker extends React.Component {
 
     return (
       <FormGroup>
-        <Label>Video Asset</Label>
-        {selected && !!selected.length && (
-        <FormGroup>
-          <div style={{ maxWidth: '50%' }}>
-            <ReactPlayer url={artifactUrl(selected[0], 'video')} width="100%" height="auto" controls />
-          </div>
-        </FormGroup>
+        <Label>{label}</Label>
+        {selected && (
+        <>
+          <RouterLink to={pbjUrl(selected, 'cms')}>
+            <Button id={`view-${selected.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 ml-2">
+              <Icon imgSrc="eye" alt="view" />
+            </Button>
+            <UncontrolledTooltip placement="auto" target={`view-${selected.get('_id')}`}>View</UncontrolledTooltip>
+          </RouterLink>
+          <RouterLink to={`${pbjUrl(selected, 'cms')}/edit`}>
+            <Button id={`edit-${selected.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 mx-1">
+              <Icon imgSrc="pencil" alt="edit" />
+            </Button>
+            <UncontrolledTooltip placement="auto" target={`edit-${selected.get('_id')}`}>Edit</UncontrolledTooltip>
+          </RouterLink>
+        </>
         )}
+        {selected && <p>{selected.get('title')}</p>}
         <FormGroup>
           <span>
             <Button
@@ -73,9 +86,9 @@ class VideoAssetPicker extends React.Component {
               disabled={!isEditMode}
               onClick={this.handleToggleModal}
             >
-              {`Select a${selected && !!selected.length ? ' new' : ''} Video Asset`}
+              {`Select a${selected ? ' new' : ''} Video Asset`}
             </Button>
-            {selected && !!selected.length && (
+            {selected && (
             <Button
               onClick={handleClear}
               disabled={!isEditMode}
@@ -89,7 +102,7 @@ class VideoAssetPicker extends React.Component {
               onToggleModal={this.handleToggleModal}
               onToggleUploader={this.handleToggleUploader}
               refreshSearchFlag={refreshSearchFlag}
-              selected={selected}
+              selected={[NodeRef.fromNode(selected)]}
             />
           </span>
         </FormGroup>
