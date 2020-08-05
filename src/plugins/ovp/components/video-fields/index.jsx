@@ -233,12 +233,6 @@ const VideoFields = ({ formName, isEditMode, schemas, mezzanine, video }) => (
             label="Is Promo"
             name="isPromo"
           />
-          <Field
-            component={CheckboxField}
-            disabled={!isEditMode}
-            label="Xumo Enabled"
-            name="xumoEnabled"
-          />
         </div>
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable') && (
           <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
