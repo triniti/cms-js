@@ -35,7 +35,6 @@ class DocumentAssetPickerModal extends React.Component {
     isOpen: PropTypes.bool,
     label: PropTypes.string,
     multiAssetErrorMessage: PropTypes.string,
-    node: PropTypes.instanceOf(Message),
     onCloseUploader: PropTypes.func,
     onSelectDocument: PropTypes.func.isRequired,
     onToggleModal: PropTypes.func.isRequired,
@@ -49,7 +48,6 @@ class DocumentAssetPickerModal extends React.Component {
     isOpen: false,
     label: 'Select Document',
     multiAssetErrorMessage: 'Invalid Action: Trying to upload more than one document.',
-    node: null,
     onCloseUploader: noop,
     request: null,
   };
@@ -91,10 +89,11 @@ class DocumentAssetPickerModal extends React.Component {
     delegate.handleSearchDocumentAssets(newRequest);
   }
 
-  handleSearchDocumentAssets() {
+  // eslint-disable-next-line react/destructuring-assignment
+  handleSearchDocumentAssets(sort = this.props.documentAssetSort) {
     const { documentQ } = this.state;
-    const { delegate, documentAssetSort } = this.props;
-    delegate.handleSearchDocumentAssets({ q: documentQ, sort: documentAssetSort });
+    const { delegate } = this.props;
+    delegate.handleSearchDocumentAssets({ q: documentQ, sort });
   }
 
   handleSelectDocument(selectedDocumentNode) {
@@ -120,17 +119,17 @@ class DocumentAssetPickerModal extends React.Component {
 
   render() {
     const {
-      initiallySelected,
       delegate,
+      documentAssetNodes,
+      documentAssetSort,
+      initiallySelected,
+      isDocumentAssetSearchFulfilled,
       isOpen,
-      request,
       label,
       multiAssetErrorMessage,
-      node,
       onSelectDocument,
       onToggleModal,
-      documentAssetNodes,
-      isDocumentAssetSearchFulfilled,
+      request,
     } = this.props;
     const { isUploaderOpen, documentQ, selectedDocumentNode } = this.state;
 
@@ -168,8 +167,10 @@ class DocumentAssetPickerModal extends React.Component {
                 : (
                   <DocumentAssetsTable
                     nodes={documentAssetNodes}
-                    selectedNode={selectedDocumentNode || initiallySelected}
                     onSelectNode={this.handleSelectDocument}
+                    onSort={(newSort) => this.handleSearchDocumentAssets(newSort)}
+                    selectedNode={selectedDocumentNode || initiallySelected}
+                    sort={documentAssetSort}
                   />
                 )}
             </ScrollableContainer>

@@ -4,7 +4,6 @@ import { pbjxChannelNames } from '@triniti/cms/plugins/dam/constants';
 import clearChannel from '../../../pbjx/actions/clearChannel';
 import schemas from './schemas';
 
-// todo: do we need clearChannel here?
 export default (dispatch, { searchDocumentsQ }) => ({
   handleClearDocumentAssetChannel: () => {
     dispatch(clearChannel(pbjxChannelNames.DOCUMENT_ASSET_SEARCH));
