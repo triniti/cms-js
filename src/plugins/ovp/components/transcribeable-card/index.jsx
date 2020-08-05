@@ -21,12 +21,12 @@ const TranscribeableCard = ({ node }) => {
   return (
     <Card key={node.get('_id')} className="transcribable-card">
       <CardHeader className="pr-2">
-        Transcribing
+        Transcription
         <div>
           <small className="text-uppercase status-copy mr-0 pr-0">
             status:
           </small>
-          <small className={`text-uppercase status-copy mr-2 status-${status}`}>
+          <small className={`text-uppercase status-copy mr-2 transcription-status-${status}`}>
             {status}
           </small>
         </div>

@@ -22,7 +22,7 @@ const TableRowVideo = ({
   const command = isPlaying ? 'stop' : 'play';
   const transcodingStatus = asset.has('transcoding_status') ? asset.get('transcoding_status').getValue() : 'unknown';
   return (
-    <tr className={`table-row-video status-${asset.get('status')}`}>
+    <tr className={`table-row-video-asset status-${asset.get('status')}`}>
       <th scope="row">
         <Checkbox
           disabled={disabled}
@@ -52,7 +52,7 @@ const TableRowVideo = ({
       </td>
       <td>
         {asset.get('title')}
-        <small className={`text-uppercase status-copy mr-2 status-${transcodingStatus}`}>
+        <small className={`text-uppercase status-copy mr-2 transcoding-status-${transcodingStatus}`}>
           {transcodingStatus}
         </small>
         <Collaborators nodeRef={asset.get('_id').toNodeRef()} />

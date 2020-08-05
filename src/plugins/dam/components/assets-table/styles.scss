@@ -37,21 +37,21 @@
   }
 }
 
-.table-row-video {
-  .status-completed {
+.table-row-video-asset {
+  .transcoding-status-completed {
     background-color: #e1f6f3;
   }
 
-  .status-processing {
+  .transcoding-status-processing {
     background-color: #fff8db;
   }
 
-  .status-failed,
-  .status-canceled {
+  .transcoding-status-failed,
+  .transcoding-status-canceled {
     background-color: #fef1f1;
   }
 
-  .status-unknown {
+  .transcoding-status-unknown {
     background-color: #eaeaed;
   }
 }

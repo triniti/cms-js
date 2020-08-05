@@ -102,7 +102,7 @@ class VideoAssetPicker extends React.Component {
               onToggleModal={this.handleToggleModal}
               onToggleUploader={this.handleToggleUploader}
               refreshSearchFlag={refreshSearchFlag}
-              selected={[NodeRef.fromNode(selected)]}
+              selected={selected ? [NodeRef.fromNode(selected)] : []}
             />
           </span>
         </FormGroup>

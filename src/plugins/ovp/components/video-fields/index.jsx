@@ -45,7 +45,7 @@ const VideoFields = ({ formName, isEditMode, schemas, mezzanine, video }) => (
                 <small className="text-uppercase status-copy mr-0 pr-0">
                   Transcoding Status:
                 </small>
-                <small className={`text-uppercase status-copy mr-2 status-${status}`}>
+                <small className={`text-uppercase status-copy mr-2 transcoding-status-${status}`}>
                   {status}
                 </small>
               </div>
