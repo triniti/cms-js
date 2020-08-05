@@ -1,10 +1,6 @@
 # CHANGELOG
 
 
-## vN.N.N
-* Updates to support new video ingestion workflow
-
-
 ## v0.6.4
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks.
 * Fix formatting of `jwplayer_synced_at`.
@@ -12,6 +8,7 @@
 * Update promotion-details-fields to include `slots` schema field.
 * Use `@gdbots/schemas` v1.6.6
 * Use `@triniti/schemas` 1.1.11
+* Updates to support new video ingestion workflow
 
 
 ## v0.6.3
