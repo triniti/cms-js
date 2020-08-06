@@ -120,6 +120,7 @@ class Labels extends React.PureComponent {
             <Col>
               {disabled && <p className="text-warning">{disabledReasonMessage}</p>}
               <PicklistPicker
+                key={node.get('etag')}
                 disabled={disabled}
                 isEditMode
                 label="Labels"

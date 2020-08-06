@@ -13,6 +13,7 @@ const TableRow = ({ idx, article }) => (
     <td style={{ width: '1px', textAlign: 'right' }}>{idx + 1}.</td>
 
     <td>
+      {article.get('labels', []).forEach((label) => <span>{label}</span>)}
       {article.get('title')}
       <Collaborators nodeRef={NodeRef.fromNode(article)} />
     </td>
