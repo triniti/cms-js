@@ -1,4 +1,4 @@
-/* globals DAM_BASE_URL */
+/* globals VIDEO_ASSET_BASE_URL */
 import test from 'tape';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import AssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/asset/AssetV1Mixin';
@@ -13,34 +13,34 @@ test('Ovp:util:artifactUrl', (t) => {
     .createMessage()
     .set('title', 'thylacine')
     .set('_id', AssetId.fromString(`video_${ext}_20200729_${uuid}`))
-    .set('mime_type', 'image/jpeg');
+    .set('mime_type', 'application/mxf');
 
   let actual = artifactUrl(videoAsset, 'audio');
-  let expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.wav`;
+  let expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}.wav`;
   t.same(actual, expected);
 
   actual = artifactUrl(videoAsset, 'manifest');
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.m3u8`;
+  expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}.m3u8`;
   t.same(actual, expected);
 
   actual = artifactUrl(videoAsset, 'original');
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-original.${ext}`;
+  expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}-original.${ext}`;
   t.same(actual, expected);
 
   actual = artifactUrl(videoAsset, 'tooltip-thumbnail-sprite');
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-sprite.jpg`;
+  expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-sprite.jpg`;
   t.same(actual, expected);
 
   actual = artifactUrl(videoAsset, 'tooltip-thumbnail-track');
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-track.vtt`;
+  expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}-tooltip-thumbnail-track.vtt`;
   t.same(actual, expected);
 
   actual = artifactUrl(videoAsset, 'transcription');
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}-transcribed.json`;
+  expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}-transcribed.json`;
   t.same(actual, expected);
 
   actual = artifactUrl(videoAsset, 'video');
-  expected = `${DAM_BASE_URL}video/cb/o/2020/07/29/${uuid}.mp4`;
+  expected = `${VIDEO_ASSET_BASE_URL}video/cb/o/2020/07/29/${uuid}.mp4`;
   t.same(actual, expected);
 
   t.end();
