@@ -7,11 +7,6 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
  *
  * @returns {Object}
  */
-export default (state, { input }) => {
-  if (!input.value) {
-    return {};
-  }
-  return {
-    currentDocument: getNode(state, NodeRef.fromString(input.value)),
-  };
-};
+export default (state, { input }) => ({
+  currentDocument: input.value ? getNode(state, NodeRef.fromString(input.value)) : null,
+});

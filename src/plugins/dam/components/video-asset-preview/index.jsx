@@ -7,11 +7,7 @@ import ReactPlayer from 'react-player';
 import TranscodingStatus from '@triniti/schemas/triniti/ovp/enums/TranscodingStatus';
 
 const VideoAssetPreview = ({ node }) => {
-  if (
-    !node
-    || !node.has('transcoding_status')
-    || node.get('transcoding_status') !== TranscodingStatus.COMPLETED
-  ) {
+  if (!node || node.get('transcoding_status') !== TranscodingStatus.COMPLETED) {
     return null;
   }
 
