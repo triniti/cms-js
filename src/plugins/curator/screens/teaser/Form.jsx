@@ -51,6 +51,7 @@ const getFieldsComponent = (type) => {
 
 const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
   const [TeaserFields, setTeaserFields] = useState(null);
+  schemas.node = node.schema();
 
   switch (tab) {
     case 'history':
