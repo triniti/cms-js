@@ -7,17 +7,17 @@ const filterRemoved = (data) => {
   if (!isPlainObject(data)) {
     return data;
   }
-  return Object.keys(data).reduce((accumulator, index) => {
-    const value = data[index];
+  return Object.keys(data).reduce((accumulator, key) => {
+    const value = data[key];
     if (value === '[removed]') {
       return accumulator;
     }
     if (Array.isArray(value)) {
-      accumulator[index] = value.filter((v) => v !== '[removed]');
+      accumulator[key] = value.filter((v) => v !== '[removed]');
     } else if (isPlainObject(value)) {
-      accumulator[index] = filterRemoved(value);
+      accumulator[key] = filterRemoved(value);
     } else {
-      accumulator[index] = value;
+      accumulator[key] = value;
     }
 
     return accumulator;

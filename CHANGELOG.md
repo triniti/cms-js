@@ -3,7 +3,6 @@
 
 ## vN.N.N
 * Support for reverting history.
-* Adjusting support to move cursor to the end of last text block.
 
 
 ## v0.6.4

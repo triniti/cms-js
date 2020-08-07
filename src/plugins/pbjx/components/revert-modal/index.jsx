@@ -75,9 +75,7 @@ class RevertModal extends React.Component {
     const { onRevert: handleRevert, onToggleRevertModal: handleToggleRevertModal } = this.props;
     const { selected } = this.state;
     handleRevert(selected);
-    RevertModal.revertComplete().then(() => {
-      handleToggleRevertModal();
-    });
+    RevertModal.revertComplete().then(handleToggleRevertModal);
   }
 
   render() {

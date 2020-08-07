@@ -11,11 +11,11 @@ import isPlainObject from 'lodash/isPlainObject';
  */
 export default (newNode, origNode) => {
   const newerNode = { ...newNode };
-  Object.entries(newerNode).forEach((item) => {
-    const [key, value] = item;
+  /* eslint no-restricted-syntax: off */
+  for (const [key, value] of Object.entries(newerNode)) {
     if (Array.isArray(value) || isPlainObject(value)) {
       newerNode[key] = origNode[key];
     }
-  });
+  }
   return newerNode;
 };
