@@ -1,4 +1,5 @@
 import React from 'react';
+import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -46,6 +47,9 @@ class Labels extends React.PureComponent {
   }
 
   UNSAFE_componentWillReceiveProps({ node }) {
+    if (!node) {
+      return;
+    }
     const { touched } = this.state;
     if (touched) {
       return;
@@ -113,6 +117,67 @@ class Labels extends React.PureComponent {
       });
     });
 
+    const colors = (label) => {
+      if (label === 'more-cowbell') {
+        return '#0052CC';
+      }
+      if (label === 'needs-review') {
+        return '#FF8B00';
+      }
+      if (label === 'research-has-failed-us') {
+        return '#FF5630';
+      }
+      return '#c0c0c0';
+    };
+
+    const colourStyles = {
+      control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+      option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        const color = chroma(colors(data.label));
+        return {
+          ...styles,
+          backgroundColor: isDisabled
+            ? null
+            : isSelected
+            ? data.color
+            : isFocused
+            ? color.alpha(0.1).css()
+            : null,
+          color: isDisabled
+            ? '#ccc'
+            : isSelected
+            ? chroma.contrast(color, 'white') > 2
+              ? 'white'
+              : 'black'
+            : colors(data.label),
+          cursor: isDisabled ? 'not-allowed' : 'default',
+          ':active': {
+            ...styles[':active'],
+            backgroundColor: !isDisabled && (isSelected ? colors(data.label) : color.alpha(0.3).css()),
+          },
+        };
+      },
+      multiValue: (styles, { data }) => {
+        const color = chroma(colors(data.label));
+        return {
+          ...styles,
+          backgroundColor: color.alpha(0.1).css(),
+        };
+      },
+      multiValueLabel: (styles, { data }) => ({
+        ...styles,
+        color: colors(data.label),
+      }),
+      multiValueRemove: (styles, { data }) => ({
+        ...styles,
+        color: colors(data.label),
+        ':hover': {
+          backgroundColor: colors(data.label),
+          color: 'white',
+        },
+      }),
+    };
+
     return (
       <Card style={{ borderTop: '1px solid rgba(0, 0, 0, 0.1)' }}>
         <CardBody>
@@ -120,15 +185,18 @@ class Labels extends React.PureComponent {
             <Col>
               {disabled && <p className="text-warning">{disabledReasonMessage}</p>}
               <PicklistPicker
-                key={node.get('etag')}
                 disabled={disabled}
                 isEditMode
                 label="Labels"
-                name="labels"
                 multi
+                name="labels"
                 onChange={this.handleChange}
                 picklistId="labels"
-                value={values}
+                defaultValue={values}
+                styles={colourStyles}
+                // autoload={false}
+                // cache={false}
+                // creatable
               />
             </Col>
           </Row>
