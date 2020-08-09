@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "@triniti/cms is a single page app for managing triniti schemas and services.",
   "license": "Apache-2.0",
   "module": "./index.js",
@@ -16,8 +16,8 @@
     "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "peerDependencies": {
-    "@gdbots/schemas": "^1.6.2",
-    "@triniti/schemas": "^1.1.5"
+    "@gdbots/schemas": "^1.6.6",
+    "@triniti/schemas": "^1.1.11"
   },
   "dependencies": {
     "@gdbots/common": "^1.0.2",
@@ -100,11 +100,11 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/register": "^7.9.0",
-    "@gdbots/schemas": "^1.6.5",
+    "@gdbots/schemas": "^1.6.6",
     "@hot-loader/react-dom": "^16.13.0",
     "@redux-saga/testing-utils": "^1.1.1",
     "@triniti/acme-schemas": "^1.1.6",
-    "@triniti/schemas": "^1.1.9",
+    "@triniti/schemas": "^1.1.11",
     "ajv": "^6.12.2",
     "autoprefixer": "^9.7.6",
     "babel-eslint": "^10.1.0",

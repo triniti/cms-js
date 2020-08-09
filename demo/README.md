@@ -45,6 +45,7 @@ APP_DEPLOYMENT_ID=20190925145136
 APP_DEV_BRANCH=master
 DAM_BASE_URL=https://dam.dev.acme.com/
 IMAGE_BASE_URL=https://imagez-dev.acme.com/
+VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
 
 AUTH0_API_IDENTIFIER=https://api.dev.acme.com/
 AUTH0_CLIENT_ID=blahblahblahblahblahblah

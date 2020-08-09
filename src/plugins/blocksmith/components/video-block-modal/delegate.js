@@ -4,7 +4,11 @@ import searchNodes from '@triniti/cms/plugins/ncr/actions/searchNodes';
 import schemas from './schemas';
 import { pbjxChannelNames } from '../../constants';
 
-const STATUSES = [NodeStatus.PUBLISHED.getValue(), NodeStatus.SCHEDULED.getValue()];
+const STATUSES = [
+  NodeStatus.PUBLISHED.getValue(),
+  NodeStatus.SCHEDULED.getValue(),
+  NodeStatus.PENDING.getValue(),
+];
 
 export default (dispatch) => ({
   handleClearChannel: () => {

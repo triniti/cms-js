@@ -1,5 +1,4 @@
 /* eslint-disable-next-line max-len */
-import moment from 'moment';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import publishNode from '../../actions/publishNode';
 import unpublishNode from '../../actions/unpublishNode';

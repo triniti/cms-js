@@ -1,4 +1,4 @@
-/* globals DAM_BASE_URL, IMAGE_BASE_URL */
+/* globals DAM_BASE_URL, IMAGE_BASE_URL, VIDEO_ASSET_BASE_URL */
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -6,6 +6,7 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 export const baseUrls = {
   dfault: DAM_BASE_URL,
   image: IMAGE_BASE_URL,
+  video: VIDEO_ASSET_BASE_URL,
 };
 
 /**

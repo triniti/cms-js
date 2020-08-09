@@ -1,18 +1,20 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
-
-import { Map } from 'immutable';
-import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import React from 'react';
-import PropTypes from 'prop-types';
-import noop from 'lodash/noop';
-import moment from 'moment';
+/* eslint-disable import/no-named-as-default */
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import swal from 'sweetalert2';
+import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
 import Editor from 'draft-js-plugins-editor';
+import moment from 'moment';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { getSelectionEntity } from 'draftjs-utils';
+import noop from 'lodash/noop';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
+import PropTypes from 'prop-types';
+import React from 'react';
+import swal from 'sweetalert2';
 import { connect } from 'react-redux';
+import { getSelectionEntity } from 'draftjs-utils';
+import { Map } from 'immutable';
 import {
   BlockMapBuilder,
   CompositeDecorator,
@@ -23,15 +25,13 @@ import {
   Modifier,
   RichUtils,
 } from 'draft-js';
-import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
-import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 
-import { Badge, Button, Card, CardBody, CardHeader, Icon } from '@triniti/admin-ui-plugin/components';
 import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
 import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
-import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import HighlightButton
+  from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
 import isMacOS from '@triniti/cms/utils/isMacOS';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
@@ -41,21 +41,36 @@ import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-t
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
 import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
 import Message from '@gdbots/pbj/Message';
-import OrderedListButton from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
+import OrderedListButton
+  from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
 import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
 import SpecialCharacterModal from '@triniti/cms/plugins/common/components/special-character-modal';
-import StrikethroughButton from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
+import StrikethroughButton
+  from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
 import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
-import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
+import UnderlineButton
+  from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
+import UnorderedListButton
+  from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Icon,
+} from '@triniti/admin-ui-plugin/components';
 
-import { blockTypes, tokens } from '../../constants';
-import decorators from './decorators';
-import customStyleMap from './customStyleMap';
+import './styles.scss';
 import constants from './constants';
+import customStyleMap from './customStyleMap';
+import decorators from './decorators';
 import delegateFactory from './delegate';
 import selector from './selector';
+import { blockTypes, tokens } from '../../constants';
+import { clearDragCache } from '../../utils/styleDragTarget';
+import { getModalComponent, getPlaceholder } from '../../resolver';
 import {
   addEmoji,
   areKeysSame,
@@ -94,9 +109,6 @@ import {
   styleDragTarget,
   updateBlocks,
 } from '../../utils';
-import { clearDragCache } from '../../utils/styleDragTarget';
-import { getModalComponent, getPlaceholder } from '../../resolver';
-import './styles.scss';
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -142,8 +154,8 @@ class Blocksmith extends React.Component {
       blocksmithState,
       delegate,
       formName,
-      node,
       isEditMode,
+      node,
     } = props;
 
     const decorator = new MultiDecorator([new CompositeDecorator(decorators)]);
@@ -207,6 +219,31 @@ class Blocksmith extends React.Component {
         PluginComponent: this.inlineToolbarPlugin.InlineToolbar,
       },
     ];
+
+    /**
+     * allows to overwrite the default block render map, this will ensure the pasted text will
+     * only convert to Draft block types if the element is listed in the map below.
+     *
+     * e.g., when a h3 element is pasted into  blocksmith, it will be converted to <p> tags
+     *
+     * @link https://draftjs.org/docs/advanced-topics-custom-block-render-map
+     */
+    this.blockRenderMap = Map({
+      [blockTypes.ATOMIC]: {
+        element: 'figure',
+      },
+      [blockTypes.ORDERED_LIST_ITEM]: {
+        element: 'li',
+        wrapper: <ol />,
+      },
+      [blockTypes.UNORDERED_LIST_ITEM]: {
+        element: 'li',
+        wrapper: <ul />,
+      },
+      [blockTypes.UNSTYLED]: {
+        element: 'div',
+      },
+    });
 
     this.popoverRef = React.createRef();
 
@@ -1266,22 +1303,28 @@ class Blocksmith extends React.Component {
    *
    * @param {string}       text - pasted text
    * @param {?HTMLElement} html - pasted html
+   *
+   * @returns {string}
    */
   handlePastedText(text, html) {
     const { editorState } = this.state;
+
     if (html) {
-      const { contentBlocks } = DraftPasteProcessor.processHTML(html);
+      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
       if (contentBlocks) {
         const fragment = BlockMapBuilder
           .createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
+
         const newContentState = Modifier.replaceWithFragment(
           editorState.getCurrentContent(),
           editorState.getSelection(),
           fragment,
         );
+
         this.setState({
           editorState: EditorState.push(editorState, newContentState, 'insert-characters'),
         });
+
         return 'handled';
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
@@ -1598,9 +1641,12 @@ class Blocksmith extends React.Component {
       sidebarHolderStyle,
       sidebarResetFlag,
     } = this.state;
+
+    const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
+
     let className = readOnly ? 'view-mode' : 'edit-mode';
     className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
-    const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
+
     updateBlocks.style(editorState);
 
     return (
@@ -1631,13 +1677,15 @@ class Blocksmith extends React.Component {
           >
             <Editor
               blockRendererFn={this.blockRendererFn}
+              blockRenderMap={this.blockRenderMap}
               blockStyleFn={this.blockStyleFn}
               customStyleMap={customStyleMap}
               decorators={decorators}
+              defaultBlockRenderMap={false}
               editorState={editorState}
+              handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
               handleKeyCommand={this.handleKeyCommand}
               handlePastedText={this.handlePastedText}
-              handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
               keyBindingFn={this.keyBindingFn}
               onBlur={this.handleBlur}
               onChange={this.onChange}
