@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## v0.6.4
+## v0.7.0
 * Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks.
 * Fix formatting of `jwplayer_synced_at`.
 * issue #232: add custom `blockRenderMap` to avoid creation of unsupported block types when pasting content into blocksmith.
