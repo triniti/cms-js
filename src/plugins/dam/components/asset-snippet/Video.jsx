@@ -1,10 +1,10 @@
+import { Label, FormGroup } from '@triniti/admin-ui-plugin/components';
+import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import filesize from 'filesize';
+import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactPlayer from 'react-player';
-import Message from '@gdbots/pbj/Message';
-import { Label, FormGroup } from '@triniti/admin-ui-plugin/components';
-import damUrl from '../../utils/damUrl';
 
 const Video = ({ asset }) => (
   <div className="row">
@@ -20,7 +20,7 @@ const Video = ({ asset }) => (
     </div>
     <div className="col-12 col-md-6">
       <div className="dam-media-container">
-        <ReactPlayer url={damUrl(asset)} width="100%" height="auto" controls />
+        <ReactPlayer url={artifactUrl(asset, 'video')} width="100%" height="auto" controls />
       </div>
     </div>
   </div>

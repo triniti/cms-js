@@ -1,8 +1,10 @@
 import { Card, CardBody, CardHeader, FormGroup } from '@triniti/admin-ui-plugin/components';
+import { connect } from 'react-redux';
 import { Field, FieldArray } from 'redux-form';
 import CaptionUrlsField from '@triniti/cms/plugins/ovp/components/caption-urls-field';
 import CheckboxField from '@triniti/cms/components/checkbox-field';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
+import DocumentAssetPickerField from '@triniti/cms/plugins/dam/components/document-asset-picker-field';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field';
 import Message from '@gdbots/pbj/Message';
 import NumberField from '@triniti/cms/components/number-field';
@@ -19,15 +21,37 @@ import TrinaryField from '@triniti/cms/components/trinary-field';
 import TvpgRating from '@triniti/schemas/triniti/ovp/enums/TvpgRating';
 import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field';
 import VideoPicker from '@triniti/cms/plugins/ovp/components/video-picker-field';
+import selector from './selector';
+
+import './styles.scss';
 
 const options = Object
   .entries(TvpgRating.getValues())
   .map((arr) => ({ label: arr[1], value: arr[0] }));
 
-const VideoFields = ({ formName, isEditMode, schemas, video }) => (
+const VideoFields = ({ formName, isEditMode, schemas, mezzanine, video }) => (
   <>
     <Card>
-      <CardHeader>Details</CardHeader>
+      {!mezzanine || !mezzanine.schema().hasMixin('triniti:ovp:mixin:transcodeable')
+        ? <CardHeader className="pr-2">Details</CardHeader>
+        : (() => {
+          const status = mezzanine.has('transcoding_status')
+            ? mezzanine.get('transcoding_status').getValue()
+            : 'unknown';
+          return (
+            <CardHeader className="pr-2 video-details-card">
+              Details
+              <div>
+                <small className="text-uppercase status-copy mr-0 pr-0">
+                  Transcoding Status:
+                </small>
+                <small className={`text-uppercase status-copy mr-2 transcoding-status-${status}`}>
+                  {status}
+                </small>
+              </div>
+            </CardHeader>
+          );
+        })()}
       <CardBody indent>
         <Field
           component={TextField}
@@ -45,20 +69,20 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           schemas={schemas}
         />
         {schemas.node.hasMixin('triniti:curator:mixin:teaserable') && (
-        <Field
-          component={DatePickerField}
-          label="Order Date"
-          name="orderDate"
-          readOnly={!isEditMode}
-        />
+          <Field
+            component={DatePickerField}
+            label="Order Date"
+            name="orderDate"
+            readOnly={!isEditMode}
+          />
         )}
         {schemas.node.hasMixin('gdbots:ncr:mixin:expirable') && (
-        <Field
-          component={DatePickerField}
-          label="Expires At"
-          name="expiresAt"
-          readOnly={!isEditMode}
-        />
+          <Field
+            component={DatePickerField}
+            label="Expires At"
+            name="expiresAt"
+            readOnly={!isEditMode}
+          />
         )}
         <Field
           component={TextareaField}
@@ -89,13 +113,13 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           picklistId="video-credits"
         />
         {schemas.node.hasMixin('triniti:common:mixin:swipeable') && (
-        <Field
-          component={PicklistPickerField}
-          isEditMode={isEditMode}
-          label="Swipe"
-          name="swipe"
-          picklistId="video-swipes"
-        />
+          <Field
+            component={PicklistPickerField}
+            isEditMode={isEditMode}
+            label="Swipe"
+            name="swipe"
+            picklistId="video-swipes"
+          />
         )}
         <Field
           component={SelectField}
@@ -135,9 +159,19 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           trueText="True"
         />
         <Field
+          component={DocumentAssetPickerField}
+          documentRef={video.get('caption_ref')}
+          isEditMode={isEditMode}
+          label="Caption"
+          multiAssetErrorMessage="Invalid Action: Trying to upload more than one caption file."
+          name="captionRef"
+          node={video}
+          searchDocumentsQ="-mime_type:application/pdf"
+        />
+        <Field
           component={CaptionUrlsField}
-          label="Captions"
-          name="captions"
+          label="Caption URLs"
+          name="captionUrls"
           readOnly={!isEditMode}
         />
         <Field
@@ -154,13 +188,13 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           readOnly={!isEditMode}
         />
         {!schemas.node.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
-        <Field
-          component={TextField}
-          label="Live M3U8 URL"
-          name="liveM3u8Url"
-          placeholder="enter live m3u8 url"
-          readOnly={!isEditMode}
-        />
+          <Field
+            component={TextField}
+            label="Live M3U8 URL"
+            name="liveM3u8Url"
+            placeholder="enter live m3u8 url"
+            readOnly={!isEditMode}
+          />
         )}
         <Field
           component={DatePickerField}
@@ -201,7 +235,7 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
           />
         </div>
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable') && (
-        <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
+          <FieldArray name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />
         )}
       </CardBody>
     </Card>
@@ -251,13 +285,15 @@ const VideoFields = ({ formName, isEditMode, schemas, video }) => (
 VideoFields.propTypes = {
   formName: PropTypes.string.isRequired,
   isEditMode: PropTypes.bool,
+  mezzanine: PropTypes.instanceOf(Message),
   schemas: PropTypes.objectOf(PropTypes.instanceOf(Schema)).isRequired,
   video: PropTypes.instanceOf(Message),
 };
 
 VideoFields.defaultProps = {
   isEditMode: true,
+  mezzanine: null,
   video: null,
 };
 
-export default VideoFields;
+export default connect(selector)(VideoFields);

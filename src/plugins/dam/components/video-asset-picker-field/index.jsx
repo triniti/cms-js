@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import VideoAssetPicker from '@triniti/cms/plugins/dam/components/video-asset-picker';
 
-const VideoAssetPickerField = ({ input, isEditMode }) => {
+const VideoAssetPickerField = ({ input, isEditMode, label }) => {
   const { value } = input;
   return (
     <VideoAssetPicker
       isEditMode={isEditMode}
+      label={label}
       onClear={() => input.onChange(null)}
       onSelect={(nodeRef) => input.onChange(value && value.equals(nodeRef) ? null : nodeRef)}
-      selected={value ? [value] : []}
-      selectedRef={value}
+      selectedRef={value || null}
     />
   );
 };
@@ -25,10 +25,12 @@ VideoAssetPickerField.propTypes = {
     ]),
   }).isRequired,
   isEditMode: PropTypes.bool,
+  label: PropTypes.string,
 };
 
 VideoAssetPickerField.defaultProps = {
   isEditMode: false,
+  label: 'Video Asset',
 };
 
 export default VideoAssetPickerField;

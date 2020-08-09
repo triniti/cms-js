@@ -8,6 +8,7 @@
 * Update promotion-details-fields to include `slots` schema field.
 * Use `@gdbots/schemas` v1.6.6
 * Use `@triniti/schemas` 1.1.11
+* Updates to support new video ingestion workflow
 
 
 ## v0.6.3

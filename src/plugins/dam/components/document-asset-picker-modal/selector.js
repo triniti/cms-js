@@ -7,11 +7,11 @@ import schemas from './schemas';
 
 /**
  * @param {Object} state       - The entire redux state.
- * @param {{ block }} ownProps - Props given to the screen.
+ * @param {{ node }} ownProps - Props given to the screen.
  *
  * @returns {Object}
  */
-export default (state, { block }) => {
+export default (state, { documentRef }) => {
   const { response, request, status } = getRequest(
     state,
     schemas.searchAssets.getCurie(),
@@ -23,9 +23,8 @@ export default (state, { block }) => {
   return {
     documentAssetNodes,
     documentAssetSort,
-    documentNode: block.has('node_ref') ? getNode(state, block.get('node_ref')) : null,
-    request,
-    imageNode: block.has('image_ref') ? getNode(state, block.get('image_ref')) : null,
+    initiallySelected: documentRef ? getNode(state, documentRef) : null,
     isDocumentAssetSearchFulfilled,
+    request,
   };
 };
