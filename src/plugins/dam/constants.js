@@ -81,3 +81,7 @@ export const DATE_FIELD_QUICK_SELECT_OPTIONS = [
     unit: 'year',
   },
 ];
+
+export const pbjxChannelNames = {
+  DOCUMENT_ASSET_SEARCH: t('documentAssetSearch'),
+};

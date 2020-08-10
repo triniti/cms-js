@@ -1,0 +1,18 @@
+.video-details-card {
+  .transcoding-status-completed {
+    background-color: #e1f6f3;
+  }
+
+  .transcoding-status-processing {
+    background-color: #fff8db;
+  }
+
+  .transcoding-status-failed,
+  .transcoding-status-canceled {
+    background-color: #fef1f1;
+  }
+
+  .transcoding-status-unknown {
+    background-color: #eaeaed;
+  }
+}
