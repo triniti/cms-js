@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* use correct video asset urls
+
+
 ## v0.7.1
 * Convert unsupported block types to `<p>` tags to preserve line breaks when pasting HTML content into blocksmith.
 
