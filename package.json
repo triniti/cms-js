@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "@triniti/cms is a single page app for managing triniti schemas and services.",
   "license": "Apache-2.0",
   "module": "./index.js",
@@ -103,7 +103,7 @@
     "@gdbots/schemas": "^1.6.6",
     "@hot-loader/react-dom": "^16.13.0",
     "@redux-saga/testing-utils": "^1.1.1",
-    "@triniti/acme-schemas": "^1.1.6",
+    "@triniti/acme-schemas": "^1.1.9",
     "@triniti/schemas": "^1.1.11",
     "ajv": "^6.12.2",
     "autoprefixer": "^9.7.6",

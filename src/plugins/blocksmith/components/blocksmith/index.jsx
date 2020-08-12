@@ -241,7 +241,8 @@ class Blocksmith extends React.Component {
         wrapper: <ul />,
       },
       [blockTypes.UNSTYLED]: {
-        element: 'div',
+        element: 'p',
+        aliasedElements: ['div'],
       },
     });
 
