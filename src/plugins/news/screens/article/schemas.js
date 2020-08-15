@@ -2,6 +2,9 @@ import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV
 import SearchArticlesRequestV1Mixin from '@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 
+import NodeLabelsUpdatedV1 from '@gdbots/schemas/gdbots/ncr/event/NodeLabelsUpdatedV1';
+import UpdateNodeLabelsV1 from '@gdbots/schemas/gdbots/ncr/command/UpdateNodeLabelsV1';
+
 export default {
   node: ArticleV1Mixin.findOne(),
   nodeDeleted: resolveSchema(ArticleV1Mixin, 'event', 'article-deleted'),
@@ -13,6 +16,7 @@ export default {
   lockNode: resolveSchema(ArticleV1Mixin, 'command', 'lock-article'),
   markNodeAsDraft: resolveSchema(ArticleV1Mixin, 'command', 'mark-article-as-draft'),
   markNodeAsPending: resolveSchema(ArticleV1Mixin, 'command', 'mark-article-as-pending'),
+  nodeLabelsUpdated: NodeLabelsUpdatedV1.schema(),
   nodePublished: resolveSchema(ArticleV1Mixin, 'event', 'article-published'),
   nodeScheduled: resolveSchema(ArticleV1Mixin, 'event', 'article-scheduled'),
   nodeUnpublished: resolveSchema(ArticleV1Mixin, 'event', 'article-unpublished'),
@@ -26,4 +30,5 @@ export default {
   unlockNode: resolveSchema(ArticleV1Mixin, 'command', 'unlock-article'),
   unpublishNode: resolveSchema(ArticleV1Mixin, 'command', 'unpublish-article'),
   updateNode: resolveSchema(ArticleV1Mixin, 'command', 'update-article'),
+  updateNodeLabels: UpdateNodeLabelsV1,
 };

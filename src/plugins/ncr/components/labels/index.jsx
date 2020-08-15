@@ -54,7 +54,6 @@ class Labels extends React.PureComponent {
     if (touched) {
       return;
     }
-
     this.setState({
       selected: node.get('labels', []),
     });
@@ -131,7 +130,7 @@ class Labels extends React.PureComponent {
     };
 
     const colourStyles = {
-      control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+      control: (styles) => ({ ...styles, backgroundColor: 'white', height: 'unset', minHeight: '40px' }),
       option: (styles, { data, isDisabled, isFocused, isSelected }) => {
         const color = chroma(colors(data.label));
         return {
@@ -185,18 +184,17 @@ class Labels extends React.PureComponent {
             <Col>
               {disabled && <p className="text-warning">{disabledReasonMessage}</p>}
               <PicklistPicker
+                autoload={false}
+                cache={false}
+                creatable
                 disabled={disabled}
                 isEditMode
                 label="Labels"
                 multi
-                name="labels"
                 onChange={this.handleChange}
                 picklistId="labels"
-                defaultValue={values}
+                value={values}
                 styles={colourStyles}
-                // autoload={false}
-                // cache={false}
-                // creatable
               />
             </Col>
           </Row>

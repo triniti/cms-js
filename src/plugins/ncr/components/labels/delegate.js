@@ -5,20 +5,24 @@ import updateNodeLabels from '../../actions/updateNodeLabels';
 export default (dispatch, ownProps) => ({
   handleApplyLabels: (selected) => {
     const { formName, schemas, node } = ownProps;
-    const updatedNode = node.clone();
-    updatedNode.clear('labels');
-    updatedNode.addToSet('labels', selected);
+    const origLabels = node.get('labels', []);
+    const addLabels = selected.filter((label) => origLabels.indexOf(label) === -1);
+    const removeLabels = origLabels.filter((label) => selected.indexOf(label) === -1);
 
-    const command = schemas.updateNode.createMessage({
+    const command = schemas.updateNodeLabels.fromObject({
       node_ref: NodeRef.fromNode(node),
-      old_node: node.freeze(),
-      new_node: updatedNode,
-      paths: ['labels'],
+      add_labels: addLabels,
+      remove_labels: removeLabels,
     });
 
     dispatch(updateNodeLabels(
       command,
-      { formName, node, schemas },
+      {
+        expectedEvent: `${schemas.nodeLabelsUpdated.getCurie()}`,
+        formName,
+        node,
+        schemas,
+      },
     ));
   },
 });
