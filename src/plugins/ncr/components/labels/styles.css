@@ -1,0 +1,8 @@
+span.label {
+    margin: .3em;
+    padding: .1em .5em;
+    background-color: white;
+    border-radius: 15px;
+    font-size: smaller;
+    font-weight: 500;
+}

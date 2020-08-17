@@ -4,7 +4,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import get from 'lodash/get';
 import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
 import isEmpty from 'lodash/isEmpty';
-import Labels from '@triniti/cms/plugins/ncr/components/labels';
+import LabelsPicker from '@triniti/cms/plugins/ncr/components/labels-picker';
 import NodeLock from '@triniti/cms/plugins/ncr/components/node-lock';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import NodeStatus from '@triniti/cms/plugins/ncr/components/node-status';
@@ -330,7 +330,7 @@ export default class AbstractNodeScreen extends React.Component {
     }
 
     return (
-      <Labels
+      <LabelsPicker
         disabled={!isSaveDisabled}
         key="labels"
         node={delegate.getNode()}

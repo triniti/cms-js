@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
+import Labels from '@triniti/cms/plugins/ncr/components/labels';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
@@ -13,7 +14,7 @@ const TableRow = ({ idx, article }) => (
     <td style={{ width: '1px', textAlign: 'right' }}>{idx + 1}.</td>
 
     <td>
-      {article.get('labels', []).forEach((label) => <span>{label}</span>)}
+      <Labels node={article} />
       {article.get('title')}
       <Collaborators nodeRef={NodeRef.fromNode(article)} />
     </td>
