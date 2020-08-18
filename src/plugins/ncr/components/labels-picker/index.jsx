@@ -183,7 +183,7 @@ class Labels extends React.PureComponent {
                 label="Labels"
                 multi
                 onChange={this.handleChange}
-                picklistId="article-labels"
+                picklistId={`${node.schema().toString().split(':')[4]}-labels`}
                 value={values}
                 styles={colourStyles}
               />

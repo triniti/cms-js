@@ -1,6 +1,4 @@
 import { call } from 'redux-saga/effects';
-import some from 'lodash/some';
-import includes from 'lodash/includes';
 import startCase from 'lodash/startCase';
 import changeNodeFlow from './changeNodeFlow';
 
@@ -19,16 +17,20 @@ export default function* ({ config, pbj }) {
       }
       const responseLabels = response.pbj.get('node').get('labels', []).sort();
 
-      // check if add_labels was added
+      // check if all add_labels was added
       const addLabels = pbj.get('add_labels', []);
-      if (addLabels.length && !some(addLabels, (label) => includes(responseLabels, label))) {
-        return false;
+      for (let i = 0; i < addLabels.length; i += 1) {
+        if (!responseLabels.includes(addLabels[i])) {
+          return false;
+        }
       }
 
       // check if remove_labels were removed
       const removeLabels = pbj.get('remove_labels', []);
-      if (removeLabels.length && some(pbj.get('remove_labels', []), (label) => includes(responseLabels, label))) {
-        return false;
+      for (let i = 0; i < removeLabels.length; i += 1) {
+        if (responseLabels.includes(removeLabels[i])) {
+          return false;
+        }
       }
 
       return true;
