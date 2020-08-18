@@ -58,13 +58,14 @@ export default class VideoSubscriber extends EventSubscriber {
 
     data.hasMusic = node.get('has_music', 0);
 
+    data.captionRef = node.has('caption_ref') ? node.get('caption_ref').toString() : null;
     data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
     data.posterImageRef = node.has('poster_image_ref') ? node.get('poster_image_ref').toString() : null;
 
     data.tvpgRating = node.get('tvpg_rating')
       ? { label: node.get('tvpg_rating').toString(), value: node.get('tvpg_rating').toString() } : null;
 
-    data.captions = Object
+    data.captionUrls = Object
       .entries(node.get('caption_urls', []))
       .map((arr) => ({ url: arr[1], language: { label: arr[0], value: arr[0] } }));
 
@@ -126,14 +127,22 @@ export default class VideoSubscriber extends EventSubscriber {
       }
     }
 
-    if (data.captions) {
+    if (data.captionRef) {
+      try {
+        node.set('caption_ref', NodeRef.fromString(data.captionRef));
+      } catch (e) {
+        formEvent.addError('captionRef', e.message);
+      }
+    }
+
+    if (data.captionUrls) {
       const captionsArrayErrors = [];
-      (data.captions || []).forEach((caption, captionIndex) => {
+      (data.captionUrls || []).forEach((caption, captionIndex) => {
         const captionErrors = {};
         if (caption && !isValidUrl(caption.url)) {
           captionErrors.url = 'Invalid caption url';
           captionsArrayErrors[captionIndex] = captionErrors;
-          formEvent.addError('captions', captionsArrayErrors);
+          formEvent.addError('captionUrls', captionsArrayErrors);
         }
       });
     }
@@ -191,6 +200,7 @@ export default class VideoSubscriber extends EventSubscriber {
     });
 
     node.set('credit', get(data, 'credit.value', null));
+    node.set('caption_ref', data.captionRef ? NodeRef.fromString(data.captionRef) : null);
     node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
     node.set('poster_image_ref', data.posterImageRef ? NodeRef.fromString(data.posterImageRef) : null);
     node.set('duration', parseInt(data.duration, 10) || null);
@@ -198,7 +208,7 @@ export default class VideoSubscriber extends EventSubscriber {
     node.set('tvpg_rating', data.tvpgRating ? TvpgRating.create(data.tvpgRating.label) : null);
 
     node.clear('caption_urls');
-    (data.captions || []).forEach((object) => {
+    (data.captionUrls || []).forEach((object) => {
       node.addToMap('caption_urls', object.language.value, object.url);
     });
 

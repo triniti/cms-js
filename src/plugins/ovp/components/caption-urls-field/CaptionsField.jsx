@@ -35,7 +35,7 @@ const CaptionsField = ({ fields, options, isEditMode }) => (
       </div>
     ))}
     <button type="button" className="btn btn-light btn-sm" onClick={() => (fields.length < 3 ? fields.push() : fields)} disabled={!isEditMode}>
-      <Icon imgSrc="plus-outline" size="sm" className="mr-2" />Add Caption
+      <Icon imgSrc="plus-outline" size="sm" className="mr-2" />Add Caption URL
     </button>
   </FormGroup>
 );

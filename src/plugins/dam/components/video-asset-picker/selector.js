@@ -7,5 +7,5 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  * @returns {Object}
  */
 export default (state, { selectedRef }) => ({
-  selectedRef: getNode(state, selectedRef),
+  selected: getNode(state, selectedRef),
 });

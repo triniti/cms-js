@@ -2,7 +2,7 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import { STATUS_FULFILLED } from '@triniti/app/constants';
-import { pbjxChannelNames } from '../../constants';
+import { pbjxChannelNames } from '@triniti/cms/plugins/dam/constants';
 import schemas from './schemas';
 
 /**

@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
-import DatePickerField from '@triniti/cms/components/date-picker-field';
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
-import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import AssetSnippet from '@triniti/cms/plugins/dam/components/asset-snippet';
+import DatePickerField from '@triniti/cms/components/date-picker-field';
+import Message from '@gdbots/pbj/Message';
+import PicklistPickerField from '@triniti/cms/plugins/sys/components/picklist-picker-field';
 import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
-import Message from '@gdbots/pbj/Message';
+import TranscodeableCard from '@triniti/cms/plugins/ovp/components/transcodeable-card';
+import TranscribeableCard from '@triniti/cms/plugins/ovp/components/transcribeable-card';
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 
 const VideoAssetFields = ({ asset, isEditMode, schemas }) => ([
@@ -75,6 +77,10 @@ const VideoAssetFields = ({ asset, isEditMode, schemas }) => ([
       />
     </CardBody>
   </Card>,
+  schemas.node.hasMixin('triniti:ovp:mixin:transcodeable')
+  && <TranscodeableCard node={asset} />,
+  schemas.node.hasMixin('triniti:ovp:mixin:transcribable')
+  && <TranscribeableCard node={asset} />,
   schemas.node.hasMixin('gdbots:common:mixin:taggable')
   && <AdvancedFields key="advanced-fields" isEditMode={isEditMode} />,
 ]);

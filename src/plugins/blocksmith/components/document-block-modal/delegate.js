@@ -1,8 +1,8 @@
 import throttle from 'lodash/throttle';
 import searchNodes from '@triniti/cms/plugins/ncr/actions/searchNodes';
+import { pbjxChannelNames } from '@triniti/cms/plugins/dam/constants';
 import clearChannel from '../../../pbjx/actions/clearChannel';
 import schemas from './schemas';
-import { pbjxChannelNames } from '../../constants';
 
 export default (dispatch) => ({
   handleClearDocumentAssetChannel: () => {
