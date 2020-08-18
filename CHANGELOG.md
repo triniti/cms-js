@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## vN.N.N
+* use correct video asset urls
+
+
+## v0.7.1
+* Convert unsupported block types to `<p>` tags to preserve line breaks when pasting HTML content into blocksmith.
+
+
+## v0.7.0
+* Cursor goes to top of content blocks or top of last block when using keyboard arrows to move to the end of the content blocks.
+* Fix formatting of `jwplayer_synced_at`.
+* issue #232: add custom `blockRenderMap` to avoid creation of unsupported block types when pasting content into blocksmith.
+* Update promotion-details-fields to include `slots` schema field.
+* Use `@gdbots/schemas` v1.6.6
+* Use `@triniti/schemas` 1.1.11
+* Updates to support new video ingestion workflow
+
+
 ## v0.6.3
 * Preventing uploader from moving scroll position around on small screens and allowing dynamic height of uploader if viewing area is tiny.
 * Fixing cursor issues with going to line that doesn't exist. Adding support to move cursor to end of last text block.

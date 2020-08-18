@@ -7,6 +7,7 @@ import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
 import TextField from '@triniti/cms/components/text-field';
 import WidgetPickerField from '@triniti/cms/plugins/curator/components/widget-picker-field';
+import Slots from './Slots';
 
 const PromotionFields = ({ isEditMode, schemas }) => (
   <>
@@ -38,6 +39,16 @@ const PromotionFields = ({ isEditMode, schemas }) => (
           name="slot"
           picklistId="promotion-slots"
           placeholder="Enter Slot"
+        />
+      </CardBody>
+    </Card>
+    <Card>
+      <CardHeader>Slots</CardHeader>
+      <CardBody indent>
+        <FieldArray
+          component={Slots}
+          name="slots"
+          readOnly={!isEditMode}
         />
       </CardBody>
     </Card>

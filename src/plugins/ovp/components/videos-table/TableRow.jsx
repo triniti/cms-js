@@ -23,7 +23,7 @@ const TableRow = ({ disabled, hasCheckboxes, isSelected, onSelectRow, video }) =
   return (
     <tr
       className={classNames({
-        [`status-${video.get('status')}`]: hasCheckboxes,
+        [`status-${video.get('status')}`]: hasCheckboxes || !isSelected,
       })}
       onClick={hasCheckboxes ? noop : () => onSelectRow(NodeRef.fromNode(video))}
       style={trStyle}

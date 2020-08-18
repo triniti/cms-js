@@ -1,12 +1,12 @@
+import { Card, Icon, Table } from '@triniti/admin-ui-plugin/components';
+import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl';
 import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactPlayer from 'react-player';
-import noop from 'lodash/noop';
-import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import { Card, Icon, Table } from '@triniti/admin-ui-plugin/components';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import damUrl from '../../utils/damUrl';
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
 
@@ -67,7 +67,7 @@ export default class AssetsTable extends React.Component {
         height: currentDimensions.height,
         isPlaying,
         mediaType: mediaType || null,
-        url: asset ? damUrl(asset) : null,
+        url: asset ? artifactUrl(asset, 'video') : null,
         volume: mediaPlayer.volume,
         width: currentDimensions.width,
       },

@@ -10,7 +10,7 @@ const CaptionUrlsField = ({ input, label, readOnly }) => {
   return (
     <FormGroup>
       {label && <Label for={input.name}>{label}</Label>}
-      <FieldArray name="captions" options={options} component={CaptionsField} isEditMode={!readOnly} />
+      <FieldArray name="captionUrls" options={options} component={CaptionsField} isEditMode={!readOnly} />
     </FormGroup>
   );
 };
