@@ -14,8 +14,8 @@ const TableRow = ({ idx, article }) => (
     <td style={{ width: '1px', textAlign: 'right' }}>{idx + 1}.</td>
 
     <td>
-      <Labels node={article} />
       {article.get('title')}
+      <Labels node={article} />
       <Collaborators nodeRef={NodeRef.fromNode(article)} />
     </td>
 

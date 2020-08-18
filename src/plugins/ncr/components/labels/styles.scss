@@ -5,4 +5,8 @@ span.label {
     border-radius: 15px;
     font-size: smaller;
     font-weight: 500;
+
+    &:first-of-type {
+        margin-left: .6em;
+    }
 }

@@ -4,7 +4,7 @@ import chroma from 'chroma-js';
 import Message from '@gdbots/pbj/Message';
 import labelColors from 'config/labels'; // eslint-disable-line import/no-unresolved
 
-import './styles.css';
+import './styles.scss';
 
 const createStyle = (label) => {
   if (!labelColors[label]) {
