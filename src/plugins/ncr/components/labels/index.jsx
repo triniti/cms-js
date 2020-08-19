@@ -17,7 +17,7 @@ const createStyle = (label) => {
   };
 };
 
-const Labels = ({ node }) => node.get('labels', []).map((label) => <span className="label" style={createStyle(label)}>{label}</span>);
+const Labels = ({ node }) => node.get('labels', []).map((label) => <span key={label} className="label" style={createStyle(label)}>{label}</span>);
 
 Labels.protoTypes = {
   node: PropTypes.instanceOf(Message).isRequired,
