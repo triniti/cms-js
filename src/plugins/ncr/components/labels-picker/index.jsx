@@ -17,6 +17,8 @@ import {
 import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
 import delegateFactory from './delegate';
 
+const getColor = (label) => labelColors[label] || '#c0c0c0';
+
 class Labels extends React.PureComponent {
   static propTypes = {
     disabled: PropTypes.bool,
@@ -67,14 +69,8 @@ class Labels extends React.PureComponent {
   }
 
   handleChange(selected) {
-    const selectedList = [];
-    if (selected) {
-      selected.forEach((val) => {
-        selectedList.push(val.value);
-      });
-    }
     this.setState({
-      selected: selectedList,
+      selected: (selected || []).map((val) => val.value),
       touched: true,
     });
   }
@@ -117,13 +113,11 @@ class Labels extends React.PureComponent {
       });
     });
 
-    const colors = (label) => labelColors[label] || '#c0c0c0';
-
     /* eslint-disable no-nested-ternary */
     const colourStyles = {
       control: (styles) => ({ ...styles, backgroundColor: 'white', height: 'unset', minHeight: '40px' }),
       option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-        const color = chroma(colors(data.label));
+        const color = chroma(getColor(data.label));
         return {
           ...styles,
           backgroundColor: isDisabled
@@ -139,16 +133,16 @@ class Labels extends React.PureComponent {
               ? chroma.contrast(color, 'white') > 2
                 ? 'white'
                 : 'black'
-              : colors(data.label),
+              : getColor(data.label),
           cursor: isDisabled ? 'not-allowed' : 'default',
           ':active': {
             ...styles[':active'],
-            backgroundColor: !isDisabled && (isSelected ? colors(data.label) : color.alpha(0.3).css()),
+            backgroundColor: !isDisabled && (isSelected ? getColor(data.label) : color.alpha(0.3).css()),
           },
         };
       },
       multiValue: (styles, { data }) => {
-        const color = chroma(colors(data.label));
+        const color = chroma(getColor(data.label));
         return {
           ...styles,
           backgroundColor: color.alpha(0.1).css(),
@@ -156,13 +150,13 @@ class Labels extends React.PureComponent {
       },
       multiValueLabel: (styles, { data }) => ({
         ...styles,
-        color: colors(data.label),
+        color: getColor(data.label),
       }),
       multiValueRemove: (styles, { data }) => ({
         ...styles,
-        color: colors(data.label),
+        color: getColor(data.label),
         ':hover': {
-          backgroundColor: colors(data.label),
+          backgroundColor: getColor(data.label),
           color: 'white',
         },
       }),
