@@ -1,12 +1,8 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.8.0
 * Support for reverting history.
-
-
-## v0.6.4
-* use correct video asset urls
 
 
 ## v0.7.1
