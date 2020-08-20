@@ -49,7 +49,7 @@ class Labels extends React.PureComponent {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  UNSAFE_componentWillReceiveProps({ node }) {
+  componentDidUpdate({ node }) {
     if (!node) {
       return;
     }
@@ -57,6 +57,7 @@ class Labels extends React.PureComponent {
     if (touched) {
       return;
     }
+    // eslint-disable-next-line react/no-did-update-set-state
     this.setState({
       selected: node.get('labels', []),
     });
@@ -183,30 +184,26 @@ class Labels extends React.PureComponent {
               />
             </Col>
           </Row>
-          {this.isNodeDiff && (
+          {touched && this.isNodeDiff() && (
           <Row>
             <Col>
-              {this.isNodeDiff() && [
-                <Button
-                  key="apply"
-                  className="ml-2 mb-0 mr-0"
-                  color="danger"
-                  onClick={this.handleApplyLabels}
-                  size="sm"
-                >
-                  <Icon imgSrc="check-outline" className="mr-1" />
-                  Apply
-                </Button>,
-                <Button
-                  key="cancel"
-                  className="ml-1 mb-0"
-                  color="secondary"
-                  onClick={this.handleCancel}
-                  size="sm"
-                >
-                  Cancel
-                </Button>,
-              ]}
+              <Button
+                className="ml-2 mb-0 mr-0"
+                color="danger"
+                onClick={this.handleApplyLabels}
+                size="sm"
+              >
+                <Icon imgSrc="check-outline" className="mr-1" />
+                Apply
+              </Button>
+              <Button
+                className="ml-1 mb-0"
+                color="secondary"
+                onClick={this.handleCancel}
+                size="sm"
+              >
+                Cancel
+              </Button>
             </Col>
           </Row>
           )}
