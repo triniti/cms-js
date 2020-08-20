@@ -12,6 +12,7 @@ import {
   ListGroupItem,
   StatusMessage,
 } from '@triniti/admin-ui-plugin/components';
+import { connect } from 'react-redux';
 import startCase from 'lodash/startCase';
 import moment from 'moment';
 import Message from '@gdbots/pbj/Message';
@@ -20,14 +21,22 @@ import { STATUS_FULFILLED, STATUS_NONE, STATUS_PENDING } from '@triniti/app/cons
 import UserLink from './UserLink';
 import EventDetails from './EventDetails';
 import RawViewButton from '../raw-view-button';
+import RevertButton from '../revert-button';
+import selector from './selector';
 
 class EventStream extends React.Component {
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getUser: PropTypes.func.isRequired,
+    hasDifferentDbValues: PropTypes.func.isRequired,
+    isEditMode: PropTypes.bool.isRequired,
+    isDbValueSameAsNodeValue: PropTypes.func.isRequired,
+    isFormDirty: PropTypes.bool.isRequired,
+    isRevertGranted: PropTypes.bool.isRequired,
     response: PropTypes.instanceOf(Message),
     onLoadMore: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onRevert: PropTypes.func.isRequired,
     status: PropTypes.string,
     exception: PropTypes.instanceOf(Exception),
   };
@@ -81,10 +90,16 @@ class EventStream extends React.Component {
 
   render() {
     const {
+      hasDifferentDbValues,
+      isEditMode,
+      isDbValueSameAsNodeValue,
+      isFormDirty,
+      isRevertGranted,
       getUser,
       response,
       status,
       exception,
+      onRevert: handleRevert,
     } = this.props;
 
     const { allEvents, loadMore } = this.state;
@@ -103,11 +118,13 @@ class EventStream extends React.Component {
             && <div className="ml-4"><StatusMessage status={status} exception={exception} /></div>
           }
           <ListGroup borderless>
-            {allEvents.map((event) => {
+            {allEvents.map((event, index) => {
               const eventAction = startCase(event.generateMessageRef().getCurie().getMessage());
               const occurredAt = moment(event.get('occurred_at').toDate()).format('MMM DD, YYYY hh:mm:ss A');
               const occurredAtAgo = moment(event.get('occurred_at').toDate()).fromNow();
               const user = event.get('ctx_user_ref') && getUser(event.get('ctx_user_ref'));
+              const schema = event.schema();
+              const pathsLength = event.get('paths', []).length;
               return (
                 <ListGroupItem key={event.get('occurred_at')} className="mb-0">
                   <div className="d-flex justify-content-between">
@@ -122,7 +139,25 @@ class EventStream extends React.Component {
                         <span>{occurredAt}</span>
                       </div>
                     </div>
-                    <span><RawViewButton event={event} /></span>
+                    <span>
+                      {
+                        isEditMode
+                        && isRevertGranted
+                        && schema.hasMixin('gdbots:ncr:mixin:node-updated')
+                        && event.get('new_etag') !== event.get('old_etag')
+                        && pathsLength > 0
+                        && (
+                          <RevertButton
+                            disabled={!index || !hasDifferentDbValues(event)}
+                            event={event}
+                            isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+                            isFormDirty={isFormDirty}
+                            onRevert={handleRevert}
+                          />
+                        )
+                      }
+                      <RawViewButton event={event} />
+                    </span>
                   </div>
                   <span>
                     <EventDetails event={event} />
@@ -144,4 +179,4 @@ class EventStream extends React.Component {
   }
 }
 
-export default EventStream;
+export default connect(selector)(EventStream);

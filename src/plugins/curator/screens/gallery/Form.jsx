@@ -6,7 +6,6 @@ import AdvertisingFields from '@triniti/cms/plugins/common/components/advertisin
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
@@ -17,8 +16,7 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import GalleryMedia from '../../components/gallery-media';
 import schemas from './schemas';
 
-const Form = ({ node: gallery, form, isEditMode, tab }) => {
-  const streamId = StreamId.fromString(`gallery.history:${gallery.get('_id')}`);
+const Form = ({ getNodeRequestState, node: gallery, form, isEditMode, tab }) => {
   switch (tab) {
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
@@ -33,7 +31,15 @@ const Form = ({ node: gallery, form, isEditMode, tab }) => {
       return <GalleryMedia nodeRef={NodeRef.fromNode(gallery)} isEditMode={isEditMode} />;
 
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={gallery}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={gallery} />;
@@ -62,6 +68,9 @@ const Form = ({ node: gallery, form, isEditMode, tab }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   isEditMode: PropTypes.bool,
   tab: PropTypes.string,

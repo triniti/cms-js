@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import noop from 'lodash/noop';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import Schema from '@gdbots/pbj/Schema';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import EventStream from '../event-stream';
 import selector from './selector';
 import delegateFactory from './delegate';
@@ -12,8 +12,12 @@ import delegateFactory from './delegate';
 class History extends React.Component {
   static propTypes = {
     delegate: PropTypes.shape({
+      componentWillUnmount: PropTypes.func,
+      isDbValueSameAsNodeValue: PropTypes.func,
       handleInitialize: PropTypes.func,
       handleLoadMore: PropTypes.func,
+      handleRevert: PropTypes.func,
+      hasDifferentDbValues: PropTypes.func,
     }).isRequired,
     events: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
     getHistoryRequestState: PropTypes.shape({
@@ -22,18 +26,22 @@ class History extends React.Component {
       response: PropTypes.object,
       status: PropTypes.string,
     }).isRequired,
+    isEditMode: PropTypes.bool.isRequired,
+    isFormDirty: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired,
     schema: PropTypes.instanceOf(Schema).isRequired,
-    streamId: PropTypes.instanceOf(StreamId).isRequired,
+    /* eslint-disable react/no-unused-prop-types */
+    setBlocks: PropTypes.func,
   };
 
   static defaultProps = {
     events: [],
+    setBlocks: noop,
   };
 
   componentDidMount() {
-    const { delegate, streamId, schema } = this.props;
-    delegate.handleInitialize(streamId, schema);
+    const { delegate } = this.props;
+    delegate.handleInitialize();
   }
 
   componentWillUnmount() {
@@ -47,21 +55,26 @@ class History extends React.Component {
     const {
       delegate,
       events,
+      isEditMode,
+      isFormDirty,
       getUser,
       getHistoryRequestState: { response, status, exception },
-      streamId,
-      schema,
     } = this.props;
 
     return (
       <EventStream
         events={events}
-        getUser={getUser}
-        status={status}
         exception={exception}
+        isDbValueSameAsNodeValue={delegate.isDbValueSameAsNodeValue}
+        isEditMode={isEditMode}
+        isFormDirty={isFormDirty}
+        hasDifferentDbValues={delegate.hasDifferentDbValues}
+        getUser={getUser}
         response={response}
-        onRefresh={() => delegate.handleInitialize(streamId, schema)}
-        onLoadMore={() => delegate.handleLoadMore(streamId, schema, response.get('last_occurred_at'))}
+        onLoadMore={() => delegate.handleLoadMore(response.get('last_occurred_at'))}
+        onRefresh={() => delegate.handleInitialize()}
+        onRevert={delegate.handleRevert}
+        status={status}
       />
     );
   }

@@ -15,8 +15,10 @@ class NotificationScreen extends AbstractNodeScreen {
   }
 
   getFormRenderProps() {
+    const { getNodeRequestState } = this.props;
     return {
       getNode: this.props.getNode,
+      getNodeRequestState,
       showDatePicker: this.props.showDatePicker,
       type: this.props.match.params.type,
     };

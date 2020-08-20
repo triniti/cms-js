@@ -149,7 +149,8 @@ export default class AbstractNodeScreen extends React.Component {
   }
 
   getFormRenderProps() {
-    return {};
+    const { getNodeRequestState } = this.props;
+    return { getNodeRequestState };
   }
 
   getTabs() {

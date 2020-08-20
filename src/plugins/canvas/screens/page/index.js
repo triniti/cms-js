@@ -22,9 +22,9 @@ class PageScreen extends AbstractNodeScreen {
   };
 
   getFormRenderProps() {
-    const { blocksmithState } = this.props;
+    const { blocksmithState, getNodeRequestState } = this.props;
     const layouts = this.props.delegate.getPageLayouts();
-    return { blocksmithState, layouts };
+    return { blocksmithState, getNodeRequestState, layouts };
   }
 
   getForm() {
