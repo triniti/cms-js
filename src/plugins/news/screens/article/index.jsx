@@ -26,8 +26,8 @@ class ArticleScreen extends AbstractNodeScreen {
   };
 
   getFormRenderProps() {
-    const { blocksmithState } = this.props;
-    return { blocksmithState };
+    const { blocksmithState, getNodeRequestState } = this.props;
+    return { blocksmithState, getNodeRequestState };
   }
 
   getForm() {

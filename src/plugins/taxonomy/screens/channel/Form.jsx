@@ -10,21 +10,27 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
 const Form = ({
-  node: channel, form, tab, isEditMode,
+  getNodeRequestState, node: channel, form, tab, isEditMode,
 }) => {
-  const streamId = StreamId.fromString(`channel.history:${channel.get('_id')}`);
   switch (tab) {
     case 'code':
       return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={channel}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
     case 'raw':
       return <RawContent pbj={channel} />;
     default:
@@ -51,6 +57,9 @@ const Form = ({
 
 Form.propTypes = {
   form: PropTypes.string.isRequired,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

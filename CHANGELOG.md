@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.8.0
+* Support for reverting history.
+
+
 ## v0.7.1
 * Convert unsupported block types to `<p>` tags to preserve line breaks when pasting HTML content into blocksmith.
 
@@ -12,7 +16,6 @@
 * Update promotion-details-fields to include `slots` schema field.
 * Use `@gdbots/schemas` v1.6.6
 * Use `@triniti/schemas` 1.1.11
-* Updates to support new video ingestion workflow
 
 
 ## v0.6.3

@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form';
 import { EditorState } from 'draft-js';
 
 import Message from '@gdbots/pbj/Message';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
 import Blocksmith from '@triniti/cms/plugins/blocksmith/components/blocksmith';
@@ -13,13 +12,13 @@ import PersonFields from '@triniti/cms/plugins/people/components/person-fields';
 import RawContent from '@triniti/cms/components/raw-content';
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
+import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
 const Form = ({
-  node: person, form, tab, isEditMode, blocksmithState,
+  getNodeRequestState, node: person, form, tab, isEditMode, blocksmithState,
 }) => {
-  const streamId = StreamId.fromString(`person.history:${person.get('_id')}`);
   switch (tab) {
     case 'details':
       return (
@@ -48,7 +47,16 @@ const Form = ({
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={person}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+          setBlocks={setBlocks}
+        />
+      );
     case 'raw':
       return <RawContent pbj={person} />;
     default:
@@ -86,6 +94,9 @@ Form.propTypes = {
     isDirty: PropTypes.bool.isRequired,
   }),
   form: PropTypes.string,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

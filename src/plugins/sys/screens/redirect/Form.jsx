@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
 import Message from '@gdbots/pbj/Message';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import History from '@triniti/cms/plugins/pbjx/components/history';
 import RedirectFields from '@triniti/cms/plugins/sys/components/redirect-fields';
 import RawContent from '@triniti/cms/components/raw-content';
@@ -11,9 +10,8 @@ import RawContent from '@triniti/cms/components/raw-content';
 import schemas from './schemas';
 
 const Form = ({
-  node: redirect, tab, isEditMode,
+  form, getNodeRequestState, node: redirect, tab, isEditMode,
 }) => {
-  const streamId = StreamId.fromString(`redirect.history:${redirect.get('_id')}`);
   switch (tab) {
     case 'details':
       return (
@@ -23,7 +21,15 @@ const Form = ({
         />
       );
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={redirect}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
     case 'raw':
       return <RawContent pbj={redirect} />;
     default:
@@ -37,6 +43,9 @@ const Form = ({
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

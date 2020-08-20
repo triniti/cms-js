@@ -7,15 +7,21 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import RawContent from '@triniti/cms/components/raw-content';
 import SponsorFields from '@triniti/cms/plugins/boost/components/sponsor-fields';
 import Message from '@gdbots/pbj/Message';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 
 import schemas from './schemas';
 
-const Form = ({ node: sponsor, tab, isEditMode }) => {
-  const streamId = StreamId.fromString(`sponsor.history:${sponsor.get('_id')}`);
+const Form = ({ form, getNodeRequestState, node: sponsor, tab, isEditMode }) => {
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={sponsor}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
     case 'raw':
       return <RawContent pbj={sponsor} />;
     default:
@@ -31,6 +37,9 @@ const Form = ({ node: sponsor, tab, isEditMode }) => {
 
 Form.propTypes = {
   isEditMode: PropTypes.bool,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,
 };
