@@ -3,7 +3,6 @@ import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import receiveNodes from '@triniti/cms/plugins/ncr/actions/receiveNodes'; // reciebe nodes
 import { actionTypes } from '../constants';
 
-
 export default (accessToken) => async (dispatch) => {
   try {
     const response = await fetch(`${API_ENDPOINT}/raven/collaborations/?with_nodes=true`, {

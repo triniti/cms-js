@@ -1,6 +1,5 @@
 import { actionTypes } from '../constants';
 
-
 /**
  * Create a MARK NODE AS PENDING REQUESTED action
  *

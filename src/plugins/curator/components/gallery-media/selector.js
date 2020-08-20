@@ -5,7 +5,6 @@ import PatchAssetsV1Mixin from '@triniti/schemas/triniti/dam/mixin/patch-assets/
 import schemas from './schemas';
 import { pbjxChannelNames } from '../../constants';
 
-
 /**
  * @param {Object} state - The entire redux state.
  *

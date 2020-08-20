@@ -42,7 +42,6 @@ deepFreeze(initState);
 deepFreeze(testState1);
 deepFreeze(testState2);
 
-
 test('isAuthenticated selector tests', (t) => {
   t.false(isAuthenticated(initState));
   t.true(isAuthenticated(testState1));

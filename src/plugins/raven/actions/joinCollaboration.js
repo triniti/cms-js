@@ -41,7 +41,6 @@ export default (nodeRef) => async (dispatch, getState) => {
   return dispatch(publishMessage({ rt: ravenTypes.COLLABORATOR_JOINED }, `${nodeRef}`));
 };
 
-
 // fixme: restore the toast feature of collaborator joined
 /*
 if (!action.isMe

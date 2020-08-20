@@ -39,7 +39,6 @@ test('moveNodeByGallerySequence: node not found in nodesToReorder', (t) => {
   t.end();
 });
 
-
 test('moveNodeByGallerySequence: reorder an empty nodesToReorder', (t) => {
   const nodeToMove = nodesToReorder[2];
   const gallerySeq = 1080;

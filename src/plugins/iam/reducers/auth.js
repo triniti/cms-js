@@ -33,7 +33,6 @@ const onPolicyUpdated = (state, action) => (
   }
 );
 
-
 const onGetAuthenticatedUserRejected = () => initialState;
 const onLoginAccepted = (state) => ({ ...state, isAuthenticated: true });
 const onLogoutCompleted = () => initialState;

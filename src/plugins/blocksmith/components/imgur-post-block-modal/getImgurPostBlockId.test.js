@@ -25,7 +25,6 @@ test('ImgurPostBlock', (t) => {
   t.end();
 });
 
-
 test('ImgurPostBlock', (t) => {
   const url = 'https://imgur.com/HRaPmbj';
   const actual = getImgurPostBlockId(url);
@@ -33,7 +32,6 @@ test('ImgurPostBlock', (t) => {
   t.deepEqual(actual, expected, 'it should accept an Imgur url with /a and return mediaId: HRaPmbj');
   t.end();
 });
-
 
 test('ImgurPostBlock', (t) => {
   const url = '<blockquote class="imgur-embed-pub" lang="en" data-id="a/40I9pYU"><a href="//imgur.com/40I9pYU">Aunt May is 55 Today</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>';

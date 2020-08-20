@@ -57,7 +57,6 @@ test('InstagramMediaBlock', (t) => {
   t.end();
 });
 
-
 test('InstagramMediaBlock', (t) => {
   const url = 'https://www.instagram.com/tv/B4-qU5GAJEr/';
   const actual = getInstagramMediaId(url);
