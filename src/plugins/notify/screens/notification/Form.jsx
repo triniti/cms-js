@@ -5,7 +5,6 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import RawContent from '@triniti/cms/components/raw-content';
 import React, { useEffect } from 'react';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import schemas from './schemas';
 
 /**
@@ -51,16 +50,21 @@ const getFieldsComponent = (type) => {
   return fieldsComponents[type];
 };
 
-const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
+const Form = ({ form, getNodeRequestState, node, getNode, tab, type, isEditMode, showDatePicker }) => {
   useEffect(() => () => { fieldsComponents = {}; }, []);
-  const streamId = StreamId.fromString(
-    `${node.schema().getCurie().getMessage()}.history:${node.get('_id')}`,
-  );
   const Fields = type ? getFieldsComponent(type) : null;
 
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={node}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={node} />;
@@ -81,6 +85,9 @@ const Form = ({ node, getNode, tab, type, isEditMode, showDatePicker }) => {
 
 Form.propTypes = {
   getNode: PropTypes.func.isRequired,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   showDatePicker: PropTypes.bool,

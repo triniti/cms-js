@@ -2,18 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import Message from '@gdbots/pbj/Message';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import RawContent from '@triniti/cms/components/raw-content';
 import History from '@triniti/cms/plugins/pbjx/components/history';
 
 import FlagsetFields from '../../components/flagset-fields';
 import schemas from './schemas';
 
-const Form = ({ node: flagset, tab, isEditMode }) => {
-  const streamId = StreamId.fromString(`flagset.history:${flagset.get('_id')}`);
+const Form = ({ form, getNodeRequestState, node: flagset, tab, isEditMode }) => {
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistory} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={flagset}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistory}
+        />
+      );
     case 'raw':
       return <RawContent pbj={flagset} />;
     default:
@@ -22,6 +28,9 @@ const Form = ({ node: flagset, tab, isEditMode }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,

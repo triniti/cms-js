@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { reduxForm } from 'redux-form';
 
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
@@ -7,17 +7,22 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import Message from '@gdbots/pbj/Message';
 import PollFields from '@triniti/cms/plugins/apollo/components/poll-fields';
 import RawContent from '@triniti/cms/components/raw-content';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fields';
 
 import schemas from './schemas';
 
-const Form = ({ isEditMode, node, tab }) => {
-  const streamId = StreamId.fromString(`poll.history:${node.get('_id')}`);
-
+const Form = ({ isEditMode, form, getNodeRequestState, node, tab }) => {
   switch (tab) {
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={node}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
     case 'raw':
       return <RawContent pbj={node} />;
     case 'taxonomy':
@@ -36,6 +41,9 @@ const Form = ({ isEditMode, node, tab }) => {
 
 Form.propTypes = {
   isEditMode: PropTypes.bool,
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,
 };

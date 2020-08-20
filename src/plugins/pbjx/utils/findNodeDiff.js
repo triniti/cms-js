@@ -35,4 +35,4 @@ const difference = (targetObject, baseObject) => transform(targetObject, (result
   }
 });
 
-export default (newNode, oldNode) => difference(newNode, oldNode);
+export default difference;

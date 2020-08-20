@@ -1,3 +1,4 @@
+import { isDirty } from 'redux-form';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
@@ -8,7 +9,7 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  *
  * @returns {Object}
  */
-export default (state, { schema, streamId }) => {
+export default (state, { schema, streamId, formName }) => {
   const getHistoryRequestState = getRequest(state, schema.getCurie());
   const getUser = (messageRef) => getNode(state, NodeRef.fromMessageRef(messageRef));
 
@@ -19,6 +20,7 @@ export default (state, { schema, streamId }) => {
     events,
     getHistoryRequestState,
     getUser,
+    isFormDirty: isDirty(formName)(state),
     schema,
     streamId,
   };

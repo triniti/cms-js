@@ -7,7 +7,6 @@ import RawContent from '@triniti/cms/components/raw-content';
 import React from 'react';
 import RolesList from '@triniti/cms/plugins/iam/components/roles-list';
 import RolesPicker from '@triniti/cms/plugins/iam/components/roles-picker';
-import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
 import schemas from './schemas';
 
 /**
@@ -40,9 +39,8 @@ const getFieldsComponent = (type) => {
   }
 };
 
-const Form = ({ node, tab, type, isEditMode }) => {
+const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
   const AppFields = type ? getFieldsComponent(type) : null;
-  const streamId = StreamId.fromString(`${type}.history:${node.get('_id')}`);
 
   switch (tab) {
     case 'roles':
@@ -53,7 +51,15 @@ const Form = ({ node, tab, type, isEditMode }) => {
       return <RolesList roles={node.get('roles', [])} />;
 
     case 'history':
-      return <History schema={schemas.getNodeHistoryRequest} streamId={streamId} />;
+      return (
+        <History
+          isEditMode={isEditMode}
+          formName={form}
+          node={node}
+          nodeRequest={getNodeRequestState.request}
+          schema={schemas.getNodeHistoryRequest}
+        />
+      );
 
     case 'raw':
       return <RawContent pbj={node} />;
@@ -64,6 +70,9 @@ const Form = ({ node, tab, type, isEditMode }) => {
 };
 
 Form.propTypes = {
+  getNodeRequestState: PropTypes.shape({
+    request: PropTypes.instanceOf(Message).isRequired,
+  }).isRequired,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
   tab: PropTypes.string,
