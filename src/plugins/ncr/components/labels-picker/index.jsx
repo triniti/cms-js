@@ -49,20 +49,6 @@ class Labels extends React.PureComponent {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidUpdate({ node }) {
-    if (!node) {
-      return;
-    }
-    const { touched } = this.state;
-    if (touched) {
-      return;
-    }
-    // eslint-disable-next-line react/no-did-update-set-state
-    this.setState({
-      selected: node.get('labels', []),
-    });
-  }
-
   handleApplyLabels() {
     const { delegate } = this.props;
     const { selected } = this.state;
