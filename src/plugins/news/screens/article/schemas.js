@@ -30,5 +30,5 @@ export default {
   unlockNode: resolveSchema(ArticleV1Mixin, 'command', 'unlock-article'),
   unpublishNode: resolveSchema(ArticleV1Mixin, 'command', 'unpublish-article'),
   updateNode: resolveSchema(ArticleV1Mixin, 'command', 'update-article'),
-  updateNodeLabels: UpdateNodeLabelsV1,
+  updateNodeLabels: UpdateNodeLabelsV1.schema(),
 };

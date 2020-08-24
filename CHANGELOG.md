@@ -3,7 +3,6 @@
 
 ## vN.N.N
 * Adding support for article labels.
-* use correct video asset urls
 
 
 ## v0.8.0
