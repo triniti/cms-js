@@ -296,6 +296,7 @@ export function* waitForValidationResult(nodeRef, config, maxWaitTime = 5000) {
   return successResponseMessage(node, batchOperation.operation, result.response);
 }
 
+
 /**
  * Initiate validation and updates the BatchOperation state depending on the response/result.
  *
@@ -332,6 +333,7 @@ export function* doRavenValidation(nodeRefs, config) {
     yield put(pauseBatchOperation());
   }
 }
+
 
 /**
  * Main generator function that loops through a collection of nodeRefs and execute

@@ -63,6 +63,7 @@ test('Blocksmith:util:selectBlock:unstyled', (t) => {
   expected = 0;
   t.equal(actual, expected, 'before selecting, the focusOffset should be 0');
 
+
   editorState = selectBlock(editorState, key);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
@@ -81,6 +82,7 @@ test('Blocksmith:util:selectBlock:unstyled', (t) => {
   expected = text.length;
   t.equal(actual, expected, `after selecting ALL, the focusOffset should be ${expected}`);
 
+
   editorState = selectBlock(editorState, key, selectionTypes.START);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
@@ -98,6 +100,7 @@ test('Blocksmith:util:selectBlock:unstyled', (t) => {
   actual = selectionState.getFocusOffset();
   expected = 0;
   t.equal(actual, expected, 'after selecting START, the focusOffset should be 0');
+
 
   editorState = selectBlock(editorState, key, selectionTypes.END);
   selectionState = editorState.getSelection();
@@ -188,6 +191,7 @@ test('Blocksmith:util:selectBlock:ordered-list-item', (t) => {
   expected = 0;
   t.equal(actual, expected, 'before selecting, the focusOffset should be 0');
 
+
   editorState = selectBlock(editorState, keys[1]);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
@@ -206,6 +210,7 @@ test('Blocksmith:util:selectBlock:ordered-list-item', (t) => {
   expected = texts[2].length;
   t.equal(actual, expected, `after selecting ALL, the focusOffset should be ${expected}`);
 
+
   editorState = selectBlock(editorState, keys[2], selectionTypes.START);
   selectionState = editorState.getSelection();
   actual = selectionState.getAnchorKey();
@@ -223,6 +228,7 @@ test('Blocksmith:util:selectBlock:ordered-list-item', (t) => {
   actual = selectionState.getFocusOffset();
   expected = 0;
   t.equal(actual, expected, 'after selecting START, the focusOffset should be 0');
+
 
   editorState = selectBlock(editorState, keys[0], selectionTypes.END);
   selectionState = editorState.getSelection();

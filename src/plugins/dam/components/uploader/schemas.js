@@ -12,6 +12,7 @@ import SearchAssetsRequestV1Mixin from '@triniti/schemas/triniti/dam/mixin/searc
 // import AssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/asset/AssetV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 
+
 export default {
   assetPatched: AssetPatchedV1Mixin.findOne(),
   audioAsset: AudioAssetV1Mixin.findOne(),

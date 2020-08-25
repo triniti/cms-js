@@ -21,6 +21,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
   let expected = fakeState;
   t.deepEqual(actual, expected, 'it should return correct state if no provided curie');
 
+
   fakeState = {
     test: {
       'whatevs-slot-here': {
@@ -33,6 +34,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
   expected = fakeState;
   t.deepEqual(actual, expected, 'it should return correct state if no channel found');
 
+
   fakeState = {
     root: {
       'whatever-slot-here': {
@@ -44,6 +46,7 @@ test('Pbjx:reducer:response:clearResponse', (t) => {
   actual = reducer(fakeState, clearResponse(curie));
   expected = fakeState;
   t.deepEqual(actual, expected, 'it should return correct state if no slot found');
+
 
   fakeState = {
     root: {

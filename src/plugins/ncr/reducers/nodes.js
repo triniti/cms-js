@@ -2,6 +2,7 @@ import createReducer from '@triniti/app/createReducer';
 import { actionTypes as pbjxActionTypes } from '@triniti/cms/plugins/pbjx/constants';
 import { actionTypes } from '../constants';
 
+
 export const initialState = {};
 
 const onPbjxEnvelopeReceived = (prevState, action) => {
