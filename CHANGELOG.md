@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* add way to get from image picker to image asset page.
+
+
 ## v0.8.0
 * Support for reverting history.
 
