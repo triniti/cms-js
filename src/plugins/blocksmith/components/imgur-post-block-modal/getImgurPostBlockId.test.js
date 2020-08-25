@@ -25,7 +25,6 @@ test('ImgurPostBlock', (t) => {
   t.end();
 });
 
-
 test('ImgurPostBlock', (t) => {
   const url = 'https://imgur.com/HRaPmbj';
   const actual = getImgurPostBlockId(url);
