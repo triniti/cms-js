@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
-import Labels from '@triniti/cms/plugins/ncr/components/labels';
 import Message from '@gdbots/pbj/Message';
+import NodeLabels from '@triniti/cms/plugins/ncr/components/node-labels';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
@@ -15,7 +15,7 @@ const TableRow = ({ idx, article }) => (
 
     <td>
       {article.get('title')}
-      <Labels node={article} />
+      <NodeLabels node={article} />
       <Collaborators nodeRef={NodeRef.fromNode(article)} />
     </td>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import chroma from 'chroma-js';
 import Message from '@gdbots/pbj/Message';
-import labelColors from 'config/labels'; // eslint-disable-line import/no-unresolved
+import labelColors from 'config/nodeLabels'; // eslint-disable-line import/no-unresolved
 
 import './styles.scss';
 
@@ -17,10 +17,10 @@ const createStyle = (label) => {
   };
 };
 
-const Labels = ({ node }) => node.get('labels', []).map((label) => <span key={label} className="label" style={createStyle(label)}>{label}</span>);
+const NodeLabels = ({ node }) => node.get('labels', []).map((label) => <span key={label} className="label" style={createStyle(label)}>{label}</span>);
 
-Labels.protoTypes = {
+NodeLabels.protoTypes = {
   node: PropTypes.instanceOf(Message).isRequired,
 };
 
-export default Labels;
+export default NodeLabels;

@@ -1,5 +1,6 @@
 /* eslint-disable-next-line max-len */
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import UpdateNodeLabelsV1 from '@gdbots/schemas/gdbots/ncr/command/UpdateNodeLabelsV1';
 import updateNodeLabels from '../../actions/updateNodeLabels';
 
 export default (dispatch, ownProps) => ({
@@ -9,10 +10,11 @@ export default (dispatch, ownProps) => ({
     const addLabels = selected.filter((label) => !origLabels.includes(label));
     const removeLabels = origLabels.filter((label) => !selected.includes(label));
 
-    const command = schemas.updateNodeLabels.createMessage()
-      .set('node_ref', NodeRef.fromNode(node))
-      .addToSet('add_labels', addLabels)
-      .addToSet('remove_labels', removeLabels);
+    const command = UpdateNodeLabelsV1.fromObject({
+      node_ref: NodeRef.fromNode(node),
+      add_labels: addLabels,
+      remove_labels: removeLabels,
+    });
 
     dispatch(updateNodeLabels(
       command,

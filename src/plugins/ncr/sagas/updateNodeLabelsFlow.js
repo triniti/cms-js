@@ -15,9 +15,9 @@ export default function* ({ config, pbj }) {
       if (!response.pbj.has('node')) {
         return false;
       }
-      const responseLabels = response.pbj.get('node').get('labels', []).sort();
+      const responseLabels = response.pbj.get('node').get('labels', []);
 
-      // check if all add_labels was added
+      // check if all add_labels were added
       const addLabels = pbj.get('add_labels', []);
       for (let i = 0; i < addLabels.length; i += 1) {
         if (!responseLabels.includes(addLabels[i])) {

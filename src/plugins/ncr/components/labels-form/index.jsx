@@ -3,7 +3,7 @@ import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import labelColors from 'config/labels'; // eslint-disable-line import/no-unresolved
+import nodeLabelColors from 'config/nodeLabels'; // eslint-disable-line import/no-unresolved
 import Message from '@gdbots/pbj/Message';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import {
@@ -17,9 +17,9 @@ import {
 import PicklistPicker from '@triniti/cms/plugins/sys/components/picklist-picker';
 import delegateFactory from './delegate';
 
-const getColor = (label) => labelColors[label] || '#c0c0c0';
+const getColor = (label) => nodeLabelColors[label] || '#c0c0c0';
 
-class Labels extends React.PureComponent {
+class LabelsForm extends React.PureComponent {
   static propTypes = {
     disabled: PropTypes.bool,
     disabledReasonMessage: PropTypes.string,
@@ -199,4 +199,4 @@ class Labels extends React.PureComponent {
   }
 }
 
-export default connect(null, createDelegateFactory(delegateFactory))(Labels);
+export default connect(null, createDelegateFactory(delegateFactory))(LabelsForm);
