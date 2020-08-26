@@ -11,7 +11,7 @@ export default (dispatch, ownProps) => ({
     const removeLabels = origLabels.filter((label) => !selected.includes(label));
 
     const command = UpdateNodeLabelsV1.fromObject({
-      node_ref: NodeRef.fromNode(node),
+      node_ref: `${NodeRef.fromNode(node)}`,
       add_labels: addLabels,
       remove_labels: removeLabels,
     });
@@ -19,7 +19,7 @@ export default (dispatch, ownProps) => ({
     dispatch(updateNodeLabels(
       command,
       {
-        expectedEvent: `${schemas.nodeLabelsUpdated.getCurie()}`,
+        expectedEvent: 'gdbots:ncr:event:node-labels-updated',
         schemas,
       },
     ));
