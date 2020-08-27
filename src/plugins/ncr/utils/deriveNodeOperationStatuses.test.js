@@ -2,7 +2,6 @@ import test from 'tape';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import deriveNodeOperationStatuses from './deriveNodeOperationStatuses';
 
-
 const opsGrantStatuses = {
   isPublishNodeGranted: true,
   isUnpublishNodeGranted: true,

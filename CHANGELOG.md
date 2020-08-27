@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v0.9.0
+* Add way to get from image picker to image asset page.
+* Adding support for article labels.
+
+
 ## v0.8.0
 * Support for reverting history.
 

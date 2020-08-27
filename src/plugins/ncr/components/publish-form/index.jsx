@@ -82,7 +82,7 @@ class PublishForm extends React.PureComponent {
 
   applyChangeStatus() {
     const { delegate } = this.props;
-    const { publishedAt, date, operation, time } = this.state;
+    const { publishedAt, operation } = this.state;
 
     switch (operation) {
       case operationType.MARK_AS_DRAFT:

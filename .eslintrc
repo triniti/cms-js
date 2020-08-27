@@ -27,6 +27,7 @@
     "max-len": "warn",
     "no-console": "off",
     "no-continue": "off",
+    "no-multiple-empty-lines": "off",
     "no-redeclare": "off",
     "no-unused-vars": "warn",
     "object-curly-newline": "off",

@@ -136,7 +136,6 @@ test('Policy isGranted tests', (t) => {
   t.end();
 });
 
-
 test('Policy hasRole Tests', (t) => {
   const samples = [
     {
