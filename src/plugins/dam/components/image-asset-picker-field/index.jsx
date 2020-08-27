@@ -86,35 +86,35 @@ class ImageAssetPickerField extends React.Component {
       getNode,
     } = this.props;
 
-    const selected = getNode(value);
+    const image = getNode(value);
 
     return (
       <div className="mb-4">
         <FormGroup className="mb-0">
           <Label>{label}</Label>
-          {selected && (
+          {image && (
           <>
-            <RouterLink to={pbjUrl(selected, 'cms')}>
-              <Button id={`view-${selected.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 ml-2">
+            <RouterLink to={pbjUrl(image, 'cms')}>
+              <Button id={`view-${image.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 ml-2">
                 <Icon imgSrc="eye" alt="view" />
               </Button>
-              <UncontrolledTooltip placement="auto" target={`view-${selected.get('_id')}`}>View</UncontrolledTooltip>
+              <UncontrolledTooltip placement="auto" target={`view-${image.get('_id')}`}>View</UncontrolledTooltip>
             </RouterLink>
-            <RouterLink to={`${pbjUrl(selected, 'cms')}/edit`}>
-              <Button id={`edit-${selected.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 mx-1">
+            <RouterLink to={`${pbjUrl(image, 'cms')}/edit`}>
+              <Button id={`edit-${image.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1 mx-1">
                 <Icon imgSrc="pencil" alt="edit" />
               </Button>
-              <UncontrolledTooltip placement="auto" target={`edit-${selected.get('_id')}`}>Edit</UncontrolledTooltip>
+              <UncontrolledTooltip placement="auto" target={`edit-${image.get('_id')}`}>Edit</UncontrolledTooltip>
             </RouterLink>
             <a
-              href={damUrl(NodeRef.fromNode(selected))}
+              href={damUrl(NodeRef.fromNode(image))}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button id={`open-in-new-tab-${selected.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1">
+              <Button id={`open-in-new-tab-${image.get('_id')}`} size="xs" color="hover" radius="circle" className="mb-1">
                 <Icon imgSrc="external" alt="open" />
               </Button>
-              <UncontrolledTooltip placement="auto" target={`open-in-new-tab-${selected.get('_id')}`}>Open in new tab</UncontrolledTooltip>
+              <UncontrolledTooltip placement="auto" target={`open-in-new-tab-${image.get('_id')}`}>Open in new tab</UncontrolledTooltip>
             </a>
           </>
           )}
