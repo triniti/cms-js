@@ -38,7 +38,6 @@ test('CategorizableSubscriber onInitForm', (t) => {
   t.end();
 });
 
-
 test('CategorizableSubscriber onSubmitForm', (t) => {
   const command = categorizable.createMessage();
   command.addToSet('category_refs', categories.map((category) => NodeRef.fromNode(category)));

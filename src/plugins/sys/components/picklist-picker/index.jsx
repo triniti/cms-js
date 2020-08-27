@@ -32,7 +32,11 @@ class PicklistPicker extends React.Component {
     onChange: PropTypes.func.isRequired,
     picklistId: PropTypes.string.isRequired,
     touched: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object,
+      PropTypes.string,
+    ]).isRequired,
     warning: PropTypes.string,
     delegate: PropTypes.shape({
       getPicklist: PropTypes.func.isRequired,
@@ -94,7 +98,7 @@ class PicklistPicker extends React.Component {
           {exception.getCode() === Code.NOT_FOUND.getValue()
             ? (
               <Alert color="danger">
-                  Please make sure {picklistId} Picklist has been created!
+                Please make sure {picklistId} Picklist has been created!
               </Alert>
             )
             : <StatusMessage key="status" exception={exception} status={status} />}

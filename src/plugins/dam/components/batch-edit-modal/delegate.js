@@ -33,7 +33,6 @@ class Delegate {
     this.dispatch = component.props.dispatch;
   }
 
-
   createFormEvent(data, formProps) {
     const command = schemas.patchAssets.createMessage({
       expected_etag: null,

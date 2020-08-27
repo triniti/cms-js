@@ -29,6 +29,7 @@ class VideoScreen extends AbstractNodeScreen {
       this.renderPreviewButtons(),
       this.renderNodeStatus(),
       this.renderPublishForm(),
+      this.renderLabelsForm(),
       node && node.has('medialive_channel_arn') && <MediaLiveChannelState node={node} key="medialive-channel-state" />,
       mezzanine && <VideoAssetPreview node={mezzanine} key="video-preview" />,
       this.renderChat(),

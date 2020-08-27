@@ -33,7 +33,6 @@ test('PageSubscriber onInitForm', (t) => {
   t.end();
 });
 
-
 test('PageSubscriber onSubmitForm', (t) => {
   const command = PageV1Mixin.findOne().createMessage();
 

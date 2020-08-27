@@ -17,7 +17,6 @@ test('TikTokBlockEmbed', (t) => {
   t.end();
 });
 
-
 test('TikTokBlockEmbed', (t) => {
   const url = '<iframe width="340" height="700" src="https://www.tiktok.com/embed/6768820529194372357" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
   const { id: actual } = getTikTokId(url);

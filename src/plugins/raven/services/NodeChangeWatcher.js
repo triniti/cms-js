@@ -21,7 +21,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
     const { pbj } = event.getAction();
     const schema = pbj.schema();
 
-    if (!schema.hasMixin('gdbots:pbjx:mixin:event')) {
+    if (!schema.hasMixin('gdbots:pbjx:mixin:event') || schema.hasMixin('gdbots:common:mixin:labelable')) {
       return;
     }
 

@@ -3,7 +3,6 @@ import SearchArticlesRequestV1Mixin from '@triniti/schemas/triniti/news/mixin/se
 import { actionTypes } from '../constants';
 import clearResponse from './clearResponse';
 
-
 test('clearChannelSlot action creator tests', (t) => {
   const curie = SearchArticlesRequestV1Mixin.findOne().getCurie();
   const actual = clearResponse(curie, 'root');

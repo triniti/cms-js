@@ -14,6 +14,7 @@ import searchNodesFlow from './searchNodesFlow';
 import unlockNodeFlow from './unlockNodeFlow';
 import unpublishNodeFlow from './unpublishNodeFlow';
 import updateNodeFlow from './updateNodeFlow';
+import updateNodeLabelsFlow from './updateNodeLabelsFlow';
 
 function* watchBatchOperations() {
   const {
@@ -79,6 +80,10 @@ function* watchUpdateNodeFlow() {
   yield takeLatest(actionTypes.UPDATE_NODE_REQUESTED, updateNodeFlow);
 }
 
+function* watchUpdateNodeLabelsFlow() {
+  yield takeLatest(actionTypes.UPDATE_NODE_LABELS_REQUESTED, updateNodeLabelsFlow);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(watchBatchOperations),
@@ -94,5 +99,6 @@ export default function* rootSaga() {
     fork(watchUnlockNodeFlow),
     fork(watchUnpublishNodeFlow),
     fork(watchUpdateNodeFlow),
+    fork(watchUpdateNodeLabelsFlow),
   ]);
 }

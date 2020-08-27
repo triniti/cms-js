@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Adding support for article labels.
+
+
 ## v0.8.0
 * Support for reverting history.
 
