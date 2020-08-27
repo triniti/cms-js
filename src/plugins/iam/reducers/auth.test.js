@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 import { actionTypes } from '../constants';
 import reducer, { initialState } from './auth';
 
-
 test('auth reducer tests', (t) => {
   const { LOGOUT_COMPLETED } = actionTypes;
 

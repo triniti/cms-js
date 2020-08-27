@@ -132,7 +132,6 @@ export default class RoleSubscriber extends EventSubscriber {
       .then(() => event.getRedux().dispatch(updatePolicy(new Policy(authRoles.get()))));
   }
 
-
   getSubscribedEvents() {
     return {
       'gdbots:iam:mixin:role.init_form': this.onInitForm,

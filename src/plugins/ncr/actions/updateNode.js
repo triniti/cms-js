@@ -6,7 +6,7 @@ import { actionTypes } from '../constants';
  *
  * @param {Message}  command - A message using mixin 'gdbots:ncr:mixin:update-node'
  * @param {Function} resolve - redux form promise resolver
- * @param {Function} reject  - redux form promize rejecter
+ * @param {Function} reject  - redux form promise rejecter
  * @param {Object}   history
  * @param {Object}   match
  * @param {Object}   config

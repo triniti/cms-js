@@ -17,7 +17,6 @@ test('Ncr:search nodes test[default channel]', (t) => {
   t.end();
 });
 
-
 test('search user tests', (t) => {
   const testAction = { type: actionTypes.SEARCH_NODES_REQUESTED, pbj: 'this is a pbj message', channel: 'test' };
   const generator = searchNodesFlow(testAction);

@@ -28,7 +28,6 @@ const onBatchOperationUpdated = (prevState = {}, { operation, progress, messages
   messages,
 });
 
-
 const onBatchOperationEnded = (prevState = {}) => ({
   ...prevState,
   progress: prevState.progress,

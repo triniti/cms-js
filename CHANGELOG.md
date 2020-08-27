@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * add way to get from image picker to image asset page.
+* Adding support for article labels.
 
 
 ## v0.8.0

@@ -82,7 +82,6 @@ test('ArticleSubscriber onValidateForm[invalid title]', (t) => {
   t.end();
 });
 
-
 test('ArticleSubscriber onSubmitForm', (t) => {
   const command = ArticleV1Mixin.findOne().createMessage();
   command.set('_id', ArticleId.fromString('68d93e8d-a191-47e9-8bff-bea2ada151e2'));
