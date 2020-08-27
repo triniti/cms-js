@@ -1,8 +1,8 @@
 # CHANGELOG
 
 
-## vN.N.N
-* add way to get from image picker to image asset page.
+## v0.9.0
+* Add way to get from image picker to image asset page.
 * Adding support for article labels.
 
 

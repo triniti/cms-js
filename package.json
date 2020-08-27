@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "@triniti/cms is a single page app for managing triniti schemas and services.",
   "license": "Apache-2.0",
   "module": "./index.js",
@@ -17,7 +17,7 @@
   },
   "peerDependencies": {
     "@gdbots/schemas": "^1.6.6",
-    "@triniti/schemas": "^1.1.11"
+    "@triniti/schemas": "^1.1.12"
   },
   "dependencies": {
     "@gdbots/common": "^1.0.2",
@@ -27,7 +27,7 @@
     "@triniti/app": "~0.4 || ^1.0",
     "animate.css": "^3.6.1",
     "auth0-lock": "^11.26.3",
-    "aws-sdk": "^2.738.0",
+    "aws-sdk": "^2.740.0",
     "bootstrap": "^4.5.2",
     "bottlejs": "^1.7.1",
     "chroma-js": "^2.1.0",
@@ -105,7 +105,7 @@
     "@hot-loader/react-dom": "^16.13.0",
     "@redux-saga/testing-utils": "^1.1.1",
     "@triniti/acme-schemas": "^1.1.9",
-    "@triniti/schemas": "^1.1.11",
+    "@triniti/schemas": "^1.1.12",
     "ajv": "^6.12.4",
     "autoprefixer": "^9.8.6",
     "babel-eslint": "^10.1.0",
