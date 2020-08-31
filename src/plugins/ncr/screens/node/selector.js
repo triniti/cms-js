@@ -1,5 +1,6 @@
 import { isPristine as isFormPristine, isSubmitting as isFormSubmitting } from 'redux-form';
 import convertFormErrorsToAlerts from '@triniti/cms/utils/convertFormErrorsToAlerts';
+import forceSaveConfig from 'config/forceSaveConfig'; // eslint-disable-line import/no-unresolved
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getCommand from '@triniti/cms/plugins/pbjx/selectors/getCommand';
 import getForm from '@triniti/cms/selectors/getForm';
@@ -39,6 +40,7 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
   const nodeStatus = response ? response.get('node').get('status') : '';
 
   const isDeleteGranted = isGranted(state, `${schemas.deleteNode.getCurie()}`);
+  const isForceSaveGranted = isGranted(state, forceSaveConfig.permission);
   const isUpdateGranted = isGranted(state, `${schemas.updateNode.getCurie()}`);
 
   const isEditMode = (mode === 'edit') && (isDeleteGranted || isUpdateGranted);
@@ -61,19 +63,28 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
 
   /* alert bar */
   const alerts = getAlerts(state, formName);
+  const form = getForm(state, formName);
   // populated thru redux-form validation
   // https://redux-form.com/8.1.0/docs/api/reduxform.md/#-code-validate-values-object-props-object-gt-errors-object-code-optional-
-  const formErrorAlerts = convertFormErrorsToAlerts(getForm(state, formName));
+  const formErrorAlerts = convertFormErrorsToAlerts(form);
+  const formErrors = {
+    ...form.submitErrors,
+    ...form.asyncErrors,
+    ...form.syncErrors,
+  };
 
   return {
     alerts,
     canCollaborate: isUpdateGranted,
     formErrorAlerts,
+    formErrors,
     getNodeRequestState,
     isCollaborating: isCollaborating(state, nodeRef),
     isDeleteDisabled,
     isEditMode,
     isLocked,
+    isForceSaveDisabled: isPending,
+    isForceSaveGranted,
     isPristine,
     isSaveDisabled,
     isSaveAndPublishDisabled,

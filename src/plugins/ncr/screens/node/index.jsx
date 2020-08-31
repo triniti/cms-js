@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
 import isEmpty from 'lodash/isEmpty';
 import LabelsForm from '@triniti/cms/plugins/ncr/components/labels-form';
+// eslint-disable-next-line import/no-named-as-default
 import NodeLock from '@triniti/cms/plugins/ncr/components/node-lock';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import NodeStatus from '@triniti/cms/plugins/ncr/components/node-status';
@@ -34,6 +35,7 @@ export default class AbstractNodeScreen extends React.Component {
     delegate: PropTypes.instanceOf(AbstractDelegate).isRequired,
     dispatch: PropTypes.func.isRequired,
     formErrorAlerts: PropTypes.arrayOf(PropTypes.object),
+    formErrors: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     getNodeRequestState: PropTypes.shape({
       exception: PropTypes.object,
       request: PropTypes.object,
@@ -44,6 +46,8 @@ export default class AbstractNodeScreen extends React.Component {
     isDeleteDisabled: PropTypes.bool,
     isEditMode: PropTypes.bool,
     isLocked: PropTypes.bool,
+    isForceSaveDisabled: PropTypes.bool,
+    isForceSaveGranted: PropTypes.bool,
     isPristine: PropTypes.bool,
     isSaveDisabled: PropTypes.bool,
     isSaveAndPublishDisabled: PropTypes.bool,
@@ -58,9 +62,12 @@ export default class AbstractNodeScreen extends React.Component {
   static defaultProps = {
     alerts: [],
     formErrorAlerts: [],
+    formErrors: null,
     isDeleteDisabled: false,
     isEditMode: false,
     isLocked: false,
+    isForceSaveDisabled: false,
+    isForceSaveGranted: false,
     isPristine: true,
     isSaveDisabled: false,
     isSaveAndPublishDisabled: false,
@@ -144,6 +151,10 @@ export default class AbstractNodeScreen extends React.Component {
     return null;
   }
 
+  getForceSaveButton() {
+    return null;
+  }
+
   getForm() {
     return null;
   }
@@ -178,6 +189,10 @@ export default class AbstractNodeScreen extends React.Component {
 
   handleToggleSaveDropdown() {
     this.setState(({ isSaveDropDownOpen }) => ({ isSaveDropDownOpen: !isSaveDropDownOpen }));
+  }
+
+  renderForceSaveButton() {
+    return this.getForceSaveButton();
   }
 
   renderForm() {
@@ -301,6 +316,7 @@ export default class AbstractNodeScreen extends React.Component {
               text="Delete"
             />
             {this.renderNodeLock()}
+            {this.renderForceSaveButton()}
           </DropdownMenu>
         </UncontrolledDropdown>
       </Fragment>

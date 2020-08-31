@@ -1,5 +1,5 @@
 /* globals document, window */
-import { destroy, registerField, SubmissionError, submit, touch } from 'redux-form';
+import { change, clearSubmitErrors, destroy, registerField, stopSubmit, SubmissionError, submit, touch } from 'redux-form';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -65,6 +65,8 @@ let handleVisibilityChange = null;
  */
 let shouldCloseAfterSave = false;
 
+let shouldForceSave = false;
+
 /**
  * Flag to keep track of whether or not to auto publish node
  * after a successful update.
@@ -114,6 +116,8 @@ export default class AbstractDelegate {
     };
 
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleForceSave = this.handleForceSave.bind(this);
+    this.handleForceSubmit = this.handleForceSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSaveAndClose = this.handleSaveAndClose.bind(this);
     this.handleSaveAndPublish = this.handleSaveAndPublish.bind(this);
@@ -332,12 +336,72 @@ export default class AbstractDelegate {
   /**
    * @link https://redux-form.com/7.3.0/examples/remotesubmit/
    *
+   * force to save the form by reverting invalid values to initial values
+   */
+  handleForceSave() {
+    shouldCloseAfterSave = false;
+    shouldForceSave = true;
+    shouldPublishAfterSave = false;
+
+    const form = this.getFormName();
+    this.dispatch(submit(form));
+
+    const { formErrors } = this.component.props;
+    const invalidFields = Object.keys(formErrors);
+
+    // if invalid fields found, form won't even call `handleSubmit`
+    // thus we need to repair those fields to re-submit
+    if (invalidFields.length) {
+      this.dispatch(stopSubmit(form));
+      this.dispatch(clearSubmitErrors(form));
+      const initialValues = this.getInitialValues();
+      invalidFields.forEach((field) => {
+        this.dispatch(change(form, field, initialValues[field]));
+      });
+      setTimeout(() => this.dispatch(submit(form)));
+    }
+  }
+
+  handleForceSubmit(data, formDispatch, formProps) {
+    return new Promise((resolve, reject) => {
+      let formEvent = this.createFormEvent(data, formProps);
+      const command = formEvent.getMessage();
+      const { history, match } = this.component.props;
+
+      try {
+        this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
+        this.dispatch(clearSubmitErrors(this.getFormName()));
+        // if errors found, revert invalid values to initial values
+        if (formEvent.hasErrors()) {
+          const initialValues = this.getInitialValues();
+          const initialData = (Object.keys(formEvent.getErrors()) || []).reduce((acc, field) => ({
+            ...acc,
+            [field]: initialValues[field],
+          }), {});
+          formEvent = this.createFormEvent({ ...data, ...initialData }, formProps);
+          this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
+        }
+      } catch (e) {
+        console.error('global form error: ', e.stack.toString());
+      }
+
+      const actionCreator = this.config.actions.updateNode.creator || updateNode;
+      this.dispatch(actionCreator(command, resolve, reject, history, match, {
+        ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
+      }));
+    });
+  }
+
+  /**
+   * @link https://redux-form.com/7.3.0/examples/remotesubmit/
+   *
    * When a user clicks the save button we perform a remote
    * submit to the redux form.  The actual form is handled
    * in the "handleSubmit" function.
    */
   handleSave() {
     shouldCloseAfterSave = false;
+    shouldForceSave = false;
     shouldPublishAfterSave = false;
     this.dispatch(submit(this.getFormName()));
     const { formErrorAlerts } = this.component.props;
@@ -353,6 +417,7 @@ export default class AbstractDelegate {
    */
   handleSaveAndClose() {
     shouldCloseAfterSave = true;
+    shouldForceSave = false;
     shouldPublishAfterSave = false;
     this.dispatch(submit(this.getFormName()));
     const { formErrorAlerts } = this.component.props;
@@ -380,6 +445,7 @@ export default class AbstractDelegate {
 
     if (result.value) {
       shouldCloseAfterSave = false;
+      shouldForceSave = false;
       shouldPublishAfterSave = true;
       this.dispatch(submit(this.getFormName()));
       const { formErrorAlerts } = this.component.props;
@@ -400,6 +466,10 @@ export default class AbstractDelegate {
    * @returns {Promise}
    */
   handleSubmit(data, formDispatch, formProps) {
+    if (shouldForceSave) {
+      return this.handleForceSubmit(data, formDispatch, formProps);
+    }
+
     return new Promise((resolve, reject) => {
       const formEvent = this.createFormEvent(data, formProps);
       const command = formEvent.getMessage();

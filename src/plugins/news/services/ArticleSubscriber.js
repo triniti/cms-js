@@ -172,6 +172,10 @@ export default class ArticleSubscriber extends EventSubscriber {
       return;
     }
 
+    // as much as possible, wrap each node update operation here with a try catch
+    // so we don't stop the form when force submitting at the same time catch
+    // and invalidate the form when doing a regular submit
+
     [
       'allow_comments',
       'amp_enabled',
@@ -182,60 +186,94 @@ export default class ArticleSubscriber extends EventSubscriber {
       'smartnews_enabled',
       'title',
     ].forEach((fieldName) => {
-      const value = data[camelCase(fieldName)];
-      node.set(fieldName, isUndefined(value) ? null : value);
+      try {
+        const value = data[camelCase(fieldName)];
+        node.set(fieldName, isUndefined(value) ? null : value);
+      } catch (error) {
+        console.error(`${fieldName}: `, error);
+        formEvent.addError(camelCase(fieldName), error);
+      }
     });
 
     [
       'apple_news_revision',
       'apple_news_share_url',
     ].forEach((fieldName) => {
-      const value = get(data, camelCase(fieldName), null) || null;
-      if (node.has(fieldName) || value !== null) {
-        node.set(fieldName, value);
+      try {
+        const value = get(data, camelCase(fieldName), null) || null;
+        if (node.has(fieldName) || value !== null) {
+          node.set(fieldName, value);
+        }
+      } catch (error) {
+        console.error(`${fieldName}: `, error);
+        formEvent.addError(camelCase(fieldName), error);
       }
     });
 
-    if (node.has('apple_news_id') || get(data, 'appleNewsId')) {
-      const value = get(data, 'appleNewsId');
-      try {
+    try {
+      if (node.has('apple_news_id') || get(data, 'appleNewsId')) {
+        const value = get(data, 'appleNewsId');
         const identifier = isString(value) ? UuidIdentifier.fromString(value) : value;
         node.set('apple_news_id', identifier);
-      } catch (e) {
-        node.clear('apple_news_id');
       }
+    } catch (error) {
+      node.clear('apple_news_id');
+
+      console.error('apple_news_id: ', error);
+      formEvent.addError('appleNewsId', error);
     }
 
-    node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
-
-    node.clear('slotting');
-    (data.slotting || []).forEach(({ key, value }) => {
-      if (key.label && value) {
-        node.addToMap('slotting', key.label, +value);
-      }
-    });
-
-    [
-      'classification',
-    ].forEach((fieldName) => {
-      node.set(fieldName, get(data, `${camelCase(fieldName)}.value`) || null);
-    });
-
-    node.clear('related_article_refs');
-    if (typeof data.relatedArticleRefs !== 'undefined') {
-      node.addToList('related_article_refs', data.relatedArticleRefs);
+    try {
+      node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
+    } catch (error) {
+      console.error('image_ref: ', error);
+      formEvent.addError('imageRef', error);
     }
 
-    node.clear('author_ref');
-    if (data.authorRefs && data.authorRefs.length) {
-      node.set('author_ref', data.authorRefs[0]);
+    try {
+      node.clear('slotting');
+      (data.slotting || []).forEach(({ key, value }) => {
+        if (key.label && value) {
+          node.addToMap('slotting', key.label, +value);
+        }
+      });
+    } catch (error) {
+      console.error('slotting: ', error);
+      formEvent.addError('slotting', error);
+    }
+
+    try {
+      node.set('classification', get(data, `${camelCase('classification')}.value`) || null);
+    } catch (error) {
+      console.error('classification: ', error);
+      formEvent.addError('classification', error);
+    }
+
+    try {
+      node.clear('related_article_refs');
+      if (typeof data.relatedArticleRefs !== 'undefined') {
+        node.addToList('related_article_refs', data.relatedArticleRefs);
+      }
+    } catch (error) {
+      console.error('related_article_refs: ', error);
+      formEvent.addError('relatedArticleRefs', error);
+    }
+
+    try {
+      node.clear('author_ref');
+      if (data.authorRefs && data.authorRefs.length) {
+        node.set('author_ref', data.authorRefs[0]);
+      }
+    } catch (error) {
+      console.error('author_ref: ', error);
+      formEvent.addError('authorRefs', error);
     }
   }
 
   /**
    * When an event using triniti:news:mixin:apple-news-article-synced
    * occurs we want to automatically update the form the user is looking
-   * at IF they are currently collaborating on that node.
+   * as IF they are currently collaborating on that node.
    *
    * This ensures when the user saves the article it will have the most
    * up to date apple news revision, id, etc.
@@ -292,7 +330,7 @@ export default class ArticleSubscriber extends EventSubscriber {
   /**
    * When an event using triniti:news:mixin:article-slotting-removed
    * occurs we want to automatically update the form the user is looking
-   * at IF they are currently collaborating on that node.
+   * as IF they are currently collaborating on that node.
    *
    * @param {FilterActionEvent} event
    */
