@@ -349,11 +349,11 @@ export default class AbstractDelegate {
     const { formErrors } = this.component.props;
     const invalidFields = Object.keys(formErrors);
 
-    // if invalid fields found, form won't even call `handleSubmit`
-    // thus we need to repair those fields to re-submit
+    // if invalid fields are found, form won't even call `handleSubmit`
+    // to force a re-submit, need to revert those fields to initial values
     if (invalidFields.length) {
-      this.dispatch(stopSubmit(form));
       this.dispatch(clearSubmitErrors(form));
+      this.dispatch(stopSubmit(form));
       const initialValues = this.getInitialValues();
       invalidFields.forEach((field) => {
         this.dispatch(change(form, field, initialValues[field]));
@@ -363,6 +363,7 @@ export default class AbstractDelegate {
   }
 
   handleForceSubmit(data, formDispatch, formProps) {
+    this.dispatch(clearSubmitErrors(this.getFormName()));
     return new Promise((resolve, reject) => {
       let formEvent = this.createFormEvent(data, formProps);
       const command = formEvent.getMessage();
@@ -370,16 +371,20 @@ export default class AbstractDelegate {
 
       try {
         this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
-        this.dispatch(clearSubmitErrors(this.getFormName()));
         // if errors found, revert invalid values to initial values
         if (formEvent.hasErrors()) {
           const initialValues = this.getInitialValues();
-          const initialData = (Object.keys(formEvent.getErrors()) || []).reduce((acc, field) => ({
+          const invalidFields = Object.keys(formEvent.getErrors()) || [];
+          const initialData = invalidFields.reduce((acc, fieldName) => ({
             ...acc,
-            [field]: initialValues[field],
+            [fieldName]: initialValues[fieldName],
           }), {});
           formEvent = this.createFormEvent({ ...data, ...initialData }, formProps);
           this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
+
+          invalidFields.forEach((field) => {
+            this.dispatch(change(this.getFormName(), field, initialValues[field]));
+          });
         }
       } catch (e) {
         console.error('global form error: ', e.stack.toString());

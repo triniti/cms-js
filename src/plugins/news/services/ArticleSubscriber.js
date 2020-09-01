@@ -8,12 +8,18 @@ import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
+import swal from 'sweetalert2';
 import camelCase from 'lodash/camelCase';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
-import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
+import { arrayPush, arrayRemoveAll, change, getFormAsyncErrors, getFormMeta, getFormSubmitErrors, getFormSyncErrors, getFormValues } from 'redux-form';
+
+import formValues from '../utils/formValues';
 import { formNames, formRules } from '../constants';
+
+const createErrorMessage = (error, field) => (error.message ? `${field}: ${error.message}` : `${field}: an error occurred`);
 
 export default class ArticleSubscriber extends EventSubscriber {
   constructor() {
@@ -21,7 +27,10 @@ export default class ArticleSubscriber extends EventSubscriber {
     this.onAppleNewsArticleSynced = this.onAppleNewsArticleSynced.bind(this);
     this.onArticleSlottingRemoved = this.onArticleSlottingRemoved.bind(this);
     this.onArticleUpdated = this.onArticleUpdated.bind(this);
+    this.onClearSubmitErrors = this.onClearSubmitErrors.bind(this);
     this.onInitForm = this.onInitForm.bind(this);
+    this.onSetSubmitFailed = this.onSetSubmitFailed.bind(this);
+    this.onSetSubmitSucceeded = this.onSetSubmitSucceeded.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onValidateForm = this.onValidateForm.bind(this);
   }
@@ -45,7 +54,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     data.swipe = node.has('swipe') ? { label: node.get('swipe'), value: node.get('swipe') } : null;
     data.theme = node.has('theme') ? { label: node.get('theme'), value: node.get('theme') } : null;
     data.relatedArticleRefs = node.has('related_article_refs') ? node.get('related_article_refs') : [];
-    data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
+    data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : '';
     data.slotting = !node.has('slotting') ? null : Object.entries(node.get('slotting')).map(([name, value]) => ({
       key: {
         label: name,
@@ -173,7 +182,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     }
 
     // as much as possible, wrap each node update operation here with a try catch
-    // so we don't stop the form when force submitting at the same time catch
+    // so we don't stop the form when 'FORCE' submitting. also at the same time, catch
     // and invalidate the form when doing a regular submit
 
     [
@@ -191,7 +200,7 @@ export default class ArticleSubscriber extends EventSubscriber {
         node.set(fieldName, isUndefined(value) ? null : value);
       } catch (error) {
         console.error(`${fieldName}: `, error);
-        formEvent.addError(camelCase(fieldName), error);
+        formEvent.addError(camelCase(fieldName), createErrorMessage(error, fieldName));
       }
     });
 
@@ -206,7 +215,7 @@ export default class ArticleSubscriber extends EventSubscriber {
         }
       } catch (error) {
         console.error(`${fieldName}: `, error);
-        formEvent.addError(camelCase(fieldName), error);
+        formEvent.addError(camelCase(fieldName), createErrorMessage(error, fieldName));
       }
     });
 
@@ -220,14 +229,14 @@ export default class ArticleSubscriber extends EventSubscriber {
       node.clear('apple_news_id');
 
       console.error('apple_news_id: ', error);
-      formEvent.addError('appleNewsId', error);
+      formEvent.addError('appleNewsId', createErrorMessage(error, 'apple_news_id'));
     }
 
     try {
       node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
     } catch (error) {
       console.error('image_ref: ', error);
-      formEvent.addError('imageRef', error);
+      formEvent.addError('imageRef', createErrorMessage(error, 'image_ref'));
     }
 
     try {
@@ -239,14 +248,14 @@ export default class ArticleSubscriber extends EventSubscriber {
       });
     } catch (error) {
       console.error('slotting: ', error);
-      formEvent.addError('slotting', error);
+      formEvent.addError('slotting', createErrorMessage(error, 'slotting'));
     }
 
     try {
       node.set('classification', get(data, `${camelCase('classification')}.value`) || null);
     } catch (error) {
       console.error('classification: ', error);
-      formEvent.addError('classification', error);
+      formEvent.addError('classification', createErrorMessage(error, 'classification'));
     }
 
     try {
@@ -256,7 +265,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       }
     } catch (error) {
       console.error('related_article_refs: ', error);
-      formEvent.addError('relatedArticleRefs', error);
+      formEvent.addError('relatedArticleRefs', createErrorMessage(error, 'related_article_refs'));
     }
 
     try {
@@ -266,7 +275,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       }
     } catch (error) {
       console.error('author_ref: ', error);
-      formEvent.addError('authorRefs', error);
+      formEvent.addError('authorRefs', createErrorMessage(error, 'author_refs'));
     }
   }
 
@@ -404,8 +413,68 @@ export default class ArticleSubscriber extends EventSubscriber {
     }
   }
 
+  onClearSubmitErrors(event) {
+    const store = event.getRedux();
+    const state = store.getState();
+    const form = formNames.ARTICLE;
+    const errors = {
+      ...getFormSubmitErrors(form)(state),
+      ...getFormSyncErrors(form)(state),
+      ...getFormAsyncErrors(form)(state),
+    };
+    formValues.set(getFormValues(form)(state), errors);
+  }
+
+  onSetSubmitFailed(event) {
+    formValues.clear();
+  }
+
+  async onSetSubmitSucceeded(event) {
+    const store = event.getRedux();
+    const state = store.getState();
+    const locallyStoredValues = formValues.get();
+    if (!Object.keys(locallyStoredValues).length) {
+      return;
+    }
+
+    const submittedValues = getFormValues(formNames.ARTICLE)(state);
+    const serializedValues = JSON.parse(JSON.stringify(submittedValues));
+
+    // localstorage fields that have different values against the submitted values
+    // are invalid. this is because we revert any invalid values back to their initial values
+    // during force submit.
+    const invalidFields = Object.keys(locallyStoredValues)
+      .filter((fieldName) => !isEqual(locallyStoredValues[fieldName], serializedValues[fieldName]));
+
+    formValues.clear();
+
+    if (!invalidFields.length) {
+      return;
+    }
+
+    const result = await swal.fire({
+      title: `${invalidFields.length} unsave invalid fields. Want to keep the values and retry?`,
+      html: `<strong>${invalidFields.sort().join(', ')}</strong>`,
+      showCancelButton: true,
+      confirmButtonText: 'Yes!',
+      cancelButtonText: 'No',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-secondary',
+      reverseButtons: true,
+    });
+
+    if (result.value) {
+      invalidFields.forEach((field) => {
+        store.dispatch(change(formNames.ARTICLE, field, locallyStoredValues[field]));
+      });
+    }
+  }
+
   getSubscribedEvents() {
     return {
+      '@@redux-form/CLEAR_SUBMIT_ERRORS': this.onClearSubmitErrors,
+      '@@redux-form/SET_SUBMIT_FAILED': this.onSetSubmitFailed,
+      '@@redux-form/SET_SUBMIT_SUCCEEDED': this.onSetSubmitSucceeded,
       'triniti:news:mixin:article.init_form': this.onInitForm,
       'triniti:news:mixin:article.submit_form': this.onSubmitForm,
       'triniti:news:mixin:article.validate_form': this.onValidateForm,
