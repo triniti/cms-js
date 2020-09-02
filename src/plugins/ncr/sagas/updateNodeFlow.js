@@ -33,8 +33,11 @@ export function* onAfterSuccessFlow({ config, history, match, resolve }) {
     const serializedValues = yield JSON.parse(JSON.stringify(submittedValues));
     const localValues = localStorageForm.values;
 
+    // for some reason a value could not be save/persisted then it's invalid
     const unsavedFields = yield Object.keys(localValues)
-      .filter((fieldName) => !isEqual(localValues[fieldName], serializedValues[fieldName]));
+      .filter((fieldName) => !isEqual(localValues[fieldName], serializedValues[fieldName])
+        // exclude if comparing empty string to null
+        && !(localValues[fieldName] === '' && serializedValues[fieldName] === null));
 
     const formErrors = yield Object.assign(
       localStorageForm.asyncErrors || {},
