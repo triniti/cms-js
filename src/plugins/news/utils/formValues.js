@@ -1,5 +1,6 @@
-const key = 'news.form.values';
-let invalidValues = null;
+const key = 'news.form';
+
+const clear = () => localStorage.removeItem(key);
 
 const get = () => {
   const json = localStorage.getItem(key);
@@ -14,25 +15,6 @@ const get = () => {
   return {};
 };
 
-const set = (formValues, formErrors) => {
-  const values = { ...formValues };
-  const invalidFieldNames = Object.keys(formErrors);
-  if (invalidFieldNames.length) {
-    // cache the current values of these invalid fields so
-    // to be merged later with the form's values
-    invalidValues = invalidFieldNames.reduce((acc, fieldName) => ({
-      ...acc,
-      [fieldName]: values[fieldName],
-    }), {});
-    return;
-  }
-  localStorage.setItem(key, JSON.stringify({ ...values, ...invalidValues }));
-  invalidValues = null;
-};
+const set = (form) => localStorage.setItem(key, JSON.stringify(form));
 
-const clear = () => {
-  invalidValues = null;
-  localStorage.removeItem(key);
-};
-
-export default { get, set, clear };
+export default { clear, get, set };

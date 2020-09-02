@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Create permission based force-save button for articles.
+
+
 ## v0.9.0
 * Add way to get from image picker to image asset page.
 * Adding support for article labels.

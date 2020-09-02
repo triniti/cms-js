@@ -1,5 +1,6 @@
 /* globals document, window */
 import { change, clearSubmitErrors, destroy, registerField, stopSubmit, SubmissionError, submit, touch } from 'redux-form';
+import dismissAlert from '@triniti/admin-ui-plugin/actions/dismissAlert';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -342,57 +343,46 @@ export default class AbstractDelegate {
     shouldCloseAfterSave = false;
     shouldForceSave = true;
     shouldPublishAfterSave = false;
+    const { alerts, formErrors } = this.component.props;
+    alerts.forEach(({ id }) => this.dispatch(dismissAlert(id)));
 
-    const form = this.getFormName();
-    this.dispatch(submit(form));
+    const formName = this.getFormName();
+    this.dispatch(submit(formName));
 
-    const { formErrors } = this.component.props;
     const invalidFields = Object.keys(formErrors);
 
     // if invalid fields are found, form won't even call `handleSubmit`
-    // to force a re-submit, need to revert those fields to initial values
+    // to force a submit, need to revert those fields to initial values
     if (invalidFields.length) {
-      this.dispatch(clearSubmitErrors(form));
-      this.dispatch(stopSubmit(form));
+      this.dispatch(clearSubmitErrors(formName));
+      this.dispatch(stopSubmit(formName));
       const initialValues = this.getInitialValues();
       invalidFields.forEach((field) => {
-        this.dispatch(change(form, field, initialValues[field]));
+        this.dispatch(change(formName, field, initialValues[field]));
       });
-      setTimeout(() => this.dispatch(submit(form)));
+      setTimeout(() => this.dispatch(submit(formName)));
     }
   }
 
   handleForceSubmit(data, formDispatch, formProps) {
-    this.dispatch(clearSubmitErrors(this.getFormName()));
     return new Promise((resolve, reject) => {
-      let formEvent = this.createFormEvent(data, formProps);
+      const formEvent = this.createFormEvent(data, formProps);
       const command = formEvent.getMessage();
       const { history, match } = this.component.props;
 
       try {
         this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
-        // if errors found, revert invalid values to initial values
-        if (formEvent.hasErrors()) {
-          const initialValues = this.getInitialValues();
-          const invalidFields = Object.keys(formEvent.getErrors()) || [];
-          const initialData = invalidFields.reduce((acc, fieldName) => ({
-            ...acc,
-            [fieldName]: initialValues[fieldName],
-          }), {});
-          formEvent = this.createFormEvent({ ...data, ...initialData }, formProps);
-          this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
-
-          invalidFields.forEach((field) => {
-            this.dispatch(change(this.getFormName(), field, initialValues[field]));
-          });
-        }
       } catch (e) {
-        console.error('global form error: ', e.stack.toString());
+        console.error('error: ', e.stack.toString());
       }
 
       const actionCreator = this.config.actions.updateNode.creator || updateNode;
       this.dispatch(actionCreator(command, resolve, reject, history, match, {
-        ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
+        ...this.config,
+        formName: formProps.form,
+        shouldCloseAfterSave,
+        shouldForceSave,
+        shouldPublishAfterSave,
       }));
     });
   }

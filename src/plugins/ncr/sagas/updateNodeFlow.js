@@ -1,9 +1,13 @@
-import { call, put } from 'redux-saga/effects';
-import { reset, SubmissionError } from 'redux-form';
+import { call, put, select } from 'redux-saga/effects';
+import { blur, getFormValues, reset, SubmissionError } from 'redux-form';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
+import formValues from '@triniti/cms/plugins/news/utils/formValues';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
+import swal from 'sweetalert2';
+import isEqual from 'lodash/isEqual';
+
 import changeNodeFlow from './changeNodeFlow';
 
 export function* onAfterSuccessFlow({ config, history, match, resolve }) {
@@ -16,11 +20,62 @@ export function* onAfterSuccessFlow({ config, history, match, resolve }) {
     yield put(reset(config.formName));
     yield call(history.push, match.url.match(/\/.+?\/.+?\//)[0]);
   }
+
+  if (config.shouldForceSave) {
+    const localStorageForm = yield formValues.get();
+    formValues.clear();
+
+    if (!Object.keys(localStorageForm).length) {
+      return;
+    }
+
+    const submittedValues = yield select(getFormValues(config.formName));
+    const serializedValues = yield JSON.parse(JSON.stringify(submittedValues));
+    const localValues = localStorageForm.values;
+
+    const unsavedFields = yield Object.keys(localValues)
+      .filter((fieldName) => !isEqual(localValues[fieldName], serializedValues[fieldName]));
+
+    const formErrors = yield Object.assign(
+      localStorageForm.asyncErrors || {},
+      localStorageForm.submitErrors,
+      localStorageForm.syncErrors,
+    );
+    const invalidFields = yield [].concat(unsavedFields, Object.keys(formErrors))
+      .filter((fieldName, index, self) => self.indexOf(fieldName) === index);
+
+    if (!invalidFields.length) {
+      return;
+    }
+
+    const values = localStorageForm.values;
+    const result = yield swal.fire({
+      title: 'All updates have been saved, except:',
+      html: `<strong>${invalidFields.sort().join(', ')}</strong>`,
+      showCancelButton: true,
+      confirmButtonText: 'Resolve',
+      cancelButtonText: 'Dismiss',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-secondary',
+    });
+
+    if (result.value) {
+      let i = 0;
+      for (; i < invalidFields.length; i += 1) {
+        const fieldName = invalidFields[i];
+        const value = values[fieldName];
+        yield put(blur(config.formName, fieldName, value));
+      }
+    }
+  }
 }
 
-export function* onAfterFailureFlow({ reject }, error) {
+export function* onAfterFailureFlow({ config, reject }, error) {
   const message = typeof error.getMessage === 'function' ? error.getMessage() : error.message;
   yield call(reject, new SubmissionError({ _error: message }));
+  if (config.shouldForceSave) {
+    formValues.clear();
+  }
 }
 
 export function* publishAfterUpdateFlow(action) {

@@ -35,7 +35,6 @@ export default class AbstractNodeScreen extends React.Component {
     delegate: PropTypes.instanceOf(AbstractDelegate).isRequired,
     dispatch: PropTypes.func.isRequired,
     formErrorAlerts: PropTypes.arrayOf(PropTypes.object),
-    formErrors: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     getNodeRequestState: PropTypes.shape({
       exception: PropTypes.object,
       request: PropTypes.object,
@@ -46,8 +45,6 @@ export default class AbstractNodeScreen extends React.Component {
     isDeleteDisabled: PropTypes.bool,
     isEditMode: PropTypes.bool,
     isLocked: PropTypes.bool,
-    isForceSaveDisabled: PropTypes.bool,
-    isForceSaveGranted: PropTypes.bool,
     isPristine: PropTypes.bool,
     isSaveDisabled: PropTypes.bool,
     isSaveAndPublishDisabled: PropTypes.bool,
@@ -62,12 +59,9 @@ export default class AbstractNodeScreen extends React.Component {
   static defaultProps = {
     alerts: [],
     formErrorAlerts: [],
-    formErrors: null,
     isDeleteDisabled: false,
     isEditMode: false,
     isLocked: false,
-    isForceSaveDisabled: false,
-    isForceSaveGranted: false,
     isPristine: true,
     isSaveDisabled: false,
     isSaveAndPublishDisabled: false,

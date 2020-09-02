@@ -53,6 +53,7 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
     || updateNodeState.status === STATUS_PENDING;
 
   const isDeleteDisabled = !isDeleteGranted || isPending || nodeStatus.toString() === 'deleted';
+  const isForceSaveDisabled = isPending;
   const isSaveDisabled = !isUpdateGranted || isPristine || isPending;
   const isToggleDisabled = !isPristine || isBlocksmithDirty(state, formName);
 
@@ -82,9 +83,9 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
     isCollaborating: isCollaborating(state, nodeRef),
     isDeleteDisabled,
     isEditMode,
-    isLocked,
-    isForceSaveDisabled: isPending,
+    isForceSaveDisabled,
     isForceSaveGranted,
+    isLocked,
     isPristine,
     isSaveDisabled,
     isSaveAndPublishDisabled,
