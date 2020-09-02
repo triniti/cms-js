@@ -6,7 +6,7 @@ import formData from '@triniti/cms/plugins/news/utils/formData';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
 
-import saveForceAfterSuccessFlow from './saveForceAfterSuccessFlow';
+import forceSaveAfterSuccessFlow from './forceSaveAfterSuccessFlow';
 import changeNodeFlow from './changeNodeFlow';
 
 export function* onAfterSuccessFlow({ config, history, match, resolve }) {
@@ -21,7 +21,7 @@ export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   }
 
   if (config.shouldForceSave) {
-    yield saveForceAfterSuccessFlow(config);
+    yield forceSaveAfterSuccessFlow(config);
   }
 }
 
