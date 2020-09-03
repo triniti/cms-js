@@ -28,7 +28,7 @@ export function* onAfterFailureFlow({ config, reject }, error) {
   const message = typeof error.getMessage === 'function' ? error.getMessage() : error.message;
   yield call(reject, new SubmissionError({ _error: message }));
   if (config.shouldForceSave) {
-    config.clearFormData();
+    config.clearFormData(config.formName);
   }
 }
 

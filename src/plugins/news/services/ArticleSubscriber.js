@@ -33,7 +33,7 @@ export default class ArticleSubscriber extends EventSubscriber {
   onClearSubmitErrors(event) {
     const store = event.getRedux();
     const form = getForm(store.getState(), formNames.ARTICLE);
-    formData.set(form);
+    formData.set(form, formNames.ARTICLE);
   }
 
   /**

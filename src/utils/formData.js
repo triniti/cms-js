@@ -1,4 +1,4 @@
-const defaultKey = 'news.form';
+const defaultKey = 'cms.form';
 
 const clear = (key = defaultKey) => localStorage.removeItem(key);
 

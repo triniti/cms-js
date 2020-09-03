@@ -4,8 +4,8 @@ import isEqual from 'lodash/isEqual';
 import swal from 'sweetalert2';
 
 export default function* (config) {
-  const localStorageForm = yield config.getFormData();
-  config.clearFormData();
+  const localStorageForm = yield config.getFormData(config.formName);
+  config.clearFormData(config.formName);
 
   if (!Object.keys(localStorageForm).length) {
     return;

@@ -380,7 +380,7 @@ export default class AbstractDelegate {
       const actionCreator = this.config.actions.updateNode.creator || updateNode;
       this.dispatch(actionCreator(command, resolve, reject, history, match, {
         ...this.config,
-        clearFormData: () => formData.clear(),
+        clearFormData: (key) => formData.clear(key),
         formName: formProps.form,
         getFormData: (key) => formData.get(key),
         shouldCloseAfterSave,
