@@ -4,6 +4,8 @@ import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getKeyValuesFieldErrors from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
+import formData from '@triniti/cms/utils/formData';
+import getForm from '@triniti/cms/selectors/getForm';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
@@ -14,7 +16,6 @@ import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
 import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
 
-import formData from '../utils/formData';
 import { formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
@@ -31,8 +32,8 @@ export default class ArticleSubscriber extends EventSubscriber {
 
   onClearSubmitErrors(event) {
     const store = event.getRedux();
-    const { form } = store.getState();
-    formData.set(form[formNames.ARTICLE]);
+    const form = getForm(store.getState(), formNames.ARTICLE);
+    formData.set(form);
   }
 
   /**
@@ -244,7 +245,7 @@ export default class ArticleSubscriber extends EventSubscriber {
   /**
    * When an event using triniti:news:mixin:apple-news-article-synced
    * occurs we want to automatically update the form the user is looking
-   * as IF they are currently collaborating on that node.
+   * at IF they are currently collaborating on that node.
    *
    * This ensures when the user saves the article it will have the most
    * up to date apple news revision, id, etc.
@@ -301,7 +302,7 @@ export default class ArticleSubscriber extends EventSubscriber {
   /**
    * When an event using triniti:news:mixin:article-slotting-removed
    * occurs we want to automatically update the form the user is looking
-   * as IF they are currently collaborating on that node.
+   * at IF they are currently collaborating on that node.
    *
    * @param {FilterActionEvent} event
    */

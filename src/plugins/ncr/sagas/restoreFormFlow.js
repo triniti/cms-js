@@ -2,11 +2,10 @@ import { put, select } from 'redux-saga/effects';
 import { blur, getFormValues } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import swal from 'sweetalert2';
-import formData from '@triniti/cms/plugins/news/utils/formData';
 
 export default function* (config) {
-  const localStorageForm = yield formData.get();
-  formData.clear();
+  const localStorageForm = yield config.getFormData();
+  config.clearFormData();
 
   if (!Object.keys(localStorageForm).length) {
     return;

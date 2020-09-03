@@ -17,6 +17,7 @@ import {
 } from '@triniti/app/constants';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
+import formData from '@triniti/cms/utils/formData';
 import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration';
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
@@ -379,7 +380,9 @@ export default class AbstractDelegate {
       const actionCreator = this.config.actions.updateNode.creator || updateNode;
       this.dispatch(actionCreator(command, resolve, reject, history, match, {
         ...this.config,
+        clearFormData: () => formData.clear(),
         formName: formProps.form,
+        getFormData: (key) => formData.get(key),
         shouldCloseAfterSave,
         shouldForceSave,
         shouldPublishAfterSave,

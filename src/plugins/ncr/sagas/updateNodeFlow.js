@@ -2,11 +2,10 @@ import { call, put } from 'redux-saga/effects';
 import { reset, SubmissionError } from 'redux-form';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
-import formData from '@triniti/cms/plugins/news/utils/formData';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
 
-import forceSaveAfterSuccessFlow from './forceSaveAfterSuccessFlow';
+import restoreFormFlow from './restoreFormFlow';
 import changeNodeFlow from './changeNodeFlow';
 
 export function* onAfterSuccessFlow({ config, history, match, resolve }) {
@@ -21,7 +20,7 @@ export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   }
 
   if (config.shouldForceSave) {
-    yield forceSaveAfterSuccessFlow(config);
+    yield restoreFormFlow(config);
   }
 }
 
@@ -29,7 +28,7 @@ export function* onAfterFailureFlow({ config, reject }, error) {
   const message = typeof error.getMessage === 'function' ? error.getMessage() : error.message;
   yield call(reject, new SubmissionError({ _error: message }));
   if (config.shouldForceSave) {
-    formData.clear();
+    config.clearFormData();
   }
 }
 

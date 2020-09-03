@@ -1,6 +1,5 @@
 import { isPristine as isFormPristine, isSubmitting as isFormSubmitting } from 'redux-form';
 import convertFormErrorsToAlerts from '@triniti/cms/utils/convertFormErrorsToAlerts';
-import forceSaveConfig from 'config/forceSaveConfig'; // eslint-disable-line import/no-unresolved
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getCommand from '@triniti/cms/plugins/pbjx/selectors/getCommand';
 import getForm from '@triniti/cms/selectors/getForm';
@@ -40,7 +39,7 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
   const nodeStatus = response ? response.get('node').get('status') : '';
 
   const isDeleteGranted = isGranted(state, `${schemas.deleteNode.getCurie()}`);
-  const isForceSaveGranted = isGranted(state, forceSaveConfig.permission);
+  const isForceSaveGranted = isGranted(state, 'cms-force-save');
   const isUpdateGranted = isGranted(state, `${schemas.updateNode.getCurie()}`);
 
   const isEditMode = (mode === 'edit') && (isDeleteGranted || isUpdateGranted);
