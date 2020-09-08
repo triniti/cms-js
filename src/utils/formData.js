@@ -1,8 +1,6 @@
-const defaultKey = 'cms.form';
+const clear = (key) => localStorage.removeItem(key);
 
-const clear = (key = defaultKey) => localStorage.removeItem(key);
-
-const get = (key = defaultKey) => {
+const get = (key) => {
   const json = localStorage.getItem(key);
   if (json) {
     try {
@@ -15,6 +13,6 @@ const get = (key = defaultKey) => {
   return {};
 };
 
-const set = (form, key = defaultKey) => localStorage.setItem(key, JSON.stringify(form));
+const set = (form, key) => localStorage.setItem(key, JSON.stringify(form));
 
 export default { clear, get, set };
