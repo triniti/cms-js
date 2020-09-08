@@ -383,6 +383,7 @@ export default class AbstractDelegate {
         clearFormData: (key) => formData.clear(key),
         formName: formProps.form,
         getFormData: (key) => formData.get(key),
+        getRegisteredFields: () => formProps.registeredFields,
         shouldCloseAfterSave,
         shouldForceSave,
         shouldPublishAfterSave,
