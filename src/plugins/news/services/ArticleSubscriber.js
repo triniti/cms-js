@@ -16,7 +16,7 @@ import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
 import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
 
-import { formNames, formRules } from '../constants';
+import { formKeys, formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
   constructor() {
@@ -33,7 +33,7 @@ export default class ArticleSubscriber extends EventSubscriber {
   onClearSubmitErrors(event) {
     const store = event.getRedux();
     const form = getForm(store.getState(), formNames.ARTICLE);
-    formData.set(form, formNames.ARTICLE);
+    formData.set(form, formKeys.ARTICLE_FORM_DATA_KEY);
   }
 
   /**

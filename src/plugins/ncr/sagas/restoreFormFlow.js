@@ -53,8 +53,8 @@ function* showAlert(invalidFields) {
 }
 
 export default function* (config) {
-  const localStorageForm = yield config.getFormData(config.formName);
-  config.clearFormData(config.formName);
+  const localStorageForm = yield config.getFormData(config.formDataKey);
+  config.clearFormData(config.formDataKey);
 
   if (!Object.keys(localStorageForm).length) {
     return;
