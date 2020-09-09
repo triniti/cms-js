@@ -22,7 +22,6 @@ function* restoreInvalidFields(invalidFields, localStorageFormValues, config) {
 
     if (registeredField.type !== 'FieldArray') {
       yield put(blur(config.formName, fieldName, value));
-      yield put(touch(config.formName, fieldName));
       continue;
     }
 
