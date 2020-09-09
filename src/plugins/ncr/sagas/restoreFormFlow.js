@@ -83,13 +83,13 @@ export default function* (config) {
     return;
   }
 
-  yield take(['@@redux-form/INITIALIZE']);
+  yield take('@@redux-form/INITIALIZE');
 
   const [result] = yield all([
     call(showAlert, invalidFields),
     // invoked in parallel with displaying show alert since
     // this can block the UI if there are multiple invalid field arrays.
-    call(restoreInvalidFields, invalidFields, localStorageForm.values, config),
+    call(restoreInvalidFields, invalidFields, localValues, config),
   ]);
 
   if (!result.value) {
