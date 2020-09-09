@@ -25,10 +25,9 @@ function* restoreInvalidFields(invalidFields, localStorageFormValues, config) {
       continue;
     }
 
-    const fieldColumns = Object.keys(value[0]);
-    const fieldColumnsCount = fieldColumns.length;
+    const fieldColumns = Object.keys(value[0] || {});
     for (let rowIndex = 0; rowIndex < value.length; rowIndex += 1) {
-      for (let columnIndex = 0; columnIndex < fieldColumnsCount; columnIndex += 1) {
+      for (let columnIndex = 0; columnIndex < fieldColumns.length; columnIndex += 1) {
         const column = fieldColumns[columnIndex];
         const fieldItemValue = value[rowIndex][column];
         const fieldItemName = `${fieldName}[${rowIndex}].${column}`;
