@@ -245,6 +245,12 @@ const VideoFields = ({ formName, isEditMode, schemas, mezzanine, video }) => (
         <Field
           component={CheckboxField}
           disabled={!isEditMode}
+          label="Enable Recommendations"
+          name="recommendationsEnabled"
+        />
+        <Field
+          component={CheckboxField}
+          disabled={!isEditMode}
           label="Show Related Videos"
           name="showRelatedVideos"
         />
