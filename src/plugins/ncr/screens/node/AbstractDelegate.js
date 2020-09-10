@@ -1,10 +1,13 @@
 /* globals document, window */
 import { change, clearSubmitErrors, destroy, registerField, stopSubmit, SubmissionError, submit, touch } from 'redux-form';
 import dismissAlert from '@triniti/admin-ui-plugin/actions/dismissAlert';
+import { filterRevertableData } from '@triniti/cms/plugins/pbjx/utils/filterData';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
 import noop from 'lodash/noop';
+import omit from 'lodash/omit';
 import swal from 'sweetalert2';
 
 import {
@@ -25,6 +28,7 @@ import sendHeartbeat from '@triniti/cms/plugins/raven/actions/sendHeartbeat';
 
 import deleteNode from '../../actions/deleteNode';
 import updateNode from '../../actions/updateNode';
+import hasFieldUpdate from '../../utils/hasFieldUpdate';
 
 /**
  * When the user closes the browser or hits refresh we
@@ -369,13 +373,24 @@ export default class AbstractDelegate {
     return new Promise((resolve, reject) => {
       const formEvent = this.createFormEvent(data, formProps);
       const command = formEvent.getMessage();
-      const { history, match } = this.component.props;
-
+      const { formErrors, history, isPristine, match } = this.component.props;
       try {
         this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
       } catch (e) {
         console.error('error: ', e.stack.toString());
       }
+
+      const hasFieldChanged = !isPristine && hasFieldUpdate(formProps, Object.keys(formErrors));
+
+      const oldBlocks = command.get('old_node').get('blocks');
+      const newBlocks = command.get('new_node').get('blocks');
+      const hasBlockChanged = oldBlocks.length !== newBlocks.length
+        || !!oldBlocks.find((oldBlock, index) => !isEqual(
+          filterRevertableData(oldBlock.toObject()),
+          filterRevertableData(newBlocks[index] ? omit(newBlocks[index].toObject(), 'theme') : {}),
+        ));
+
+      const noFormUpdate = !hasBlockChanged && !hasFieldChanged;
 
       const actionCreator = this.config.actions.updateNode.creator || updateNode;
       this.dispatch(actionCreator(command, resolve, reject, history, match, {
@@ -385,6 +400,7 @@ export default class AbstractDelegate {
         getFormData: (key) => formData.get(key),
         getRegisteredFields: () => formProps.registeredFields,
         shouldCloseAfterSave,
+        shouldDisableSave: noFormUpdate,
         shouldForceSave,
         shouldPublishAfterSave,
       }));

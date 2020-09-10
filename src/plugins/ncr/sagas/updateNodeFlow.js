@@ -6,7 +6,7 @@ import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
 
 import restoreFormFlow from './restoreFormFlow';
-import changeNodeFlow from './changeNodeFlow';
+import changeNodeFlow, { successFlow } from './changeNodeFlow';
 
 export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   yield call(resolve);
@@ -63,6 +63,12 @@ export default function* (action) {
   const pbj = action.pbj;
   const nodeSchema = config.schemas.node
     || config.schemas.nodes.find((node) => node.getCurie().getMessage() === match.params.type);
+
+  if (config.shouldDisableSave) {
+    yield call(successFlow, '', () => onAfterSuccessFlow(action));
+    return;
+  }
+
   yield call(changeNodeFlow, {
     expectedEvent: config.schemas.nodeUpdated.getCurie().toString(),
     failureMessage: `Save ${startCase(nodeSchema.getCurie().getMessage())} failed: `,

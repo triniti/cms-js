@@ -25,8 +25,9 @@ function* restoreInvalidFields(invalidFields, localStorageFormValues, config) {
       continue;
     }
 
-    const fieldColumns = Object.keys(value[0] || {});
-    for (let rowIndex = 0; rowIndex < value.length; rowIndex += 1) {
+    const fieldArrayValue = value || [];
+    const fieldColumns = Object.keys(fieldArrayValue[0] || {});
+    for (let rowIndex = 0; rowIndex < fieldArrayValue.length; rowIndex += 1) {
       for (let columnIndex = 0; columnIndex < fieldColumns.length; columnIndex += 1) {
         const column = fieldColumns[columnIndex];
         const fieldItemValue = value[rowIndex][column];
@@ -38,10 +39,10 @@ function* restoreInvalidFields(invalidFields, localStorageFormValues, config) {
   }
 }
 
-function* showAlert(invalidFields) {
+function* showAlert(title, message) {
   return yield swal.fire({
-    title: 'All updates have been saved, except:',
-    html: `<strong>${invalidFields.sort().join(', ')}</strong>`,
+    title,
+    html: `<strong>${message}</strong>`,
     showCancelButton: true,
     confirmButtonText: 'Resolve',
     cancelButtonText: 'Dismiss',
@@ -83,10 +84,11 @@ export default function* (config) {
 
   yield take('@@redux-form/INITIALIZE');
 
+  const alertTitle = config.shouldDisableSave ? 'Invalid updates found: ' : 'All updates have been saved, except:';
   const [result] = yield all([
-    call(showAlert, invalidFields),
-    // invoked in parallel with displaying show alert since
-    // this can block the UI if there are multiple invalid field arrays.
+    call(showAlert, alertTitle, invalidFields.sort().join(', ')),
+    // invoke in parallel with showing alert since this can block
+    // the UI if there are multiple invalid field arrays found.
     call(restoreInvalidFields, invalidFields, localValues, config),
   ]);
 
