@@ -19,6 +19,10 @@ export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
 };
 
+export const formKeys = {
+  ARTICLE_FORM_DATA_KEY: 'news.article',
+};
+
 export const formNames = {
   ARTICLE: t('article'),
   CREATE_ARTICLE: t('create_article'),

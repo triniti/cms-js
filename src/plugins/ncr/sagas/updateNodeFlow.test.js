@@ -536,7 +536,7 @@ test('Ncr:saga:updateNodeFlow:onAfterFailureFlow', (t) => {
   const error = {
     getMessage: () => 'whatever',
   };
-  const generator = realOnAfterFailureFlow({ reject }, error);
+  const generator = realOnAfterFailureFlow({ config, reject }, error);
   let next = generator.next();
 
   const actual = next.value;

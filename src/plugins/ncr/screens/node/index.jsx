@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
 import isEmpty from 'lodash/isEmpty';
 import LabelsForm from '@triniti/cms/plugins/ncr/components/labels-form';
+// eslint-disable-next-line import/no-named-as-default
 import NodeLock from '@triniti/cms/plugins/ncr/components/node-lock';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import NodeStatus from '@triniti/cms/plugins/ncr/components/node-status';
@@ -144,6 +145,10 @@ export default class AbstractNodeScreen extends React.Component {
     return null;
   }
 
+  getForceSaveButton() {
+    return null;
+  }
+
   getForm() {
     return null;
   }
@@ -178,6 +183,10 @@ export default class AbstractNodeScreen extends React.Component {
 
   handleToggleSaveDropdown() {
     this.setState(({ isSaveDropDownOpen }) => ({ isSaveDropDownOpen: !isSaveDropDownOpen }));
+  }
+
+  renderForceSaveButton() {
+    return this.getForceSaveButton();
   }
 
   renderForm() {
@@ -301,6 +310,7 @@ export default class AbstractNodeScreen extends React.Component {
               text="Delete"
             />
             {this.renderNodeLock()}
+            {this.renderForceSaveButton()}
           </DropdownMenu>
         </UncontrolledDropdown>
       </Fragment>

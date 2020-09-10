@@ -1,12 +1,13 @@
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/node/AbstractDelegate';
-import { formNames } from '../../constants';
+import { formKeys, formNames } from '../../constants';
 import schemas from './schemas';
 
 class Delegate extends AbstractDelegate {
   constructor(dependencies) {
     super({
-      schemas,
+      formDataKey: formKeys.ARTICLE_FORM_DATA_KEY,
       formName: formNames.ARTICLE,
+      schemas,
     }, dependencies);
   }
 }

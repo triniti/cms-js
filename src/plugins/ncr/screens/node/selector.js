@@ -39,6 +39,7 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
   const nodeStatus = response ? response.get('node').get('status') : '';
 
   const isDeleteGranted = isGranted(state, `${schemas.deleteNode.getCurie()}`);
+  const isForceSaveGranted = isGranted(state, 'cms-force-save');
   const isUpdateGranted = isGranted(state, `${schemas.updateNode.getCurie()}`);
 
   const isEditMode = (mode === 'edit') && (isDeleteGranted || isUpdateGranted);
@@ -51,6 +52,7 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
     || updateNodeState.status === STATUS_PENDING;
 
   const isDeleteDisabled = !isDeleteGranted || isPending || nodeStatus.toString() === 'deleted';
+  const isForceSaveDisabled = isPending;
   const isSaveDisabled = !isUpdateGranted || isPristine || isPending;
   const isToggleDisabled = !isPristine || isBlocksmithDirty(state, formName);
 
@@ -61,18 +63,27 @@ export default (state, ownProps, { schemas, formName, ...rest }) => {
 
   /* alert bar */
   const alerts = getAlerts(state, formName);
+  const form = getForm(state, formName);
   // populated thru redux-form validation
   // https://redux-form.com/8.1.0/docs/api/reduxform.md/#-code-validate-values-object-props-object-gt-errors-object-code-optional-
-  const formErrorAlerts = convertFormErrorsToAlerts(getForm(state, formName));
+  const formErrorAlerts = convertFormErrorsToAlerts(form);
+  const formErrors = {
+    ...form.submitErrors,
+    ...form.asyncErrors,
+    ...form.syncErrors,
+  };
 
   return {
     alerts,
     canCollaborate: isUpdateGranted,
     formErrorAlerts,
+    formErrors,
     getNodeRequestState,
     isCollaborating: isCollaborating(state, nodeRef),
     isDeleteDisabled,
     isEditMode,
+    isForceSaveDisabled,
+    isForceSaveGranted,
     isLocked,
     isPristine,
     isSaveDisabled,

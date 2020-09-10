@@ -4,6 +4,8 @@ import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getKeyValuesFieldErrors from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
+import formData from '@triniti/cms/utils/formData';
+import getForm from '@triniti/cms/selectors/getForm';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
 import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
@@ -13,7 +15,8 @@ import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
 import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
-import { formNames, formRules } from '../constants';
+
+import { formKeys, formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
   constructor() {
@@ -21,9 +24,16 @@ export default class ArticleSubscriber extends EventSubscriber {
     this.onAppleNewsArticleSynced = this.onAppleNewsArticleSynced.bind(this);
     this.onArticleSlottingRemoved = this.onArticleSlottingRemoved.bind(this);
     this.onArticleUpdated = this.onArticleUpdated.bind(this);
+    this.onClearSubmitErrors = this.onClearSubmitErrors.bind(this);
     this.onInitForm = this.onInitForm.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onValidateForm = this.onValidateForm.bind(this);
+  }
+
+  onClearSubmitErrors(event) {
+    const store = event.getRedux();
+    const form = getForm(store.getState(), formNames.ARTICLE);
+    formData.set(form, formKeys.ARTICLE_FORM_DATA_KEY);
   }
 
   /**
@@ -210,7 +220,7 @@ export default class ArticleSubscriber extends EventSubscriber {
 
     node.clear('slotting');
     (data.slotting || []).forEach(({ key, value }) => {
-      if (key.label && value) {
+      if (key && key.label && value) {
         node.addToMap('slotting', key.label, +value);
       }
     });
@@ -368,6 +378,7 @@ export default class ArticleSubscriber extends EventSubscriber {
 
   getSubscribedEvents() {
     return {
+      '@@redux-form/CLEAR_SUBMIT_ERRORS': this.onClearSubmitErrors,
       'triniti:news:mixin:article.init_form': this.onInitForm,
       'triniti:news:mixin:article.submit_form': this.onSubmitForm,
       'triniti:news:mixin:article.validate_form': this.onValidateForm,
