@@ -193,8 +193,8 @@ export default class VideoSubscriber extends EventSubscriber {
       'is_live',
       'is_full_episode',
       'is_promo',
-      'sharing_enabled',
       'recommendations_enabled',
+      'sharing_enabled',
       'show_related_videos',
     ].forEach((fieldName) => {
       const value = data[camelCase(fieldName)];
