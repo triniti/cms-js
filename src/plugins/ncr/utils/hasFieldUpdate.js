@@ -29,9 +29,7 @@ const findEmptyFieldColumnValue = (value, initialValue, fieldType) => {
 };
 
 export default (formProps, invalidFields = []) => {
-  const initialValues = formProps.initialValues;
-  const values = formProps.values;
-  const registeredFields = formProps.registeredFields || {};
+  const { initialValues, registeredFields = {}, values } = formProps;
   const updatedField = Object.keys(values)
     .find((fieldName) => !isEqual(values[fieldName], initialValues[fieldName])
       // exclude if comparing empty values
