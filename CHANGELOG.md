@@ -3,7 +3,7 @@
 
 ## vN.N.N
 * Adding support for `recommendations_enabled` field.
-* Use `@triniti/schemas` 1.1.12
+* Use `@triniti/schemas` v1.1.12
 
 
 ## v0.9.0
@@ -25,7 +25,7 @@
 * issue #232: add custom `blockRenderMap` to avoid creation of unsupported block types when pasting content into blocksmith.
 * Update promotion-details-fields to include `slots` schema field.
 * Use `@gdbots/schemas` v1.6.6
-* Use `@triniti/schemas` 1.1.11
+* Use `@triniti/schemas` v1.1.11
 
 
 ## v0.6.3
