@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Adding support for `recommendations_enabled` field.
+* Use `@triniti/schemas` 1.1.12
+
+
 ## v0.9.0
 * Add way to get from image picker to image asset page.
 * Adding support for article labels.

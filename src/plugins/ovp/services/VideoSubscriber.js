@@ -41,6 +41,7 @@ export default class VideoSubscriber extends EventSubscriber {
       'original_air_date',
       'related_videos_heading',
       'sharing_enabled',
+      'recommendations_enabled',
       'show_related_videos',
       'title',
       'youtube_custom_id',
@@ -193,6 +194,7 @@ export default class VideoSubscriber extends EventSubscriber {
       'is_full_episode',
       'is_promo',
       'sharing_enabled',
+      'recommendations_enabled',
       'show_related_videos',
     ].forEach((fieldName) => {
       const value = data[camelCase(fieldName)];
