@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.10.0
 * Create permission based force-save button for articles.
 * Adding support for `recommendations_enabled` field.
 * Use `@triniti/schemas` v1.1.12
