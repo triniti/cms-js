@@ -667,15 +667,6 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
   next = generator.next();
 
   actual = next.value;
-  expected = put(reset(theConfig.formName));
-  t.deepEqual(
-    actual,
-    expected,
-    'it should reset the form',
-  );
-  next = generator.next();
-
-  actual = next.value;
   expected = call(history.push, '/ovp/videos/');
   t.deepEqual(
     actual,
