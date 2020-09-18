@@ -1,13 +1,9 @@
 /* globals document, window */
-import { change, clearSubmitErrors, destroy, registerField, stopSubmit, SubmissionError, submit, touch } from 'redux-form';
-import dismissAlert from '@triniti/admin-ui-plugin/actions/dismissAlert';
-import { filterRevertableData } from '@triniti/cms/plugins/pbjx/utils/filterData';
+import { destroy, setSubmitFailed, setSubmitSucceeded, submit, stopSubmit, SubmissionError } from 'redux-form';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
 import noop from 'lodash/noop';
-import omit from 'lodash/omit';
 import swal from 'sweetalert2';
 
 import {
@@ -20,7 +16,6 @@ import {
 } from '@triniti/app/constants';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
-import formData from '@triniti/cms/utils/formData';
 import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration';
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
@@ -28,7 +23,6 @@ import sendHeartbeat from '@triniti/cms/plugins/raven/actions/sendHeartbeat';
 
 import deleteNode from '../../actions/deleteNode';
 import updateNode from '../../actions/updateNode';
-import hasFieldUpdate from '../../utils/hasFieldUpdate';
 
 /**
  * When the user closes the browser or hits refresh we
@@ -70,8 +64,6 @@ let handleVisibilityChange = null;
  * @Type {Boolean}
  */
 let shouldCloseAfterSave = false;
-
-let shouldForceSave = false;
 
 /**
  * Flag to keep track of whether or not to auto publish node
@@ -122,11 +114,11 @@ export default class AbstractDelegate {
     };
 
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleForceSave = this.handleForceSave.bind(this);
-    this.handleForceSubmit = this.handleForceSubmit.bind(this);
+    this.handleFailedSubmit = this.handleFailedSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSaveAndClose = this.handleSaveAndClose.bind(this);
     this.handleSaveAndPublish = this.handleSaveAndPublish.bind(this);
+    this.handleSuccessfulSubmit = this.handleSuccessfulSubmit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleValidate = this.handleValidate.bind(this);
@@ -339,72 +331,10 @@ export default class AbstractDelegate {
     ));
   }
 
-  /**
-   * @link https://redux-form.com/7.3.0/examples/remotesubmit/
-   *
-   * force to save the form by reverting invalid values to initial values
-   */
-  handleForceSave() {
-    shouldCloseAfterSave = false;
-    shouldForceSave = true;
-    shouldPublishAfterSave = false;
-    const { alerts, formErrors } = this.component.props;
-    alerts.forEach(({ id }) => this.dispatch(dismissAlert(id)));
-
+  handleFailedSubmit(submitError, fields = []) {
     const formName = this.getFormName();
-    this.dispatch(submit(formName));
-
-    const invalidFields = Object.keys(formErrors);
-
-    // if invalid fields are found, form won't even call `handleSubmit`
-    // to force a submit, need to revert those fields to initial values
-    if (invalidFields.length) {
-      this.dispatch(clearSubmitErrors(formName));
-      this.dispatch(stopSubmit(formName));
-      const initialValues = this.getInitialValues();
-      invalidFields.forEach((field) => {
-        this.dispatch(change(formName, field, initialValues[field]));
-      });
-      setTimeout(() => this.dispatch(submit(formName)));
-    }
-  }
-
-  handleForceSubmit(data, formDispatch, formProps) {
-    return new Promise((resolve, reject) => {
-      const formEvent = this.createFormEvent(data, formProps);
-      const command = formEvent.getMessage();
-      const { formErrors, history, isPristine, match } = this.component.props;
-      try {
-        this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
-      } catch (e) {
-        console.error('error: ', e.stack.toString());
-      }
-
-      const hasFieldChanged = !isPristine && hasFieldUpdate(formProps, Object.keys(formErrors));
-
-      const oldBlocks = command.get('old_node').get('blocks');
-      const newBlocks = command.get('new_node').get('blocks');
-      const hasBlockChanged = oldBlocks.length !== newBlocks.length
-        || !!oldBlocks.find((oldBlock, index) => !isEqual(
-          filterRevertableData(oldBlock.toObject()),
-          filterRevertableData(newBlocks[index] ? omit(newBlocks[index].toObject(), 'theme') : {}),
-        ));
-
-      const noFormUpdate = !hasBlockChanged && !hasFieldChanged;
-
-      const actionCreator = this.config.actions.updateNode.creator || updateNode;
-      this.dispatch(actionCreator(command, resolve, reject, history, match, {
-        ...this.config,
-        clearFormData: (key) => formData.clear(key),
-        formName: formProps.form,
-        getFormData: (key) => formData.get(key),
-        getRegisteredFields: () => formProps.registeredFields,
-        shouldCloseAfterSave,
-        shouldDisableSave: noFormUpdate,
-        shouldForceSave,
-        shouldPublishAfterSave,
-      }));
-    });
+    this.dispatch(stopSubmit(formName, submitError.errors));
+    this.dispatch(setSubmitFailed(formName, fields));
   }
 
   /**
@@ -416,11 +346,8 @@ export default class AbstractDelegate {
    */
   handleSave() {
     shouldCloseAfterSave = false;
-    shouldForceSave = false;
     shouldPublishAfterSave = false;
     this.dispatch(submit(this.getFormName()));
-    const { formErrorAlerts } = this.component.props;
-    (formErrorAlerts || []).forEach((alert) => this.dispatch(sendAlert(alert)));
   }
 
   /**
@@ -432,11 +359,8 @@ export default class AbstractDelegate {
    */
   handleSaveAndClose() {
     shouldCloseAfterSave = true;
-    shouldForceSave = false;
     shouldPublishAfterSave = false;
     this.dispatch(submit(this.getFormName()));
-    const { formErrorAlerts } = this.component.props;
-    (formErrorAlerts || []).forEach((alert) => this.dispatch(sendAlert(alert)));
   }
 
   /**
@@ -460,18 +384,21 @@ export default class AbstractDelegate {
 
     if (result.value) {
       shouldCloseAfterSave = false;
-      shouldForceSave = false;
       shouldPublishAfterSave = true;
       this.dispatch(submit(this.getFormName()));
-      const { formErrorAlerts } = this.component.props;
-      (formErrorAlerts || []).forEach((alert) => this.dispatch(sendAlert(alert)));
     }
+  }
+
+  handleSuccessfulSubmit() {
+    const formName = this.getFormName();
+    this.dispatch(stopSubmit(formName));
+    this.dispatch(setSubmitSucceeded(formName));
   }
 
   /**
    * @link https://redux-form.com/7.2.3/docs/api/props.md/#-code-handlesubmit-eventorsubmit-function-code-
    *
-   * In this method we prepare the command and dispatch an action
+   * In this method we prepare the command and return an action
    * which is later handled by the updateNodeFlow saga.
    *
    * @param {Object}   data
@@ -481,41 +408,55 @@ export default class AbstractDelegate {
    * @returns {Promise}
    */
   handleSubmit(data, formDispatch, formProps) {
-    if (shouldForceSave) {
-      return this.handleForceSubmit(data, formDispatch, formProps);
-    }
+    const formEvent = this.createFormEvent(data, formProps);
+    const command = formEvent.getMessage();
+    const { history, match } = this.component.props;
+    const registeredFieldNames = Object.keys(formProps.registeredFields || {});
+    let isDispatchStarted = false;
 
-    return new Promise((resolve, reject) => {
-      const formEvent = this.createFormEvent(data, formProps);
-      const command = formEvent.getMessage();
-      const { history, match } = this.component.props;
-
-      try {
-        this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
-        const errors = { ...formProps.asyncErrors, ...formProps.syncErrors };
-        Object.entries(errors).forEach(([key, value]) => {
-          formEvent.addError(key, value);
-        });
-        if (formEvent.hasErrors()) {
-          Object.keys(formEvent.getErrors()).forEach((key) => {
-            if (!formProps.registeredFields[key]) {
-              this.dispatch(registerField(formProps.form, key, 'Field'));
-              this.dispatch(touch(formProps.form, key));
-            }
-          });
-          reject(new SubmissionError(formEvent.getErrors()));
-          return;
-        }
-      } catch (e) {
-        reject(new SubmissionError({ _error: e.stack.toString() }));
-        return;
+    try {
+      this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
+      if (Object.keys({ ...formProps.asyncErrors, ...formProps.syncErrors }).length) {
+        throw new Error('a field error occurred');
       }
 
+      isDispatchStarted = true;
+      const resolve = this.handleSuccessfulSubmit;
+      const reject = (submitError) => this.handleFailedSubmit(submitError, registeredFieldNames);
       const actionCreator = this.config.actions.updateNode.creator || updateNode;
-      this.dispatch(actionCreator(command, resolve, reject, history, match, {
+
+      return actionCreator(command, resolve, reject, history, match, {
         ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
-      }));
-    });
+      });
+    } catch (e) {
+      const { formErrorAlerts } = this.component.props;
+      const message = e.message || (e.stack ? e.stack.toString() : 'an error occurred');
+      const formErrors = { ...formProps.asyncErrors, ...formProps.syncErrors };
+      const submitError = new SubmissionError({ ...formErrors, _error: message });
+
+      (formErrorAlerts || [])
+        .filter((alert) => alert.message)
+        .forEach((alert) => this.dispatch(sendAlert(alert)));
+
+      if (!formErrorAlerts.length) {
+        this.dispatch(sendAlert({
+          message,
+          type: 'danger',
+          isDismissible: true,
+        }));
+      }
+
+      console.error('handleSubmit: ', e);
+
+      if (isDispatchStarted) {
+        this.handleFailedSubmit(submitError, registeredFieldNames);
+        swal.close();
+      }
+
+      // throw error so redux-form can perform it's clean-up
+      // ( https://github.com/redux-form/redux-form/blob/master/src/handleSubmit.js#L28 )
+      throw submitError;
+    }
   }
 
   /**

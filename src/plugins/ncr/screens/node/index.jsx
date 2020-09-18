@@ -5,7 +5,6 @@ import get from 'lodash/get';
 import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
 import isEmpty from 'lodash/isEmpty';
 import LabelsForm from '@triniti/cms/plugins/ncr/components/labels-form';
-// eslint-disable-next-line import/no-named-as-default
 import NodeLock from '@triniti/cms/plugins/ncr/components/node-lock';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import NodeStatus from '@triniti/cms/plugins/ncr/components/node-status';
@@ -145,10 +144,6 @@ export default class AbstractNodeScreen extends React.Component {
     return null;
   }
 
-  getForceSaveButton() {
-    return null;
-  }
-
   getForm() {
     return null;
   }
@@ -185,10 +180,6 @@ export default class AbstractNodeScreen extends React.Component {
     this.setState(({ isSaveDropDownOpen }) => ({ isSaveDropDownOpen: !isSaveDropDownOpen }));
   }
 
-  renderForceSaveButton() {
-    return this.getForceSaveButton();
-  }
-
   renderForm() {
     const { delegate, isEditMode, tab } = this.props;
     const node = delegate.getNode();
@@ -207,6 +198,8 @@ export default class AbstractNodeScreen extends React.Component {
           isEditMode={isEditMode}
           node={node}
           onSubmit={delegate.handleSubmit}
+          persistentSubmitErrors // ensure to always execute submit ( https://github.com/redux-form/redux-form/blob/master/src/handleSubmit.js#L121 )
+          submitAsSideEffect // avoid using promise on submit
           tab={tab}
           validate={delegate.handleValidate}
           warn={delegate.handleWarn}
@@ -310,7 +303,6 @@ export default class AbstractNodeScreen extends React.Component {
               text="Delete"
             />
             {this.renderNodeLock()}
-            {this.renderForceSaveButton()}
           </DropdownMenu>
         </UncontrolledDropdown>
       </Fragment>

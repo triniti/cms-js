@@ -1,8 +1,8 @@
 # CHANGELOG
 
 
-## v0.10.0
-* Create permission based force-save button for articles.
+## vN.N.N
+* issue #1223: Unresponsive Form
 * Adding support for `recommendations_enabled` field.
 * Use `@triniti/schemas` v1.1.12
 

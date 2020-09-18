@@ -1,12 +1,10 @@
 import { call, put } from 'redux-saga/effects';
-import { reset, SubmissionError } from 'redux-form';
+import { SubmissionError } from 'redux-form';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
-
-import restoreFormFlow from './restoreFormFlow';
-import changeNodeFlow, { successFlow } from './changeNodeFlow';
+import changeNodeFlow from './changeNodeFlow';
 
 export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   yield call(resolve);
@@ -15,21 +13,13 @@ export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   const schema = config.schemas.searchNodes || config.schemas.getAllNodesRequest;
   yield put(clearResponse(schema.getCurie()));
   if (config.shouldCloseAfterSave) {
-    yield put(reset(config.formName));
     yield call(history.push, match.url.match(/\/.+?\/.+?\//)[0]);
-  }
-
-  if (config.shouldForceSave) {
-    yield restoreFormFlow(config);
   }
 }
 
-export function* onAfterFailureFlow({ config, reject }, error) {
+export function* onAfterFailureFlow({ reject }, error) {
   const message = typeof error.getMessage === 'function' ? error.getMessage() : error.message;
   yield call(reject, new SubmissionError({ _error: message }));
-  if (config.shouldForceSave) {
-    config.clearFormData(config.formDataKey);
-  }
 }
 
 export function* publishAfterUpdateFlow(action) {
@@ -63,12 +53,6 @@ export default function* (action) {
   const pbj = action.pbj;
   const nodeSchema = config.schemas.node
     || config.schemas.nodes.find((node) => node.getCurie().getMessage() === match.params.type);
-
-  if (config.shouldDisableSave) {
-    yield call(successFlow, '', () => onAfterSuccessFlow(action));
-    return;
-  }
-
   yield call(changeNodeFlow, {
     expectedEvent: config.schemas.nodeUpdated.getCurie().toString(),
     failureMessage: `Save ${startCase(nodeSchema.getCurie().getMessage())} failed: `,

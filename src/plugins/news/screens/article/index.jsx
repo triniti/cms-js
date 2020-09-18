@@ -6,7 +6,7 @@ import { EditorState } from 'draft-js';
 import AbstractNodeScreen from '@triniti/cms/plugins/ncr/screens/node';
 import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import delegateFactory from '@triniti/cms/plugins/news/screens/article/delegate';
-import { ActionButton, Icon } from '@triniti/admin-ui-plugin/components';
+import { Icon } from '@triniti/admin-ui-plugin/components';
 
 import Form from './Form';
 import selector from './selector';
@@ -24,18 +24,6 @@ class ArticleScreen extends AbstractNodeScreen {
     ...AbstractNodeScreen.defaultProps,
     blocksmithState: null,
   };
-
-  getForceSaveButton() {
-    const { delegate, isForceSaveDisabled, isForceSaveGranted } = this.props;
-    return isForceSaveGranted ? (
-      <ActionButton
-        disabled={isForceSaveDisabled}
-        icon="save-disk"
-        onClick={delegate.handleForceSave}
-        text="Force Save"
-      />
-    ) : null;
-  }
 
   getFormRenderProps() {
     const { blocksmithState, getNodeRequestState } = this.props;

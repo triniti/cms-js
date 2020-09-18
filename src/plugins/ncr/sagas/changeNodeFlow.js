@@ -14,9 +14,6 @@ import waitForFlow from './waitForFlow';
 export function* successFlow(successMessage, onAfterSuccessFlow = noop) {
   yield call(onAfterSuccessFlow);
   yield call([toast, 'close']);
-  if (!successMessage) {
-    return;
-  }
   yield put(sendAlert({
     type: 'success',
     isDismissible: true,
