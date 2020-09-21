@@ -652,7 +652,7 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
     expected,
     'it should call select',
   );
-  next = generator.next(false); // set a clean dirty form
+  next = generator.next(false); // set a clean form
 
   actual = next.value;
   expected = put(destroyEditor(theConfig.formName));
