@@ -37,7 +37,7 @@ export function* publishAfterUpdateFlow(action) {
     expectedEvent: config.schemas.nodePublished.getCurie().toString(),
     failureMessage: `Publish ${startCase(nodeSchema.getCurie().getMessage())} failed: `,
     getNodeRequestSchema: config.schemas.getNodeRequest,
-    onAfterFailureFlow: (error) => console.error('changeNodeFlow: ', error),
+    onAfterFailureFlow: (error) => onAfterFailureFlow(error),
     onAfterSuccessFlow: () => onAfterSuccessFlow(action),
     pbj: config.schemas.publishNode.createMessage({ node_ref: pbj.get('node_ref') }),
     successMessage: `Success! The ${startCase(nodeSchema.getCurie().getMessage())} was saved and published.`,

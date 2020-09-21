@@ -4,6 +4,7 @@ import { actionTypes } from '../constants';
 import batchOperationFlow from './batchOperationFlow';
 import cloneNodeFlow from './cloneNodeFlow';
 import createNodeFlow from './createNodeFlow';
+import createSafeSaga from '../utils/createSafeSaga';
 import deleteNodeFlow from './deleteNodeFlow';
 import lockNodeFlow from './lockNodeFlow';
 import markNodeAsDraftFlow from './markNodeAsDraftFlow';
@@ -15,7 +16,6 @@ import unlockNodeFlow from './unlockNodeFlow';
 import unpublishNodeFlow from './unpublishNodeFlow';
 import updateNodeFlow from './updateNodeFlow';
 import updateNodeLabelsFlow from './updateNodeLabelsFlow';
-import createSafeSaga from '../utils/createSafeSaga';
 
 function* watchBatchOperations() {
   const {
