@@ -199,7 +199,7 @@ export default class AbstractNodeScreen extends React.Component {
           node={node}
           onSubmit={delegate.handleSubmit}
           persistentSubmitErrors // ensure to always execute submit ( https://github.com/redux-form/redux-form/blob/master/src/handleSubmit.js#L121 )
-          submitAsSideEffect // avoid using promise on submit
+          submitAsSideEffect
           tab={tab}
           validate={delegate.handleValidate}
           warn={delegate.handleWarn}

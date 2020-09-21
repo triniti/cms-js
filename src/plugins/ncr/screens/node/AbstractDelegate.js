@@ -1,5 +1,5 @@
 /* globals document, window */
-import { destroy, setSubmitFailed, setSubmitSucceeded, submit, stopSubmit, SubmissionError } from 'redux-form';
+import { clearSubmitErrors, destroy, submit, SubmissionError } from 'redux-form';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -114,11 +114,10 @@ export default class AbstractDelegate {
     };
 
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleFailedSubmit = this.handleFailedSubmit.bind(this);
+    this.handleDisplayErrorAlerts = this.handleDisplayErrorAlerts.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSaveAndClose = this.handleSaveAndClose.bind(this);
     this.handleSaveAndPublish = this.handleSaveAndPublish.bind(this);
-    this.handleSuccessfulSubmit = this.handleSuccessfulSubmit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleValidate = this.handleValidate.bind(this);
@@ -331,10 +330,16 @@ export default class AbstractDelegate {
     ));
   }
 
-  handleFailedSubmit(submitError, fields = []) {
-    const formName = this.getFormName();
-    this.dispatch(stopSubmit(formName, submitError.errors));
-    this.dispatch(setSubmitFailed(formName, fields));
+  handleDisplayErrorAlerts(message = 'an error occurred') {
+    const { formErrorAlerts = [] } = this.component.props;
+    const globalErrorAlerts = formErrorAlerts.length ? [] : [{
+      message,
+      type: 'danger',
+      isDismissible: true,
+    }];
+    formErrorAlerts
+      .concat(globalErrorAlerts)
+      .forEach((alert) => this.dispatch(sendAlert(alert)));
   }
 
   /**
@@ -389,16 +394,10 @@ export default class AbstractDelegate {
     }
   }
 
-  handleSuccessfulSubmit() {
-    const formName = this.getFormName();
-    this.dispatch(stopSubmit(formName));
-    this.dispatch(setSubmitSucceeded(formName));
-  }
-
   /**
    * @link https://redux-form.com/7.2.3/docs/api/props.md/#-code-handlesubmit-eventorsubmit-function-code-
    *
-   * In this method we prepare the command and return an action
+   * In this method we prepare the command and return an update action
    * which is later handled by the updateNodeFlow saga.
    *
    * @param {Object}   data
@@ -411,52 +410,26 @@ export default class AbstractDelegate {
     const formEvent = this.createFormEvent(data, formProps);
     const command = formEvent.getMessage();
     const { history, match } = this.component.props;
-    const registeredFieldNames = Object.keys(formProps.registeredFields || {});
-    let isDispatchStarted = false;
+    const { form } = formProps;
 
     try {
       this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
       if (Object.keys({ ...formProps.asyncErrors, ...formProps.syncErrors }).length) {
-        throw new Error('a field error occurred');
+        throw new Error('form errors found');
       }
-
-      isDispatchStarted = true;
-      const resolve = this.handleSuccessfulSubmit;
-      const reject = (submitError) => this.handleFailedSubmit(submitError, registeredFieldNames);
-      const actionCreator = this.config.actions.updateNode.creator || updateNode;
-
-      return actionCreator(command, resolve, reject, history, match, {
-        ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
-      });
+      this.dispatch(clearSubmitErrors(form));
     } catch (e) {
-      const { formErrorAlerts } = this.component.props;
+      console.error('handleSubmit: ', e);
       const message = e.message || (e.stack ? e.stack.toString() : 'an error occurred');
       const formErrors = { ...formProps.asyncErrors, ...formProps.syncErrors };
-      const submitError = new SubmissionError({ ...formErrors, _error: message });
-
-      (formErrorAlerts || [])
-        .filter((alert) => alert.message)
-        .forEach((alert) => this.dispatch(sendAlert(alert)));
-
-      if (!formErrorAlerts.length) {
-        this.dispatch(sendAlert({
-          message,
-          type: 'danger',
-          isDismissible: true,
-        }));
-      }
-
-      console.error('handleSubmit: ', e);
-
-      if (isDispatchStarted) {
-        this.handleFailedSubmit(submitError, registeredFieldNames);
-        swal.close();
-      }
-
-      // throw error so redux-form can perform it's clean-up
-      // ( https://github.com/redux-form/redux-form/blob/master/src/handleSubmit.js#L28 )
-      throw submitError;
+      this.handleDisplayErrorAlerts(message);
+      throw new SubmissionError({ ...formErrors, _error: message });
     }
+
+    const actionCreator = this.config.actions.updateNode.creator || updateNode;
+    return actionCreator(command, history, match, {
+      ...this.config, formName: form, shouldCloseAfterSave, shouldPublishAfterSave,
+    });
   }
 
   /**

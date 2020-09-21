@@ -1,6 +1,6 @@
-import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
+import { actionChannel, call, delay, fork, put, putResolve, race, select } from 'redux-saga/effects';
+import { isDirty, reset } from 'redux-form';
 import { channel } from 'redux-saga';
-import { reset, SubmissionError } from 'redux-form';
 import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
@@ -532,19 +532,18 @@ test('Ncr:saga:updateNodeFlow:changeNodeFlow[failure:thrown]', (t) => {
 });
 
 test('Ncr:saga:updateNodeFlow:onAfterFailureFlow', (t) => {
-  const reject = () => {};
   const error = {
     getMessage: () => 'whatever',
   };
-  const generator = realOnAfterFailureFlow({ reject }, error);
+  const generator = realOnAfterFailureFlow(error);
   let next = generator.next();
 
   const actual = next.value;
-  const expected = call(reject, new SubmissionError({ _error: 'whatever' }));
+  const expected = call(console.error, 'onAfterFailureFlow: ', error);
   t.deepEqual(
     actual,
     expected,
-    'it should reject the form promise',
+    'it should call console error',
   );
   next = generator.next();
 
@@ -553,7 +552,6 @@ test('Ncr:saga:updateNodeFlow:onAfterFailureFlow', (t) => {
 });
 
 test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
-  const resolve = () => {};
   const history = {
     push: () => {},
   };
@@ -563,18 +561,36 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
   };
   const generator = realOnAfterSuccessFlow({
     config: theConfig,
-    resolve,
     history,
     pbj: updateNodeAction.pbj,
   });
   let next = generator.next();
 
   let actual = next.value;
-  let expected = call(resolve);
+  let expected = call(isDirty, theConfig.formName);
   t.deepEqual(
     actual,
     expected,
-    'it should resolve the form promise',
+    'it should call isDirty',
+  );
+  const selector = () => {};
+  next = generator.next(selector);
+
+  actual = next.value;
+  expected = select(selector);
+  t.deepEqual(
+    actual,
+    expected,
+    'it should call select',
+  );
+  next = generator.next(true); // set a dirty form
+
+  actual = next.value;
+  expected = put(reset(theConfig.formName));
+  t.deepEqual(
+    actual,
+    expected,
+    'it should reset the form',
   );
   next = generator.next();
 
@@ -584,15 +600,6 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
     actual,
     expected,
     'it should destroy the blocksmith editor',
-  );
-  next = generator.next();
-
-  actual = next.value;
-  expected = put(clearResponse(config.schemas.getNodeRequest.getCurie()));
-  t.deepEqual(
-    actual,
-    expected,
-    'it should dispatch clearResponse for getNode',
   );
   next = generator.next();
 
@@ -609,8 +616,7 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
   t.end();
 });
 
-test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
-  const resolve = () => {};
+/* test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
   const history = {
     push: () => {},
   };
@@ -624,36 +630,17 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
     match: {
       url: '/ovp/videos/16ea4251-944d-5d75-babe-8de5d82f5b51/edit',
     },
-    resolve,
     history,
     pbj: updateNodeAction.pbj,
   });
   let next = generator.next();
 
   let actual = next.value;
-  let expected = call(resolve);
-  t.deepEqual(
-    actual,
-    expected,
-    'it should resolve the form promise',
-  );
-  next = generator.next();
-
-  actual = next.value;
-  expected = put(destroyEditor(theConfig.formName));
+  let expected = put(destroyEditor(theConfig.formName));
   t.deepEqual(
     actual,
     expected,
     'it should destroy the blocksmith editor',
-  );
-  next = generator.next();
-
-  actual = next.value;
-  expected = put(clearResponse(config.schemas.getNodeRequest.getCurie()));
-  t.deepEqual(
-    actual,
-    expected,
-    'it should dispatch clearResponse for getNode',
   );
   next = generator.next();
 
@@ -677,7 +664,7 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
 
   t.true(next.done, 'it should be done');
   t.end();
-});
+}); */
 
 test('Ncr:saga:updateNodeFlow:updateAndPublishNode:publishAfterUpdateFlow', (t) => {
   const generator = realPublishAfterUpdateFlow(publishNodeAction);

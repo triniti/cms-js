@@ -15,6 +15,7 @@ import unlockNodeFlow from './unlockNodeFlow';
 import unpublishNodeFlow from './unpublishNodeFlow';
 import updateNodeFlow from './updateNodeFlow';
 import updateNodeLabelsFlow from './updateNodeLabelsFlow';
+import createSafeSaga from '../utils/createSafeSaga';
 
 function* watchBatchOperations() {
   const {
@@ -77,7 +78,7 @@ function* watchUnpublishNodeFlow() {
 }
 
 function* watchUpdateNodeFlow() {
-  yield takeLatest(actionTypes.UPDATE_NODE_REQUESTED, updateNodeFlow);
+  yield takeLatest(actionTypes.UPDATE_NODE_REQUESTED, createSafeSaga(updateNodeFlow));
 }
 
 function* watchUpdateNodeLabelsFlow() {

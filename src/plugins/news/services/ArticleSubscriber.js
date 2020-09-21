@@ -46,7 +46,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     data.theme = node.has('theme') ? { label: node.get('theme'), value: node.get('theme') } : null;
     data.relatedArticleRefs = node.has('related_article_refs') ? node.get('related_article_refs') : [];
     data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
-    data.slotting = !node.has('slotting') ? null : Object.entries(node.get('slotting')).map(([name, value]) => ({
+    data.slotting = !node.has('slotting') ? [] : Object.entries(node.get('slotting')).map(([name, value]) => ({
       key: {
         label: name,
         value: name,
@@ -148,8 +148,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     const redux = formEvent.getRedux();
     if (redux) {
       const meta = getFormMeta(formEvent.getName())(redux.getState());
-      if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))
-        || (getFormValues(formEvent.getName())(redux.getState()) || {}).slotting) {
+      if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
         const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
         if (hasError) {
           formEvent.addError('slotting', errors);
@@ -211,7 +210,7 @@ export default class ArticleSubscriber extends EventSubscriber {
 
     node.clear('slotting');
     (data.slotting || []).forEach(({ key, value }) => {
-      if (key.label && value) {
+      if (key && key.label && value) {
         node.addToMap('slotting', key.label, +value);
       }
     });
