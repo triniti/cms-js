@@ -616,7 +616,7 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
   t.end();
 });
 
-/* test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
+test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
   const history = {
     push: () => {},
   };
@@ -636,7 +636,26 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
   let next = generator.next();
 
   let actual = next.value;
-  let expected = put(destroyEditor(theConfig.formName));
+  let expected = call(isDirty, theConfig.formName);
+  t.deepEqual(
+    actual,
+    expected,
+    'it should call isDirty',
+  );
+  const selector = () => {};
+  next = generator.next(selector);
+
+  actual = next.value;
+  expected = select(selector);
+  t.deepEqual(
+    actual,
+    expected,
+    'it should call select',
+  );
+  next = generator.next(false); // set a clean dirty form
+
+  actual = next.value;
+  expected = put(destroyEditor(theConfig.formName));
   t.deepEqual(
     actual,
     expected,
@@ -664,7 +683,7 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
 
   t.true(next.done, 'it should be done');
   t.end();
-}); */
+});
 
 test('Ncr:saga:updateNodeFlow:updateAndPublishNode:publishAfterUpdateFlow', (t) => {
   const generator = realPublishAfterUpdateFlow(publishNodeAction);
