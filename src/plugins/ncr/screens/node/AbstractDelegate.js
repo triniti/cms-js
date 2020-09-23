@@ -352,8 +352,9 @@ export default class AbstractDelegate {
   handleSave() {
     shouldCloseAfterSave = false;
     shouldPublishAfterSave = false;
-    this.dispatch(clearSubmitErrors(this.getFormName()));
-    this.dispatch(submit(this.getFormName()));
+    const formName = this.getFormName();
+    this.dispatch(clearSubmitErrors(formName));
+    this.dispatch(submit(formName));
   }
 
   /**
@@ -366,8 +367,9 @@ export default class AbstractDelegate {
   handleSaveAndClose() {
     shouldCloseAfterSave = true;
     shouldPublishAfterSave = false;
-    this.dispatch(clearSubmitErrors(this.getFormName()));
-    this.dispatch(submit(this.getFormName()));
+    const formName = this.getFormName();
+    this.dispatch(clearSubmitErrors(formName));
+    this.dispatch(submit(formName));
   }
 
   /**
@@ -392,8 +394,9 @@ export default class AbstractDelegate {
     if (result.value) {
       shouldCloseAfterSave = false;
       shouldPublishAfterSave = true;
-      this.dispatch(clearSubmitErrors(this.getFormName()));
-      this.dispatch(submit(this.getFormName()));
+      const formName = this.getFormName();
+      this.dispatch(clearSubmitErrors(formName));
+      this.dispatch(submit(formName));
     }
   }
 
@@ -413,7 +416,6 @@ export default class AbstractDelegate {
     const formEvent = this.createFormEvent(data, formProps);
     const command = formEvent.getMessage();
     const { history, match } = this.component.props;
-    const { form } = formProps;
 
     try {
       this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
@@ -430,7 +432,7 @@ export default class AbstractDelegate {
 
     const actionCreator = this.config.actions.updateNode.creator || updateNode;
     return actionCreator(command, history, match, {
-      ...this.config, formName: form, shouldCloseAfterSave, shouldPublishAfterSave,
+      ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
     });
   }
 
