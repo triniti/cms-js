@@ -420,8 +420,6 @@ export default class AbstractDelegate {
       if (Object.keys({ ...formProps.asyncErrors, ...formProps.syncErrors }).length) {
         throw new Error('form errors found');
       }
-      // at this point, form passed all validations
-      this.dispatch(clearSubmitErrors(form));
     } catch (e) {
       console.error('handleSubmit: ', e);
       const message = e.message || (e.stack ? e.stack.toString() : 'an error occurred');
