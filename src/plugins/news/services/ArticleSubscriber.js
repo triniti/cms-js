@@ -148,7 +148,9 @@ export default class ArticleSubscriber extends EventSubscriber {
     const redux = formEvent.getRedux();
     if (redux) {
       const meta = getFormMeta(formEvent.getName())(redux.getState());
-      if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
+      const slotting = meta.slotting ? (meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))
+        : (getFormValues(formNames.ARTICLE)(redux.getState()) || {}).slotting;
+      if (slotting) {
         const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
         if (hasError) {
           formEvent.addError('slotting', errors);

@@ -352,6 +352,7 @@ export default class AbstractDelegate {
   handleSave() {
     shouldCloseAfterSave = false;
     shouldPublishAfterSave = false;
+    this.dispatch(clearSubmitErrors(this.getFormName()));
     this.dispatch(submit(this.getFormName()));
   }
 
@@ -365,6 +366,7 @@ export default class AbstractDelegate {
   handleSaveAndClose() {
     shouldCloseAfterSave = true;
     shouldPublishAfterSave = false;
+    this.dispatch(clearSubmitErrors(this.getFormName()));
     this.dispatch(submit(this.getFormName()));
   }
 
@@ -390,6 +392,7 @@ export default class AbstractDelegate {
     if (result.value) {
       shouldCloseAfterSave = false;
       shouldPublishAfterSave = true;
+      this.dispatch(clearSubmitErrors(this.getFormName()));
       this.dispatch(submit(this.getFormName()));
     }
   }
@@ -417,6 +420,7 @@ export default class AbstractDelegate {
       if (Object.keys({ ...formProps.asyncErrors, ...formProps.syncErrors }).length) {
         throw new Error('form errors found');
       }
+      // at this point, form passed all validations
       this.dispatch(clearSubmitErrors(form));
     } catch (e) {
       console.error('handleSubmit: ', e);
