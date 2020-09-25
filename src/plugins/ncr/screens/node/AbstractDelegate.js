@@ -1,5 +1,5 @@
 /* globals document, window */
-import { clearSubmitErrors, destroy, submit, SubmissionError } from 'redux-form';
+import { destroy, registerField, SubmissionError, submit, touch } from 'redux-form';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -330,9 +330,9 @@ export default class AbstractDelegate {
     ));
   }
 
-  handleDisplayErrorAlerts(message = 'an error occurred') {
+  handleDisplayErrorAlerts(message = '') {
     const { formErrorAlerts = [] } = this.component.props;
-    const globalErrorAlerts = formErrorAlerts.length ? [] : [{
+    const globalErrorAlerts = !message ? [] : [{
       message,
       type: 'danger',
       isDismissible: true,
@@ -352,9 +352,8 @@ export default class AbstractDelegate {
   handleSave() {
     shouldCloseAfterSave = false;
     shouldPublishAfterSave = false;
-    const formName = this.getFormName();
-    this.dispatch(clearSubmitErrors(formName));
-    this.dispatch(submit(formName));
+    this.dispatch(submit(this.getFormName()));
+    this.handleDisplayErrorAlerts();
   }
 
   /**
@@ -367,9 +366,8 @@ export default class AbstractDelegate {
   handleSaveAndClose() {
     shouldCloseAfterSave = true;
     shouldPublishAfterSave = false;
-    const formName = this.getFormName();
-    this.dispatch(clearSubmitErrors(formName));
-    this.dispatch(submit(formName));
+    this.dispatch(submit(this.getFormName()));
+    this.handleDisplayErrorAlerts();
   }
 
   /**
@@ -394,16 +392,15 @@ export default class AbstractDelegate {
     if (result.value) {
       shouldCloseAfterSave = false;
       shouldPublishAfterSave = true;
-      const formName = this.getFormName();
-      this.dispatch(clearSubmitErrors(formName));
-      this.dispatch(submit(formName));
+      this.dispatch(submit(this.getFormName()));
+      this.handleDisplayErrorAlerts();
     }
   }
 
   /**
    * @link https://redux-form.com/7.2.3/docs/api/props.md/#-code-handlesubmit-eventorsubmit-function-code-
    *
-   * In this method we prepare the command and return an update action
+   * In this method we prepare the command and dispatch an action
    * which is later handled by the updateNodeFlow saga.
    *
    * @param {Object}   data
@@ -413,26 +410,39 @@ export default class AbstractDelegate {
    * @returns {Promise}
    */
   handleSubmit(data, formDispatch, formProps) {
-    const formEvent = this.createFormEvent(data, formProps);
-    const command = formEvent.getMessage();
-    const { history, match } = this.component.props;
+    return new Promise((resolve, reject) => {
+      const formEvent = this.createFormEvent(data, formProps);
+      const command = formEvent.getMessage();
+      const { history, match } = this.component.props;
 
-    try {
-      this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
-      if (Object.keys({ ...formProps.asyncErrors, ...formProps.syncErrors }).length) {
-        throw new Error('form errors found');
+      try {
+        this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
+        const errors = { ...formProps.asyncErrors, ...formProps.syncErrors };
+        Object.entries(errors).forEach(([key, value]) => {
+          formEvent.addError(key, value);
+        });
+        if (formEvent.hasErrors()) {
+          Object.keys(formEvent.getErrors()).forEach((key) => {
+            if (!formProps.registeredFields[key]) {
+              this.dispatch(registerField(formProps.form, key, 'Field'));
+              this.dispatch(touch(formProps.form, key));
+            }
+          });
+          this.handleDisplayErrorAlerts();
+          reject(new SubmissionError(formEvent.getErrors()));
+          return;
+        }
+      } catch (e) {
+        const errorMessage = e.message || (e.stack ? e.stack.toString() : 'an error occurred');
+        this.handleDisplayErrorAlerts(errorMessage);
+        reject(new SubmissionError({ _error: errorMessage }));
+        return;
       }
-    } catch (e) {
-      console.error('handleSubmit: ', e);
-      const message = e.message || (e.stack ? e.stack.toString() : 'an error occurred');
-      const formErrors = { ...formProps.asyncErrors, ...formProps.syncErrors };
-      this.handleDisplayErrorAlerts(message);
-      throw new SubmissionError({ ...formErrors, _error: message });
-    }
 
-    const actionCreator = this.config.actions.updateNode.creator || updateNode;
-    return actionCreator(command, history, match, {
-      ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
+      const actionCreator = this.config.actions.updateNode.creator || updateNode;
+      this.dispatch(actionCreator(command, resolve, reject, history, match, {
+        ...this.config, formName: formProps.form, shouldCloseAfterSave, shouldPublishAfterSave,
+      }));
     });
   }
 

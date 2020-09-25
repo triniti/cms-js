@@ -3,6 +3,9 @@
 
 ## vN.N.N
 * issue #1223: Unresponsive Form
+
+
+## v0.9.1
 * Adding support for `recommendations_enabled` field.
 * Use `@triniti/schemas` v1.1.12
 

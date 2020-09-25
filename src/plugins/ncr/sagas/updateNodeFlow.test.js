@@ -1,5 +1,5 @@
+import { isDirty, reset, SubmissionError } from 'redux-form';
 import { actionChannel, call, delay, fork, put, putResolve, race, select } from 'redux-saga/effects';
-import { isDirty, reset } from 'redux-form';
 import { channel } from 'redux-saga';
 import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
@@ -532,18 +532,19 @@ test('Ncr:saga:updateNodeFlow:changeNodeFlow[failure:thrown]', (t) => {
 });
 
 test('Ncr:saga:updateNodeFlow:onAfterFailureFlow', (t) => {
+  const reject = () => {};
   const error = {
     getMessage: () => 'whatever',
   };
-  const generator = realOnAfterFailureFlow(error);
+  const generator = realOnAfterFailureFlow({ reject }, error);
   let next = generator.next();
 
   const actual = next.value;
-  const expected = call(console.error, 'onAfterFailureFlow: ', error);
+  const expected = call(reject, new SubmissionError({ _error: 'whatever' }));
   t.deepEqual(
     actual,
     expected,
-    'it should call console error',
+    'it should reject the form promise',
   );
   next = generator.next();
 
@@ -552,6 +553,7 @@ test('Ncr:saga:updateNodeFlow:onAfterFailureFlow', (t) => {
 });
 
 test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
+  const resolve = () => {};
   const history = {
     push: () => {},
   };
@@ -561,13 +563,23 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
   };
   const generator = realOnAfterSuccessFlow({
     config: theConfig,
+    resolve,
     history,
     pbj: updateNodeAction.pbj,
   });
   let next = generator.next();
 
   let actual = next.value;
-  let expected = call(isDirty, theConfig.formName);
+  let expected = call(resolve);
+  t.deepEqual(
+    actual,
+    expected,
+    'it should resolve the form promise',
+  );
+  next = generator.next();
+
+  actual = next.value;
+  expected = call(isDirty, theConfig.formName);
   t.deepEqual(
     actual,
     expected,
@@ -617,6 +629,7 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
 });
 
 test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
+  const resolve = () => {};
   const history = {
     push: () => {},
   };
@@ -630,13 +643,23 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
     match: {
       url: '/ovp/videos/16ea4251-944d-5d75-babe-8de5d82f5b51/edit',
     },
+    resolve,
     history,
     pbj: updateNodeAction.pbj,
   });
   let next = generator.next();
 
   let actual = next.value;
-  let expected = call(isDirty, theConfig.formName);
+  let expected = call(resolve);
+  t.deepEqual(
+    actual,
+    expected,
+    'it should resolve the form promise',
+  );
+  next = generator.next();
+
+  actual = next.value;
+  expected = call(isDirty, theConfig.formName);
   t.deepEqual(
     actual,
     expected,
