@@ -1,5 +1,6 @@
 /* globals document, window */
 import { destroy, registerField, SubmissionError, submit, touch } from 'redux-form';
+import dismissAlert from '@triniti/admin-ui-plugin/actions/dismissAlert';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -413,7 +414,7 @@ export default class AbstractDelegate {
     return new Promise((resolve, reject) => {
       const formEvent = this.createFormEvent(data, formProps);
       const command = formEvent.getMessage();
-      const { history, match } = this.component.props;
+      const { alerts, history, match } = this.component.props;
 
       try {
         this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
@@ -428,6 +429,7 @@ export default class AbstractDelegate {
               this.dispatch(touch(formProps.form, key));
             }
           });
+          alerts.filter(({ type }) => type === 'danger').forEach(({ id }) => this.dispatch(dismissAlert(id)));
           this.handleDisplayErrorAlerts();
           reject(new SubmissionError(formEvent.getErrors()));
           return;
