@@ -11,6 +11,7 @@ const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;
 const LIST_TAG_COUNT_REGEX = /(?:<\/?(o|u)l>)|(?:<\/?li>)/g;
 const LIST_TAG_REGEX = /<(o|u)l>.+?<\/(o|u)l>/g;
 const MUTANT_P_TAG_REGEX = /^<\/?p>(<\/p>)?$/;
+const FIGURE_P_TAG_REGEX = /^<p><figure>.*?<\/figure><\/p>$/;
 const PADDED_CLOSING_P_TAG_REGEX = /((\s)|(&nbsp;))+<\/p>$/;
 const UNNECESSARY_SPAN_REGEX = /<\/span><span class="highlight-text">/g;
 
@@ -33,9 +34,19 @@ export default (editorState, allowEmptyTextBlocks = false) => {
   const contentState = editorState.getCurrentContent();
 
   const options = {
-    // renderer for our custom atomic blocks
     blockRenderers: {
-      [blockTypes.ATOMIC]: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
+      [blockTypes.ATOMIC]: (block) => { // renderer for our custom atomic blocks
+        const canvasBlock = block.getData().get('canvasBlock');
+        if (canvasBlock && !canvasBlock.schema().hasMixin('triniti:canvas:mixin:text-block')) {
+          return `${CANVAS_BLOCK_TOKEN}${JSON.stringify(canvasBlock)}`;
+        }
+        /**
+         * Getting here means that the editor was put into an invalid state where a text block
+         * somehow was given the atomic type. This is unusual, we don't know how it happens, but
+         * we can correct for it later in the conversion process (when the figure tag is removed)
+         */
+        return undefined;
+      },
       [blockTypes.UNSTYLED]: (block) => {
         if (allowEmptyTextBlocks && block.getText() === '') {
           return `<p>${tokens.EMPTY_BLOCK_TOKEN}</p>`;
@@ -110,6 +121,16 @@ export default (editorState, allowEmptyTextBlocks = false) => {
 
       // trim spaces from end of text
       normalizedText = normalizedText.replace(PADDED_CLOSING_P_TAG_REGEX, '</p>');
+
+      if (FIGURE_P_TAG_REGEX.test(normalizedText)) {
+        /**
+         * When a text block ends up somehow being set up as an atomic block, the contents of the
+         * p tag are wrapped in a figure tag. This corrects for that.
+         */
+        normalizedText = normalizedText
+          .replace(/^<p><figure>/, '<p>')
+          .replace(/<\/figure><\/p>$/, '</p>');
+      }
 
       return normalizedText;
     })

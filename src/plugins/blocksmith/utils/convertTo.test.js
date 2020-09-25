@@ -1,8 +1,10 @@
+import { convertFromRaw, EditorState } from 'draft-js';
 import ImageBlockV1 from '@triniti/acme-schemas/acme/canvas/block/ImageBlockV1';
 import isNumber from 'lodash/isNumber';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import test from 'tape';
 import TextBlockV1 from '@triniti/acme-schemas/acme/canvas/block/TextBlockV1';
+import VideoBlockV1 from '@triniti/acme-schemas/acme/canvas/block/VideoBlockV1';
 import convertToCanvasBlocks from './convertToCanvasBlocks';
 import convertToEditorState from './convertToEditorState';
 import getIndexOffsets from './getIndexOffsets';
@@ -97,4 +99,137 @@ test('Blocksmith:util:convert:convertToCanvasBlocks', (t) => {
   });
 
   t.end();
+});
+
+/**
+ * The following test simulates the editorState being converted to canvas blocks while it is in
+ * an invalid state. Specifically, there is a text block that has a type of "atomic", which makes
+ * no sense. We still don't know how the editorState could get into this state, but we know that
+ * it can and has; the data below used to seed the editorState is from actual data of a user
+ * experiencing this problem. So this test is a confirmation of the edits we made to
+ * convertToCanvasBlocks that correct it.
+ */
+
+test('Blocksmith:util:convert:convertToCanvasBlocks [invalid editorState]', (t) => {
+  const videoSchema = 'pbj:acme:canvas:block:video-block:1-0-0';
+  const videoEtag = '3ab2ac65a494a40a70f4dcb9187c08e2';
+  const videoNodeRef = 'acme:video:8152d96b-71ea-526b-998e-605e72412b0a';
+
+  const textBlockSchema = 'pbj:acme:canvas:block:text-block:1-0-0';
+  const atomicText = 'oh look at me i am a text block but my type is atomic. this is not good...';
+  const unstyledText = 'i am a legit text block with the correct type.';
+
+  const canvasBlocks = convertToCanvasBlocks(EditorState.createWithContent(convertFromRaw({
+    entityMap: {},
+    blocks: [
+      {
+        key: '3r9di',
+        type: 'atomic',
+        text: ' ',
+        characterList: [],
+        depth: 0,
+        data: {
+          canvasBlock: VideoBlockV1.create()
+            .set('etag', videoEtag)
+            .set('node_ref', NodeRef.fromString(videoNodeRef)),
+        },
+      },
+      {
+        key: 'fqomp',
+        type: 'atomic',
+        text: atomicText,
+        characterList: atomicText.split('').map(() => ({
+          style: [],
+          entity: null,
+        })),
+        depth: 0,
+        data: {},
+      },
+      {
+        key: '7noe8',
+        type: 'atomic',
+        text: atomicText,
+        characterList: atomicText.split('').map(() => ({
+          style: [],
+          entity: null,
+        })),
+        depth: 0,
+        data: {
+          canvasBlock: TextBlockV1.create()
+            .set('text', `<p>${atomicText}</p>`),
+        },
+      },
+      {
+        key: '8chb0',
+        type: 'unstyled',
+        text: unstyledText,
+        characterList: unstyledText.split('').map(() => ({
+          style: [],
+          entity: null,
+        })),
+        depth: 0,
+        data: {},
+      },
+      {
+        key: '9snjb',
+        type: 'unstyled',
+        text: unstyledText,
+        characterList: unstyledText.split('').map(() => ({
+          style: [],
+          entity: null,
+        })),
+        depth: 0,
+        data: {
+          canvasBlock: TextBlockV1.create()
+            .set('text', `<p>${unstyledText}</p>`),
+        },
+      },
+    ],
+  })));
+
+  let actual = canvasBlocks[0].get('etag');
+  let expected = videoEtag;
+  t.equal(actual, expected, 'the valid atomic block should have the correct etag');
+
+  actual = canvasBlocks[0].schema().toString();
+  expected = videoSchema;
+  t.equal(actual, expected, 'the valid atomic block should have the correct schema');
+
+  actual = canvasBlocks[0].get('node_ref').toString();
+  expected = videoNodeRef;
+  t.equal(actual, expected, 'the valid atomic block should have the correct node_ref');
+
+  actual = canvasBlocks[1].get('text');
+  expected = `<p>${atomicText}</p>`;
+  t.equal(actual, expected, 'the invalid atomic block should have the correct text');
+
+  actual = canvasBlocks[1].schema().toString();
+  expected = textBlockSchema;
+  t.equal(actual, expected, 'the invalid atomic block with data payload should have the correct schema');
+
+  actual = canvasBlocks[2].get('text');
+  expected = `<p>${atomicText}</p>`;
+  t.equal(actual, expected, 'the invalid atomic block with data payload should have the correct text');
+
+  actual = canvasBlocks[2].schema().toString();
+  expected = textBlockSchema;
+  t.equal(actual, expected, 'the invalid atomic block should have the correct schema');
+
+  actual = canvasBlocks[3].get('text');
+  expected = `<p>${unstyledText}</p>`;
+  t.equal(actual, expected, 'the valid unstyled block should have the correct text');
+
+  actual = canvasBlocks[3].schema().toString();
+  expected = textBlockSchema;
+  t.equal(actual, expected, 'the valid unstyled block should have the correct schema');
+
+  actual = canvasBlocks[4].get('text');
+  expected = `<p>${unstyledText}</p>`;
+  t.equal(actual, expected, 'the valid unstyled block with data payload should have the correct text');
+
+  actual = canvasBlocks[4].schema().toString();
+  expected = textBlockSchema;
+  t.equal(actual, expected, 'the valid unstyled block with data payload should have the correct schema');
+
+  actual = t.end();
 });
