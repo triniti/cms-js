@@ -35,14 +35,7 @@ export default (editorState, allowEmptyTextBlocks = false) => {
   const options = {
     // renderer for our custom atomic blocks
     blockRenderers: {
-      [blockTypes.ATOMIC]: (block) => {
-        const canvasBlock = block.getData().get('canvasBlock');
-        if (canvasBlock) {
-          return `${CANVAS_BLOCK_TOKEN}${JSON.stringify(canvasBlock)}`;
-        }
-        // defer to the default renderer
-        return null;
-      },
+      [blockTypes.ATOMIC]: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
       [blockTypes.UNSTYLED]: (block) => {
         if (allowEmptyTextBlocks && block.getText() === '') {
           return `<p>${tokens.EMPTY_BLOCK_TOKEN}</p>`;
