@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.9.2
 * issue #1223: Blocksmith can get into an invalid state, preventing saving
 
 
