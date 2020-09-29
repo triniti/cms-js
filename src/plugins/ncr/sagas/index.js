@@ -4,7 +4,6 @@ import { actionTypes } from '../constants';
 import batchOperationFlow from './batchOperationFlow';
 import cloneNodeFlow from './cloneNodeFlow';
 import createNodeFlow from './createNodeFlow';
-import createSafeSaga from '../utils/createSafeSaga';
 import deleteNodeFlow from './deleteNodeFlow';
 import lockNodeFlow from './lockNodeFlow';
 import markNodeAsDraftFlow from './markNodeAsDraftFlow';
@@ -78,7 +77,7 @@ function* watchUnpublishNodeFlow() {
 }
 
 function* watchUpdateNodeFlow() {
-  yield takeLatest(actionTypes.UPDATE_NODE_REQUESTED, createSafeSaga(updateNodeFlow));
+  yield takeLatest(actionTypes.UPDATE_NODE_REQUESTED, updateNodeFlow);
 }
 
 function* watchUpdateNodeLabelsFlow() {
