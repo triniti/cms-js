@@ -2,7 +2,7 @@
 
 
 ## v0.9.2
-* issue #1223: Blocksmith can get into an invalid state, preventing saving
+* Fix bug where Blocksmith can get into an invalid state, preventing saving.
 
 
 ## v0.9.1
