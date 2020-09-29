@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* issue #1223: Blocksmith can get into an invalid state, preventing saving
+
+
 ## v0.9.1
 * Adding support for `recommendations_enabled` field.
 * Use `@triniti/schemas` v1.1.12

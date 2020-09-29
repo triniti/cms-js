@@ -1311,7 +1311,7 @@ class Blocksmith extends React.Component {
     const { editorState } = this.state;
 
     if (html) {
-      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
+      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
       if (contentBlocks) {
         const fragment = BlockMapBuilder
           .createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
