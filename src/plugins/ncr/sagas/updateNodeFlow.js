@@ -1,5 +1,5 @@
-import { call, put, select } from 'redux-saga/effects';
-import { isDirty, reset, SubmissionError } from 'redux-form';
+import { call, put } from 'redux-saga/effects';
+import { reset, SubmissionError } from 'redux-form';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
@@ -8,17 +8,12 @@ import changeNodeFlow from './changeNodeFlow';
 
 export function* onAfterSuccessFlow({ config, history, match, resolve }) {
   yield call(resolve);
-  const formDirtySelector = yield call(isDirty, config.formName);
-  const isFormDirty = yield select(formDirtySelector);
-  if (isFormDirty) {
-    // a form is still dirty because no detected changes from its initial values.
-    // thus, it never got re-initialized (https://redux-form.com/7.1.2/examples/initializefromstate/).
-    yield put(reset(config.formName));
-  }
   yield put(destroyEditor(config.formName));
+  yield put(clearResponse(config.schemas.getNodeRequest.getCurie())); // not sure this is necessary
   const schema = config.schemas.searchNodes || config.schemas.getAllNodesRequest;
   yield put(clearResponse(schema.getCurie()));
   if (config.shouldCloseAfterSave) {
+    yield put(reset(config.formName));
     yield call(history.push, match.url.match(/\/.+?\/.+?\//)[0]);
   }
 }

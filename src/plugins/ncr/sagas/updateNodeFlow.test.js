@@ -1,6 +1,6 @@
-import { isDirty, reset, SubmissionError } from 'redux-form';
-import { actionChannel, call, delay, fork, put, putResolve, race, select } from 'redux-saga/effects';
+import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
+import { reset, SubmissionError } from 'redux-form';
 import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
@@ -579,39 +579,20 @@ test('Ncr:saga:updateNodeFlow:updateNode:onAfterSuccessFlow', (t) => {
   next = generator.next();
 
   actual = next.value;
-  expected = call(isDirty, theConfig.formName);
-  t.deepEqual(
-    actual,
-    expected,
-    'it should call isDirty',
-  );
-  const selector = () => {};
-  next = generator.next(selector);
-
-  actual = next.value;
-  expected = select(selector);
-  t.deepEqual(
-    actual,
-    expected,
-    'it should call select',
-  );
-  next = generator.next(true); // set a dirty form
-
-  actual = next.value;
-  expected = put(reset(theConfig.formName));
-  t.deepEqual(
-    actual,
-    expected,
-    'it should reset the form',
-  );
-  next = generator.next();
-
-  actual = next.value;
   expected = put(destroyEditor(theConfig.formName));
   t.deepEqual(
     actual,
     expected,
     'it should destroy the blocksmith editor',
+  );
+  next = generator.next();
+
+  actual = next.value;
+  expected = put(clearResponse(config.schemas.getNodeRequest.getCurie()));
+  t.deepEqual(
+    actual,
+    expected,
+    'it should dispatch clearResponse for getNode',
   );
   next = generator.next();
 
@@ -659,25 +640,6 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
   next = generator.next();
 
   actual = next.value;
-  expected = call(isDirty, theConfig.formName);
-  t.deepEqual(
-    actual,
-    expected,
-    'it should call isDirty',
-  );
-  const selector = () => {};
-  next = generator.next(selector);
-
-  actual = next.value;
-  expected = select(selector);
-  t.deepEqual(
-    actual,
-    expected,
-    'it should call select',
-  );
-  next = generator.next(false); // set a clean form
-
-  actual = next.value;
   expected = put(destroyEditor(theConfig.formName));
   t.deepEqual(
     actual,
@@ -687,11 +649,29 @@ test('Ncr:saga:updateNodeFlow:updateNodeAndClose:onAfterSuccessFlow', (t) => {
   next = generator.next();
 
   actual = next.value;
+  expected = put(clearResponse(config.schemas.getNodeRequest.getCurie()));
+  t.deepEqual(
+    actual,
+    expected,
+    'it should dispatch clearResponse for getNode',
+  );
+  next = generator.next();
+
+  actual = next.value;
   expected = put(clearResponse(config.schemas.searchNodes.getCurie()));
   t.deepEqual(
     actual,
     expected,
     'it should dispatch clearResponse for searchNodes',
+  );
+  next = generator.next();
+
+  actual = next.value;
+  expected = put(reset(theConfig.formName));
+  t.deepEqual(
+    actual,
+    expected,
+    'it should reset the form',
   );
   next = generator.next();
 

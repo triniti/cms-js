@@ -1,6 +1,5 @@
 /* globals document, window */
 import { destroy, registerField, SubmissionError, submit, touch } from 'redux-form';
-import dismissAlert from '@triniti/admin-ui-plugin/actions/dismissAlert';
 import FormEvent from '@triniti/app/events/FormEvent';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
@@ -115,7 +114,6 @@ export default class AbstractDelegate {
     };
 
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleDisplayErrorAlerts = this.handleDisplayErrorAlerts.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSaveAndClose = this.handleSaveAndClose.bind(this);
     this.handleSaveAndPublish = this.handleSaveAndPublish.bind(this);
@@ -331,18 +329,6 @@ export default class AbstractDelegate {
     ));
   }
 
-  handleDisplayErrorAlerts(message = '') {
-    const { formErrorAlerts = [] } = this.component.props;
-    const globalErrorAlerts = !message ? [] : [{
-      message,
-      type: 'danger',
-      isDismissible: true,
-    }];
-    formErrorAlerts
-      .concat(globalErrorAlerts)
-      .forEach((alert) => this.dispatch(sendAlert(alert)));
-  }
-
   /**
    * @link https://redux-form.com/7.3.0/examples/remotesubmit/
    *
@@ -354,7 +340,8 @@ export default class AbstractDelegate {
     shouldCloseAfterSave = false;
     shouldPublishAfterSave = false;
     this.dispatch(submit(this.getFormName()));
-    this.handleDisplayErrorAlerts();
+    const { formErrorAlerts } = this.component.props;
+    (formErrorAlerts || []).forEach((alert) => this.dispatch(sendAlert(alert)));
   }
 
   /**
@@ -368,7 +355,8 @@ export default class AbstractDelegate {
     shouldCloseAfterSave = true;
     shouldPublishAfterSave = false;
     this.dispatch(submit(this.getFormName()));
-    this.handleDisplayErrorAlerts();
+    const { formErrorAlerts } = this.component.props;
+    (formErrorAlerts || []).forEach((alert) => this.dispatch(sendAlert(alert)));
   }
 
   /**
@@ -394,7 +382,8 @@ export default class AbstractDelegate {
       shouldCloseAfterSave = false;
       shouldPublishAfterSave = true;
       this.dispatch(submit(this.getFormName()));
-      this.handleDisplayErrorAlerts();
+      const { formErrorAlerts } = this.component.props;
+      (formErrorAlerts || []).forEach((alert) => this.dispatch(sendAlert(alert)));
     }
   }
 
@@ -414,7 +403,7 @@ export default class AbstractDelegate {
     return new Promise((resolve, reject) => {
       const formEvent = this.createFormEvent(data, formProps);
       const command = formEvent.getMessage();
-      const { alerts, history, match } = this.component.props;
+      const { history, match } = this.component.props;
 
       try {
         this.pbjx.trigger(command, SUFFIX_SUBMIT_FORM, formEvent);
@@ -429,15 +418,11 @@ export default class AbstractDelegate {
               this.dispatch(touch(formProps.form, key));
             }
           });
-          alerts.filter(({ type }) => type === 'danger').forEach(({ id }) => this.dispatch(dismissAlert(id)));
-          this.handleDisplayErrorAlerts();
           reject(new SubmissionError(formEvent.getErrors()));
           return;
         }
       } catch (e) {
-        const errorMessage = e.message || (e.stack ? e.stack.toString() : 'an error occurred');
-        this.handleDisplayErrorAlerts(errorMessage);
-        reject(new SubmissionError({ _error: errorMessage }));
+        reject(new SubmissionError({ _error: e.stack.toString() }));
         return;
       }
 

@@ -12,7 +12,7 @@ import camelCase from 'lodash/camelCase';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
-import { arrayPush, arrayRemoveAll, change, getFormValues } from 'redux-form';
+import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
 import { formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
@@ -147,7 +147,8 @@ export default class ArticleSubscriber extends EventSubscriber {
 
     const redux = formEvent.getRedux();
     if (redux) {
-      if ((getFormValues(formNames.ARTICLE)(redux.getState()) || {}).slotting) {
+      const meta = getFormMeta(formEvent.getName())(redux.getState());
+      if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
         const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
         if (hasError) {
           formEvent.addError('slotting', errors);

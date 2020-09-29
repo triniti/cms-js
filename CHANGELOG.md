@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* issue #1223: Unresponsive Form
+* issue #1223: Blocksmith can get into an invalid state, preventing saving
 
 
 ## v0.9.1

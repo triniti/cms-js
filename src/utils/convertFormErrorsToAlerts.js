@@ -43,6 +43,6 @@ export default (form) => {
       return null;
     }
 
-    return errorMessage ? createAlert(errorMessage) : null;
+    return createAlert(errorMessage);
   }).filter((error) => !!error);
 };
