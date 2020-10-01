@@ -73,9 +73,9 @@ export default function* (raven) {
       });
 
       if (userWantsToReconnect.value && userWantsToReconnect.value === true) {
-          attempts = 0;
-          maxConnectionAttempts = 15;
-          yield put(requestConnection());
+        attempts = 0;
+        maxConnectionAttempts = 15;
+        yield put(requestConnection());
       }
 
       continue;
