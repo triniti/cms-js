@@ -9,6 +9,7 @@ import ConnectionFailed from '../exceptions/ConnectionFailed';
 import rejectConnection from '../actions/rejectConnection';
 import requestConnection from '../actions/requestConnection';
 import { actionTypes } from '../constants';
+
 let maxConnectionAttempts = 5;
 /**
  * Helper function that will make a best effort
@@ -59,12 +60,10 @@ export default function* (raven) {
       yield call([raven, 'disconnect']);
       continue;
     }
-    
+
     attempts += 1;
     if (attempts > 10) {
-
       console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
-      
       const userWantsToReconnect = yield swal.fire({
         title: 'Active edits connection is unstable',
         text: 'Other users may not be able to see that you are in this post. would you like to reconnect?',
@@ -78,7 +77,7 @@ export default function* (raven) {
           maxConnectionAttempts = 15;
           yield put(requestConnection());
       }
-      
+
       continue;
     } else if (attempts > 3) {
       // delay a bit before the next attempt
