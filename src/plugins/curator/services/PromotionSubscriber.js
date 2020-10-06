@@ -1,11 +1,11 @@
 import camelCase from 'lodash/camelCase';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import SlotV1 from '@triniti/schemas/triniti/curator/SlotV1';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
 import isEmpty from 'lodash/isEmpty';
 import startCase from 'lodash/startCase';
-import NodeRef from "@gdbots/schemas/gdbots/ncr/NodeRef";
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const abbrv = (day) => day.substr(0, 3);
