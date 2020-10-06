@@ -5,6 +5,7 @@ import SlotV1 from '@triniti/schemas/triniti/curator/SlotV1';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
 import isEmpty from 'lodash/isEmpty';
 import startCase from 'lodash/startCase';
+import NodeRef from "@gdbots/schemas/gdbots/ncr/NodeRef";
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const abbrv = (day) => day.substr(0, 3);
@@ -195,10 +196,15 @@ export default class PromotionSubscriber extends EventSubscriber {
           const slotNode = slotSchema.createMessage();
           const { name, rendering, widgetRef } = slotData;
 
+          let ref = widgetRef[0];
+          if (typeof ref === 'string') {
+            ref = NodeRef.fromString(widgetRef[0]);
+          }
+
           slotNode
             .set('name', name)
             .set('rendering', rendering.value ? SlotRendering.create(rendering.value) : null)
-            .set('widget_ref', widgetRef[0]);
+            .set('widget_ref', ref);
 
           return slotNode;
         });
