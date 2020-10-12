@@ -195,16 +195,12 @@ export default class PromotionSubscriber extends EventSubscriber {
         const slots = data.slots.map((slotData) => {
           const slotNode = slotSchema.createMessage();
           const { name, rendering, widgetRef } = slotData;
-
-          let ref = widgetRef[0];
-          if (typeof ref === 'string') {
-            ref = NodeRef.fromString(widgetRef[0]);
-          }
+          const ref = widgetRef[0];
 
           slotNode
             .set('name', name)
             .set('rendering', rendering.value ? SlotRendering.create(rendering.value) : null)
-            .set('widget_ref', ref);
+            .set('widget_ref', typeof ref === 'string' ? NodeRef.fromString(ref) : ref);
 
           return slotNode;
         });
