@@ -191,6 +191,7 @@ export default class PromotionSubscriber extends EventSubscriber {
       });
 
       node.clear('slots');
+
       if (data.slots) {
         const slots = data.slots.map((slotData) => {
           const slotNode = slotSchema.createMessage();
@@ -200,6 +201,8 @@ export default class PromotionSubscriber extends EventSubscriber {
           slotNode
             .set('name', name)
             .set('rendering', rendering.value ? SlotRendering.create(rendering.value) : null)
+            // for some reason the picker-field converts a NodeRef to a string
+            // when drag and drop handles are used to sort items
             .set('widget_ref', typeof ref === 'string' ? NodeRef.fromString(ref) : ref);
 
           return slotNode;
