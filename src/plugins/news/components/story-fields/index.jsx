@@ -32,6 +32,14 @@ const StoryFields = ({
         readOnly={!isEditMode}
       />
       )}
+      {schemas.node.hasMixin('gdbots:ncr:mixin:expirable') && (
+        <Field
+          component={DatePickerField}
+          label="Expires At"
+          name="expiresAt"
+          readOnly={!isEditMode}
+        />
+      )}
       <Field
         component={PicklistPickerField}
         isEditMode={isEditMode}

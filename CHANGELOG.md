@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * issue #256: Fix promotion slots drag and drop sorting.
+* issue #258: Add Expires At Field to Article Screen.
 
 
 ## v0.9.2
