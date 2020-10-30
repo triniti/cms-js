@@ -10,6 +10,7 @@ import React from 'react';
 import Schema from '@gdbots/pbj/Schema';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
 import TextField from '@triniti/cms/components/text-field';
+import TeaserPicker from '@triniti/cms/plugins/curator/components/teaser-picker-field';
 import UserPickerField from '@triniti/cms/plugins/iam/components/user-picker-field';
 
 const ArticleFields = ({ article, isEditMode, schemas }) => (
@@ -82,6 +83,23 @@ const ArticleFields = ({ article, isEditMode, schemas }) => (
         </FormGroup>
       </CardBody>
     </Card>
+    {schemas.node.hasMixin('triniti:curator:mixin:has-related-teasers') && (
+      <Card>
+        <CardHeader>Related Teasers</CardHeader>
+        <CardBody indent>
+          <Field
+            component={TextField}
+            label="Related Teaser Heading Override"
+            name="relatedTeasersHeading"
+            placeholder="e.g: See also..."
+            readOnly={!isEditMode}
+          />
+          <FormGroup>
+            <FieldArray name="relatedTeaserRefs" component={TeaserPicker} isEditMode={isEditMode} />
+          </FormGroup>
+        </CardBody>
+      </Card>
+    )}
   </>
 );
 

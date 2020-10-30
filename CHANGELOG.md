@@ -4,6 +4,7 @@
 ## vN.N.N
 * issue #256: Fix promotion slots drag and drop sorting.
 * issue #258: Add Expires At Field to Article Screen.
+* Add related teaser fields when the node has the triniti:curator:mixin:has-related-teasers mixin.
 
 
 ## v0.9.2

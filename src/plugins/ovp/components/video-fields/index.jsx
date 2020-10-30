@@ -20,6 +20,7 @@ import TextField from '@triniti/cms/components/text-field';
 import TrinaryField from '@triniti/cms/components/trinary-field';
 import TvpgRating from '@triniti/schemas/triniti/ovp/enums/TvpgRating';
 import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field';
+import TeaserPicker from '@triniti/cms/plugins/curator/components/teaser-picker-field';
 import VideoPicker from '@triniti/cms/plugins/ovp/components/video-picker-field';
 import selector from './selector';
 
@@ -266,6 +267,23 @@ const VideoFields = ({ formName, isEditMode, schemas, mezzanine, video }) => (
         </FormGroup>
       </CardBody>
     </Card>
+    {schemas.node.hasMixin('triniti:curator:mixin:has-related-teasers') && (
+      <Card>
+        <CardHeader>Related Teasers</CardHeader>
+        <CardBody indent>
+          <Field
+            component={TextField}
+            label="Related Teaser Heading Override"
+            name="relatedTeasersHeading"
+            placeholder="e.g: See also..."
+            readOnly={!isEditMode}
+          />
+          <FormGroup>
+            <FieldArray name="relatedTeaserRefs" component={TeaserPicker} isEditMode={isEditMode} />
+          </FormGroup>
+        </CardBody>
+      </Card>
+    )}
     <Card>
       <CardHeader>YouTube</CardHeader>
       <CardBody indent>
