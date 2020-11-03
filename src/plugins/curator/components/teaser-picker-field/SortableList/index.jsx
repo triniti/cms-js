@@ -41,7 +41,7 @@ class SortableList extends React.Component {
     Sortable.create(this.sortableListRef, {
       animation: 150,
       chosenClass: 'active',
-      draggable: '.sortable-articles',
+      draggable: '.sortable-teasers',
       filter: '.js-remove',
       handle: '.sort-handle',
       onFilter: (evt) => {
@@ -81,13 +81,13 @@ class SortableList extends React.Component {
         <Label className="mb-2">{label}</Label>
         <Row>
           <div ref={(el) => { this.sortableListRef = el; }} className="col">
-            {fields.getAll().map((articleRef, i) => {
-              const article = getNode(articleRef);
-              if (!article) {
+            {fields.getAll().map((teaserRef, i) => {
+              const teaser = getNode(teaserRef);
+              if (!teaser) {
                 return (
-                  <Media key={articleRef} className="align-items-center sortable-articles mb-3">
+                  <Media key={teaserRef} className="align-items-center sortable-teasers mb-3">
                     <Media heading className="mb-0">
-                      <strong>{`${articleRef}`}</strong> did not load or is not found
+                      <strong>{`${teaserRef}`}</strong> did not load or is not found
                     </Media>
                     {
                       !readOnly && (
@@ -100,10 +100,10 @@ class SortableList extends React.Component {
                 );
               }
 
-              const link = pbjUrl(article, 'canonical');
+              const link = pbjUrl(teaser, 'canonical');
 
               return (
-                <Media key={articleRef} className="align-items-center sortable-articles mb-3">
+                <Media key={teaserRef} className="align-items-center sortable-teasers mb-3">
                   {!readOnly && isMulti && (
                     <ButtonToolbar className="d-inline-flex align-items-center flex-column mr-2">
                       <Button
@@ -130,13 +130,13 @@ class SortableList extends React.Component {
                       </Button>
                     </ButtonToolbar>
                   )}
-                  {article.has('image_ref') && (
+                  {teaser.has('image_ref') && (
                     <Media left href={link} hoverOutline target="_blank">
                       <Media
                         alt="primary image"
                         height="50"
                         object
-                        src={damUrl(article.get('image_ref'))}
+                        src={damUrl(teaser.get('image_ref'))}
                         width="50"
                       />
                     </Media>
@@ -148,15 +148,15 @@ class SortableList extends React.Component {
                         rel="noopener noreferrer"
                         target="_blank"
                       >
-                        {article.get('title')}
+                        {teaser.get('title')}
                       </a>
                       <small
-                        className={`text-uppercase ml-2 status-copy status-${article.get('status')}`}
+                        className={`text-uppercase ml-2 status-copy status-${teaser.get('status')}`}
                       >
-                        {`${article.get('status')}`}
+                        {`${teaser.get('status')}`}
                       </small>
                     </Media>
-                    {article.get('description')}
+                    {teaser.get('description')}
                   </Media>
                   {!readOnly
                   && (
