@@ -2,7 +2,6 @@ import Plugin from '@triniti/app/Plugin';
 import { serviceIds } from './constants';
 import AdvertisingSubscriber from './services/AdvertisingSubscriber';
 import CustomCodeSubscriber from './services/CustomCodeSubscriber';
-import HasRelatedTeasersSubscriber from './services/HasRelatedTeasersSubscriber';
 import SeoSubscriber from './services/SeoSubscriber';
 import SwipeableSubscriber from './services/SwipeableSubscriber';
 import TaggableSubscriber from './services/TaggableSubscriber';
@@ -16,7 +15,6 @@ export default class CommonPlugin extends Plugin {
   configure(app, bottle) {
     bottle.service(serviceIds.ADVERTISING_SUBSCRIBER, AdvertisingSubscriber);
     bottle.service(serviceIds.CUSTOM_CODE_SUBSCRIBER, CustomCodeSubscriber);
-    bottle.service(serviceIds.HAS_RELATED_TEASERS_SUBSCRIBER, HasRelatedTeasersSubscriber);
     bottle.service(serviceIds.SEO_SUBSCRIBER, SeoSubscriber);
     bottle.service(serviceIds.SWIPEABLE_SUBSCRIBER, SwipeableSubscriber);
     bottle.service(serviceIds.TAGGABLE_SUBSCRIBER, TaggableSubscriber);
@@ -30,7 +28,6 @@ export default class CommonPlugin extends Plugin {
     return [
       serviceIds.ADVERTISING_SUBSCRIBER,
       serviceIds.CUSTOM_CODE_SUBSCRIBER,
-      serviceIds.HAS_RELATED_TEASERS_SUBSCRIBER,
       serviceIds.SEO_SUBSCRIBER,
       serviceIds.SWIPEABLE_SUBSCRIBER,
       serviceIds.TAGGABLE_SUBSCRIBER,
