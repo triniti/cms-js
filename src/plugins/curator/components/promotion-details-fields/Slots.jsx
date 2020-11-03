@@ -162,7 +162,7 @@ export default class Slots extends React.Component {
                 </div>
                 )}
                 <FormGroup row className="m-0 gutter-sm" style={{ flex: '1 1 auto' }}>
-                  <Col xs="12" sm="12">
+                  <Col xs="6" sm="6">
                     <Field
                       name="name"
                       type="text"
@@ -170,8 +170,9 @@ export default class Slots extends React.Component {
                       component={TextField}
                       readOnly={readOnly}
                       label="Name"
-                      size="sm"
                     />
+                  </Col>
+                  <Col xs="6" sm="6">
                     <Field
                       name="rendering"
                       component={SelectField}
@@ -179,6 +180,8 @@ export default class Slots extends React.Component {
                       label="Rendering"
                       options={renderingOptions}
                     />
+                  </Col>
+                  <Col xs="12" sm="12">
                     <FieldArray
                       component={WidgetPickerField}
                       isEditMode={!readOnly}

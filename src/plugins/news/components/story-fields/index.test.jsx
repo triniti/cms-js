@@ -35,7 +35,7 @@ let classification = wrapper.find(Field).findWhere((n) => n.props().name === 'cl
 
 test('StoryFields render', (t) => {
   const slottingFieldArray = wrapper2.find(FieldArray).findWhere((n) => n.props().name === 'slotting');
-  t.equal(wrapper.find(Field).length, 3, 'it should render correct count Fields components');
+  t.equal(wrapper.find(Field).length, 4, 'it should render correct count Fields components');
   t.equal(wrapper.find(Card).length, 1, 'it should render Card component');
   t.equal(wrapper.find(CardBody).length, 1, 'it should render CardBody component');
   t.equal(classification.length, 1, 'it should render the classification field');

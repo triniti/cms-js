@@ -1,5 +1,6 @@
 import camelCase from 'lodash/camelCase';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import SlotV1 from '@triniti/schemas/triniti/curator/SlotV1';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
@@ -190,15 +191,19 @@ export default class PromotionSubscriber extends EventSubscriber {
       });
 
       node.clear('slots');
+
       if (data.slots) {
         const slots = data.slots.map((slotData) => {
           const slotNode = slotSchema.createMessage();
           const { name, rendering, widgetRef } = slotData;
+          const ref = widgetRef[0];
 
           slotNode
             .set('name', name)
             .set('rendering', rendering.value ? SlotRendering.create(rendering.value) : null)
-            .set('widget_ref', widgetRef[0]);
+            // for some reason the picker-field converts a NodeRef to a string
+            // when drag and drop handles are used to sort items
+            .set('widget_ref', typeof ref === 'string' ? NodeRef.fromString(ref) : ref);
 
           return slotNode;
         });
