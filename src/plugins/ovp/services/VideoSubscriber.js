@@ -39,7 +39,6 @@ export default class VideoSubscriber extends EventSubscriber {
       'mezzanine_url',
       'mpm',
       'original_air_date',
-      'related_teasers_heading',
       'related_videos_heading',
       'sharing_enabled',
       'recommendations_enabled',
@@ -71,7 +70,6 @@ export default class VideoSubscriber extends EventSubscriber {
       .entries(node.get('caption_urls', []))
       .map((arr) => ({ url: arr[1], language: { label: arr[0], value: arr[0] } }));
 
-    data.relatedTeaserRefs = node.has('related_teaser_refs') ? node.get('related_teaser_refs') : [];
     data.relatedVideoRefs = node.has('related_video_refs') ? node.get('related_video_refs') : [];
 
     if (node.has('live_m3u8_url')) {
@@ -182,7 +180,6 @@ export default class VideoSubscriber extends EventSubscriber {
       'mezzanine_url',
       'mpm',
       'original_air_date',
-      'related_teasers_heading',
       'related_videos_heading',
       'title',
       'youtube_custom_id',
@@ -216,11 +213,6 @@ export default class VideoSubscriber extends EventSubscriber {
     (data.captionUrls || []).forEach((object) => {
       node.addToMap('caption_urls', object.language.value, object.url);
     });
-
-    node.clear('related_teaser_refs');
-    if (typeof data.relatedTeaserRefs !== 'undefined') {
-      node.addToSet('related_teaser_refs', data.relatedTeaserRefs);
-    }
 
     node.clear('related_video_refs');
     if (typeof data.relatedVideoRefs !== 'undefined') {

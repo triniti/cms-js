@@ -45,7 +45,6 @@ export default class ArticleSubscriber extends EventSubscriber {
     data.swipe = node.has('swipe') ? { label: node.get('swipe'), value: node.get('swipe') } : null;
     data.theme = node.has('theme') ? { label: node.get('theme'), value: node.get('theme') } : null;
     data.relatedArticleRefs = node.has('related_article_refs') ? node.get('related_article_refs') : [];
-    data.relatedTeaserRefs = node.has('related_teaser_refs') ? node.get('related_teaser_refs') : [];
     data.imageRef = node.has('image_ref') ? node.get('image_ref').toString() : null;
     data.slotting = !node.has('slotting') ? [] : Object.entries(node.get('slotting')).map(([name, value]) => ({
       key: {
@@ -67,7 +66,6 @@ export default class ArticleSubscriber extends EventSubscriber {
       'expires_at',
       'is_homepage_news',
       'related_articles_heading',
-      'related_teasers_heading',
       'show_related_articles',
       'smartnews_enabled',
       'title',
@@ -182,7 +180,6 @@ export default class ArticleSubscriber extends EventSubscriber {
       'expires_at',
       'is_homepage_news',
       'related_articles_heading',
-      'related_teasers_heading',
       'show_related_articles',
       'smartnews_enabled',
       'title',
@@ -229,11 +226,6 @@ export default class ArticleSubscriber extends EventSubscriber {
     node.clear('related_article_refs');
     if (typeof data.relatedArticleRefs !== 'undefined') {
       node.addToList('related_article_refs', data.relatedArticleRefs);
-    }
-
-    node.clear('related_teaser_refs');
-    if (typeof data.relatedTeaserRefs !== 'undefined') {
-      node.addToSet('related_teaser_refs', data.relatedTeaserRefs);
     }
 
     node.clear('author_ref');
