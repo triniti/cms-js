@@ -13,8 +13,8 @@ export default class CommonPlugin extends Plugin {
   }
 
   configure(app, bottle) {
-    bottle.service(serviceIds.CUSTOM_CODE_SUBSCRIBER, CustomCodeSubscriber);
     bottle.service(serviceIds.ADVERTISING_SUBSCRIBER, AdvertisingSubscriber);
+    bottle.service(serviceIds.CUSTOM_CODE_SUBSCRIBER, CustomCodeSubscriber);
     bottle.service(serviceIds.SEO_SUBSCRIBER, SeoSubscriber);
     bottle.service(serviceIds.SWIPEABLE_SUBSCRIBER, SwipeableSubscriber);
     bottle.service(serviceIds.TAGGABLE_SUBSCRIBER, TaggableSubscriber);
