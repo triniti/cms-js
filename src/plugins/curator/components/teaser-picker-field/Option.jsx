@@ -2,14 +2,8 @@ import { components } from 'react-select';
 import { Media } from '@triniti/admin-ui-plugin/components';
 import classNames from 'classnames';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
-  acc[cur.toString()] = cur.toString();
-  return acc;
-}, {});
 
 const Option = (props) => {
   const { data: { node }, isFocused, isSelected } = props;
@@ -37,7 +31,7 @@ const Option = (props) => {
           <Media body>
             <Media heading>
               <strong>{title}</strong>
-              <small className={`text-uppercase status-copy ml-2 status-${statusColorMap[status]}`}>
+              <small className={`text-uppercase status-copy ml-2 status-${status.toLowerCase()}`}>
                 {status}
               </small>
             </Media>
