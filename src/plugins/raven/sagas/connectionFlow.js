@@ -65,11 +65,14 @@ export default function* (raven) {
     if (attempts > 10) {
       console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
       const userWantsToReconnect = yield swal.fire({
-        title: 'Active edits connection is unstable',
-        text: 'Other users may not be able to see that you are in this post. would you like to reconnect?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
+        title: 'Alert!',
+        text: 'Active Edits has disconnected, please Save and Refresh.',
+        type: 'info',
+        confirmButtonText: 'Thank You',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn-modal btn btn-outline-primary btn-block"
+        }
       });
 
       if (userWantsToReconnect.value && userWantsToReconnect.value === true) {
