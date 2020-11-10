@@ -9,6 +9,7 @@ import BlogrollWidgetSubscriber from './services/BlogrollWidgetSubscriber';
 import CarouselWidgetSubscriber from './services/CarouselWidgetSubscriber';
 import CodeWidgetSubscriber from './services/CodeWidgetSubscriber';
 import GallerySubscriber from './services/GallerySubscriber';
+import HasRelatedTeasersSubscriber from './services/HasRelatedTeasersSubscriber';
 import LinkTeaserSubscriber from './services/LinkTeaserSubscriber';
 import PlaylistWidgetSubscriber from './services/PlaylistWidgetSubscriber';
 import PromotionSubscriber from './services/PromotionSubscriber';
@@ -40,6 +41,7 @@ export default class CuratorPlugin extends Plugin {
     bottle.service(serviceIds.CODE_WIDGET_SUBSCRIBER, CodeWidgetSubscriber);
     bottle.service(serviceIds.EXPIRABLE_SUBSCRIBER, ExpirableSubscriber);
     bottle.service(serviceIds.GALLERY_SUBSCRIBER, GallerySubscriber);
+    bottle.service(serviceIds.HAS_RELATED_TEASERS_SUBSCRIBER, HasRelatedTeasersSubscriber);
     bottle.service(serviceIds.LINK_TEASER_SUBSCRIBER, LinkTeaserSubscriber);
     bottle.service(serviceIds.PLAYLIST_WIDGET_SUBSCRIBER, PlaylistWidgetSubscriber);
     bottle.service(serviceIds.PROMOTION_SUBSCRIBER, PromotionSubscriber);
@@ -68,6 +70,7 @@ export default class CuratorPlugin extends Plugin {
       serviceIds.CODE_WIDGET_SUBSCRIBER,
       serviceIds.EXPIRABLE_SUBSCRIBER,
       serviceIds.GALLERY_SUBSCRIBER,
+      serviceIds.HAS_RELATED_TEASERS_SUBSCRIBER,
       serviceIds.LINK_TEASER_SUBSCRIBER,
       serviceIds.PLAYLIST_WIDGET_SUBSCRIBER,
       serviceIds.PROMOTION_SUBSCRIBER,
