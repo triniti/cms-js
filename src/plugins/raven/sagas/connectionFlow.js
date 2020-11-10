@@ -71,8 +71,8 @@ export default function* (raven) {
         confirmButtonText: 'Thank You',
         buttonsStyling: false,
         customClass: {
-          confirmButton: "btn-modal btn btn-outline-primary btn-block"
-        }
+          confirmButton: 'btn-modal btn btn-outline-primary btn-block',
+        },
       });
 
       if (userWantsToReconnect.value && userWantsToReconnect.value === true) {
