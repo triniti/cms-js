@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* issue #1225: Display alert box when CMS web socket loses connection.
+
+
 ## v0.9.3
 * issue #256: Fix promotion slots drag and drop sorting.
 * issue #258: Add Expires At Field to Article Screen.
