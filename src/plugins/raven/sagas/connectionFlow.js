@@ -41,7 +41,7 @@ function* connect(raven) {
  */
 export default function* (raven) {
   const connectsChannel = yield actionChannel(actionTypes.CONNECTION_OPENED, buffers.dropping(1));
-  let attempts = 10;
+  let attempts = 0;
 
   while (true) {
     yield take([
