@@ -1,5 +1,6 @@
 import random from 'lodash/random';
 import { buffers } from 'redux-saga';
+import swal from 'sweetalert2';
 import { actionChannel, call, delay, flush, put, select, take } from 'redux-saga/effects';
 import { actionTypes as appActionTypes } from '@triniti/app/constants';
 import { actionTypes as iamActionTypes } from '@triniti/cms/plugins/iam/constants';
@@ -8,7 +9,6 @@ import ConnectionFailed from '../exceptions/ConnectionFailed';
 import rejectConnection from '../actions/rejectConnection';
 import { actionTypes } from '../constants';
 
-const maxConnectionAttempts = 5;
 /**
  * Helper function that will make a best effort
  * to connect to Raven (Aws Iot) within 5 tries
@@ -17,6 +17,7 @@ const maxConnectionAttempts = 5;
  * @param {Raven} raven
  */
 function* connect(raven) {
+  const maxConnectionAttempts = 5;
   let error;
   for (let i = 0; i < maxConnectionAttempts; i += 1) {
     try {
@@ -62,6 +63,17 @@ export default function* (raven) {
     attempts += 1;
     if (attempts > 10) {
       console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
+      yield swal.fire({
+        title: 'Alert!',
+        text: 'Active Edits has disconnected, please Save and Refresh.',
+        type: 'info',
+        confirmButtonText: 'Thank You',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'btn-modal btn btn-outline-primary btn-block',
+        },
+      });
+
       continue;
     } else if (attempts > 3) {
       // delay a bit before the next attempt
