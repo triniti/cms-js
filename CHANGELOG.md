@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * issue #1196: Remove Link to Google.com from Poster Image In Gallery Block Creator
+* Display error notification when CMS web socket loses connection.
 
 
 ## v0.9.3
