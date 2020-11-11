@@ -2,7 +2,7 @@ import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import { change } from 'redux-form';
 import isEqual from 'lodash/isEqual';
 import StreamId from '@gdbots/schemas/gdbots/pbjx/StreamId';
-import updateReponseNode from '@triniti/cms/plugins/pbjx/actions/updateResponseNode';
+import updateResponseNode from '@triniti/cms/plugins/pbjx/actions/updateResponseNode';
 import { filterRevertableData } from '../../utils/filterData';
 import filterRemoved from '../../utils/filterRemoved';
 import findNodeDiff from '../../utils/findNodeDiff';
@@ -88,7 +88,7 @@ class Delegate {
       }
     });
 
-    this.dispatch(updateReponseNode(updatedNode, nodeRequest.schema().getCurie()));
+    this.dispatch(updateResponseNode(updatedNode, nodeRequest.schema().getCurie()));
 
     setTimeout(() => this.dispatch(change(formName, '_forceDirty', true)));
   }
