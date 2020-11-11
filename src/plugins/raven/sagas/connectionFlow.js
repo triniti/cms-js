@@ -17,9 +17,8 @@ import { actionTypes } from '../constants';
  * @param {Raven} raven
  */
 function* connect(raven) {
-  const maxConnectionAttempts = 5;
   let error;
-  for (let i = 0; i < maxConnectionAttempts; i += 1) {
+  for (let i = 0; i < 5; i += 1) {
     try {
       yield call([raven, 'connect']);
       return;
@@ -42,7 +41,7 @@ function* connect(raven) {
  */
 export default function* (raven) {
   const connectsChannel = yield actionChannel(actionTypes.CONNECTION_OPENED, buffers.dropping(1));
-  let attempts = 0;
+  let attempts = 10;
 
   while (true) {
     yield take([
@@ -63,10 +62,10 @@ export default function* (raven) {
     attempts += 1;
     if (attempts > 10) {
       console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
-      yield swal.fire({
+      swal.fire({
         title: 'Alert!',
         text: 'Active Edits has disconnected, please Save and Refresh.',
-        type: 'info',
+        type: 'warning',
         confirmButtonText: 'Thank You',
         buttonsStyling: false,
         customClass: {
