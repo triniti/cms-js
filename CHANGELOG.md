@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* issue #1225: Display alert box when CMS web socket loses connection.
+* issue #1225: Display error notification when CMS web socket loses connection.
 
 
 ## v0.9.3

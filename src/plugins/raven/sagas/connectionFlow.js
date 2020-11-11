@@ -1,13 +1,11 @@
 import random from 'lodash/random';
 import { buffers } from 'redux-saga';
-import swal from 'sweetalert2';
 import { actionChannel, call, delay, flush, put, select, take } from 'redux-saga/effects';
 import { actionTypes as appActionTypes } from '@triniti/app/constants';
 import { actionTypes as iamActionTypes } from '@triniti/cms/plugins/iam/constants';
 import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated';
 import ConnectionFailed from '../exceptions/ConnectionFailed';
 import rejectConnection from '../actions/rejectConnection';
-import requestConnection from '../actions/requestConnection';
 import { actionTypes } from '../constants';
 
 let maxConnectionAttempts = 5;
@@ -64,23 +62,6 @@ export default function* (raven) {
     attempts += 1;
     if (attempts > 10) {
       console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
-      const userWantsToReconnect = yield swal.fire({
-        title: 'Alert!',
-        text: 'Active Edits has disconnected, please Save and Refresh.',
-        type: 'info',
-        confirmButtonText: 'Thank You',
-        buttonsStyling: false,
-        customClass: {
-          confirmButton: 'btn-modal btn btn-outline-primary btn-block',
-        },
-      });
-
-      if (userWantsToReconnect.value && userWantsToReconnect.value === true) {
-        attempts = 0;
-        maxConnectionAttempts = 15;
-        yield put(requestConnection());
-      }
-
       continue;
     } else if (attempts > 3) {
       // delay a bit before the next attempt
