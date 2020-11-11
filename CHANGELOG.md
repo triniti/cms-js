@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* issue #1196: Remove Link to Google.com from Poster Image In Gallery Block Creator
+
+
 ## v0.9.3
 * issue #256: Fix promotion slots drag and drop sorting.
 * issue #258: Add Expires At Field to Article Screen.

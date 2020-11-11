@@ -44,13 +44,8 @@ export class GalleryBlockPreview extends React.Component {
         className={classNames('block-preview-gallery', className)}
         role="presentation"
       >
-        <a
-          href="https://www.google.com" // fixme: update this to work when we have a site to go to
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img src={imgSrc} alt="thumbnail" />
-          {
+        <img src={imgSrc} alt="thumbnail" />
+        {
             (block.has('launch_text') || galleryNode.has('launch_text'))
             && (
               <div className="launch-text">
@@ -59,7 +54,6 @@ export class GalleryBlockPreview extends React.Component {
               </div>
             )
           }
-        </a>
       </div>
     );
   }
