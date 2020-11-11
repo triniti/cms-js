@@ -8,7 +8,7 @@ import ConnectionFailed from '../exceptions/ConnectionFailed';
 import rejectConnection from '../actions/rejectConnection';
 import { actionTypes } from '../constants';
 
-let maxConnectionAttempts = 5;
+const maxConnectionAttempts = 5;
 /**
  * Helper function that will make a best effort
  * to connect to Raven (Aws Iot) within 5 tries
