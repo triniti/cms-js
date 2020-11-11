@@ -18,6 +18,7 @@ import { Map } from 'immutable';
 import {
   BlockMapBuilder,
   CompositeDecorator,
+  ContentState,
   EditorState,
   genKey,
   getDefaultKeyBinding,
@@ -59,6 +60,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  FormText,
   Icon,
 } from '@triniti/admin-ui-plugin/components';
 
@@ -67,10 +69,12 @@ import constants from './constants';
 import customStyleMap from './customStyleMap';
 import decorators from './decorators';
 import delegateFactory from './delegate';
+import ErrorBoundary from './ErrorBoundary';
 import selector from './selector';
 import { blockTypes, tokens } from '../../constants';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
+import convertToCanvasBlocks from '../../utils/convertToCanvasBlocks';
 import {
   addEmoji,
   areKeysSame,
@@ -179,6 +183,7 @@ class Blocksmith extends React.Component {
       blockButtonsStyle: {
         transform: 'scale(0)',
       },
+      errors: [],
       hoverBlockNode: null,
       isDirty: false,
       isHoverInsertMode: false,
@@ -1308,15 +1313,31 @@ class Blocksmith extends React.Component {
    * @returns {string}
    */
   handlePastedText(text, html) {
-    const { editorState } = this.state;
+    const { editorState, errors } = this.state;
 
     if (html) {
       // todo: put bugfix back before merging
       // const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
       const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
+      const newErrors = [];
       if (contentBlocks) {
-        const fragment = BlockMapBuilder
-          .createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
+        const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => {
+          if (isBlockEmpty(block)) {
+            return false;
+          }
+          const singleBlockEditorState = EditorState.push(
+            EditorState.createEmpty(),
+            ContentState.createFromBlockArray([block]),
+          );
+          try {
+            convertToCanvasBlocks(singleBlockEditorState);
+            return true;
+          } catch (e) {
+            newErrors.push(e.stack);
+            console.error(`[blocksmith] - ${e}`);
+            return false;
+          }
+        }));
 
         const newContentState = Modifier.replaceWithFragment(
           editorState.getCurrentContent(),
@@ -1324,8 +1345,11 @@ class Blocksmith extends React.Component {
           fragment,
         );
 
+        const newEditorState = EditorState.push(editorState, newContentState, 'insert-characters');
+
         this.setState({
-          editorState: EditorState.push(editorState, newContentState, 'insert-characters'),
+          editorState: newEditorState,
+          errors: [...errors, ...newErrors],
         });
 
         return 'handled';
@@ -1637,6 +1661,7 @@ class Blocksmith extends React.Component {
       activeBlockKey,
       blockButtonsStyle,
       editorState,
+      errors,
       isHoverInsertMode,
       isSidebarOpen,
       modalComponent: Modal,
@@ -1667,96 +1692,215 @@ class Blocksmith extends React.Component {
           </kbd>
         </CardHeader>
         <CardBody indent>
-          <div
-            onCopy={this.handleMouseCopy}
-            onCut={this.handleMouseCut}
-            onDrop={this.handleDrop}
-            onMouseLeave={this.handleMouseLeave}
-            onMouseMove={this.handleMouseMove}
-            onKeyDown={this.handleKeyDown}
-            id="block-editor"
-            className={className}
-            role="presentation"
-          >
-            <Editor
-              blockRendererFn={this.blockRendererFn}
-              blockRenderMap={this.blockRenderMap}
-              blockStyleFn={this.blockStyleFn}
-              customStyleMap={customStyleMap}
-              decorators={decorators}
-              defaultBlockRenderMap={false}
-              editorState={editorState}
-              handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
-              handleKeyCommand={this.handleKeyCommand}
-              handlePastedText={this.handlePastedText}
-              keyBindingFn={this.keyBindingFn}
-              onBlur={this.handleBlur}
-              onChange={this.onChange}
-              plugins={this.plugins}
-              readOnly={readOnly}
-              ref={(ref) => { this.editor = ref; }}
-              spellCheck
-            />
-            <div style={blockButtonsStyle} className="block-buttons-holder">
-              <BlockButtons
-                activeBlockKey={activeBlockKey}
-                copiedBlock={copiedBlock}
-                editorState={editorState}
-                onCopyBlock={this.handleCopyBlock}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-                onPasteBlock={this.handlePasteBlock}
-                onShiftBlock={this.handleShiftBlock}
-                onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-                resetFlag={blockButtonsStyle.top}
-              />
-            </div>
-            <div style={sidebarHolderStyle} className="sidebar-holder">
-              <Sidebar
-                isHoverInsertMode={isHoverInsertMode}
-                isOpen={isSidebarOpen}
-                onToggleSidebar={this.handleToggleSidebar}
-                onToggleBlockModal={this.handleToggleBlockModal}
-                onHoverInsert={this.handleHoverInsert}
-                resetFlag={sidebarResetFlag}
-                popoverRef={this.popoverRef}
-              />
-            </div>
-            <InlineToolbar>
-              {(props) => (
-                <>
-                  <BoldButton {...props} />
-                  <ItalicButton {...props} />
-                  <UnderlineButton {...props} />
-                  <LinkButton
-                    {...props}
-                    onToggleLinkModal={this.handleToggleLinkModal}
-                    getEditorState={this.getEditorState}
+          <ErrorBoundary>
+            <>
+              <div
+                onCopy={this.handleMouseCopy}
+                onCut={this.handleMouseCut}
+                onDrop={this.handleDrop}
+                onMouseLeave={this.handleMouseLeave}
+                onMouseMove={this.handleMouseMove}
+                onKeyDown={this.handleKeyDown}
+                id="block-editor"
+                className={className}
+                role="presentation"
+              >
+                <Editor
+                  blockRendererFn={this.blockRendererFn}
+                  blockRenderMap={this.blockRenderMap}
+                  blockStyleFn={this.blockStyleFn}
+                  customStyleMap={customStyleMap}
+                  decorators={decorators}
+                  defaultBlockRenderMap={false}
+                  editorState={editorState}
+                  handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
+                  handleKeyCommand={this.handleKeyCommand}
+                  handlePastedText={this.handlePastedText}
+                  keyBindingFn={this.keyBindingFn}
+                  onBlur={this.handleBlur}
+                  onChange={this.onChange}
+                  plugins={this.plugins}
+                  readOnly={readOnly}
+                  ref={(ref) => { this.editor = ref; }}
+                  spellCheck
+                />
+                <div style={blockButtonsStyle} className="block-buttons-holder">
+                  <BlockButtons
+                    activeBlockKey={activeBlockKey}
+                    copiedBlock={copiedBlock}
+                    editorState={editorState}
+                    onCopyBlock={this.handleCopyBlock}
+                    onDelete={this.handleDelete}
+                    onEdit={this.handleEdit}
+                    onPasteBlock={this.handlePasteBlock}
+                    onShiftBlock={this.handleShiftBlock}
+                    onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
+                    resetFlag={blockButtonsStyle.top}
                   />
-                  <OrderedListButton {...props} />
-                  <UnorderedListButton {...props} />
-                  <StrikethroughButton {...props} />
-                  <HighlightButton {...props} />
-                </>
+                </div>
+                <div style={sidebarHolderStyle} className="sidebar-holder">
+                  <Sidebar
+                    isHoverInsertMode={isHoverInsertMode}
+                    isOpen={isSidebarOpen}
+                    onToggleSidebar={this.handleToggleSidebar}
+                    onToggleBlockModal={this.handleToggleBlockModal}
+                    onHoverInsert={this.handleHoverInsert}
+                    resetFlag={sidebarResetFlag}
+                    popoverRef={this.popoverRef}
+                  />
+                </div>
+                <InlineToolbar>
+                  {(props) => (
+                    <>
+                      <BoldButton {...props} />
+                      <ItalicButton {...props} />
+                      <UnderlineButton {...props} />
+                      <LinkButton
+                        {...props}
+                        onToggleLinkModal={this.handleToggleLinkModal}
+                        getEditorState={this.getEditorState}
+                      />
+                      <OrderedListButton {...props} />
+                      <UnorderedListButton {...props} />
+                      <StrikethroughButton {...props} />
+                      <HighlightButton {...props} />
+                    </>
+                  )}
+                </InlineToolbar>
+                {Modal && <Modal />}
+              </div>
+              {!readOnly && (
+              <div className="text-center mt-2">
+                <span className="btn-hover">
+                  <Button id="add-block-button" radius="circle" color="success" size="sm" onClick={this.handleAddEmptyBlockAtEnd}>
+                    <Icon imgSrc="plus" size="md" />
+                  </Button>
+                </span>
+                <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
+              </div>
               )}
-            </InlineToolbar>
-            {Modal && <Modal />}
-          </div>
-          {!readOnly && (
-            <div className="text-center mt-2">
-              <span className="btn-hover">
-                <Button id="add-block-button" radius="circle" color="success" size="sm" onClick={this.handleAddEmptyBlockAtEnd}>
-                  <Icon imgSrc="plus" size="md" />
-                </Button>
-              </span>
-              <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
-            </div>
+            </>
+          </ErrorBoundary>
+          {!!errors.length && (
+          <>
+            <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>
+            {errors.map((error) => <FormText color="danger">{error}</FormText>)}
+          </>
           )}
         </CardBody>
       </Card>
     );
+
+    // return (
+    //   <Card>
+    //     <CardHeader>
+    //       Content
+    //       <kbd
+    //         className="text-dark bg-white text-uppercase"
+    //         style={{ fontFamily: 'inherit', fontSize: '15px' }}
+    //       >
+    //         <span style={{ fontSize: '11px' }}>Word Count</span>
+    //         <Badge color="light" className="ml-1 font-weight-normal" style={{ fontSize: '11.25px' }}>
+    //           {getWordCount(editorState)}
+    //         </Badge>
+    //       </kbd>
+    //     </CardHeader>
+    //     <CardBody indent>
+    //       <div
+    //         onCopy={this.handleMouseCopy}
+    //         onCut={this.handleMouseCut}
+    //         onDrop={this.handleDrop}
+    //         onMouseLeave={this.handleMouseLeave}
+    //         onMouseMove={this.handleMouseMove}
+    //         onKeyDown={this.handleKeyDown}
+    //         id="block-editor"
+    //         className={className}
+    //         role="presentation"
+    //       >
+    //         <Editor
+    //           blockRendererFn={this.blockRendererFn}
+    //           blockRenderMap={this.blockRenderMap}
+    //           blockStyleFn={this.blockStyleFn}
+    //           customStyleMap={customStyleMap}
+    //           decorators={decorators}
+    //           defaultBlockRenderMap={false}
+    //           editorState={editorState}
+    //           handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
+    //           handleKeyCommand={this.handleKeyCommand}
+    //           handlePastedText={this.handlePastedText}
+    //           keyBindingFn={this.keyBindingFn}
+    //           onBlur={this.handleBlur}
+    //           onChange={this.onChange}
+    //           plugins={this.plugins}
+    //           readOnly={readOnly}
+    //           ref={(ref) => { this.editor = ref; }}
+    //           spellCheck
+    //         />
+    //         <div style={blockButtonsStyle} className="block-buttons-holder">
+    //           <BlockButtons
+    //             activeBlockKey={activeBlockKey}
+    //             copiedBlock={copiedBlock}
+    //             editorState={editorState}
+    //             onCopyBlock={this.handleCopyBlock}
+    //             onDelete={this.handleDelete}
+    //             onEdit={this.handleEdit}
+    //             onPasteBlock={this.handlePasteBlock}
+    //             onShiftBlock={this.handleShiftBlock}
+    //             onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
+    //             resetFlag={blockButtonsStyle.top}
+    //           />
+    //         </div>
+    //         <div style={sidebarHolderStyle} className="sidebar-holder">
+    //           <Sidebar
+    //             isHoverInsertMode={isHoverInsertMode}
+    //             isOpen={isSidebarOpen}
+    //             onToggleSidebar={this.handleToggleSidebar}
+    //             onToggleBlockModal={this.handleToggleBlockModal}
+    //             onHoverInsert={this.handleHoverInsert}
+    //             resetFlag={sidebarResetFlag}
+    //             popoverRef={this.popoverRef}
+    //           />
+    //         </div>
+    //         <InlineToolbar>
+    //           {(props) => (
+    //             <>
+    //               <BoldButton {...props} />
+    //               <ItalicButton {...props} />
+    //               <UnderlineButton {...props} />
+    //               <LinkButton
+    //                 {...props}
+    //                 onToggleLinkModal={this.handleToggleLinkModal}
+    //                 getEditorState={this.getEditorState}
+    //               />
+    //               <OrderedListButton {...props} />
+    //               <UnorderedListButton {...props} />
+    //               <StrikethroughButton {...props} />
+    //               <HighlightButton {...props} />
+    //             </>
+    //           )}
+    //         </InlineToolbar>
+    //         {Modal && <Modal />}
+    //       </div>
+    //       {!readOnly && (
+    //         <div className="text-center mt-2">
+    //           <span className="btn-hover">
+    //             <Button id="add-block-button" radius="circle" color="success" size="sm" onClick={this.handleAddEmptyBlockAtEnd}>
+    //               <Icon imgSrc="plus" size="md" />
+    //             </Button>
+    //           </span>
+    //           <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
+    //         </div>
+    //       )}
+    //       {!!errors.length && (
+    //         <>
+    //           <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>
+    //           {errors.map((error) => <FormText color="danger">{error}</FormText>)}
+    //         </>
+    //       )}
+    //     </CardBody>
+    //   </Card>
+    // );
   }
 }
-
 
 export default connect(selector, createDelegateFactory(delegateFactory))(Blocksmith);
