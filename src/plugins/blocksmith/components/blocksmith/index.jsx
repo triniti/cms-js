@@ -344,10 +344,10 @@ class Blocksmith extends React.Component {
       callback = () => delegate.handleCleanEditor(formName);
     }
 
-    this.setState({
+    this.setState(() => ({
       editorState,
       isDirty,
-    }, () => {
+    }), () => {
       this.positionComponents(editorState, selectionState.getAnchorKey());
       if (!selectionState.getHasFocus()) {
         this.removeActiveStyling();
@@ -471,11 +471,11 @@ class Blocksmith extends React.Component {
     const isHoverInsertMode = editorState.getCurrentContent().hasText()
       && (!hoverBlockNode || coords.pageX < (blockBounds.right - 50));
 
-    this.setState({
+    this.setState(() => ({
       hoverBlockNode: selectedBlockNode,
       isHoverInsertMode,
       isHoverInsertModeBottom,
-    }, () => {
+    }), () => {
       // oftentimes after clicking to insert a new empty text block, the button components
       // will be activated on the previous block. this check prevents that.
       if (isHoverInsertMode) {
@@ -631,11 +631,11 @@ class Blocksmith extends React.Component {
       newBlockKey,
     );
     const newEditorState = EditorState.push(editorState, newContentState, 'arbitrary');
-    this.setState({
+    this.setState(() => ({
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
       editorState: selectBlock(newEditorState, newBlockKey),
-    }, () => this.positionComponents(newEditorState, newBlockKey));
+    }), () => this.positionComponents(newEditorState, newBlockKey));
   }
 
   /**
@@ -645,9 +645,9 @@ class Blocksmith extends React.Component {
   handleAddLink(target, url) {
     const { editorState, isDirty } = this.state;
     const { delegate, formName } = this.props;
-    this.setState({
+    this.setState(() => ({
       editorState: createLinkAtSelection(editorState, target, url),
-    }, () => {
+    }), () => {
       if (!isDirty) {
         delegate.handleDirtyEditor(formName);
       }
@@ -668,10 +668,10 @@ class Blocksmith extends React.Component {
    * Closes any currently open modal.
    */
   handleCloseModal() {
-    this.setState({
+    this.setState(() => ({
       readOnly: false,
       modalComponent: null,
-    });
+    }));
   }
 
   /**
@@ -703,18 +703,18 @@ class Blocksmith extends React.Component {
     const { activeBlockKey, editorState, isDirty } = this.state;
     const { delegate, formName } = this.props;
 
-    this.setState({ readOnly: true }, () => {
+    this.setState(() => ({ readOnly: true }), () => {
       Blocksmith.confirmDelete().then((result) => {
-        this.setState({ readOnly: false }, () => {
+        this.setState(() => ({ readOnly: false }), () => {
           if (!result.value) {
             return; // do nothing, user declined to delete
           }
-          this.setState({
+          this.setState(() => ({
             editorState: EditorState.push(
               editorState,
               deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
             ),
-          }, () => {
+          }), () => {
             if (!isDirty) {
               delegate.handleDirtyEditor(formName);
             }
@@ -794,9 +794,9 @@ class Blocksmith extends React.Component {
       draggedBlockKey,
       selectBlockSelectionTypes.END,
     );
-    this.setState({
+    this.setState(() => ({
       editorState: newEditorState,
-    }, () => {
+    }), () => {
       const { formName, delegate } = this.props;
       delegate.handleStoreEditor(formName, newEditorState);
       if (!isDirty) {
@@ -852,12 +852,12 @@ class Blocksmith extends React.Component {
       newEditorState.getSelection(),
       new Map({ canvasBlock }),
     );
-    this.setState({
+    this.setState(() => ({
       editorState: EditorState.push(
         newEditorState,
         newContentState,
       ),
-    }, () => {
+    }), () => {
       this.positionComponents(
         this.state.editorState, // eslint-disable-line react/destructuring-assignment
         // eslint-disable-next-line react/destructuring-assignment
@@ -894,20 +894,20 @@ class Blocksmith extends React.Component {
           blockTypes.UNSTYLED,
         );
         const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
-        this.setState({
+        this.setState(() => ({
           editorState: newEditorState,
-        }, () => this.positionComponents(newEditorState, selectionState.getAnchorKey()));
+        }), () => this.positionComponents(newEditorState, selectionState.getAnchorKey()));
         return 'handled';
       }
       case constants.SOFT_NEWLINE:
-        this.setState({
+        this.setState(() => ({
           editorState: RichUtils.insertSoftNewline(editorState),
-        });
+        }));
         return 'handled';
       case constants.ATOMIC_BLOCKS_CUT:
-        this.setState({
+        this.setState(() => ({
           editorState: deleteSelectedBlocks(editorState),
-        });
+        }));
         return 'handled';
       default:
         return 'not-handled';
@@ -924,9 +924,9 @@ class Blocksmith extends React.Component {
    */
   handleKeyDown(e) {
     const { editorState } = this.state;
-    this.setState({
+    this.setState(() => ({
       isHoverInsertMode: false,
-    });
+    }));
 
     const { isOptionKeyCommand, hasCommandModifier } = KeyBindingUtil;
     if (!editorState.getSelection().getHasFocus() || isOptionKeyCommand(e)) {
@@ -991,9 +991,9 @@ class Blocksmith extends React.Component {
           ) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
-            this.setState({
+            this.setState(() => ({
               editorState: selectBlock(editorState, previousBlock, selectBlockSelectionTypes.END),
-            });
+            }));
           }
         }
 
@@ -1012,9 +1012,9 @@ class Blocksmith extends React.Component {
           } else if (nextBlock.getType() === blockTypes.UNSTYLED || isBlockAList(nextBlock)) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
-            this.setState({
+            this.setState(() => ({
               editorState: selectBlock(editorState, nextBlock, selectBlockSelectionTypes.START),
-            });
+            }));
           }
         }
 
@@ -1030,9 +1030,9 @@ class Blocksmith extends React.Component {
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
         ) {
-          this.setState({
+          this.setState(() => ({
             editorState: selectBlock(editorState, currentBlock.getKey(), selectBlockSelectionTypes.END),
-          });
+          }));
           e.preventDefault(); // would be going "into" an atomic block
         }
         break;
@@ -1070,12 +1070,12 @@ class Blocksmith extends React.Component {
       newBlockKey,
     );
     const newEditorState = EditorState.push(editorState, newContentState, 'arbitrary');
-    this.setState({
+    this.setState(() => ({
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
       editorState: selectBlock(newEditorState, newBlockKey),
       sidebarResetFlag: +!sidebarResetFlag,
-    }, () => this.positionComponents(newEditorState, newBlockKey));
+    }), () => this.positionComponents(newEditorState, newBlockKey));
   }
 
   /**
@@ -1156,10 +1156,10 @@ class Blocksmith extends React.Component {
    * @param {Component} modalComponent - a react modal component.
    */
   handleOpenModal(modalComponent) {
-    this.setState({
+    this.setState(() => ({
       readOnly: true,
       modalComponent,
-    });
+    }));
   }
 
   /**
@@ -1173,13 +1173,13 @@ class Blocksmith extends React.Component {
     const selectionState = editorState.getSelection();
     const insertingIntoNonActiveBlock = selectionState.getAnchorKey() !== activeBlockKey
       || selectionState.getFocusKey() !== activeBlockKey;
-    this.setState({
+    this.setState(() => ({
       editorState: addEmoji(
         editorState,
         specialCharacter,
         insertingIntoNonActiveBlock ? activeBlockKey : null,
       ),
-    });
+    }));
   }
 
   /**
@@ -1190,7 +1190,7 @@ class Blocksmith extends React.Component {
    */
   handleShiftBlock(block, position) {
     const { editorState } = this.state;
-    this.setState({
+    this.setState(() => ({
       editorState: EditorState.push(
         editorState,
         shiftBlock(
@@ -1200,7 +1200,7 @@ class Blocksmith extends React.Component {
         ),
         'arbitrary',
       ),
-    }, () => {
+    }), () => {
       this.removeActiveStyling();
       const { delegate, formName } = this.props;
       const { editorState: newEditorState, isDirty } = this.state;
@@ -1350,10 +1350,10 @@ class Blocksmith extends React.Component {
 
         const newEditorState = EditorState.push(editorState, newContentState, 'insert-characters');
 
-        this.setState({
+        this.setState(() => ({
           editorState: newEditorState,
           errors: [...errors, ...newErrors],
-        });
+        }));
 
         return 'handled';
       }
@@ -1366,14 +1366,14 @@ class Blocksmith extends React.Component {
         ? selectionState.getAnchorKey()
         : selectionState.getFocusKey();
 
-      this.setState({
+      this.setState(() => ({
         editorState: insertCanvasBlocks(
           editorState,
           insertionKey,
           constants.POSITION_AFTER,
           blocks,
         ),
-      }, this.removeActiveStyling);
+      }), this.removeActiveStyling);
       return 'handled';
     }
     return 'not-handled';
@@ -1545,13 +1545,13 @@ class Blocksmith extends React.Component {
       editorBounds,
     );
 
-    this.setState({
+    this.setState(() => ({
       activeBlockKey: normalizeKey(blockKey),
       blockButtonsStyle,
       // eslint-disable-next-line
       isSidebarOpen: this.state.isSidebarOpen && isSidebarVisible,
       sidebarHolderStyle,
-    });
+    }));
   }
 
   /**
@@ -1595,11 +1595,11 @@ class Blocksmith extends React.Component {
       styledBlock.classList.remove('block-active');
     }
 
-    this.setState({
+    this.setState(() => ({
       blockButtonsStyle,
       isHoverInsertMode: false,
       sidebarHolderStyle,
-    });
+    }));
   }
 
   /**
@@ -1652,9 +1652,9 @@ class Blocksmith extends React.Component {
     document.querySelectorAll('.block-active').forEach((node) => node.classList.remove('block-active'));
 
     if (activeBlockNode && !isHoverInsertMode) {
-      this.setState({
+      this.setState(() => ({
         activeBlockKey: activeBlockNode.getAttribute('data-offset-key'),
-      }, () => activeBlockNode.classList.add('block-active'));
+      }), () => activeBlockNode.classList.add('block-active'));
     }
   }
 
