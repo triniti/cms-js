@@ -872,17 +872,18 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Handles the custom command type(s) sent by keyBindingFn.
+   * Handles the custom command type(s) sent by keyBindingFn. This uses the editorState from the
+   * argument instead of state to prevent race conditions.
    *
    * @link https://draftjs.org/docs/advanced-topics-key-bindings
+   * @link https://draftjs.org/docs/advanced-topics-editorstate-race-conditions/
    *
    * @param {string} command - a command type
    *
    * @returns {string} 'handled' (meaning we did something special) or 'not-handled' (meaning we
    * want to allow the editor to take over and resume default behavior).
    */
-  handleKeyCommand(command) {
-    const { editorState } = this.state;
+  handleKeyCommand(command, editorState) {
     switch (command) {
       case constants.DOUBLE_ENTER_ON_LIST: {
         const selectionState = editorState.getSelection();
@@ -1300,20 +1301,22 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Intercepts paste events. Oftentimes the HTML is malformed and as a result empty blocks
-   * are inserted. This prevents that from happening.
+   * Intercepts paste events. Oftentimes the HTML is malformed and as a result empty blocks are
+   * inserted. This prevents that from happening. This uses the editorState from the argument
+   * instead of state to prevent race conditions.
    *
    * @link https://draftjs.org/docs/api-reference-editor#handlepastedtext
    * @link https://github.com/facebook/draft-js/blob/master/src/model/paste/DraftPasteProcessor.js
    * @link https://github.com/facebook/draft-js/blob/master/src/model/immutable/BlockMapBuilder.js
+   * @link https://draftjs.org/docs/advanced-topics-editorstate-race-conditions/
    *
    * @param {string}       text - pasted text
    * @param {?HTMLElement} html - pasted html
    *
    * @returns {string}
    */
-  handlePastedText(text, html) {
-    const { editorState, errors } = this.state;
+  handlePastedText(text, html, editorState) {
+    const { errors } = this.state;
 
     if (html) {
       // todo: put bugfix back before merging
