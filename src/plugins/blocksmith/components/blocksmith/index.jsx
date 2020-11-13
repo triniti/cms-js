@@ -257,6 +257,7 @@ class Blocksmith extends React.Component {
     this.blockStyleFn = this.blockStyleFn.bind(this);
     this.getEditorState = this.getEditorState.bind(this);
     this.getReadOnly = this.getReadOnly.bind(this);
+    this.getSidebarHolderStyle = this.getSidebarHolderStyle.bind(this);
     this.handleAddCanvasBlock = this.handleAddCanvasBlock.bind(this);
     this.handleAddEmptyBlockAtEnd = this.handleAddEmptyBlockAtEnd.bind(this);
     this.handleAddLink = this.handleAddLink.bind(this);
@@ -287,7 +288,12 @@ class Blocksmith extends React.Component {
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.positionComponents = this.positionComponents.bind(this);
+    this.removeActiveStyling = this.removeActiveStyling.bind(this);
     this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
+    this.setHoverInsertMode = this.setHoverInsertMode.bind(this);
+    this.styleActiveBlock = this.styleActiveBlock.bind(this);
+    this.styleActiveBlockNode = this.styleActiveBlockNode.bind(this);
   }
 
   componentDidMount() {

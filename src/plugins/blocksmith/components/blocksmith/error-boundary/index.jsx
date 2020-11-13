@@ -3,6 +3,7 @@ import { Button, Icon, RouterLink } from '@triniti/admin-ui-plugin/components';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 // import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import React from 'react';
+import blockParentNode from '@triniti/cms/plugins/blocksmith/utils/blockParentNode';
 import validateBlocks from '@triniti/cms/plugins/blocksmith/utils/validateBlocks';
 import delegate from './delegate';
 import selector from './selector';
@@ -38,7 +39,10 @@ class ErrorBoundary extends React.Component {
       hasRecoveredFromContinuedErrors: true,
       errorCount: 0,
       hasError: false,
-    }), () => handleStoreEditor(editorState));
+    }), () => {
+      blockParentNode.clearCache();
+      handleStoreEditor(editorState);
+    });
   }
 
   restoreBlocksmith(editorState) {
@@ -46,7 +50,10 @@ class ErrorBoundary extends React.Component {
     this.setState(({ errorCount }) => ({
       errorCount: errorCount + 1,
       hasError: false,
-    }), () => handleStoreEditor(editorState));
+    }), () => {
+      blockParentNode.clearCache();
+      handleStoreEditor(editorState);
+    });
   }
 
   render() {
@@ -55,6 +62,10 @@ class ErrorBoundary extends React.Component {
 
     if (!hasError) {
       return children;
+    }
+
+    if (!blocksmithState || !blocksmithState.editorState) {
+      return <p>https://www.youtube.com/watch?v=3WSe9ugpXIw</p>;
     }
 
     const { validEditorState, validCanvasBlocks, wasValid } = validateBlocks(blocksmithState.editorState);
