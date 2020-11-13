@@ -69,7 +69,7 @@ import constants from './constants';
 import customStyleMap from './customStyleMap';
 import decorators from './decorators';
 import delegateFactory from './delegate';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from './error-boundary';
 import selector from './selector';
 import { blockTypes, tokens } from '../../constants';
 import { clearDragCache } from '../../utils/styleDragTarget';
@@ -1503,10 +1503,11 @@ class Blocksmith extends React.Component {
       blockKey = activeBlock.getKey();
     }
 
-    const editorRef = this.editor.editor;
-    if (!editorRef) {
+    if (!this.editor || !this.editor.editor) {
       return; // component is unmounting, let's get outta here
     }
+
+    const editorRef = this.editor.editor;
     const { editor } = editorRef;
     const editorBounds = editor.getBoundingClientRect();
     let selectedBlockNode = getBlockNode(contentState, blockKey);
@@ -1659,7 +1660,7 @@ class Blocksmith extends React.Component {
   }
 
   render() {
-    const { copiedBlock } = this.props;
+    const { copiedBlock, formName } = this.props;
     const {
       activeBlockKey,
       blockButtonsStyle,
@@ -1695,7 +1696,7 @@ class Blocksmith extends React.Component {
           </kbd>
         </CardHeader>
         <CardBody indent>
-          <ErrorBoundary>
+          <ErrorBoundary formName={formName}>
             <>
               <div
                 onCopy={this.handleMouseCopy}

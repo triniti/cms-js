@@ -44,6 +44,7 @@ import sidebarUtil from './sidebar';
 import styleBlockTargetNodeStatusFn from './styleBlockTargetNodeStatus';
 import styleDragTargetFn from './styleDragTarget';
 import updateBlocksFn from './updateBlocks';
+import validateBlocksFn from './validateBlocks';
 
 export const addEmoji = addEmojiFn;
 export const areKeysSame = areKeysSameFn;
@@ -91,3 +92,4 @@ export const sidebar = sidebarUtil;
 export const styleBlockTargetNodeStatus = styleBlockTargetNodeStatusFn;
 export const styleDragTarget = styleDragTargetFn;
 export const updateBlocks = updateBlocksFn;
+export const validateBlocks = validateBlocksFn;
