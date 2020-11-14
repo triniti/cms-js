@@ -7,8 +7,9 @@ import blockParentNode from '@triniti/cms/plugins/blocksmith/utils/blockParentNo
 import validateBlocks from '@triniti/cms/plugins/blocksmith/utils/validateBlocks';
 import delegate from './delegate';
 import selector from './selector';
+import './styles.scss';
 
-const MAX_ERROR_COUNT = 1;
+const MAX_ERROR_COUNT = 0;
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -65,6 +66,7 @@ class ErrorBoundary extends React.Component {
     }
 
     if (!blocksmithState || !blocksmithState.editorState) {
+      // todo: remove, obviously
       return <p>https://www.youtube.com/watch?v=3WSe9ugpXIw</p>;
     }
 
@@ -74,7 +76,7 @@ class ErrorBoundary extends React.Component {
         if (hasRecoveredFromContinuedErrors) {
           // const contentBlocks = validEditorState.getCurrentContent().getBlocksAsArray();
           return (
-            <>
+            <div className="blocksmith-error-boundary">
               <p>the editor is experiencing continued failures. the blocks are valid but some issue is causing it to crash. press the button below to restore the editor.</p>
               <Button
               // className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
@@ -84,27 +86,55 @@ class ErrorBoundary extends React.Component {
                 hi
               </Button>
               <p>if you continue to see this message, then something is really wrong. the blocks are still valid, but we recommend that you save now and refresh the page.</p>
-              {validCanvasBlocks.map((block, i) => {
+              {validCanvasBlocks.map((block) => {
                 const message = block.schema().getId().getCurie().getMessage();
-                // if (block.has('node_ref')) {
-                //   const node = getNode(block.get('node_ref'));
-                //   // return (
-                //   //   <RouterLink to={pbjUrl(node, 'cms')}>
-                //   //     {`${message.replace(/-block/, '')} for ${node.get('title')}`}
-                //   //   </RouterLink>
-                //   // );
-                //   // return <p>{`${message.replace(/-block/, '')} for`}</p>
-                // }
+                let Component = null;
                 switch (message) {
                   case 'image-block':
-                    return <img src={damUrl(getNode(block.get('node_ref')), 'o', 'xs')} alt="thumbnail" />;
+                    Component = () => (
+                      <>
+                        <p>{message}</p>
+                        <img src={damUrl(getNode(block.get('node_ref')), 'o', 'xs')} alt="thumbnail" />
+                      </>
+                    );
+                    break;
+                  case 'document-block':
+                    Component = () => (
+                      <>
+                        <p>{message}</p>
+                        <img src={damUrl(getNode(block.get('image_ref')), 'o', 'xs')} alt="thumbnail" />
+                      </>
+                    );
+                    break;
+                  case 'gallery-block': // todo: account for poster image
+                    Component = () => (
+                      <>
+                        <p>{message}</p>
+                        <img src={damUrl(getNode(block.get('node_ref')).get('image_ref'), 'o', 'xs')} alt="thumbnail" />
+                      </>
+                    );
+                    break;
+                  case 'video-block': // todo: account for poster image
+                    Component = () => (
+                      <>
+                        <p>{message}</p>
+                        <img src={damUrl(getNode(block.get('node_ref')).get('image_ref'), 'o', 'xs')} alt="thumbnail" />
+                      </>
+                    );
+                    break;
                   case 'text-block':
-                    return <div dangerouslySetInnerHTML={{ __html: block.get('text') }} />;
+                    Component = () => <div dangerouslySetInnerHTML={{ __html: block.get('text') }} />;
+                    break;
                   default:
-                    return <p>{message}</p>;
+                    Component = () => <p>{message}</p>;
                 }
+                return (
+                  <div className="preview-component">
+                    <Component />
+                  </div>
+                );
               })}
-            </>
+            </div>
           );
         }
         return (
