@@ -8,6 +8,6 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  * @returns {Object}
  */
 export default (state, { formName }) => ({
-  blocksmithState: getBlocksmith(state, formName),
+  // blocksmithState: getBlocksmith(state, formName),
   getNode: (nodeRef) => getNode(state, nodeRef),
 });

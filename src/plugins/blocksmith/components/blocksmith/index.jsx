@@ -302,16 +302,31 @@ class Blocksmith extends React.Component {
 
   /**
    * If you try to get clever and do something with incoming editorState here, be very careful.
-   * Getting new editorState as a prop has been the absolute worst headache of this
-   * whole component. It is very easy to wipe out decorator/plugin behavior.
+   * It is very easy to wipe out decorator/plugin behavior. You must maintain the same editorState
+   * instance that is currently in state.
    *
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
-  componentDidUpdate({ isEditMode: prevIsEditMode }) {
-    const { isEditMode } = this.props;
+  componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
+    const { editorState: currentPropsEditorState, isEditMode } = this.props;
+    const { editorState } = this.state;
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({ readOnly: !isEditMode }));
+      return;
+    }
+    if (
+      currentPropsEditorState
+      && prevPropsEditorState
+      && prevPropsEditorState !== currentPropsEditorState
+    ) {
+      /**
+       * Force editor to re-render when new editorState comes in via props. Required because the
+       * error boundary can "restore" the editor after an error.
+       */
+      this.setState(() => ({ // eslint-disable-line react/no-did-update-set-state
+        editorState: EditorState.push(editorState, currentPropsEditorState.getCurrentContent()),
+      }));
     }
   }
 
@@ -1331,21 +1346,23 @@ class Blocksmith extends React.Component {
       const newErrors = [];
       if (contentBlocks) {
         const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => {
-          if (isBlockEmpty(block)) {
-            return false;
-          }
-          const singleBlockEditorState = EditorState.push(
-            EditorState.createEmpty(),
-            ContentState.createFromBlockArray([block]),
-          );
-          try {
-            convertToCanvasBlocks(singleBlockEditorState);
-            return true;
-          } catch (e) {
-            newErrors.push(e.stack);
-            console.error(`[blocksmith] - ${e}`);
-            return false;
-          }
+          console.log('prevent autoformat');
+          return !isBlockEmpty(block);
+          // if (isBlockEmpty(block)) {
+          //   return false;
+          // }
+          // const singleBlockEditorState = EditorState.push(
+          //   EditorState.createEmpty(),
+          //   ContentState.createFromBlockArray([block]),
+          // );
+          // try {
+          //   convertToCanvasBlocks(singleBlockEditorState);
+          //   return true;
+          // } catch (e) {
+          //   newErrors.push(e.stack);
+          //   console.error(`[blocksmith] - ${e}`);
+          //   return false;
+          // }
         }));
 
         const newContentState = Modifier.replaceWithFragment(
@@ -1702,7 +1719,7 @@ class Blocksmith extends React.Component {
           </kbd>
         </CardHeader>
         <CardBody indent>
-          <ErrorBoundary formName={formName}>
+          <ErrorBoundary editorState={editorState} formName={formName}>
             <>
               <div
                 onCopy={this.handleMouseCopy}

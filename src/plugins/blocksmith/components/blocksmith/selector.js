@@ -1,3 +1,4 @@
+import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
 import getCopiedBlock from '../../selectors/getCopiedBlock';
 
 /**
@@ -5,6 +6,10 @@ import getCopiedBlock from '../../selectors/getCopiedBlock';
  *
  * @returns {Object}
  */
-export default (state) => ({
-  copiedBlock: getCopiedBlock(state),
-});
+export default (state, { formName }) => {
+  const blocksmithState = getBlocksmith(state, formName);
+  return {
+    copiedBlock: getCopiedBlock(state),
+    editorState: blocksmithState && blocksmithState.editorState ? blocksmithState.editorState : null,
+  };
+};
