@@ -103,6 +103,7 @@ import {
   isFirstListBlock,
   isLastListBlock,
   normalizeKey,
+  pushEditorState,
   removeLinkAtSelection,
   replaceBlockAtKey,
   selectBlock,
@@ -112,6 +113,7 @@ import {
   sidebar,
   styleDragTarget,
   updateBlocks,
+  validateBlocks,
 } from '../../utils';
 
 class Blocksmith extends React.Component {
@@ -164,18 +166,29 @@ class Blocksmith extends React.Component {
 
     const decorator = new MultiDecorator([new CompositeDecorator(decorators)]);
     let editorState = EditorState.createEmpty(decorator);
+    let errors = {}; // todo: add isRendered to error to make it clear when a mutant thing was not pasted
 
     if (blocksmithState) {
-      editorState = EditorState.push(
+      const pushedEditorState = pushEditorState(
         editorState,
         blocksmithState.editorState.getCurrentContent(),
         null,
       );
+      editorState = pushedEditorState.editorState;
+      errors = pushedEditorState.errors;
     } else {
       delegate.handleCleanEditor(formName);
       if (node && node.has('blocks')) {
         editorState = convertToEditorState(node.get('blocks'), decorator);
       }
+      const { blocks } = validateBlocks(editorState);
+      errors = blocks.reduce((acc, { error, index, type }) => {
+        if (type !== 'content') {
+          return acc;
+        }
+        acc[index] = error;
+        return acc;
+      }, {});
     }
 
     this.state = {
@@ -183,7 +196,7 @@ class Blocksmith extends React.Component {
       blockButtonsStyle: {
         transform: 'scale(0)',
       },
-      errors: [],
+      errors,
       hoverBlockNode: null,
       isDirty: false,
       isHoverInsertMode: false,
@@ -286,6 +299,7 @@ class Blocksmith extends React.Component {
     this.handleToggleLinkModal = this.handleToggleLinkModal.bind(this);
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
+    this.hasError = this.hasError.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
     this.positionComponents = this.positionComponents.bind(this);
@@ -574,6 +588,18 @@ class Blocksmith extends React.Component {
   }
 
   /**
+   * for components returned by blockRendererFn that do not receive props in the normal way.
+   *
+   * @param {string} key
+   *
+   * @returns {boolean}
+   */
+  hasError(key) {
+    const { errors } = this.state;
+    return key in errors;
+  }
+
+  /**
    * Tells the DraftJs editor how to render custom atomic blocks.
    *
    * @param {*} block - A DraftJs ContentBlock
@@ -585,6 +611,7 @@ class Blocksmith extends React.Component {
    */
   blockRendererFn(block) {
     const { editorState, readOnly } = this.state;
+    console.log('renderer');
     switch (block.getType()) {
       case blockTypes.ATOMIC: {
         const blockData = block.getData();
@@ -596,6 +623,7 @@ class Blocksmith extends React.Component {
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
+            hasError: this.hasError,
           },
         };
       }
@@ -605,6 +633,7 @@ class Blocksmith extends React.Component {
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
+            hasError: this.hasError,
           },
         };
       case blockTypes.ORDERED_LIST_ITEM:
@@ -616,6 +645,7 @@ class Blocksmith extends React.Component {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
             getReadOnly: this.getReadOnly,
+            hasError: this.hasError,
           },
         };
       default:
@@ -730,11 +760,14 @@ class Blocksmith extends React.Component {
           if (!result.value) {
             return; // do nothing, user declined to delete
           }
+          const newEditorState = pushEditorState(
+            editorState,
+            deleteBlock(editorState.getCurrentContent(), activeBlockKey),
+            'remove-range',
+          );
           this.setState(() => ({
-            editorState: EditorState.push(
-              editorState,
-              deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
-            ),
+            editorState: newEditorState.editorState,
+            errors: newEditorState.errors,
           }), () => {
             if (!isDirty) {
               delegate.handleDirtyEditor(formName);
@@ -742,6 +775,19 @@ class Blocksmith extends React.Component {
             // eslint-disable-next-line react/destructuring-assignment
             delegate.handleStoreEditor(formName, this.state.editorState);
           });
+
+          // this.setState(() => ({
+          //   editorState: EditorState.push(
+          //     editorState,
+          //     deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
+          //   ),
+          // }), () => {
+          //   if (!isDirty) {
+          //     delegate.handleDirtyEditor(formName);
+          //   }
+          //   // eslint-disable-next-line react/destructuring-assignment
+          //   delegate.handleStoreEditor(formName, this.state.editorState);
+          // });
         });
       });
     });
@@ -1343,7 +1389,7 @@ class Blocksmith extends React.Component {
       // todo: put bugfix back before merging
       // const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
       const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
-      const newErrors = [];
+      const newErrors = {};
       if (contentBlocks) {
         const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => {
           console.log('prevent autoformat');
@@ -1359,7 +1405,11 @@ class Blocksmith extends React.Component {
           //   convertToCanvasBlocks(singleBlockEditorState);
           //   return true;
           // } catch (e) {
-          //   newErrors.push(e.stack);
+          //   newErrors[block.getKey()] = e.stack;
+          //   // newErrors.push({
+          //   //   key: block.getKey(),
+          //   //   error: e.stack,
+          //   // });
           //   console.error(`[blocksmith] - ${e}`);
           //   return false;
           // }
@@ -1808,10 +1858,10 @@ class Blocksmith extends React.Component {
               )}
             </>
           </ErrorBoundary>
-          {!!errors.length && (
+          {!!Object.keys(errors).length && (
           <>
             <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>
-            {errors.map((error) => <FormText color="danger">{error}</FormText>)}
+            {Object.values(errors).map((error) => <FormText color="danger">{error}</FormText>)}
           </>
           )}
         </CardBody>

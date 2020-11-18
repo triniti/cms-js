@@ -151,6 +151,10 @@ div[data-contents="true"] {
       box-shadow: 0 0 0 1px #e0e0e2;
     }
 
+    &.block-error {
+      background-color: red;
+    }
+
     &.insert-marker {
       box-shadow: 0 -2px 0 1px #000;
       width: 100%;

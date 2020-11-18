@@ -10,7 +10,7 @@ import { ContentBlock } from 'draft-js';
 import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 
 import ImagePreview from './ImagePreview';
-import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../../utils';
+import { convertToCanvasBlocks, handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../../utils';
 import selector from './selector';
 import './styles.scss';
 
@@ -68,6 +68,21 @@ class GenericBlockPlaceholder extends React.PureComponent {
     this.handleToggleImagePreviewSrc = this.handleToggleImagePreviewSrc.bind(this);
   }
 
+  componentDidMount() {
+    const { block, contentState, blockProps } = this.props;
+    let index = -1;
+    contentState.getBlockMap().skipUntil((_, k) => {
+      index += 1;
+      return k === block.getKey();
+    });
+    console.log(index);
+    if (blockProps.hasError(index)) {
+      this.element.parentElement.classList.add('block-error');
+    } else {
+      this.element.parentElement.classList.remove('block-error');
+    }
+  }
+
   handleToggleImagePreviewSrc(src = null) {
     this.setState(({ imagePreviewSrc }) => ({
       imagePreviewSrc: imagePreviewSrc ? null : src,
@@ -102,6 +117,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
         draggable={draggable}
         onDragStart={handleDragStart(block.getKey())}
         onDragEnd={handleDragEnd}
+        ref={(ref) => { this.element = ref; }}
         role="presentation"
       >
         {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
