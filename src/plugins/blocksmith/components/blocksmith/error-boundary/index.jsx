@@ -1,8 +1,9 @@
-import { connect } from 'react-redux';
 import { Button } from '@triniti/admin-ui-plugin/components';
+import { connect } from 'react-redux';
+import { ContentBlock } from 'draft-js';
+import blockParentNode from '@triniti/cms/plugins/blocksmith/utils/blockParentNode';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 import React from 'react';
-import blockParentNode from '@triniti/cms/plugins/blocksmith/utils/blockParentNode';
 import validateBlocks from '@triniti/cms/plugins/blocksmith/utils/validateBlocks';
 import delegate from './delegate';
 import selector from './selector';
@@ -21,7 +22,6 @@ class ErrorBoundary extends React.Component {
       hasRecoveredFromContinuedErrors: false,
     };
 
-    // this.recoverFromContinuedErrors = this.recoverFromContinuedErrors.bind(this);
     this.restoreBlocksmith = this.restoreBlocksmith.bind(this);
   }
 
@@ -46,7 +46,7 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    const { children, editorState, blocksmithState, getNode } = this.props;
+    const { children, editorState, blocksmithState, getNode, handleDirtyEditor } = this.props;
     const { errorCount, hasError, hasRecoveredFromContinuedErrors } = this.state;
 
     if (!hasError) {
@@ -73,7 +73,10 @@ class ErrorBoundary extends React.Component {
         <p>{warning}</p>
         <Button
           // className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
-          onClick={() => this.restoreBlocksmith(validEditorState)}
+          onClick={() => {
+            this.restoreBlocksmith(validEditorState);
+            handleDirtyEditor();
+          }}
           size="md"
         >
           {`restore editor${isValid ? '' : ' (only valid blocks)'}`}
@@ -91,12 +94,12 @@ class ErrorBoundary extends React.Component {
         {!isValid && (
           <p>The invalid blocks are styled in <span style={{ color: 'red' }}>red</span> below.</p>
         )}
-        {blocks.map(({ block, type }) => {
-          if (type === 'content') {
+        {blocks.map(({ block }) => {
+          if (block instanceof ContentBlock) {
             return (
               <div className="preview-component preview-component_error">
                 <p>invalid block!</p>
-                <p>{`type: ${block.toString()}`}</p>
+                <p>{block.toString()}</p>
               </div>
             );
           }

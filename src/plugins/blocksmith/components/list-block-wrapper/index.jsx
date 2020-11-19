@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import { ContentBlock, EditorBlock } from 'draft-js';
+import PlaceholderErrorBoundary from '@triniti/cms/plugins/blocksmith/components/placeholder-error-boundary';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
 export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => (
-  <>
+  <PlaceholderErrorBoundary>
     {draggable && blockProps.isFirst && (
       <div
         className="drag-area draggable-top"
@@ -35,7 +36,7 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...r
         onDragStart={handleDragStart(block.getKey())}
       />
     )}
-  </>
+  </PlaceholderErrorBoundary>
 );
 
 ListBlockWrapper.propTypes = {

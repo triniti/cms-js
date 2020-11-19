@@ -74,7 +74,6 @@ import selector from './selector';
 import { blockTypes, tokens } from '../../constants';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
-import convertToCanvasBlocks from '../../utils/convertToCanvasBlocks';
 import {
   addEmoji,
   areKeysSame,
@@ -115,6 +114,9 @@ import {
   updateBlocks,
   validateBlocks,
 } from '../../utils';
+
+// todo: dont use selectBlock on non-text blocks, or at least only for modifying them
+// todo: consider disabling destructuring rule for whole file
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -181,14 +183,7 @@ class Blocksmith extends React.Component {
       if (node && node.has('blocks')) {
         editorState = convertToEditorState(node.get('blocks'), decorator);
       }
-      const { blocks } = validateBlocks(editorState);
-      errors = blocks.reduce((acc, { error, index, type }) => {
-        if (type !== 'content') {
-          return acc;
-        }
-        acc[index] = error;
-        return acc;
-      }, {});
+      errors = validateBlocks(editorState).errors;
     }
 
     this.state = {
@@ -322,7 +317,7 @@ class Blocksmith extends React.Component {
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
   componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
-    const { editorState: currentPropsEditorState, isEditMode } = this.props;
+    const { delegate, editorState: currentPropsEditorState, formName, isEditMode } = this.props;
     const { editorState } = this.state;
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -334,12 +329,17 @@ class Blocksmith extends React.Component {
       && prevPropsEditorState
       && prevPropsEditorState !== currentPropsEditorState
     ) {
+      const newEditorState = pushEditorState(
+        editorState,
+        currentPropsEditorState.getCurrentContent(),
+      );
       /**
        * Force editor to re-render when new editorState comes in via props. Required because the
        * error boundary can "restore" the editor after an error.
        */
       this.setState(() => ({ // eslint-disable-line react/no-did-update-set-state
-        editorState: EditorState.push(editorState, currentPropsEditorState.getCurrentContent()),
+        editorState: newEditorState.editorState,
+        errors: newEditorState.errors,
       }));
     }
   }
@@ -567,8 +567,10 @@ class Blocksmith extends React.Component {
         newBlockKey,
       );
     }
+    const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
     this.setState(() => ({
-      editorState: EditorState.push(editorState, newContentState, 'insert-characters'),
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
       isDirty: true,
       sidebarResetFlag: +!sidebarResetFlag,
     }), () => {
@@ -611,7 +613,6 @@ class Blocksmith extends React.Component {
    */
   blockRendererFn(block) {
     const { editorState, readOnly } = this.state;
-    console.log('renderer');
     switch (block.getType()) {
       case blockTypes.ATOMIC: {
         const blockData = block.getData();
@@ -653,18 +654,34 @@ class Blocksmith extends React.Component {
     }
   }
 
-  // TODO add docblock and refactor this so it
-  // adds all the classnames we might want that are
-  // currently being styled via dom drilling in styles.scss
+  /**
+   * Adds the returned string as a class to the Draft block.
+   *
+   * todo: consider updating this to add other class names that could simplify the dom drilling
+   * currently happening in styles.scss
+   *
+   * @link https://draftjs.org/docs/advanced-topics-block-styling/
+   *
+   * @param {ContentBlock} block
+   *
+   * @returns {string|null}
+   */
   blockStyleFn(block) {
+    const { editorState } = this.state;
+    let index = -1;
+    editorState.getCurrentContent().getBlockMap().skipUntil((_, k) => {
+      index += 1;
+      return k === block.getKey();
+    });
+    const hasError = this.hasError(index);
     switch (block.getType()) {
       case blockTypes.UNSTYLED:
-        return 'text-block';
+        return `text-block${hasError ? ' block-invalid' : ''}`;
       case blockTypes.ORDERED_LIST_ITEM:
       case blockTypes.UNORDERED_LIST_ITEM:
-        return 'list-block';
+        return `list-block${hasError ? ' block-invalid' : ''}`;
       default:
-        return null;
+        return hasError ? 'block-invalid' : null;
     }
   }
 
@@ -681,12 +698,13 @@ class Blocksmith extends React.Component {
       constants.POSITION_AFTER,
       newBlockKey,
     );
-    const newEditorState = EditorState.push(editorState, newContentState, 'arbitrary');
+    const newEditorState = pushEditorState(editorState, newContentState, 'arbitrary');
     this.setState(() => ({
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
-      editorState: selectBlock(newEditorState, newBlockKey),
-    }), () => this.positionComponents(newEditorState, newBlockKey));
+      editorState: selectBlock(newEditorState.editorState, newBlockKey),
+      errors: newEditorState.errors,
+    }), () => this.positionComponents(newEditorState.editorState, newBlockKey));
   }
 
   /**
@@ -775,19 +793,6 @@ class Blocksmith extends React.Component {
             // eslint-disable-next-line react/destructuring-assignment
             delegate.handleStoreEditor(formName, this.state.editorState);
           });
-
-          // this.setState(() => ({
-          //   editorState: EditorState.push(
-          //     editorState,
-          //     deleteBlock(editorState.getCurrentContent(), activeBlockKey), 'remove-range',
-          //   ),
-          // }), () => {
-          //   if (!isDirty) {
-          //     delegate.handleDirtyEditor(formName);
-          //   }
-          //   // eslint-disable-next-line react/destructuring-assignment
-          //   delegate.handleStoreEditor(formName, this.state.editorState);
-          // });
         });
       });
     });
@@ -848,24 +853,32 @@ class Blocksmith extends React.Component {
     draggedBlock.classList.remove('hidden-block');
 
     const { editorState, isDirty } = this.state;
+    const contentState = editorState.getCurrentContent();
     const newContentState = dropBlock(
-      editorState.getCurrentContent(),
+      contentState,
       draggedBlockKey,
       dropTargetKey,
       dropTargetPosition,
       isDropTargetAList,
       draggedBlockListKeys,
     );
-    const newEditorState = selectBlock(
-      EditorState.push(editorState, newContentState, 'move-block'),
-      draggedBlockKey,
-      selectBlockSelectionTypes.END,
-    );
+    let newEditorState = pushEditorState(editorState, newContentState, 'move-block');
+    if (blockTypes.ATOMIC !== contentState.getBlockForKey(draggedBlockKey).getType()) {
+      newEditorState = {
+        editorState: selectBlock(
+          newEditorState.editorState,
+          draggedBlockKey,
+          selectBlockSelectionTypes.END,
+        ),
+        errors: newEditorState.errors,
+      };
+    }
     this.setState(() => ({
-      editorState: newEditorState,
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
     }), () => {
       const { formName, delegate } = this.props;
-      delegate.handleStoreEditor(formName, newEditorState);
+      delegate.handleStoreEditor(formName, newEditorState.editorState);
       if (!isDirty) {
         delegate.handleDirtyEditor(formName);
       }
@@ -919,11 +932,10 @@ class Blocksmith extends React.Component {
       newEditorState.getSelection(),
       new Map({ canvasBlock }),
     );
+    newEditorState = pushEditorState(newEditorState, newContentState);
     this.setState(() => ({
-      editorState: EditorState.push(
-        newEditorState,
-        newContentState,
-      ),
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
     }), () => {
       this.positionComponents(
         this.state.editorState, // eslint-disable-line react/destructuring-assignment
@@ -934,7 +946,7 @@ class Blocksmith extends React.Component {
         delegate.handleDirtyEditor(formName);
       }
       // eslint-disable-next-line react/destructuring-assignment
-      this.props.delegate.handleStoreEditor(this.props.formName, this.state.editorState);
+      delegate.handleStoreEditor(this.props.formName, this.state.editorState);
     });
   }
 
@@ -948,7 +960,7 @@ class Blocksmith extends React.Component {
    * @param {string} command - a command type
    *
    * @returns {string} 'handled' (meaning we did something special) or 'not-handled' (meaning we
-   * want to allow the editor to take over and resume default behavior).
+   *                   want to allow the editor to take over and resume default behavior).
    */
   handleKeyCommand(command, editorState) {
     switch (command) {
@@ -960,10 +972,13 @@ class Blocksmith extends React.Component {
           selectionState,
           blockTypes.UNSTYLED,
         );
-        const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
+        const newEditorState = pushEditorState(editorState, newContentState, 'remove-range');
         this.setState(() => ({
-          editorState: newEditorState,
-        }), () => this.positionComponents(newEditorState, selectionState.getAnchorKey()));
+          editorState: newEditorState.editorState,
+          errors: newEditorState.errors,
+        }), () => {
+          this.positionComponents(newEditorState.editorState, selectionState.getAnchorKey());
+        });
         return 'handled';
       }
       case constants.SOFT_NEWLINE:
@@ -1136,13 +1151,14 @@ class Blocksmith extends React.Component {
       isHoverInsertModeBottom ? constants.POSITION_AFTER : constants.POSITION_BEFORE,
       newBlockKey,
     );
-    const newEditorState = EditorState.push(editorState, newContentState, 'arbitrary');
+    const newEditorState = pushEditorState(editorState, newContentState, 'arbitrary');
     this.setState(() => ({
       isHoverInsertMode: false,
       isHoverInsertModeBottom: null,
-      editorState: selectBlock(newEditorState, newBlockKey),
+      editorState: selectBlock(newEditorState.editorState, newBlockKey),
+      errors: newEditorState.errors,
       sidebarResetFlag: +!sidebarResetFlag,
-    }), () => this.positionComponents(newEditorState, newBlockKey));
+    }), () => this.positionComponents(newEditorState.editorState, newBlockKey));
   }
 
   /**
@@ -1257,24 +1273,27 @@ class Blocksmith extends React.Component {
    */
   handleShiftBlock(block, position) {
     const { editorState } = this.state;
-    this.setState(() => ({
-      editorState: EditorState.push(
-        editorState,
-        shiftBlock(
-          editorState.getCurrentContent(),
-          block,
-          position,
-        ),
-        'arbitrary',
+    const newEditorState = pushEditorState(
+      editorState,
+      shiftBlock(
+        editorState.getCurrentContent(),
+        block,
+        position,
       ),
+      'arbitrary',
+    );
+    this.setState(() => ({
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
     }), () => {
       this.removeActiveStyling();
       const { delegate, formName } = this.props;
-      const { editorState: newEditorState, isDirty } = this.state;
+      const { isDirty } = this.state;
       if (!isDirty) {
         delegate.handleDirtyEditor(formName);
       }
-      delegate.handleStoreEditor(formName, newEditorState);
+      // eslint-disable-next-line react/destructuring-assignment
+      delegate.handleStoreEditor(formName, this.state.editorState);
     });
   }
 
@@ -1383,37 +1402,12 @@ class Blocksmith extends React.Component {
    * @returns {string}
    */
   handlePastedText(text, html, editorState) {
-    const { errors } = this.state;
-
     if (html) {
       // todo: put bugfix back before merging
       // const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
       const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
-      const newErrors = {};
       if (contentBlocks) {
-        const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => {
-          console.log('prevent autoformat');
-          return !isBlockEmpty(block);
-          // if (isBlockEmpty(block)) {
-          //   return false;
-          // }
-          // const singleBlockEditorState = EditorState.push(
-          //   EditorState.createEmpty(),
-          //   ContentState.createFromBlockArray([block]),
-          // );
-          // try {
-          //   convertToCanvasBlocks(singleBlockEditorState);
-          //   return true;
-          // } catch (e) {
-          //   newErrors[block.getKey()] = e.stack;
-          //   // newErrors.push({
-          //   //   key: block.getKey(),
-          //   //   error: e.stack,
-          //   // });
-          //   console.error(`[blocksmith] - ${e}`);
-          //   return false;
-          // }
-        }));
+        const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
 
         const newContentState = Modifier.replaceWithFragment(
           editorState.getCurrentContent(),
@@ -1421,11 +1415,11 @@ class Blocksmith extends React.Component {
           fragment,
         );
 
-        const newEditorState = EditorState.push(editorState, newContentState, 'insert-characters');
+        const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
 
         this.setState(() => ({
-          editorState: newEditorState,
-          errors: [...errors, ...newErrors],
+          editorState: newEditorState.editorState,
+          errors: newEditorState.errors,
         }));
 
         return 'handled';
@@ -1861,7 +1855,7 @@ class Blocksmith extends React.Component {
           {!!Object.keys(errors).length && (
           <>
             <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>
-            {Object.values(errors).map((error) => <FormText color="danger">{error}</FormText>)}
+            {Object.values(errors).map(({ error, key }) => <FormText key={key} color="danger">{error}</FormText>)}
           </>
           )}
         </CardBody>

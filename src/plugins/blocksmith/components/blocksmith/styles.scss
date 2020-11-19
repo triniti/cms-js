@@ -151,7 +151,7 @@ div[data-contents="true"] {
       box-shadow: 0 0 0 1px #e0e0e2;
     }
 
-    &.block-error {
+    &.block-invalid {
       background-color: red;
     }
 
@@ -176,6 +176,10 @@ div[data-contents="true"] {
 
     > .list-block {
       position: relative;
+
+      &.block-invalid {
+        background-color: red;
+      }
     }
   }
 }

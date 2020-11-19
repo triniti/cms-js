@@ -1,18 +1,17 @@
-import React from 'react';
+import './styles.scss';
+import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { ContentBlock } from 'draft-js';
 import classNames from 'classnames';
 import get from 'lodash/get';
-
 import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { ContentBlock } from 'draft-js';
-import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
-
+import PlaceholderErrorBoundary from '@triniti/cms/plugins/blocksmith/components/placeholder-error-boundary';
+import PropTypes from 'prop-types';
+import React from 'react';
 import ImagePreview from './ImagePreview';
 import { convertToCanvasBlocks, handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../../utils';
 import selector from './selector';
-import './styles.scss';
 
 class GenericBlockPlaceholder extends React.PureComponent {
   static propTypes = {
@@ -68,21 +67,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
     this.handleToggleImagePreviewSrc = this.handleToggleImagePreviewSrc.bind(this);
   }
 
-  componentDidMount() {
-    const { block, contentState, blockProps } = this.props;
-    let index = -1;
-    contentState.getBlockMap().skipUntil((_, k) => {
-      index += 1;
-      return k === block.getKey();
-    });
-    console.log(index);
-    if (blockProps.hasError(index)) {
-      this.element.parentElement.classList.add('block-error');
-    } else {
-      this.element.parentElement.classList.remove('block-error');
-    }
-  }
-
   handleToggleImagePreviewSrc(src = null) {
     this.setState(({ imagePreviewSrc }) => ({
       imagePreviewSrc: imagePreviewSrc ? null : src,
@@ -112,28 +96,29 @@ class GenericBlockPlaceholder extends React.PureComponent {
     }
 
     return (
-      <div
-        className={classNames({ draggable }, { 'block-preview': config.preview })}
-        draggable={draggable}
-        onDragStart={handleDragStart(block.getKey())}
-        onDragEnd={handleDragEnd}
-        ref={(ref) => { this.element = ref; }}
-        role="presentation"
-      >
-        {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
+      <PlaceholderErrorBoundary block={block}>
+        <div
+          className={classNames({ draggable }, { 'block-preview': config.preview })}
+          draggable={draggable}
+          onDragStart={handleDragStart(block.getKey())}
+          onDragEnd={handleDragEnd}
+          ref={(ref) => { this.element = ref; }}
+          role="presentation"
+        >
+          {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
           <Badge className={`status-${targetNodeStatus} text-dark`}>
             { targetNodeStatus.toString() }
           </Badge>
-        )}
-        <>
-          {imagePreviewSrc && (
+          )}
+          <>
+            {imagePreviewSrc && (
             <ImagePreview
               draggable={draggable}
               onDismissImagePreview={this.handleToggleImagePreviewSrc}
               src={imagePreviewSrc}
             />
-          )}
-          {config.icon && (
+            )}
+            {config.icon && (
             <Icon
               alert
               border
@@ -143,8 +128,8 @@ class GenericBlockPlaceholder extends React.PureComponent {
               radius="rounded"
               size="xxl"
             />
-          )}
-          {config.iconGroup && (
+            )}
+            {config.iconGroup && (
             <IconGroup left key="iconGroup" className="mt-2 ml-1">
               <Icon
                 alert
@@ -161,28 +146,101 @@ class GenericBlockPlaceholder extends React.PureComponent {
                 src={get(config, 'iconGroup.icons.secondary.src', '')}
               />
             </IconGroup>
-          )}
-          {config.preview && (
+            )}
+            {config.preview && (
             <PreviewComponent
               node={node}
               showTitle={showTitle}
               onToggleImagePreviewSrc={this.handleToggleImagePreviewSrc}
               {...rest}
             />
+            )}
+          </>
+          { config.label && (
+          <div
+            className="placeholder-label-holder ml-2 mt-1"
+            style={{ width: `calc(100% - ${labelOffset}px)` }}
+          >
+            <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
+              <i>{config.label}{title}</i>
+            </p>
+          </div>
           )}
-        </>
-        { config.label && (
-        <div
-          className="placeholder-label-holder ml-2 mt-1"
-          style={{ width: `calc(100% - ${labelOffset}px)` }}
-        >
-          <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-            <i>{config.label}{title}</i>
-          </p>
         </div>
-        )}
-      </div>
+      </PlaceholderErrorBoundary>
     );
+    // return (
+    //   <div
+    //     className={classNames({ draggable }, { 'block-preview': config.preview })}
+    //     draggable={draggable}
+    //     onDragStart={handleDragStart(block.getKey())}
+    //     onDragEnd={handleDragEnd}
+    //     ref={(ref) => { this.element = ref; }}
+    //     role="presentation"
+    //   >
+    //     {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
+    //       <Badge className={`status-${targetNodeStatus} text-dark`}>
+    //         { targetNodeStatus.toString() }
+    //       </Badge>
+    //     )}
+    //     <>
+    //       {imagePreviewSrc && (
+    //         <ImagePreview
+    //           draggable={draggable}
+    //           onDismissImagePreview={this.handleToggleImagePreviewSrc}
+    //           src={imagePreviewSrc}
+    //         />
+    //       )}
+    //       {config.icon && (
+    //         <Icon
+    //           alert
+    //           border
+    //           color="black"
+    //           imgSrc={get(config, 'icon.imgSrc', '')}
+    //           key="icon"
+    //           radius="rounded"
+    //           size="xxl"
+    //         />
+    //       )}
+    //       {config.iconGroup && (
+    //         <IconGroup left key="iconGroup" className="mt-2 ml-1">
+    //           <Icon
+    //             alert
+    //             border
+    //             imgSrc={get(config, 'iconGroup.icons.primary.imgSrc', '')}
+    //             radius="rounded"
+    //             size="sd"
+    //             src={get(config, 'iconGroup.icons.primary.src', '')}
+    //           />
+    //           <Icon
+    //             alert
+    //             imgSrc={get(config, 'iconGroup.icons.secondary.imgSrc', '')}
+    //             size="xxs"
+    //             src={get(config, 'iconGroup.icons.secondary.src', '')}
+    //           />
+    //         </IconGroup>
+    //       )}
+    //       {config.preview && (
+    //         <PreviewComponent
+    //           node={node}
+    //           showTitle={showTitle}
+    //           onToggleImagePreviewSrc={this.handleToggleImagePreviewSrc}
+    //           {...rest}
+    //         />
+    //       )}
+    //     </>
+    //     { config.label && (
+    //     <div
+    //       className="placeholder-label-holder ml-2 mt-1"
+    //       style={{ width: `calc(100% - ${labelOffset}px)` }}
+    //     >
+    //       <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
+    //         <i>{config.label}{title}</i>
+    //       </p>
+    //     </div>
+    //     )}
+    //   </div>
+    // );
   }
 }
 

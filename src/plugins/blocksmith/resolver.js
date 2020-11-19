@@ -1,6 +1,6 @@
-import decorateComponentWithProps from 'decorate-component-with-props';
 import BlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/block/BlockV1Mixin';
 import createLazyComponent from '@triniti/admin-ui-plugin/components/createLazyComponent';
+import decorateComponentWithProps from 'decorate-component-with-props';
 
 /**
  * Gets all of the block buttons currently supported - used to populate the editor sidebar plugin.
