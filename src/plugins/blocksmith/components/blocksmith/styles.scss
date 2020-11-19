@@ -152,7 +152,19 @@ div[data-contents="true"] {
     }
 
     &.block-invalid {
-      background-color: red;
+      background-color: #fef1f1;
+      box-shadow: 0 0 0 1px #f95858;
+      position: relative;
+
+      &:after {
+        top: 5px;
+        right: 10px;
+        content: "INVALID";
+        position: absolute;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: #f95858;
+      }
     }
 
     &.insert-marker {
@@ -178,7 +190,18 @@ div[data-contents="true"] {
       position: relative;
 
       &.block-invalid {
-        background-color: red;
+        background-color: #fef1f1;
+        box-shadow: 0 0 0 1px #f95858;
+
+        &:after {
+          top: 5px;
+          right: 10px;
+          content: "INVALID";
+          position: absolute;
+          font-size: 0.85rem;
+          font-weight: bold;
+          color: #f95858;
+        }
       }
     }
   }

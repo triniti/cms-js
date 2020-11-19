@@ -92,13 +92,18 @@ class ErrorBoundary extends React.Component {
         )}
         <p>If you continue to see this message, then we recommend that you restore the valid blocks, save, and continue working in a new tab. Please do not close this tab - support will want to examine it to investigate the error.</p>
         {!isValid && (
-          <p>The invalid blocks are styled in <span style={{ color: 'red' }}>red</span> below.</p>
+          <p>The invalid blocks are styled in <span className="invalid-block-indicator"><strong>red</strong></span> below.</p>
         )}
         {blocks.map(({ block }) => {
           if (block instanceof ContentBlock) {
+            let message = 'block';
+            const blockData = block.getData();
+            if (blockData && blockData.has('canvasBlock')) {
+              message = blockData.get('canvasBlock').schema().getId().getCurie().getMessage(); // eslint-disable-line
+            }
             return (
               <div className="preview-component preview-component_error">
-                <p>invalid block!</p>
+                <p><strong>{`invalid ${message}`}</strong></p>
                 <p>{block.toString()}</p>
               </div>
             );

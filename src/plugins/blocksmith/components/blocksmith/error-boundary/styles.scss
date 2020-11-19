@@ -1,4 +1,8 @@
 .blocksmith-error-boundary {
+  .invalid-block-indicator {
+    color: #f95858;
+  }
+
   .preview-component {
     box-shadow: 0 0 0 1px #e0e0e2;
     border-radius: 2px;
@@ -11,6 +15,7 @@
   }
 
   .preview-component_error {
-    box-shadow: 0 0 0 1px red;
+    box-shadow: 0 0 0 1px #f95858;
+    background-color: #fef1f1;
   }
 }

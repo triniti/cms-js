@@ -1,5 +1,5 @@
 import { ContentState, EditorState } from 'draft-js';
-import { convertToCanvasBlocks, convertToEditorState } from '@triniti/cms/plugins/blocksmith/utils';
+import { convertToCanvasBlocks, convertToEditorState, validateBlocks } from '@triniti/cms/plugins/blocksmith/utils';
 import { submit } from 'redux-form';
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/node/AbstractDelegate';
 import storeEditor from '@triniti/cms/plugins/blocksmith/actions/storeEditor';
@@ -17,44 +17,66 @@ class Delegate extends AbstractDelegate {
 
   handleSubmit(data, formDispatch, formProps) { // eslint-disable-line consistent-return
     const { blocksmithState, dispatch } = this.component.props;
-    try {
-      convertToCanvasBlocks(blocksmithState.editorState);
+    const { isValid, validEditorState } = validateBlocks(blocksmithState.editorState);
+
+    if (isValid) {
       return AbstractDelegate.prototype.handleSubmit.call(this, data, formDispatch, formProps);
-    } catch (e1) {
-      swal.fire({
-        title: 'Error saving article - one or more blocks is invalid.',
-        text: 'The invalid blocks cannot be saved. Would you like to save only the valid blocks?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        confirmButtonClass: 'btn btn-danger',
-        cancelButtonClass: 'btn btn-secondary',
-      }).then((result) => {
-        if (!result.value) {
-          return;
-        }
-        const validBlocks = [];
-        blocksmithState.editorState.getCurrentContent().getBlockMap().forEach((contentBlock) => {
-          const singleBlockEditorState = EditorState.push(
-            EditorState.createEmpty(),
-            ContentState.createFromBlockArray([contentBlock]),
-          );
-          try {
-            const [canvasBlock] = convertToCanvasBlocks(singleBlockEditorState);
-            validBlocks.push(canvasBlock);
-          } catch (e2) {
-            console.error(`[blocksmith] - ${e2}`);
-          }
-        });
-        let newEditorState = convertToEditorState(validBlocks);
-        newEditorState = EditorState.push(
-          blocksmithState.editorState,
-          newEditorState.getCurrentContent(),
-        );
-        dispatch(storeEditor(formProps.form, newEditorState));
-        dispatch(submit(formProps.form));
-      });
     }
+
+    swal.fire({
+      title: 'Error saving article - one or more blocks is invalid.',
+      text: 'The invalid blocks cannot be saved. Would you like to save only the valid blocks?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonClass: 'btn btn-danger',
+      cancelButtonClass: 'btn btn-secondary',
+    }).then((result) => {
+      if (!result.value) {
+        return; // do nothing, user canceled
+      }
+      dispatch(storeEditor(formProps.form, validEditorState));
+      dispatch(submit(formProps.form));
+    });
+
+    // try {
+    //   convertToCanvasBlocks(blocksmithState.editorState);
+    //   return AbstractDelegate.prototype.handleSubmit.call(this, data, formDispatch, formProps);
+    // } catch (e1) {
+    //   swal.fire({
+    //     title: 'Error saving article - one or more blocks is invalid.',
+    //     text: 'The invalid blocks cannot be saved. Would you like to save only the valid blocks?',
+    //     type: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonText: 'Yes',
+    //     confirmButtonClass: 'btn btn-danger',
+    //     cancelButtonClass: 'btn btn-secondary',
+    //   }).then((result) => {
+    //     if (!result.value) {
+    //       return;
+    //     }
+    //     const validBlocks = [];
+    //     blocksmithState.editorState.getCurrentContent().getBlockMap().forEach((contentBlock) => {
+    //       const singleBlockEditorState = EditorState.push(
+    //         EditorState.createEmpty(),
+    //         ContentState.createFromBlockArray([contentBlock]),
+    //       );
+    //       try {
+    //         const [canvasBlock] = convertToCanvasBlocks(singleBlockEditorState);
+    //         validBlocks.push(canvasBlock);
+    //       } catch (e2) {
+    //         console.error(`[blocksmith] - ${e2}`);
+    //       }
+    //     });
+    //     let newEditorState = convertToEditorState(validBlocks);
+    //     newEditorState = EditorState.push(
+    //       blocksmithState.editorState,
+    //       newEditorState.getCurrentContent(),
+    //     );
+    //     dispatch(storeEditor(formProps.form, newEditorState));
+    //     dispatch(submit(formProps.form));
+    //   });
+    // }
   }
 }
 

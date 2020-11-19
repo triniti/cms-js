@@ -18,7 +18,6 @@ import { Map } from 'immutable';
 import {
   BlockMapBuilder,
   CompositeDecorator,
-  ContentState,
   EditorState,
   genKey,
   getDefaultKeyBinding,
@@ -117,6 +116,7 @@ import {
 
 // todo: dont use selectBlock on non-text blocks, or at least only for modifying them
 // todo: consider disabling destructuring rule for whole file
+// todo: dont throw so many exceptions bro
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -616,11 +616,12 @@ class Blocksmith extends React.Component {
     switch (block.getType()) {
       case blockTypes.ATOMIC: {
         const blockData = block.getData();
-        if (!blockData || !blockData.get('canvasBlock')) {
-          return null;
+        let message;
+        if (blockData && blockData.has('canvasBlock')) {
+          message = blockData.get('canvasBlock').schema().getCurie().getMessage();
         }
         return {
-          component: getPlaceholder(blockData.get('canvasBlock').schema().getCurie().getMessage()),
+          component: getPlaceholder(message),
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
@@ -650,7 +651,9 @@ class Blocksmith extends React.Component {
           },
         };
       default:
-        return null;
+        return {
+          component: getPlaceholder(),
+        };
     }
   }
 

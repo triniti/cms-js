@@ -32,8 +32,15 @@ class PlaceholderErrorBoundary extends React.Component {
       }
     }
 
+    let message = 'block';
+    const blockData = block.getData();
+    if (blockData && blockData.has('canvasBlock')) {
+      message = blockData.get('canvasBlock').schema().getId().getCurie().getMessage(); // eslint-disable-line
+    }
+
     return (
       <div>
+        <p><strong>{`invalid ${message}`}</strong></p>
         <p>{block.toString()}</p>
       </div>
     );
