@@ -5,7 +5,6 @@ import Message from '@gdbots/pbj/Message';
 import prependHttp from 'prepend-http';
 import PropTypes from 'prop-types';
 import React from 'react';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
@@ -17,7 +16,6 @@ import {
   ModalFooter,
   ModalHeader,
   Select,
-  Icon,
 } from '@triniti/admin-ui-plugin/components';
 
 import changedDate from '../../utils/changedDate';

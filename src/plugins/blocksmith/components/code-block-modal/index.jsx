@@ -3,12 +3,10 @@ import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
   FormGroup,
-  Icon,
   Input,
   Label,
   Modal,

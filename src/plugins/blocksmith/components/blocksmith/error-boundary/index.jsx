@@ -102,7 +102,7 @@ class ErrorBoundary extends React.Component {
               message = blockData.get('canvasBlock').schema().getId().getCurie().getMessage(); // eslint-disable-line
             }
             return (
-              <div className="preview-component preview-component_error">
+              <div className="preview-component preview-component__error">
                 <p><strong>{`invalid ${message}`}</strong></p>
                 <p>{block.toString()}</p>
               </div>

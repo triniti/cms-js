@@ -20,6 +20,7 @@ class ModalErrorBoundary extends React.Component {
     console.error(error, errorInfo);
 
     swal.fire({
+      allowOutsideClick: false,
       confirmButtonText: 'ok',
       text: error.stack,
       title: 'An error occurred. Please report this issue to support.',
