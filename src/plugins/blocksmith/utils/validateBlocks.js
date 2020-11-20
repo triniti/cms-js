@@ -1,6 +1,7 @@
 import { ContentState, EditorState } from 'draft-js';
 import convertToCanvasBlocks from './convertToCanvasBlocks';
 import convertToEditorState from './convertToEditorState';
+import blockParentNodeFn from './blockParentNode';
 
 export default (editorState) => {
   const blocks = [];
@@ -39,6 +40,16 @@ export default (editorState) => {
       };
     }
   });
+
+  const blockParentNode = blockParentNodeFn.get();
+  if (blockParentNode) {
+    // remove any inactive styling currently applied; it
+    // will be re-applied later if it is still needed
+    Array.from(blockParentNode.getElementsByClassName('block-invalid')).forEach((el) => {
+      el.classList.remove('block-invalid');
+    });
+  }
+
   return {
     blocks,
     errors,

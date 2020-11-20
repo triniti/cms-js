@@ -41,6 +41,7 @@ import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-t
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
 import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
 import Message from '@gdbots/pbj/Message';
+import ModalErrorBoundary from '@triniti/cms/plugins/blocksmith/components/modal-error-boundary';
 import OrderedListButton
   from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
 import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
@@ -117,6 +118,7 @@ import {
 // todo: dont use selectBlock on non-text blocks, or at least only for modifying them
 // todo: consider disabling destructuring rule for whole file
 // todo: dont throw so many exceptions bro
+// todo: all the prop types you lazy bum
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -1841,7 +1843,11 @@ class Blocksmith extends React.Component {
                     </>
                   )}
                 </InlineToolbar>
-                {Modal && <Modal />}
+                {Modal && (
+                  <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
+                    <Modal />
+                  </ModalErrorBoundary>
+                )}
               </div>
               {!readOnly && (
               <div className="text-center mt-2">
@@ -1864,116 +1870,6 @@ class Blocksmith extends React.Component {
         </CardBody>
       </Card>
     );
-
-    // return (
-    //   <Card>
-    //     <CardHeader>
-    //       Content
-    //       <kbd
-    //         className="text-dark bg-white text-uppercase"
-    //         style={{ fontFamily: 'inherit', fontSize: '15px' }}
-    //       >
-    //         <span style={{ fontSize: '11px' }}>Word Count</span>
-    //         <Badge color="light" className="ml-1 font-weight-normal" style={{ fontSize: '11.25px' }}>
-    //           {getWordCount(editorState)}
-    //         </Badge>
-    //       </kbd>
-    //     </CardHeader>
-    //     <CardBody indent>
-    //       <div
-    //         onCopy={this.handleMouseCopy}
-    //         onCut={this.handleMouseCut}
-    //         onDrop={this.handleDrop}
-    //         onMouseLeave={this.handleMouseLeave}
-    //         onMouseMove={this.handleMouseMove}
-    //         onKeyDown={this.handleKeyDown}
-    //         id="block-editor"
-    //         className={className}
-    //         role="presentation"
-    //       >
-    //         <Editor
-    //           blockRendererFn={this.blockRendererFn}
-    //           blockRenderMap={this.blockRenderMap}
-    //           blockStyleFn={this.blockStyleFn}
-    //           customStyleMap={customStyleMap}
-    //           decorators={decorators}
-    //           defaultBlockRenderMap={false}
-    //           editorState={editorState}
-    //           handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
-    //           handleKeyCommand={this.handleKeyCommand}
-    //           handlePastedText={this.handlePastedText}
-    //           keyBindingFn={this.keyBindingFn}
-    //           onBlur={this.handleBlur}
-    //           onChange={this.onChange}
-    //           plugins={this.plugins}
-    //           readOnly={readOnly}
-    //           ref={(ref) => { this.editor = ref; }}
-    //           spellCheck
-    //         />
-    //         <div style={blockButtonsStyle} className="block-buttons-holder">
-    //           <BlockButtons
-    //             activeBlockKey={activeBlockKey}
-    //             copiedBlock={copiedBlock}
-    //             editorState={editorState}
-    //             onCopyBlock={this.handleCopyBlock}
-    //             onDelete={this.handleDelete}
-    //             onEdit={this.handleEdit}
-    //             onPasteBlock={this.handlePasteBlock}
-    //             onShiftBlock={this.handleShiftBlock}
-    //             onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-    //             resetFlag={blockButtonsStyle.top}
-    //           />
-    //         </div>
-    //         <div style={sidebarHolderStyle} className="sidebar-holder">
-    //           <Sidebar
-    //             isHoverInsertMode={isHoverInsertMode}
-    //             isOpen={isSidebarOpen}
-    //             onToggleSidebar={this.handleToggleSidebar}
-    //             onToggleBlockModal={this.handleToggleBlockModal}
-    //             onHoverInsert={this.handleHoverInsert}
-    //             resetFlag={sidebarResetFlag}
-    //             popoverRef={this.popoverRef}
-    //           />
-    //         </div>
-    //         <InlineToolbar>
-    //           {(props) => (
-    //             <>
-    //               <BoldButton {...props} />
-    //               <ItalicButton {...props} />
-    //               <UnderlineButton {...props} />
-    //               <LinkButton
-    //                 {...props}
-    //                 onToggleLinkModal={this.handleToggleLinkModal}
-    //                 getEditorState={this.getEditorState}
-    //               />
-    //               <OrderedListButton {...props} />
-    //               <UnorderedListButton {...props} />
-    //               <StrikethroughButton {...props} />
-    //               <HighlightButton {...props} />
-    //             </>
-    //           )}
-    //         </InlineToolbar>
-    //         {Modal && <Modal />}
-    //       </div>
-    //       {!readOnly && (
-    //         <div className="text-center mt-2">
-    //           <span className="btn-hover">
-    //             <Button id="add-block-button" radius="circle" color="success" size="sm" onClick={this.handleAddEmptyBlockAtEnd}>
-    //               <Icon imgSrc="plus" size="md" />
-    //             </Button>
-    //           </span>
-    //           <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
-    //         </div>
-    //       )}
-    //       {!!errors.length && (
-    //         <>
-    //           <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>
-    //           {errors.map((error) => <FormText color="danger">{error}</FormText>)}
-    //         </>
-    //       )}
-    //     </CardBody>
-    //   </Card>
-    // );
   }
 }
 

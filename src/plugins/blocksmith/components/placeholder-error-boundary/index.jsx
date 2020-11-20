@@ -40,7 +40,7 @@ class PlaceholderErrorBoundary extends React.Component {
 
     return (
       <div>
-        <p><strong>{`invalid ${message}`}</strong></p>
+        <p><strong>{`error rendering ${message}`}</strong></p>
         <p>{block.toString()}</p>
       </div>
     );
