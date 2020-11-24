@@ -12,9 +12,7 @@ export default (editorState) => {
   const errors = {};
   const validCanvasBlocks = [];
   let isValid = true;
-  let index = -1;
   editorState.getCurrentContent().getBlockMap().forEach((block) => {
-    index += 1;
     const singleBlockEditorState = EditorState.push(
       EditorState.createEmpty(),
       ContentState.createFromBlockArray([block]),
@@ -31,7 +29,6 @@ export default (editorState) => {
       blocks.push({
         block,
         error: e.stack,
-        index,
       });
       errors[block.getKey()] = {
         key: block.getKey(),
