@@ -117,7 +117,6 @@ import {
 
 // todo: dont use selectBlock on non-text blocks, or at least only for modifying them
 // todo: consider disabling destructuring rule for whole file
-// todo: dont throw so many exceptions bro
 // todo: all the prop types you lazy bum
 
 class Blocksmith extends React.Component {

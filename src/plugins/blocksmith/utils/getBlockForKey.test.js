@@ -28,12 +28,6 @@ test('Blocksmith:util:getBlockForKey', (t) => {
   let expected = block1;
   t.equal(actual, expected, 'It should return a block by key.');
 
-  t.throws(
-    () => getBlockForKey(editorState.getCurrentContent(), 10),
-    new Error('key [10] is not a string'),
-    'It should throw an error when trying to find a block by non-string key.',
-  );
-
   actual = getBlockForKey(editorState.getCurrentContent(), 'asdf');
   expected = undefined;
   t.equal(actual, expected, 'It should return undefined when the provided key does not match a ContentBlock in the ContentState.');

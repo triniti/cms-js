@@ -157,13 +157,5 @@ test('Blocksmith:util:deleteBlock', (t) => {
   expected = [block4, block9].map((block) => block.getKey());
   t.deepEqual(actual, expected, 'It should report the correct keys for the blocks after deleting by block.');
 
-  t.throws(
-    () => EditorState.push(
-      editorState,
-      deleteBlock(editorState.getCurrentContent(), block9), // delete by block, of unsupported type
-    ),
-    new Error(`delete not yet implemented for block type: ${block9.getType()}`),
-    'It should throw an error when trying to delete an unsupported block type.',
-  );
   t.end();
 });

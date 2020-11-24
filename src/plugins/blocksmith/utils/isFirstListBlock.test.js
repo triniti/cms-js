@@ -61,11 +61,5 @@ test('Blocksmith:util:isFirstListBlock', (t) => {
   expected = false;
   t.equal(actual, expected, 'It should confirm that block3 is NOT the first list block');
 
-  t.throws(
-    () => isFirstListBlock(editorState.getCurrentContent(), block4),
-    new Error(`block with key [${block3.getKey()}] is not a list block, bailing out`),
-    'It should throw an error when a non-list block is provided',
-  );
-
   t.end();
 });
