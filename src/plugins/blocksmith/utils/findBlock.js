@@ -26,8 +26,5 @@ export default (contentState, id) => {
     default:
       break;
   }
-  if (!block) {
-    debugger; // eslint-disable-line
-  }
   return block;
 };

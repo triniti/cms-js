@@ -115,10 +115,6 @@ import {
   validateBlocks,
 } from '../../utils';
 
-// todo: dont use selectBlock on non-text blocks, or at least only for modifying them
-// todo: consider disabling destructuring rule for whole file
-// todo: all the prop types you lazy bum
-
 class Blocksmith extends React.Component {
   static async confirmDelete() {
     return swal.fire({
@@ -145,6 +141,7 @@ class Blocksmith extends React.Component {
       handleDirtyEditor: PropTypes.func.isRequired,
       handleStoreEditor: PropTypes.func.isRequired,
     }).isRequired,
+    editorState: PropTypes.instanceOf(EditorState).isRequired,
     formName: PropTypes.string,
     isEditMode: PropTypes.bool.isRequired,
     node: PropTypes.instanceOf(Message),
@@ -168,7 +165,7 @@ class Blocksmith extends React.Component {
 
     const decorator = new MultiDecorator([new CompositeDecorator(decorators)]);
     let editorState = EditorState.createEmpty(decorator);
-    let errors = {}; // todo: add isRendered to error to make it clear when a mutant thing was not pasted
+    let errors = {};
 
     if (blocksmithState) {
       const pushedEditorState = pushEditorState(
@@ -294,7 +291,6 @@ class Blocksmith extends React.Component {
     this.handleToggleLinkModal = this.handleToggleLinkModal.bind(this);
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
-    this.hasError = this.hasError.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
     this.onChange = this.onChange.bind(this);
     this.positionComponents = this.positionComponents.bind(this);
@@ -317,7 +313,7 @@ class Blocksmith extends React.Component {
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
   componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
-    const { delegate, editorState: currentPropsEditorState, isEditMode } = this.props;
+    const { editorState: currentPropsEditorState, isEditMode } = this.props;
     const { editorState } = this.state;
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -590,18 +586,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * for components returned by blockRendererFn that do not receive props in the normal way.
-   *
-   * @param {string} key
-   *
-   * @returns {boolean}
-   */
-  hasError(key) {
-    const { errors } = this.state;
-    return key in errors;
-  }
-
-  /**
    * Tells the DraftJs editor how to render custom atomic blocks.
    *
    * @param {*} block - A DraftJs ContentBlock
@@ -625,7 +609,6 @@ class Blocksmith extends React.Component {
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
-            hasError: this.hasError,
           },
         };
       }
@@ -635,7 +618,6 @@ class Blocksmith extends React.Component {
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
-            hasError: this.hasError,
           },
         };
       case blockTypes.ORDERED_LIST_ITEM:
@@ -647,7 +629,6 @@ class Blocksmith extends React.Component {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
             getReadOnly: this.getReadOnly,
-            hasError: this.hasError,
           },
         };
       default:
@@ -670,13 +651,13 @@ class Blocksmith extends React.Component {
    * @returns {string|null}
    */
   blockStyleFn(block) {
-    const { editorState } = this.state;
+    const { editorState, errors } = this.state;
     let index = -1;
     editorState.getCurrentContent().getBlockMap().skipUntil((_, k) => {
       index += 1;
       return k === block.getKey();
     });
-    const hasError = this.hasError(index);
+    const hasError = index in errors;
     switch (block.getType()) {
       case blockTypes.UNSTYLED:
         return `text-block${hasError ? ' block-invalid' : ''}`;
@@ -1747,8 +1728,6 @@ class Blocksmith extends React.Component {
       sidebarResetFlag,
     } = this.state;
 
-    window.editorState = editorState;
-
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
 
     let className = readOnly ? 'view-mode' : 'edit-mode';
@@ -1777,87 +1756,86 @@ class Blocksmith extends React.Component {
             onDirtyEditor={delegate.handleDirtyEditor}
             onStoreEditor={delegate.handleStoreEditor}
           >
-            <>
-              <div
-                onCopy={this.handleMouseCopy}
-                onCut={this.handleMouseCut}
-                onDrop={this.handleDrop}
-                onMouseLeave={this.handleMouseLeave}
-                onMouseMove={this.handleMouseMove}
-                onKeyDown={this.handleKeyDown}
-                id="block-editor"
-                className={className}
-                role="presentation"
-              >
-                <Editor
-                  blockRendererFn={this.blockRendererFn}
-                  blockRenderMap={this.blockRenderMap}
-                  blockStyleFn={this.blockStyleFn}
-                  customStyleMap={customStyleMap}
-                  decorators={decorators}
-                  defaultBlockRenderMap={false}
+            <div
+              onCopy={this.handleMouseCopy}
+              onCut={this.handleMouseCut}
+              onDrop={this.handleDrop}
+              onMouseLeave={this.handleMouseLeave}
+              onMouseMove={this.handleMouseMove}
+              onKeyDown={this.handleKeyDown}
+              id="block-editor"
+              className={className}
+              role="presentation"
+            >
+              <Editor
+                blockRendererFn={this.blockRendererFn}
+                blockRenderMap={this.blockRenderMap}
+                blockStyleFn={this.blockStyleFn}
+                customStyleMap={customStyleMap}
+                decorators={decorators}
+                defaultBlockRenderMap={false}
+                editorState={editorState}
+                handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
+                handleKeyCommand={this.handleKeyCommand}
+                handlePastedText={this.handlePastedText}
+                keyBindingFn={this.keyBindingFn}
+                onBlur={this.handleBlur}
+                onChange={this.onChange}
+                plugins={this.plugins}
+                readOnly={readOnly}
+                ref={(ref) => { this.editor = ref; }}
+                spellCheck
+              />
+              <div style={blockButtonsStyle} className="block-buttons-holder">
+                <BlockButtons
+                  activeBlockKey={activeBlockKey}
+                  copiedBlock={copiedBlock}
                   editorState={editorState}
-                  handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
-                  handleKeyCommand={this.handleKeyCommand}
-                  handlePastedText={this.handlePastedText}
-                  keyBindingFn={this.keyBindingFn}
-                  onBlur={this.handleBlur}
-                  onChange={this.onChange}
-                  plugins={this.plugins}
-                  readOnly={readOnly}
-                  ref={(ref) => { this.editor = ref; }}
-                  spellCheck
+                  onCopyBlock={this.handleCopyBlock}
+                  onDelete={this.handleDelete}
+                  onEdit={this.handleEdit}
+                  onPasteBlock={this.handlePasteBlock}
+                  onShiftBlock={this.handleShiftBlock}
+                  onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
+                  resetFlag={blockButtonsStyle.top}
                 />
-                <div style={blockButtonsStyle} className="block-buttons-holder">
-                  <BlockButtons
-                    activeBlockKey={activeBlockKey}
-                    copiedBlock={copiedBlock}
-                    editorState={editorState}
-                    onCopyBlock={this.handleCopyBlock}
-                    onDelete={this.handleDelete}
-                    onEdit={this.handleEdit}
-                    onPasteBlock={this.handlePasteBlock}
-                    onShiftBlock={this.handleShiftBlock}
-                    onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-                    resetFlag={blockButtonsStyle.top}
-                  />
-                </div>
-                <div style={sidebarHolderStyle} className="sidebar-holder">
-                  <Sidebar
-                    isHoverInsertMode={isHoverInsertMode}
-                    isOpen={isSidebarOpen}
-                    onToggleSidebar={this.handleToggleSidebar}
-                    onToggleBlockModal={this.handleToggleBlockModal}
-                    onHoverInsert={this.handleHoverInsert}
-                    resetFlag={sidebarResetFlag}
-                    popoverRef={this.popoverRef}
-                  />
-                </div>
-                <InlineToolbar>
-                  {(props) => (
-                    <>
-                      <BoldButton {...props} />
-                      <ItalicButton {...props} />
-                      <UnderlineButton {...props} />
-                      <LinkButton
-                        {...props}
-                        onToggleLinkModal={this.handleToggleLinkModal}
-                        getEditorState={this.getEditorState}
-                      />
-                      <OrderedListButton {...props} />
-                      <UnorderedListButton {...props} />
-                      <StrikethroughButton {...props} />
-                      <HighlightButton {...props} />
-                    </>
-                  )}
-                </InlineToolbar>
-                {Modal && (
-                  <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
-                    <Modal />
-                  </ModalErrorBoundary>
-                )}
               </div>
-              {!readOnly && (
+              <div style={sidebarHolderStyle} className="sidebar-holder">
+                <Sidebar
+                  isHoverInsertMode={isHoverInsertMode}
+                  isOpen={isSidebarOpen}
+                  onToggleSidebar={this.handleToggleSidebar}
+                  onToggleBlockModal={this.handleToggleBlockModal}
+                  onHoverInsert={this.handleHoverInsert}
+                  resetFlag={sidebarResetFlag}
+                  popoverRef={this.popoverRef}
+                />
+              </div>
+              <InlineToolbar>
+                {(props) => (
+                  <>
+                    <BoldButton {...props} />
+                    <ItalicButton {...props} />
+                    <UnderlineButton {...props} />
+                    <LinkButton
+                      {...props}
+                      onToggleLinkModal={this.handleToggleLinkModal}
+                      getEditorState={this.getEditorState}
+                    />
+                    <OrderedListButton {...props} />
+                    <UnorderedListButton {...props} />
+                    <StrikethroughButton {...props} />
+                    <HighlightButton {...props} />
+                  </>
+                )}
+              </InlineToolbar>
+              {Modal && (
+              <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
+                <Modal />
+              </ModalErrorBoundary>
+              )}
+            </div>
+            {!readOnly && (
               <div className="text-center mt-2">
                 <span className="btn-hover">
                   <Button id="add-block-button" radius="circle" color="success" size="sm" onClick={this.handleAddEmptyBlockAtEnd}>
@@ -1866,8 +1844,7 @@ class Blocksmith extends React.Component {
                 </span>
                 <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
               </div>
-              )}
-            </>
+            )}
           </ErrorBoundary>
           {!!Object.keys(errors).length && (
           <>

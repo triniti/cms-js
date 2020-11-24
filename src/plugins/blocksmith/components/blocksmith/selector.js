@@ -3,6 +3,7 @@ import getCopiedBlock from '../../selectors/getCopiedBlock';
 
 /**
  * @param {Object} state - The entire redux state.
+ * @param {Object} ownProps
  *
  * @returns {Object}
  */

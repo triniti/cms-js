@@ -1,6 +1,13 @@
+import { ContentBlock } from 'draft-js';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class PlaceholderErrorBoundary extends React.Component {
+  static propTypes = {
+    block: PropTypes.instanceOf(ContentBlock).isRequired,
+    children: PropTypes.node.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,7 +20,6 @@ class PlaceholderErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
     console.error(error, errorInfo);
   }
 
@@ -25,11 +31,17 @@ class PlaceholderErrorBoundary extends React.Component {
       return children;
     }
 
-    if (block) {
-      const blockNode = document.querySelector(`[data-offset-key="${block.getKey()}-0-0"]`);
-      if (blockNode) {
-        blockNode.classList.add('block-invalid');
-      }
+    if (!block) {
+      return (
+        <div>
+          <p><strong>error rendering block</strong></p>
+        </div>
+      );
+    }
+
+    const blockNode = document.querySelector(`[data-offset-key="${block.getKey()}-0-0"]`);
+    if (blockNode) {
+      blockNode.classList.add('block-invalid');
     }
 
     let message = 'block';

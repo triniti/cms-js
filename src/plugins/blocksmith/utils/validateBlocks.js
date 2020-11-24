@@ -1,8 +1,8 @@
 import { ContentState, EditorState } from 'draft-js';
 import convertToCanvasBlocks from './convertToCanvasBlocks';
 import convertToEditorState from './convertToEditorState';
-import blockParentNodeFn from './blockParentNode';
 
+// todo: add docblock
 export default (editorState) => {
   const blocks = [];
   const errors = {};

@@ -13,7 +13,6 @@ import App from './App';
 import preloadedState from './config/preloadedState';
 import Root from './Root';
 //
-
 const app = new App(preloadedState);
 setInstance(app);
 app.start();

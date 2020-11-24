@@ -1,7 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import swal from 'sweetalert2';
 
 class ModalErrorBoundary extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -15,8 +21,6 @@ class ModalErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     const { onCloseModal } = this.props;
-
-    // You can also log the error to an error reporting service
     console.error(error, errorInfo);
 
     swal.fire({
@@ -29,7 +33,7 @@ class ModalErrorBoundary extends React.Component {
   }
 
   render() {
-    const { block, children } = this.props;
+    const { children } = this.props;
     const { hasError } = this.state;
 
     if (!hasError) {
