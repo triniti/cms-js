@@ -162,7 +162,6 @@ class Blocksmith extends React.Component {
     const {
       blocksmithState,
       delegate,
-      formName,
       isEditMode,
       node,
     } = props;
@@ -180,7 +179,7 @@ class Blocksmith extends React.Component {
       editorState = pushedEditorState.editorState;
       errors = pushedEditorState.errors;
     } else {
-      delegate.handleCleanEditor(formName);
+      delegate.handleCleanEditor();
       if (node && node.has('blocks')) {
         editorState = convertToEditorState(node.get('blocks'), decorator);
       }
@@ -208,7 +207,7 @@ class Blocksmith extends React.Component {
       modalComponent: null,
     };
 
-    delegate.handleStoreEditor(formName, editorState);
+    delegate.handleStoreEditor(editorState);
 
     this.inlineToolbarPlugin = createInlineToolbarPlugin({
       theme: {
@@ -318,7 +317,7 @@ class Blocksmith extends React.Component {
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
   componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
-    const { delegate, editorState: currentPropsEditorState, formName, isEditMode } = this.props;
+    const { delegate, editorState: currentPropsEditorState, isEditMode } = this.props;
     const { editorState } = this.state;
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -361,7 +360,7 @@ class Blocksmith extends React.Component {
    */
   onChange(editorState) {
     let { isDirty } = this.state;
-    const { delegate, formName } = this.props;
+    const { delegate } = this.props;
     const lastChangeType = editorState.getLastChangeType();
     const selectionState = editorState.getSelection();
     let callback = noop;
@@ -372,12 +371,12 @@ class Blocksmith extends React.Component {
      */
     if (!isDirty && lastChangeType !== null) {
       isDirty = true;
-      callback = () => delegate.handleDirtyEditor(formName);
+      callback = delegate.handleDirtyEditor;
     }
 
     if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {
       isDirty = false;
-      callback = () => delegate.handleCleanEditor(formName);
+      callback = delegate.handleCleanEditor;
     }
 
     this.setState(() => ({
@@ -541,7 +540,7 @@ class Blocksmith extends React.Component {
       isHoverInsertModeBottom,
       sidebarResetFlag,
     } = this.state;
-    const { delegate, formName } = this.props;
+    const { delegate } = this.props;
     const contentState = editorState.getCurrentContent();
     let newContentState;
     let newBlockKey;
@@ -577,11 +576,11 @@ class Blocksmith extends React.Component {
     }), () => {
       this.removeActiveStyling();
       if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+        delegate.handleDirtyEditor();
       }
       /* eslint-disable react/destructuring-assignment */
       if (!this.state.editorState.getSelection().getHasFocus()) {
-        delegate.handleStoreEditor(formName, this.state.editorState);
+        delegate.handleStoreEditor(this.state.editorState);
       }
       /* eslint-enable react/destructuring-assignment */
       if (shouldSelectAndStyle) {
@@ -717,12 +716,12 @@ class Blocksmith extends React.Component {
    */
   handleAddLink(target, url) {
     const { editorState, isDirty } = this.state;
-    const { delegate, formName } = this.props;
+    const { delegate } = this.props;
     this.setState(() => ({
       editorState: createLinkAtSelection(editorState, target, url),
     }), () => {
       if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+        delegate.handleDirtyEditor();
       }
     });
   }
@@ -733,8 +732,8 @@ class Blocksmith extends React.Component {
    */
   handleBlur() {
     const { editorState } = this.state;
-    const { formName, delegate } = this.props;
-    delegate.handleStoreEditor(formName, editorState);
+    const { delegate } = this.props;
+    delegate.handleStoreEditor(editorState);
   }
 
   /**
@@ -774,7 +773,7 @@ class Blocksmith extends React.Component {
    */
   handleDelete() {
     const { activeBlockKey, editorState, isDirty } = this.state;
-    const { delegate, formName } = this.props;
+    const { delegate } = this.props;
 
     this.setState(() => ({ readOnly: true }), () => {
       Blocksmith.confirmDelete().then((result) => {
@@ -792,10 +791,10 @@ class Blocksmith extends React.Component {
             errors: newEditorState.errors,
           }), () => {
             if (!isDirty) {
-              delegate.handleDirtyEditor(formName);
+              delegate.handleDirtyEditor();
             }
             // eslint-disable-next-line react/destructuring-assignment
-            delegate.handleStoreEditor(formName, this.state.editorState);
+            delegate.handleStoreEditor(this.state.editorState);
           });
         });
       });
@@ -884,10 +883,10 @@ class Blocksmith extends React.Component {
       editorState: newEditorState.editorState,
       errors: newEditorState.errors,
     }), () => {
-      const { formName, delegate } = this.props;
-      delegate.handleStoreEditor(formName, newEditorState.editorState);
+      const { delegate } = this.props;
+      delegate.handleStoreEditor(newEditorState.editorState);
       if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+        delegate.handleDirtyEditor();
       }
     });
     return 'handled';
@@ -927,7 +926,7 @@ class Blocksmith extends React.Component {
    */
   handleEditCanvasBlock(canvasBlock) {
     const { activeBlockKey, isDirty, editorState } = this.state;
-    const { delegate, formName } = this.props;
+    const { delegate } = this.props;
     let newEditorState = editorState;
     const activeBlockPosition = newEditorState // used later to re-position
       .getCurrentContent()
@@ -950,10 +949,10 @@ class Blocksmith extends React.Component {
         findBlock(this.state.editorState.getCurrentContent(), activeBlockPosition).getKey(),
       );
       if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+        delegate.handleDirtyEditor();
       }
       // eslint-disable-next-line react/destructuring-assignment
-      delegate.handleStoreEditor(this.props.formName, this.state.editorState);
+      delegate.handleStoreEditor(this.state.editorState);
     });
   }
 
@@ -1294,13 +1293,13 @@ class Blocksmith extends React.Component {
       errors: newEditorState.errors,
     }), () => {
       this.removeActiveStyling();
-      const { delegate, formName } = this.props;
+      const { delegate } = this.props;
       const { isDirty } = this.state;
       if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+        delegate.handleDirtyEditor();
       }
       // eslint-disable-next-line react/destructuring-assignment
-      delegate.handleStoreEditor(formName, this.state.editorState);
+      delegate.handleStoreEditor(this.state.editorState);
     });
   }
 
@@ -1461,10 +1460,10 @@ class Blocksmith extends React.Component {
     this.setState(({ editorState }) => ({
       editorState: removeLinkAtSelection(editorState),
     }), () => {
-      const { delegate, formName } = this.props;
+      const { delegate } = this.props;
       const { isDirty } = this.state;
       if (!isDirty) {
-        delegate.handleDirtyEditor(formName);
+        delegate.handleDirtyEditor();
       }
     });
   }
@@ -1734,7 +1733,7 @@ class Blocksmith extends React.Component {
   }
 
   render() {
-    const { copiedBlock, formName } = this.props;
+    const { copiedBlock, delegate, formName } = this.props;
     const {
       activeBlockKey,
       blockButtonsStyle,
@@ -1772,7 +1771,12 @@ class Blocksmith extends React.Component {
           </kbd>
         </CardHeader>
         <CardBody indent>
-          <ErrorBoundary editorState={editorState} formName={formName}>
+          <ErrorBoundary
+            editorState={editorState}
+            formName={formName}
+            onDirtyEditor={delegate.handleDirtyEditor}
+            onStoreEditor={delegate.handleStoreEditor}
+          >
             <>
               <div
                 onCopy={this.handleMouseCopy}

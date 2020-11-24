@@ -56,7 +56,11 @@ export default class App extends TrinitiApp {
   }
 
   configure(bottle) {
-    bottle.factory(appServiceIds.REDUX_LOGGER_PREDICATE, () => (getState, action) => false);
+    bottle.factory(appServiceIds.REDUX_LOGGER_PREDICATE, () => (getState, action) => (
+      !action.type.startsWith(`${ravenActionTypes.PREFIX}rt`)
+      && !action.type.startsWith(ravenActionTypes.MESSAGE_RECEIVED)
+      && !action.type.startsWith(ravenActionTypes.PUBLISH_MESSAGE_REQUESTED)
+    ));
 
     configureLocalization(localizationMap);
   }

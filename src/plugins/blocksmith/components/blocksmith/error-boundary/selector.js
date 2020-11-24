@@ -1,4 +1,3 @@
-import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 
 /**
@@ -7,7 +6,6 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  *
  * @returns {Object}
  */
-export default (state, { formName }) => ({
-  // blocksmithState: getBlocksmith(state, formName),
+export default (state) => ({
   getNode: (nodeRef) => getNode(state, nodeRef),
 });

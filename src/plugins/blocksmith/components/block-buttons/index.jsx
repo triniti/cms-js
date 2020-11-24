@@ -138,6 +138,11 @@ export default class BlockButtons extends React.Component {
       }
     }
 
+    if (window.wtfThrow) {
+      window.wtfThrow = false;
+      throw new Error('oh no');
+    }
+
     return (
       <div
         className={classNames('d-flex align-items-center', { 'is-first': isFirstBlock, 'is-last': isLastBlock })}

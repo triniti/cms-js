@@ -1,25 +1,30 @@
 import { Button } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
-import { ContentBlock } from 'draft-js';
+import { ContentBlock, EditorState } from 'draft-js';
 import blockParentNode from '@triniti/cms/plugins/blocksmith/utils/blockParentNode';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
+import PropTypes from 'prop-types';
 import React from 'react';
 import validateBlocks from '@triniti/cms/plugins/blocksmith/utils/validateBlocks';
-import delegate from './delegate';
 import selector from './selector';
 import './styles.scss';
 
-const MAX_ERROR_COUNT = 2;
+const MAX_ERROR_COUNT = 5;
 
-// todo: look into <div> cannot appear as a descendant of <p>.
-// todo: sort out what to render when EMPTY_BLOCK_TOKEN
 class ErrorBoundary extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    editorState: PropTypes.instanceOf(EditorState).isRequired,
+    getNode: PropTypes.func.isRequired,
+    onDirtyEditor: PropTypes.func.isRequired,
+    onStoreEditor: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       errorCount: 0,
       hasError: false,
-      hasRecoveredFromContinuedErrors: false,
     };
 
     this.restoreBlocksmith = this.restoreBlocksmith.bind(this);
@@ -30,12 +35,11 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
     console.error(error, errorInfo);
   }
 
   restoreBlocksmith(editorState, resetErrorCount = true) {
-    const { handleStoreEditor } = this.props;
+    const { onStoreEditor: handleStoreEditor } = this.props;
     this.setState(({ errorCount }) => ({
       errorCount: resetErrorCount ? 0 : errorCount + 1,
       hasError: false,
@@ -46,8 +50,13 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    const { children, editorState, blocksmithState, getNode, handleDirtyEditor } = this.props;
-    const { errorCount, hasError, hasRecoveredFromContinuedErrors } = this.state;
+    const {
+      children,
+      editorState,
+      getNode,
+      onDirtyEditor: handleDirtyEditor,
+    } = this.props;
+    const { errorCount, hasError } = this.state;
 
     if (!hasError) {
       return children;
@@ -72,21 +81,16 @@ class ErrorBoundary extends React.Component {
       <div className="blocksmith-error-boundary">
         <p>{warning}</p>
         <Button
-          // className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
+          size="md"
           onClick={() => {
             this.restoreBlocksmith(validEditorState);
             handleDirtyEditor();
           }}
-          size="md"
         >
           {`restore editor${isValid ? '' : ' (only valid blocks)'}`}
         </Button>
         {!isValid && (
-        <Button
-                  // className={`mr-3 ${size === 'md' ? 'mb-0' : 'mb-1'}`}
-          onClick={() => this.restoreBlocksmith(editorState)}
-          size="md"
-        >
+        <Button size="md" onClick={() => this.restoreBlocksmith(editorState)}>
           restore editor (including invalid blocks)
         </Button>
         )}
@@ -102,7 +106,7 @@ class ErrorBoundary extends React.Component {
               message = blockData.get('canvasBlock').schema().getId().getCurie().getMessage(); // eslint-disable-line
             }
             return (
-              <div className="preview-component preview-component__error">
+              <div className="preview-component preview-component__error" key={block.getKey()}>
                 <p><strong>{`invalid ${message}`}</strong></p>
                 <p>{block.toString()}</p>
               </div>
@@ -112,6 +116,7 @@ class ErrorBoundary extends React.Component {
           let Component = null;
           switch (message) {
             case 'text-block':
+              // eslint-disable-next-line react/no-danger
               Component = () => <div dangerouslySetInnerHTML={{ __html: block.get('text') }} />;
               break;
             case 'image-block':
@@ -150,7 +155,7 @@ class ErrorBoundary extends React.Component {
               Component = () => <p>{message}</p>;
           }
           return (
-            <div className="preview-component">
+            <div className="preview-component" key={block.get('etag', block.generateEtag())}>
               <Component />
             </div>
           );
@@ -160,4 +165,4 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default connect(selector, delegate)(ErrorBoundary);
+export default connect(selector)(ErrorBoundary);
