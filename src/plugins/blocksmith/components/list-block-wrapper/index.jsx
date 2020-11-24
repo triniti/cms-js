@@ -7,7 +7,7 @@ import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
 export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => (
-  <PlaceholderErrorBoundary>
+  <PlaceholderErrorBoundary block={block}>
     {draggable && blockProps.isFirst && (
       <div
         className="drag-area draggable-top"

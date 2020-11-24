@@ -33,9 +33,7 @@ export default (editorState) => {
         error: e.stack,
         index,
       });
-      // the block keys seem like they would be a good way to track which blocks have errors but
-      // they change constantly so we have to use the index and make sure it stays up to date
-      errors[index] = {
+      errors[block.getKey()] = {
         key: block.getKey(),
         error: e.stack,
       };

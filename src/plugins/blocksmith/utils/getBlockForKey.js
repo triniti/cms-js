@@ -7,6 +7,6 @@ import normalizeKey from './normalizeKey';
  * @param {ContentState} contentState - a state instance of a DraftJs Editor
  * @param {string}       key          - a block, a block index, or a block key
  *
- * @returns {ContentBlock}
+ * @returns {?ContentBlock}
  */
 export default (contentState, key) => contentState.getBlockForKey(normalizeKey(key));

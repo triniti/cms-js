@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const DefaultBlockPlaceholder = ({ block, ...rest }) => (
-  <PlaceholderErrorBoundary>
+  <PlaceholderErrorBoundary block={block}>
     <EditorBlock block={block} {...rest} />
   </PlaceholderErrorBoundary>
 );

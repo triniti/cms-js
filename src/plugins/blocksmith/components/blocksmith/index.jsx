@@ -651,13 +651,8 @@ class Blocksmith extends React.Component {
    * @returns {string|null}
    */
   blockStyleFn(block) {
-    const { editorState, errors } = this.state;
-    let index = -1;
-    editorState.getCurrentContent().getBlockMap().skipUntil((_, k) => {
-      index += 1;
-      return k === block.getKey();
-    });
-    const hasError = index in errors;
+    const { errors } = this.state;
+    const hasError = block.getKey() in errors;
     switch (block.getType()) {
       case blockTypes.UNSTYLED:
         return `text-block${hasError ? ' block-invalid' : ''}`;
@@ -850,7 +845,7 @@ class Blocksmith extends React.Component {
       draggedBlockListKeys,
     );
     let newEditorState = pushEditorState(editorState, newContentState, 'move-block');
-    if (blockTypes.ATOMIC !== contentState.getBlockForKey(draggedBlockKey).getType()) {
+    if (blockTypes.ATOMIC !== newContentState.getBlockForKey(draggedBlockKey).getType()) {
       newEditorState = {
         editorState: selectBlock(
           newEditorState.editorState,
@@ -1390,9 +1385,13 @@ class Blocksmith extends React.Component {
    */
   handlePastedText(text, html, editorState) {
     if (html) {
-      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
+      const { contentBlocks } = DraftPasteProcessor.processHTML(
+        html,
+        this.blockRenderMap.delete(blockTypes.ATOMIC),
+      );
       if (contentBlocks) {
-        const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
+        const fragment = BlockMapBuilder
+          .createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
 
         const newContentState = Modifier.replaceWithFragment(
           editorState.getCurrentContent(),

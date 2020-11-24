@@ -14,7 +14,7 @@ export default (contentState, id) => {
   const block = findBlock(contentState, id);
   const listBlocks = [];
   if (!isBlockAList(block)) {
-    return [];
+    return listBlocks;
   }
 
   // first start going backwards until you find one of a different type
