@@ -1390,9 +1390,7 @@ class Blocksmith extends React.Component {
    */
   handlePastedText(text, html, editorState) {
     if (html) {
-      // todo: put bugfix back before merging
-      // const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
-      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap);
+      const { contentBlocks } = DraftPasteProcessor.processHTML(html, this.blockRenderMap.delete(blockTypes.ATOMIC));
       if (contentBlocks) {
         const fragment = BlockMapBuilder.createFromArray(contentBlocks.filter((block) => !isBlockEmpty(block)));
 
@@ -1561,8 +1559,7 @@ class Blocksmith extends React.Component {
       return; // component is unmounting, let's get outta here
     }
 
-    const editorRef = this.editor.editor;
-    const { editor } = editorRef;
+    const { editor } = this.editor.editor;
     const editorBounds = editor.getBoundingClientRect();
     let selectedBlockNode = getBlockNode(contentState, blockKey);
     if (!selectedBlockNode) {
