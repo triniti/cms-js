@@ -17,7 +17,7 @@ import isBlockAList from './isBlockAList';
 
 export default (contentState, id, position) => {
   if (position !== 'up' && position !== 'down') {
-    throw new Error(`position [${position}] is invalid. choose either 'up' or 'down'`);
+    return contentState;
   }
   const block = findBlock(contentState, id);
   const blockIndex = contentState.getBlocksAsArray().indexOf(block);

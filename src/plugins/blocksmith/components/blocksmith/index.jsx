@@ -852,6 +852,9 @@ class Blocksmith extends React.Component {
     }
 
     let draggedBlock = getDraggedBlockNode();
+    if (!draggedBlock) {
+      return 'handled';
+    }
     while (!blockParentNode.is(draggedBlock.parentNode)) {
       draggedBlock = draggedBlock.parentNode;
     }
@@ -1745,6 +1748,8 @@ class Blocksmith extends React.Component {
       sidebarHolderStyle,
       sidebarResetFlag,
     } = this.state;
+
+    window.editorState = editorState;
 
     const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
 

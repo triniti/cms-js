@@ -17,9 +17,6 @@ export default (editorState) => {
     );
     try {
       const [canvasBlock] = convertToCanvasBlocks(singleBlockEditorState, true);
-      if (canvasBlock.schema().getId().getCurie().getMessage() === 'video-block') {
-        throw new Error('oh no');
-      }
       validCanvasBlocks.push(canvasBlock);
       blocks.push({
         block: canvasBlock,

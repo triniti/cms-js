@@ -35,7 +35,7 @@ export default (contentState, id) => {
       newContentState = deleteListBlock(contentState, block.getKey());
       break;
     default:
-      throw new Error(`delete not yet implemented for block type: ${block.getType()}`);
+      return contentState;
   }
   return newContentState;
 };

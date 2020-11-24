@@ -21,7 +21,7 @@ import normalizeKey from './normalizeKey';
 /* eslint-enable max-len */
 export default (contentState, insertionPointBlockId, position, newBlockKey = genKey()) => {
   if (position !== constants.POSITION_BEFORE && position !== constants.POSITION_AFTER) {
-    throw new Error('You must provide a valid insertion position.');
+    return contentState;
   }
   let newBlocksAsArray = [];
   const emptyBlock = new ContentBlock({

@@ -16,6 +16,9 @@ export default (e) => {
   const rect = editor.getBoundingClientRect();
   if ((pageY > rect.bottom || pageY < rect.top) || (pageX < rect.left || pageX > rect.right)) {
     let draggedBlock = getDraggedBlockNode();
+    if (!draggedBlock) {
+      return;
+    }
     while (!blockParentNode.is(draggedBlock.parentNode)) {
       draggedBlock = draggedBlock.parentNode;
     }
