@@ -31,7 +31,7 @@ export default (editorState) => {
         error: e.stack,
       });
       errors[block.getKey()] = {
-        key: block.getKey(),
+        block,
         error: e.stack,
       };
     }

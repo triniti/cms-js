@@ -1845,7 +1845,12 @@ class Blocksmith extends React.Component {
           {!!Object.keys(errors).length && (
           <>
             <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>
-            {Object.values(errors).map(({ error, key }) => <FormText key={key} color="danger">{error}</FormText>)}
+            {Object.values(errors).map(({ block, error }) => (
+              <div key={block.getKey()}>
+                <FormText color="danger">{error}</FormText>
+                <FormText color="danger">{block.toString()}</FormText>
+              </div>
+            ))}
           </>
           )}
         </CardBody>
