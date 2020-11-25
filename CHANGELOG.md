@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v0.9.4
+* Remove Link to Google.com from Poster Image In Gallery Block Creator
+* Display error notification when CMS web socket loses connection.
+
+
 ## v0.9.3
 * issue #256: Fix promotion slots drag and drop sorting.
 * issue #258: Add Expires At Field to Article Screen.
