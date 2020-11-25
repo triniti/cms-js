@@ -79,7 +79,7 @@ class ErrorBoundary extends React.Component {
 
     return (
       <div className="blocksmith-error-boundary">
-        <p>{warning}</p>
+        <p className="warning">{warning}</p>
         <Button
           size="md"
           onClick={() => {
@@ -98,6 +98,7 @@ class ErrorBoundary extends React.Component {
         {!isValid && (
           <p>The invalid blocks are styled in <span className="invalid-block-indicator"><strong>red</strong></span> below.</p>
         )}
+        <hr />
         {blocks.map(({ block }) => {
           if (block instanceof ContentBlock) {
             let message = 'block';
