@@ -81,6 +81,9 @@ export default class UploaderAssetFields extends React.Component {
           <Col>
             <FormGroup>
               <Field name="title" component={TextField} label="Title" placeholder="Title" size="sm" />
+              {asset.schema().getCurie().getMessage() === 'image-asset' && (
+                <Field name="displayTitle" component={TextField} label="Display Title" placeholder="Display Title" size="sm" />
+              )}
             </FormGroup>
           </Col>
         </Row>
