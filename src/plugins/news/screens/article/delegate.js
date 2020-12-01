@@ -19,7 +19,7 @@ class Delegate extends AbstractDelegate {
     const { isValid, validEditorState } = validateBlocks(blocksmithState.editorState);
 
     if (isValid) {
-      return AbstractDelegate.prototype.handleSubmit.call(this, data, formDispatch, formProps);
+      return super.handleSubmit(data, formDispatch, formProps);
     }
 
     swal.fire({
@@ -31,11 +31,10 @@ class Delegate extends AbstractDelegate {
       confirmButtonClass: 'btn btn-danger',
       cancelButtonClass: 'btn btn-secondary',
     }).then((result) => {
-      if (!result.value) {
-        return; // do nothing, user canceled
+      if (result.value) {
+        dispatch(storeEditor(formProps.form, validEditorState));
+        dispatch(submit(formProps.form));
       }
-      dispatch(storeEditor(formProps.form, validEditorState));
-      dispatch(submit(formProps.form));
     });
   }
 }

@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* Error reporting & recovery
+* Blocksmith error reporting & recovery
 
 
 ## v0.9.4

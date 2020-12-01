@@ -19,9 +19,8 @@ class ModalErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error) {
     const { onCloseModal } = this.props;
-    console.error(error, errorInfo);
 
     swal.fire({
       allowOutsideClick: false,
