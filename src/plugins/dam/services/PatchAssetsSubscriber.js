@@ -28,6 +28,11 @@ export default class PatchAssetsSubscriber extends EventSubscriber {
       formEvent.addError('title', error);
     }
 
+    error = getTextFieldError(data, 'display_title', node);
+    if (error) {
+      formEvent.addError('display_title', error);
+    }
+
     if (get(data, 'credit.value')) {
       try {
         node.set('credit', get(data, 'credit.value'));
