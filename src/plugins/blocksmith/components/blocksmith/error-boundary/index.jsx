@@ -114,7 +114,7 @@ class ErrorBoundary extends React.Component {
             );
           }
           const message = block.schema().getId().getCurie().getMessage();
-          let Component = null;
+          let Component;
           switch (message) {
             case 'text-block':
               // eslint-disable-next-line react/no-danger

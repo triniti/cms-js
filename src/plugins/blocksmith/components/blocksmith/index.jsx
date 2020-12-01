@@ -165,7 +165,7 @@ class Blocksmith extends React.Component {
 
     const decorator = new MultiDecorator([new CompositeDecorator(decorators)]);
     let editorState = EditorState.createEmpty(decorator);
-    let errors = {};
+    let errors;
 
     if (blocksmithState) {
       const pushedEditorState = pushEditorState(
