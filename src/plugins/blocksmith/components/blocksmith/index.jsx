@@ -1292,7 +1292,7 @@ class Blocksmith extends React.Component {
       this.handleCloseModal();
     } else {
       const { node } = this.props;
-      const message = canvasBlock.schema().getId().getCurie().getMessage();
+      const message = canvasBlock.schema().getCurie().getMessage();
       const ModalComponent = getModalComponent(message);
       this.handleOpenModal(() => (
         <ModalComponent

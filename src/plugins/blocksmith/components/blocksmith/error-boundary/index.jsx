@@ -104,7 +104,7 @@ class ErrorBoundary extends React.Component {
             let message = 'block';
             const blockData = block.getData();
             if (blockData && blockData.has('canvasBlock')) {
-              message = blockData.get('canvasBlock').schema().getId().getCurie().getMessage(); // eslint-disable-line
+              message = blockData.get('canvasBlock').schema().getCurie().getMessage();
             }
             return (
               <div className="preview-component preview-component__error" key={block.getKey()}>
@@ -113,7 +113,7 @@ class ErrorBoundary extends React.Component {
               </div>
             );
           }
-          const message = block.schema().getId().getCurie().getMessage();
+          const message = block.schema().getCurie().getMessage();
           let Component;
           switch (message) {
             case 'text-block':
