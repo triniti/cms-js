@@ -24,7 +24,6 @@ import {
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
 
-// todo: make a maptype enum in schema?
 const mapTypes = [
   'roadmap',
   'satellite',

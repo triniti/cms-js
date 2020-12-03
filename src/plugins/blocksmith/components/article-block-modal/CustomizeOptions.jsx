@@ -2,7 +2,6 @@ import ArticleBlockPreview from '@triniti/cms/plugins/blocksmith/components/arti
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
@@ -40,19 +39,19 @@ const CustomizeOptions = ({
       block={block}
     />
     {showImage && (
-    <FormGroup>
-      <ImageAssetPicker
-        isDisabled={false}
-        isImageSelected={isImageSelected}
-        isModalOpen={isImageAssetPickerModalOpen}
-        label="Select A Article Block Poster Image"
-        multiAssetErrorMessage="Invalid Action: Trying to assign multiple Article Block Poster images."
-        node={node}
-        onClearImage={handleClearImage}
-        onSelectImage={handleSelectImage}
-        onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
-      />
-    </FormGroup>
+      <FormGroup>
+        <ImageAssetPicker
+          isDisabled={false}
+          isImageSelected={isImageSelected}
+          isModalOpen={isImageAssetPickerModalOpen}
+          label="Select A Article Block Poster Image"
+          multiAssetErrorMessage="Invalid Action: Trying to assign multiple Article Block Poster images."
+          node={node}
+          onClearImage={handleClearImage}
+          onSelectImage={handleSelectImage}
+          onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
+        />
+      </FormGroup>
     )}
     <FormGroup inline className="d-flex justify-content-center form-group-mobile px-3 mb-2">
       <FormGroup>
@@ -86,13 +85,13 @@ const CustomizeOptions = ({
       </FormGroup>
     </FormGroup>
     {hasUpdatedDate
-    && (
-      <DateTimePicker
-        onChangeDate={handleChangeDate}
-        onChangeTime={handleChangeTime}
-        updatedDate={updatedDate}
-      />
-    )}
+      && (
+        <DateTimePicker
+          onChangeDate={handleChangeDate}
+          onChangeTime={handleChangeTime}
+          updatedDate={updatedDate}
+        />
+      )}
   </div>
 );
 
@@ -114,7 +113,7 @@ CustomizeOptions.propTypes = {
   onSelectImage: PropTypes.func.isRequired,
   onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   showImage: PropTypes.bool.isRequired,
-  updatedDate: PropTypes.instanceOf(moment).isRequired,
+  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default CustomizeOptions;

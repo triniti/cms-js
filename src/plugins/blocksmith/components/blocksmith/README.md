@@ -17,3 +17,5 @@ This component manages a node's blocks. It is based on [Draft.js](https://draftj
 + Each list item is a distinct draft ContentBlock. This results in many gotchas when deleting/reordering blocks.
 + It is best practice to set read-only when a modal is open.
 + Be very wary of UNSAFE_componentWillReceiveProps. It is very easy to lose decorators when merging in props.
++ There are some `ErrorBoundary`s implemented to allow a graceful degradation if components throw: around each modal, each placeholder, and the Editor itself.
++ If the Editor's `ErrorBoundary` throws enough times (`MAX_ERROR_COUNT`), or if it throws and one or more blocks is invalid, a simple read-only version of the Editor contents is shown, with details about the errors and buttons to restore all (or only valid, if some are invalid) blocks back into the Editor.

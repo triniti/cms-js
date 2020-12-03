@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.10.0
+* Blocksmith error reporting & recovery
+
+
 ## v0.9.4
 * Remove Link to Google.com from Poster Image In Gallery Block Creator
 * Display error notification when CMS web socket loses connection.
@@ -10,6 +14,7 @@
 * issue #256: Fix promotion slots drag and drop sorting.
 * issue #258: Add Expires At Field to Article Screen.
 * Add related teaser fields when the node has the `triniti:curator:mixin:has-related-teasers` mixin.
+* Add display title field to image uploader.
 
 
 ## v0.9.2

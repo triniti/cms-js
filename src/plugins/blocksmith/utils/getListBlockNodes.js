@@ -11,11 +11,10 @@ import isBlockAList from './isBlockAList';
  *
  * @returns {[]} list block nodes
  */
-
 export default (contentState, id) => {
   const block = findBlock(contentState, id);
   if (!isBlockAList(block)) {
-    throw new Error(`block with key [${block.getKey()}] is not a list block, bailing out`);
+    return [];
   }
   const listBlockNodes = [];
   let listBlockNode = document.querySelector(`[data-offset-key="${block.getKey()}-0-0"]`);

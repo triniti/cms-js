@@ -12,7 +12,7 @@ import isBlockAList from './isBlockAList';
 
 export default (contentState, contentBlock) => {
   if (!isBlockAList(contentBlock)) {
-    throw new Error(`block with key [${contentBlock.getKey()}] is not a list block, bailing out`);
+    return false;
   }
   return getListBlocks(contentState, contentBlock)[0] === contentBlock;
 };

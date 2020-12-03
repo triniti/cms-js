@@ -61,11 +61,5 @@ test('Blocksmith:util:isLastListBlock', (t) => {
   expected = false;
   t.equal(actual, expected, 'It should confirm that block2 is NOT the last list block');
 
-  t.throws(
-    () => isLastListBlock(editorState.getCurrentContent(), block4),
-    new Error(`block with key [${block3.getKey()}] is not a list block, bailing out`),
-    'It should throw an error when a non-list block is provided',
-  );
-
   t.end();
 });

@@ -56,12 +56,6 @@ editorState = EditorState.push(
 );
 
 test('Blocksmith:util:getListBlocks', (t) => {
-  t.throws(
-    () => getListBlocks(editorState.getCurrentContent(), block1Data.key),
-    new Error(`block with key [${block1.getKey()}] is not a list block, bailing out`),
-    'It should throw an error when the provided block id is not for a list block.',
-  );
-
   let actual = getListBlocks(editorState.getCurrentContent(), block2Data.key);
   let expected = [block2, block3, block4];
   t.deepEqual(actual, expected, 'It should return all the list blocks in order when given the first list block.');

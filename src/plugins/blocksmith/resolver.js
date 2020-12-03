@@ -1,10 +1,10 @@
-import decorateComponentWithProps from 'decorate-component-with-props';
 import BlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/block/BlockV1Mixin';
 import createLazyComponent from '@triniti/admin-ui-plugin/components/createLazyComponent';
+import decorateComponentWithProps from 'decorate-component-with-props';
 
 /**
  * Gets all of the block buttons currently supported - used to populate the editor sidebar plugin.
- * This cannot usetemplate literals or other expressions because of the module resolver.
+ * This cannot use template literals or other expressions because of the module resolver.
  *
  * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
  *
@@ -113,7 +113,7 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
 }, []);
 
 /**
- * Gets the modal for a specific block type. This cannot usetemplate literals or other
+ * Gets the modal for a specific block type. This cannot use template literals or other
  * expressions because of the module resolver.
  *
  * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
@@ -188,7 +188,7 @@ export const getModalComponent = (message) => {
 };
 
 /**
- * Gets the placeholder for a specific block type. This cannot usetemplate literals or other
+ * Gets the placeholder for a specific block type. This cannot use template literals or other
  * expressions because of the module resolver.
  *
  * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291
@@ -197,7 +197,7 @@ export const getModalComponent = (message) => {
  *                         or canvasBlock.generateMessageRef().getCurie().getMessage()
  * @param {Object} props - optional probs to give to the placeholder
  *
- * @returns {?Component} a React component that is intended to go inside the DraftJs editor
+ * @returns {Component} a React component that is intended to go inside the DraftJs editor
  */
 export const getPlaceholder = (type, props = {}) => {
   let component = null;
@@ -287,13 +287,13 @@ export const getPlaceholder = (type, props = {}) => {
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/youtube-video-block-placeholder'));
       break;
     default:
-      return null;
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/default-block-placeholder'));
   }
   return decorateComponentWithProps(component, props);
 };
 
 /**
- * Gets the preview for a specific block type. This cannot usetemplate literals or other
+ * Gets the preview for a specific block type. This cannot use template literals or other
  * expressions because of the module resolver.
  *
  * @link https://github.com/tleunen/babel-plugin-module-resolver/issues/291

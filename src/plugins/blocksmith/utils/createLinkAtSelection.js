@@ -19,7 +19,7 @@ export default (editorState, target, url) => {
   const rel = target === '_blank' ? 'noopener noreferrer' : null;
   const selectionState = editorState.getSelection();
   if (selectionState.getAnchorKey() !== selectionState.getFocusKey()) {
-    throw new Error('Multi-block links currently not supported');
+    return editorState;
   }
 
   const contentState = editorState.getCurrentContent().createEntity(

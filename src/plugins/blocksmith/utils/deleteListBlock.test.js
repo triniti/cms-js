@@ -131,14 +131,5 @@ test('Blocksmith:util:deleteListBlock', (t) => {
   expected = [block4, block9].map((block) => block.getKey());
   t.deepEqual(actual, expected, 'It should report the correct keys for the blocks after deleting by block.');
 
-  t.throws(
-    () => EditorState.push(
-      editorState,
-      deleteListBlock(editorState.getCurrentContent(), block9), // delete unsupported block
-    ),
-    new Error(`block with key [${block9.getKey()}] is not a list block, bailing out`),
-    'It should throw an error when trying to delete an unsupported block type.',
-  );
-
   t.end();
 });

@@ -1,13 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 import { ContentBlock, EditorBlock } from 'draft-js';
-import selector from './selector';
+import PlaceholderErrorBoundary from '@triniti/cms/plugins/blocksmith/components/placeholder-error-boundary';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { handleDragEnd, handleDragStart } from '../../utils';
+import selector from './selector';
 
 // todo: incorporate the block buttons into this component and rename to TextBlockWrapper
 export const DraggableTextBlock = ({ block, draggable, offsetKey, ...rest }) => (
-  <>
+  <PlaceholderErrorBoundary block={block}>
     {draggable && (
     <div
       className="drag-area draggable-top"
@@ -37,7 +38,7 @@ export const DraggableTextBlock = ({ block, draggable, offsetKey, ...rest }) => 
       onDragStart={handleDragStart(block.getKey())}
     />
     )}
-  </>
+  </PlaceholderErrorBoundary>
 );
 
 DraggableTextBlock.propTypes = {
