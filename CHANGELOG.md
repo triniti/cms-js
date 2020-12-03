@@ -1,8 +1,12 @@
 # CHANGELOG
 
 
+## v0.10.1
+* Uninitialized blocksmith crash.
+
+
 ## v0.10.0
-* Blocksmith error reporting & recovery
+* Blocksmith error reporting & recovery.
 
 
 ## v0.9.4
