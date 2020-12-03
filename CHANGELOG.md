@@ -3,6 +3,9 @@
 
 ## v0.10.0
 * Blocksmith error reporting & recovery
+
+
+## v0.9.4
 * Remove Link to Google.com from Poster Image In Gallery Block Creator
 * Display error notification when CMS web socket loses connection.
 
