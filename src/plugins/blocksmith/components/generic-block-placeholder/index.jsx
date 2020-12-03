@@ -1,14 +1,13 @@
-import React from 'react';
+import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { ContentBlock } from 'draft-js';
 import classNames from 'classnames';
 import get from 'lodash/get';
-
 import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { ContentBlock } from 'draft-js';
-import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
-
+import PlaceholderErrorBoundary from '@triniti/cms/plugins/blocksmith/components/placeholder-error-boundary';
+import PropTypes from 'prop-types';
+import React from 'react';
 import ImagePreview from './ImagePreview';
 import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../../utils';
 import selector from './selector';
@@ -97,19 +96,20 @@ class GenericBlockPlaceholder extends React.PureComponent {
     }
 
     return (
-      <div
-        className={classNames({ draggable }, { 'block-preview': config.preview })}
-        draggable={draggable}
-        onDragStart={handleDragStart(block.getKey())}
-        onDragEnd={handleDragEnd}
-        role="presentation"
-      >
-        {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
+      <PlaceholderErrorBoundary block={block}>
+        <div
+          className={classNames({ draggable }, { 'block-preview': config.preview })}
+          draggable={draggable}
+          onDragStart={handleDragStart(block.getKey())}
+          onDragEnd={handleDragEnd}
+          ref={(ref) => { this.element = ref; }}
+          role="presentation"
+        >
+          {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
           <Badge className={`status-${targetNodeStatus} text-dark`}>
             { targetNodeStatus.toString() }
           </Badge>
-        )}
-        <>
+          )}
           {imagePreviewSrc && (
             <ImagePreview
               draggable={draggable}
@@ -154,18 +154,18 @@ class GenericBlockPlaceholder extends React.PureComponent {
               {...rest}
             />
           )}
-        </>
-        { config.label && (
-        <div
-          className="placeholder-label-holder ml-2 mt-1"
-          style={{ width: `calc(100% - ${labelOffset}px)` }}
-        >
-          <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-            <i>{config.label}{title}</i>
-          </p>
+          {config.label && (
+          <div
+            className="placeholder-label-holder ml-2 mt-1"
+            style={{ width: `calc(100% - ${labelOffset}px)` }}
+          >
+            <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
+              <i>{config.label}{title}</i>
+            </p>
+          </div>
+          )}
         </div>
-        )}
-      </div>
+      </PlaceholderErrorBoundary>
     );
   }
 }

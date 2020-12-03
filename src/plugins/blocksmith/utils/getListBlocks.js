@@ -12,10 +12,10 @@ import isBlockAList from './isBlockAList';
 
 export default (contentState, id) => {
   const block = findBlock(contentState, id);
-  if (!isBlockAList(block)) {
-    throw new Error(`block with key [${block.getKey()}] is not a list block, bailing out`);
-  }
   const listBlocks = [];
+  if (!isBlockAList(block)) {
+    return listBlocks;
+  }
 
   // first start going backwards until you find one of a different type
   let blockBefore = contentState.getBlockBefore(block.getKey());

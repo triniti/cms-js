@@ -151,6 +151,22 @@ div[data-contents="true"] {
       box-shadow: 0 0 0 1px #e0e0e2;
     }
 
+    &.block-invalid {
+      background-color: #fef1f1;
+      box-shadow: 0 0 0 1px #f95858;
+      position: relative;
+
+      &:after {
+        top: 5px;
+        right: 10px;
+        content: "INVALID";
+        position: absolute;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: #f95858;
+      }
+    }
+
     &.insert-marker {
       box-shadow: 0 -2px 0 1px #000;
       width: 100%;
@@ -172,6 +188,21 @@ div[data-contents="true"] {
 
     > .list-block {
       position: relative;
+
+      &.block-invalid {
+        background-color: #fef1f1;
+        box-shadow: 0 0 0 1px #f95858;
+
+        &:after {
+          top: 5px;
+          right: 10px;
+          content: "INVALID";
+          position: absolute;
+          font-size: 0.85rem;
+          font-weight: bold;
+          color: #f95858;
+        }
+      }
     }
   }
 }

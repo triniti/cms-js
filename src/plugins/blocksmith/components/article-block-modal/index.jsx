@@ -184,7 +184,6 @@ class ArticleBlockModal extends React.Component {
     });
   }
 
-  // nested prop is causing the lint to crash, no matter how tempting it is to remove the articleNode const declaration - don't do it yet. still confused? check out this link - https://github.com/yannickcr/eslint-plugin-react/issues/2123
   handleSelectArticle(nodeRef) {
     this.setState((prevState, { getNode }) => {
       const articleNode = getNode(nodeRef);

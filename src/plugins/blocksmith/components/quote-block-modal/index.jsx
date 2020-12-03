@@ -5,12 +5,10 @@ import prependHttp from 'prepend-http';
 import PropTypes from 'prop-types';
 import QuoteBlockPreview from '@triniti/cms/plugins/blocksmith/components/quote-block-preview';
 import React from 'react';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
   Checkbox,
   FormGroup,
-  Icon,
   Input,
   Label,
   Modal,

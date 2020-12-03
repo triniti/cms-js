@@ -13,7 +13,7 @@ const API_KEY_REGEX = /^(\w|\d){1,5}$/;
 export default (key) => {
   const normalizedKey = (DIGIT_REGEX.test(key) ? key.replace(DIGIT_REGEX, '') : key);
   if (!normalizedKey.match(API_KEY_REGEX)) {
-    throw new Error(`Key [${key}] does not appear to be a valid ContentBlock key.`);
+    return key;
   }
   return normalizedKey;
 };

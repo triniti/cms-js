@@ -6,7 +6,7 @@ import findBlock from './findBlock';
  * @param {ContentState}           contentState - a state instance of a DraftJs Editor
  * @param {(object|number|string)} id           - a block, a block index, or a block key
  *
- * @returns {EditorState} an EditorState instance
+ * @returns {HTMLElement}
  */
 
 export default (contentState, id) => {

@@ -17,11 +17,13 @@ import selectBlock, { selectionTypes } from './selectBlock';
  */
 export default (editorState, key, position, canvasBlocks) => {
   if (position !== constants.POSITION_BEFORE && position !== constants.POSITION_AFTER) {
-    throw new Error('You must provide a valid insertion position.');
+    return editorState;
   }
+
   if (!canvasBlocks.length) {
     return editorState;
   }
+
   let newEditorState = editorState;
   const newContentState = newEditorState.getCurrentContent();
   let haveEncounteredKey = false;

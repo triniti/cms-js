@@ -136,6 +136,9 @@ export default (e = window.event) => {
     const listBlockKeys = [];
 
     let draggedBlock = getDraggedBlockNode();
+    if (!draggedBlock) {
+      return;
+    }
     while (!blockParentNode.is(draggedBlock.parentNode)) {
       draggedBlock = draggedBlock.parentNode;
     }

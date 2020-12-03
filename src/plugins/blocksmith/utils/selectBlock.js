@@ -23,7 +23,7 @@ export const selectionTypes = {
  */
 export default (editorState, id, selectionType = selectionTypes.ALL) => {
   if (!Object.values(selectionTypes).includes(selectionType)) {
-    throw new Error(`['${String(selectionType)}'] is not a valid position. Enter ${String(selectionTypes.START)}, ${String(selectionTypes.END)}, ${String(selectionTypes.ALL)}, or omit to default to ${String(selectionTypes.ALL)}`);
+    return editorState;
   }
   const contentState = editorState.getCurrentContent();
   const blockToSelect = findBlock(contentState, id);

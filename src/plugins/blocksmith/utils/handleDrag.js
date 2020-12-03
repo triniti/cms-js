@@ -6,6 +6,9 @@ let draggedBlockNode;
 
 export const handleDragStart = (blockKey) => (event) => {
   draggedBlockNode = getDraggedBlockNode();
+  if (!draggedBlockNode) {
+    return;
+  }
   event.dataTransfer.setDragImage(draggedBlockNode, 150, 35);
   event.dataTransfer.setData('block', `${constants.DRAFTJS_BLOCK_KEY}:${blockKey}`);
   document.querySelector('#block-editor').addEventListener('dragover', styleDragTarget);
@@ -15,5 +18,8 @@ export const handleDragStart = (blockKey) => (event) => {
 };
 
 export const handleDragEnd = () => {
+  if (!draggedBlockNode) {
+    return;
+  }
   draggedBlockNode.style.opacity = 1;
 };

@@ -36,37 +36,29 @@ test('Blocksmith:util:findBlock', (t) => {
   let expected = block1;
   t.equal(actual, expected, 'It should return a block by index.');
 
-  t.throws(
-    () => findBlock(editorState.getCurrentContent(), 10),
-    new Error(`there is no block for index [${10}]`),
-    'It should throw an error when trying to find a block by index that does not exist.',
-  );
+  actual = findBlock(editorState.getCurrentContent(), 10);
+  expected = undefined;
+  t.equal(actual, expected, 'It should return undefined when trying to find a block by index that does not exist.');
 
   actual = findBlock(editorState.getCurrentContent(), block2Data.key);
   expected = block2;
   t.equal(actual, expected, 'It should return a block by key.');
 
-  t.throws(
-    () => findBlock(editorState.getCurrentContent(), 'a'),
-    new Error('there is no block for key [a]'),
-    'It should throw an error when trying to find a block by key that does not exist.',
-  );
+  actual = findBlock(editorState.getCurrentContent(), 'a');
+  expected = undefined;
+  t.equal(actual, expected, 'It should return undefined when trying to find a block by key that does not exist.');
 
   actual = findBlock(editorState.getCurrentContent(), block2);
   expected = block2;
   t.equal(actual, expected, 'It should return a block by ContentBlock.');
 
-  t.throws(
-    () => findBlock(editorState.getCurrentContent(), {}),
-    new Error('provided block object is not a ContentBlock'),
-    'It should throw an error when trying to find a block by object that is not a ContentBlock.',
-  );
+  actual = findBlock(editorState.getCurrentContent(), {});
+  expected = undefined;
+  t.equal(actual, expected, 'It should return undefined when trying to find a block by object that is not a ContentBlock.');
 
-  t.throws(
-    () => findBlock(editorState.getCurrentContent(), () => {}),
-    new Error(`unable to find block with provided id [${() => {}}]`),
-    'It should throw an error when trying to find a block by an invalid id.',
-  );
+  actual = findBlock(editorState.getCurrentContent(), () => {});
+  expected = undefined;
+  t.equal(actual, expected, 'It should return undefined when trying to find a block by an invalid id.');
 
   t.end();
 });

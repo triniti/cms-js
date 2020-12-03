@@ -46,7 +46,7 @@ export default class BlockButtons extends React.Component {
     this.handleShowShiftButtons = this.handleShowShiftButtons.bind(this);
   }
 
-  componentWillReceiveProps({ resetFlag }) {
+  UNSAFE_componentWillReceiveProps({ resetFlag }) {
     if (this.state.resetFlag !== resetFlag) { // eslint-disable-line react/destructuring-assignment
       const { timeoutId } = this.state;
       clearTimeout(timeoutId);
