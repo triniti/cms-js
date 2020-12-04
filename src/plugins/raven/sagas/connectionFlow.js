@@ -77,17 +77,20 @@ export default function* (raven) {
       yield take(connectsChannel);
       attempts = 0;
     } catch (e) {
-      yield swal.fire({
-        title: 'Alert!',
-        text: 'Active Edits has disconnected, please Save and Refresh.',
-        type: 'warning',
-        confirmButtonText: 'Thank You',
-        buttonsStyling: false,
-        customClass: {
-          confirmButton: 'btn-modal btn btn-outline-primary btn-block',
-        },
-      });
       yield put(rejectConnection(e));
+
+      if (attempts > 10) {
+        yield swal.fire({
+          title: 'Alert!',
+          text: 'Active Edits has disconnected, please Save and Refresh.',
+          type: 'warning',
+          confirmButtonText: 'Thank You',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'btn-modal btn btn-outline-primary btn-block',
+          },
+        });
+      }
     }
   }
 }
