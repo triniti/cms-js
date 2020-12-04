@@ -79,7 +79,7 @@ export default function* (raven) {
     } catch (e) {
       yield put(rejectConnection(e));
 
-      if (attempts > 10) {
+      if (attempts > 9) {
         yield swal.fire({
           title: 'Alert!',
           text: 'Active Edits has disconnected, please Save and Refresh.',
