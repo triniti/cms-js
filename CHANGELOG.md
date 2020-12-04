@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.10.2
+* Raven can get caught in an alert loop.
+
+
 ## v0.10.1
 * Uninitialized blocksmith crash.
 * Issues pasting for twitter blocks.

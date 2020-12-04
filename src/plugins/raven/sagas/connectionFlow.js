@@ -42,9 +42,10 @@ function* connect(raven) {
 export default function* (raven) {
   const connectsChannel = yield actionChannel(actionTypes.CONNECTION_OPENED, buffers.dropping(1));
   let attempts = 0;
+  let connectionRequestedAttempts = 0;
 
   while (true) {
-    yield take([
+    const { type } = yield take([
       appActionTypes.APP_STARTED,
       iamActionTypes.GET_AUTHENTICATED_USER_FULFILLED,
       iamActionTypes.LOGOUT_COMPLETED,
@@ -60,8 +61,14 @@ export default function* (raven) {
     }
 
     attempts += 1;
-    if (attempts > 10) {
-      console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
+
+    if (type === actionTypes.CONNECTION_REQUESTED) {
+      connectionRequestedAttempts += 1;
+    }
+
+    if (connectionRequestedAttempts > 10) {
+      connectionRequestedAttempts = 0;
+      console.error('raven::connectionFlow::exceeded_10_connection_requested_attempts'); // eslint-disable-line no-console
       swal.fire({
         title: 'Alert!',
         text: 'Active Edits has disconnected, please Save and Refresh.',
@@ -72,7 +79,9 @@ export default function* (raven) {
           confirmButton: 'btn-modal btn btn-outline-primary btn-block',
         },
       });
-
+      continue;
+    } else if (attempts > 10) {
+      console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
       continue;
     } else if (attempts > 3) {
       // delay a bit before the next attempt
@@ -87,6 +96,7 @@ export default function* (raven) {
       yield call(connect, raven);
       yield take(connectsChannel);
       attempts = 0;
+      connectionRequestedAttempts = 0;
     } catch (e) {
       yield put(rejectConnection(e));
     }
