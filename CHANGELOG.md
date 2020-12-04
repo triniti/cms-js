@@ -3,6 +3,7 @@
 
 ## v0.10.1
 * Uninitialized blocksmith crash.
+* Issues pasting for twitter blocks.
 
 
 ## v0.10.0
