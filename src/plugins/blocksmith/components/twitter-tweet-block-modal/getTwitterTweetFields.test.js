@@ -38,6 +38,25 @@ test('Blocksmith.component.twitter-tweet-modal:getTwitterTweetFields', (t) => {
 });
 
 test('Blocksmith.component.twitter-tweet-modal:getTwitterTweetFields', (t) => {
+  const embed = `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">For those who missed my moonlighting as Ersatz Andy Jassy, here&#39;s my <a href="https://twitter.com/hashtag/requinnvent?src=hash&amp;ref_src=twsrc%5Etfw">#requinnvent</a> keynote rebuttal. <a href="https://t.co/ESYTNA2kG1">https://t.co/ESYTNA2kG1</a></p>&mdash; Corey Quinn (@QuinnyPig) <a href="https://twitter.com/QuinnyPig/status/1334258143090491392?ref_src=twsrc%5Etfw">December 2, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+  `;
+  const { screenName, tweetId, tweetText } = getTwitterTweetFields(embed);
+  let actual = screenName;
+  let expected = 'QuinnyPig';
+  t.deepEqual(actual, expected, `it should accept a Twitter Tweet embed and return screenName: ${expected}`);
+
+  actual = tweetId;
+  expected = '1334258143090491392';
+  t.deepEqual(actual, expected, `it should accept a Twitter Tweet embed and return tweetId: ${expected}`);
+
+  actual = tweetText;
+  expected = '<p lang="en" dir="ltr">For those who missed my moonlighting as Ersatz Andy Jassy, here&#39;s my <a href="https://twitter.com/hashtag/requinnvent?src=hash&amp;ref_src=twsrc^tfw">#requinnvent</a> keynote rebuttal. <a href="https://t.co/ESYTNA2kG1">https://t.co/ESYTNA2kG1</a></p>&mdash; Corey Quinn (@QuinnyPig) <a href="https://twitter.com/QuinnyPig/status/1334258143090491392?ref_src=twsrc^tfw">December 2, 2020</a>';
+  t.deepEqual(actual, expected, `it should accept a Twitter Tweet embed and return tweetText: ${expected}`);
+
+  t.end();
+});
+
+test('Blocksmith.component.twitter-tweet-modal:getTwitterTweetFields', (t) => {
   const embed = 'invalid';
   const { screenName, tweetId, tweetText } = getTwitterTweetFields(embed);
   let actual = screenName;

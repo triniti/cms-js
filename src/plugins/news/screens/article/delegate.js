@@ -16,6 +16,11 @@ class Delegate extends AbstractDelegate {
 
   handleSubmit(data, formDispatch, formProps) { // eslint-disable-line consistent-return
     const { blocksmithState, dispatch } = this.component.props;
+
+    if (!blocksmithState) {
+      return super.handleSubmit(data, formDispatch, formProps);
+    }
+
     const { isValid, validEditorState } = validateBlocks(blocksmithState.editorState);
 
     if (isValid) {
