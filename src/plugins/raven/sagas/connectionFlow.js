@@ -82,7 +82,7 @@ export default function* (raven) {
       if (attempts > 9) {
         yield swal.fire({
           title: 'Alert!',
-          text: 'Active Edits has disconnected, please Save and Refresh.',
+          text: `Active Edits has disconnected, please Save and Refresh. (error:${e.message})`,
           type: 'warning',
           confirmButtonText: 'Thank You',
           buttonsStyling: false,
