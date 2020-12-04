@@ -62,17 +62,6 @@ export default function* (raven) {
     attempts += 1;
     if (attempts > 10) {
       console.error('raven::connectionFlow::exceeded_10_attempts'); // eslint-disable-line no-console
-      swal.fire({
-        title: 'Alert!',
-        text: 'Active Edits has disconnected, please Save and Refresh.',
-        type: 'warning',
-        confirmButtonText: 'Thank You',
-        buttonsStyling: false,
-        customClass: {
-          confirmButton: 'btn-modal btn btn-outline-primary btn-block',
-        },
-      });
-
       continue;
     } else if (attempts > 3) {
       // delay a bit before the next attempt
@@ -89,6 +78,19 @@ export default function* (raven) {
       attempts = 0;
     } catch (e) {
       yield put(rejectConnection(e));
+
+      if (attempts > 9) {
+        yield swal.fire({
+          title: 'Alert!',
+          text: `Active Edits has disconnected, please Save and Refresh. (error:${e.message})`,
+          type: 'warning',
+          confirmButtonText: 'Thank You',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'btn-modal btn btn-outline-primary btn-block',
+          },
+        });
+      }
     }
   }
 }
