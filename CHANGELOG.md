@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* issue #1238: tmz-cms will crash after session/raven disconnect and users accept new disconnect Alert
+* issue #1238: cms will crash after session/raven disconnect and users accept new disconnect Alert
 
 
 ## v0.10.2
