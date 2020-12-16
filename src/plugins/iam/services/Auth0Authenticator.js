@@ -47,6 +47,7 @@ export default class Auth0Authenticator extends Authenticator {
    * {@inheritDoc}
    */
   showLogin() {
+    super.showLogin();
     const { hash } = window.location;
 
     if (hash) {

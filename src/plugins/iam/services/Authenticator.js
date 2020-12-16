@@ -59,7 +59,11 @@ export default class Authenticator {
    * Shows a login screen/dialog/popup/etc. to the user.
    */
   showLogin() {
-    // implement in concrete authenticator
+    if (checkUserIdleInterval) {
+      clearInterval(checkUserIdleInterval);
+      checkUserIdleInterval = null;
+    }
+    // implement custom logic in concrete authenticator
   }
 
   /**
@@ -235,7 +239,6 @@ export default class Authenticator {
     checkUserIdleInterval = setInterval(() => {
       const currentTime = new Date().getTime();
       const userInactiveExpiresAt = this.getUserInactiveExpiresAt();
-
       // checking against access token will allow the localStorage to be cleared properly
       // when the user has multiple tabs
       if (currentTime > userInactiveExpiresAt || Authenticator.getAccessToken() === null) {

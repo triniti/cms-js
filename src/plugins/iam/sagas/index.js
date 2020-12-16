@@ -1,4 +1,4 @@
-import { all, call, fork, race, take, takeEvery } from 'redux-saga/effects';
+import { all, call, cancel, fork, race, take, takeEvery } from 'redux-saga/effects';
 import { actionTypes as uiActionTypes } from '@triniti/admin-ui-plugin/constants';
 import handlePermissionFlow from './handlePermissionFlow';
 import loginFlow from './loginFlow';
@@ -10,15 +10,20 @@ import { actionTypes, serviceIds } from '../constants';
  * @param {Container} container
  */
 function* watchLogin(container) {
+  let lastTask;
   while (true) {
     const { doLogin } = yield race({
       doLogin: take(actionTypes.LOGIN_REQUESTED),
       doLogout: take(uiActionTypes.LOGOUT_REQUESTED),
     });
 
+    if (lastTask) {
+      yield cancel(lastTask); // cancel is no-op if the task has already terminated
+    }
+
     const authenticator = container.get(serviceIds.AUTHENTICATOR);
     if (doLogin) {
-      yield call(loginFlow, authenticator);
+      lastTask = yield fork(loginFlow, authenticator);
     } else {
       yield call([authenticator, 'logout']);
     }
