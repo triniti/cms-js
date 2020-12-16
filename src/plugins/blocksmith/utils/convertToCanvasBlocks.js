@@ -37,7 +37,10 @@ export default (editorState, allowEmptyTextBlocks = false) => {
     blockRenderers: {
       [blockTypes.ATOMIC]: (block) => `${CANVAS_BLOCK_TOKEN}${JSON.stringify(block.getData().get('canvasBlock'))}`,
       [blockTypes.UNSTYLED]: (block) => {
-        if (allowEmptyTextBlocks && block.getText() === '') {
+        if (
+          allowEmptyTextBlocks
+          && /^(\r\n?|\n)?$/.test(block.getText()) // empty string or cross-platform newline
+        ) {
           return `<p>${tokens.EMPTY_BLOCK_TOKEN}</p>`;
         }
         return undefined;
