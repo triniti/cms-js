@@ -19,20 +19,32 @@ export default (editorState) => {
     );
     try {
       const [canvasBlock] = convertToCanvasBlocks(singleBlockEditorState, true);
-      validCanvasBlocks.push(canvasBlock);
-      blocks.push({
-        block: canvasBlock,
-      });
+      if (canvasBlock) {
+        validCanvasBlocks.push(canvasBlock);
+        blocks.push({
+          block: canvasBlock,
+        });
+      } else {
+        isValid = false;
+        blocks.push({
+          block,
+          error: 'Error: unable to convert to canvas block.',
+        });
+        errors[block.getKey()] = {
+          block,
+          error: 'Error: unable to convert to canvas block.',
+        };
+      }
     } catch (e) {
       isValid = false;
       console.error(`[ERROR:Blocksmith:util:validateBlocks] - Block: ${block.toString()} - ${e}`);
       blocks.push({
         block,
-        error: e.stack,
+        error: e.stack || e.toString(),
       });
       errors[block.getKey()] = {
         block,
-        error: e.stack,
+        error: e.stack || e.toString(),
       };
     }
   });
