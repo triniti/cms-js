@@ -10,20 +10,20 @@ import { actionTypes, serviceIds } from '../constants';
  * @param {Container} container
  */
 function* watchLogin(container) {
-  let lastTask;
+  let loginTask;
   while (true) {
     const { doLogin } = yield race({
       doLogin: take(actionTypes.LOGIN_REQUESTED),
       doLogout: take(uiActionTypes.LOGOUT_REQUESTED),
     });
 
-    if (lastTask) {
-      yield cancel(lastTask); // cancel is no-op if the task has already terminated
+    if (loginTask) {
+      yield cancel(loginTask); // cancel is no-op if the task has already terminated
     }
 
     const authenticator = container.get(serviceIds.AUTHENTICATOR);
     if (doLogin) {
-      lastTask = yield fork(loginFlow, authenticator);
+      loginTask = yield fork(loginFlow, authenticator);
     } else {
       yield call([authenticator, 'logout']);
     }
