@@ -40,11 +40,11 @@ export default (editorState) => {
       console.error(`[ERROR:Blocksmith:util:validateBlocks] - Block: ${block.toString()} - ${e}`);
       blocks.push({
         block,
-        error: e.stack || e.toString(),
+        error: e.stack || `${e}`,
       });
       errors[block.getKey()] = {
         block,
-        error: e.stack || e.toString(),
+        error: e.stack || `${e}`,
       };
     }
   });
