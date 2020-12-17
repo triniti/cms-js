@@ -5,6 +5,10 @@
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
 
 
+## v0.10.3
+* Blocksmith crash when text block contains only carriage return
+
+
 ## v0.10.2
 * Raven can get caught in an alert loop.
 
