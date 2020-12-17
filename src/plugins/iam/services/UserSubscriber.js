@@ -89,6 +89,7 @@ export default class UserSubscriber extends EventSubscriber {
     node.set('email', data.email)
       .set('first_name', data.firstName)
       .set('last_name', data.lastName)
+      .set('title', `${data.firstName} ${data.lastName}`)
       .set('is_staff', data.isStaff)
       .set('is_blocked', data.isBlocked);
   }

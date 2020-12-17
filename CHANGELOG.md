@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Set user node title using first and last name fields in the UserSubscriber to avoid an inconsistency.
+
+
 ## v0.10.3
 * Blocksmith crash when text block contains only carriage return
 
