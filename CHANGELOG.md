@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
+* issue #1237: CMS - Gallery Launch Text not reflecting with red background.
 
 
 ## v0.10.3
