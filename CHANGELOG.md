@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* issue #1237: CMS - Gallery Launch Text not reflecting with red background.
+
+
 ## v0.10.3
 * Blocksmith crash when text block contains only carriage return
 
