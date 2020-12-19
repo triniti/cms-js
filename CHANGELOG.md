@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * issue #1237: CMS - Gallery Launch Text not reflecting with red background.
+* issue #1233: CMS - Instagram embed preview not rendering.
 
 
 ## v0.10.3
