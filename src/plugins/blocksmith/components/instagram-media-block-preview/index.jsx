@@ -67,9 +67,13 @@ export default class InstagramPostBlockPreview extends Component {
   embed() {
     const { block } = this.props;
     this.clean();
+    console.clear();
+    console.log(block.get('hidecaption'));
     const instagramBlock = document.createElement('blockquote');
     instagramBlock.className = 'instagram-media';
-    instagramBlock.setAttribute('data-instgrm-captioned', block.get('hidecaption'));
+    if (!block.get('hidecaption')) {
+      instagramBlock.setAttribute('data-instgrm-captioned', '');
+    }
     instagramBlock.setAttribute('data-instgrm-permalink', `//www.instagram.com/p/${block.get('id')}/`);
     this.embedParentRef.current.appendChild(instagramBlock);
   }
