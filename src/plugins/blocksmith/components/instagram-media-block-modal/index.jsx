@@ -1,6 +1,5 @@
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
-// import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview';
-import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview/new-preview';
+import InstagramMediaBlockPreview from '@triniti/cms/plugins/blocksmith/components/instagram-media-block-preview';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';

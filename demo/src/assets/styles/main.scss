@@ -278,3 +278,15 @@ tr.status-sent {
   border: 1px solid #efeff1;
   cursor: not-allowed;
 }
+
+#instagram-preview {
+  text-align: center;
+
+  .instagram-preview__iframe {
+    padding-top: 15px;
+  }
+
+  .instagram-media-rendered {
+    display: inline-block !important;
+  }
+}
