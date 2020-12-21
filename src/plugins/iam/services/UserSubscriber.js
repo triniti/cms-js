@@ -91,6 +91,10 @@ export default class UserSubscriber extends EventSubscriber {
       .set('last_name', data.lastName)
       .set('is_staff', data.isStaff)
       .set('is_blocked', data.isBlocked);
+
+    if (!formEvent.getProps().isCreateForm) {
+      node.set('title', `${data.firstName} ${data.lastName}`);
+    }
   }
 
   getSubscribedEvents() {
