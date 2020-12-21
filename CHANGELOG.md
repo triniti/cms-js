@@ -2,6 +2,8 @@
 
 
 ## vN.N.N
+* Gallery Launch Text not reflecting with red background.
+* Set user node title using first and last name fields in the UserSubscriber to avoid an inconsistency.
 * issue #1233: CMS - Instagram embed preview not rendering.
 * issue #1237: CMS - Gallery Launch Text not reflecting with red background.
 
