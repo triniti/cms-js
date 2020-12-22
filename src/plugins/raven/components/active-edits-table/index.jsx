@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import noop from 'lodash-es/noop';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
 import { STATUS_FULFILLED, STATUS_PENDING } from '@triniti/app/constants';
@@ -15,97 +14,70 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import delegate from './delegate';
 import selector from './selector';
-import TableBody from './TableBody';
+import TableRow from './TableRow';
 
-class ActiveEditsTable extends React.Component {
-    static propTypes = {
-      accessToken: PropTypes.string.isRequired,
-      collaborationNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
-      handleUpdateCollaborations: PropTypes.func.isRequired,
-      title: PropTypes.string,
-    };
+export const ActiveEditsTable = ({
+  accessToken,
+  collaborationNodes,
+  handleUpdateCollaborations,
+  title,
+}) => {
+  useEffect(() => {
+    handleUpdateCollaborations(accessToken);
+  }, []);
 
-    static defaultProps = {
-      title: 'Active Edits',
-    }
+  const [status, setStatus] = useState(null);
+  const handleRefresh = async () => {
+    setStatus(STATUS_PENDING);
+    await handleUpdateCollaborations(accessToken);
+    setStatus(STATUS_FULFILLED);
+  };
 
-    constructor(props) {
-      super(props);
-      this.handleMouseLeave = this.handleMouseLeave.bind(this);
-      this.handleMouseOver = this.handleMouseOver.bind(this);
-      this.handleRefresh = this.handleRefresh.bind(this);
-      this.state = { intervalId: null, isHover: false, status: null };
-    }
+  return (
+    <Card shadow>
+      <CardHeader className="pr-2">
+        {title}
+        <Button size="sm">
+          <Icon
+            imgSrc="refresh"
+            onClick={handleRefresh}
+            noborder
+          />
+        </Button>
+      </CardHeader>
+      <CardBody className="pl-0 pr-0 pt-0 pb-0">
+        {status === STATUS_PENDING && <StatusMessage status={status} />}
+        <Table className="table-stretch table-sm" borderless hover responsive>
+          <thead>
+            <tr>
+              <th style={{ width: '1px' }} />
+              <th>Title</th>
+              <th />
+              <th>Type</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {!collaborationNodes.length && (<tr><td /><td>No Content being collaborated on.</td></tr>)}
+            {collaborationNodes.map((node, idx) => (
+              <TableRow node={node} idx={idx} key={node.get('_id')} />
+            ))}
+          </tbody>
+        </Table>
+      </CardBody>
+    </Card>
+  );
+};
 
-    componentDidMount() {
-      const { handleUpdateCollaborations, accessToken } = this.props;
-      handleUpdateCollaborations(accessToken);
-      const intervalId = setInterval(() => {
-        handleUpdateCollaborations(accessToken);
-      }, 5000);
-      this.setState({ intervalId });
-    }
+ActiveEditsTable.propTypes = {
+  accessToken: PropTypes.string.isRequired,
+  collaborationNodes: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
+  handleUpdateCollaborations: PropTypes.func.isRequired,
+  title: PropTypes.string,
+};
 
-    componentWillUnmount() {
-      const { intervalId } = this.state;
-      clearInterval(intervalId);
-    }
-
-    handleMouseLeave() {
-      this.setState({ isHover: false });
-    }
-
-    handleMouseOver() {
-      this.setState({ isHover: true });
-    }
-
-    async handleRefresh() {
-      const { handleUpdateCollaborations, accessToken } = this.props;
-      this.setState({ status: STATUS_PENDING });
-      await handleUpdateCollaborations(accessToken);
-      this.setState({ status: STATUS_FULFILLED });
-    }
-
-    render() {
-      const { collaborationNodes, title } = this.props;
-      const { isHover, status } = this.state;
-
-      return (
-        <div
-          onFocus={noop}
-          onMouseLeave={this.handleMouseLeave}
-          onMouseOver={this.handleMouseOver}
-        >
-          <Card shadow>
-            <CardHeader className="pr-2">
-              {title}
-              <Button size="sm">
-                <Icon
-                  imgSrc="refresh"
-                  onClick={this.handleRefresh}
-                  noborder
-                />
-              </Button>
-            </CardHeader>
-            <CardBody className="pl-0 pr-0 pt-0 pb-0">
-              {status === STATUS_PENDING && <StatusMessage status={status} />}
-              <Table className="table-stretch table-sm" borderless hover responsive>
-                <thead>
-                  <tr>
-                    <th style={{ width: '1px' }} />
-                    <th>Title</th>
-                    <th />
-                    <th>Type</th>
-                    <th />
-                  </tr>
-                </thead>
-                <TableBody isHover={isHover} nodes={collaborationNodes} status={status} />
-              </Table>
-            </CardBody>
-          </Card>
-        </div>
-      );
-    }
-}
+ActiveEditsTable.defaultProps = {
+  title: 'Active Edits',
+};
 
 export default connect(selector, delegate)(ActiveEditsTable);
