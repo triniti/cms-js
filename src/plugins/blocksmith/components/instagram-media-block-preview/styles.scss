@@ -4,6 +4,10 @@
   align-items: center;
   text-align: center;
 
+  .instagram-preview__header {
+    display: block;
+  }
+
   .instagram-preview__iframe {
     padding-top: 15px;
   }

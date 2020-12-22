@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 import './styles.scss';
 
-class InstagramPostBlockPreview extends Component {
+class InstagramMediaBlockPreview extends Component {
   constructor(props) {
     super(props);
     this.embedParentRef = React.createRef();
@@ -16,11 +16,11 @@ class InstagramPostBlockPreview extends Component {
     this.embed();
   }
 
-  componentDidUpdate(previousProps) {
+  componentDidUpdate({ block: prevBlock }) {
     const { block } = this.props;
     if (
-      block.get('id') !== previousProps.block.get('id')
-      || block.get('hidecaption') !== previousProps.block.get('hidecaption')
+      block.get('id') !== prevBlock.get('id')
+      || block.get('hidecaption') !== prevBlock.get('hidecaption')
     ) {
       this.embed();
       window.instgrm.Embeds.process();
@@ -64,22 +64,25 @@ class InstagramPostBlockPreview extends Component {
     const { block } = this.props;
     return (
       <div id="instagram-preview">
-        <a
-          href={`https://www.instagram.com/p/${block.get('id')}/`}
-          target="_blank"
-          className="instagram-preview__link"
-          rel="noopener noreferrer"
-        >
-          {`Link to post: https://www.instagram.com/p/${block.get('id')}/`}
-        </a>
+        <header className="instagram-preview__header">
+          Link to post:&nbsp;
+          <a
+            href={`https://www.instagram.com/p/${block.get('id')}/`}
+            target="_blank"
+            className="instagram-preview__link"
+            rel="noopener noreferrer"
+          >
+            {`https://www.instagram.com/p/${block.get('id')}/`}
+          </a>
+        </header>
         <div ref={this.embedParentRef} className="instagram-preview__iframe" />
       </div>
     );
   }
 }
 
-InstagramPostBlockPreview.propTypes = {
+InstagramMediaBlockPreview.propTypes = {
   block: PropTypes.instanceOf(Message).isRequired,
 };
 
-export default InstagramPostBlockPreview;
+export default InstagramMediaBlockPreview;
