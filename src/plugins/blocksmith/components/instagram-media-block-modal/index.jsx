@@ -151,7 +151,7 @@ export default class InstagramMediaBlockModal extends React.Component {
               onChange={this.handleChangeTextarea}
               placeholder="enter url or embed code"
               type="textarea"
-              value={displayUrl || null}
+              value={displayUrl || ''}
             />
           </FormGroup>
           {
