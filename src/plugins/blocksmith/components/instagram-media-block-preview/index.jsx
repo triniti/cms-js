@@ -16,9 +16,13 @@ class InstagramPostBlockPreview extends Component {
     this.embed();
   }
 
-  componentDidUpdate() {
-    this.embed();
-    if (window.instgrm) {
+  componentDidUpdate(previousProps) {
+    const { block } = this.props;
+    if (
+      block.get('id') !== previousProps.block.get('id')
+      || block.get('hidecaption') !== previousProps.block.get('hidecaption')
+    ) {
+      this.embed();
       window.instgrm.Embeds.process();
     }
   }
@@ -30,8 +34,7 @@ class InstagramPostBlockPreview extends Component {
   addInstagramEmbedScript() {
     const script = document.createElement('script');
     script.async = true;
-    script.src = '//www.instagram.com/embed.js';
-    script.setAttribute('charset', 'utf-8');
+    script.src = 'https://www.instagram.com/embed.js';
     script.onload = () => {
       window.instgrm.Embeds.process();
     };
@@ -41,9 +44,7 @@ class InstagramPostBlockPreview extends Component {
   clean() {
     const { current } = this.embedParentRef;
     Array.from(current.children).forEach((child) => {
-      if (child.className.indexOf('instagram-embed') === -1) {
-        current.removeChild(child);
-      }
+      current.removeChild(child);
     });
   }
 
@@ -55,7 +56,7 @@ class InstagramPostBlockPreview extends Component {
     if (!block.get('hidecaption')) {
       instagramBlock.setAttribute('data-instgrm-captioned', '');
     }
-    instagramBlock.setAttribute('data-instgrm-permalink', `//www.instagram.com/p/${block.get('id')}/`);
+    instagramBlock.setAttribute('data-instgrm-permalink', `https://www.instagram.com/p/${block.get('id')}/`);
     this.embedParentRef.current.appendChild(instagramBlock);
   }
 
@@ -64,12 +65,12 @@ class InstagramPostBlockPreview extends Component {
     return (
       <div id="instagram-preview">
         <a
-          href={`//www.instagram.com/p/${block.get('id')}/`}
+          href={`https://www.instagram.com/p/${block.get('id')}/`}
           target="_blank"
           className="instagram-preview__link"
           rel="noopener noreferrer"
         >
-          View Post Preview
+          {`Link to post: https://www.instagram.com/p/${block.get('id')}/`}
         </a>
         <div ref={this.embedParentRef} className="instagram-preview__iframe" />
       </div>
