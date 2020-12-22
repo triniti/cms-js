@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 
 class InstagramPostBlockPreview extends Component {
-
   constructor(props) {
     super(props);
     this.embedParentRef = React.createRef();
@@ -16,17 +15,6 @@ class InstagramPostBlockPreview extends Component {
     this.embed();
   }
 
-  addInstagramEmbedScript() {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = '//www.instagram.com/embed.js';
-    script.setAttribute('charset', 'utf-8');
-    script.onload = () => {
-      window.instgrm.Embeds.process();
-    }
-    this.embedParentRef.current.appendChild(script);
-  }
-
   componentDidUpdate() {
     this.embed();
     if (window.instgrm) {
@@ -36,6 +24,17 @@ class InstagramPostBlockPreview extends Component {
 
   componentWillUnmount() {
     this.clean();
+  }
+
+  addInstagramEmbedScript() {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = '//www.instagram.com/embed.js';
+    script.setAttribute('charset', 'utf-8');
+    script.onload = () => {
+      window.instgrm.Embeds.process();
+    };
+    this.embedParentRef.current.appendChild(script);
   }
 
   clean() {
@@ -60,14 +59,16 @@ class InstagramPostBlockPreview extends Component {
   }
 
   render() {
+    const { block } = this.props;
     return (
-      <div id='instagram-preview'>
-        <a 
-          href={`//www.instagram.com/p/${this.props.block.get('id')}/`}
-          target="_blank" 
-          className='instagram-preview__link' 
-          rel='noopener noreferrer'
-        >View Post Preview
+      <div id="instagram-preview">
+        <a
+          href={`//www.instagram.com/p/${block.get('id')}/`}
+          target="_blank"
+          className="instagram-preview__link"
+          rel="noopener noreferrer"
+        >
+          View Post Preview
         </a>
         <div ref={this.embedParentRef} className="instagram-preview__iframe" />
       </div>

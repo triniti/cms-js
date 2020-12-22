@@ -185,9 +185,7 @@ export default class InstagramMediaBlockModal extends React.Component {
                 />
               </div>
             )}
-          {isValid
-            && <InstagramMediaBlockPreview block={this.setBlock()} />
-          }
+          {isValid && <InstagramMediaBlockPreview block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
