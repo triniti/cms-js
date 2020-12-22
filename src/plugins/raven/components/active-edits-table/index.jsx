@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
 import { STATUS_FULFILLED, STATUS_PENDING } from '@triniti/app/constants';
@@ -22,16 +22,20 @@ export const ActiveEditsTable = ({
   handleUpdateCollaborations,
   title,
 }) => {
-  useEffect(() => {
-    handleUpdateCollaborations(accessToken);
-  }, []);
-
   const [status, setStatus] = useState(null);
   const handleRefresh = async () => {
     setStatus(STATUS_PENDING);
     await handleUpdateCollaborations(accessToken);
     setStatus(STATUS_FULFILLED);
   };
+
+  useEffect(() => {
+    handleRefresh();
+  }, []);
+
+  const memoizedTableRows = useMemo(() => collaborationNodes.map((node, idx) => (
+    <TableRow node={node} idx={idx} key={node.get('_id')} />
+  )), [status]);
 
   return (
     <Card shadow>
@@ -58,10 +62,8 @@ export const ActiveEditsTable = ({
             </tr>
           </thead>
           <tbody>
-            {!collaborationNodes.length && (<tr><td /><td>No Content being collaborated on.</td></tr>)}
-            {collaborationNodes.map((node, idx) => (
-              <TableRow node={node} idx={idx} key={node.get('_id')} />
-            ))}
+            {!memoizedTableRows.length && (<tr><td /><td>No Content being collaborated on.</td></tr>)}
+            {memoizedTableRows}
           </tbody>
         </Table>
       </CardBody>
