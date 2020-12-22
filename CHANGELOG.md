@@ -4,6 +4,7 @@
 ## vN.N.N
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
 * Gallery Launch Text not reflecting with red background.
+* Set user node title using first and last name fields in the UserSubscriber to avoid an inconsistency.
 
 
 ## v0.10.3
