@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
+import './styles.scss';
 
 class InstagramPostBlockPreview extends Component {
   constructor(props) {

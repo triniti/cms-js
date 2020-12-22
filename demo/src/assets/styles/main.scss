@@ -278,14 +278,3 @@ tr.status-sent {
   border: 1px solid #efeff1;
   cursor: not-allowed;
 }
-
-#instagram-preview {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  .instagram-preview__iframe {
-    padding-top: 15px;
-  }
-}
