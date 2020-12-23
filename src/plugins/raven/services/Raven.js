@@ -76,7 +76,12 @@ export default class Raven {
     };
 
     this.store.dispatch(requestConnection());
-    this.client = this.mqtt.connect(await getConnectUrl(this.apiEndpoint, accessToken), options);
+    try {
+      this.client = this.mqtt.connect(await getConnectUrl(this.apiEndpoint, accessToken), options);
+    } catch (e) {
+      console.error('raven::connect_failed', e);
+      return;
+    }
     this.client.subscribe([this.pbjxTopic, `${this.topic}#`]);
 
     this.client.on('message', (topic, message) => {

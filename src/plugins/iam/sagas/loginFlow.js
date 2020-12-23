@@ -1,5 +1,4 @@
-import { call, take, put } from 'redux-saga/effects';
-import { actionTypes as adminUiActionTypes } from '@triniti/admin-ui-plugin/constants';
+import { call, cancelled, take, put } from 'redux-saga/effects';
 import { actionTypes } from '../constants';
 import fulfillGetAuthenticatedUser from '../actions/fulfillGetAuthenticatedUser';
 import rejectGetAuthenticatedUser from '../actions/rejectGetAuthenticatedUser';
@@ -23,8 +22,11 @@ export default function* loginFlow(authenticator) {
   } catch (e) {
     yield put(rejectGetAuthenticatedUser(e));
     yield put(rejectLogin(e));
+  } finally {
+    if (yield cancelled()) {
+      const cancelError = new Error('login cancelled');
+      yield put(rejectGetAuthenticatedUser(cancelError));
+      yield put(rejectLogin(cancelError));
+    }
   }
-
-  yield take(adminUiActionTypes.LOGOUT_REQUESTED);
-  yield call([authenticator, 'logout']);
 }
