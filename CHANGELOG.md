@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Do not update active edits screen unless user clicks "refresh" button.
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
 * Instagram embed preview not rendering.
 * Gallery Launch Text not reflecting with red background.
