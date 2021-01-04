@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## v0.10.4
+## v0.11.0
 * Do not update active edits screen unless user clicks "refresh" button.
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
 * Instagram embed preview not rendering.
