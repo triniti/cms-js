@@ -1,7 +1,7 @@
 import test from 'tape';
 import getFacebookPostUrl from './getFacebookPostUrl';
 
-const validateUrl = (str) => {
+const isValidUrl = (str) => {
   const pattern = new RegExp('^(https?:\\/\\/)?' // protocol
     + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' // domain name
     + '((\\d{1,3}\\.){3}\\d{1,3}))' // OR ip (v4) address
@@ -13,7 +13,7 @@ const validateUrl = (str) => {
 
 // list ref: https://developers.facebook.com/docs/plugins/oembed
 const validFacebookPostUrls = [
-  '<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FOmahaScanner402%2Fphotos%2Fa.223174631886627%2F593811121489641%2F%3Ftype%3D3&width=500" width="500" height="501" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>',
+  '<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsomepage%2Fphotos%2Fa.223174631886627%2F593811121489641%2F%3Ftype%3D3&width=500" width="500" height="501" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>',
   '<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsomepage%2Fphotos%2Fa.223174631886627%2F593811121489641%2F&width=500&show_text=true&appId=120311904787444&height=497" width="500" height="497" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>',
   '<div class="fb-post" data-href="https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/" data-width="500" data-show-text="true"><blockquote cite="https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/?type=3" class="fb-xfbml-parse-ignore">Posted by <a href="https://www.facebook.com/some-page/">Omaha Scanner</a> on&nbsp;<a href="https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/?type=3">Tuesday, May 19, 2020</a></blockquote></div>',
   'https://www.facebook.com/some-pagename/posts/34324234',
@@ -63,11 +63,10 @@ const inValidFacebookPostUrls = [
   'https://www.facebook.com/some-page/photos/a.223174631886627/?593811121489641/?type=3',
 ];
 
-
 test('getFacebookPostUrl::[valid]', (t) => {
   validFacebookPostUrls.forEach((postUrl) => {
     const extractedUrl = getFacebookPostUrl(postUrl);
-    t.true(!!extractedUrl && validateUrl(extractedUrl), `it should return a VALID facebook post url - ${postUrl}`);
+    t.true(!!extractedUrl && isValidUrl(extractedUrl), `it should return a VALID facebook post url - ${postUrl}`);
   });
   t.end();
 });
