@@ -12,7 +12,7 @@ const isValidUrl = (str) => {
 };
 
 // list ref: https://developers.facebook.com/docs/plugins/oembed
-const validFacebookPostUrls = [
+const validFacebookEmbedCodes = [
   '<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsomepage%2Fphotos%2Fa.223174631886627%2F593811121489641%2F%3Ftype%3D3&width=500" width="500" height="501" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>',
   '<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsomepage%2Fphotos%2Fa.223174631886627%2F593811121489641%2F&width=500&show_text=true&appId=120311904787444&height=497" width="500" height="497" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>',
   '<div class="fb-post" data-href="https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/" data-width="500" data-show-text="true"><blockquote cite="https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/?type=3" class="fb-xfbml-parse-ignore">Posted by <a href="https://www.facebook.com/some-page/">Omaha Scanner</a> on&nbsp;<a href="https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/?type=3">Tuesday, May 19, 2020</a></blockquote></div>',
@@ -32,7 +32,7 @@ const validFacebookPostUrls = [
   'https://www.facebook.com/some-page/photos/a.223174631886627/593811121489641/?type=3',
 ];
 
-const inValidFacebookPostUrls = [
+const inValidFacebookEmbedCodes = [
   '     ',
   '------++++++',
   '',
@@ -64,16 +64,16 @@ const inValidFacebookPostUrls = [
 ];
 
 test('getFacebookPostUrl::[valid]', (t) => {
-  validFacebookPostUrls.forEach((postUrl) => {
-    const extractedUrl = getFacebookPostUrl(postUrl);
-    t.true(!!extractedUrl && isValidUrl(extractedUrl), `it should return a VALID facebook post url - ${postUrl}`);
+  validFacebookEmbedCodes.forEach((code) => {
+    const extractedUrl = getFacebookPostUrl(code);
+    t.true(!!extractedUrl && isValidUrl(extractedUrl), `it should return a VALID facebook post url - ${code}`);
   });
   t.end();
 });
 
 test('getFacebookPostUrl::[invalid]', (t) => {
-  inValidFacebookPostUrls.forEach((postUrl) => {
-    t.true(!getFacebookPostUrl(postUrl), `it should NOT return a facebook post url - ${postUrl}`);
+  inValidFacebookEmbedCodes.forEach((code) => {
+    t.true(!getFacebookPostUrl(code), `it should NOT return a facebook post url - ${code}`);
   });
   t.end();
 });
