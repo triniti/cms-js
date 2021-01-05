@@ -32,7 +32,10 @@ async function getConnectUrl(apiEndpoint, accessToken) {
     credentials: 'include',
   });
   const data = await response.json();
-  return data.links.wss;
+  if (data && data.links && data.links.wss) {
+    return data.links.wss;
+  }
+  return null;
 }
 
 export default class Raven {
@@ -76,7 +79,17 @@ export default class Raven {
     };
 
     this.store.dispatch(requestConnection());
-    this.client = this.mqtt.connect(await getConnectUrl(this.apiEndpoint, accessToken), options);
+    try {
+      const url = await getConnectUrl(this.apiEndpoint, accessToken);
+      if (!url) {
+        console.error('raven::connect_failed::no_url');
+        return;
+      }
+      this.client = this.mqtt.connect(url, options);
+    } catch (e) {
+      console.error('raven::connect_failed', e);
+      return;
+    }
     this.client.subscribe([this.pbjxTopic, `${this.topic}#`]);
 
     this.client.on('message', (topic, message) => {
