@@ -7,6 +7,7 @@
 * Instagram embed preview not rendering.
 * Gallery Launch Text not reflecting with red background.
 * Set user node title using first and last name fields in the UserSubscriber to avoid an inconsistency.
+* facebook embed code considered invalid for facebook post block
 
 
 ## v0.10.3
