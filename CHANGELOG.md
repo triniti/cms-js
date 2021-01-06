@@ -1,13 +1,16 @@
 # CHANGELOG
 
 
+## vN.N.N
+* facebook embed code considered invalid for facebook post block
+
+
 ## v0.11.0
 * Do not update active edits screen unless user clicks "refresh" button.
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
 * Instagram embed preview not rendering.
 * Gallery Launch Text not reflecting with red background.
 * Set user node title using first and last name fields in the UserSubscriber to avoid an inconsistency.
-* facebook embed code considered invalid for facebook post block
 
 
 ## v0.10.3
