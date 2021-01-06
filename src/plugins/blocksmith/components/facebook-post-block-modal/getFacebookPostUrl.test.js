@@ -1,16 +1,6 @@
 import test from 'tape';
 import getFacebookPostUrl from './getFacebookPostUrl';
 
-const isValidUrl = (str) => {
-  const pattern = new RegExp('^(https?:\\/\\/)?' // protocol
-    + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' // domain name
-    + '((\\d{1,3}\\.){3}\\d{1,3}))' // OR ip (v4) address
-    + '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' // port and path
-    + '(\\?[;&a-z\\d%_.~+=-]*)?' // query string
-    + '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-  return !!pattern.test(str);
-};
-
 // list ref: https://developers.facebook.com/docs/plugins/oembed
 const validFacebookEmbedCodes = [
   '<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsomepage%2Fphotos%2Fa.223174631886627%2F593811121489641%2F%3Ftype%3D3&width=500" width="500" height="501" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>',
@@ -66,7 +56,7 @@ const inValidFacebookEmbedCodes = [
 test('getFacebookPostUrl::[valid]', (t) => {
   validFacebookEmbedCodes.forEach((code) => {
     const extractedUrl = getFacebookPostUrl(code);
-    t.true(!!extractedUrl && isValidUrl(extractedUrl), `it should return a VALID facebook post url - ${code}`);
+    t.true(!!extractedUrl, `it should return a VALID facebook post url - ${code}`);
   });
   t.end();
 });
