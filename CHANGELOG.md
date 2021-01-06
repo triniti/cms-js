@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* facebook embed code considered invalid for facebook post block
+
+
 ## v0.11.0
 * Do not update active edits screen unless user clicks "refresh" button.
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
