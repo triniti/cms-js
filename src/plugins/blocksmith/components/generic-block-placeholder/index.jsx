@@ -88,7 +88,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const node = block.getData().get('canvasBlock') || null;
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;
-    const twitterUserName = (targetNode || node).has('screen_name') && `${(targetNode || node).get('screen_name')}`;
 
 
     const targetNodeStatus = targetNode && targetNode.get('status');
@@ -164,9 +163,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
             >
               <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
                 <i>{config.label}{title}</i>
-              </p>
-              <p>
-                <i>Tweet by: @{twitterUserName}</i>
               </p>
             </div>
           )}
