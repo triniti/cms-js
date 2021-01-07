@@ -88,10 +88,9 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const node = block.getData().get('canvasBlock') || null;
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;
-    const tweetUserName = (targetNode || node).has('screen_name') && `${(targetNode || node).get('screen_name')}`;
+    const twitterUserName = (targetNode || node).has('screen_name') && `${(targetNode || node).get('screen_name')}`;
 
-    console.clear();
-    console.log(tweetUserName);
+
     const targetNodeStatus = targetNode && targetNode.get('status');
     let labelOffset = config.preview ? 156 : 70;
     if (targetNode && targetNodeStatus !== NodeStatus.PUBLISHED) {
@@ -167,7 +166,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
                 <i>{config.label}{title}</i>
               </p>
               <p>
-                <i>Tweet by: @{tweetUserName}</i>
+                <i>Tweet by: @{twitterUserName}</i>
               </p>
             </div>
           )}
