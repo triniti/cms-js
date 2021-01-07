@@ -88,6 +88,10 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const node = block.getData().get('canvasBlock') || null;
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;
+    const tweetUserName = (targetNode || node).has('screen_name') && `${(targetNode || node).get('screen_name')}`;
+
+    console.clear();
+    console.log(tweetUserName);
     const targetNodeStatus = targetNode && targetNode.get('status');
     let labelOffset = config.preview ? 156 : 70;
     if (targetNode && targetNodeStatus !== NodeStatus.PUBLISHED) {
@@ -106,9 +110,9 @@ class GenericBlockPlaceholder extends React.PureComponent {
           role="presentation"
         >
           {targetNode && targetNodeStatus !== NodeStatus.PUBLISHED && (
-          <Badge className={`status-${targetNodeStatus} text-dark`}>
-            { targetNodeStatus.toString() }
-          </Badge>
+            <Badge className={`status-${targetNodeStatus} text-dark`}>
+              { targetNodeStatus.toString()}
+            </Badge>
           )}
           {imagePreviewSrc && (
             <ImagePreview
@@ -155,14 +159,17 @@ class GenericBlockPlaceholder extends React.PureComponent {
             />
           )}
           {config.label && (
-          <div
-            className="placeholder-label-holder ml-2 mt-1"
-            style={{ width: `calc(100% - ${labelOffset}px)` }}
-          >
-            <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
-              <i>{config.label}{title}</i>
-            </p>
-          </div>
+            <div
+              className="placeholder-label-holder ml-2 mt-1"
+              style={{ width: `calc(100% - ${labelOffset}px)` }}
+            >
+              <p className={classNames('label float-left mr-2', config.preview ? 'mt-2' : 'mt-1', config.iconGroup ? 'mb-0' : 'mb-1')}>
+                <i>{config.label}{title}</i>
+              </p>
+              <p>
+                <i>Tweet by: @{tweetUserName}</i>
+              </p>
+            </div>
           )}
         </div>
       </PlaceholderErrorBoundary>
