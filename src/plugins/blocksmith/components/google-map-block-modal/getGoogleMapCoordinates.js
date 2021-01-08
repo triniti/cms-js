@@ -12,7 +12,7 @@ const getGoogleMapCoordinates = async (str) => {
 
   return new Promise((resolve) => {
     const status = data.status;
-    if (status !== 'OK') {
+    if (status !== 'OK' || data.results.length === 0) {
       console.error('Geocoding failed:', status);
       resolve(null);
       return;
