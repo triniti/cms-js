@@ -4,7 +4,7 @@ import GenericBlockPlaceholder from '@triniti/cms/plugins/blocksmith/components/
 export default (props) => {
   const { block } = props;
   const node = block.getData().get('canvasBlock').get('href');
-  const userName = `Post by ${node.split('/')[3]}`;
+  const userName = node ? `Posted by ${node.split('/')[3]}` : '';
 
   const config = {
     iconGroup: {
@@ -17,7 +17,7 @@ export default (props) => {
         },
       },
     },
-    label: `Facebook Post Block. ${node || ''}`,
+    label: `Facebook Post Block. ${userName}`,
   };
 
   return <GenericBlockPlaceholder config={config} {...props} />;

@@ -4,7 +4,7 @@ import GenericBlockPlaceholder from '@triniti/cms/plugins/blocksmith/components/
 export default (props) => {
   const { block } = props;
   const node = block.getData().get('canvasBlock').get('screen_name');
-  const userName = `Tweet by @${node}`;
+  const userName = node ? `Tweeted by @${node}` : '';
 
   const config = {
     iconGroup: {
@@ -17,7 +17,7 @@ export default (props) => {
         },
       },
     },
-    label: `Twitter Tweet Block. ${node || ''}`,
+    label: `Twitter Tweet Block. ${userName}`,
   };
 
   return <GenericBlockPlaceholder config={config} {...props} />;
