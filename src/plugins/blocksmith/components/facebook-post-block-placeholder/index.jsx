@@ -1,11 +1,12 @@
 import React from 'react';
 import GenericBlockPlaceholder from '@triniti/cms/plugins/blocksmith/components/generic-block-placeholder';
+import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
 
-export default (props) => {
+const FacebookPostBlockPlaceholder = (props) => {
   const { block } = props;
-  const node = block.getData().get('canvasBlock').get('href');
-  const userName = node ? `Posted by ${node.split('/')[3]}` : '';
-
+  const getUserName = block.getData().get('canvasBlock').get('href').split('/')[3];
+  const fromUserName = getUserName.indexOf('photo.php') === -1 ? `from ${getUserName}` : '';
   const config = {
     iconGroup: {
       icons: {
@@ -17,8 +18,14 @@ export default (props) => {
         },
       },
     },
-    label: `Facebook Post Block. ${userName}`,
+    label: `Facebook Post Block ${fromUserName}`,
   };
 
   return <GenericBlockPlaceholder config={config} {...props} />;
 };
+
+FacebookPostBlockPlaceholder.propType = {
+  block: PropTypes.instanceOf(Message).isRequired,
+};
+
+export default FacebookPostBlockPlaceholder;

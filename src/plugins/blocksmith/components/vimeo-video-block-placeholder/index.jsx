@@ -1,15 +1,28 @@
 import React from 'react';
 import GenericBlockPlaceholder from '@triniti/cms/plugins/blocksmith/components/generic-block-placeholder';
+import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
 import PreviewComponent from './PreviewComponent';
 
-const config = {
-  icon: {
-    imgSrc: 'video',
-  },
-  label: 'Vimeo Video Block',
-  preview: {
-    component: PreviewComponent,
-  },
+const VimeoVideoBlockPlaceholder = (props) => {
+  const { block } = props;
+  const getUserName = block.getData().get('canvasBlock').get('user_name');
+  const fromUserName = getUserName ? `from ${getUserName}` : '';
+  const config = {
+    icon: {
+      imgSrc: 'video',
+    },
+    label: `Vimeo Video Block ${fromUserName}`,
+    preview: {
+      component: PreviewComponent,
+    },
+  };
+
+  return <GenericBlockPlaceholder config={config} {...props} />;
 };
 
-export default (props) => <GenericBlockPlaceholder config={config} {...props} />;
+VimeoVideoBlockPlaceholder.propTypes = {
+  block: PropTypes.instanceOf(Message).isRequired,
+};
+
+export default VimeoVideoBlockPlaceholder;

@@ -1,11 +1,10 @@
 import React from 'react';
 import GenericBlockPlaceholder from '@triniti/cms/plugins/blocksmith/components/generic-block-placeholder';
+import Message from '@gdbots/pbj/Message';
+import PropTypes from 'prop-types';
 
-export default (props) => {
+const TwitterTweetBlockPlaceholder = (props) => {
   const { block } = props;
-  const node = block.getData().get('canvasBlock').get('screen_name');
-  const userName = node ? `Tweeted by @${node}` : '';
-
   const config = {
     iconGroup: {
       icons: {
@@ -17,8 +16,14 @@ export default (props) => {
         },
       },
     },
-    label: `Twitter Tweet Block. ${userName}`,
+    label: `Twitter Tweet Block from @${block.getData().get('canvasBlock').get('screen_name')}`,
   };
 
   return <GenericBlockPlaceholder config={config} {...props} />;
 };
+
+TwitterTweetBlockPlaceholder.propTypes = {
+  block: PropTypes.instanceOf(Message).isRequired,
+};
+
+export default TwitterTweetBlockPlaceholder;

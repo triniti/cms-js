@@ -88,8 +88,6 @@ class GenericBlockPlaceholder extends React.PureComponent {
     const node = block.getData().get('canvasBlock') || null;
 
     const title = (targetNode || node).has('title') && `: ${(targetNode || node).get('title')}`;
-
-
     const targetNodeStatus = targetNode && targetNode.get('status');
     let labelOffset = config.preview ? 156 : 70;
     if (targetNode && targetNodeStatus !== NodeStatus.PUBLISHED) {
