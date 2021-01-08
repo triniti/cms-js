@@ -3,9 +3,6 @@
 
 ## vN.N.N
 * Set center field on Google Map Block using Geocoding API.
-
-
-## vN.N.N
 * facebook embed code considered invalid for facebook post block
 
 
