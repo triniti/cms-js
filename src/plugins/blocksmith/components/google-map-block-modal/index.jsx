@@ -96,6 +96,7 @@ export default class GoogleMapBlockModal extends React.Component {
   async handleAddBlock() {
     const { q } = this.state;
     const { onAddBlock, toggle } = this.props;
+
     this.setState({ status: STATUS_PENDING });
     const coordinates = await getGoogleMapCoordinates(q);
     this.setState({ center: coordinates, status: STATUS_FULFILLED });
