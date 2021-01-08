@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Set center field on Google Map Block using Geocoding API.
+
+
 ## v0.11.0
 * Do not update active edits screen unless user clicks "refresh" button.
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
