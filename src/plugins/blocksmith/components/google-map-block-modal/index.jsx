@@ -26,7 +26,7 @@ import {
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
-import getGoogleMapCoordinates from './getGoogleMapCoordinates';
+import getCoordinatesFromAddress from './getCoordinatesFromAddress';
 
 const mapTypes = [
   'roadmap',
@@ -55,7 +55,6 @@ export default class GoogleMapBlockModal extends React.Component {
       isDropdownOpen: false,
       isValid: block.has('q'),
       mapType: block.get('maptype'),
-      oldQ: block.get('q') || '',
       q: block.get('q') || '',
       status: STATUS_NONE,
       touched: false,
@@ -98,19 +97,19 @@ export default class GoogleMapBlockModal extends React.Component {
     const { onAddBlock, toggle } = this.props;
 
     this.setState({ status: STATUS_PENDING });
-    const coordinates = await getGoogleMapCoordinates(q);
+    const coordinates = await getCoordinatesFromAddress(q);
     this.setState({ center: coordinates, status: STATUS_FULFILLED });
     onAddBlock(this.setBlock());
     toggle();
   }
 
   async handleEditBlock() {
-    const { oldQ, q, center } = this.state;
-    const { onEditBlock, toggle } = this.props;
+    const { q, center } = this.state;
+    const { block, onEditBlock, toggle } = this.props;
 
-    if (q !== oldQ || !center) {
+    if (q !== block.get('q') || !center) {
       this.setState({ status: STATUS_PENDING });
-      const coordinates = await getGoogleMapCoordinates(q);
+      const coordinates = await getCoordinatesFromAddress(q);
       this.setState({ center: coordinates, status: STATUS_FULFILLED });
     }
 
