@@ -6,13 +6,12 @@ import PreviewComponent from './PreviewComponent';
 
 const VimeoVideoBlockPlaceholder = (props) => {
   const { block } = props;
-  const getUserName = block.getData().get('canvasBlock').get('user_name');
-  const fromUserName = getUserName ? `from ${getUserName}` : '';
+  const userName = block.getData().get('canvasBlock').get('user_name');
   const config = {
     icon: {
       imgSrc: 'video',
     },
-    label: `Vimeo Video Block ${fromUserName}`,
+    label: `Vimeo Video Block${userName ? ` from ${userName}` : ''}`,
     preview: {
       component: PreviewComponent,
     },
