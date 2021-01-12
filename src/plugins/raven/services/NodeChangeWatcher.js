@@ -69,24 +69,32 @@ export default class NodeChangeWatcher extends EventSubscriber {
       return;
     }
 
-    swal.fire({
-      type: 'warning',
-      title: 'STALE DATA',
-      html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong> <em>(${schema.getCurie()})</em>.`,
-      allowEscapeKey: false,
-      allowEnterKey: false,
-      allowOutsideClick: false,
-      showCancelButton: true,
-      confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
-      cancelButtonText: isCollaborating(state, nodeRef)
-        ? 'Ignore - you will not be able to save'
-        : 'Ignore',
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.value) {
-        window.location.reload(); // eslint-disable-line
-      }
-    });
+    if (isCollaborating(state, nodeRef)) {
+      swal.fire({
+        html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong>.<br/>If you save, you may overwrite their changes.`,
+        position: 'top-end',
+        showCloseButton: true,
+        showConfirmButton: false,
+        titleText: 'STALE DATA',
+        toast: true,
+        type: 'warning',
+      });
+    } else {
+      swal.fire({
+        allowEnterKey: false,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
+        html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong> <em>(${schema.getCurie()})</em>.`,
+        reverseButtons: true,
+        title: 'STALE DATA',
+        type: 'warning',
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload(); // eslint-disable-line
+        }
+      });
+    }
   }
 
   getSubscribedEvents() {

@@ -5,6 +5,7 @@ import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import { actionTypes, ravenTypes } from '../constants';
 import publishMessage from './publishMessage';
+import isCollaborating from '../selectors/isCollaborating';
 
 export default (topic, etag = null) => async (dispatch, getState) => {
   const state = getState();
@@ -35,21 +36,33 @@ export default (topic, etag = null) => async (dispatch, getState) => {
         && (data.last_event_ref || '').indexOf('gallery-asset-reordered') === -1
       ) {
         const nodeRef = NodeRef.fromString(topic);
-        const result = await swal.fire({
-          type: 'warning',
-          title: 'STALE DATA',
-          html: `This ${nodeRef.getLabel()} has been changed <em>(${data.last_event_ref})</em>.`,
-          allowEscapeKey: false,
-          allowEnterKey: false,
-          allowOutsideClick: false,
-          showCancelButton: true,
-          confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
-          cancelButtonText: 'Ignore - you will not be able to save',
-          reverseButtons: true,
-        });
+        if (isCollaborating(state, nodeRef)) {
+          await swal.fire({
+            html: `This ${nodeRef.getLabel()} has been changed by another person or process.<br/>If you save, you may overwrite their changes.`,
+            position: 'top-end',
+            showCloseButton: true,
+            showConfirmButton: false,
+            titleText: 'STALE DATA',
+            toast: true,
+            type: 'warning',
+          });
+        } else {
+          const result = await swal.fire({
+            allowEnterKey: false,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            cancelButtonText: 'Ignore',
+            confirmButtonText: 'Refresh',
+            html: `This ${nodeRef.getLabel()} has been changed by another person or process. You need to refresh the page to see accurate data.`,
+            reverseButtons: true,
+            showCancelButton: true,
+            title: 'STALE DATA',
+            type: 'warning',
+          });
 
-        if (result.value) {
-          window.location.reload(); // eslint-disable-line
+          if (result.value) {
+            window.location.reload(); // eslint-disable-line
+          }
         }
       }
 

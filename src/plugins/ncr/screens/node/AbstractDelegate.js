@@ -516,6 +516,23 @@ export default class AbstractDelegate {
     } = this.component.props;
 
     this.stopCollaborationMonitor();
+
+    handleVisibilityChange = () => {
+      if (!document.hidden) {
+        const node = this.getNode();
+        this.dispatch(sendHeartbeat(`${nodeRef}`, node ? node.get('etag') : null));
+        if (isEditMode) {
+          this.startCollaborationMonitor();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange, false);
+
+    monitor = setInterval(() => {
+      const node = this.getNode();
+      this.dispatch(sendHeartbeat(`${nodeRef}`, node ? node.get('etag') : null));
+    }, 8000);
+
     if (!isEditMode || !canCollaborate || !isCollaborating) {
       return;
     }
@@ -541,20 +558,6 @@ export default class AbstractDelegate {
     };
 
     window.addEventListener('beforeunload', leaveCollaborationOnUnload);
-
-    handleVisibilityChange = () => {
-      if (!document.hidden) {
-        const node = this.getNode();
-        this.dispatch(sendHeartbeat(`${nodeRef}`, node ? node.get('etag') : null));
-        this.startCollaborationMonitor();
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange, false);
-
-    monitor = setInterval(() => {
-      const node = this.getNode();
-      this.dispatch(sendHeartbeat(`${nodeRef}`, node ? node.get('etag') : null));
-    }, 8000);
   }
 
   /**
