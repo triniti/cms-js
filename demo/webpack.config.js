@@ -23,7 +23,7 @@ const compileEnvVars = (webpackEnv) => Object.entries(process.env).reduce((acc, 
   APP_BASE_URL: '/',
   ASSET_PATH: '/',
   ...webpackEnv,
-  ...dotenv.config().parsed
+  ...dotenv.config().parsed,
 });
 
 module.exports = (webpackEnv = {}) => {
