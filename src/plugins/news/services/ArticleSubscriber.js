@@ -12,7 +12,7 @@ import camelCase from 'lodash/camelCase';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
-import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
+import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues, touch } from 'redux-form';
 import { formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
@@ -85,7 +85,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const { title } = data;
     const { TITLE_LENGTH_LIMIT } = formRules;
-    if (title && title.length > TITLE_LENGTH_LIMIT - 15) {
+    if (title && title.length > TITLE_LENGTH_LIMIT - 15 && title.length < TITLE_LENGTH_LIMIT + 15) {
       formEvent.addWarning('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${title.length}/${TITLE_LENGTH_LIMIT})`);
     }
   }
@@ -98,9 +98,27 @@ export default class ArticleSubscriber extends EventSubscriber {
   onValidateForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
+    const redux = formEvent.getRedux();
+    const { TITLE_LENGTH_LIMIT } = formRules;
+    let meta = {};
+
+    if (redux) {
+      meta = getFormMeta(formEvent.getName())(redux.getState());
+    }
 
     if (!data.title) {
       formEvent.addError('title', 'title is required');
+    }
+
+    if (data.title && data.title.length >= TITLE_LENGTH_LIMIT + 15) {
+      formEvent.addError('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${data.title.length}/${TITLE_LENGTH_LIMIT})`);
+
+      const { title } = meta;
+      if (title && !title.touched) {
+        if (redux) {
+          redux.dispatch(touch(formNames.ARTICLE, 'title'));
+        }
+      }
     }
 
     [
@@ -146,14 +164,10 @@ export default class ArticleSubscriber extends EventSubscriber {
       }
     }
 
-    const redux = formEvent.getRedux();
-    if (redux) {
-      const meta = getFormMeta(formEvent.getName())(redux.getState());
-      if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
-        const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
-        if (hasError) {
-          formEvent.addError('slotting', errors);
-        }
+    if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
+      const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
+      if (hasError) {
+        formEvent.addError('slotting', errors);
       }
     }
   }
