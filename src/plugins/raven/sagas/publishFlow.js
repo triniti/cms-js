@@ -26,9 +26,10 @@ export default function* (raven) {
       continue; // eslint-disable-line no-continue
     }
 
-    if (!(yield select(isConnected))) {
+    const connected = yield call([raven, 'isConnected']);
+    if (!connected) {
       yield take(connectsChannel);
-      yield delay(3000);
+      yield delay(1000);
     }
 
     const userRef = yield select(getAuthenticatedUserRef);
