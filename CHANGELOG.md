@@ -4,8 +4,8 @@
 ## vN.N.N
 * Set center field on Google Map Block using Geocoding API.
 * facebook embed code considered invalid for facebook post block
-* Set red error message when article title length is at 75 characters or greater.
 * add more detail to social block placeholders.
+* Set red error message when article title length is at 75 characters or greater.
 
 
 ## v0.11.0
