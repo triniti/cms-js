@@ -99,6 +99,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
     const redux = formEvent.getRedux();
+    const { title } = data;
     const { TITLE_LENGTH_LIMIT } = formRules;
     let meta = {};
 
@@ -106,15 +107,14 @@ export default class ArticleSubscriber extends EventSubscriber {
       meta = getFormMeta(formEvent.getName())(redux.getState());
     }
 
-    if (!data.title) {
+    if (!title) {
       formEvent.addError('title', 'title is required');
     }
 
-    if (data.title && data.title.length >= TITLE_LENGTH_LIMIT + 15) {
-      formEvent.addError('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${data.title.length}/${TITLE_LENGTH_LIMIT})`);
+    if (title && title.length >= TITLE_LENGTH_LIMIT + 15) {
+      formEvent.addError('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${title.length}/${TITLE_LENGTH_LIMIT})`);
 
-      const { title } = meta;
-      if (title && !title.touched) {
+      if (meta.title && !meta.title.touched) {
         if (redux) {
           redux.dispatch(touch(formNames.ARTICLE, 'title'));
         }

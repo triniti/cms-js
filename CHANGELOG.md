@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * facebook embed code considered invalid for facebook post block
+* Set red error message when article title length is at 75 characters or greater.
 
 
 ## v0.11.0
