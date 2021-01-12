@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v0.12.0
+* Reconnect raven on every `@triniti/raven/PUBLISH_MESSAGE_REQUESTED`.
+* Update raven mqtt to disable reconnect until transformWsUrl supports promises.
+
+
 ## v0.11.0
 * Do not update active edits screen unless user clicks "refresh" button.
 * cms will crash after session/raven disconnect and users accept new disconnect Alert
