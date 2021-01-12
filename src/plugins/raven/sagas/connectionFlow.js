@@ -1,5 +1,4 @@
 import random from 'lodash/random';
-import swal from 'sweetalert2';
 import { call, delay, put, select, take } from 'redux-saga/effects';
 import { actionTypes as appActionTypes } from '@triniti/app/constants';
 import { actionTypes as iamActionTypes } from '@triniti/cms/plugins/iam/constants';
@@ -50,22 +49,8 @@ export default function* (raven) {
 
     try {
       yield call([raven, 'connect']);
-      continue;
     } catch (e) {
       yield put(rejectConnection(e));
-    }
-
-    if (attempts === 10) {
-      yield swal.fire({
-        title: 'Alert!',
-        text: 'Active Edits has disconnected, please Save and Refresh.',
-        type: 'warning',
-        confirmButtonText: 'Thank You',
-        buttonsStyling: false,
-        customClass: {
-          confirmButton: 'btn-modal btn btn-outline-primary btn-block',
-        },
-      });
     }
   }
 }
