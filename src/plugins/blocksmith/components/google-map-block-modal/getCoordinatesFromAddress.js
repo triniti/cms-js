@@ -12,11 +12,10 @@ export default async (str) => {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    const { error_message: error } = data;
+    const { error_message: error, status } = data;
 
-    if (error) {
-      console.error(`Geocoding failed with error: ${error}`);
-
+    if (status !== 'OK') {
+      console.error('Geocoding failed with error:', status, error);
       return null;
     }
 
