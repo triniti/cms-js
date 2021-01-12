@@ -4,6 +4,7 @@
 ## v0.12.0
 * Reconnect raven on every `@triniti/raven/PUBLISH_MESSAGE_REQUESTED`.
 * Update raven mqtt to disable reconnect until transformWsUrl supports promises.
+* Use toast alerts for stale data when collaborating
 
 
 ## v0.11.0
