@@ -21,7 +21,17 @@ export default class NodeChangeWatcher extends EventSubscriber {
     const { pbj } = event.getAction();
     const schema = pbj.schema();
 
-    if (!schema.hasMixin('gdbots:pbjx:mixin:event') || schema.hasMixin('gdbots:common:mixin:labelable')) {
+    if (!schema.hasMixin('gdbots:pbjx:mixin:event')) {
+      return;
+    }
+
+    /**
+     * - gdbots:ncr:event:node-labels-updated is safely merged server side
+     * - ovp.medialive events use a node_ref but are not really node operations, so the warning is unnecessary
+     */
+    if (schema.getCurie().toString() === 'gdbots:ncr:event:node-labels-updated'
+      || schema.getCurie().getPackage() === 'ovp.medialive'
+    ) {
       return;
     }
 
@@ -58,14 +68,6 @@ export default class NodeChangeWatcher extends EventSubscriber {
       || schema.hasMixin('triniti:news:mixin:article-slotting-removed')
       || schema.hasMixin('triniti:curator:mixin:teaser-slotting-removed')
     )) {
-      return;
-    }
-
-    /**
-     * medialive events use a node_ref but are not really node operations, so the warning is
-     * unnecessary
-     */
-    if (schema.getCurie().getPackage() === 'ovp.medialive') {
       return;
     }
 

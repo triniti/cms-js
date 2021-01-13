@@ -5,7 +5,6 @@ import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import { actionTypes, ravenTypes } from '../constants';
 import publishMessage from './publishMessage';
-import isCollaborating from '../selectors/isCollaborating';
 
 export default (topic, etag = null) => async (dispatch, getState) => {
   const state = getState();
@@ -31,38 +30,27 @@ export default (topic, etag = null) => async (dispatch, getState) => {
         && !swal.isVisible()
         && (data.last_event_ref || '').indexOf('apple-news-article-synced') === -1
         && (data.last_event_ref || '').indexOf('article-slotting-removed') === -1
+        && (data.last_event_ref || '').indexOf('node-labels-updated') === -1
         && (data.last_event_ref || '').indexOf('teaser-slotting-removed') === -1
         // fixme: remove once gallery count updates are moved to their own stream
         && (data.last_event_ref || '').indexOf('gallery-asset-reordered') === -1
       ) {
         const nodeRef = NodeRef.fromString(topic);
-        if (isCollaborating(state, nodeRef)) {
-          await swal.fire({
-            html: `This ${nodeRef.getLabel()} has been changed by another person or process.<br/>If you save, you may overwrite their changes.`,
-            position: 'top-end',
-            showCloseButton: true,
-            showConfirmButton: false,
-            titleText: 'STALE DATA',
-            toast: true,
-            type: 'warning',
-          });
-        } else {
-          const result = await swal.fire({
-            allowEnterKey: false,
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            cancelButtonText: 'Ignore',
-            confirmButtonText: 'Refresh',
-            html: `This ${nodeRef.getLabel()} has been changed by another person or process. You need to refresh the page to see accurate data.`,
-            reverseButtons: true,
-            showCancelButton: true,
-            title: 'STALE DATA',
-            type: 'warning',
-          });
+        const result = await swal.fire({
+          type: 'warning',
+          title: 'STALE DATA',
+          html: `This ${nodeRef.getLabel()} has been changed by another person or process. You need to refresh the page to see accurate data.`,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          allowOutsideClick: false,
+          showCancelButton: true,
+          confirmButtonText: 'Refresh',
+          cancelButtonText: 'Ignore',
+          reverseButtons: true,
+        });
 
-          if (result.value) {
-            window.location.reload(); // eslint-disable-line
-          }
+        if (result.value) {
+          window.location.reload(); // eslint-disable-line
         }
       }
 
