@@ -516,7 +516,6 @@ export default class AbstractDelegate {
     } = this.component.props;
 
     this.stopCollaborationMonitor();
-
     if (!isEditMode || !canCollaborate || !isCollaborating) {
       return;
     }
@@ -547,9 +546,7 @@ export default class AbstractDelegate {
       if (!document.hidden) {
         const node = this.getNode();
         this.dispatch(sendHeartbeat(`${nodeRef}`, node ? node.get('etag') : null));
-        if (isEditMode) {
-          this.startCollaborationMonitor();
-        }
+        this.startCollaborationMonitor();
       }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
