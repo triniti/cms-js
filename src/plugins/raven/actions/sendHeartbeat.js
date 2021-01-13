@@ -30,27 +30,21 @@ export default (topic, etag = null) => async (dispatch, getState) => {
         && !swal.isVisible()
         && (data.last_event_ref || '').indexOf('apple-news-article-synced') === -1
         && (data.last_event_ref || '').indexOf('article-slotting-removed') === -1
+        && (data.last_event_ref || '').indexOf('node-labels-updated') === -1
         && (data.last_event_ref || '').indexOf('teaser-slotting-removed') === -1
         // fixme: remove once gallery count updates are moved to their own stream
         && (data.last_event_ref || '').indexOf('gallery-asset-reordered') === -1
       ) {
         const nodeRef = NodeRef.fromString(topic);
-        const result = await swal.fire({
+        await swal.fire({
+          html: `This ${nodeRef.getLabel()} has been changed by another person or process.<br/>If you save, you may overwrite their changes.`,
+          position: 'top-end',
+          showCloseButton: true,
+          showConfirmButton: false,
+          titleText: 'STALE DATA',
+          toast: true,
           type: 'warning',
-          title: 'STALE DATA',
-          html: `This ${nodeRef.getLabel()} has been changed <em>(${data.last_event_ref})</em>.`,
-          allowEscapeKey: false,
-          allowEnterKey: false,
-          allowOutsideClick: false,
-          showCancelButton: true,
-          confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
-          cancelButtonText: 'Ignore - you will not be able to save',
-          reverseButtons: true,
         });
-
-        if (result.value) {
-          window.location.reload(); // eslint-disable-line
-        }
       }
 
       Object.entries(data.collaborators || {}).forEach(([ref, ts]) => {

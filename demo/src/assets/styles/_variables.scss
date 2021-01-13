@@ -167,6 +167,10 @@ $form-check-inline-input-margin-x:      .3125rem;
 $btn-transition:                 background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
 
+// Transition to be used with any parameter, use instead of -base, -fade, -collapse
+$transition:         250ms ease-in-out !default;
+$spinner-transition: spinner-border .5s linear infinite !default;
+
 // Allows for customizing button radius independently from global border radius
 $border-radius:               3px;
 $border-radius-lg:            3px;
@@ -189,7 +193,7 @@ $input-placeholder-color:        $text-muted;
 $input-group-addon-bg:           $white;
 
 $custom-control-indicator-focus-box-shadow:     0 0 0 1px $body-bg;
-$custom-control-indicator-bg:                   #gray-300;
+$custom-control-indicator-bg:                   $gray-300;
 $custom-file-focus-box-shadow:                  $input-focus-box-shadow;
 $custom-control-indicator-bg-size:              64% 64%;
 $custom-file-line-height:                       2;
