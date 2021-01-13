@@ -36,22 +36,15 @@ export default (topic, etag = null) => async (dispatch, getState) => {
         && (data.last_event_ref || '').indexOf('gallery-asset-reordered') === -1
       ) {
         const nodeRef = NodeRef.fromString(topic);
-        const result = await swal.fire({
+        await swal.fire({
+          html: `This ${nodeRef.getLabel()} has been changed by another person or process.<br/>If you save, you may overwrite their changes.`,
+          position: 'top-end',
+          showCloseButton: true,
+          showConfirmButton: false,
+          titleText: 'STALE DATA',
+          toast: true,
           type: 'warning',
-          title: 'STALE DATA',
-          html: `This ${nodeRef.getLabel()} has been changed by another person or process. You need to refresh the page to see accurate data.`,
-          allowEscapeKey: false,
-          allowEnterKey: false,
-          allowOutsideClick: false,
-          showCancelButton: true,
-          confirmButtonText: 'Refresh',
-          cancelButtonText: 'Ignore',
-          reverseButtons: true,
         });
-
-        if (result.value) {
-          window.location.reload(); // eslint-disable-line
-        }
       }
 
       Object.entries(data.collaborators || {}).forEach(([ref, ts]) => {
