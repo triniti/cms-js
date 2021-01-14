@@ -64,6 +64,7 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
           isEditMode={isEditMode}
           node={node}
           label="SEO Image"
+          modalTitle="Select SEO Image"
         />
         <Field
           component={DatePickerField}

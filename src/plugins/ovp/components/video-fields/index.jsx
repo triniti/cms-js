@@ -141,6 +141,7 @@ const VideoFields = ({ formName, isEditMode, schemas, mezzanine, video }) => (
           component={ImageAssetPickerField}
           isEditMode={isEditMode}
           label="Poster Image"
+          modalTitle="Select Poster Image"
           name="posterImageRef"
           node={video}
         />
