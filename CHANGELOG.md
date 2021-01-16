@@ -5,7 +5,7 @@
 * Set center field on Google Map Block using Geocoding API.
 * facebook embed code considered invalid for facebook post block
 * add more detail to social block placeholders.
-* Add `modalTitle` prop to image asset picker modal and image asset picker field.
+* Add `title` prop to image asset picker modal and image asset picker field.
 
 
 ## v0.11.0
