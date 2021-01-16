@@ -27,6 +27,7 @@ class ImageAssetPickerField extends React.Component {
     isEditMode: PropTypes.bool,
     label: PropTypes.string,
     meta: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    title: PropTypes.string,
     node: PropTypes.instanceOf(Message),
   };
 
@@ -34,6 +35,7 @@ class ImageAssetPickerField extends React.Component {
     areLinkedImagesAllowed: true,
     isEditMode: true,
     label: '',
+    title: '',
     node: null,
   };
 
@@ -82,6 +84,7 @@ class ImageAssetPickerField extends React.Component {
       isEditMode,
       label,
       meta: { error },
+      title,
       node,
       getNode,
     } = this.props;
@@ -152,6 +155,7 @@ class ImageAssetPickerField extends React.Component {
           areLinkedImagesAllowed={areLinkedImagesAllowed}
           assetTypes={[imageType]}
           isOpen={isModalOpen}
+          title={title}
           node={node}
           onCloseUploader={this.handleCloseUploader}
           onSelectImage={this.handleSelectImage}

@@ -29,6 +29,7 @@ class ImageAssetPickerModal extends React.Component {
     galleryNode: PropTypes.instanceOf(Message),
     isOpen: PropTypes.bool,
     label: PropTypes.string,
+    title: PropTypes.string,
     multiAssetErrorMessage: PropTypes.string,
     node: PropTypes.instanceOf(Message),
     onCloseUploader: PropTypes.func,
@@ -43,6 +44,7 @@ class ImageAssetPickerModal extends React.Component {
     galleryNode: null,
     isOpen: false,
     label: 'Select Primary Image',
+    title: '',
     multiAssetErrorMessage: 'Invalid Action: Trying to assign multiple files as a Primary Media.',
     node: null,
     onCloseUploader: noop,
@@ -113,6 +115,7 @@ class ImageAssetPickerModal extends React.Component {
       galleryNode,
       isOpen,
       label,
+      title,
       multiAssetErrorMessage,
       node,
       onSelectImage,
@@ -125,7 +128,7 @@ class ImageAssetPickerModal extends React.Component {
       <div>
         <Modal onOpened={this.handleOpened} centered size="xxl" isOpen={isOpen} toggle={onToggleModal}>
           <ModalHeader toggle={onToggleModal}>
-            <span className="nowrap">{label}</span>
+            <span className="nowrap">{title !== '' ? title : label}</span>
           </ModalHeader>
           <ModalBody className="p-0">
             {
