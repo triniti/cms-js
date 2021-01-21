@@ -13,7 +13,13 @@ import slottingConfig from 'config/slottingConfig'; // eslint-disable-line impor
 import SlugEditor from '@triniti/cms/plugins/ncr/components/slug-editor';
 import TextField from '@triniti/cms/components/text-field';
 
-const StoryFields = ({ formName, formValues, isEditMode, nodeRef, schemas }) => {
+const StoryFields = ({
+  formName,
+  formValues,
+  isEditMode,
+  nodeRef,
+  schemas,
+}) => {
   const { TITLE_LENGTH_LIMIT } = formRules;
   const titleLength = get(formValues, 'title', '').length;
 
@@ -32,7 +38,10 @@ const StoryFields = ({ formName, formValues, isEditMode, nodeRef, schemas }) => 
         />
         {titleLength > TITLE_LENGTH_LIMIT + 14
         && (
-        <small style={{ marginBottom: '1.55rem', marginTop: '-1.3rem' }} className="ml-1 form-text text-danger">
+        <small
+          style={{ marginBottom: '1.55rem', marginTop: '-1.3rem' }}
+          className="ml-1 form-text text-danger"
+        >
           {`recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${titleLength}/${TITLE_LENGTH_LIMIT})`}
         </small>
         )}

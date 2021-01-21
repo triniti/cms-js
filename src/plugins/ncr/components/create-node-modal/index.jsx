@@ -85,14 +85,14 @@ export default class CreateNodeModal extends React.Component {
     return (
       <FormComponent
         form={delegate.getFormName()}
+        formValues={formValues}
         history={history}
-        onKeyDown={this.handleKeyDown}
         onBlurSlug={this.handleBlurSlug}
+        onKeyDown={this.handleKeyDown}
         onReset={delegate.handleReset}
         onSubmit={delegate.handleSubmit}
         validate={delegate.handleValidate}
         warn={delegate.handleWarn}
-        formValues={formValues}
         {...formConfigs}
       />
     );

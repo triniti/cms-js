@@ -22,11 +22,9 @@ export default (state, ownProps) => {
     updateScreen.isPristine = updateScreen.isPristine && !blocksmithState.isDirty;
   }
 
-  const formValues = getFormValues(formNames.ARTICLE)(state);
-
   return {
     ...updateScreen,
     blocksmithState,
-    formValues,
+    formValues: getFormValues(formNames.ARTICLE)(state),
   };
 };

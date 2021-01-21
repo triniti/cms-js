@@ -23,7 +23,15 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
-const Form = ({ node: article, blocksmithState, form, formValues, getNodeRequestState, isEditMode, tab }) => {
+const Form = ({
+  node: article,
+  blocksmithState,
+  form,
+  formValues,
+  getNodeRequestState,
+  isEditMode,
+  tab,
+}) => {
   const nodeRef = NodeRef.fromNode(article);
 
   switch (tab) {
