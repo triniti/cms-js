@@ -12,7 +12,7 @@ import camelCase from 'lodash/camelCase';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
-import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues, touch } from 'redux-form';
+import { arrayPush, arrayRemoveAll, change, getFormMeta, getFormValues } from 'redux-form';
 import { formNames, formRules } from '../constants';
 
 export default class ArticleSubscriber extends EventSubscriber {
