@@ -18,16 +18,18 @@ class ArticleScreen extends AbstractNodeScreen {
       editorState: PropTypes.instanceOf(EditorState),
       isDirty: PropTypes.bool.isRequired,
     }),
+    formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
     ...AbstractNodeScreen.defaultProps,
     blocksmithState: null,
+    formValues: {},
   };
 
   getFormRenderProps() {
-    const { blocksmithState, getNodeRequestState } = this.props;
-    return { blocksmithState, getNodeRequestState };
+    const { blocksmithState, formValues, getNodeRequestState } = this.props;
+    return { blocksmithState, formValues, getNodeRequestState };
   }
 
   getForm() {

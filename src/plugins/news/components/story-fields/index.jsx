@@ -1,5 +1,4 @@
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
-import { connect } from 'react-redux';
 import { Field, FieldArray } from 'redux-form';
 import { formRules } from '@triniti/cms/plugins/news/constants';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
@@ -13,7 +12,6 @@ import Schema from '@gdbots/pbj/Schema';
 import slottingConfig from 'config/slottingConfig'; // eslint-disable-line import/no-unresolved
 import SlugEditor from '@triniti/cms/plugins/ncr/components/slug-editor';
 import TextField from '@triniti/cms/components/text-field';
-import selector from './selector';
 
 const StoryFields = ({ formName, formValues, isEditMode, nodeRef, schemas }) => {
   const { TITLE_LENGTH_LIMIT } = formRules;
@@ -34,7 +32,7 @@ const StoryFields = ({ formName, formValues, isEditMode, nodeRef, schemas }) => 
         />
         {titleLength > TITLE_LENGTH_LIMIT + 14
         && (
-        <small style={{ 'margin-bottom': '1.55rem', 'margin-top': '-1.3rem' }} className="ml-1 form-text text-danger">
+        <small style={{ marginBottom: '1.55rem', marginTop: '-1.3rem' }} className="ml-1 form-text text-danger">
           {`recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${titleLength}/${TITLE_LENGTH_LIMIT})`}
         </small>
         )}
@@ -96,4 +94,4 @@ StoryFields.defaultProps = {
   isEditMode: true,
 };
 
-export default connect(selector)(StoryFields);
+export default StoryFields;

@@ -1,4 +1,5 @@
 import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
+import { getFormValues } from 'redux-form';
 import updateScreenSelector from '@triniti/cms/plugins/ncr/screens/node/selector';
 import schemas from './schemas';
 import { formNames } from '../../constants';
@@ -21,8 +22,11 @@ export default (state, ownProps) => {
     updateScreen.isPristine = updateScreen.isPristine && !blocksmithState.isDirty;
   }
 
+  const formValues = getFormValues(formNames.ARTICLE)(state);
+
   return {
     ...updateScreen,
     blocksmithState,
+    formValues,
   };
 };
