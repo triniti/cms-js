@@ -6,6 +6,7 @@
 * facebook embed code considered invalid for facebook post block
 * add more detail to social block placeholders.
 * Add `title` prop to image asset picker modal and image asset picker field.
+* Set red error message when article title length is at 75 characters or greater.
 
 
 ## v0.12.0

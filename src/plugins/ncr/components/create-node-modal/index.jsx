@@ -80,14 +80,15 @@ export default class CreateNodeModal extends React.Component {
   }
 
   renderForm() {
-    const { delegate, formComponent: FormComponent, formConfigs, history } = this.props;
+    const { delegate, formComponent: FormComponent, formConfigs, formValues, history } = this.props;
 
     return (
       <FormComponent
         form={delegate.getFormName()}
+        formValues={formValues}
         history={history}
-        onKeyDown={this.handleKeyDown}
         onBlurSlug={this.handleBlurSlug}
+        onKeyDown={this.handleKeyDown}
         onReset={delegate.handleReset}
         onSubmit={delegate.handleSubmit}
         validate={delegate.handleValidate}
