@@ -80,7 +80,7 @@ export default class CreateNodeModal extends React.Component {
   }
 
   renderForm() {
-    const { delegate, formComponent: FormComponent, formConfigs, history } = this.props;
+    const { delegate, formComponent: FormComponent, formConfigs, formValues, history } = this.props;
 
     return (
       <FormComponent
@@ -92,6 +92,7 @@ export default class CreateNodeModal extends React.Component {
         onSubmit={delegate.handleSubmit}
         validate={delegate.handleValidate}
         warn={delegate.handleWarn}
+        formValues={formValues}
         {...formConfigs}
       />
     );

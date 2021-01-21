@@ -112,7 +112,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     }
 
     if (title && title.length >= TITLE_LENGTH_LIMIT + 15) {
-      formEvent.addError('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${title.length}/${TITLE_LENGTH_LIMIT})`);
+      // formEvent.addError('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${title.length}/${TITLE_LENGTH_LIMIT})`);
 
       if (meta.title && !meta.title.touched) {
         if (redux) {
