@@ -21,7 +21,17 @@ export default class NodeChangeWatcher extends EventSubscriber {
     const { pbj } = event.getAction();
     const schema = pbj.schema();
 
-    if (!schema.hasMixin('gdbots:pbjx:mixin:event') || schema.hasMixin('gdbots:common:mixin:labelable')) {
+    if (!schema.hasMixin('gdbots:pbjx:mixin:event')) {
+      return;
+    }
+
+    /**
+     * - gdbots:ncr:event:node-labels-updated is safely merged server side
+     * - ovp.medialive events use a node_ref but are not really node operations, so the warning is unnecessary
+     */
+    if (schema.getCurie().toString() === 'gdbots:ncr:event:node-labels-updated'
+      || schema.getCurie().getPackage() === 'ovp.medialive'
+    ) {
       return;
     }
 
@@ -61,32 +71,32 @@ export default class NodeChangeWatcher extends EventSubscriber {
       return;
     }
 
-    /**
-     * medialive events use a node_ref but are not really node operations, so the warning is
-     * unnecessary
-     */
-    if (schema.getCurie().getPackage() === 'ovp.medialive') {
-      return;
+    if (isCollaborating(state, nodeRef)) {
+      swal.fire({
+        html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong>.<br/>If you save, you may overwrite their changes.`,
+        position: 'top-end',
+        showCloseButton: true,
+        showConfirmButton: false,
+        titleText: 'STALE DATA',
+        toast: true,
+        type: 'warning',
+      });
+    } else {
+      swal.fire({
+        allowEnterKey: false,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
+        html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong> <em>(${schema.getCurie()})</em>.`,
+        reverseButtons: true,
+        title: 'STALE DATA',
+        type: 'warning',
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload(); // eslint-disable-line
+        }
+      });
     }
-
-    swal.fire({
-      type: 'warning',
-      title: 'STALE DATA',
-      html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong> <em>(${schema.getCurie()})</em>.`,
-      allowEscapeKey: false,
-      allowEnterKey: false,
-      allowOutsideClick: false,
-      showCancelButton: true,
-      confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
-      cancelButtonText: isCollaborating(state, nodeRef)
-        ? 'Ignore - you will not be able to save'
-        : 'Ignore',
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.value) {
-        window.location.reload(); // eslint-disable-line
-      }
-    });
   }
 
   getSubscribedEvents() {

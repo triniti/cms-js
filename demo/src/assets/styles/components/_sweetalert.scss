@@ -1,0 +1,401 @@
+// SweetAlert2
+
+.swal2-container {
+
+    & .swal2-show {
+      animation: triniti-bounce 0.3s;
+      transform: none !important;
+    }
+    & .swal2-popup {
+      border-radius: $border-radius-xl;
+      font-size: .875rem;
+      box-shadow: $shadow-depth-6;
+      padding: 1.5rem 2rem !important;
+    }
+    & .swal2-popup .swal2-title {
+      color: $body-color;
+      font-size: 1.675rem;
+      font-weight: 500;
+      letter-spacing: .008em;
+  
+      &:empty {
+        display: none;
+      }
+    }
+    & .swal2-popup .swal2-content {
+      color: $body-color-light;
+      font-weight: 400;
+      margin-top: 0.5rem;
+    }
+    & .swal2-icon {
+      margin-top: 0;
+      border-width: 3px;
+    }
+    & .swal2-icon-text {
+      font-weight: 500;
+      font-size: 3.8rem;
+    }
+    &.swal2-fade.swal2-shown {
+      background-color: rgba($modal-backdrop-bg, 0.33);
+    }
+    .screen-main &.swal2-shown {
+      background-color: rgba($modal-backdrop-bg, 0.33);
+    }
+    & .swal2-popup .swal2-actions {
+      flex-wrap: wrap;
+    }
+  
+    // Button Colors
+    & .swal2-popup .swal2-styled.swal2-confirm {
+      margin-bottom: .5rem;
+      @if $enable-gradients {
+        background: theme-color("secondary") linear-gradient(180deg, mix($body-bg, theme-color("secondary"), 15%), theme-color("secondary")) repeat-x;
+      } @else {
+        background: theme-color("secondary");
+      }
+      border: 1px solid darken(theme-color("secondary"), 5%) !important;
+      box-shadow: $shadow-depth-3;
+  
+      &:hover {
+        background: theme-color("secondary") linear-gradient(180deg, darken(mix($body-bg, theme-color("secondary"), 15%), 15%), darken(theme-color("secondary"), 15%)) repeat-x;
+        border: 1px solid darken(theme-color("secondary"), 10%) !important;
+      }
+    }
+  
+    & .swal2-popup .swal2-styled.swal2-cancel {
+      margin-bottom: .5rem;
+      @if $enable-gradients {
+        background: theme-color("dark") linear-gradient(180deg, mix($body-bg, theme-color("dark"), 15%), theme-color("dark")) repeat-x;
+      } @else {
+        background: theme-color("dark");
+      }
+      border: 1px solid darken(theme-color("dark"), 5%) !important;
+      box-shadow: $shadow-depth-3;
+  
+      &:hover {
+        background: theme-color("dark") linear-gradient(180deg, darken(mix($body-bg, theme-color("dark"), 15%), 15%), darken(theme-color("dark"), 15%)) repeat-x;
+        border: 1px solid darken(theme-color("dark"), 10%) !important;
+      }
+    }
+  
+    & .swal2-popup .swal2-styled,
+    & .swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled {
+  
+      @each $color, $value in $theme-colors {
+        &.btn-#{$color} {
+          @include button-variant($value, $value);
+          border: 1px solid shade(darken($value, 8%), 2%) !important;
+          border-bottom-color: shade(darken($value, 8%), 6%) !important;
+  
+          &:hover,
+          &:focus {
+            background: transparent;
+            background-color: darken($value, 9%);
+            border: 1px solid darken($value, 12%) !important;
+          }
+        }
+        &.btn-warning {
+          color: $white;
+        }
+        &.btn-outline-#{$color} {
+          @include button-outline-variant($value);
+          border: $input-btn-border-width solid $gray-700 !important;
+  
+          &:hover,
+          &:focus {
+            background: transparent;
+            background-color: darken($value, 9%);
+            border: 1px solid darken($value, 12%) !important;
+            border-bottom-color: darken($value, 18%) !important;
+          }
+        }
+        &.btn-outline-light {
+          color: $body-color;
+  
+          &:hover,
+          &:focus {
+            color: $body-color;
+          }
+          &:active,
+          &.active {
+            color: $body-color;
+          }
+        }
+      }
+    }
+  
+    & .swal2-popup .swal2-styled,
+    & .swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled {
+      &.btn-link-bg {
+        color: $link-color;
+        border-color: transparent !important;
+        background: $white !important;
+        box-shadow: $shadow-depth-0;
+      }
+  
+      &.btn-link-bg:hover,
+      &.btn-link-bg.active {
+        color: $link-color;
+        border-color: transparent !important;
+        background: $gray-400 !important;
+      }
+    }
+  
+    // Icon Colors
+    & .swal2-icon.swal2-error {
+      border-color: theme-color('danger');
+      color: theme-color('danger');
+  
+      & [class^='swal2-x-mark-line'] {
+        background-color: theme-color('danger');
+        border-radius: 1rem;
+        height: .325em;
+      }
+    }
+    & .swal2-icon.swal2-question {
+      border-color: theme-color('dark');
+      color: theme-color('dark');
+  
+      & [class^='swal2-x-mark-line'] {
+        background-color: theme-color('dark');
+        border-radius: 1rem;
+      }
+    }
+    & .swal2-icon.swal2-warning {
+      border-color: theme-color('warning');
+      color: theme-color('warning');
+  
+      & [class^='swal2-x-mark-line'] {
+        background-color: theme-color('warning');
+        border-radius: 1rem;
+      }
+    }
+    & .swal2-icon.swal2-info {
+      border-color: theme-color('info');
+      color: theme-color('info');
+  
+      & [class^='swal2-x-mark-line'] {
+        background-color: theme-color('info');
+        border-radius: 1rem;
+      }
+    }
+    & .swal2-icon.swal2-success {
+      border-color: theme-color('success');
+      color: theme-color('success');
+  
+      & .swal2-success-ring {
+        top: -3px;
+        left: -3px;
+        border-color: rgba(theme-color('success'), 1);
+        border-width: 3px;
+        animation: 1s ease 0s normal forwards 1 swal-border-fadein;
+      }
+  
+      & [class^='swal2-success-line'] {
+        background-color: theme-color('success');
+        border-radius: 1rem;
+        height: .325em;
+      }
+    }
+    .swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-confirm {
+      background: transparent;
+      border-width: 2px !important;
+      border-color: rgba($black, .25) !important;
+      border-top-color: transparent !important;
+      box-shadow: none !important;
+      animation: $spinner-transition;
+    }
+    .swal2-file:focus,
+    .swal2-input:focus,
+    .swal2-textarea:focus { // input focus
+      border-color: $secondary;
+      outline: 0;
+      box-shadow: 0 0 $input-btn-focus-width 0 $input-btn-focus-color;
+    }
+    .swal2-container.swal2-backdrop-show,
+    .swal2-container.swal2-noanimation {
+      background: rgba(41, 41, 43, 0.4); // modal backdrop
+    }
+  }
+  
+  
+  @keyframes swal-border-fadein {
+    0% {
+      opacity:.3;
+    }
+    33% {
+      opacity:.3;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  
+  // horizontal style
+  
+  .swal2-horizontal {
+  
+    .swal2-header {
+      display: none;
+    }
+    .swal2-container &.swal2-show  {
+      animation: triniti-slidein-right 0.3s;
+    }
+    .swal2-container &.swal2-popup  {
+      flex-direction: row;
+      padding: 0;
+      width: 360px;
+      font-size: .75rem;
+  
+      & .swal2-content {
+        flex: 1 0 auto;
+        padding: 0;
+      }
+      & #swal2-content {
+        text-align: left;
+        margin: .75rem .5rem .75rem 1rem;
+        width: 236px;
+  
+        & h5 {
+          color: $body-color;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+  
+        & p {
+          font-size: .8rem;
+          margin-bottom: .5rem;
+        }
+      }
+      & .swal2-actions {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        width: 100px;
+        border-left: 1px solid $border-color;
+        background-color: $border-color;
+        border-radius: 0 5px 5px 0;
+  
+        & button {
+          margin: 0;
+          width: 100%;
+          border-radius: 0;
+          box-shadow: none;
+          display: flex;
+          flex: 1 0 auto;
+          justify-content: center;
+  
+          &:first-of-type {
+            border-top-right-radius: 5px;
+          }
+          &:last-child {
+            border-bottom-right-radius: 5px;
+            margin-top: 1px;
+          }
+        }
+      }
+    }
+  }
+  
+  // swal toast
+  
+  .swal2-popup.swal2-toast {
+    box-shadow: $shadow-depth-5 !important;
+  }
+  
+  
+  // swal spinner
+  
+  .swal2-popup.swal-spinner {
+    position: relative;
+    width: 60px !important;
+    height: 60px !important;
+    padding: 0;
+    flex-grow: 0 !important;
+    background: rgba($navbar-theme-dark,.25);
+    overflow: visible !important;
+    transform: none !important;
+  }
+  
+  .swal2-container .swal-spinner .swal2-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    border-radius: 20px;
+    border-width: 2px !important;
+    border-color: $gray-700 !important;
+    border-top-color: transparent !important;
+    animation: spinner-border 0.5s linear infinite;
+  }
+  
+  .swal2-container .swal2-popup.swal-spinner .swal2-title {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    max-width: none;
+    padding: 4px 14px;
+    margin: .75rem 0 0 30px;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    color: $gray-300;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    background: rgba($navbar-theme-dark,.25);
+    border-radius: $round;
+    box-shadow: $shadow-depth-6;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  
+  .swal2-popup.swal2-show.swal-spinner {
+    animation: triniti-bounce 0.3s;
+  }
+  
+  // toast animation
+  
+  @keyframes swal2-toast-show-slide-left {
+    0% {
+      // transform: translateY(120%);
+      left: 100%;
+    }
+    100% {
+      // transform: translateY(0);
+      left: 0;
+    }
+  }
+  
+  .swal2-container {
+    .swal2-popup {
+      &.swal2-toast {
+        box-shadow: $shadow-depth-4 !important;
+      }
+    }
+  }
+  
+  .swal2-top-end {
+    margin-top: 107px !important;
+    padding-top: 0 !important;
+    padding-bottom: 20px !important;
+    padding-right: 10px !important;
+  
+    .swal2-popup {
+      &.swal2-toast {
+        &.swal2-show {
+          animation: swal2-toast-show-slide-left $transition;
+        }
+      }
+    }
+    @media (min-width: 1025px) {
+      margin-top: 125px !important;
+      padding-top: 0 !important;
+    }
+    @media (min-width: 1500px) {
+      margin-top: 133px !important;
+      padding-top: 0 !important;
+    }
+  }
