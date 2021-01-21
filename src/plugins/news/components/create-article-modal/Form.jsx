@@ -21,9 +21,9 @@ const Form = ({ formValues, onBlurSlug: handleBlurSlug, onKeyDown: handleKeyDown
           placeholder="enter title"
           type="text"
         />
-        {titleLength > TITLE_LENGTH_LIMIT + 15
+        {titleLength > TITLE_LENGTH_LIMIT + 14
          && (
-           <small className="mt-n3 mb-2 form-text text-danger">
+           <small style={{ 'margin-bottom': '1.25rem' }} className="ml-1 mt-n3 form-text text-danger">
              {`recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${titleLength}/${TITLE_LENGTH_LIMIT})`}
            </small>
          )}
@@ -48,7 +48,7 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-  formValues: null,
+  formValues: {},
 };
 
 export default reduxForm()(Form);
