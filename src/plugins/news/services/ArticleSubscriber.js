@@ -98,27 +98,9 @@ export default class ArticleSubscriber extends EventSubscriber {
   onValidateForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
-    const redux = formEvent.getRedux();
-    const { title } = data;
-    const { TITLE_LENGTH_LIMIT } = formRules;
-    let meta = {};
 
-    if (redux) {
-      meta = getFormMeta(formEvent.getName())(redux.getState());
-    }
-
-    if (!title) {
+    if (!data.title) {
       formEvent.addError('title', 'title is required');
-    }
-
-    if (title && title.length >= TITLE_LENGTH_LIMIT + 15) {
-      // formEvent.addError('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${title.length}/${TITLE_LENGTH_LIMIT})`);
-
-      if (meta.title && !meta.title.touched) {
-        if (redux) {
-          redux.dispatch(touch(formNames.ARTICLE, 'title'));
-        }
-      }
     }
 
     [
@@ -164,10 +146,14 @@ export default class ArticleSubscriber extends EventSubscriber {
       }
     }
 
-    if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
-      const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
-      if (hasError) {
-        formEvent.addError('slotting', errors);
+    const redux = formEvent.getRedux();
+    if (redux) {
+      const meta = getFormMeta(formEvent.getName())(redux.getState());
+      if ((meta.slotting || []).some((slot) => get(slot, 'key.touched') || get(slot, 'value.touched'))) {
+        const { errors, hasError } = getKeyValuesFieldErrors(data, 'slotting', node);
+        if (hasError) {
+          formEvent.addError('slotting', errors);
+        }
       }
     }
   }
