@@ -14,9 +14,6 @@ import disconnectUser from '../actions/disconnectUser';
 import receiveMessage from '../actions/receiveMessage';
 import sendText from '../actions/sendText';
 
-
-const isConnected = (client) => client && client.connected;
-
 /**
  * Gets the URL that is needed to connect to the Raven
  * endpoint (an mqtt endpoint provided by Aws Iot).
@@ -43,16 +40,32 @@ async function getConnectUrl(apiEndpoint, accessToken) {
 
 export default class Raven {
   constructor(mqtt, store, apiEndpoint, appVendor, appName, appEnv) {
-    Object.defineProperty(this, 'mqtt', { value: mqtt });
-    Object.defineProperty(this, 'store', { value: store });
-    Object.defineProperty(this, 'apiEndpoint', { value: apiEndpoint });
-    window.onerror = this.onError.bind(this);
+    this.mqtt = mqtt;
+    this.store = store;
+    this.apiEndpoint = apiEndpoint;
     this.logStreamRequestCount = 0;
+    window.onerror = this.onError.bind(this);
 
     // pbjx topics never come from "local" as they run within AWS
     const pbjxEnv = appEnv === 'local' ? 'dev' : appEnv;
-    Object.defineProperty(this, 'pbjxTopic', { value: `${appVendor}-pbjx/${pbjxEnv}/#` });
-    Object.defineProperty(this, 'topic', { value: `${appVendor}-${appName}/${appEnv}/` });
+    this.pbjxTopic = `${appVendor}-pbjx/${pbjxEnv}/#`;
+    this.topic = `${appVendor}-${appName}/${appEnv}/`;
+    this.client = null;
+    this.connecting = false;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isConnected() {
+    return this.client && this.client.connected;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isConnecting() {
+    return this.connecting;
   }
 
   /**
@@ -61,7 +74,13 @@ export default class Raven {
    * @returns {Promise}
    */
   async connect() {
-    if (isConnected(this.client)) {
+    if (this.connecting) {
+      console.info('raven::connecting');
+      return;
+    }
+
+    if (this.isConnected()) {
+      console.info('raven::already_connected');
       this.store.dispatch(openConnection());
       return;
     }
@@ -81,17 +100,25 @@ export default class Raven {
         qos: 0,
         retain: false,
       },
+      // disable reconnect until transformWsUrl supports promises
+      reconnectPeriod: 0,
     };
 
+    this.connecting = true;
     this.store.dispatch(requestConnection());
+
     try {
       const url = await getConnectUrl(this.apiEndpoint, accessToken);
       if (!url) {
+        this.connecting = false;
+        this.client = null;
         console.error('raven::connect_failed::no_url');
         return;
       }
       this.client = this.mqtt.connect(url, options);
     } catch (e) {
+      this.connecting = false;
+      this.client = null;
       this.onError(e);
       console.error('raven::connect_failed', e);
       return;
@@ -99,6 +126,7 @@ export default class Raven {
     this.client.subscribe([this.pbjxTopic, `${this.topic}#`]);
 
     this.client.on('message', (topic, message) => {
+      this.connecting = false;
       let parsedMessage;
 
       try {
@@ -142,11 +170,19 @@ export default class Raven {
     });
 
     this.client.on('connect', () => {
+      this.connecting = false;
       this.store.dispatch(openConnection());
       this.store.dispatch(connectUser());
     });
 
-    this.client.on('close', () => this.store.dispatch(closeConnection()));
+    this.client.on('close', () => {
+      this.connecting = false;
+      setTimeout(() => {
+        this.client = null;
+        this.store.dispatch(closeConnection());
+      });
+    });
+
     this.client.on('error', (err) => console.error('raven::error', err));
   }
 
@@ -154,7 +190,8 @@ export default class Raven {
    * @link https://github.com/mqttjs/MQTT.js#mqttclientendforce-cb
    */
   disconnect() {
-    if (!isConnected(this.client)) {
+    this.connecting = false;
+    if (!this.isConnected()) {
       return;
     }
 
@@ -164,6 +201,10 @@ export default class Raven {
     } catch (e) {
       console.error('raven::disconnect::error', e);
     }
+
+    setTimeout(() => {
+      this.client = null;
+    });
   }
 
   /**
@@ -203,7 +244,7 @@ export default class Raven {
   publish(message, topic = null) {
     const fullTopic = `${this.topic}${topic || 'general'}`;
 
-    if (!isConnected(this.client)) {
+    if (!this.isConnected()) {
       console.warn('raven::publish::not_connected', message, fullTopic);
       return;
     }

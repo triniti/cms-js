@@ -23,7 +23,15 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 
 import schemas from './schemas';
 
-const Form = ({ node: article, blocksmithState, form, getNodeRequestState, isEditMode, tab }) => {
+const Form = ({
+  node: article,
+  blocksmithState,
+  form,
+  formValues,
+  getNodeRequestState,
+  isEditMode,
+  tab,
+}) => {
   const nodeRef = NodeRef.fromNode(article);
 
   switch (tab) {
@@ -82,6 +90,7 @@ const Form = ({ node: article, blocksmithState, form, getNodeRequestState, isEdi
         <div>
           <StoryFields
             formName={form}
+            formValues={formValues}
             isEditMode={isEditMode}
             nodeRef={nodeRef}
             schemas={schemas}
@@ -107,6 +116,7 @@ Form.propTypes = {
     isDirty: PropTypes.bool.isRequired,
   }),
   form: PropTypes.string.isRequired,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getNodeRequestState: PropTypes.shape({
     request: PropTypes.instanceOf(Message).isRequired,
   }).isRequired,
@@ -117,6 +127,7 @@ Form.propTypes = {
 
 Form.defaultProps = {
   blocksmithState: null,
+  formValues: {},
   isEditMode: true,
   tab: '',
 };

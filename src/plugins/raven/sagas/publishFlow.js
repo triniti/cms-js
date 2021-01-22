@@ -16,7 +16,7 @@ import { actionTypes } from '../constants';
  * @param {Raven} raven
  */
 export default function* (raven) {
-  const channel = yield actionChannel(actionTypes.PUBLISH_MESSAGE_REQUESTED, buffers.sliding(100));
+  const channel = yield actionChannel(actionTypes.PUBLISH_MESSAGE_REQUESTED, buffers.sliding(20));
   const connectsChannel = yield actionChannel(actionTypes.CONNECTION_OPENED, buffers.dropping(1));
 
   while (true) {
@@ -26,9 +26,10 @@ export default function* (raven) {
       continue; // eslint-disable-line no-continue
     }
 
-    if (!(yield select(isConnected))) {
+    const connected = yield call([raven, 'isConnected']);
+    if (!connected) {
       yield take(connectsChannel);
-      yield delay(3000);
+      yield delay(1000);
     }
 
     const userRef = yield select(getAuthenticatedUserRef);

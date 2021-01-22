@@ -19,6 +19,12 @@
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
 
+// components
+@import "components/sweetalert";
+@import "components/toasts";
+
+// base
+@import "base/master";
 
 // todo: add items for next admin-ui release 0.5.9 or higher
 

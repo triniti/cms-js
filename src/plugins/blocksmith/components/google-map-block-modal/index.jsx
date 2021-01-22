@@ -1,8 +1,10 @@
 import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
+import GeoPoint from '@gdbots/pbj/well-known/GeoPoint';
 import GoogleMapBlockPreview from '@triniti/cms/plugins/blocksmith/components/google-map-block-preview';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { STATUS_FULFILLED, STATUS_NONE, STATUS_PENDING } from '@triniti/app/constants';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
@@ -19,10 +21,12 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Spinner,
 } from '@triniti/admin-ui-plugin/components';
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
+import getCoordinatesFromAddress from './getCoordinatesFromAddress';
 
 const mapTypes = [
   'roadmap',
@@ -44,13 +48,15 @@ export default class GoogleMapBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       aside: block.get('aside'),
+      center: block.has('center') ? block.get('center').toString() : null,
       errorMsg: '',
       hasUpdatedDate: block.has('updated_date'),
       isAutoZoom: block.get('zoom') === 0,
       isDropdownOpen: false,
-      isValid: block.has('q') || block.has('center'),
+      isValid: block.has('q'),
       mapType: block.get('maptype'),
       q: block.get('q') || '',
+      status: STATUS_NONE,
       touched: false,
       updatedDate: block.get('updated_date', new Date()),
       zoom: block.get('zoom'),
@@ -74,24 +80,39 @@ export default class GoogleMapBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { aside, hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
+    const { aside, center, hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
     const { block } = this.props;
+
     return block.schema().createMessage()
       .set('aside', aside)
+      .set('center', center ? GeoPoint.fromString(center) : null)
       .set('maptype', mapType || null)
       .set('q', q || null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('zoom', zoom || null);
   }
 
-  handleAddBlock() {
+  async handleAddBlock() {
+    const { q } = this.state;
     const { onAddBlock, toggle } = this.props;
+
+    this.setState({ status: STATUS_PENDING });
+    const coordinates = await getCoordinatesFromAddress(q);
+    this.setState({ center: coordinates, status: STATUS_FULFILLED });
     onAddBlock(this.setBlock());
     toggle();
   }
 
-  handleEditBlock() {
-    const { onEditBlock, toggle } = this.props;
+  async handleEditBlock() {
+    const { q, center } = this.state;
+    const { block, onEditBlock, toggle } = this.props;
+
+    if (q !== block.get('q') || !center) {
+      this.setState({ status: STATUS_PENDING });
+      const coordinates = await getCoordinatesFromAddress(q);
+      this.setState({ center: coordinates, status: STATUS_FULFILLED });
+    }
+
     onEditBlock(this.setBlock());
     toggle();
   }
@@ -166,6 +187,7 @@ export default class GoogleMapBlockModal extends React.Component {
       isValid,
       mapType,
       q,
+      status,
       touched,
       updatedDate,
       zoom,
@@ -259,12 +281,17 @@ export default class GoogleMapBlockModal extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
-          <Button
-            disabled={!isValid}
-            onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
-          >
-            {isFreshBlock ? 'Add' : 'Update'}
-          </Button>
+          {status === STATUS_PENDING && (
+            <Spinner key="spinner" />
+          )}
+          {status !== STATUS_PENDING && (
+            <Button
+              disabled={!isValid}
+              onClick={isFreshBlock ? this.handleAddBlock : this.handleEditBlock}
+            >
+              {isFreshBlock ? 'Add' : 'Update'}
+            </Button>
+          )}
         </ModalFooter>
       </Modal>
     );
