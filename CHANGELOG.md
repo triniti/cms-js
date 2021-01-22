@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * facebook embed code considered invalid for facebook post block
+* implement error logging to logstream for raven and blocksmith errors
 
 
 ## v0.11.0

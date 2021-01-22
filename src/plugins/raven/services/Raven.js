@@ -1,9 +1,11 @@
+/* globals API_ENDPOINT, APP_VERSION */
 /* eslint-disable no-underscore-dangle */
 import startCase from 'lodash/startCase';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import requestConnection from '../actions/requestConnection';
 import openConnection from '../actions/openConnection';
 import closeConnection from '../actions/closeConnection';
@@ -11,6 +13,7 @@ import connectUser from '../actions/connectUser';
 import disconnectUser from '../actions/disconnectUser';
 import receiveMessage from '../actions/receiveMessage';
 import sendText from '../actions/sendText';
+
 
 const isConnected = (client) => client && client.connected;
 
@@ -43,6 +46,8 @@ export default class Raven {
     Object.defineProperty(this, 'mqtt', { value: mqtt });
     Object.defineProperty(this, 'store', { value: store });
     Object.defineProperty(this, 'apiEndpoint', { value: apiEndpoint });
+    window.onerror = this.onError.bind(this);
+    this.logStreamRequestCount = 0;
 
     // pbjx topics never come from "local" as they run within AWS
     const pbjxEnv = appEnv === 'local' ? 'dev' : appEnv;
@@ -87,6 +92,7 @@ export default class Raven {
       }
       this.client = this.mqtt.connect(url, options);
     } catch (e) {
+      this.onError(e);
       console.error('raven::connect_failed', e);
       return;
     }
@@ -158,6 +164,34 @@ export default class Raven {
     } catch (e) {
       console.error('raven::disconnect::error', e);
     }
+  }
+
+  /**
+   * @link https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+   *
+   */
+  onError(...args) {
+    const state = this.store.getState();
+    const accessToken = getAccessToken(state);
+    // if error is from react then the object doesn't have a stack key
+    const stackTrace = args[0].stack || args[0];
+
+    const err = {
+      app_version: APP_VERSION,
+      error_message: args[0].message,
+      stack_trace: stackTrace.replaceAll('://', ' ').replaceAll('/../../', ' '),
+    };
+
+    if (!isJwtExpired(accessToken) && this.logStreamRequestCount <= 1) {
+      fetch(`${API_ENDPOINT}/raven/errors/`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        method: 'POST',
+        body: JSON.stringify(err),
+      }).catch((e) => console.error('raven::onError::error', e));
+    }
+    this.logStreamRequestCount += 1;
   }
 
   /**
