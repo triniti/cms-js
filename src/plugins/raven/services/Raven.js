@@ -5,7 +5,6 @@ import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
-import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import requestConnection from '../actions/requestConnection';
 import openConnection from '../actions/openConnection';
 import closeConnection from '../actions/closeConnection';
@@ -45,7 +44,6 @@ export default class Raven {
     this.apiEndpoint = apiEndpoint;
     this.logStreamRequestCount = 0;
     window.onerror = this.onError.bind(this);
-
     // pbjx topics never come from "local" as they run within AWS
     const pbjxEnv = appEnv === 'local' ? 'dev' : appEnv;
     this.pbjxTopic = `${appVendor}-pbjx/${pbjxEnv}/#`;
@@ -226,7 +224,7 @@ export default class Raven {
       stack_trace: stackTrace.replaceAll('://', ' ').replaceAll('/../../', ' '),
     };
 
-    if (!isJwtExpired(accessToken) && this.logStreamRequestCount <= 1) {
+    if (this.logStreamRequestCount <= 1) {
       fetch(`${API_ENDPOINT}/raven/errors/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
