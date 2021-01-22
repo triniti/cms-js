@@ -132,6 +132,7 @@ export default class Raven {
       try {
         parsedMessage = JSON.parse(`${message}`);
       } catch (e) {
+        this.onError(e);
         console.error('raven::received_invalid_message', e, topic, message);
         return;
       }
@@ -161,6 +162,7 @@ export default class Raven {
           }
           return;
         } catch (e) {
+          this.onError(e);
           console.error('raven::received_invalid_pbj', e, topic, message);
           return;
         }
@@ -199,6 +201,7 @@ export default class Raven {
       this.store.dispatch(disconnectUser());
       this.client.end();
     } catch (e) {
+      this.onError(e);
       console.error('raven::disconnect::error', e);
     }
 
@@ -252,6 +255,7 @@ export default class Raven {
     try {
       this.client.publish(fullTopic, JSON.stringify(message));
     } catch (e) {
+      this.onError(e);
       console.error('raven::publish::error', e, fullTopic, message);
     }
   }
