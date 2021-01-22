@@ -233,6 +233,7 @@ export default class Raven {
         body: JSON.stringify(err),
       }).catch((e) => console.error('raven::onError::error', e));
     }
+    // if error is from react, we don't want to log the same error 20 times
     this.logStreamRequestCount += 1;
   }
 
