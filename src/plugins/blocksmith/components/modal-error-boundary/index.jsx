@@ -19,7 +19,7 @@ class ModalErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error) {
+  componentDidCatch(error, errorInfo) {
     const { onCloseModal } = this.props;
 
     swal.fire({
@@ -29,6 +29,7 @@ class ModalErrorBoundary extends React.Component {
       title: 'An error occurred. Please report this issue to support.',
       type: 'error',
     }).finally(onCloseModal);
+    console.error(error, errorInfo);
     window.onerror(error);
   }
 
