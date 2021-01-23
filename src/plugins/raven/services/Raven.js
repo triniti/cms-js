@@ -5,6 +5,7 @@ import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import requestConnection from '../actions/requestConnection';
 import openConnection from '../actions/openConnection';
 import closeConnection from '../actions/closeConnection';
@@ -42,7 +43,6 @@ export default class Raven {
     this.mqtt = mqtt;
     this.store = store;
     this.apiEndpoint = apiEndpoint;
-    this.logStreamRequestCount = 0;
     window.onerror = this.onError.bind(this);
     // pbjx topics never come from "local" as they run within AWS
     const pbjxEnv = appEnv === 'local' ? 'dev' : appEnv;
@@ -212,29 +212,24 @@ export default class Raven {
    * @link https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
    *
    */
-  onError(...args) {
+  onError(error) {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
-    // if error is from react then the object doesn't have a stack key
-    const stackTrace = args[0].stack || args[0];
 
-    const err = {
+    const logData = {
       app_version: APP_VERSION,
-      error_message: args[0].message,
-      stack_trace: stackTrace.replaceAll('://', ' ').replaceAll('/../../', ' '),
+      error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
     };
 
-    if (this.logStreamRequestCount <= 1) {
+    if (!isJwtExpired(accessToken)) {
       fetch(`${API_ENDPOINT}/raven/errors/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         method: 'POST',
-        body: JSON.stringify(err),
+        body: JSON.stringify(logData),
       }).catch((e) => console.error('raven::onError::error', e));
     }
-    // if error is from react, we don't want to log the same error 20 times
-    this.logStreamRequestCount += 1;
   }
 
   /**
