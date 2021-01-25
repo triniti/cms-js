@@ -216,7 +216,6 @@ export default class Raven {
   onError(...args) {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
-    const error = args.find((arg) => arg instanceof Error) || args[0];
 
     if (
       isJwtExpired(accessToken)
@@ -226,6 +225,7 @@ export default class Raven {
       return;
     }
 
+    const error = args.find((arg) => arg instanceof Error) || args[0];
     const logData = {
       app_version: APP_VERSION,
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
