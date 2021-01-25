@@ -43,14 +43,14 @@ export default class Raven {
     this.mqtt = mqtt;
     this.store = store;
     this.apiEndpoint = apiEndpoint;
-    this.logStreamRequestCount = 0;
-    window.onerror = this.onError.bind(this);
     // pbjx topics never come from "local" as they run within AWS
     const pbjxEnv = appEnv === 'local' ? 'dev' : appEnv;
     this.pbjxTopic = `${appVendor}-pbjx/${pbjxEnv}/#`;
     this.topic = `${appVendor}-${appName}/${appEnv}/`;
     this.client = null;
     this.connecting = false;
+    window.onerror = this.onError.bind(this);
+    this.logStreamRequestCount = 0;
   }
 
   /**
