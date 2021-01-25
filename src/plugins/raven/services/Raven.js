@@ -212,9 +212,10 @@ export default class Raven {
    * @link https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
    *
    */
-  onError(error) {
+  onError(...args) {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
+    const error = args.find((arg) => arg instanceof Error) || args[0];
 
     if (isJwtExpired(accessToken) || window.location.hostname === 'localhost') {
       return;
@@ -224,6 +225,8 @@ export default class Raven {
       app_version: APP_VERSION,
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
     };
+
+    console.log('alon', logData);
 
     fetch(`${API_ENDPOINT}/raven/errors/`, {
       headers: {
