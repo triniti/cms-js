@@ -43,6 +43,7 @@ export default class Raven {
     this.mqtt = mqtt;
     this.store = store;
     this.apiEndpoint = apiEndpoint;
+    this.logStreamRequestCount = 0;
     window.onerror = this.onError.bind(this);
     // pbjx topics never come from "local" as they run within AWS
     const pbjxEnv = appEnv === 'local' ? 'dev' : appEnv;
@@ -217,7 +218,9 @@ export default class Raven {
     const accessToken = getAccessToken(state);
     const error = args.find((arg) => arg instanceof Error) || args[0];
 
-    if (isJwtExpired(accessToken) || window.location.hostname === 'localhost') {
+    if (isJwtExpired(accessToken)
+    || window.location.hostname === 'localhost'
+    || this.logStreamRequestCount > 1) {
       return;
     }
 
@@ -226,8 +229,6 @@ export default class Raven {
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
     };
 
-    console.log('alon', logData);
-
     fetch(`${API_ENDPOINT}/raven/errors/`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -235,6 +236,8 @@ export default class Raven {
       method: 'POST',
       body: JSON.stringify(logData),
     }).catch((e) => console.error('raven::onError::error', e));
+
+    this.logStreamRequestCount += 1;
   }
 
   /**
