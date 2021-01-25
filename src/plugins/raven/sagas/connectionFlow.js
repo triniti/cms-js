@@ -50,6 +50,7 @@ export default function* (raven) {
     try {
       yield call([raven, 'connect']);
     } catch (e) {
+      window.onerror(e);
       yield put(rejectConnection(e));
     }
   }

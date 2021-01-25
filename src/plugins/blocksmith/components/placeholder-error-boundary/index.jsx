@@ -21,7 +21,6 @@ class PlaceholderErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo);
-    window.onerror(error);
   }
 
   render() {

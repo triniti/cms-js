@@ -36,7 +36,6 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo);
-    window.onerror(error);
   }
 
   restoreBlocksmith(editorState, resetErrorCount = true) {

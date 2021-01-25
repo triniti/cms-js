@@ -219,7 +219,7 @@ export default class Raven {
 
     if (
       isJwtExpired(accessToken)
-      || window.location.hostname === 'localhost'
+      // || window.location.hostname === 'localhost'
       || this.logStreamRequestCount > 1
     ) {
       return;
