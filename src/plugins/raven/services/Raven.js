@@ -218,9 +218,11 @@ export default class Raven {
     const accessToken = getAccessToken(state);
     const error = args.find((arg) => arg instanceof Error) || args[0];
 
-    if (isJwtExpired(accessToken)
-    || window.location.hostname === 'localhost'
-    || this.logStreamRequestCount > 1) {
+    if (
+      isJwtExpired(accessToken)
+      || window.location.hostname === 'localhost'
+      || this.logStreamRequestCount > 1
+    ) {
       return;
     }
 
