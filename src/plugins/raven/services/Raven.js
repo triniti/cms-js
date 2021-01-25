@@ -216,20 +216,22 @@ export default class Raven {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
 
+    if (isJwtExpired(accessToken) || window.location.hostname === 'localhost') {
+      return;
+    }
+
     const logData = {
       app_version: APP_VERSION,
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
     };
 
-    if (!isJwtExpired(accessToken)) {
-      fetch(`${API_ENDPOINT}/raven/errors/`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        method: 'POST',
-        body: JSON.stringify(logData),
-      }).catch((e) => console.error('raven::onError::error', e));
-    }
+    fetch(`${API_ENDPOINT}/raven/errors/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      method: 'POST',
+      body: JSON.stringify(logData),
+    }).catch((e) => console.error('raven::onError::error', e));
   }
 
   /**
