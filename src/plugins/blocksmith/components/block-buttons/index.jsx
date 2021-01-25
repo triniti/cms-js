@@ -111,7 +111,6 @@ export default class BlockButtons extends React.Component {
       return null;
     }
 
-    throw new Error();
     const contentState = editorState.getCurrentContent();
     const isFirstBlock = contentState.getFirstBlock().getKey() === activeBlockKey;
     const isLastBlock = contentState.getLastBlock().getKey() === activeBlockKey;
