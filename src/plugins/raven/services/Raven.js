@@ -15,7 +15,6 @@ import disconnectUser from '../actions/disconnectUser';
 import receiveMessage from '../actions/receiveMessage';
 import sendText from '../actions/sendText';
 
-
 /**
  * Gets the URL that is needed to connect to the Raven
  * endpoint (an mqtt endpoint provided by Aws Iot).
