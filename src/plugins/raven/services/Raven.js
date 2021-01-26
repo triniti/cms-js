@@ -6,6 +6,7 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
+import md5 from 'md5';
 import requestConnection from '../actions/requestConnection';
 import openConnection from '../actions/openConnection';
 import closeConnection from '../actions/closeConnection';
@@ -13,6 +14,7 @@ import connectUser from '../actions/connectUser';
 import disconnectUser from '../actions/disconnectUser';
 import receiveMessage from '../actions/receiveMessage';
 import sendText from '../actions/sendText';
+
 
 /**
  * Gets the URL that is needed to connect to the Raven
@@ -49,8 +51,8 @@ export default class Raven {
     this.topic = `${appVendor}-${appName}/${appEnv}/`;
     this.client = null;
     this.connecting = false;
+    this.hashName = '';
     window.onerror = this.onError.bind(this);
-    this.logStreamRequestCount = 0;
   }
 
   /**
@@ -216,20 +218,20 @@ export default class Raven {
   onError(...args) {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
-
-    if (
-      isJwtExpired(accessToken)
-      || window.location.hostname === 'localhost'
-      || this.logStreamRequestCount > 1
-    ) {
-      return;
-    }
-
     const error = args.find((arg) => arg instanceof Error) || args[0];
+    const hashName = md5(error);
     const logData = {
       app_version: APP_VERSION,
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
     };
+
+    if (
+      isJwtExpired(accessToken)
+      || window.location.hostname === 'localhost'
+      || hashName === this.hashName
+    ) {
+      return;
+    }
 
     fetch(`${API_ENDPOINT}/raven/errors/`, {
       headers: {
@@ -239,7 +241,7 @@ export default class Raven {
       body: JSON.stringify(logData),
     }).catch((e) => console.error('raven::onError::error', e));
 
-    this.logStreamRequestCount += 1;
+    this.hashName = hashName;
   }
 
   /**
