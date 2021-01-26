@@ -51,7 +51,7 @@ export default class Raven {
     this.topic = `${appVendor}-${appName}/${appEnv}/`;
     this.client = null;
     this.connecting = false;
-    this.hashName = '';
+    this.prevErrorHash = '';
     window.onerror = this.onError.bind(this);
   }
 
@@ -219,16 +219,16 @@ export default class Raven {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
     const error = args.find((arg) => arg instanceof Error) || args[0];
-    const hashName = md5(error);
     const logData = {
       app_version: APP_VERSION,
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
     };
+    const errorHash = md5(logData.error);
 
     if (
       isJwtExpired(accessToken)
       || window.location.hostname === 'localhost'
-      || hashName === this.hashName
+      || errorHash === this.prevErrorHash
     ) {
       return;
     }
@@ -241,7 +241,7 @@ export default class Raven {
       body: JSON.stringify(logData),
     }).catch((e) => console.error('raven::onError::error', e));
 
-    this.hashName = hashName;
+    this.prevErrorHash = errorHash;
   }
 
   /**
