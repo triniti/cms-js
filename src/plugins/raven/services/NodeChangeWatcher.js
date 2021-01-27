@@ -90,6 +90,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
         html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong> <em>(${schema.getCurie()})</em>.`,
         showCancelButton: true,
         cancelButtonText: 'Ignore',
+        reverseButtons: true,
         title: 'STALE DATA',
         type: 'warning',
       }).then((result) => {
