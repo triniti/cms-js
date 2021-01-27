@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Add ignore button back to stale data popup when in view mode
 * Set center field on Google Map Block using Geocoding API.
 * facebook embed code considered invalid for facebook post block
 * add more detail to social block placeholders.
