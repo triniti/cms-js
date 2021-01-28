@@ -221,7 +221,7 @@ export default class Raven {
     const logData = {
       app_version: APP_VERSION,
       error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
-      request_uri: window.location.href.replace('https://localhost:3000', '[LOCALHOST_TOKEN]').replace('://', '[PROTOCOL_TOKEN]'),
+      request_uri: window.location.href.replace('://', '[PROTOCOL_TOKEN]'),
     };
     const errorHash = md5(logData.error);
 
