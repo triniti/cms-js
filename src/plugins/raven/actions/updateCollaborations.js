@@ -20,5 +20,6 @@ export default (accessToken) => async (dispatch) => {
     }
   } catch (error) {
     console.error('raven::updateCollaborations failed', error);
+    window.onerror(error);
   }
 };

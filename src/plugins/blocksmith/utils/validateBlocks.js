@@ -38,6 +38,7 @@ export default (editorState) => {
     } catch (e) {
       isValid = false;
       console.error(`[ERROR:Blocksmith:util:validateBlocks] - Block: ${block.toString()} - ${e}`);
+      window.onerror(e);
       blocks.push({
         block,
         error: e.stack || `${e}`,

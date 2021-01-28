@@ -24,6 +24,7 @@ export default (nodeRef) => async (dispatch, getState) => {
       });
     } catch (error) {
       console.error('leaveCollaboration failed', nodeRef, error);
+      window.onerror(error);
     }
   }
 
