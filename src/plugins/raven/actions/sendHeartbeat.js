@@ -2,6 +2,8 @@
 import swal from 'sweetalert2';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import { actionTypes, ravenTypes } from '../constants';
 import publishMessage from './publishMessage';
@@ -24,6 +26,19 @@ export default (topic, etag = null) => async (dispatch, getState) => {
       });
       const data = await response.json();
 
+
+      let username = 'Unknown User';
+      if (data.updater_ref) {
+        const userRef = NodeRef.fromMessageRef(
+          getNode(state, data.updater_ref).generateMessageRef(),
+        );
+
+        if (hasNode(state, userRef)) {
+          const user = getNode(state, userRef);
+          username = user.get('title', user.get('first_name'));
+        }
+      }
+
       if (etag
         && data.ok
         && data.etag !== etag
@@ -37,7 +52,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
       ) {
         const nodeRef = NodeRef.fromString(topic);
         await swal.fire({
-          html: `This ${nodeRef.getLabel()} has been changed by another person or process.<br/>If you save, you may overwrite their changes.`,
+          html: `This ${nodeRef.getLabel()} has been changed by ${username} or a system process.<br/>If you save, you may overwrite their changes.`,
           position: 'top-end',
           showCloseButton: true,
           showConfirmButton: false,

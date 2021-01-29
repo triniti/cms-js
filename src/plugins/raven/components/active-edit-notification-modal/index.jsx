@@ -93,17 +93,25 @@ class ActiveEditNotificationModal extends React.Component {
           <Icon imgSrc="notification" alert size="lg" color="warning" border className="icon-modal" />
           <h2>Stop!</h2>
           <p className="text-modal">This {nodeRef.getLabel()} is being edited by:</p>
-          {activeUserNames.map((userName) => (
-            <h4 key={userName}>
-              <Badge radius="round" color="light">{userName}</Badge>
-            </h4>
-          ))}
+          {activeUserNames.length
+            ? activeUserNames.map((userName) => (
+              <h4 key={userName}>
+                <Badge radius="round" color="light">{userName}</Badge>
+              </h4>
+            ))
+            : (
+              <h4 key="unknown_user">
+                <Badge radius="round" color="danger">Unknown User</Badge>
+              </h4>
+            )}
           <div className="modal-actions">
             <Button block outline color="primary" onClick={this.handleContinueInViewMode} className="btn-modal">
               Continue in View Mode
             </Button>
             <Button block outline color="danger" onClick={this.handleContinueInEditMode} className="btn-modal">
-              Continue in Edit Mode (tell others you are in here)
+              {activeUserNames.length
+                ? 'Continue in Edit Mode (tell others you are in here)'
+                : 'Continue in Edit Mode (by entering this article in edit mode, you risk overwriting another user’s work)'}
             </Button>
             <Button block outline color="secondary" onClick={this.handleCancel} className="btn-modal">
               Cancel and Wait
