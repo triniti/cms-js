@@ -26,7 +26,6 @@ export default (topic, etag = null) => async (dispatch, getState) => {
       });
       const data = await response.json();
 
-
       let username = 'Unknown User';
       if (data.updater_ref) {
         const userRef = NodeRef.fromMessageRef(

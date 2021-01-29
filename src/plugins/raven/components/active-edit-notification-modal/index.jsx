@@ -100,7 +100,7 @@ class ActiveEditNotificationModal extends React.Component {
               </h4>
             ))
             : (
-              <h4 key="unknown_user">
+              <h4 key="unknown-user">
                 <Badge radius="round" color="danger">Unknown User</Badge>
               </h4>
             )}
