@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.13.0
 * Active Edits Enhancements
 * Add ignore button back to stale data popup when in view mode
 * Implement error logging to logstream for raven and blocksmith errors
