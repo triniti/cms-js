@@ -49,7 +49,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
       ) {
         const nodeRef = NodeRef.fromString(topic);
         await swal.fire({
-          html: `This ${nodeRef.getLabel()} has been changed by ${username} or a system process.<br/>If you save, you may overwrite their changes.`,
+          html: `This ${nodeRef.getLabel()} has been changed by ${username} or process.<br/>If you save, you may overwrite their changes.`,
           position: 'top-end',
           showCloseButton: true,
           showConfirmButton: false,
