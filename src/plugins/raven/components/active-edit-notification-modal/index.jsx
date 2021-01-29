@@ -111,7 +111,7 @@ class ActiveEditNotificationModal extends React.Component {
             <Button block outline color="danger" onClick={this.handleContinueInEditMode} className="btn-modal">
               {activeUserNames.length
                 ? 'Continue in Edit Mode (tell others you are in here)'
-                : 'Continue in Edit Mode (by entering this article in edit mode, you risk overwriting another user’s work)'}
+                : 'Continue in Edit Mode (you risk overwriting another user’s work)'}
             </Button>
             <Button block outline color="secondary" onClick={this.handleCancel} className="btn-modal">
               Cancel and Wait

@@ -28,9 +28,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
 
       let username = 'Unknown User';
       if (data.updater_ref) {
-        const userRef = NodeRef.fromMessageRef(
-          getNode(state, data.updater_ref).generateMessageRef(),
-        );
+        const userRef = NodeRef.fromString(data.updater_ref);
 
         if (hasNode(state, userRef)) {
           const user = getNode(state, userRef);
