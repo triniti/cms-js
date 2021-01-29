@@ -55,7 +55,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
 
       if (hasNode(state, userRef)) {
         const user = getNode(state, userRef);
-        username = user.get('title', user.get('first_name'));
+        username = user.get('title', `${user.get('first_name')} ${user.get('last_name')}`);
       }
     }
 
