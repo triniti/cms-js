@@ -26,7 +26,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
       });
       const data = await response.json();
 
-      let username = 'Unknown User';
+      let username = 'an unknown user or process';
       if (data.updater_ref) {
         const userRef = NodeRef.fromString(data.updater_ref);
 
@@ -49,7 +49,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
       ) {
         const nodeRef = NodeRef.fromString(topic);
         await swal.fire({
-          html: `This ${nodeRef.getLabel()} has been changed by ${username} or process.<br/>If you save, you may overwrite their changes.`,
+          html: `This ${nodeRef.getLabel()} has been changed by ${username}.<br/>If you save, you may overwrite their changes.`,
           position: 'top-end',
           showCloseButton: true,
           showConfirmButton: false,
