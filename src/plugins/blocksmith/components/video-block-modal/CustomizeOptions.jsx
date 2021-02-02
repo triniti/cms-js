@@ -56,7 +56,7 @@ const CustomizeOptions = ({
     <div style={{ maxWidth: '350px', margin: '0 auto' }}>
       <FormGroup className="d-flex mb-2">
         <FormGroup check>
-          <Checkbox size="sd" id="autoplay" checked={autoplay} onChange={handleChangeCheckbox} disabled={isImageSelected}>
+          <Checkbox size="sd" id="autoplay" checked={autoplay} onChange={handleChangeCheckbox}>
             Autoplay
           </Checkbox>
         </FormGroup>

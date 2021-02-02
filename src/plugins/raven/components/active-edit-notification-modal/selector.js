@@ -8,7 +8,7 @@ import getCollaborators from '../../selectors/getCollaborators';
  * @returns {Object}
  */
 export default (state, { nodeRef }) => {
-  const allUsers = getCollaborators(state, nodeRef);
+  const allUsers = getCollaborators(state, nodeRef, 45);
   const me = getAuthenticatedUser(state);
 
   const activeUserNames = allUsers

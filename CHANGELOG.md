@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v0.13.0
+* Active Edits Enhancements
+* Add ignore button back to stale data popup when in view mode
+* Implement error logging to logstream for raven and blocksmith errors
+* Set center field on Google Map Block using Geocoding API.
+* facebook embed code considered invalid for facebook post block
+* add more detail to social block placeholders.
+* Add `title` prop to image asset picker modal and image asset picker field.
+* Set red error message when article title length is at 75 characters or greater.
+* Allow autoplay on video block to be checked when image is selected.
+
+
 ## v0.12.0
 * Reconnect raven on every `@triniti/raven/PUBLISH_MESSAGE_REQUESTED`.
 * Update raven mqtt to disable reconnect until transformWsUrl supports promises.

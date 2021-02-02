@@ -188,7 +188,6 @@ class VideoBlockModal extends React.Component {
 
   handleSelectImage(imageNode) {
     this.setState({
-      autoplay: false,
       selectedImageNode: imageNode,
     });
   }

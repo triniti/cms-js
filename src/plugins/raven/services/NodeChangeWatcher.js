@@ -55,7 +55,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
 
       if (hasNode(state, userRef)) {
         const user = getNode(state, userRef);
-        username = user.get('title', user.get('first_name'));
+        username = user.get('title', `${user.get('first_name')} ${user.get('last_name')}`);
       }
     }
 
@@ -88,6 +88,8 @@ export default class NodeChangeWatcher extends EventSubscriber {
         allowOutsideClick: false,
         confirmButtonText: `Refresh ${nodeRef.getLabel()}`,
         html: `This ${nodeRef.getLabel()} has been changed by <strong>${username}</strong> <em>(${schema.getCurie()})</em>.`,
+        showCancelButton: true,
+        cancelButtonText: 'Ignore',
         reverseButtons: true,
         title: 'STALE DATA',
         type: 'warning',

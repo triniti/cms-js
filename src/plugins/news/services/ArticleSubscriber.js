@@ -85,7 +85,7 @@ export default class ArticleSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const { title } = data;
     const { TITLE_LENGTH_LIMIT } = formRules;
-    if (title && title.length > TITLE_LENGTH_LIMIT - 15) {
+    if (title && title.length > TITLE_LENGTH_LIMIT - 15 && title.length < TITLE_LENGTH_LIMIT + 15) {
       formEvent.addWarning('title', `recommendation: keep title less than ${TITLE_LENGTH_LIMIT} characters to avoid title extending too long in search results. (${title.length}/${TITLE_LENGTH_LIMIT})`);
     }
   }

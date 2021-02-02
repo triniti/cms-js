@@ -19,10 +19,10 @@ import {
 
 import changedDate from '../../utils/changedDate';
 import changedTime from '../../utils/changedTime';
+import getFacebookPostUrl from './getFacebookPostUrl';
 
-const FB_POST_REGEX = new RegExp('(?:(?:https?:)?\\/\\/)?(?:www\\.)?facebook\\.com\\/[a-zA-Z0-9\\.]+\\/posts\\/(?:[a-z0-9\\.]+\\/)?([0-9]+)\\/?(?:\\?.*)?');
 const FB_POST_SHOW_TEXT_ATTR_REGEX = new RegExp('data-show-text=".+?"');
-const FB_POST_SHOW_TEXT_QUERY_STRING_REGEX = new RegExp('show_text=.');
+const FB_POST_SHOW_TEXT_QUERY_STRING_REGEX = new RegExp('show_text=(true|false)');
 
 export default class FacebookPostBlockModal extends React.Component {
   static propTypes = {
@@ -88,18 +88,16 @@ export default class FacebookPostBlockModal extends React.Component {
 
   handleChangeTextArea(event) {
     let { showText } = this.state;
-    const input = decodeURIComponent(event.target.value);
-    let href = input;
-    let isValid = false;
-    if (FB_POST_REGEX.test(input)) {
-      isValid = true;
+    const href = getFacebookPostUrl(event.target.value);
+    const isValid = !!href;
+    if (isValid) {
+      const input = event.target.value;
       if (FB_POST_SHOW_TEXT_ATTR_REGEX.test(input)) {
         showText = input.match(FB_POST_SHOW_TEXT_ATTR_REGEX)[0].replace('data-show-text="', '') === 'true"';
       }
       if (FB_POST_SHOW_TEXT_QUERY_STRING_REGEX.test(input)) {
-        showText = !!+input.match(FB_POST_SHOW_TEXT_QUERY_STRING_REGEX)[0].replace('show_text=', '');
+        showText = input.match(FB_POST_SHOW_TEXT_QUERY_STRING_REGEX)[0].replace('show_text=', '') === 'true';
       }
-      href = input.match(FB_POST_REGEX)[0];
     }
     this.setState({
       href,

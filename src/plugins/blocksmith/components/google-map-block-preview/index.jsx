@@ -11,7 +11,7 @@ const GoogleMapBlockPreview = ({ block, width }) => {
       title="google-map-block-preview"
       width={width}
       height={width / (16 / 9)}
-      src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}${zoomParam}&maptype=${block.get('maptype') || 'roadmap'}&q=${block.get('q') || ''}${block.has('center') ? `&center=${block.get('center').getLatitude()},${block.get('center').getLongitude()}` : ''}`}
+      src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}${zoomParam}&maptype=${block.get('maptype') || 'roadmap'}&q=${block.get('q') || ''}`}
       allowFullScreen
     />
   );

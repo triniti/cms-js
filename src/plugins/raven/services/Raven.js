@@ -1,9 +1,12 @@
+/* globals API_ENDPOINT, APP_VERSION */
 /* eslint-disable no-underscore-dangle */
 import startCase from 'lodash/startCase';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
+import md5 from 'md5';
 import requestConnection from '../actions/requestConnection';
 import openConnection from '../actions/openConnection';
 import closeConnection from '../actions/closeConnection';
@@ -47,6 +50,8 @@ export default class Raven {
     this.topic = `${appVendor}-${appName}/${appEnv}/`;
     this.client = null;
     this.connecting = false;
+    this.prevErrorHash = '';
+    window.onerror = this.onError.bind(this);
   }
 
   /**
@@ -114,6 +119,7 @@ export default class Raven {
     } catch (e) {
       this.connecting = false;
       this.client = null;
+      this.onError(e);
       console.error('raven::connect_failed', e);
       return;
     }
@@ -126,6 +132,7 @@ export default class Raven {
       try {
         parsedMessage = JSON.parse(`${message}`);
       } catch (e) {
+        this.onError(e);
         console.error('raven::received_invalid_message', e, topic, message);
         return;
       }
@@ -155,6 +162,7 @@ export default class Raven {
           }
           return;
         } catch (e) {
+          this.onError(e);
           console.error('raven::received_invalid_pbj', e, topic, message);
           return;
         }
@@ -193,12 +201,47 @@ export default class Raven {
       this.store.dispatch(disconnectUser());
       this.client.end();
     } catch (e) {
+      this.onError(e);
       console.error('raven::disconnect::error', e);
     }
 
     setTimeout(() => {
       this.client = null;
     });
+  }
+
+  /**
+   * @link https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+   *
+   */
+  onError(...args) {
+    const state = this.store.getState();
+    const accessToken = getAccessToken(state);
+    const error = args.find((arg) => arg instanceof Error) || args[0];
+    const logData = {
+      app_version: APP_VERSION,
+      error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
+      request_uri: window.location.href.replace('://', '[PROTOCOL_TOKEN]'),
+    };
+    const errorHash = md5(logData.error);
+
+    if (
+      isJwtExpired(accessToken)
+      || window.location.hostname === 'localhost'
+      || errorHash === this.prevErrorHash
+    ) {
+      return;
+    }
+
+    fetch(`${API_ENDPOINT}/raven/errors/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      method: 'POST',
+      body: JSON.stringify(logData),
+    }).catch((e) => console.error('raven::onError::error', e));
+
+    this.prevErrorHash = errorHash;
   }
 
   /**
@@ -218,6 +261,7 @@ export default class Raven {
     try {
       this.client.publish(fullTopic, JSON.stringify(message));
     } catch (e) {
+      this.onError(e);
       console.error('raven::publish::error', e, fullTopic, message);
     }
   }
