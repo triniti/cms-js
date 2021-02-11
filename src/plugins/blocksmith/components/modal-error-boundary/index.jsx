@@ -30,6 +30,7 @@ class ModalErrorBoundary extends React.Component {
       type: 'error',
     }).finally(onCloseModal);
     console.error(error, errorInfo);
+    window.onerror(error);
   }
 
   render() {

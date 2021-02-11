@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add `window.onerror` to blocksmith error boundaries for error logstream
+
+
 ## v0.13.0
 * Active Edits Enhancements
 * Add ignore button back to stale data popup when in view mode
