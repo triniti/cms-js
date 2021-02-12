@@ -730,8 +730,6 @@ class Blocksmith extends React.Component {
     const { activeBlockKey, editorState } = this.state;
     const { delegate, copiedBlock } = this.props;
 
-    console.log('alon', copiedBlock);
-
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const blockData = draftJsBlock.getData();
     if (!blockData || !blockData.get('canvasBlock')) {
