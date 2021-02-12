@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Make only atomic blocks be advanced blocks
+* Add `window.onerror` to blocksmith error boundaries for error logstream
 
 
 ## v0.13.0
