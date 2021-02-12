@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Make only atomic blocks be advanced blocks
+
+
 ## v0.13.0
 * Active Edits Enhancements
 * Add ignore button back to stale data popup when in view mode

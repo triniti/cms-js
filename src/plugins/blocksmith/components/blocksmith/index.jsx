@@ -348,6 +348,69 @@ class Blocksmith extends React.Component {
   }
 
   /**
+   * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
+   *
+   * @param {*} canvasBlock                - a triniti canvas block
+   * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
+   */
+  handleAddCanvasBlock(canvasBlock, shouldSelectAndStyle = false) {
+    const {
+      activeBlockKey,
+      editorState,
+      isDirty,
+      isHoverInsertModeBottom,
+      sidebarResetFlag,
+    } = this.state;
+    const { delegate } = this.props;
+    const contentState = editorState.getCurrentContent();
+    let newContentState;
+    let newBlockKey;
+    const activeBlock = getBlockForKey(contentState, activeBlockKey);
+    if (isBlockEmpty(activeBlock)) {
+      // active block is empty - just replace it with new block
+      newContentState = replaceBlockAtKey(
+        contentState,
+        canvasBlock,
+        activeBlockKey,
+      );
+    } else {
+      // active block is not empty, add an empty and replace that with new block
+      newBlockKey = genKey();
+      newContentState = insertEmptyBlock(
+        contentState,
+        activeBlockKey,
+        isHoverInsertModeBottom ? constants.POSITION_AFTER : constants.POSITION_BEFORE,
+        newBlockKey,
+      );
+      newContentState = replaceBlockAtKey(
+        newContentState,
+        canvasBlock,
+        newBlockKey,
+      );
+    }
+    const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
+    this.setState(() => ({
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
+      isDirty: true,
+      sidebarResetFlag: +!sidebarResetFlag,
+    }), () => {
+      this.removeActiveStyling();
+      if (!isDirty) {
+        delegate.handleDirtyEditor();
+      }
+      /* eslint-disable react/destructuring-assignment */
+      if (!this.state.editorState.getSelection().getHasFocus()) {
+        delegate.handleStoreEditor(this.state.editorState);
+      }
+      /* eslint-enable react/destructuring-assignment */
+      if (shouldSelectAndStyle) {
+        this.selectAndStyleBlock(newBlockKey || activeBlockKey);
+      }
+    });
+  }
+
+  /**
    * Update the state with the new EditorState and position the sidebar/button components.
    * Whatever happens here, you MUST set the new EditorState. If you don't you can lose all
    * the decorators and whatever other black magic is happening behind the scenes.
@@ -523,69 +586,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
-   *
-   * @param {*} canvasBlock                - a triniti canvas block
-   * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
-   */
-  handleAddCanvasBlock(canvasBlock, shouldSelectAndStyle = false) {
-    const {
-      activeBlockKey,
-      editorState,
-      isDirty,
-      isHoverInsertModeBottom,
-      sidebarResetFlag,
-    } = this.state;
-    const { delegate } = this.props;
-    const contentState = editorState.getCurrentContent();
-    let newContentState;
-    let newBlockKey;
-    const activeBlock = getBlockForKey(contentState, activeBlockKey);
-    if (isBlockEmpty(activeBlock)) {
-      // active block is empty - just replace it with new block
-      newContentState = replaceBlockAtKey(
-        contentState,
-        canvasBlock,
-        activeBlockKey,
-      );
-    } else {
-      // active block is not empty, add an empty and replace that with new block
-      newBlockKey = genKey();
-      newContentState = insertEmptyBlock(
-        contentState,
-        activeBlockKey,
-        isHoverInsertModeBottom ? constants.POSITION_AFTER : constants.POSITION_BEFORE,
-        newBlockKey,
-      );
-      newContentState = replaceBlockAtKey(
-        newContentState,
-        canvasBlock,
-        newBlockKey,
-      );
-    }
-    const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
-    this.setState(() => ({
-      editorState: newEditorState.editorState,
-      errors: newEditorState.errors,
-      isDirty: true,
-      sidebarResetFlag: +!sidebarResetFlag,
-    }), () => {
-      this.removeActiveStyling();
-      if (!isDirty) {
-        delegate.handleDirtyEditor();
-      }
-      /* eslint-disable react/destructuring-assignment */
-      if (!this.state.editorState.getSelection().getHasFocus()) {
-        delegate.handleStoreEditor(this.state.editorState);
-      }
-      /* eslint-enable react/destructuring-assignment */
-      if (shouldSelectAndStyle) {
-        this.selectAndStyleBlock(newBlockKey || activeBlockKey);
-      }
-    });
-  }
-
-  /**
    * Tells the DraftJs editor how to render custom atomic blocks.
    *
    * @param {*} block - A DraftJs ContentBlock
@@ -729,6 +729,8 @@ class Blocksmith extends React.Component {
     // todo: update this to use actual clipboard and object de/serialization
     const { activeBlockKey, editorState } = this.state;
     const { delegate, copiedBlock } = this.props;
+
+    console.log('alon', copiedBlock);
 
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const blockData = draftJsBlock.getData();
