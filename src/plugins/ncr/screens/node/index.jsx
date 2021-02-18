@@ -217,7 +217,7 @@ export default class AbstractNodeScreen extends React.Component {
         this.nodeAlertTimeoutId = setTimeout(() => {
           swal.fire({
             title: 'Page Failed To Load',
-            text: 'The page failed to load within 15 seconds, please refresh the page',
+            text: 'The page failed to load within 10 seconds, please refresh the page',
             type: 'error',
           });
           this.nodeAlertOpen = true;
