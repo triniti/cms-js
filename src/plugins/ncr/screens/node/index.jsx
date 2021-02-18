@@ -220,6 +220,7 @@ export default class AbstractNodeScreen extends React.Component {
             text: 'The page failed to load within 15 seconds, please refresh the page',
             type: 'error',
           });
+          this.nodeAlertOpen = true;
         }, 10000);
       }
       return (
@@ -234,7 +235,10 @@ export default class AbstractNodeScreen extends React.Component {
     if (this.nodeAlertTimeoutId) {
       clearTimeout(this.nodeAlertTimeoutId);
       delete this.nodeAlertTimeoutId;
-      swal.close();
+      if (this.nodeAlertOpen) {
+        swal.close();
+        delete this.nodeAlertOpen;
+      }
     }
     return [this.renderForm()];
   }
