@@ -1,4 +1,4 @@
-import { blockTypes, inlineStyleTypes } from '../constants';
+import { blockTypes } from '../constants';
 import getSelectedBlocksList from './getSelectedBlocksList';
 
 /**
