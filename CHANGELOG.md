@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* cms is saving incorrect image dimensions.
 * Add `window.onerror` to blocksmith error boundaries for error logstream
 
 
