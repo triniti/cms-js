@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Change Copy/Pasting of text blocks to not copy state of block just text inside it.
 * Add `window.onerror` to blocksmith error boundaries for error logstream
 
 

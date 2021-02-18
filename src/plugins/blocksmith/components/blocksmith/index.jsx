@@ -96,7 +96,7 @@ import {
   handleDocumentDrop,
   insertCanvasBlocks,
   insertEmptyBlock,
-  isAdvancedBlockSelected,
+  isAtomicBlockSelected,
   isBlockAList,
   isBlockEmpty,
   isFirstListBlock,
@@ -523,69 +523,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
-   *
-   * @param {*} canvasBlock                - a triniti canvas block
-   * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
-   */
-  handleAddCanvasBlock(canvasBlock, shouldSelectAndStyle = false) {
-    const {
-      activeBlockKey,
-      editorState,
-      isDirty,
-      isHoverInsertModeBottom,
-      sidebarResetFlag,
-    } = this.state;
-    const { delegate } = this.props;
-    const contentState = editorState.getCurrentContent();
-    let newContentState;
-    let newBlockKey;
-    const activeBlock = getBlockForKey(contentState, activeBlockKey);
-    if (isBlockEmpty(activeBlock)) {
-      // active block is empty - just replace it with new block
-      newContentState = replaceBlockAtKey(
-        contentState,
-        canvasBlock,
-        activeBlockKey,
-      );
-    } else {
-      // active block is not empty, add an empty and replace that with new block
-      newBlockKey = genKey();
-      newContentState = insertEmptyBlock(
-        contentState,
-        activeBlockKey,
-        isHoverInsertModeBottom ? constants.POSITION_AFTER : constants.POSITION_BEFORE,
-        newBlockKey,
-      );
-      newContentState = replaceBlockAtKey(
-        newContentState,
-        canvasBlock,
-        newBlockKey,
-      );
-    }
-    const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
-    this.setState(() => ({
-      editorState: newEditorState.editorState,
-      errors: newEditorState.errors,
-      isDirty: true,
-      sidebarResetFlag: +!sidebarResetFlag,
-    }), () => {
-      this.removeActiveStyling();
-      if (!isDirty) {
-        delegate.handleDirtyEditor();
-      }
-      /* eslint-disable react/destructuring-assignment */
-      if (!this.state.editorState.getSelection().getHasFocus()) {
-        delegate.handleStoreEditor(this.state.editorState);
-      }
-      /* eslint-enable react/destructuring-assignment */
-      if (shouldSelectAndStyle) {
-        this.selectAndStyleBlock(newBlockKey || activeBlockKey);
-      }
-    });
-  }
-
-  /**
    * Tells the DraftJs editor how to render custom atomic blocks.
    *
    * @param {*} block - A DraftJs ContentBlock
@@ -662,6 +599,69 @@ class Blocksmith extends React.Component {
       default:
         return hasError ? 'block-invalid' : null;
     }
+  }
+
+  /**
+   * Given a canvas block, creates a DraftJs block (with data) for said block at the active block.
+   *
+   * @param {*} canvasBlock                - a triniti canvas block
+   * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
+   */
+  handleAddCanvasBlock(canvasBlock, shouldSelectAndStyle = false) {
+    const {
+      activeBlockKey,
+      editorState,
+      isDirty,
+      isHoverInsertModeBottom,
+      sidebarResetFlag,
+    } = this.state;
+    const { delegate } = this.props;
+    const contentState = editorState.getCurrentContent();
+    let newContentState;
+    let newBlockKey;
+    const activeBlock = getBlockForKey(contentState, activeBlockKey);
+    if (isBlockEmpty(activeBlock)) {
+      // active block is empty - just replace it with new block
+      newContentState = replaceBlockAtKey(
+        contentState,
+        canvasBlock,
+        activeBlockKey,
+      );
+    } else {
+      // active block is not empty, add an empty and replace that with new block
+      newBlockKey = genKey();
+      newContentState = insertEmptyBlock(
+        contentState,
+        activeBlockKey,
+        isHoverInsertModeBottom ? constants.POSITION_AFTER : constants.POSITION_BEFORE,
+        newBlockKey,
+      );
+      newContentState = replaceBlockAtKey(
+        newContentState,
+        canvasBlock,
+        newBlockKey,
+      );
+    }
+    const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
+    this.setState(() => ({
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
+      isDirty: true,
+      sidebarResetFlag: +!sidebarResetFlag,
+    }), () => {
+      this.removeActiveStyling();
+      if (!isDirty) {
+        delegate.handleDirtyEditor();
+      }
+      /* eslint-disable react/destructuring-assignment */
+      if (!this.state.editorState.getSelection().getHasFocus()) {
+        delegate.handleStoreEditor(this.state.editorState);
+      }
+      /* eslint-enable react/destructuring-assignment */
+      if (shouldSelectAndStyle) {
+        this.selectAndStyleBlock(newBlockKey || activeBlockKey);
+      }
+    });
   }
 
   /**
@@ -1157,7 +1157,7 @@ class Blocksmith extends React.Component {
    */
   handleMouseCopy(e) {
     const { editorState } = this.state;
-    if (!isAdvancedBlockSelected(editorState)) {
+    if (!isAtomicBlockSelected(editorState)) {
       return;
     }
     e.preventDefault();
@@ -1174,7 +1174,7 @@ class Blocksmith extends React.Component {
    */
   handleMouseCut(e) {
     const { editorState } = this.state;
-    if (!isAdvancedBlockSelected(editorState)) {
+    if (!isAtomicBlockSelected(editorState)) {
       return;
     }
     e.preventDefault();
@@ -1512,7 +1512,7 @@ class Blocksmith extends React.Component {
     } else if (
       /^[cx]$/.test(e.key)
       && ((e.metaKey && isMacOS()) || (e.ctrlKey && isWindows()))
-      && isAdvancedBlockSelected(editorState)
+      && isAtomicBlockSelected(editorState)
     ) {
       if (e.key === 'c') {
         selection.capture(editorState);

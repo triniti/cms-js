@@ -9,6 +9,7 @@ export default (editorState) => {
     EditorState.createEmpty(),
     ContentState.createFromBlockArray(getSelectedBlocksList(editorState).toArray()),
   );
+
   const serializedBlocksAsString = convertToCanvasBlocks(newEditorState)
     .reduce((acc, cur) => `${acc.length ? `${acc},` : ''}${cur.toString()}`, '');
   copyToClipboard(`${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}[${serializedBlocksAsString}]`);
