@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* CMS Node Screen must display errors if node fails to load
 * Add `window.onerror` to blocksmith error boundaries for error logstream
 
 

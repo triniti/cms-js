@@ -12,6 +12,7 @@ import PreviewButtons from '@triniti/cms/plugins/ncr/components/preview-buttons'
 import PropTypes from 'prop-types';
 import PublishForm from '@triniti/cms/plugins/ncr/components/publish-form';
 import React, { Fragment } from 'react';
+import swal from 'sweetalert2';
 import {
   ActionButton,
   Alert,
@@ -77,6 +78,7 @@ export default class AbstractNodeScreen extends React.Component {
     this.state = {
       isSaveDropDownOpen: false,
       publishOperation: '',
+      showLoadTimeoutError: false,
     };
 
     this.handleCancel = this.handleCancel.bind(this);
@@ -211,6 +213,15 @@ export default class AbstractNodeScreen extends React.Component {
     const { delegate, getNodeRequestState } = this.props;
 
     if (!delegate.getNode()) {
+      if (!this.nodeAlertTimeoutId) {
+        this.nodeAlertTimeoutId = setTimeout(() => {
+          swal.fire({
+            title: 'Page Failed To Load',
+            text: 'The page failed to load within 15 seconds, please refresh the page',
+            type: 'error',
+          });
+        }, 10000);
+      }
       return (
         <StatusMessage
           exception={getNodeRequestState.exception}
@@ -220,6 +231,11 @@ export default class AbstractNodeScreen extends React.Component {
       );
     }
 
+    if (this.nodeAlertTimeoutId) {
+      clearTimeout(this.nodeAlertTimeoutId);
+      delete this.nodeAlertTimeoutId;
+      swal.close();
+    }
     return [this.renderForm()];
   }
 
@@ -427,6 +443,7 @@ export default class AbstractNodeScreen extends React.Component {
   render() {
     const { alerts, delegate, dispatch } = this.props;
     const node = delegate.getNode();
+
     return (
       <Screen
         badge={this.renderBadge()}
