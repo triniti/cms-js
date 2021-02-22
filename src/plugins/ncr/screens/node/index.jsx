@@ -215,14 +215,14 @@ export default class AbstractNodeScreen extends React.Component {
     if (!delegate.getNode()) {
       if (!this.nodeAlertTimeoutId) {
         this.nodeAlertTimeoutId = setTimeout(() => {
-          const nodeLabel = nodeRef.getLabel().charAt(0).toUpperCase() + nodeRef.getLabel().slice(1);
+          const nodeLabel = nodeRef.getLabel();
           swal.fire({
             allowEnterKey: false,
             allowEscapeKey: false,
             allowOutsideClick: false,
             confirmButtonText: `Refresh ${nodeLabel}`,
-            text: `The ${nodeLabel} failed to load within 10 seconds, please refresh the page`,
-            title: `${nodeLabel} Failed To Load`,
+            text: `This ${nodeLabel} failed to load within 10 seconds, please refresh the page`,
+            title: 'FAILED TO LOAD',
             type: 'error',
           }).then((result) => {
             if (result.value) {
