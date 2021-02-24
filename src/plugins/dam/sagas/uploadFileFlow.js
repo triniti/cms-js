@@ -38,7 +38,7 @@ export default function* (hashName, fileInfo, fileBuffer, preSignedUrl, variant)
       yield put(startUpload(hashName));
 
       // @fixme Attach metadata headers for asset id, causator, etc.
-      yield call(fetch, preSignedUrl, {
+      const response = yield call(fetch, preSignedUrl, {
         method: 'put',
         body: fileBuffer,
         headers: {
@@ -47,32 +47,18 @@ export default function* (hashName, fileInfo, fileBuffer, preSignedUrl, variant)
         },
       });
 
+      if (response.status !== 200) {
+        throw new Error(`dam upload file flow failed on try #${retries}. trying again.`);
+      }
+
       const { version } = variant;
       const { asset } = fileInfo;
-      const previewUrl = damUrl(asset, version, 'sm');
       const { type } = asset.get('_id');
 
-      try {
-        if (type === 'image') {
-          yield checkImage(previewUrl);
-        } else {
-          const assetResponse = yield call(fetch, previewUrl, { method: 'get' });
-          if (assetResponse.status !== 200) {
-            throw new Error('dam upload file flow failed first try. trying again.');
-          }
-        }
-      } catch (e) {
-        // Make one more try after 2 secs because sometimes amazon
-        // lags on making the asset available... wtf amazonians
-        yield delay(2000);
-        if (type === 'image') {
-          yield checkImage(previewUrl);
-        } else {
-          const assetResponse = yield call(fetch, previewUrl, { method: 'get' });
-          if (assetResponse.status !== 200) {
-            throw new Error('dam upload file flow failed twice. giving up.');
-          }
-        }
+      let previewUrl = damUrl(asset);
+      if (type === 'image') {
+        previewUrl = damUrl(asset, version, 'sm');
+        yield checkImage(previewUrl);
       }
 
       yield put(fulfillUpload(hashName, previewUrl));
