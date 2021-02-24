@@ -1,4 +1,5 @@
 import { put, putResolve } from 'redux-saga/effects';
+import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 import completeProcessFile from '../actions/completeProcessFile';
 import updatedProcessedFileAsset from '../actions/updateProcessedFileAsset';
 import getImageUrlDimensions from '../utils/getImageUrlDimensions';
@@ -11,7 +12,7 @@ import getImageUrlDimensions from '../utils/getImageUrlDimensions';
  * @param {Object} action
  */
 export default function* (hashName, fileInfo, action) {
-  const { asset, gallerySequence } = fileInfo;
+  const { asset, gallerySequence, version } = fileInfo;
   const { config, linkedRefs, galleryRef } = action;
   const { schemas } = config;
   const clonedAsset = asset.clone();
@@ -29,7 +30,7 @@ export default function* (hashName, fileInfo, action) {
   // specifics to be set. Something fancier can be mocked up when each asset type has
   // different logic.
   if (asset.get('_id').getType() === 'image') {
-    const { width, height } = yield getImageUrlDimensions(fileInfo.previewUrl);
+    const { width, height } = yield getImageUrlDimensions(damUrl(asset, version));
     clonedAsset.set('width', width);
     clonedAsset.set('height', height);
     yield put(updatedProcessedFileAsset(hashName, clonedAsset));

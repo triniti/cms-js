@@ -12,6 +12,7 @@ import PreviewButtons from '@triniti/cms/plugins/ncr/components/preview-buttons'
 import PropTypes from 'prop-types';
 import PublishForm from '@triniti/cms/plugins/ncr/components/publish-form';
 import React, { Fragment } from 'react';
+import swal from 'sweetalert2';
 import {
   ActionButton,
   Alert,
@@ -77,6 +78,7 @@ export default class AbstractNodeScreen extends React.Component {
     this.state = {
       isSaveDropDownOpen: false,
       publishOperation: '',
+      showLoadTimeoutError: false,
     };
 
     this.handleCancel = this.handleCancel.bind(this);
@@ -208,9 +210,28 @@ export default class AbstractNodeScreen extends React.Component {
   }
 
   renderBody() {
-    const { delegate, getNodeRequestState } = this.props;
+    const { delegate, getNodeRequestState, nodeRef } = this.props;
 
     if (!delegate.getNode()) {
+      if (!this.nodeAlertTimeoutId) {
+        this.nodeAlertTimeoutId = setTimeout(() => {
+          const nodeLabel = nodeRef.getLabel();
+          swal.fire({
+            allowEnterKey: false,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            confirmButtonText: `Refresh ${nodeLabel}`,
+            text: `This ${nodeLabel} failed to load within 10 seconds, please refresh the page`,
+            title: 'FAILED TO LOAD',
+            type: 'error',
+          }).then((result) => {
+            if (result.value) {
+              window.location.reload();
+            }
+          });
+          this.nodeAlertOpen = true;
+        }, 10000);
+      }
       return (
         <StatusMessage
           exception={getNodeRequestState.exception}
@@ -220,6 +241,14 @@ export default class AbstractNodeScreen extends React.Component {
       );
     }
 
+    if (this.nodeAlertTimeoutId) {
+      clearTimeout(this.nodeAlertTimeoutId);
+      delete this.nodeAlertTimeoutId;
+      if (this.nodeAlertOpen) {
+        swal.close();
+        delete this.nodeAlertOpen;
+      }
+    }
     return [this.renderForm()];
   }
 
@@ -427,6 +456,7 @@ export default class AbstractNodeScreen extends React.Component {
   render() {
     const { alerts, delegate, dispatch } = this.props;
     const node = delegate.getNode();
+
     return (
       <Screen
         badge={this.renderBadge()}
