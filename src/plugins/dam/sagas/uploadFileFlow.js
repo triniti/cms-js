@@ -31,7 +31,9 @@ export default function* (hashName, fileInfo, fileBuffer, preSignedUrl, variant)
   let uploadSucceeded = false;
   for (let retries = 0; retries < MAX_RETRIES; retries += 1) {
     try {
-      yield delay(retries * 2000);
+      if (retries > 0) {
+        yield delay(2000);
+      }
 
       if (!uploadSucceeded) {
         yield put(startUpload(hashName));
