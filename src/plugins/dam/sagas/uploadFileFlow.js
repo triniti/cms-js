@@ -4,7 +4,7 @@ import failProcessOneFile from '../actions/failProcessOneFile';
 import fulfillUpload from '../actions/fulfillUpload';
 import startUpload from '../actions/startUpload';
 
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 5;
 
 const checkImage = (url) => new Promise((resolve, reject) => {
   const img = new Image();
@@ -28,51 +28,39 @@ export default function* (hashName, fileInfo, fileBuffer, preSignedUrl, variant)
     return true;
   }
 
+  let uploadSucceeded = false;
   for (let retries = 0; retries < MAX_RETRIES; retries += 1) {
     try {
-      // Delay the process by 2 seconds if this isn't the first try
-      if (retries) {
+      if (retries > 0) {
         yield delay(2000);
       }
 
-      yield put(startUpload(hashName));
+      if (!uploadSucceeded) {
+        yield put(startUpload(hashName));
 
-      // @fixme Attach metadata headers for asset id, causator, etc.
-      yield call(fetch, preSignedUrl, {
-        method: 'put',
-        body: fileBuffer,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': fileInfo.file.type || 'application/octet-stream',
-        },
-      });
+        // @fixme Attach metadata headers for asset id, causator, etc.
+        const uploadResponse = yield call(fetch, preSignedUrl, {
+          method: 'put',
+          body: fileBuffer,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': fileInfo.file.type || 'application/octet-stream',
+          },
+        });
+        if (uploadResponse.status !== 200) {
+          throw new Error(`dam upload file flow failed on try #${retries}. trying again.`);
+        }
+        uploadSucceeded = true;
+      }
 
       const { version } = variant;
       const { asset } = fileInfo;
-      const previewUrl = damUrl(asset, version, 'sm');
       const { type } = asset.get('_id');
 
-      try {
-        if (type === 'image') {
-          yield checkImage(previewUrl);
-        } else {
-          const assetResponse = yield call(fetch, previewUrl, { method: 'get' });
-          if (assetResponse.status !== 200) {
-            throw new Error('dam upload file flow failed first try. trying again.');
-          }
-        }
-      } catch (e) {
-        // Make one more try after 2 secs because sometimes amazon
-        // lags on making the asset available... wtf amazonians
-        yield delay(2000);
-        if (type === 'image') {
-          yield checkImage(previewUrl);
-        } else {
-          const assetResponse = yield call(fetch, previewUrl, { method: 'get' });
-          if (assetResponse.status !== 200) {
-            throw new Error('dam upload file flow failed twice. giving up.');
-          }
-        }
+      let previewUrl = damUrl(asset);
+      if (type === 'image') {
+        previewUrl = damUrl(asset, version, 'sm');
+        yield checkImage(previewUrl);
       }
 
       yield put(fulfillUpload(hashName, previewUrl));
@@ -81,22 +69,29 @@ export default function* (hashName, fileInfo, fileBuffer, preSignedUrl, variant)
       // End loop and saga
       return true;
     } catch (e) {
-      yield put(e);
-
-      if (retries + 1 === MAX_RETRIES) {
-        const error = {
-          err: 'UPLOAD',
-          msg: 'Failed to upload asset.',
-          // This info is needed to send to retry flow
-          retry: {
-            fileBuffer,
-            preSignedUrl,
-          },
-        };
-        yield put(failProcessOneFile(hashName, error));
-
-        throw e;
+      console.log('uploadFileFlow exception:', e);
+      try {
+        yield put(e);
+      } catch (ex) {
+        console.log('uploadFileFlow failed to put exception:', ex);
       }
+
+      if (retries + 1 !== MAX_RETRIES) {
+        continue;
+      }
+
+      const error = {
+        err: 'UPLOAD',
+        msg: 'Failed to upload asset.',
+        // This info is needed to send to retry flow
+        retry: {
+          fileBuffer,
+          preSignedUrl,
+        },
+      };
+      yield put(failProcessOneFile(hashName, error));
+
+      throw e;
     }
   }
 
