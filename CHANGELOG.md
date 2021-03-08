@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.13.1
 * CMS Node Screen must display errors if node fails to load
 * Change Copy/Pasting of text blocks to not copy state of block just text inside it.
 * cms is saving incorrect image dimensions.
