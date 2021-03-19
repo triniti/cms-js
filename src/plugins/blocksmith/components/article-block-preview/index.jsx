@@ -9,7 +9,7 @@ import selector from './selector';
 import './styles.scss';
 
 const ArticleBlockPreview = ({ className, articleNode, imageNode, block }) => {
-  const imgSrc = imageNode ? damUrl(imageNode, 'o', 'md') : '';
+  const imgSrc = imageNode ? damUrl(imageNode, 'o', 'md') : null;
   return (
     <div
       className={classNames('block-preview-article', className)}
@@ -21,13 +21,18 @@ const ArticleBlockPreview = ({ className, articleNode, imageNode, block }) => {
         target="_blank"
       >
         {
-          block.get('show_image') ? ([
-            <img key="a" src={imgSrc} alt="thumbnail" />,
-            <div key="b" className="launch-text">
-              <p>{block.get('link_text') || articleNode.get('title')}</p>
-              <Icon alert border imgSrc="book-open" size="xs" alt="article-icon" />
-            </div>,
-          ]) : (
+          block.get('show_image') ? (
+            <div className="image-wrapper">
+              {
+                imgSrc
+                && <img src={imgSrc} alt="thumbnail" />
+              }
+              <div className="launch-text">
+                <p>{block.get('link_text') || articleNode.get('title')}</p>
+                <Icon alert border imgSrc="book-open" size="xs" alt="article-icon" />
+              </div>
+            </div>
+          ) : (
             block.get('link_text') || articleNode.get('title')
           )
         }

@@ -14,7 +14,10 @@ const AudioBlockPreview = ({ className, audioNode, imageNode, block }) => (
     className={classNames('block-preview-audio', className)}
     role="presentation"
   >
-    <img src={imageNode ? damUrl(imageNode, 'o', 'md') : ''} alt="thumbnail" />
+    {
+      imageNode
+      && <img src={damUrl(imageNode, 'o', 'md')} alt="thumbnail" />
+    }
     <div className="player-text-wrapper">
       <ReactPlayer
         className="react-player"
