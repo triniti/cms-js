@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.13.1
+* CMS Node Screen must display errors if node fails to load
+* Change Copy/Pasting of text blocks to not copy state of block just text inside it.
+* cms is saving incorrect image dimensions.
+* Add `window.onerror` to blocksmith error boundaries for error logstream
+* Unable to upload non-image assets on dev/test
+
+
 ## vN.N.N
 * Clear image for Audio & Article block not functioning on Safari.
 
