@@ -185,14 +185,17 @@ class ArticleBlockModal extends React.Component {
   }
 
   handleSelectArticle(nodeRef) {
+    const { block } = this.props;
     this.setState((prevState, { getNode }) => {
       const articleNode = getNode(nodeRef);
+      let imageRef = articleNode.has('image_ref') ? articleNode.get('image_ref') : null;
 
+      if (block.has('node_ref') && (block.get('node_ref').getId() === nodeRef.getId())) {
+        imageRef = block.get('image_ref');
+      }
       return {
         selectedArticleNode: articleNode,
-        selectedImageRef: articleNode.has('image_ref')
-          ? articleNode.get('image_ref')
-          : null,
+        selectedImageRef: imageRef,
       };
     });
   }
