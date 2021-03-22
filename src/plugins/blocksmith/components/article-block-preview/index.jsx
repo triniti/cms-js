@@ -10,7 +10,7 @@ import selector from './selector';
 import './styles.scss';
 
 const ArticleBlockPreview = ({ className, articleNode, imageRef, block }) => {
-  const imgSrc = imageRef ? damUrl(imageRef, 'o', 'md') : null;
+  const imgSrc = damUrl(imageRef, 'o', 'md');
   return (
     <div
       className={classNames('block-preview-article', className)}
