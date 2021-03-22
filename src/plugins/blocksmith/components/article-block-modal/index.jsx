@@ -190,6 +190,7 @@ class ArticleBlockModal extends React.Component {
       const articleNode = getNode(nodeRef);
       let imageRef = articleNode.has('image_ref') ? articleNode.get('image_ref') : null;
 
+      // If same article was selected as previous, keep block image ref that was set.
       if (block.has('node_ref') && (block.get('node_ref').getId() === nodeRef.getId())) {
         imageRef = block.get('image_ref');
       }
