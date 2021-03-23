@@ -23,7 +23,7 @@ const ArticleBlockPreview = ({ className, articleNode, imageRef, block }) => {
       >
         {
           block.get('show_image') ? (
-            <div className="image-wrapper">
+            <>
               {
                 imgSrc
                 && <img src={imgSrc} alt="thumbnail" />
@@ -32,7 +32,7 @@ const ArticleBlockPreview = ({ className, articleNode, imageRef, block }) => {
                 <p>{block.get('link_text') || articleNode.get('title')}</p>
                 <Icon alert border imgSrc="book-open" size="xs" alt="article-icon" />
               </div>
-            </div>
+            </>
           ) : (
             block.get('link_text') || articleNode.get('title')
           )
