@@ -105,7 +105,6 @@ class YoutubeVideoBlockPreview extends React.Component {
             width,
             playerVars: {
               autoplay,
-              start: block.get('start_at'),
             },
           }}
         />
