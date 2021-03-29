@@ -24,17 +24,23 @@ class YoutubeVideoBlockPreview extends React.Component {
 
   constructor(props) {
     super(props);
+    const { block } = this.props;
+
     this.state = {
       isPlayerReady: false,
-      showVideo: false,
       player: null,
+      showVideo: false,
+      startAt: block.get('start_at'),
     };
     this.handleClickPosterImage = this.handleClickPosterImage.bind(this);
     this.handleOnReady = this.handleOnReady.bind(this);
   }
 
-  UNSAFE_componentWillReceiveProps({ imageNode }) {
-    this.setState({ showVideo: !imageNode });
+  UNSAFE_componentWillReceiveProps({ block, imageNode }) {
+    this.setState({
+      showVideo: !imageNode,
+      startAt: block.get('start_at'),
+    });
   }
 
   /**
@@ -60,18 +66,18 @@ class YoutubeVideoBlockPreview extends React.Component {
       width,
     } = this.props;
 
-    const { isPlayerReady, player, showVideo } = this.state;
+    const { isPlayerReady, player, showVideo, startAt } = this.state;
     const autoplay = (imageNode && showVideo) || block.get('autoplay');
 
     if (player) {
       if (autoplay) {
-        player.seekTo(block.get('start_at'));
+        player.seekTo(startAt);
         // check if player is in "PAUSED" state ( https://developers.google.com/youtube/iframe_api_reference )
         if (player.getPlayerState() === 2) {
           player.playVideo();
         }
       } else {
-        player.cueVideoById(block.get('id'), block.get('start_at'));
+        player.cueVideoById(block.get('id'), startAt);
       }
     }
 
@@ -105,7 +111,7 @@ class YoutubeVideoBlockPreview extends React.Component {
             width,
             playerVars: {
               autoplay,
-              start: block.get('start_at'),
+              start: startAt,
             },
           }}
         />
