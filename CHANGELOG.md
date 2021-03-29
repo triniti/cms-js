@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Fix for the YouTube video preview crash when setting the start at value
+* Clear image for Audio & Article block not functioning on Safari.
 
 
 ## v0.13.1
