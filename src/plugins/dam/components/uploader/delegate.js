@@ -173,15 +173,17 @@ class Delegate extends AbstractDelegate {
   }
 
   handleCreditApplyAll(credit, files, initialValues) {
+    const assetCount = { assetCount: files.length };
     const data = {
       fields: ['credit'],
       values: { credit },
     };
     this.dispatch(initialize(this.getFormName(), { ...initialValues, credit }, 'credit'));
-    this.dispatch(patchAssets(data, files, this.config));
+    this.dispatch(patchAssets(data, files, { ...this.config, assetCount }));
   }
 
   handleExpiresAtApplyAll(expiresAt, files, initialValues) {
+    const assetCount = { assetCount: files.length };
     const data = {
       fields: ['expires_at'],
       values: { expires_at: expiresAt },
@@ -190,7 +192,7 @@ class Delegate extends AbstractDelegate {
       this.getFormName(),
       { ...initialValues, expiresAt },
     ));
-    this.dispatch(patchAssets(data, files, this.config));
+    this.dispatch(patchAssets(data, files, { ...this.config, assetCount }));
   }
 
   getFormName() {
