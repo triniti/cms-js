@@ -173,7 +173,7 @@ class Delegate extends AbstractDelegate {
   }
 
   handleCreditApplyAll(credit, files, initialValues) {
-    const config = { ...this.config, assetCount: Object.keys(files).length };
+    const config = { schemas, assetCount: Object.keys(files).length };
     const data = {
       fields: ['credit'],
       values: { credit },
@@ -183,7 +183,7 @@ class Delegate extends AbstractDelegate {
   }
 
   handleExpiresAtApplyAll(expiresAt, files, initialValues) {
-    const config = { ...this.config, assetCount: Object.keys(files).length };
+    const config = { schemas, assetCount: Object.keys(files).length };
     const data = {
       fields: ['expires_at'],
       values: { expires_at: expiresAt },
