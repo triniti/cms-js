@@ -8,5 +8,5 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
  */
 export default (state, { block }) => ({
   articleNode: getNode(state, block.get('node_ref')),
-  imageNode: block.has('image_ref') ? getNode(state, block.get('image_ref')) : null,
+  imageRef: block.get('image_ref'),
 });

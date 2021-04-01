@@ -185,14 +185,17 @@ class ArticleBlockModal extends React.Component {
   }
 
   handleSelectArticle(nodeRef) {
-    this.setState((prevState, { getNode }) => {
+    this.setState((prevState, { block, getNode }) => {
       const articleNode = getNode(nodeRef);
+      let imageRef = articleNode.get('image_ref');
 
+      // If same article was selected as previous, keep block image ref that was set.
+      if (block.has('node_ref') && (block.get('node_ref').getId() === nodeRef.getId())) {
+        imageRef = block.get('image_ref');
+      }
       return {
         selectedArticleNode: articleNode,
-        selectedImageRef: articleNode.has('image_ref')
-          ? articleNode.get('image_ref')
-          : null,
+        selectedImageRef: imageRef,
       };
     });
   }
