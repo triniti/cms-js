@@ -3,8 +3,6 @@ import {
   getFormInitialValues,
   getFormValues,
   isDirty,
-  isPristine,
-  isValid,
 } from 'redux-form';
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getCounter from '@triniti/cms/plugins/utils/selectors/getCounter';
@@ -39,21 +37,25 @@ export default (state) => {
   const activeHashName = getActiveHashName(state);
   const formName = `${formNames.UPLOADER_FORM_PREFIX}${activeHashName}`;
   const isFormDirty = isDirty(formName)(state);
-  const isFormPristine = isPristine(formName)(state);
-  const isFormValid = isValid(formName)(state);
   const initialValues = getFormInitialValues(formName)(state);
   const currentValues = getFormValues(formName)(state);
 
   const files = getFileList(state);
+  const activeFile = files[activeHashName];
   const hasMultipleFiles = Object.keys(files).length > 1;
   const filesProcessing = getFilesProcessing(files);
   const hasFilesProcessing = filesProcessing.length > 0;
-  const enableCreditApplyAll = isFormDirty
+  const enableCreditApplyAll = (activeFile && !activeFile.error)
+    && isFormDirty
     && !hasFilesProcessing
     && get(initialValues, 'credit.value') !== get(currentValues, 'credit.value');
   const alerts = getAlerts(state, formName);
   const sequence = getCounter(state, utilityTypes.GALLERY_SEQUENCE_COUNTER);
   const enableExpirationDateApplyAll = (() => {
+    if (activeFile && activeFile.error) {
+      return false;
+    }
+
     if (!isFormDirty) {
       return false;
     }
@@ -72,23 +74,23 @@ export default (state) => {
 
     return true;
   })();
+  const enableSaveChanges = (activeFile && !activeFile.error) && !hasFilesProcessing && isFormDirty;
 
   return {
+    activeAsset: getActiveAsset(activeHashName)(state),
     activeHashName,
     alerts,
     currentValues,
     enableCreditApplyAll,
     enableExpirationDateApplyAll,
+    enableSaveChanges,
     files,
     filesProcessing,
-    sequence,
     hasFilesProcessing,
     hasMultipleFiles,
-    isFormDirty,
-    isFormPristine,
-    isFormValid,
-    activeAsset: getActiveAsset(activeHashName)(state),
     initialValues: getActiveFileInfo(state),
+    isFormDirty,
     processedFilesAssets: getProcessedFilesAssets(state),
+    sequence,
   };
 };

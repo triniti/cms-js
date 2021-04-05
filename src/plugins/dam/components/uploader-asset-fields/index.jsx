@@ -17,7 +17,7 @@ export default class UploaderAssetFields extends React.Component {
   static propTypes = {
     activeHashName: PropTypes.string.isRequired,
     currentValues: PropTypes.shape({
-      credit: PropTypes.object,
+      credit: PropTypes.shape({}),
       expiresAt: PropTypes.instanceOf(Date),
     }),
     enableCreditApplyAll: PropTypes.bool,
@@ -51,7 +51,8 @@ export default class UploaderAssetFields extends React.Component {
       initialValues,
       currentValues,
     } = this.props;
-    onCreditApplyToAll(currentValues.credit.value, files, initialValues);
+    const validFiles = Object.fromEntries(Object.entries(files).filter(([, file]) => !file.error));
+    onCreditApplyToAll(currentValues.credit.value, validFiles, initialValues);
   }
 
   handleExpiresAtApplyToAll() {
@@ -61,7 +62,8 @@ export default class UploaderAssetFields extends React.Component {
       initialValues,
       currentValues,
     } = this.props;
-    onExpiresAtApplyToAll(currentValues.expiresAt || null, files, initialValues);
+    const validFiles = Object.fromEntries(Object.entries(files).filter(([, file]) => !file.error));
+    onExpiresAtApplyToAll(currentValues.expiresAt || null, validFiles, initialValues);
   }
 
   render() {

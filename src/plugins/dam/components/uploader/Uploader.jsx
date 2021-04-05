@@ -47,12 +47,11 @@ class Uploader extends React.Component {
     delegate: PropTypes.instanceOf(Delegate).isRequired,
     enableCreditApplyAll: PropTypes.bool,
     enableExpirationDateApplyAll: PropTypes.bool,
-    files: PropTypes.shape({ hashName: PropTypes.object }).isRequired,
+    enableSaveChanges: PropTypes.bool,
+    files: PropTypes.shape({ hashName: PropTypes.shape({}) }).isRequired,
     hasFilesProcessing: PropTypes.bool,
     hasMultipleFiles: PropTypes.bool,
     isFormDirty: PropTypes.bool,
-    isFormPrestine: PropTypes.bool,
-    isFormValid: PropTypes.bool,
     isOpen: PropTypes.bool,
     lastGallerySequence: PropTypes.number,
     mimeTypeErrorMessage: PropTypes.string,
@@ -70,11 +69,10 @@ class Uploader extends React.Component {
     currentValues: {},
     enableCreditApplyAll: false,
     enableExpirationDateApplyAll: false,
+    enableSaveChanges: false,
     hasFilesProcessing: false,
     hasMultipleFiles: false,
-    isFormDirty: undefined,
-    isFormPrestine: undefined,
-    isFormValid: undefined,
+    isFormDirty: false,
     isOpen: false,
     lastGallerySequence: 0,
     mimeTypeErrorMessage: 'Invalid Action: Trying to upload invalid file type.',
@@ -149,11 +147,10 @@ class Uploader extends React.Component {
       currentValues,
       enableCreditApplyAll,
       enableExpirationDateApplyAll,
+      enableSaveChanges,
       hasFilesProcessing,
       hasMultipleFiles,
       isFormDirty,
-      isFormValid,
-      isFormPrestine,
       isOpen,
       files,
     } = this.props;
@@ -231,7 +228,7 @@ class Uploader extends React.Component {
                   <div>
                     <Button
                       onClick={delegate.handleSave}
-                      disabled={isFormValid && !isFormDirty && !isFormPrestine}
+                      disabled={!enableSaveChanges}
                     >
                       Save Changes
                     </Button>
