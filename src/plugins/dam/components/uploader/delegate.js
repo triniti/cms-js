@@ -178,7 +178,11 @@ class Delegate extends AbstractDelegate {
       fields: ['credit'],
       values: { credit },
     };
-    this.dispatch(initialize(this.getFormName(), { ...initialValues, credit }, 'credit'));
+    this.dispatch(initialize(
+      this.getFormName(),
+      { ...initialValues, credit: { value: credit } },
+      'credit',
+    ));
     this.dispatch(patchAssets(data, files, config));
   }
 

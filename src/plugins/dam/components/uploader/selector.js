@@ -45,37 +45,14 @@ export default (state) => {
   const hasFilesProcessing = filesProcessing.length > 0;
   const hasMultipleFiles = Object.keys(files).length > 1;
   const isActiveFileProcessing = !!filesProcessing.find((file) => file.hashName === activeHashName);
-  const isActiveFileValid = activeHashName && !files[activeHashName].error;
-  const enableCreditApplyAll = isActiveFileValid
-    && !isActiveFileProcessing
-    && isFormDirty
+  const isActiveFileValid = activeHashName !== null && !files[activeHashName].error;
+  const enableSaveChanges = isActiveFileValid && !isActiveFileProcessing && isFormDirty;
+  const enableCreditApplyAll = enableSaveChanges
     && get(initialValues, 'credit.value') !== get(currentValues, 'credit.value');
+  const enableExpirationDateApplyAll = enableSaveChanges
+    && !areDatesEqual(initialValues.expiresAt, currentValues.expiresAt);
   const alerts = getAlerts(state, formName);
   const sequence = getCounter(state, utilityTypes.GALLERY_SEQUENCE_COUNTER);
-  const enableExpirationDateApplyAll = (() => {
-    if (!isActiveFileValid) {
-      return false;
-    }
-
-    if (isActiveFileProcessing) {
-      return false;
-    }
-
-    if (!isFormDirty) {
-      return false;
-    }
-
-    if (!initialValues.expiresAt && currentValues.expiresAt) {
-      return true;
-    }
-
-    if (initialValues.expiresAt) {
-      return !areDatesEqual(initialValues.expiresAt, currentValues.expiresAt);
-    }
-
-    return true;
-  })();
-  const enableSaveChanges = isActiveFileValid && !isActiveFileProcessing && isFormDirty;
   const uploadedFiles = Object.fromEntries(Object.entries(files)
     .filter(([, file]) => !file.error && file.status === fileUploadStatuses.COMPLETED));
 
