@@ -22,11 +22,12 @@ export default class UploaderAssetFields extends React.Component {
     }),
     enableCreditApplyAll: PropTypes.bool,
     enableExpirationDateApplyAll: PropTypes.bool,
-    files: PropTypes.shape({}).isRequired,
+    files: PropTypes.shape({ hashName: PropTypes.shape({}) }).isRequired,
     onCreditApplyToAll: PropTypes.func,
     onExpiresAtApplyToAll: PropTypes.func,
     hasMultipleFiles: PropTypes.bool,
     initialValues: PropTypes.shape({}).isRequired,
+    uploadedFiles: PropTypes.shape({ hashName: PropTypes.shape({}) }).isRequired,
   };
 
   static defaultProps = {
@@ -47,23 +48,21 @@ export default class UploaderAssetFields extends React.Component {
   handleCreditApplyToAll() {
     const {
       onCreditApplyToAll,
-      files,
       initialValues,
       currentValues,
+      uploadedFiles,
     } = this.props;
-    const validFiles = Object.fromEntries(Object.entries(files).filter(([, file]) => !file.error));
-    onCreditApplyToAll(currentValues.credit.value, validFiles, initialValues);
+    onCreditApplyToAll((currentValues.credit || {}).value, uploadedFiles, initialValues);
   }
 
   handleExpiresAtApplyToAll() {
     const {
       onExpiresAtApplyToAll,
-      files,
       initialValues,
       currentValues,
+      uploadedFiles,
     } = this.props;
-    const validFiles = Object.fromEntries(Object.entries(files).filter(([, file]) => !file.error));
-    onExpiresAtApplyToAll(currentValues.expiresAt || null, validFiles, initialValues);
+    onExpiresAtApplyToAll(currentValues.expiresAt || null, uploadedFiles, initialValues);
   }
 
   render() {

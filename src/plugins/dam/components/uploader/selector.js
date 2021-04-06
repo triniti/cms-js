@@ -41,26 +41,27 @@ export default (state) => {
   const currentValues = getFormValues(formName)(state);
 
   const files = getFileList(state);
-  const activeFile = files[activeHashName];
-  const hasMultipleFiles = Object.keys(files).length > 1;
   const filesProcessing = getFilesProcessing(files);
   const hasFilesProcessing = filesProcessing.length > 0;
-  const enableCreditApplyAll = (activeFile && !activeFile.error)
+  const hasMultipleFiles = Object.keys(files).length > 1;
+  const isActiveFileProcessing = !!filesProcessing.find((file) => file.hashName === activeHashName);
+  const isActiveFileValid = activeHashName && !files[activeHashName].error;
+  const enableCreditApplyAll = isActiveFileValid
+    && !isActiveFileProcessing
     && isFormDirty
-    && !hasFilesProcessing
     && get(initialValues, 'credit.value') !== get(currentValues, 'credit.value');
   const alerts = getAlerts(state, formName);
   const sequence = getCounter(state, utilityTypes.GALLERY_SEQUENCE_COUNTER);
   const enableExpirationDateApplyAll = (() => {
-    if (activeFile && activeFile.error) {
+    if (!isActiveFileValid) {
+      return false;
+    }
+
+    if (isActiveFileProcessing) {
       return false;
     }
 
     if (!isFormDirty) {
-      return false;
-    }
-
-    if (hasFilesProcessing) {
       return false;
     }
 
@@ -74,7 +75,9 @@ export default (state) => {
 
     return true;
   })();
-  const enableSaveChanges = (activeFile && !activeFile.error) && !hasFilesProcessing && isFormDirty;
+  const enableSaveChanges = isActiveFileValid && !isActiveFileProcessing && isFormDirty;
+  const uploadedFiles = Object.fromEntries(Object.entries(files)
+    .filter(([, file]) => !file.error && file.status === fileUploadStatuses.COMPLETED));
 
   return {
     activeAsset: getActiveAsset(activeHashName)(state),
@@ -92,5 +95,6 @@ export default (state) => {
     isFormDirty,
     processedFilesAssets: getProcessedFilesAssets(state),
     sequence,
+    uploadedFiles,
   };
 };

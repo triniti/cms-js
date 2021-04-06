@@ -59,6 +59,7 @@ class Uploader extends React.Component {
     /* eslint react/no-unused-prop-types: off */
     onClose: PropTypes.func, // This is used in the delegate
     onToggleUploader: PropTypes.func.isRequired,
+    uploadedFiles: PropTypes.shape({ hashName: PropTypes.shape({}) }),
   };
 
   static defaultProps = {
@@ -78,6 +79,7 @@ class Uploader extends React.Component {
     mimeTypeErrorMessage: 'Invalid Action: Trying to upload invalid file type.',
     multiAssetErrorMessage: 'Invalid Action: Trying to upload multiple assets.',
     onClose: noop,
+    uploadedFiles: {},
   };
 
   constructor(props) {
@@ -153,6 +155,7 @@ class Uploader extends React.Component {
       isFormDirty,
       isOpen,
       files,
+      uploadedFiles,
     } = this.props;
 
     return (
@@ -205,6 +208,7 @@ class Uploader extends React.Component {
                           warn={delegate.handleWarn}
                           onSave={delegate.handleSave}
                           onSubmit={delegate.handleSubmit}
+                          uploadedFiles={uploadedFiles}
                         />
                       )}
                     {activeHashName && !activeAsset && <h3>Processing...</h3>}
