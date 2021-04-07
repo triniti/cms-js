@@ -76,7 +76,7 @@ class Delegate {
       values: fixedKeysCurrentValues,
     };
 
-    this.dispatch(batchEditPatchAssets(data, assetIds, { schemas }));
+    this.dispatch(batchEditPatchAssets(data, assetIds, { schemas, assetCount: assetIds.length }));
     onToggleBatchEdit();
   }
 }
