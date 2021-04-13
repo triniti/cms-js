@@ -126,8 +126,8 @@ export default class AbstractNodeScreen extends React.Component {
     this.unblock();
     const { delegate } = this.props;
     clearTimeout(this.nodeAlertTimeoutId);
-    delete this.nodeAlertTimeoutId;
-    delete this.nodeAlertOpen;
+    this.nodeAlertTimeoutId = undefined;
+    this.nodeAlertOpen = undefined;
     delegate.componentWillUnmount();
   }
 
@@ -246,10 +246,10 @@ export default class AbstractNodeScreen extends React.Component {
 
     if (this.nodeAlertTimeoutId) {
       clearTimeout(this.nodeAlertTimeoutId);
-      delete this.nodeAlertTimeoutId;
+      this.nodeAlertTimeoutId = undefined;
       if (this.nodeAlertOpen) {
         swal.close();
-        delete this.nodeAlertOpen;
+        this.nodeAlertOpen = undefined;
       }
     }
     return [this.renderForm()];
