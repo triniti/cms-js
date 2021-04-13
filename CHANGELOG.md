@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Fix node screen alert error when node fails to load
 * Youtube Block: Choosing start time throws error
 * Clear image for Audio & Article block not functioning on Safari.
 * CMS - Uploading assets is throwing an error for some users
