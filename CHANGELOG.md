@@ -7,6 +7,10 @@
 * CMS - Uploading assets is throwing an error for some users
 
 
+## v0.13.2
+* Prevent "node failed to load" alert from firing after leaving node screen
+
+
 ## v0.13.1
 * CMS Node Screen must display errors if node fails to load
 * Change Copy/Pasting of text blocks to not copy state of block just text inside it.
