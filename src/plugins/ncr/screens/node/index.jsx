@@ -125,6 +125,9 @@ export default class AbstractNodeScreen extends React.Component {
   componentWillUnmount() {
     this.unblock();
     const { delegate } = this.props;
+    clearTimeout(this.nodeAlertTimeoutId);
+    delete this.nodeAlertTimeoutId;
+    delete this.nodeAlertOpen;
     delegate.componentWillUnmount();
   }
 
