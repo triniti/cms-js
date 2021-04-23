@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* cms crash to white screen after paste
 * Youtube Block: Choosing start time throws error
 * Clear image for Audio & Article block not functioning on Safari.
 * CMS - Uploading assets is throwing an error for some users
