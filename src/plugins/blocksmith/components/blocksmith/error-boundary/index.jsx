@@ -23,11 +23,13 @@ class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      blocks: [],
       errorCount: 0,
       hasError: false,
+      isValid: true,
     };
 
-    this.restoreBlocksmith = this.restoreBlocksmith.bind(this);
+    this.handleRestoreBlocksmith = this.handleRestoreBlocksmith.bind(this);
   }
 
   static getDerivedStateFromError() {
@@ -35,19 +37,37 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
+    this.handleRestoreBlocksmith(false);
     console.error(error, errorInfo);
     window.onerror(error);
   }
 
-  restoreBlocksmith(editorState, resetErrorCount = true) {
-    const { onStoreEditor: handleStoreEditor } = this.props;
-    this.setState(({ errorCount }) => ({
+  handleRestoreBlocksmith(resetErrorCount = true) {
+    const { errorCount } = this.state;
+    const {
+      editorState,
+      onDirtyEditor: handleDirtyEditor,
+      onStoreEditor: handleStoreEditor,
+    } = this.props;
+    const { blocks, isValid, validEditorState } = validateBlocks(editorState);
+
+    if (!resetErrorCount && (!isValid || errorCount >= MAX_ERROR_COUNT)) {
+      return;
+    }
+
+    this.setState(() => ({
+      blocks,
       errorCount: resetErrorCount ? 0 : errorCount + 1,
       hasError: false,
+      isValid,
     }), () => {
       blockParentNode.clearCache();
-      handleStoreEditor(editorState);
+      handleStoreEditor(validEditorState);
     });
+
+    if (resetErrorCount) {
+      handleDirtyEditor();
+    }
   }
 
   render() {
@@ -55,19 +75,11 @@ class ErrorBoundary extends React.Component {
       children,
       editorState,
       getNode,
-      onDirtyEditor: handleDirtyEditor,
     } = this.props;
-    const { errorCount, hasError } = this.state;
+    const { blocks, hasError, isValid } = this.state;
 
     if (!hasError) {
       return children;
-    }
-
-    const { blocks, isValid, validEditorState } = validateBlocks(editorState);
-
-    if (isValid && errorCount < MAX_ERROR_COUNT) {
-      this.restoreBlocksmith(validEditorState, false);
-      return null;
     }
 
     let warning = 'The editor is experiencing continued failures.';
@@ -83,17 +95,14 @@ class ErrorBoundary extends React.Component {
         <p className="warning">{warning}</p>
         <Button
           size="md"
-          onClick={() => {
-            this.restoreBlocksmith(validEditorState);
-            handleDirtyEditor();
-          }}
+          onClick={this.handleRestoreBlocksmith}
         >
           {`restore editor${isValid ? '' : ' (only valid blocks)'}`}
         </Button>
         {!isValid && (
-        <Button size="md" onClick={() => this.restoreBlocksmith(editorState)}>
-          restore editor (including invalid blocks)
-        </Button>
+          <Button size="md" onClick={() => this.restoreBlocksmith(editorState)}>
+            restore editor (including invalid blocks)
+          </Button>
         )}
         <p>If you continue to see this message, then we recommend that you restore the valid blocks, save, and continue working in a new tab. Please do not close this tab - support will want to examine it to investigate the error.</p>
         {!isValid && (
