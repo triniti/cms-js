@@ -218,14 +218,12 @@ export default class Raven {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
     const errorData = args.find((arg) => arg instanceof Error) || args[0];
+
     let error;
-    const errorProps = Object.getOwnPropertyNames(errorData || {});
     try {
-      error = JSON.stringify(errorData, errorProps);
+      error = JSON.stringify(errorData, Object.getOwnPropertyNames(errorData || {}));
     } catch (e) {
       console.error('raven::onError::error', e);
-      // ensure to only include properties with string value
-      error = JSON.stringify(errorData, errorProps.filter((prop) => typeof errorData[prop] === 'string'));
     }
 
     error = (error || '').replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]');
@@ -234,6 +232,7 @@ export default class Raven {
       isJwtExpired(accessToken)
       || window.location.hostname === 'localhost'
       || errorHash === this.prevErrorHash
+      || !error.length
     ) {
       return;
     }
