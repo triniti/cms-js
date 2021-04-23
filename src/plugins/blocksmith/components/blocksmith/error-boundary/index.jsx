@@ -42,11 +42,15 @@ class ErrorBoundary extends React.Component {
     window.onerror(error);
   }
 
-  handleRestoreBlocksmith(resetErrorCount = true) {
+  /**
+   * try to restore blocksmith when an error occurs
+   * @param resetErrorCount {Boolean}
+   * @param excludeInvalidBlocks {Boolean} if true, it'll restore valid blocks only
+   */
+  handleRestoreBlocksmith(resetErrorCount = true, excludeInvalidBlocks = true) {
     const { errorCount } = this.state;
     const {
       editorState,
-      onDirtyEditor: handleDirtyEditor,
       onStoreEditor: handleStoreEditor,
     } = this.props;
     const { blocks, isValid, validEditorState } = validateBlocks(editorState);
@@ -62,19 +66,15 @@ class ErrorBoundary extends React.Component {
       isValid,
     }), () => {
       blockParentNode.clearCache();
-      handleStoreEditor(validEditorState);
+      handleStoreEditor(excludeInvalidBlocks ? validEditorState : editorState);
     });
-
-    if (resetErrorCount) {
-      handleDirtyEditor();
-    }
   }
 
   render() {
     const {
       children,
-      editorState,
       getNode,
+      onDirtyEditor: handleDirtyEditor,
     } = this.props;
     const { blocks, hasError, isValid } = this.state;
 
@@ -95,14 +95,17 @@ class ErrorBoundary extends React.Component {
         <p className="warning">{warning}</p>
         <Button
           size="md"
-          onClick={this.handleRestoreBlocksmith}
+          onClick={() => {
+            this.handleRestoreBlocksmith();
+            handleDirtyEditor();
+          }}
         >
           {`restore editor${isValid ? '' : ' (only valid blocks)'}`}
         </Button>
         {!isValid && (
-          <Button size="md" onClick={() => this.restoreBlocksmith(editorState)}>
-            restore editor (including invalid blocks)
-          </Button>
+        <Button size="md" onClick={() => this.handleRestoreBlocksmith(true, false)}>
+          restore editor (including invalid blocks)
+        </Button>
         )}
         <p>If you continue to see this message, then we recommend that you restore the valid blocks, save, and continue working in a new tab. Please do not close this tab - support will want to examine it to investigate the error.</p>
         {!isValid && (
