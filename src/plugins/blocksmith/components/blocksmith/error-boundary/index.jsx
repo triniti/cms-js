@@ -49,16 +49,11 @@ class ErrorBoundary extends React.Component {
    */
   handleRestoreBlocksmith(resetErrorCount = true, excludeInvalidBlocks = true) {
     const { errorCount } = this.state;
-    const {
-      editorState,
-      onStoreEditor: handleStoreEditor,
-    } = this.props;
+    const { editorState, onStoreEditor: handleStoreEditor } = this.props;
     const { blocks, isValid, validEditorState } = validateBlocks(editorState);
-
     if (!resetErrorCount && (!isValid || errorCount >= MAX_ERROR_COUNT)) {
       return;
     }
-
     this.setState(() => ({
       blocks,
       errorCount: resetErrorCount ? 0 : errorCount + 1,
