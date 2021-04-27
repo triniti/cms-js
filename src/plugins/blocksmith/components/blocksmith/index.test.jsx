@@ -1,11 +1,10 @@
 import React from 'react';
-import sinon from 'sinon';
-import test from 'tape';
 import { mount } from 'enzyme';
 import proxyquire from 'proxyquire';
+import sinon from 'sinon';
+import test from 'tape';
 
 import { ErrorBoundary } from './error-boundary';
-import Fallback from './error-boundary/Fallback';
 
 proxyquire.noCallThru();
 global.setTimeout = () => {};
@@ -18,7 +17,6 @@ const dependencies = {
 };
 const SafeBlocksmith = proxyquire('./index', dependencies).default;
 
-
 const wrapper = mount(<SafeBlocksmith />);
 
 test('Blocksmith:component:blocksmith:index - normal render', (t) => {
@@ -26,7 +24,7 @@ test('Blocksmith:component:blocksmith:index - normal render', (t) => {
   let expected = 1;
   t.equal(actual, expected, 'it should render an error boundary');
 
-  actual = wrapper.find(Fallback).length;
+  actual = wrapper.find(ErrorBoundary).find('.blocksmith-error-boundary').length;
   expected = 0;
   t.equal(actual, expected, 'it should NOT render a fallback');
 
@@ -44,7 +42,7 @@ test('Blocksmith:component:blocksmith:index - render error', (t) => {
 
   t.true(global.window.onerror.calledOnce, 'it should log error');
 
-  const expected = wrapper.find(ErrorBoundary).find(Fallback).length;
+  const expected = wrapper.find(ErrorBoundary).find('.blocksmith-error-boundary').length;
   const actual = 1;
   t.equal(actual, expected, 'it should render fallback');
 
