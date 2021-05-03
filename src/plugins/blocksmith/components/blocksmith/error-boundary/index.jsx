@@ -49,41 +49,43 @@ export class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // `setTimeout` ensures that the parent's `setEditorState` fn will always be
-    // invoked first in order to have the latest/greatest prop.
-    setTimeout(() => this.handleRestoreBlocksmith(false));
+    setTimeout(() => {
+      const { errorCount } = this.state;
+      const { editorState } = this.props;
+      const { blocks, isValid, validEditorState } = validateBlocks(editorState);
+      if (isValid && errorCount < MAX_ERROR_COUNT) {
+        this.handleRestoreBlocksmith({
+          blocks,
+          editorState: validEditorState,
+          resetErrorCount: false,
+        });
+      }
+    });
     console.error(error, errorInfo);
     window.onerror(error);
   }
 
-  handleRestoreBlocksmith(resetErrorCount = true, excludeInvalidBlocks = true) {
-    const { errorCount } = this.state;
-    const { delegate, editorState } = this.props;
-    const { blocks, isValid, validEditorState } = validateBlocks(editorState);
-    if (!resetErrorCount && (!isValid || errorCount >= MAX_ERROR_COUNT)) {
-      return;
-    }
-
-    this.setState(() => ({
+  handleRestoreBlocksmith({ blocks, editorState, isValid = true, resetErrorCount = true }) {
+    this.setState(({ errorCount }) => ({
       blocks,
       errorCount: resetErrorCount ? 0 : errorCount + 1,
       hasError: false,
       isValid,
     }), () => {
       blockParentNode.clearCache();
-      delegate.handleStoreEditor(excludeInvalidBlocks ? validEditorState : editorState);
+      const { delegate } = this.props;
+      delegate.handleStoreEditor(editorState);
     });
   }
 
   render() {
     const {
       delegate,
-      editorState,
       children,
+      editorState,
       getNode,
     } = this.props;
     const { blocks, hasError, isValid } = this.state;
-
     if (!hasError) {
       return children;
     }
@@ -116,14 +118,15 @@ export class ErrorBoundary extends React.Component {
             <Button
               size="md"
               onClick={() => {
-                this.handleRestoreBlocksmith();
+                const result = validateBlocks(editorState);
+                this.handleRestoreBlocksmith({ ...result, editorState: result.validEditorState });
                 delegate.handleDirtyEditor();
               }}
             >
               {`restore editor${isValid ? '' : ' (only valid blocks)'}`}
             </Button>
             {!isValid && (
-              <Button size="md" onClick={() => this.handleRestoreBlocksmith(true, false)}>
+              <Button size="md" onClick={() => this.handleRestoreBlocksmith({ ...validateBlocks(editorState), editorState })}>
                 restore editor (including invalid blocks)
               </Button>
             )}
