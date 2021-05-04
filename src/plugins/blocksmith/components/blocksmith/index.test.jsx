@@ -4,7 +4,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import test from 'tape';
 
-import { ErrorBoundary } from './error-boundary';
+import OuterErrorBoundary from './error-boundary/OuterErrorBoundary';
 
 proxyquire.noCallThru();
 global.setTimeout = () => {};
@@ -12,7 +12,6 @@ global.window.onerror = sinon.spy();
 
 const Blocksmith = () => <textarea />; // mock blocksmith for simplicity
 const dependencies = {
-  './error-boundary': ErrorBoundary, // a detached from store version
   './Blocksmith': Blocksmith,
 };
 const SafeBlocksmith = proxyquire('./index', dependencies).default;
@@ -20,15 +19,15 @@ const SafeBlocksmith = proxyquire('./index', dependencies).default;
 const wrapper = mount(<SafeBlocksmith />);
 
 test('Blocksmith:component:blocksmith:index - normal render', (t) => {
-  let actual = wrapper.find(ErrorBoundary).length;
+  let actual = wrapper.find(OuterErrorBoundary).length;
   let expected = 1;
   t.equal(actual, expected, 'it should render an error boundary');
 
-  actual = wrapper.find(ErrorBoundary).find('.blocksmith-error-boundary').length;
+  actual = wrapper.find(OuterErrorBoundary).find('.blocksmith-error-boundary').length;
   expected = 0;
   t.equal(actual, expected, 'it should NOT render a fallback');
 
-  actual = wrapper.find(ErrorBoundary).find(Blocksmith).length;
+  actual = wrapper.find(OuterErrorBoundary).find(Blocksmith).length;
   expected = 1;
   t.equal(actual, expected, 'it should render a blocksmith');
 
@@ -42,7 +41,7 @@ test('Blocksmith:component:blocksmith:index - render error', (t) => {
 
   t.true(global.window.onerror.calledOnce, 'it should log error');
 
-  const expected = wrapper.find(ErrorBoundary).find('.blocksmith-error-boundary').length;
+  const expected = wrapper.find(OuterErrorBoundary).find('.blocksmith-error-boundary').length;
   const actual = 1;
   t.equal(actual, expected, 'it should render fallback');
 
