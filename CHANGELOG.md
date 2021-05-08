@@ -1,10 +1,10 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.13.3
 * Youtube Block: Choosing start time throws error
 * Clear image for Audio & Article block not functioning on Safari.
-* CMS - Uploading assets is throwing an error for some users
+* Uploading assets is throwing an error for some users
 
 
 ## v0.13.2
