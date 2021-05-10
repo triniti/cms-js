@@ -69,7 +69,7 @@ import constants from './constants';
 import customStyleMap from './customStyleMap';
 import decorators from './decorators';
 import delegateFactory from './delegate';
-import ErrorBoundary from './error-boundary';
+import InnerErrorBoundary from './inner-error-boundary';
 import selector from './selector';
 import { blockTypes, tokens } from '../../constants';
 import { clearDragCache } from '../../utils/styleDragTarget';
@@ -1746,7 +1746,7 @@ class Blocksmith extends React.Component {
           </kbd>
         </CardHeader>
         <CardBody indent>
-          <ErrorBoundary
+          <InnerErrorBoundary
             editorState={editorState}
             formName={formName}
             onDirtyEditor={delegate.handleDirtyEditor}
@@ -1841,7 +1841,7 @@ class Blocksmith extends React.Component {
                 <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
               </div>
             )}
-          </ErrorBoundary>
+          </InnerErrorBoundary>
           {!!Object.keys(errors).length && (
             <>
               <p>One or more errors have occurred. Please check your work, save, and report the issue to support.</p>

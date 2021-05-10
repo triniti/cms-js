@@ -11,7 +11,7 @@ import './styles.scss';
 
 const MAX_ERROR_COUNT = 5;
 
-class ErrorBoundary extends React.Component {
+class InnerErrorBoundary extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     editorState: PropTypes.instanceOf(EditorState).isRequired,
@@ -167,4 +167,4 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default connect(selector)(ErrorBoundary);
+export default connect(selector)(InnerErrorBoundary);
