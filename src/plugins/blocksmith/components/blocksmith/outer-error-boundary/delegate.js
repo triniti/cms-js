@@ -1,5 +1,5 @@
-import dirtyEditor from '../../actions/dirtyEditor';
-import storeEditor from '../../actions/storeEditor';
+import dirtyEditor from '../../../actions/dirtyEditor';
+import storeEditor from '../../../actions/storeEditor';
 
 export default (dispatch, { formName }) => ({
   handleDirtyEditor: () => dispatch(dirtyEditor(formName)),

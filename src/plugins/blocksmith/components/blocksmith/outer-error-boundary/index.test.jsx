@@ -12,11 +12,11 @@ let wrapper;
 const validEditorState = EditorState.createEmpty();
 let validateBlocksStub = () => ({ blocks: [], isValid: true, validEditorState });
 const Child = () => <textarea />;
-const initialStub = {
+const initialStubs = {
   'react-redux': { connect: () => (component) => component }, // disconnect from redux store
 };
 
-const setUp = (stubs = initialStub) => {
+const setUp = (stubs = initialStubs) => {
   test('setUp', (t) => {
     const OuterErrorBoundary = proxyquire('./index', stubs).default;
     wrapper = mount(<OuterErrorBoundary delegate={{ handleStoreEditor: () => {} }}><Child /></OuterErrorBoundary>);
@@ -42,7 +42,7 @@ test('Blocksmith:component:outer-error-boundary:render', (t) => {
 });
 tearDown();
 
-setUp({ ...initialStub, '../../utils/validateBlocks': validateBlocksStub });
+setUp({ ...initialStubs, '../../../utils/validateBlocks': validateBlocksStub });
 test('Blocksmith:component:outer-error-boundary:error:errorCount < MAX_ERROR_COUNT', (t) => {
   wrapper.find(Child).simulateError(new Error('a child crash'));
 
@@ -53,7 +53,7 @@ test('Blocksmith:component:outer-error-boundary:error:errorCount < MAX_ERROR_COU
 });
 tearDown();
 
-setUp({ ...initialStub, '../../utils/validateBlocks': validateBlocksStub });
+setUp({ ...initialStubs, '../../../utils/validateBlocks': validateBlocksStub });
 test('Blocksmith:component:outer-error-boundary:error:errorCount > MAX_ERROR_COUNT', (t) => {
   wrapper.setState({ errorCount: 6 });
 
@@ -75,7 +75,7 @@ test('Blocksmith:component:outer-error-boundary:error:errorCount > MAX_ERROR_COU
 tearDown();
 
 validateBlocksStub = () => ({ blocks: [], isValid: false, validEditorState }); // switch isValid
-setUp({ ...initialStub, '../../utils/validateBlocks': validateBlocksStub });
+setUp({ ...initialStubs, '../../../utils/validateBlocks': validateBlocksStub });
 test('Blocksmith:component:outer-error-boundary:error:isValid is false', (t) => {
   wrapper.setState({ errorCount: 6 });
 

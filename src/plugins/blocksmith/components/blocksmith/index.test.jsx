@@ -8,13 +8,13 @@ proxyquire.noCallThru();
 global.window.onerror = sinon.spy();
 
 const Blocksmith = () => <textarea />;
-const OuterErrorBoundary = proxyquire('../outer-error-boundary', {
+const OuterErrorBoundary = proxyquire('./outer-error-boundary', {
   'react-redux': { connect: () => (component) => component }, // disconnect from redux store
-  '../../utils/validateBlocks': () => ({ blocks: [] }),
+  '../../../utils/validateBlocks': () => ({ blocks: [] }),
 }).default;
 
 const stubs = {
-  '../outer-error-boundary': OuterErrorBoundary,
+  './outer-error-boundary': OuterErrorBoundary,
   './Blocksmith': Blocksmith,
 };
 

@@ -14,7 +14,7 @@ import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 import validateBlocks from '@triniti/cms/plugins/blocksmith/utils/validateBlocks';
 
-import { getWordCount } from '../../utils';
+import { getWordCount } from '../../../utils';
 import delegateFactory from './delegate';
 import selector from './selector';
 import './styles.scss';
