@@ -16,9 +16,7 @@ const MAX_FILE_READERS = 10; // This number should be >= MAX_FILE_UPLOADS
 const MAX_FILE_UPLOADS = 3;
 
 function* watchPatchAssets() {
-  yield takeEvery([
-    actionTypes.PATCH_ASSETS_REQUESTED,
-  ], patchAssetsFlow);
+  yield takeLatest(actionTypes.PATCH_ASSETS_REQUESTED, patchAssetsFlow);
 }
 
 function* watchProcessFiles() {

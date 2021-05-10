@@ -4,17 +4,22 @@ import classNames from 'classnames';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import Message from '@gdbots/pbj/Message';
+import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import { Icon } from '@triniti/admin-ui-plugin/components';
 import damUrl from '@triniti/cms/plugins/dam/utils/damUrl';
 import selector from './selector';
 import './styles.scss';
 
-const AudioBlockPreview = ({ className, audioNode, imageNode, block }) => (
+
+const AudioBlockPreview = ({ className, audioNode, imageRef, block }) => (
   <div
     className={classNames('block-preview-audio', className)}
     role="presentation"
   >
-    <img src={imageNode ? damUrl(imageNode, 'o', 'md') : ''} alt="thumbnail" />
+    {
+      imageRef
+      && <img src={damUrl(imageRef, 'o', 'md')} alt="thumbnail" />
+    }
     <div className="player-text-wrapper">
       <ReactPlayer
         className="react-player"
@@ -40,12 +45,12 @@ AudioBlockPreview.propTypes = {
   audioNode: PropTypes.instanceOf(Message).isRequired,
   block: PropTypes.instanceOf(Message).isRequired,
   className: PropTypes.string,
-  imageNode: PropTypes.instanceOf(Message),
+  imageRef: PropTypes.instanceOf(NodeRef),
 };
 
 AudioBlockPreview.defaultProps = {
   className: '',
-  imageNode: null,
+  imageRef: null,
 };
 
 export default connect(selector)(AudioBlockPreview);

@@ -45,13 +45,17 @@ export default function* (action) {
   const expectedEvent = config.schemas.assetPatched.getCurie().toString();
 
   try {
+    let timeout = 5000;
+    if (config.assetCount && config.assetCount > 10) {
+      timeout += (500 * (config.assetCount - 10));
+    }
     const eventChannel = yield actionChannel(expectedEvent);
     yield fork([toast, 'show']);
     yield putResolve(pbj);
 
     const result = yield race({
-      event: call(waitForMyEvent, eventChannel),
-      timeout: delay(5000),
+      event: call(waitForMyEvent, eventChannel, config.assetCount),
+      timeout: delay(timeout),
     });
 
     if (result.timeout) {

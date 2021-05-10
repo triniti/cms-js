@@ -3,8 +3,6 @@ import {
   getFormInitialValues,
   getFormValues,
   isDirty,
-  isPristine,
-  isValid,
 } from 'redux-form';
 import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
 import getCounter from '@triniti/cms/plugins/utils/selectors/getCounter';
@@ -39,56 +37,41 @@ export default (state) => {
   const activeHashName = getActiveHashName(state);
   const formName = `${formNames.UPLOADER_FORM_PREFIX}${activeHashName}`;
   const isFormDirty = isDirty(formName)(state);
-  const isFormPristine = isPristine(formName)(state);
-  const isFormValid = isValid(formName)(state);
   const initialValues = getFormInitialValues(formName)(state);
   const currentValues = getFormValues(formName)(state);
 
   const files = getFileList(state);
-  const hasMultipleFiles = Object.keys(files).length > 1;
   const filesProcessing = getFilesProcessing(files);
   const hasFilesProcessing = filesProcessing.length > 0;
-  const enableCreditApplyAll = isFormDirty
-    && !hasFilesProcessing
+  const hasMultipleFiles = Object.keys(files).length > 1;
+  const isActiveFileProcessing = !!filesProcessing.find((file) => file.hashName === activeHashName);
+  const isActiveFileValid = activeHashName !== null && !files[activeHashName].error;
+  const enableSaveChanges = isActiveFileValid && !isActiveFileProcessing && isFormDirty;
+  const enableCreditApplyAll = enableSaveChanges
     && get(initialValues, 'credit.value') !== get(currentValues, 'credit.value');
+  const enableExpirationDateApplyAll = enableSaveChanges
+    && !areDatesEqual(initialValues.expiresAt, currentValues.expiresAt);
   const alerts = getAlerts(state, formName);
   const sequence = getCounter(state, utilityTypes.GALLERY_SEQUENCE_COUNTER);
-  const enableExpirationDateApplyAll = (() => {
-    if (!isFormDirty) {
-      return false;
-    }
-
-    if (hasFilesProcessing) {
-      return false;
-    }
-
-    if (!initialValues.expiresAt && currentValues.expiresAt) {
-      return true;
-    }
-
-    if (initialValues.expiresAt) {
-      return !areDatesEqual(initialValues.expiresAt, currentValues.expiresAt);
-    }
-
-    return true;
-  })();
+  const uploadedFiles = Object.fromEntries(Object.entries(files)
+    .filter(([, file]) => !file.error && file.status === fileUploadStatuses.COMPLETED));
 
   return {
+    activeAsset: getActiveAsset(activeHashName)(state),
     activeHashName,
     alerts,
     currentValues,
     enableCreditApplyAll,
     enableExpirationDateApplyAll,
+    enableSaveChanges,
     files,
     filesProcessing,
-    sequence,
     hasFilesProcessing,
     hasMultipleFiles,
-    isFormDirty,
-    isFormPristine,
-    isFormValid,
-    activeAsset: getActiveAsset(activeHashName)(state),
     initialValues: getActiveFileInfo(state),
+    isFormDirty,
     processedFilesAssets: getProcessedFilesAssets(state),
+    sequence,
+    uploadedFiles,
   };
 };

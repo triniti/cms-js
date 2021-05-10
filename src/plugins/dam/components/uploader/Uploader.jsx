@@ -47,12 +47,11 @@ class Uploader extends React.Component {
     delegate: PropTypes.instanceOf(Delegate).isRequired,
     enableCreditApplyAll: PropTypes.bool,
     enableExpirationDateApplyAll: PropTypes.bool,
-    files: PropTypes.shape({ hashName: PropTypes.object }).isRequired,
+    enableSaveChanges: PropTypes.bool,
+    files: PropTypes.shape({ hashName: PropTypes.shape({}) }).isRequired,
     hasFilesProcessing: PropTypes.bool,
     hasMultipleFiles: PropTypes.bool,
     isFormDirty: PropTypes.bool,
-    isFormPrestine: PropTypes.bool,
-    isFormValid: PropTypes.bool,
     isOpen: PropTypes.bool,
     lastGallerySequence: PropTypes.number,
     mimeTypeErrorMessage: PropTypes.string,
@@ -60,6 +59,7 @@ class Uploader extends React.Component {
     /* eslint react/no-unused-prop-types: off */
     onClose: PropTypes.func, // This is used in the delegate
     onToggleUploader: PropTypes.func.isRequired,
+    uploadedFiles: PropTypes.shape({ hashName: PropTypes.shape({}) }),
   };
 
   static defaultProps = {
@@ -70,16 +70,16 @@ class Uploader extends React.Component {
     currentValues: {},
     enableCreditApplyAll: false,
     enableExpirationDateApplyAll: false,
+    enableSaveChanges: false,
     hasFilesProcessing: false,
     hasMultipleFiles: false,
-    isFormDirty: undefined,
-    isFormPrestine: undefined,
-    isFormValid: undefined,
+    isFormDirty: false,
     isOpen: false,
     lastGallerySequence: 0,
     mimeTypeErrorMessage: 'Invalid Action: Trying to upload invalid file type.',
     multiAssetErrorMessage: 'Invalid Action: Trying to upload multiple assets.',
     onClose: noop,
+    uploadedFiles: {},
   };
 
   constructor(props) {
@@ -149,13 +149,13 @@ class Uploader extends React.Component {
       currentValues,
       enableCreditApplyAll,
       enableExpirationDateApplyAll,
+      enableSaveChanges,
       hasFilesProcessing,
       hasMultipleFiles,
       isFormDirty,
-      isFormValid,
-      isFormPrestine,
       isOpen,
       files,
+      uploadedFiles,
     } = this.props;
 
     return (
@@ -208,6 +208,7 @@ class Uploader extends React.Component {
                           warn={delegate.handleWarn}
                           onSave={delegate.handleSave}
                           onSubmit={delegate.handleSubmit}
+                          uploadedFiles={uploadedFiles}
                         />
                       )}
                     {activeHashName && !activeAsset && <h3>Processing...</h3>}
@@ -231,7 +232,7 @@ class Uploader extends React.Component {
                   <div>
                     <Button
                       onClick={delegate.handleSave}
-                      disabled={isFormValid && !isFormDirty && !isFormPrestine}
+                      disabled={!enableSaveChanges}
                     >
                       Save Changes
                     </Button>

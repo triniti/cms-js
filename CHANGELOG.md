@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v0.13.3
+* Youtube Block: Choosing start time throws error
+* Clear image for Audio & Article block not functioning on Safari.
+* Uploading assets is throwing an error for some users
+
+
 ## v0.13.2
 * Prevent "node failed to load" alert from firing after leaving node screen
 
