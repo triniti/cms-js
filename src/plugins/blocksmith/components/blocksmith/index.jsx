@@ -3,10 +3,11 @@ import React from 'react';
 import OuterErrorBoundary from './outer-error-boundary';
 import Blocksmith from './Blocksmith';
 
-export default ({ ...rest }) => (
+export default (props) => (
   <OuterErrorBoundary
-    formName={rest.formName}
+    /* eslint-disable-next-line react/destructuring-assignment */
+    formName={props.formName}
   >
-    <Blocksmith {...rest} />
+    <Blocksmith {...props} />
   </OuterErrorBoundary>
 );
