@@ -1,4 +1,5 @@
 import React from 'react';
+import noop from 'lodash-es/noop';
 import { mount } from 'enzyme';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
@@ -19,7 +20,16 @@ const initialStubs = {
 const setUp = (stubs = initialStubs) => {
   test('setUp', (t) => {
     const OuterErrorBoundary = proxyquire('./index', stubs).default;
-    wrapper = mount(<OuterErrorBoundary delegate={{ handleStoreEditor: () => {} }}><Child /></OuterErrorBoundary>);
+    wrapper = mount(
+      <OuterErrorBoundary
+        delegate={{
+          handleStoreEditor: noop,
+          handleDirtyEditor: noop,
+        }}
+      >
+        <Child />
+      </OuterErrorBoundary>,
+    );
     t.end();
   });
 };
@@ -46,6 +56,8 @@ setUp({ ...initialStubs, '../../../utils/validateBlocks': validateBlocksStub });
 test('Blocksmith:component:outer-error-boundary:error:errorCount < MAX_ERROR_COUNT', (t) => {
   wrapper.find(Child).simulateError(new Error('a child crash'));
 
+  t.true(global.window.onerror.called, 'it should log error');
+
   const actual = wrapper.find(Child).length;
   const expected = 1;
   t.equal(actual, expected, 'it should render child');
@@ -58,6 +70,8 @@ test('Blocksmith:component:outer-error-boundary:error:errorCount > MAX_ERROR_COU
   wrapper.setState({ errorCount: 6 });
 
   wrapper.find(Child).simulateError(new Error('a child crash'));
+
+  t.true(global.window.onerror.called, 'it should log error');
 
   let actual = wrapper.find(Child).length;
   let expected = 0;
@@ -80,6 +94,8 @@ test('Blocksmith:component:outer-error-boundary:error:isValid is false', (t) => 
   wrapper.setState({ errorCount: 6 });
 
   wrapper.find(Child).simulateError(new Error('a child crash'));
+
+  t.true(global.window.onerror.called, 'it should log error');
 
   let actual = wrapper.find(Child).length;
   let expected = 0;
