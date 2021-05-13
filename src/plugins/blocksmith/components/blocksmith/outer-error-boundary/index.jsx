@@ -28,12 +28,8 @@ class OuterErrorBoundary extends React.Component {
       handleDirtyEditor: PropTypes.func.isRequired,
       handleStoreEditor: PropTypes.func.isRequired,
     }).isRequired,
-    editorState: PropTypes.instanceOf(EditorState),
+    editorState: PropTypes.instanceOf(EditorState).isRequired,
     getNode: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    editorState: EditorState.createEmpty(),
   };
 
   constructor(props) {
