@@ -92,7 +92,8 @@ class OuterErrorBoundary extends React.Component {
     } else {
       warning += ' Some of the blocks are invalid and that may be causing it to crash.';
     }
-    warning += ' We were able to recover some of your work but not all of it. Press one of the buttons below to try to restore the editor.';
+    warning += ` We were able to recover some of your work but not all of it.
+                 Press ${isValid ? 'the button' : 'one of the buttons'} below to try to restore the editor.`;
 
     return (
       <Card>

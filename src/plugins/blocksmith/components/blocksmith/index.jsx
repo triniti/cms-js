@@ -1,7 +1,7 @@
 import React from 'react';
 
-import OuterErrorBoundary from './outer-error-boundary';
 import Blocksmith from './Blocksmith';
+import OuterErrorBoundary from './outer-error-boundary';
 
 export default (props) => (
   <OuterErrorBoundary

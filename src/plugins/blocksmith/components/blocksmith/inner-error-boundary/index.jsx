@@ -76,7 +76,7 @@ class InnerErrorBoundary extends React.Component {
     } else {
       warning += ' Some of the blocks are invalid and that may be causing it to crash.';
     }
-    warning += ' Press one of the buttons below to restore the editor.';
+    warning += ` Press ${isValid ? 'the button' : 'one of the buttons'} below to restore the editor.`;
 
     return (
       <div className="blocksmith-error-boundary">

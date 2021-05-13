@@ -14,12 +14,10 @@ const OuterErrorBoundary = proxyquire('./outer-error-boundary', {
 }).default;
 
 const stubs = {
-  './outer-error-boundary': OuterErrorBoundary,
   './Blocksmith': Blocksmith,
+  './outer-error-boundary': OuterErrorBoundary,
 };
-
 const SafeBlocksmith = proxyquire('./index', stubs).default;
-
 const wrapper = mount(<SafeBlocksmith />);
 
 test('Blocksmith:component:blocksmith:index - normal render', (t) => {

@@ -81,8 +81,12 @@ test('Blocksmith:component:outer-error-boundary:error:errorCount > MAX_ERROR_COU
   expected = 1;
   t.equal(actual, expected, 'it should render fallback');
 
-  const expectedText = 'The blocks are valid but some issue is causing it to crash.';
-  t.true(wrapper.find('.warning').text().indexOf(expectedText) > -1, 'it should have correct text warning');
+  const warningText = wrapper.find('.warning').text();
+  let expectedWarningText = 'The blocks are valid but some issue is causing it to crash.';
+  t.true(warningText.indexOf(expectedWarningText) > -1, 'it should have correct text warning');
+
+  expectedWarningText = 'Press the button below to try to restore the editor.';
+  t.true(warningText.indexOf(expectedWarningText) > -1, 'it should have correct text warning');
 
   t.end();
 });
@@ -91,8 +95,6 @@ tearDown();
 validateBlocksStub = () => ({ blocks: [], isValid: false, validEditorState }); // switch isValid
 setUp({ ...initialStubs, '../../../utils/validateBlocks': validateBlocksStub });
 test('Blocksmith:component:outer-error-boundary:error:isValid is false', (t) => {
-  wrapper.setState({ errorCount: 6 });
-
   wrapper.find(Child).simulateError(new Error('a child crash'));
 
   t.true(global.window.onerror.called, 'it should log error');
@@ -105,8 +107,12 @@ test('Blocksmith:component:outer-error-boundary:error:isValid is false', (t) => 
   expected = 1;
   t.equal(actual, expected, 'it should render fallback');
 
-  const expectedText = 'Some of the blocks are invalid and that may be causing it to crash.';
-  t.true(wrapper.find('.warning').text().indexOf(expectedText) > -1, 'it should have correct text warning');
+  const warningText = wrapper.find('.warning').text();
+  let expectedWarningText = 'Some of the blocks are invalid and that may be causing it to crash.';
+  t.true(warningText.indexOf(expectedWarningText) > -1, 'it should have correct text warning');
+
+  expectedWarningText = 'Press one of the buttons below to try to restore the editor.';
+  t.true(warningText.indexOf(expectedWarningText) > -1, 'it should have correct text warning');
 
   t.end();
 });
