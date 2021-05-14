@@ -18,6 +18,7 @@ export default class ImageAssetSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
 
+    data.altText = node.get('alt_text');
     data.width = node.get('width');
     data.height = node.get('height');
   }
@@ -30,6 +31,14 @@ export default class ImageAssetSubscriber extends EventSubscriber {
   onValidateForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
+
+    if (data.altText) {
+      try {
+        node.set('alt_text', data.altText);
+      } catch (e) {
+        formEvent.addError('alt_text', e.message);
+      }
+    }
 
     if (data.width) {
       try {
@@ -68,6 +77,7 @@ export default class ImageAssetSubscriber extends EventSubscriber {
     }
 
     node
+      .set('alt_text', data.altText)
       .set('width', data.width)
       .set('height', data.height);
   }
