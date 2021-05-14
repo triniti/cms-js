@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add eme-form-block to Blocksmith.
+
+
 ## v0.13.3
 * Youtube Block: Choosing start time throws error
 * Clear image for Audio & Article block not functioning on Safari.
