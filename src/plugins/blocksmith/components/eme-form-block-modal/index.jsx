@@ -13,8 +13,6 @@ import {
   ModalFooter,
 } from '@triniti/admin-ui-plugin/components';
 
-import getEmeFormBlockRef from './getEmeFormBlockRef';
-
 export default class EmeFormBlockModal extends React.Component {
   static propTypes = {
     block: PropTypes.instanceOf(Message).isRequired,
@@ -64,18 +62,18 @@ export default class EmeFormBlockModal extends React.Component {
 
   handleChangeFormRef(event) {
     const input = event.target.value;
-    const id = getEmeFormBlockRef(input);
     let { errorMsg, formRef, isValid } = this.state;
 
-    if (!id) {
-      errorMsg = 'Form ref is invalid. Must match pattern of vendor:label:id.';
+    try {
+      errorMsg = '';
+      formRef = NodeRef.fromString(input);
+      isValid = true;
+    } catch (e) {
+      errorMsg = e.getMessage();
       formRef = input;
       isValid = false;
-    } else {
-      errorMsg = '';
-      formRef = id;
-      isValid = true;
     }
+
     this.setState({
       errorMsg,
       formRef,
@@ -90,12 +88,9 @@ export default class EmeFormBlockModal extends React.Component {
     } = this.state;
 
     const { block } = this.props;
-    const refParts = formRef.split(':', 3);
-    const curie = `${refParts[0]}:${refParts[1]}`;
-    const id = refParts[2];
 
     return block.schema().createMessage()
-      .set('form_ref', new NodeRef(curie, id) || null);
+      .set('form_ref', formRef || null);
   }
 
   render() {
@@ -116,7 +111,7 @@ export default class EmeFormBlockModal extends React.Component {
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeFormRef}
-              placeholder="Enter EME Form Ref"
+              placeholder="eme:type:id"
               type="text"
               value={formRef || ''}
             />
