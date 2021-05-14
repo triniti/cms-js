@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add eme-form-block to Blocksmith.
+* cms crash to white screen after paste
 
 
 ## v0.13.3
