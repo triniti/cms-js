@@ -13,9 +13,6 @@ import {
   ModalFooter,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
-
 import getEmeFormBlockRef from './getEmeFormBlockRef';
 
 export default class EmeFormBlockModal extends React.Component {
@@ -45,10 +42,7 @@ export default class EmeFormBlockModal extends React.Component {
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
-    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeFormRef = this.handleChangeFormRef.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -66,18 +60,6 @@ export default class EmeFormBlockModal extends React.Component {
     const { onEditBlock, toggle } = this.props;
     onEditBlock(this.setBlock());
     toggle();
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
-  }
-
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
   }
 
   handleChangeFormRef(event) {
