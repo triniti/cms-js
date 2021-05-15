@@ -28,6 +28,9 @@ export const getAllButtons = () => BlockV1Mixin.findAll().reduce((acc, schema) =
     case 'document-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-sidebar-button'));
       break;
+    case 'eme-form-block':
+      Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/eme-form-block-sidebar-button'));
+      break;
     case 'facebook-post-block':
       Button = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/facebook-post-block-sidebar-button'));
       break;
@@ -134,6 +137,8 @@ export const getModalComponent = (message) => {
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/divider-block-modal'));
     case 'document-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-modal'));
+    case 'eme-form-block':
+      return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/eme-form-block-modal'));
     case 'facebook-post-block':
       return createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/facebook-post-block-modal'));
     case 'facebook-video-block':
@@ -216,6 +221,9 @@ export const getPlaceholder = (type, props = {}) => {
       break;
     case 'document-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/document-block-placeholder'));
+      break;
+    case 'eme-form-block':
+      component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/eme-form-block-placeholder'));
       break;
     case 'facebook-post-block':
       component = createLazyComponent(import('@triniti/cms/plugins/blocksmith/components/facebook-post-block-placeholder'));
