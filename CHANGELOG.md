@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.13.4
 * Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.
 * cms crash to white screen after paste
