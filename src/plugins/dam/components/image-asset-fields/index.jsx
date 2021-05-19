@@ -39,7 +39,7 @@ const ImageAssetFields = ({ asset, isEditMode, schemas }) => (
           name="altText"
           component={TextField}
           label="Alt Text"
-          placeholder="alternative information for an image if a user for some reason cannot view it"
+          placeholder="enter alternate text"
           readOnly={!isEditMode}
         />
         <Field
