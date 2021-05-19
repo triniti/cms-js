@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## v0.13.4
+## vN.N.N
 * Adding `alt_text` field to image asset forms.
 
 
