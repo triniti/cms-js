@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* Adding `alt_text` field to image asset form.
+* Adding `alt_text` field to image asset forms.
 
 
 ## v0.13.3
