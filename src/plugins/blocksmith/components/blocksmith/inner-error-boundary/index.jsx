@@ -11,7 +11,7 @@ import './styles.scss';
 
 const MAX_ERROR_COUNT = 5;
 
-class ErrorBoundary extends React.Component {
+class InnerErrorBoundary extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     editorState: PropTypes.instanceOf(EditorState).isRequired,
@@ -76,7 +76,7 @@ class ErrorBoundary extends React.Component {
     } else {
       warning += ' Some of the blocks are invalid and that may be causing it to crash.';
     }
-    warning += ' Press one of the buttons below to restore the editor.';
+    warning += ` Press ${isValid ? 'the button' : 'one of the buttons'} below to restore the editor.`;
 
     return (
       <div className="blocksmith-error-boundary">
@@ -167,4 +167,4 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default connect(selector)(ErrorBoundary);
+export default connect(selector)(InnerErrorBoundary);
