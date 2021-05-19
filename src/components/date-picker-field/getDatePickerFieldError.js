@@ -18,6 +18,7 @@ import { DATE_FORMAT } from '@triniti/cms/components/date-picker-field';
 
 export default (data, fieldName, node, schemaFieldName = snakeCase(fieldName)) => {
   const { required } = node.schema().fields.get(schemaFieldName);
+  // eslint-disable-next-line react/destructuring-assignment
   const value = data[fieldName];
 
   if (!value) {

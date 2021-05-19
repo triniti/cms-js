@@ -2,8 +2,10 @@
 
 
 ## vN.N.N
+* Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.
 * cms crash to white screen after paste
+* Use `@triniti/schemas` v1.1.15
 
 
 ## v0.13.3

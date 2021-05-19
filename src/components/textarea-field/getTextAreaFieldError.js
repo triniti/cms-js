@@ -16,6 +16,7 @@ import startCase from 'lodash/startCase';
 
 export default (data, fieldName, node, schemaFieldName = snakeCase(fieldName)) => {
   const { pattern, required } = node.schema().fields.get(schemaFieldName);
+  // eslint-disable-next-line react/destructuring-assignment
   const value = data[fieldName];
 
   if (!value) {
