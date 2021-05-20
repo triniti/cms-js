@@ -217,21 +217,31 @@ export default class Raven {
   onError(...args) {
     const state = this.store.getState();
     const accessToken = getAccessToken(state);
-    const error = args.find((arg) => arg instanceof Error) || args[0];
-    const logData = {
-      app_version: APP_VERSION,
-      error: JSON.stringify(error, Object.getOwnPropertyNames(error)).replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]'),
-      request_uri: window.location.href.replace('://', '[PROTOCOL_TOKEN]'),
-    };
-    const errorHash = md5(logData.error);
+    const errorData = args.find((arg) => arg instanceof Error) || args[0];
 
+    let error;
+    try {
+      error = JSON.stringify(errorData, Object.getOwnPropertyNames(errorData || {}));
+    } catch (e) {
+      console.error('raven::onError::error', e);
+    }
+
+    error = (error || '').replaceAll('://', '[PROTOCOL_TOKEN]').replace(/(\/\.\.)+\/?/g, '[UP_DIRECTORY_TOKEN]');
+    const errorHash = md5(error);
     if (
       isJwtExpired(accessToken)
       || window.location.hostname === 'localhost'
       || errorHash === this.prevErrorHash
+      || !error.length
     ) {
       return;
     }
+
+    const logData = {
+      app_version: APP_VERSION,
+      error,
+      request_uri: window.location.href.replace('://', '[PROTOCOL_TOKEN]'),
+    };
 
     fetch(`${API_ENDPOINT}/raven/errors/`, {
       headers: {

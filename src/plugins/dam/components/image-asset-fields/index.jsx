@@ -36,6 +36,13 @@ const ImageAssetFields = ({ asset, isEditMode, schemas }) => (
           readOnly={!isEditMode}
         />
         <Field
+          name="altText"
+          component={TextField}
+          label="Alt Text"
+          placeholder="enter alternate text"
+          readOnly={!isEditMode}
+        />
+        <Field
           component={PicklistPickerField}
           isEditMode={isEditMode}
           label="Credit"
