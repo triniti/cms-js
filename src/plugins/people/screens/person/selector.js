@@ -1,3 +1,4 @@
+import { getFormValues } from 'redux-form';
 import updateScreenSelector from '@triniti/cms/plugins/ncr/screens/node/selector';
 import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
 
@@ -25,5 +26,6 @@ export default (state, ownProps) => {
   return {
     ...updateScreen,
     blocksmithState,
+    formValues: getFormValues(formNames.PERSON)(state),
   };
 };

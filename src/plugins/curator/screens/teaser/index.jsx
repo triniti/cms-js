@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import AbstractNodeScreen from '@triniti/cms/plugins/ncr/screens/node';
@@ -10,6 +11,16 @@ import Form from './Form';
 import selector from './selector';
 
 class TeaserScreen extends AbstractNodeScreen {
+  static propTypes = {
+    ...AbstractNodeScreen.propTypes,
+    formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  };
+
+  static defaultProps = {
+    ...AbstractNodeScreen.defaultProps,
+    formValues: {},
+  };
+
   getBadge() {
     const badgeConfig = getBadgeConfig(this.props.schema.getCurie().getMessage());
     if (!badgeConfig) {
@@ -37,8 +48,9 @@ class TeaserScreen extends AbstractNodeScreen {
   }
 
   getFormRenderProps() {
-    const { getNodeRequestState } = this.props;
+    const { formValues, getNodeRequestState } = this.props;
     return {
+      formValues,
       getNodeRequestState,
       type: this.props.match.params.type,
     };

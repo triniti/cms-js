@@ -55,7 +55,7 @@ const Form = ({
 
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo')
-        && <SeoFields isEditMode={isEditMode} />;
+        && <SeoFields formValues={formValues} isEditMode={isEditMode} />;
 
     case 'notifications':
       return (

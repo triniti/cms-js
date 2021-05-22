@@ -1,5 +1,7 @@
 import { Card, CardBody, CardHeader } from '@triniti/admin-ui-plugin/components';
 import { Field } from 'redux-form';
+import classNames from 'classnames';
+import get from 'lodash/get';
 import CheckboxField from '@triniti/cms/components/checkbox-field';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field';
@@ -14,7 +16,7 @@ import { fieldRules } from '../../constants';
 const { DESCRIPTION_MAX_CHARACTERS } = fieldRules;
 const removeNewline = (value) => value && value.replace('\n', '');
 
-const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
+const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node, formValues }) => {
   const [inputValue, setInputValue] = useState('');
   const handleMetaKeywordsInputChange = (text, input) => {
     if (text[text.length - 1] !== ',') {
@@ -31,6 +33,14 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
       setInputValue('');
     }
   };
+  const metaDescriptionLength = get(formValues, 'metaDescription', '').length;
+  let metaDescriptionStyle = 'text-info';
+  if (metaDescriptionLength >= 160) {
+    metaDescriptionStyle = 'text-danger';
+  } else if (metaDescriptionLength >= 140) {
+    metaDescriptionStyle = 'text-warning';
+  }
+
   return (
     <Card>
       <CardHeader>SEO</CardHeader>
@@ -44,6 +54,12 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
           maxLength={DESCRIPTION_MAX_CHARACTERS}
           normalize={removeNewline}
         />
+        <small
+          style={{ marginBottom: '1.55rem', marginTop: '-1.3rem' }}
+          className={classNames('ml-1', 'form-text', metaDescriptionStyle)}
+        >
+          {DESCRIPTION_MAX_CHARACTERS - metaDescriptionLength} characters remaining.
+        </small>
         <Field
           disabled={!isEditMode}
           name="metaKeywords"
@@ -81,12 +97,14 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
 
 SeoFields.propTypes = {
   areLinkedImagesAllowed: PropTypes.bool,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message),
 };
 
 SeoFields.defaultProps = {
   areLinkedImagesAllowed: true,
+  formValues: null,
   isEditMode: true,
   node: null,
 };

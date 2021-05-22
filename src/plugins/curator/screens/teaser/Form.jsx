@@ -49,7 +49,7 @@ const getFieldsComponent = (type) => {
   }
 };
 
-const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
+const Form = ({ form, formValues, getNodeRequestState, node, tab, type, isEditMode }) => {
   const [TeaserFields, setTeaserFields] = useState(null);
   schemas.node = node.schema();
 
@@ -72,6 +72,7 @@ const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
       return schemas.node.hasMixin('triniti:common:mixin:seo') && (
         <SeoFields
           areLinkedImagesAllowed={false}
+          formValues={formValues}
           isEditMode={isEditMode}
         />
       );
@@ -100,6 +101,7 @@ const Form = ({ form, getNodeRequestState, node, tab, type, isEditMode }) => {
 };
 
 Form.propTypes = {
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getNodeRequestState: PropTypes.shape({
     request: PropTypes.instanceOf(Message).isRequired,
   }).isRequired,
@@ -110,8 +112,9 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-  tab: 'details',
+  formValues: {},
   isEditMode: true,
+  tab: 'details',
 };
 
 export default reduxForm({

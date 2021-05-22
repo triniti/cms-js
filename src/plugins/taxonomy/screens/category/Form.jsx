@@ -14,13 +14,13 @@ import SeoFields from '@triniti/cms/plugins/common/components/seo-fields';
 import schemas from './schemas';
 
 const Form = ({
-  getNodeRequestState, node: category, form, tab, isEditMode,
+  getNodeRequestState, node: category, form, formValues, tab, isEditMode,
 }) => {
   switch (tab) {
     case 'code':
       return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
     case 'seo':
-      return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
+      return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields formValues={formValues} isEditMode={isEditMode} />;
     case 'history':
       return (
         <History
@@ -57,6 +57,7 @@ const Form = ({
 
 Form.propTypes = {
   form: PropTypes.string.isRequired,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getNodeRequestState: PropTypes.shape({
     request: PropTypes.instanceOf(Message).isRequired,
   }).isRequired,
@@ -66,8 +67,9 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-  tab: 'details',
+  formValues: {},
   isEditMode: true,
+  tab: 'details',
 };
 
 export default reduxForm({

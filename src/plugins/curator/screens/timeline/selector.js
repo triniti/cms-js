@@ -1,3 +1,4 @@
+import { getFormValues } from 'redux-form';
 import updateScreenSelector from '@triniti/cms/plugins/ncr/screens/node/selector';
 import schemas from './schemas';
 import { formNames } from '../../constants';
@@ -5,4 +6,5 @@ import { formNames } from '../../constants';
 export default (state, ownProps) => updateScreenSelector(state, ownProps, {
   schemas,
   formName: formNames.TIMELINE,
+  formValues: getFormValues(formNames.TIMELINE)(state),
 });

@@ -14,17 +14,19 @@ class PageScreen extends AbstractNodeScreen {
       editorState: PropTypes.instanceOf(EditorState),
       isDirty: PropTypes.bool.isRequired,
     }),
+    formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
     ...AbstractNodeScreen.defaultProps,
     blocksmithState: null,
+    formValues: {},
   };
 
   getFormRenderProps() {
-    const { blocksmithState, getNodeRequestState } = this.props;
+    const { blocksmithState, formValues, getNodeRequestState } = this.props;
     const layouts = this.props.delegate.getPageLayouts();
-    return { blocksmithState, getNodeRequestState, layouts };
+    return { blocksmithState, formValues, getNodeRequestState, layouts };
   }
 
   getForm() {

@@ -18,13 +18,13 @@ import setBlocks from '@triniti/cms/plugins/blocksmith/utils/setBlocks';
 import schemas from './schemas';
 
 const Form = ({
-  node: page, form, getNodeRequestState, tab, isEditMode, blocksmithState, layouts,
+  node: page, form, formValues, getNodeRequestState, tab, isEditMode, blocksmithState, layouts,
 }) => {
   switch (tab) {
     case 'code':
       return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
     case 'seo':
-      return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
+      return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields formValues={formValues} isEditMode={isEditMode} />;
     case 'taxonomy':
       return <TaxonomyFields schemas={schemas} isEditMode={isEditMode} />;
     case 'history':
@@ -75,6 +75,7 @@ Form.propTypes = {
     isDirty: PropTypes.bool.isRequired,
   }),
   form: PropTypes.string,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getNodeRequestState: PropTypes.shape({
     request: PropTypes.instanceOf(Message).isRequired,
   }).isRequired,
@@ -90,6 +91,7 @@ Form.propTypes = {
 Form.defaultProps = {
   blocksmithState: null,
   form: null,
+  formValues: {},
   isEditMode: false,
   layouts: [],
   tab: '',

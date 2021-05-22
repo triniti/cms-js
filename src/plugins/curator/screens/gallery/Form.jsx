@@ -16,7 +16,7 @@ import History from '@triniti/cms/plugins/pbjx/components/history';
 import GalleryMedia from '../../components/gallery-media';
 import schemas from './schemas';
 
-const Form = ({ getNodeRequestState, node: gallery, form, isEditMode, tab }) => {
+const Form = ({ getNodeRequestState, node: gallery, form, formValues, isEditMode, tab }) => {
   switch (tab) {
     case 'taxonomy':
       return <TaxonomyFields isEditMode={isEditMode} schemas={schemas} />;
@@ -25,7 +25,7 @@ const Form = ({ getNodeRequestState, node: gallery, form, isEditMode, tab }) => 
       return schemas.node.hasMixin('triniti:common:mixin:custom-code') && <CustomCodeFields isEditMode={isEditMode} />;
 
     case 'seo':
-      return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields isEditMode={isEditMode} />;
+      return schemas.node.hasMixin('triniti:common:mixin:seo') && <SeoFields formValues={formValues} isEditMode={isEditMode} />;
 
     case 'media':
       return <GalleryMedia nodeRef={NodeRef.fromNode(gallery)} isEditMode={isEditMode} />;
@@ -68,16 +68,18 @@ const Form = ({ getNodeRequestState, node: gallery, form, isEditMode, tab }) => 
 };
 
 Form.propTypes = {
+  form: PropTypes.string.isRequired,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getNodeRequestState: PropTypes.shape({
     request: PropTypes.instanceOf(Message).isRequired,
   }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   isEditMode: PropTypes.bool,
   tab: PropTypes.string,
-  form: PropTypes.string.isRequired,
 };
 
 Form.defaultProps = {
+  formValues: {},
   isEditMode: true,
   tab: '',
 };

@@ -17,7 +17,7 @@ import VideoFields from '@triniti/cms/plugins/ovp/components/video-fields';
 
 import schemas from './schemas';
 
-const Form = ({ getNodeRequestState, node: video, form, tab, isEditMode }) => {
+const Form = ({ getNodeRequestState, node: video, form, formValues, tab, isEditMode }) => {
   const nodeRef = NodeRef.fromNode(video);
   switch (tab) {
     case 'history':
@@ -38,7 +38,7 @@ const Form = ({ getNodeRequestState, node: video, form, tab, isEditMode }) => {
       return <RawContent pbj={video} />;
 
     case 'seo':
-      return <SeoFields isEditMode={isEditMode} />;
+      return <SeoFields formValues={formValues} isEditMode={isEditMode} />;
 
     case 'taxonomy':
       return <TaxonomyFields schemas={schemas} isEditMode={isEditMode} />;
@@ -83,11 +83,13 @@ Form.propTypes = {
   }).isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   form: PropTypes.string.isRequired,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   tab: PropTypes.string,
   isEditMode: PropTypes.bool,
 };
 
 Form.defaultProps = {
+  formValues: {},
   tab: '',
   isEditMode: false,
 };

@@ -4,9 +4,13 @@ It also render as read only text when set the prop `isEditMode=false`
 
 ### Optional Props
 + `isEditMode` - boolean (default: `true`)
++ `formValues` - object (default: `null`)
 
 ### How to Use
 ```jsx harmony
 import SeoFields from '@triniti/cms/plugins/common/components/seo-fields'
-<SeoFields isEditMode={false} />
+<SeoFields
+     formValues={formValues}
+     isEditMode={false}
+/>
 ```

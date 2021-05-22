@@ -14,12 +14,13 @@ import TaxonomyFields from '@triniti/cms/plugins/taxonomy/components/taxonomy-fi
 
 import schemas from './schemas';
 
-const Form = ({ form, getNodeRequestState, node, tab, isEditMode }) => {
+const Form = ({ form, formValues, getNodeRequestState, node, tab, isEditMode }) => {
   switch (tab) {
     case 'seo':
       return schemas.node.hasMixin('triniti:common:mixin:seo') && (
         <SeoFields
           areLinkedImagesAllowed={false}
+          formValues={formValues}
           isEditMode={isEditMode}
         />
       );
@@ -63,17 +64,19 @@ const Form = ({ form, getNodeRequestState, node, tab, isEditMode }) => {
 
 Form.propTypes = {
   form: PropTypes.string.isRequired,
+  formValues: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getNodeRequestState: PropTypes.shape({
     request: PropTypes.instanceOf(Message).isRequired,
   }).isRequired,
-  tab: PropTypes.string,
   isEditMode: PropTypes.bool,
   node: PropTypes.instanceOf(Message).isRequired,
+  tab: PropTypes.string,
 };
 
 Form.defaultProps = {
-  tab: 'details',
+  formValues: {},
   isEditMode: true,
+  tab: 'details',
 };
 
 export default reduxForm({
