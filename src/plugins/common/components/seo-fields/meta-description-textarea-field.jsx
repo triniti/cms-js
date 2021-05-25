@@ -20,15 +20,10 @@ const MetaDescriptionTextareaField = ({
   return (
     <FormGroup className={borderClass}>
       {label && <Label for={input.name}>{label}</Label>}
-      <Input id={input.name} valid={touched && !error} invalid={touched && !!error} {...input} {...rest} type="textarea" rows={rows} readOnly={readOnlyField} disabled={readOnly} />
-      {
-        warning
-        && (
-          <FormText color={metaDescriptionStyle} className="ml-1">
-            {maxLength - metaDescriptionLength} characters remaining.
-          </FormText>
-        )
-      }
+      <Input id={input.name} valid={touched && !error} invalid={touched && !!error} {...input} {...rest} type="textarea" rows={rows} readOnly={readOnlyField} disabled={readOnly} />      
+      <FormText color={metaDescriptionStyle} className="ml-1">
+        {maxLength - metaDescriptionLength} characters remaining.
+      </FormText>
     </FormGroup>
   );
 };
