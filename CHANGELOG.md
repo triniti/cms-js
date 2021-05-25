@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## N.N.N
+* Allow Instagram blocks to ingest Reels.
+
+
 ## v0.13.4
 * Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.
