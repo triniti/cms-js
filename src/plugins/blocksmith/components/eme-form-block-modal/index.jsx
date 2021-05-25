@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Button,
+  Checkbox,
   FormGroup,
   Input,
   Label,
@@ -13,7 +14,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Checkbox,
 } from '@triniti/admin-ui-plugin/components';
 
 export default class EmeFormBlockModal extends React.Component {
@@ -154,16 +154,16 @@ export default class EmeFormBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           {hasExpiresAt
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  label="Expires At"
-                  updatedDate={expiresAt}
-                />
-              </div>
-            )}
+          && (
+            <div className="modal-body-blocksmith">
+              <DateTimePicker
+                onChangeDate={this.handleChangeDate}
+                onChangeTime={this.handleChangeTime}
+                label="Expires At"
+                updatedDate={expiresAt}
+              />
+            </div>
+          )}
           {
             !isValid && touched && formRef !== ''
             && <p className="text-danger">{errorMsg}</p>
