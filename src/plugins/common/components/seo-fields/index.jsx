@@ -7,8 +7,8 @@ import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import SelectField from '@triniti/cms/components/select-field';
-import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
+import MetaDescriptionTextareaField from './meta-description-textarea-field';
 import { fieldRules } from '../../constants';
 
 const { DESCRIPTION_MAX_CHARACTERS } = fieldRules;
@@ -38,7 +38,7 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
         <Field name="seoTitle" component={TextField} label="Seo Title Tag" readOnly={!isEditMode} />
         <Field
           name="metaDescription"
-          component={TextareaField}
+          component={MetaDescriptionTextareaField}
           label="Meta Description"
           readOnly={!isEditMode}
           maxLength={DESCRIPTION_MAX_CHARACTERS}

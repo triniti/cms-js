@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Adjust SEO Description Character Counter To Turn Yellow At 140 Characters and Red at 160.
+
+
 ## v0.13.4
 * Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.

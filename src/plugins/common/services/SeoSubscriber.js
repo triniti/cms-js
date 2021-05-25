@@ -36,24 +36,6 @@ export default class SeoSubscriber extends EventSubscriber {
   }
 
   /**
-   * Occurs before validation and is used to add warnings.
-   *
-   * @param {FormEvent} formEvent
-   */
-  onWarnForm(formEvent) {
-    const data = formEvent.getData();
-    const { metaDescription } = data;
-    const metaDescriptionWarning = createTextCharacterCountTips(
-      metaDescription,
-      DESCRIPTION_MAX_CHARACTERS,
-      DESCRIPTION_WARNING_CHARACTERS,
-    );
-    if (metaDescriptionWarning) {
-      formEvent.addWarning('metaDescription', metaDescriptionWarning);
-    }
-  }
-
-  /**
    * Binds data from the redux form to the command.
    * This occurs AFTER a form has been submitted
    * but before the command is dispatched.
