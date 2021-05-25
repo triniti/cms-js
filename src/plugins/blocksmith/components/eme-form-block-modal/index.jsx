@@ -158,6 +158,7 @@ export default class EmeFormBlockModal extends React.Component {
               <DateTimePicker
                 onChangeDate={this.handleChangeDate}
                 onChangeTime={this.handleChangeTime}
+                label="Expires At"
                 updatedDate={expireDate}
               />
             </div>
