@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add `expires_at` field to eme-form-block.
+
+
 ## v0.13.4
 * Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.
