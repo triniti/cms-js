@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import SelectField from '@triniti/cms/components/select-field';
 import TextField from '@triniti/cms/components/text-field';
-import MetaDescriptionField from './meta-description-field';
+import MetaDescriptionField from './MetaDescriptionField';
 import { fieldRules } from '../../constants';
 
 const { DESCRIPTION_MAX_CHARACTERS } = fieldRules;
