@@ -1,17 +1,12 @@
 import camelCase from 'lodash/camelCase';
 import isUndefined from 'lodash/isUndefined';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
-import createTextCharacterCountTips from '@triniti/cms/utils/createTextCharacterCountTips';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
-import { fieldRules } from '../constants';
-
-const { DESCRIPTION_MAX_CHARACTERS, DESCRIPTION_WARNING_CHARACTERS } = fieldRules;
 
 export default class SeoSubscriber extends EventSubscriber {
   constructor() {
     super();
     this.onInitForm = this.onInitForm.bind(this);
-    this.onWarnForm = this.onWarnForm.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
@@ -33,24 +28,6 @@ export default class SeoSubscriber extends EventSubscriber {
 
     data.seoImageRef = node.has('seo_image_ref') ? node.get('seo_image_ref').toString() : null;
     data.metaKeywords = node.get('meta_keywords', []).map((keyword) => ({ label: keyword, value: keyword }));
-  }
-
-  /**
-   * Occurs before validation and is used to add warnings.
-   *
-   * @param {FormEvent} formEvent
-   */
-  onWarnForm(formEvent) {
-    const data = formEvent.getData();
-    const { metaDescription } = data;
-    const metaDescriptionWarning = createTextCharacterCountTips(
-      metaDescription,
-      DESCRIPTION_MAX_CHARACTERS,
-      DESCRIPTION_WARNING_CHARACTERS,
-    );
-    if (metaDescriptionWarning) {
-      formEvent.addWarning('metaDescription', metaDescriptionWarning);
-    }
   }
 
   /**
@@ -85,7 +62,6 @@ export default class SeoSubscriber extends EventSubscriber {
   getSubscribedEvents() {
     return {
       'triniti:common:mixin:seo.init_form': this.onInitForm,
-      'triniti:common:mixin:seo.warn_form': this.onWarnForm,
       'triniti:common:mixin:seo.submit_form': this.onSubmitForm,
     };
   }
