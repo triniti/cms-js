@@ -1,7 +1,7 @@
 import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import JsonSerializer from '@gdbots/pbj/serializers/JsonSerializer';
 import constants from './constants';
-import JsonSerializer from "@gdbots/pbj/serializers/JsonSerializer";
 
 /**
  * @param {Object} state - The entire redux state.
@@ -17,6 +17,7 @@ export default (state, { formName }) => {
   if (json) {
     try {
       copiedBlock = JsonSerializer.deserialize(json).freeze();
+      // eslint-disable-next-line no-empty
     } catch (e) {}
   }
 

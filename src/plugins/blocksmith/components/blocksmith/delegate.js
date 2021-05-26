@@ -1,11 +1,12 @@
+import { callPbjx } from '@gdbots/pbjx/redux/actions';
+import { camelCase, upperFirst } from 'lodash-es';
+import { pbjxChannelNames } from '../../constants';
 import cleanEditor from '../../actions/cleanEditor';
 import copyBlock from '../../actions/copyBlock';
 import dirtyEditor from '../../actions/dirtyEditor';
 import storeEditor from '../../actions/storeEditor';
 import schemas from './schemas';
-import {callPbjx} from "@gdbots/pbjx/redux/actions";
-import {camelCase, upperFirst} from "lodash-es";
-import {pbjxChannelNames} from "../../constants";
+
 
 export default (dispatch, { formName }) => ({
   handleCleanEditor: () => dispatch(cleanEditor(formName)),
@@ -17,5 +18,6 @@ export default (dispatch, { formName }) => ({
     if (schema) {
       return dispatch(callPbjx(schema.createMessage().set('node_ref', nodeRef), pbjxChannelNames.NODE_REQUEST));
     }
+    return Promise.resolve();
   },
 });

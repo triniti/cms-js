@@ -1,12 +1,12 @@
-import ArticleV1Mixin from "@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin";
-import AudioAssetV1Mixin from "@triniti/schemas/triniti/dam/mixin/audio-asset/AudioAssetV1Mixin";
-import DocumentAssetV1Mixin from "@triniti/schemas/triniti/dam/mixin/document-asset/DocumentAssetV1Mixin";
-import GalleryV1Mixin from "@triniti/schemas/triniti/curator/mixin/gallery/GalleryV1Mixin";
-import PollV1Mixin from "@triniti/schemas/triniti/apollo/mixin/poll/PollV1Mixin";
+import ArticleV1Mixin from '@triniti/schemas/triniti/news/mixin/article/ArticleV1Mixin';
+import AudioAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/audio-asset/AudioAssetV1Mixin';
+import DocumentAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/document-asset/DocumentAssetV1Mixin';
+import GalleryV1Mixin from '@triniti/schemas/triniti/curator/mixin/gallery/GalleryV1Mixin';
+import PollV1Mixin from '@triniti/schemas/triniti/apollo/mixin/poll/PollV1Mixin';
 import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/ImageAssetV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
-import SearchArticlesRequestV1Mixin from "@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin";
-import VideoV1Mixin from "@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin";
+import SearchArticlesRequestV1Mixin from '@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin';
+import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
 
 export default {
   getNodeRequest: resolveSchema(ImageAssetV1Mixin, 'request', 'get-asset-request'),
