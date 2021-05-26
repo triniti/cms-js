@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, FormText, Input, Label } from '@triniti/admin-ui-plugin/components';
 
-const MetaDescriptionTextareaField = ({
-  input, label, meta: { touched, error, warning }, readOnly, hasBorder, rows, maxLength, ...rest
+const MetaDescriptionField = ({
+  input, label, meta: { touched, error }, readOnly, hasBorder, rows, maxLength, ...rest
 }) => {
   const readOnlyField = readOnly ? 'readonly' : null;
   const borderClass = hasBorder ? 'has-border' : null;
@@ -20,7 +20,17 @@ const MetaDescriptionTextareaField = ({
   return (
     <FormGroup className={borderClass}>
       {label && <Label for={input.name}>{label}</Label>}
-      <Input id={input.name} valid={touched && !error} invalid={touched && !!error} {...input} {...rest} type="textarea" rows={rows} readOnly={readOnlyField} disabled={readOnly} />      
+      <Input
+        id={input.name}
+        valid={touched && !error}
+        invalid={touched && !!error}
+        {...input}
+        {...rest}
+        type="textarea"
+        rows={rows}
+        readOnly={readOnlyField}
+        disabled={readOnly}
+      />
       <FormText color={metaDescriptionStyle} className="ml-1">
         {maxLength - metaDescriptionLength} characters remaining.
       </FormText>
@@ -28,7 +38,7 @@ const MetaDescriptionTextareaField = ({
   );
 };
 
-MetaDescriptionTextareaField.propTypes = {
+MetaDescriptionField.propTypes = {
   input: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   maxLength: PropTypes.number,
@@ -38,7 +48,7 @@ MetaDescriptionTextareaField.propTypes = {
   rows: PropTypes.number,
 };
 
-MetaDescriptionTextareaField.defaultProps = {
+MetaDescriptionField.defaultProps = {
   label: '',
   maxLength: 500,
   readOnly: false,
@@ -46,4 +56,4 @@ MetaDescriptionTextareaField.defaultProps = {
   rows: 5,
 };
 
-export default MetaDescriptionTextareaField;
+export default MetaDescriptionField;
