@@ -93,8 +93,6 @@ export default class InstagramMediaBlockModal extends React.Component {
     let { errorMsg, hideCaption, id, isValid } = this.state;
     const input = event.target.value;
     const mediaId = getInstagramMediaId(input);
-    console.clear();
-    console.log('handleChangeTextarea ~ mediaId', mediaId);
 
     if (mediaId) {
       errorMsg = '';
