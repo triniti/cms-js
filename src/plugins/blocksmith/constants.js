@@ -20,6 +20,7 @@ export const pbjxChannelNames = {
   LINKED_IMAGE_ASSET_SEARCH: t('linkedImageAssetSearch'),
   POLL_SEARCH: t('pollSearch'),
   VIDEO_SEARCH: t('videoSearch'),
+  NODE_REQUEST: t('nodeRequest'),
 };
 
 export const blockTypes = {

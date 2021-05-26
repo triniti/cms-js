@@ -114,6 +114,8 @@ import {
   updateBlocks,
   validateBlocks,
 } from '../../utils';
+import getNode from "../../../ncr/selectors/getNode";
+import dirtyEditor from "../../actions/dirtyEditor";
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -139,10 +141,12 @@ class Blocksmith extends React.Component {
       handleCleanEditor: PropTypes.func.isRequired,
       handleCopyBlock: PropTypes.func.isRequired,
       handleDirtyEditor: PropTypes.func.isRequired,
+      handleGetNode: PropTypes.func.isRequired,
       handleStoreEditor: PropTypes.func.isRequired,
     }).isRequired,
     editorState: PropTypes.instanceOf(EditorState).isRequired,
     formName: PropTypes.string,
+    getNode: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool.isRequired,
     node: PropTypes.instanceOf(Message),
   };
@@ -202,6 +206,7 @@ class Blocksmith extends React.Component {
       editorState,
       readOnly: !isEditMode,
       modalComponent: null,
+      currentCopiedBlock: null,
     };
 
     delegate.handleStoreEditor(editorState);
@@ -292,6 +297,7 @@ class Blocksmith extends React.Component {
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
+    this.derefCopiedBlockNodes = this.derefCopiedBlockNodes.bind(this);
     this.onChange = this.onChange.bind(this);
     this.positionComponents = this.positionComponents.bind(this);
     this.removeActiveStyling = this.removeActiveStyling.bind(this);
@@ -313,13 +319,22 @@ class Blocksmith extends React.Component {
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
   componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
-    const { editorState: currentPropsEditorState, isEditMode } = this.props;
-    const { editorState } = this.state;
+    const { copiedBlock, editorState: currentPropsEditorState, isEditMode } = this.props;
+    const { currentCopiedBlock, editorState } = this.state;
+    const copiedBlockEtag = copiedBlock ? copiedBlock.get('etag') : null;
+    const currentCopiedBlockEtag = currentCopiedBlock ? currentCopiedBlock.get('etag') : null;
+
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({ readOnly: !isEditMode }));
       return;
     }
+
+    if (copiedBlockEtag !== currentCopiedBlockEtag) {
+      this.derefCopiedBlockNodes();
+      this.setState(() => ({ currentCopiedBlock: copiedBlock }));
+    }
+
     if (
       currentPropsEditorState
       && prevPropsEditorState
@@ -740,7 +755,9 @@ class Blocksmith extends React.Component {
       return;
     }
 
-    delegate.handleCopyBlock(blockData.get('canvasBlock').clone());
+    const canvasBlock = blockData.get('canvasBlock').clone();
+    window.localStorage.setItem(constants.COPIED_BLOCK_KEY, `${canvasBlock}`);
+    delegate.handleStoreEditor(editorState);
   }
 
   /**
@@ -1188,7 +1205,7 @@ class Blocksmith extends React.Component {
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleMouseMove(e) {
-    const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
+    const { activeBlockKey, editorState, isSidebarOpen, readOnly, copiedBlock } = this.state;
     if (readOnly || isSidebarOpen) {
       return;
     }
@@ -1356,17 +1373,45 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * If there is a copied block available in redux, use it to create a draft block with it as the
+   * Dereferences any nodes in the copied block that are referenced
+   */
+  derefCopiedBlockNodes () {
+    const { copiedBlock, delegate, getNode } = this.props;
+    const fields = ['node_ref', 'node_refs', 'image_ref', 'poster_image_ref'];
+
+    fields.forEach((field) => {
+      if (!copiedBlock.has(field)) {
+        return;
+      }
+
+      let nodeRefs = copiedBlock.get(field);
+      if (!Array.isArray(nodeRefs)) {
+        nodeRefs = [nodeRefs];
+      }
+
+      nodeRefs.forEach((nodeRef) => {
+        if (!getNode(nodeRef)){
+          delegate.handleGetNode(nodeRef);
+        }
+      });
+    });
+  }
+
+  /**
+   * If there is a copied block available in local storage, use it to create a draft block with it as the
    * data payload.
    */
-  handlePasteBlock() {
+  async handlePasteBlock() {
     const { copiedBlock } = this.props;
+
     if (!copiedBlock) {
       return;
     }
 
     this.handleAddCanvasBlock(copiedBlock, true);
   }
+
+
 
   /**
    * Intercepts paste events. Oftentimes the HTML is malformed and as a result empty blocks are
