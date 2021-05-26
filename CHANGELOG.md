@@ -1,7 +1,8 @@
 # CHANGELOG
 
 
-## N.N.N
+## vN.N.N
+* Add `expires_at` field to eme-form-block.
 * Allow Instagram blocks to ingest Reels.
 
 

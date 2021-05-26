@@ -18,11 +18,12 @@ const DateTimePicker = ({
   onChangeTime: handleChangeTime,
   shouldCloseOnSelect,
   inline,
+  label,
   ...rest
 }) => (
   <FormGroup>
     <Label>
-      Updated Time: {moment(updatedDate).format('YYYY-MM-DD hh:mm A')}
+      {label}: {moment(updatedDate).format('YYYY-MM-DD hh:mm A')}
     </Label>
     <FormGroup className="mb-3 mt-1 shadow-none">
       <DatePicker
@@ -54,11 +55,13 @@ DateTimePicker.propTypes = {
   updatedDate: PropTypes.instanceOf(Date).isRequired,
   shouldCloseOnSelect: PropTypes.bool,
   inline: PropTypes.bool,
+  label: PropTypes.string,
 };
 
 DateTimePicker.defaultProps = {
   shouldCloseOnSelect: false,
   inline: true,
+  label: 'Updated Time',
 };
 
 export default DateTimePicker;
