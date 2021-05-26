@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Adjust SEO Description Character Counter To Turn Yellow At 140 Characters and Red at 160.
+* Add `expires_at` field to eme-form-block.
 
 
 ## v0.13.4
