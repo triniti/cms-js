@@ -143,7 +143,7 @@ export default class EmeFormBlockModal extends React.Component {
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeFormRef}
-              placeholder="eme:type:id"
+              placeholder="eme:solicit:id"
               type="text"
               value={formRef || ''}
             />
