@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v0.13.5
+* Adjust SEO Description Character Counter To Turn Yellow At 140 Characters and Red at 160.
+* Add `expires_at` field to eme-form-block.
+* Allow Instagram blocks to ingest Reels.
+
+
 ## v0.13.4
 * Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.

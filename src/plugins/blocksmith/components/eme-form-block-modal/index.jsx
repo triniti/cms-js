@@ -1,9 +1,12 @@
+import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Button,
+  Checkbox,
   FormGroup,
   Input,
   Label,
@@ -37,11 +40,16 @@ export default class EmeFormBlockModal extends React.Component {
       touched: false,
       isValid: block.has('form_ref'),
       formRef: block.get('form_ref'),
+      hasExpiresAt: block.has('expires_at'),
+      expiresAt: block.get('expires_at', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeFormRef = this.handleChangeFormRef.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
+    this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeTime = this.handleChangeTime.bind(this);
   }
 
   componentDidMount() {
@@ -82,15 +90,37 @@ export default class EmeFormBlockModal extends React.Component {
     });
   }
 
-  setBlock() {
-    const {
-      formRef,
-    } = this.state;
+  handleChangeCheckbox({ target: { checked, id } }) {
+    this.setState({ [id]: checked });
+  }
 
+  handleChangeDate(date) {
+    this.setState({
+      expiresAt: moment(date)
+        .set('year', date.getFullYear())
+        .set('month', date.getMonth())
+        .set('date', date.getDate())
+        .toDate(),
+    });
+  }
+
+  handleChangeTime({ target: { value: time } }) {
+    const { expiresAt } = this.state;
+    this.setState({
+      expiresAt: moment(expiresAt)
+        .set('hours', time ? time.split(':')[0] : 0)
+        .set('minutes', time ? time.split(':')[1] : 0)
+        .toDate(),
+    });
+  }
+
+  setBlock() {
+    const { formRef, hasExpiresAt, expiresAt } = this.state;
     const { block } = this.props;
 
     return block.schema().createMessage()
-      .set('form_ref', formRef || null);
+      .set('form_ref', formRef || null)
+      .set('expires_at', hasExpiresAt ? expiresAt : null);
   }
 
   render() {
@@ -99,6 +129,8 @@ export default class EmeFormBlockModal extends React.Component {
       isValid,
       touched,
       formRef,
+      hasExpiresAt,
+      expiresAt,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -111,11 +143,27 @@ export default class EmeFormBlockModal extends React.Component {
             <Input
               innerRef={(el) => { this.inputElement = el; }}
               onChange={this.handleChangeFormRef}
-              placeholder="eme:type:id"
+              placeholder="eme:solicit:id"
               type="text"
               value={formRef || ''}
             />
           </FormGroup>
+          <FormGroup className="mr-4">
+            <Checkbox size="sd" id="hasExpiresAt" checked={hasExpiresAt} onChange={this.handleChangeCheckbox}>
+              Has expiration date
+            </Checkbox>
+          </FormGroup>
+          {hasExpiresAt
+          && (
+            <div className="modal-body-blocksmith">
+              <DateTimePicker
+                onChangeDate={this.handleChangeDate}
+                onChangeTime={this.handleChangeTime}
+                label="Expires At"
+                updatedDate={expiresAt}
+              />
+            </div>
+          )}
           {
             !isValid && touched && formRef !== ''
             && <p className="text-danger">{errorMsg}</p>
