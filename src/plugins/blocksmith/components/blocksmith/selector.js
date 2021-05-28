@@ -1,7 +1,7 @@
 import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import JsonSerializer from '@gdbots/pbj/serializers/JsonSerializer';
-import constants from './constants';
+import { COPIED_BLOCK_KEY } from '../../constants';
 
 /**
  * @param {Object} state - The entire redux state.
@@ -11,7 +11,7 @@ import constants from './constants';
  */
 export default (state, { formName }) => {
   const blocksmithState = getBlocksmith(state, formName);
-  const json = localStorage.getItem(constants.COPIED_BLOCK_KEY);
+  const json = localStorage.getItem(COPIED_BLOCK_KEY);
   let copiedBlock = null;
 
   if (json) {

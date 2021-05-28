@@ -8,6 +8,8 @@ import EnvelopeV1 from '@gdbots/schemas/gdbots/pbjx/EnvelopeV1';
 import HttpCode from '@gdbots/schemas/gdbots/pbjx/enums/HttpCode';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import { ACCESS_TOKEN_STORAGE_KEY } from '@gdbots/pbjx/constants';
+import { COPIED_BLOCK_KEY } from '@triniti/cms/plugins/blocksmith/constants';
+
 import { vendorToHttp } from '@gdbots/pbjx/utils/statusCodeConverter';
 import receiveEnvelope from '@triniti/cms/plugins/pbjx/actions/receiveEnvelope';
 
@@ -120,6 +122,7 @@ export default class Authenticator {
     this.store.dispatch(acceptLogin(accessToken));
     this.setUserInactiveExpiresAt();
     this.scheduleRenewal();
+    localStorage.removeItem(COPIED_BLOCK_KEY);
   }
 
   /**

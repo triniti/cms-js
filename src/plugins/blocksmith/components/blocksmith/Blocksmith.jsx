@@ -71,7 +71,7 @@ import decorators from './decorators';
 import delegateFactory from './delegate';
 import InnerErrorBoundary from './inner-error-boundary';
 import selector from './selector';
-import { blockTypes, tokens } from '../../constants';
+import { blockTypes, COPIED_BLOCK_KEY, tokens } from '../../constants';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
 import {
@@ -114,8 +114,6 @@ import {
   updateBlocks,
   validateBlocks,
 } from '../../utils';
-import getNode from "../../../ncr/selectors/getNode";
-import dirtyEditor from "../../actions/dirtyEditor";
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -162,6 +160,7 @@ class Blocksmith extends React.Component {
     super(props);
     const {
       blocksmithState,
+      copiedBlock,
       delegate,
       isEditMode,
       node,
@@ -187,6 +186,10 @@ class Blocksmith extends React.Component {
       errors = validateBlocks(editorState).errors;
     }
 
+    if (copiedBlock) {
+      this.derefCopiedBlockNodes();
+    }
+
     this.state = {
       activeBlockKey: null,
       blockButtonsStyle: {
@@ -206,7 +209,6 @@ class Blocksmith extends React.Component {
       editorState,
       readOnly: !isEditMode,
       modalComponent: null,
-      currentCopiedBlock: null,
     };
 
     delegate.handleStoreEditor(editorState);
@@ -265,6 +267,7 @@ class Blocksmith extends React.Component {
 
     this.blockRendererFn = this.blockRendererFn.bind(this);
     this.blockStyleFn = this.blockStyleFn.bind(this);
+    this.derefCopiedBlockNodes = this.derefCopiedBlockNodes.bind(this);
     this.getEditorState = this.getEditorState.bind(this);
     this.getReadOnly = this.getReadOnly.bind(this);
     this.getSidebarHolderStyle = this.getSidebarHolderStyle.bind(this);
@@ -297,7 +300,6 @@ class Blocksmith extends React.Component {
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
     this.keyBindingFn = this.keyBindingFn.bind(this);
-    this.derefCopiedBlockNodes = this.derefCopiedBlockNodes.bind(this);
     this.onChange = this.onChange.bind(this);
     this.positionComponents = this.positionComponents.bind(this);
     this.removeActiveStyling = this.removeActiveStyling.bind(this);
@@ -318,21 +320,20 @@ class Blocksmith extends React.Component {
    *
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
-  componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
+  componentDidUpdate({ copiedBlock: prevCopiedBlock, editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
     const { copiedBlock, editorState: currentPropsEditorState, isEditMode } = this.props;
-    const { currentCopiedBlock, editorState } = this.state;
+    const { editorState } = this.state;
     const copiedBlockEtag = copiedBlock ? copiedBlock.get('etag') : null;
-    const currentCopiedBlockEtag = currentCopiedBlock ? currentCopiedBlock.get('etag') : null;
+    const prevCopiedBlockEtag = prevCopiedBlock ? prevCopiedBlock.get('etag') : null;
+
+    if (copiedBlock && copiedBlockEtag !== prevCopiedBlockEtag) {
+      this.derefCopiedBlockNodes();
+    }
 
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({ readOnly: !isEditMode }));
       return;
-    }
-
-    if (copiedBlockEtag !== currentCopiedBlockEtag) {
-      this.derefCopiedBlockNodes();
-      this.setState(() => ({ currentCopiedBlock: copiedBlock }));
     }
 
     if (
@@ -756,7 +757,7 @@ class Blocksmith extends React.Component {
     }
 
     const canvasBlock = blockData.get('canvasBlock').clone();
-    window.localStorage.setItem(constants.COPIED_BLOCK_KEY, `${canvasBlock}`);
+    window.localStorage.setItem(COPIED_BLOCK_KEY, `${canvasBlock}`);
     delegate.handleStoreEditor(editorState);
   }
 
@@ -1375,10 +1376,9 @@ class Blocksmith extends React.Component {
   /**
    * Dereferences any nodes in the copied block that are referenced
    */
-  derefCopiedBlockNodes () {
+  derefCopiedBlockNodes() {
     const { copiedBlock, delegate, getNode } = this.props;
     const fields = ['node_ref', 'node_refs', 'image_ref', 'poster_image_ref'];
-
     fields.forEach((field) => {
       if (!copiedBlock.has(field)) {
         return;
@@ -1390,7 +1390,7 @@ class Blocksmith extends React.Component {
       }
 
       nodeRefs.forEach((nodeRef) => {
-        if (!getNode(nodeRef)){
+        if (!getNode(nodeRef)) {
           delegate.handleGetNode(nodeRef);
         }
       });
@@ -1398,8 +1398,8 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * If there is a copied block available in local storage, use it to create a draft block with it as the
-   * data payload.
+   * If there is a copied block available in local storage, use it to
+   * create a draft block with it as the data payload.
    */
   async handlePasteBlock() {
     const { copiedBlock } = this.props;

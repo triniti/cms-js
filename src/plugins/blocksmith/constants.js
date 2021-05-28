@@ -48,3 +48,6 @@ export const tokens = {
   BLOCKSMITH_COPIED_CONTENT_TOKEN: 'BLOCKSMITH_COPIED_CONTENT_TOKEN:',
   EMPTY_BLOCK_TOKEN: 'EMPTY_BLOCK_TOKEN',
 };
+
+export const COPIED_BLOCK_KEY = 'blocksmith.copiedBlock';
+
