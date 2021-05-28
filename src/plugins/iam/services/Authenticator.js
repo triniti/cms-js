@@ -246,6 +246,7 @@ export default class Authenticator {
       // when the user has multiple tabs
       if (currentTime > userInactiveExpiresAt || Authenticator.getAccessToken() === null) {
         clearStorage();
+        localStorage.removeItem(COPIED_BLOCK_KEY);
         this.clearIdleListener();
         clearInterval(checkUserIdleInterval);
         checkUserIdleInterval = null;

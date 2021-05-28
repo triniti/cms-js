@@ -1411,8 +1411,6 @@ class Blocksmith extends React.Component {
     this.handleAddCanvasBlock(copiedBlock, true);
   }
 
-
-
   /**
    * Intercepts paste events. Oftentimes the HTML is malformed and as a result empty blocks are
    * inserted. This prevents that from happening. This uses the editorState from the argument
