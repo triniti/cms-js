@@ -5,11 +5,9 @@ import GalleryV1Mixin from '@triniti/schemas/triniti/curator/mixin/gallery/Galle
 import PollV1Mixin from '@triniti/schemas/triniti/apollo/mixin/poll/PollV1Mixin';
 import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/ImageAssetV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
-import SearchArticlesRequestV1Mixin from '@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin';
 import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
 
 export default {
-  getNodeRequest: resolveSchema(ImageAssetV1Mixin, 'request', 'get-asset-request'),
   getArticleNodeRequest: resolveSchema(ArticleV1Mixin, 'request', 'get-article-request'),
   getAudioAssetNodeRequest: resolveSchema(AudioAssetV1Mixin, 'request', 'get-asset-request'),
   getDocumentAssetNodeRequest: resolveSchema(DocumentAssetV1Mixin, 'request', 'get-asset-request'),
@@ -17,5 +15,4 @@ export default {
   getGalleryNodeRequest: resolveSchema(GalleryV1Mixin, 'request', 'get-gallery-request'),
   getPollNodeRequest: resolveSchema(PollV1Mixin, 'request', 'get-poll-request'),
   getVideoNodeRequest: resolveSchema(VideoV1Mixin, 'request', 'get-video-request'),
-  searchArticles: SearchArticlesRequestV1Mixin.findOne(),
 };

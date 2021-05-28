@@ -11,4 +11,3 @@ export default {
   POSITION_BELOW: 'POSITION_BELOW',
   SOFT_NEWLINE: 'SOFT_NEWLINE',
 };
-

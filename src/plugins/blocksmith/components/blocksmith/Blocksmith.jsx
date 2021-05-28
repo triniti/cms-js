@@ -757,7 +757,7 @@ class Blocksmith extends React.Component {
     }
 
     const canvasBlock = blockData.get('canvasBlock').clone();
-    window.localStorage.setItem(COPIED_BLOCK_KEY, `${canvasBlock}`);
+    localStorage.setItem(COPIED_BLOCK_KEY, `${canvasBlock}`);
     delegate.handleStoreEditor(editorState);
   }
 
@@ -1206,7 +1206,7 @@ class Blocksmith extends React.Component {
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleMouseMove(e) {
-    const { activeBlockKey, editorState, isSidebarOpen, readOnly, copiedBlock } = this.state;
+    const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
     if (readOnly || isSidebarOpen) {
       return;
     }
