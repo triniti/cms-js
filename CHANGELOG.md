@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.13.5
+* Allow users to copy from one tab and paste in another.
+
+
 ## v0.13.4
 * Adding `alt_text` field to image asset forms.
 * Add eme-form-block to Blocksmith.
