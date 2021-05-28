@@ -12,6 +12,8 @@ export default (id, type) => {
       return `${removeExt(assetUrl)}.m3u8`;
     case 'original':
       return insertBeforeExt(assetUrl, '-original');
+    case 'subtitled':
+      return `${removeExt(insertBeforeExt(assetUrl, '-subtitled'))}.m3u8`;
     case 'tooltip-thumbnail-sprite':
       return `${removeExt(insertBeforeExt(assetUrl, '-tooltip-thumbnail-sprite'))}.jpg`;
     case 'tooltip-thumbnail-track':
