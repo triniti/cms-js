@@ -756,8 +756,7 @@ class Blocksmith extends React.Component {
       return;
     }
 
-    const canvasBlock = blockData.get('canvasBlock').clone();
-    localStorage.setItem(COPIED_BLOCK_KEY, `${canvasBlock}`);
+    localStorage.setItem(COPIED_BLOCK_KEY, `${blockData.get('canvasBlock').clone()}`);
     delegate.handleStoreEditor(editorState);
   }
 
@@ -1401,7 +1400,7 @@ class Blocksmith extends React.Component {
    * If there is a copied block available in local storage, use it to
    * create a draft block with it as the data payload.
    */
-  async handlePasteBlock() {
+  handlePasteBlock() {
     const { copiedBlock } = this.props;
 
     if (!copiedBlock) {
