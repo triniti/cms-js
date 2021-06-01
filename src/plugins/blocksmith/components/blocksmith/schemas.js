@@ -4,8 +4,8 @@ import DocumentAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/document-as
 import GalleryV1Mixin from '@triniti/schemas/triniti/curator/mixin/gallery/GalleryV1Mixin';
 import PollV1Mixin from '@triniti/schemas/triniti/apollo/mixin/poll/PollV1Mixin';
 import ImageAssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/image-asset/ImageAssetV1Mixin';
-import resolveSchema from '@triniti/cms/utils/resolveSchema';
 import VideoV1Mixin from '@triniti/schemas/triniti/ovp/mixin/video/VideoV1Mixin';
+import resolveSchema from '@triniti/cms/utils/resolveSchema';
 
 export default {
   getArticleNodeRequest: resolveSchema(ArticleV1Mixin, 'request', 'get-article-request'),

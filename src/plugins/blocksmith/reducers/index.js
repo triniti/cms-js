@@ -4,20 +4,11 @@ import { actionTypes } from '../constants';
 export const initialState = {};
 
 const {
-  BLOCK_COPIED,
   EDITOR_CLEANED,
   EDITOR_DESTROYED,
   EDITOR_DIRTIED,
   EDITOR_STORED,
 } = actionTypes;
-
-const onBlockCopied = (prevState = {}, action) => {
-  const { block } = action;
-  const state = { ...prevState };
-  state.copiedBlock = block;
-
-  return state;
-};
 
 const onEditorCleaned = (prevState = {}, action) => {
   const { formName } = action;
@@ -51,7 +42,6 @@ const onEditorStored = (prevState = {}, action) => {
 };
 
 export default createReducer(initialState, {
-  [BLOCK_COPIED]: onBlockCopied,
   [EDITOR_CLEANED]: onEditorCleaned,
   [EDITOR_DESTROYED]: onEditorDestroyed,
   [EDITOR_DIRTIED]: onEditorDirtied,

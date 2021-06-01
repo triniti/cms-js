@@ -137,7 +137,6 @@ class Blocksmith extends React.Component {
     copiedBlock: PropTypes.instanceOf(Message),
     delegate: PropTypes.shape({
       handleCleanEditor: PropTypes.func.isRequired,
-      handleCopyBlock: PropTypes.func.isRequired,
       handleDirtyEditor: PropTypes.func.isRequired,
       handleGetNode: PropTypes.func.isRequired,
       handleStoreEditor: PropTypes.func.isRequired,
