@@ -65,16 +65,6 @@ export default class InstagramMediaBlockModal extends React.Component {
     }, 0, this);
   }
 
-  setBlock() {
-    const { hasUpdatedDate, hideCaption, id, updatedDate, aside } = this.state;
-    const { block } = this.props;
-    return block.schema().createMessage()
-      .set('aside', aside)
-      .set('hidecaption', hideCaption)
-      .set('id', id)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
-  }
-
   handleAddBlock() {
     const { onAddBlock, toggle } = this.props;
     onAddBlock(this.setBlock());
@@ -124,6 +114,15 @@ export default class InstagramMediaBlockModal extends React.Component {
     });
   }
 
+  setBlock() {
+    const { hasUpdatedDate, hideCaption, id, updatedDate, aside } = this.state;
+    const { block } = this.props;
+    return block.schema().createMessage()
+      .set('aside', aside)
+      .set('hidecaption', hideCaption)
+      .set('id', id)
+      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+  }
 
   render() {
     const {
