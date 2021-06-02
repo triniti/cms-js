@@ -1458,7 +1458,6 @@ class Blocksmith extends React.Component {
         ? selectionState.getAnchorKey()
         : selectionState.getFocusKey();
 
-      console.log('brian pasted text');
       this.setState(() => ({
         editorState: insertCanvasBlocks(
           editorState,
@@ -1467,18 +1466,6 @@ class Blocksmith extends React.Component {
           blocks,
         ),
       }), this.removeActiveStyling);
-      console.log('brian pasted text2');
-
-      // this.setState(() => ({
-      //   editorState: insertCanvasBlocks(
-      //     editorState,
-      //     insertionKey,
-      //     constants.POSITION_AFTER,
-      //     blocks,
-      //   ),
-      // }), () => {
-      //   this.removeActiveStyling();
-      // });
       return 'handled';
     }
     return 'not-handled';
