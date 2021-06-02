@@ -34,6 +34,10 @@ const clearStorage = () => {
   localStorage.removeItem(USER_INACTIVE_EXPIRES_AT);
 };
 
+const clearCopiedBlock = () => {
+  localStorage.removeItem(COPIED_BLOCK_KEY);
+};
+
 /**
  * @type {?Number}
  */
@@ -122,7 +126,7 @@ export default class Authenticator {
     this.store.dispatch(acceptLogin(accessToken));
     this.setUserInactiveExpiresAt();
     this.scheduleRenewal();
-    localStorage.removeItem(COPIED_BLOCK_KEY);
+    clearCopiedBlock();
   }
 
   /**
@@ -246,7 +250,7 @@ export default class Authenticator {
       // when the user has multiple tabs
       if (currentTime > userInactiveExpiresAt || Authenticator.getAccessToken() === null) {
         clearStorage();
-        localStorage.removeItem(COPIED_BLOCK_KEY);
+        clearCopiedBlock();
         this.clearIdleListener();
         clearInterval(checkUserIdleInterval);
         checkUserIdleInterval = null;
