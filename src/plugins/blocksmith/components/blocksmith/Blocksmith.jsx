@@ -1465,7 +1465,9 @@ class Blocksmith extends React.Component {
           constants.POSITION_AFTER,
           blocks,
         ),
-      }), this.removeActiveStyling);
+      }), () => {
+        this.removeActiveStyling();
+      });
       return 'handled';
     }
     return 'not-handled';
