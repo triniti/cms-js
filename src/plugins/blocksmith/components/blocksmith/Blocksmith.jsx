@@ -1451,13 +1451,14 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(ObjectSerializer.deserialize);
+        .map(function(block) { return ObjectSerializer.deserialize(block); });
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
         ? selectionState.getAnchorKey()
         : selectionState.getFocusKey();
 
+      console.log('brian pasted text');
       this.setState(() => ({
         editorState: insertCanvasBlocks(
           editorState,
@@ -1465,9 +1466,19 @@ class Blocksmith extends React.Component {
           constants.POSITION_AFTER,
           blocks,
         ),
-      }), () => {
-        this.removeActiveStyling();
-      });
+      }), this.removeActiveStyling);
+      console.log('brian pasted text2');
+
+      // this.setState(() => ({
+      //   editorState: insertCanvasBlocks(
+      //     editorState,
+      //     insertionKey,
+      //     constants.POSITION_AFTER,
+      //     blocks,
+      //   ),
+      // }), () => {
+      //   this.removeActiveStyling();
+      // });
       return 'handled';
     }
     return 'not-handled';
