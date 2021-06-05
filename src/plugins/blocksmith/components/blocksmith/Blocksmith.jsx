@@ -138,7 +138,6 @@ class Blocksmith extends React.Component {
     delegate: PropTypes.shape({
       handleCleanEditor: PropTypes.func.isRequired,
       handleDirtyEditor: PropTypes.func.isRequired,
-      handleGetNode: PropTypes.func.isRequired,
       handleStoreEditor: PropTypes.func.isRequired,
     }).isRequired,
     editorState: PropTypes.instanceOf(EditorState).isRequired,
