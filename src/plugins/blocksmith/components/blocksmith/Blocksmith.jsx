@@ -186,7 +186,7 @@ class Blocksmith extends React.Component {
     }
 
     if (copiedBlock) {
-      this.derefCopiedBlockNodes();
+      //this.derefCopiedBlockNodes();
     }
 
     this.state = {
@@ -326,7 +326,7 @@ class Blocksmith extends React.Component {
     const prevCopiedBlockEtag = prevCopiedBlock ? prevCopiedBlock.get('etag') : null;
 
     if (copiedBlock && copiedBlockEtag !== prevCopiedBlockEtag) {
-      this.derefCopiedBlockNodes();
+      //this.derefCopiedBlockNodes();
     }
 
     if (prevIsEditMode !== isEditMode) {

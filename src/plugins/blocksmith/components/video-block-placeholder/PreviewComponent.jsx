@@ -10,21 +10,29 @@ import selector from './selector';
 
 class PreviewComponent extends React.Component {
   static propTypes = {
-    handleGetNode: PropTypes.func.isRequired,
+    handleGetImageNode: PropTypes.func.isRequired,
+    handleGetVideoNode: PropTypes.func.isRequired,
     image: PropTypes.instanceOf(Message),
     imageRef: PropTypes.instanceOf(NodeRef),
+    node: PropTypes.instanceOf(Message),
+    nodeRef: PropTypes.instanceOf(NodeRef),
     onToggleImagePreviewSrc: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     image: null,
     imageRef: null,
+    node: null,
+    nodeRef: null,
   };
 
   componentDidMount() {
-    const { handleGetNode, image, imageRef } = this.props;
+    const { handleGetImageNode, handleGetVideoNode, image, imageRef, node, nodeRef } = this.props;
     if (!image && imageRef) {
-      handleGetNode(imageRef);
+      handleGetImageNode(imageRef);
+    }
+    if (!node && nodeRef) {
+      handleGetVideoNode(nodeRef);
     }
   }
 

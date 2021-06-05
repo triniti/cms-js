@@ -17,5 +17,7 @@ export default (state, { node }) => {
   return {
     image: imageRef ? getNode(state, imageRef) : null,
     imageRef,
+    node: gallery,
+    nodeRef: node.get('node_ref'),
   };
 };
