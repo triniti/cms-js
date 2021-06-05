@@ -1,5 +1,4 @@
 import getBlocksmith from '@triniti/cms/plugins/blocksmith/selectors/getBlocksmith';
-import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import JsonSerializer from '@gdbots/pbj/serializers/JsonSerializer';
 import { COPIED_BLOCK_KEY } from '../../constants';
 
@@ -24,6 +23,5 @@ export default (state, { formName }) => {
   return {
     copiedBlock,
     editorState: blocksmithState && blocksmithState.editorState ? blocksmithState.editorState : null,
-    getNode: (nodeRef) => getNode(state, nodeRef),
   };
 };

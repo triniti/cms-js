@@ -143,7 +143,6 @@ class Blocksmith extends React.Component {
     }).isRequired,
     editorState: PropTypes.instanceOf(EditorState).isRequired,
     formName: PropTypes.string,
-    getNode: PropTypes.func.isRequired,
     isEditMode: PropTypes.bool.isRequired,
     node: PropTypes.instanceOf(Message),
   };
@@ -159,7 +158,6 @@ class Blocksmith extends React.Component {
     super(props);
     const {
       blocksmithState,
-      copiedBlock,
       delegate,
       isEditMode,
       node,
@@ -183,10 +181,6 @@ class Blocksmith extends React.Component {
         editorState = convertToEditorState(node.get('blocks'), decorator);
       }
       errors = validateBlocks(editorState).errors;
-    }
-
-    if (copiedBlock) {
-      //this.derefCopiedBlockNodes();
     }
 
     this.state = {
@@ -266,7 +260,6 @@ class Blocksmith extends React.Component {
 
     this.blockRendererFn = this.blockRendererFn.bind(this);
     this.blockStyleFn = this.blockStyleFn.bind(this);
-    this.derefCopiedBlockNodes = this.derefCopiedBlockNodes.bind(this);
     this.getEditorState = this.getEditorState.bind(this);
     this.getReadOnly = this.getReadOnly.bind(this);
     this.getSidebarHolderStyle = this.getSidebarHolderStyle.bind(this);
@@ -319,15 +312,9 @@ class Blocksmith extends React.Component {
    *
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
-  componentDidUpdate({ copiedBlock: prevCopiedBlock, editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
-    const { copiedBlock, editorState: currentPropsEditorState, isEditMode } = this.props;
+  componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
+    const { editorState: currentPropsEditorState, isEditMode } = this.props;
     const { editorState } = this.state;
-    const copiedBlockEtag = copiedBlock ? copiedBlock.get('etag') : null;
-    const prevCopiedBlockEtag = prevCopiedBlock ? prevCopiedBlock.get('etag') : null;
-
-    if (copiedBlock && copiedBlockEtag !== prevCopiedBlockEtag) {
-      //this.derefCopiedBlockNodes();
-    }
 
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -1369,30 +1356,6 @@ class Blocksmith extends React.Component {
         />
       ));
     }
-  }
-
-  /**
-   * Dereferences any nodes in the copied block that are referenced
-   */
-  derefCopiedBlockNodes() {
-    const { copiedBlock, delegate, getNode } = this.props;
-    const fields = ['node_ref', 'node_refs', 'image_ref', 'poster_image_ref'];
-    fields.forEach((field) => {
-      if (!copiedBlock.has(field)) {
-        return;
-      }
-
-      let nodeRefs = copiedBlock.get(field);
-      if (!Array.isArray(nodeRefs)) {
-        nodeRefs = [nodeRefs];
-      }
-
-      nodeRefs.forEach((nodeRef) => {
-        if (!getNode(nodeRef)) {
-          delegate.handleGetNode(nodeRef);
-        }
-      });
-    });
   }
 
   /**
