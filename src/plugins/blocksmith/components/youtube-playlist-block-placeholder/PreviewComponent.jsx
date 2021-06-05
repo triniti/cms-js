@@ -37,8 +37,8 @@ class PreviewComponent extends React.Component {
         onClick={() => handleToggleImagePreviewSrc(damUrl(image, '4by3', 'md'))}
       >
         <BackgroundImage
-          imgSrc={image ? damUrl(image, '1by1', 'xxs') : ''}
-          alt="Vimeo Video Block Thumbnail"
+          imgSrc={image ? damUrl(image, '1by1') : 'xxs'}
+          alt="Youtube Playlist Block Thumbnail"
         />
       </Media>
     );
