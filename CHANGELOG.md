@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.13.6
+* Assume `updateNodeFlow` will work due to new server changes.
+
+
 ## v0.13.5
 * Adjust SEO Description Character Counter To Turn Yellow At 140 Characters and Red at 160.
 * Add `expires_at` field to eme-form-block.
