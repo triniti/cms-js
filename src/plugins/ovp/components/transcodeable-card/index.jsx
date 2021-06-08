@@ -38,7 +38,7 @@ const TranscodeableCard = ({ node }) => {
           : (
             <Table className="table-sm" borderless hover responsive>
               <tbody>
-                {['original', 'manifest', 'video', 'tooltip-thumbnail-sprite', 'tooltip-thumbnail-track'].map((type) => (
+                {['original', 'manifest', 'subtitled', 'video', 'tooltip-thumbnail-sprite', 'tooltip-thumbnail-track'].map((type) => (
                   <tr>
                     <td className="pl-1">{`${startCase(camelCase(type))}:`}</td>
                     <td>

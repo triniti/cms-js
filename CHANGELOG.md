@@ -5,6 +5,11 @@
 * Allow users to copy from one tab and paste in another.
 
 
+## v0.13.6
+* Display subtitled m3u8 on transcodeable-card
+* Assume `updateNodeFlow` will work due to new server changes.
+
+
 ## v0.13.5
 * Adjust SEO Description Character Counter To Turn Yellow At 140 Characters and Red at 160.
 * Add `expires_at` field to eme-form-block.

@@ -64,23 +64,6 @@ export default function* (action) {
     pbj,
     successMessage: `Success! The ${startCase(nodeSchema.getCurie().getMessage())} was saved.`,
     toastMessage: config.shouldPublishAfterSave ? 'Saving...' : null,
-    verify: (response) => {
-      if (!response.pbj.has('node')) {
-        return false;
-      }
-      const newNode = response.pbj.get('node');
-      if (!newNode.has('updated_at')) {
-        return false;
-      }
-      const node = pbj.get('new_node');
-      if (node.get('etag') !== newNode.get('etag')) {
-        return true;
-      }
-      const oldUpdatedAt = node.get('updated_at', node.get('created_at')).toNumber();
-      if (oldUpdatedAt < newNode.get('updated_at').toNumber()) {
-        return true;
-      }
-      return false;
-    },
+    verify: (response) => response.pbj.has('node'),
   });
 }
