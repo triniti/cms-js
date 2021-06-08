@@ -7,7 +7,4 @@ export default (dispatch) => ({
   handleGetImageNode: (nodeRef) => {
     dispatch(schemas.getImageNodeRequest.createMessage().set('node_ref', nodeRef));
   },
-  handleGetPollNode: (nodeRef) => {
-    dispatch(schemas.getPollNodeRequest.createMessage().set('node_ref', nodeRef));
-  },
 });

@@ -3,6 +3,7 @@ import GenericBlockPlaceholder from '@triniti/cms/plugins/blocksmith/components/
 import PollGridBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/poll-grid-block/PollGridBlockV1Mixin';
 import { localize } from '@triniti/cms/plugins/utils/services/Localization';
 import siteLogo from 'assets/img/svg/icon/site-logo.svg'; // eslint-disable-line import/no-unresolved
+import PreviewComponent from './PreviewComponent';
 
 const config = {
   label: `${localize(PollGridBlockV1Mixin.findOne().getQName().getVendor())} Poll Grid Block`,
@@ -15,6 +16,9 @@ const config = {
         src: siteLogo,
       },
     },
+  },
+  preview: {
+    component: PreviewComponent,
   },
 };
 

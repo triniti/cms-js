@@ -71,7 +71,7 @@ import decorators from './decorators';
 import delegateFactory from './delegate';
 import InnerErrorBoundary from './inner-error-boundary';
 import selector from './selector';
-import { blockTypes, tokens } from '../../constants';
+import { blockTypes, COPIED_BLOCK_KEY, tokens } from '../../constants';
 import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
 import {
@@ -137,7 +137,6 @@ class Blocksmith extends React.Component {
     copiedBlock: PropTypes.instanceOf(Message),
     delegate: PropTypes.shape({
       handleCleanEditor: PropTypes.func.isRequired,
-      handleCopyBlock: PropTypes.func.isRequired,
       handleDirtyEditor: PropTypes.func.isRequired,
       handleStoreEditor: PropTypes.func.isRequired,
     }).isRequired,
@@ -315,11 +314,13 @@ class Blocksmith extends React.Component {
   componentDidUpdate({ editorState: prevPropsEditorState, isEditMode: prevIsEditMode }) {
     const { editorState: currentPropsEditorState, isEditMode } = this.props;
     const { editorState } = this.state;
+
     if (prevIsEditMode !== isEditMode) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({ readOnly: !isEditMode }));
       return;
     }
+
     if (
       currentPropsEditorState
       && prevPropsEditorState
@@ -740,7 +741,8 @@ class Blocksmith extends React.Component {
       return;
     }
 
-    delegate.handleCopyBlock(blockData.get('canvasBlock').clone());
+    localStorage.setItem(COPIED_BLOCK_KEY, `${blockData.get('canvasBlock').clone()}`);
+    delegate.handleStoreEditor(editorState);
   }
 
   /**
@@ -1356,11 +1358,12 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * If there is a copied block available in redux, use it to create a draft block with it as the
-   * data payload.
+   * If there is a copied block available in local storage, use it to
+   * create a draft block with it as the data payload.
    */
   handlePasteBlock() {
     const { copiedBlock } = this.props;
+
     if (!copiedBlock) {
       return;
     }
@@ -1410,7 +1413,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(ObjectSerializer.deserialize);
+        .map(function(block) { return ObjectSerializer.deserialize(block); });
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()

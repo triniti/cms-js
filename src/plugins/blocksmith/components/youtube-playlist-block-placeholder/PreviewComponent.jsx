@@ -38,7 +38,7 @@ class PreviewComponent extends React.Component {
       >
         <BackgroundImage
           imgSrc={image ? damUrl(image, '1by1') : 'xxs'}
-          alt="Youtube Video Block Thumbnail"
+          alt="Youtube Playlist Block Thumbnail"
         />
       </Media>
     );
