@@ -34,6 +34,8 @@ const getFieldsComponent = (type) => {
       return createLazyComponent(import('@triniti/cms/plugins/iam/components/slack-app-fields'));
     case 'sms-app':
       return createLazyComponent(import('@triniti/cms/plugins/iam/components/sms-app-fields'));
+    case 'twitter-app':
+      return createLazyComponent(import('@triniti/cms/plugins/iam/components/twitter-app-fields'));
     default:
       return null;
   }
