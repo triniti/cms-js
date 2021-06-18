@@ -42,7 +42,7 @@ export default class TwitterSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const { oauthConsumerSecret, oauthTokenSecret } = data;
 
-    // TODO: fix warning, it's not working here or on apple news subscriber
+    // TODO: fix warning, it's not working here or in apple news subscriber
 
     if (!oauthConsumerSecret && !oauthTokenSecret) {
       return;
