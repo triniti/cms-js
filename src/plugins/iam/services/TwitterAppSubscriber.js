@@ -2,7 +2,7 @@ import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import camelCase from 'lodash/camelCase';
 import startCase from 'lodash/startCase';
 
-export default class TwitterSubscriber extends EventSubscriber {
+export default class TwitterAppSubscriber extends EventSubscriber {
   constructor() {
     super();
     this.onInitForm = this.onInitForm.bind(this);

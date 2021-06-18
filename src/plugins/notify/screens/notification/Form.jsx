@@ -44,6 +44,9 @@ const getFieldsComponent = (type) => {
     case 'sms-notification':
       fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/sms-notification-fields'));
       break;
+    case 'twitter-notification':
+      fieldsComponents[type] = createLazyComponent(import('@triniti/cms/plugins/notify/components/twitter-notification-fields'));
+      break;
     default:
       break;
   }
