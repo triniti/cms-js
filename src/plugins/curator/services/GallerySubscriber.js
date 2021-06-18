@@ -40,6 +40,11 @@ export default class GallerySubscriber extends EventSubscriber {
       const value = node.get('credit');
       data.credit = { label: startCase(value), value };
     }
+
+    if (node.has('layout')) {
+      const value = node.get('layout');
+      data.layout = { label: value, value };
+    }
   }
 
   /**
@@ -50,6 +55,7 @@ export default class GallerySubscriber extends EventSubscriber {
   onValidateForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
+    const layoutValue = get(data, 'layout.value');
 
     if (!data.title) {
       formEvent.addError('title', 'Title is required');
@@ -72,6 +78,14 @@ export default class GallerySubscriber extends EventSubscriber {
           node.set('image_ref', NodeRef.fromString(data.imageRef));
         } catch (e) {
           formEvent.addError('imageRef', e.message);
+        }
+      }
+
+      if (layoutValue) {
+        try {
+          node.set('layout', layoutValue);
+        } catch (e) {
+          formEvent.addError('layout', e.message);
         }
       }
     }
@@ -103,6 +117,7 @@ export default class GallerySubscriber extends EventSubscriber {
       node.set('credit_url', data.creditUrl || null);
       node.set('credit', get(data, 'credit.value', null));
       node.set('image_ref', data.imageRef ? NodeRef.fromString(data.imageRef) : null);
+      node.set('layout', get(data, 'layout.value', null));
 
       node.clear('related_gallery_refs');
       if (data.relatedGalleryRefs) {

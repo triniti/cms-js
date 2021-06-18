@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add `layout` field to gallery screen.
+
+
 ## v0.14.0
 * Allow users to copy from one tab and paste in another.
 * Display subtitled m3u8 on transcodeable-card
