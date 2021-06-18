@@ -15,10 +15,10 @@ const TwitterAppFields = ({ isEditMode }) => [
   <Card key="config">
     <CardHeader>Configuration</CardHeader>
     <CardBody indent>
-      <Field readOnly={!isEditMode} name="apiKey" component={TextField} label="Oauth Key" placeholder="Enter Oauth Key" />
-      <Field readOnly={!isEditMode} name="apiSecret" component={TextAreaField} label="Oauth Key Secret" placeholder="Enter Oauth Key Secret" />
-      <Field readOnly={!isEditMode} name="token" component={TextField} label="Oauth Token" placeholder="Enter Oauth Token" />
-      <Field readOnly={!isEditMode} name="tokenSecret" component={TextAreaField} label="Oauth Token Secret" placeholder="Enter Oauth Token Secret" />
+      <Field readOnly={!isEditMode} name="oauthConsumerKey" component={TextField} label="Oauth Consumer Key" placeholder="Enter Oauth Consumer Key" />
+      <Field readOnly={!isEditMode} name="oauthConsumerSecret" component={TextAreaField} label="Oauth Consumer Secret" placeholder="Enter Oauth Consumer Secret" />
+      <Field readOnly={!isEditMode} name="oauthToken" component={TextField} label="Oauth Token" placeholder="Enter Oauth Token" />
+      <Field readOnly={!isEditMode} name="oauthTokenSecret" component={TextAreaField} label="Oauth Token Secret" placeholder="Enter Oauth Token Secret" />
     </CardBody>
   </Card>,
 ];

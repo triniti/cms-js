@@ -2,7 +2,7 @@ import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import camelCase from 'lodash/camelCase';
 import startCase from 'lodash/startCase';
 
-export default class AppleNewsAppSubscriber extends EventSubscriber {
+export default class TwitterSubscriber extends EventSubscriber {
   constructor() {
     super();
     this.onInitForm = this.onInitForm.bind(this);
@@ -23,9 +23,10 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
     const node = formEvent.getMessage();
 
     [
-      'api_key',
-      'api_secret',
-      'channel_id',
+      'oauth_consumer_key',
+      'oauth_consumer_secret',
+      'oauth_token',
+      'oauth_token_secret',
     ].forEach((schemaFieldName) => {
       const formFieldName = camelCase(schemaFieldName);
       data[formFieldName] = node.get(schemaFieldName);
@@ -39,25 +40,24 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
    */
   onWarnForm(formEvent) {
     const data = formEvent.getData();
-    const { apiSecret } = data;
+    const { oauthConsumerSecret, oauthTokenSecret } = data;
 
-    console.log('alon', apiSecret);
-
-    if (!apiSecret) {
+    if (!oauthConsumerSecret && !oauthTokenSecret) {
       return;
     }
 
-    console.log('alon passed return');
+    if (oauthConsumerSecret.length <= 50) {
+      formEvent.addWarning(
+        'oauthConsumerSecret',
+        'Encrypted key should be longer than what currently entered. Make sure the key is encrypted',
+      );
+    }
 
-    const apiSecretWarning = apiSecret.length <= 200
-      ? 'An encrypted apple news api secret is usually longer than the current input,'
-      + ' please make sure you have the correct encrypted value entered!'
-      + ' NOTE: YOU SHOULD NEVER ENTER THE UNENCRYPTED VALUE HERE!'
-      : '';
-
-    if (apiSecret && !!apiSecretWarning) {
-      formEvent.addWarning('apiSecret', apiSecretWarning);
-      console.log('alon warning');
+    if (oauthTokenSecret.length <= 45) {
+      formEvent.addWarning(
+        'oauthTokenSecret',
+        'Encrypted key should be longer than what currently entered. Make sure the key is encrypted',
+      );
     }
   }
 
@@ -72,9 +72,10 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
 
     if (!formEvent.getProps().isCreateForm) {
       [
-        'api_key',
-        'api_secret',
-        'channel_id',
+        'oauth_consumer_key',
+        'oauth_consumer_secret',
+        'oauth_token',
+        'oauth_token_secret',
       ].forEach((schemaFieldName) => {
         const formFieldName = camelCase(schemaFieldName);
         if (!data[formFieldName]) {
@@ -107,9 +108,10 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
 
     if (!formEvent.getProps().isCreateForm) {
       [
-        'api_key',
-        'api_secret',
-        'channel_id',
+        'oauth_consumer_key',
+        'oauth_consumer_secret',
+        'oauth_token',
+        'oauth_token_secret',
       ].forEach((fieldName) => {
         node.set(fieldName, data[camelCase(fieldName)] || null);
       });
@@ -118,10 +120,10 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
 
   getSubscribedEvents() {
     return {
-      'gdbots:iam:mixin:apple-news-app.init_form': this.onInitForm,
-      'gdbots:iam:mixin:apple-news-app.warn_form': this.onWarnForm,
-      'gdbots:iam:mixin:apple-news-app.validate_form': this.onValidateForm,
-      'gdbots:iam:mixin:apple-news-app.submit_form': this.onSubmitForm,
+      'gdbots:iam:mixin:twitter-app.init_form': this.onInitForm,
+      'gdbots:iam:mixin:twitter-app.warn_form': this.onWarnForm,
+      'gdbots:iam:mixin:twitter-app.validate_form': this.onValidateForm,
+      'gdbots:iam:mixin:twitter-app.submit_form': this.onSubmitForm,
     };
   }
 }
