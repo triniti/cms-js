@@ -1,6 +1,9 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import camelCase from 'lodash/camelCase';
 import startCase from 'lodash/startCase';
+import getTextAreaFieldError from '@triniti/cms/components/textarea-field/getTextAreaFieldError';
+import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
+import get from 'lodash/get';
 
 export default class TwitterAppSubscriber extends EventSubscriber {
   constructor() {
@@ -48,17 +51,17 @@ export default class TwitterAppSubscriber extends EventSubscriber {
       return;
     }
 
-    if (oauthConsumerSecret.length <= 50) {
+    if (oauthConsumerSecret && oauthConsumerSecret.length <= 50) {
       formEvent.addWarning(
         'oauthConsumerSecret',
-        'Encrypted key should be longer than what currently entered. Make sure the key is encrypted',
+        'Oauth consumer secret should be longer than what currently entered. Make sure the oauth consumer secret is encrypted',
       );
     }
 
-    if (oauthTokenSecret.length <= 45) {
+    if (oauthTokenSecret && oauthTokenSecret.length <= 45) {
       formEvent.addWarning(
         'oauthTokenSecret',
-        'Encrypted key should be longer than what currently entered. Make sure the key is encrypted',
+        'Oauth token secret should be longer than what currently entered. Make sure the oauth token secret is encrypted',
       );
     }
   }
@@ -73,21 +76,19 @@ export default class TwitterAppSubscriber extends EventSubscriber {
     const node = formEvent.getMessage();
 
     if (!formEvent.getProps().isCreateForm) {
-      [
-        'oauth_consumer_key',
-        'oauth_consumer_secret',
-        'oauth_token',
-        'oauth_token_secret',
-      ].forEach((schemaFieldName) => {
-        const formFieldName = camelCase(schemaFieldName);
-        if (!data[formFieldName]) {
-          formEvent.addError(formFieldName, `${startCase(schemaFieldName)} is required`);
-        } else {
-          try {
-            node.set(schemaFieldName, data[formFieldName]);
-          } catch (e) {
-            formEvent.addError(formFieldName, e.message);
-          }
+      let error;
+      // Fields using TextField component
+      ['oauth_consumer_key', 'oauth_token'].forEach((fieldName) => {
+        error = getTextFieldError(data, camelCase(fieldName), node);
+        if (error) {
+          formEvent.addError(camelCase(fieldName), error);
+        }
+      });
+
+      ['oauth_consumer_secret', 'oauth_token_secret'].forEach((fieldName) => {
+        error = getTextAreaFieldError(data, camelCase(fieldName), node);
+        if (error) {
+          formEvent.addError(camelCase(fieldName), error);
         }
       });
     }
@@ -114,8 +115,12 @@ export default class TwitterAppSubscriber extends EventSubscriber {
         'oauth_consumer_secret',
         'oauth_token',
         'oauth_token_secret',
-      ].forEach((fieldName) => {
-        node.set(fieldName, data[camelCase(fieldName)] || null);
+      ].forEach((field) => {
+        const fieldName = camelCase(field);
+
+        if (get(data, fieldName) || node.has(field)) {
+          node.set(field, get(data, fieldName) || null);
+        }
       });
     }
   }
