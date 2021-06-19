@@ -55,7 +55,6 @@ export default class GallerySubscriber extends EventSubscriber {
   onValidateForm(formEvent) {
     const data = formEvent.getData();
     const node = formEvent.getMessage();
-    const layoutValue = get(data, 'layout.value');
 
     if (!data.title) {
       formEvent.addError('title', 'Title is required');
@@ -81,6 +80,7 @@ export default class GallerySubscriber extends EventSubscriber {
         }
       }
 
+      const layoutValue = get(data, 'layout.value');
       if (layoutValue) {
         try {
           node.set('layout', layoutValue);
