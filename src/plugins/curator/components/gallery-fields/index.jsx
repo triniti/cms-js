@@ -86,6 +86,13 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
           placeholder="Enter launch text"
         />
         <Field
+          component={PicklistPickerField}
+          isEditMode={isEditMode}
+          label="Layout"
+          name="layout"
+          picklistId="gallery-layouts"
+        />
+        <Field
           component={CheckboxField}
           disabled={!isEditMode}
           label="Allow Comments"
@@ -112,7 +119,7 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
           name="creditUrl"
         />
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
-          && <FieldArray label="Sponsor" name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />}
+        && <FieldArray label="Sponsor" name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />}
       </CardBody>
     </Card>
   );
