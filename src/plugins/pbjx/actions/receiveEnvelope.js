@@ -23,7 +23,7 @@ import { actionTypes } from '../constants';
 export default (envelope) => (dispatch, getState) => {
   if (envelope.get('code') === Code.UNAUTHENTICATED.getValue()) {
     setTimeout(() => {
-      getAlerts(getState()).map(alert => dispatch(dismissAlert(alert.id)));
+      getAlerts(getState()).map((alert) => dispatch(dismissAlert(alert.id)));
       swal.fire({
         title: 'Session Expired',
         type: 'error',
@@ -42,5 +42,5 @@ export default (envelope) => (dispatch, getState) => {
   return {
     type: actionTypes.ENVELOPE_RECEIVED,
     pbj: envelope,
-  }
+  };
 };

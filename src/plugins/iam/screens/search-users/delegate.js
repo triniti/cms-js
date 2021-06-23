@@ -1,8 +1,8 @@
 import AbstractDelegate from '@triniti/cms/plugins/ncr/screens/search-nodes/AbstractDelegate';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import SearchUsersSort from '@gdbots/schemas/gdbots/iam/enums/SearchUsersSort';
-import schemas from './schemas';
 import Message from '@gdbots/pbj/Message';
+import schemas from './schemas';
 
 class Delegate extends AbstractDelegate {
   constructor(dependencies) {
@@ -35,7 +35,7 @@ class Delegate extends AbstractDelegate {
       return super.handleSearch(pbj);
     }
 
-    pbj.sort = SearchUsersSort.FIRST_NAME_ASC.getValue();
+    pbj.sort = SearchUsersSort.FIRST_NAME_ASC.getValue(); // eslint-disable-line
     return super.handleSearch(pbj);
   }
 }
