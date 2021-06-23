@@ -34,14 +34,14 @@ export default class Authorizer extends EventSubscriber {
       swal.fire({
         title: 'Session Expired',
         type: 'error',
-        html: '<p><strong>To avoid losing your work:</strong>' +
-          '<ol class="text-left">' +
-          '<li class="pb-2"><mark><u>DO NOT</u></mark> close or refresh.</li>' +
-          '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Login</strong></a> in a new tab.</li>' +
-          '<li class="pb-2">Once logged in, return to this tab.</li>' +
-          '<li>Click <strong>OK</strong> and then retry your operation.</li>' +
-          '</ol>' +
-          '</p>',
+        html: '<p><strong>To avoid losing your work:</strong>'
+          + '<ol class="text-left">'
+          + '<li class="pb-2"><mark><u>DO NOT</u></mark> close or refresh.</li>'
+          + '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Login</strong></a> in a new tab.</li>'
+          + '<li class="pb-2">Once logged in, return to this tab.</li>'
+          + '<li>Click <strong>OK</strong> and then retry your operation.</li>'
+          + '</ol>'
+          + '</p>',
       }).then(noop).catch(console.error);
       throw new AuthenticationRequired();
     }
