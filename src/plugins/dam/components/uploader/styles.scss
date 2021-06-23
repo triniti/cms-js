@@ -7,7 +7,7 @@ $viewportMaxHeight: 950px;
     min-height: $normalHeight;
   }
 
-  @media (max-height: $viewportMaxHeight) {
+  @media (max-height: $viewportMaxHeight - 1px) {
     height: $smallHeight;
     overflow: auto;
   }
