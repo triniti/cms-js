@@ -1,13 +1,13 @@
 $normalHeight: 620px;
 $smallHeight: calc(100vh - 180px);
-$viewportMaxHeight: 800px;
+$viewportMaxHeight: 950px;
 
 .dam-uploader-wrapper {
   @media (min-height: $viewportMaxHeight) {
     min-height: $normalHeight;
   }
 
-  @media (max-height: $viewportMaxHeight) {
+  @media (max-height: $viewportMaxHeight - 1px) {
     height: $smallHeight;
     overflow: auto;
   }
