@@ -1,9 +1,11 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.14.1
 * Add `layout` field to gallery screen.
+* Sort users by first name asc on search users screen.
 * Update viewportMaxHeight css variable for DAM uploader.
+* Notify user when session expired and give instructions on how to prevent losing work.
 
 
 ## v0.14.0
