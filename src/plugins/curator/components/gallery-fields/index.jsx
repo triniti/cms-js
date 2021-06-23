@@ -86,6 +86,13 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
           placeholder="Enter launch text"
         />
         <Field
+          component={PicklistPickerField}
+          isEditMode={isEditMode}
+          label="Layout"
+          name="layout"
+          picklistId="gallery-layouts"
+        />
+        <Field
           component={CheckboxField}
           disabled={!isEditMode}
           label="Allow Comments"
