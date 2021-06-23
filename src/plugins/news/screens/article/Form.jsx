@@ -5,7 +5,7 @@ import { EditorState } from 'draft-js';
 
 import AdvancedFields from '@triniti/cms/plugins/common/components/advanced-fields';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
-import AppleNewsFields from '@triniti/cms/plugins/news/components/apple-news-fields';
+import ArticleNotificationFields from '@triniti/cms/plugins/news/components/article-notification-fields';
 import ArticleFields from '@triniti/cms/plugins/news/components/article-fields';
 import Blocksmith from '@triniti/cms/plugins/blocksmith/components/blocksmith';
 import HasNotificationsTable from '@triniti/cms/plugins/notify/components/has-notifications-table';
@@ -63,7 +63,7 @@ const Form = ({
           {schemas.node.hasMixin('triniti:notify:mixin:has-notifications') && (
             <HasNotificationsTable contentRef={nodeRef} />
           )}
-          <AppleNewsFields article={article} isEditMode={isEditMode} />
+          <ArticleNotificationFields article={article} isEditMode={isEditMode} />
         </>
       );
 

@@ -63,7 +63,7 @@ const NotificationFields = ({ app, content, isEditMode, node, showDatePicker }) 
                   target="_blank"
                   to={pbjUrl(content, 'cms')}
                 >
-                      Open content
+                  Open content
                 </Button>
               </InputGroupAddon>
             </InputGroup>

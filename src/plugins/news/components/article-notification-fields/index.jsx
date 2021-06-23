@@ -7,15 +7,23 @@ import TextField from '@triniti/cms/components/text-field';
 import convertReadableTime from '@triniti/cms/utils/convertReadableTime';
 import { Card, CardBody, Label, ListGroupItem } from '@triniti/admin-ui-plugin/components';
 
-const AppleNewsFields = ({ article, isEditMode }) => (
-  <Card title="Apple News">
+const ArticleNotificationFields = ({ article, isEditMode }) => (
+  <Card title="Article Notification Fields">
     <CardBody indent>
-      <Field
-        component={CheckboxField}
-        disabled={!isEditMode}
-        label="Apple News Enabled"
-        name="appleNewsEnabled"
-      />
+      <div className="d-flex flex-row">
+        <Field
+          component={CheckboxField}
+          disabled={!isEditMode}
+          label="Apple News Enabled"
+          name="appleNewsEnabled"
+        />
+        <Field
+          component={CheckboxField}
+          disabled={!isEditMode}
+          label="Twitter Publish Enabled"
+          name="twitterPublishEnabled"
+        />
+      </div>
       <Field
         component={TextField}
         disabled={!isEditMode}
@@ -48,14 +56,14 @@ const AppleNewsFields = ({ article, isEditMode }) => (
   </Card>
 );
 
-AppleNewsFields.propTypes = {
+ArticleNotificationFields.propTypes = {
   article: PropTypes.instanceOf(Message),
   isEditMode: PropTypes.bool,
 };
 
-AppleNewsFields.defaultProps = {
+ArticleNotificationFields.defaultProps = {
   article: null,
   isEditMode: false,
 };
 
-export default AppleNewsFields;
+export default ArticleNotificationFields;
