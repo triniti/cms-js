@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add `layout` field to gallery screen.
+* Update viewportMaxHeight css variable for DAM uploader.
 
 
 ## v0.14.0
