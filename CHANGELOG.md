@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.14.2
+* Fix `receiveEnvelope`.
+
+
 ## v0.14.1
 * Add `layout` field to gallery screen.
 * Sort users by first name asc on search users screen.
