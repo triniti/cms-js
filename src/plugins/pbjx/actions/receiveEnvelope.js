@@ -39,8 +39,8 @@ export default (envelope) => (dispatch, getState) => {
     }, 1000);
   }
 
-  return {
+  return dispatch({
     type: actionTypes.ENVELOPE_RECEIVED,
     pbj: envelope,
-  };
+  });
 };
