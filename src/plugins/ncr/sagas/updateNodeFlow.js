@@ -2,7 +2,6 @@ import { call, put } from 'redux-saga/effects';
 import { reset, SubmissionError } from 'redux-form';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import destroyEditor from '@triniti/cms/plugins/blocksmith/actions/destroyEditor';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
 import changeNodeFlow from './changeNodeFlow';
 
@@ -31,7 +30,6 @@ export function* publishAfterUpdateFlow(action) {
     || config.schemas.nodes.find((node) => node.getCurie().getMessage() === match.params.type);
 
   yield call(changeNodeFlow, {
-    expectedEvent: config.schemas.nodePublished.getCurie().toString(),
     failureMessage: `Publish ${startCase(nodeSchema.getCurie().getMessage())} failed: `,
     getNodeRequestSchema: config.schemas.getNodeRequest,
     onAfterFailureFlow: (error) => onAfterFailureFlow(action, error),
@@ -39,12 +37,6 @@ export function* publishAfterUpdateFlow(action) {
     pbj: config.schemas.publishNode.createMessage({ node_ref: pbj.get('node_ref') }),
     successMessage: `Success! The ${startCase(nodeSchema.getCurie().getMessage())} was saved and published.`,
     toastMessage: 'Publishing...',
-    verify: (response) => {
-      if (!response.pbj.has('node')) {
-        return false;
-      }
-      return response.pbj.get('node').get('status') === NodeStatus.PUBLISHED;
-    },
   });
 }
 
@@ -55,7 +47,6 @@ export default function* (action) {
   const nodeSchema = config.schemas.node
     || config.schemas.nodes.find((node) => node.getCurie().getMessage() === match.params.type);
   yield call(changeNodeFlow, {
-    expectedEvent: config.schemas.nodeUpdated.getCurie().toString(),
     failureMessage: `Save ${startCase(nodeSchema.getCurie().getMessage())} failed: `,
     getNodeRequestSchema: config.schemas.getNodeRequest,
     onAfterFailureFlow: (error) => onAfterFailureFlow(action, error),
@@ -64,6 +55,5 @@ export default function* (action) {
     pbj,
     successMessage: `Success! The ${startCase(nodeSchema.getCurie().getMessage())} was saved.`,
     toastMessage: config.shouldPublishAfterSave ? 'Saving...' : null,
-    verify: (response) => response.pbj.has('node'),
   });
 }
