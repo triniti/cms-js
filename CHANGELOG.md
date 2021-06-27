@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v0.15.0
+* Remove pbjx timeout checks on sagas as they are no longer needed. (note, sagas disappear completely in next major rev for 99% of operations).
+  The server runs write operations sync instead of async so any error will be reported immediately and we don't need to wait for the raven events to determine success.
+
+
 ## v0.14.2
 * Fix `receiveEnvelope`.
 

@@ -1,12 +1,7 @@
-import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
-
+import { call, delay, fork, put, putResolve } from 'redux-saga/effects';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
-import OperationTimedOut from '@triniti/cms/plugins/pbjx/exceptions/OperationTimedOut';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
 import toast from '@triniti/admin-ui-plugin/utils/toast';
-import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
-
-import unlinkAssetsTimedoutFlow from './unlinkAssetsTimedoutFlow';
 import { pbjxChannelNames as pbjxChannelNamesImage } from '../components/image-search/constants';
 
 /**
@@ -56,29 +51,12 @@ export function* failureFlow(reject, error) {
  * @param config
  */
 export default function* unlinkAssetsFlow({ pbj, resolve, reject, config }) {
-  const expectedEvent = config.schemas.assetUnlinked.getCurie().toString();
-  const eventChannel = yield actionChannel(expectedEvent);
-
   yield fork([toast, 'show']);
-  yield putResolve(pbj);
 
-  const result = yield race({
-    event: call(waitForMyEvent, eventChannel),
-    timeout: delay(5000),
-  });
-
-  if (result.timeout) {
-    try {
-      const manualCheck = yield call(unlinkAssetsTimedoutFlow, pbj, config.schemas);
-      if (!manualCheck.ok) {
-        yield call(failureFlow, reject, new OperationTimedOut(pbj));
-        return;
-      }
-    } catch (e) {
-      yield call(failureFlow, reject, e);
-      return;
-    }
+  try {
+    yield putResolve(pbj);
+    yield call(successFlow, resolve, config.schemas);
+  } catch (e) {
+    yield call(failureFlow, reject, e);
   }
-
-  yield call(successFlow, resolve, config.schemas);
 }

@@ -10,17 +10,10 @@ export function* onAfterSuccessFlow(config) {
 
 export default function* ({ config, pbj }) {
   yield call(changeNodeFlow, {
-    expectedEvent: config.schemas.nodeRenamed.getCurie().toString(),
     failureMessage: `Rename ${startCase(pbj.get('node_ref').getLabel())} slug failed: `,
     getNodeRequestSchema: config.schemas.getNodeRequest,
     onAfterSuccessFlow: () => onAfterSuccessFlow(config),
     pbj,
     successMessage: `Success! The ${startCase(pbj.get('node_ref').getLabel())}'s slug was renamed.`,
-    verify: (response) => {
-      if (!response.pbj.has('node')) {
-        return false;
-      }
-      return response.pbj.get('node').get('slug') === pbj.get('new_slug');
-    },
   });
 }

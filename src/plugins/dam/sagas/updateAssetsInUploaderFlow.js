@@ -1,13 +1,9 @@
-import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
+import { call, fork, put, putResolve } from 'redux-saga/effects';
 import { initialize, SubmissionError } from 'redux-form';
 import camelCase from 'lodash/camelCase';
-
-import expectedEventTimedoutFlow from '@triniti/cms/plugins/ncr/sagas/expectedEventTimedoutFlow';
-import OperationTimedOut from '@triniti/cms/plugins/pbjx/exceptions/OperationTimedOut';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
 import toast from '@triniti/admin-ui-plugin/utils/toast';
 import updateProcessedFileAsset from '@triniti/cms/plugins/dam/actions/updateProcessedFileAsset';
-import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
 
 /**
  * @param {Function} resolve
@@ -65,33 +61,13 @@ export function* failureFlow(reject, error) {
  */
 export default function* (action) {
   const pbj = action.pbj;
-  const expectedNodeRef = pbj.get('node_ref');
   const config = action.config;
-  const expectedEvent = config.schemas.nodeUpdated.getCurie().toString();
 
   try {
-    const eventChannel = yield actionChannel(expectedEvent);
     yield fork([toast, 'show']);
     yield putResolve(pbj);
     const node = pbj.get('new_node');
-
-    const result = yield race({
-      event: call(waitForMyEvent, eventChannel),
-      timeout: delay(5000),
-    });
-
-    const getNodeRequest = config.schemas.getNodeRequest.createMessage().set('node_ref', expectedNodeRef);
-    if (result.timeout) {
-      const newNode = yield call(expectedEventTimedoutFlow, getNodeRequest, expectedEvent);
-
-      if (!newNode) {
-        yield call(failureFlow, action.reject, new OperationTimedOut(pbj));
-      } else {
-        yield call(successFlow, action.resolve, node, config);
-      }
-    } else {
-      yield call(successFlow, action.resolve, node, config);
-    }
+    yield call(successFlow, action.resolve, node, config);
   } catch (e) {
     yield call(failureFlow, action.reject, e);
   }
