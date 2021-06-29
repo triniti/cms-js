@@ -1,5 +1,6 @@
 import { Card, CardBody } from '@triniti/admin-ui-plugin/components';
 import { Field, FieldArray, reduxForm } from 'redux-form';
+import { sortBy } from 'lodash-es';
 import ArticlePickerField from '@triniti/cms/plugins/news/components/article-picker-field';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -14,15 +15,16 @@ const contentTypes = Object.values(formConfigs.CONTENT_TYPE).map((value) => (
   { label: startCase(value), value }
 ));
 
-const Form = ({ contentChangeable, type, apps }) => (
+const Form = ({ contentChangeable, type, apps, appRef }) => (
   <Card>
     <CardBody indent>
       <Field
         component={SelectField}
         label="App"
         name="appRef"
-        options={apps.map(
-          (app) => ({ label: app.get('title'), value: NodeRef.fromNode(app).toString() }),
+        options={sortBy(
+          apps.map((app) => ({ label: app.get('title'), value: NodeRef.fromNode(app).toString() })),
+          (app) => app.label.toLowerCase(),
         )}
       />
       <Field
@@ -33,6 +35,9 @@ const Form = ({ contentChangeable, type, apps }) => (
         options={contentTypes}
       />
       {type && (() => {
+        // if (NodeRef.fromString(appRef.value).getLabel() === 'twitter-app') {
+        //   return <p>{type.label} content is not supported yet.</p>;
+        // }
         switch (type.value) {
           case formConfigs.CONTENT_TYPE.GENERAL_MESSAGE:
             return (
@@ -67,12 +72,17 @@ Form.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
   }),
+  appRef: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string,
+  }),
 };
 
 Form.defaultProps = {
   apps: [],
   contentChangeable: true,
   type: null,
+  appRef: null,
 };
 
 export default reduxForm()(Form);

@@ -101,6 +101,7 @@ class CreateNotificationModal extends React.Component {
             onSubmit={delegate.handleSubmit}
             schemas={schemas}
             type={type || null}
+            appRef={appRef || null}
             validate={delegate.handleValidate}
           />
         </ModalBody>
