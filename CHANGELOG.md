@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.15.1
 * Add support for auto posting to twitter
 
 
