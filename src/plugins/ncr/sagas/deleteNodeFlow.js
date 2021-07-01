@@ -2,7 +2,6 @@ import { call, put } from 'redux-saga/effects';
 import { reset } from 'redux-form';
 import clearResponse from '@triniti/cms/plugins/pbjx/actions/clearResponse';
 import inflection from 'inflection';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import startCase from 'lodash/startCase';
 import swal from 'sweetalert2';
 import changeNodeFlow from './changeNodeFlow';
@@ -43,18 +42,11 @@ export function* doDelete(action) {
   const config = action.config;
   const pbj = action.pbj;
   yield call(changeNodeFlow, {
-    expectedEvent: config.schemas.nodeDeleted.getCurie().toString(),
     failureMessage: `Delete ${startCase(pbj.get('node_ref').getLabel())} failed: `,
     getNodeRequestSchema: config.schemas.getNodeRequest,
     onAfterSuccessFlow: () => onAfterSuccessFlow(action),
     pbj,
     successMessage: `Success! The ${startCase(pbj.get('node_ref').getLabel())} was deleted.`,
-    verify: (response) => {
-      if (!response.pbj.has('node')) {
-        return false;
-      }
-      return response.pbj.get('node').get('status') === NodeStatus.DELETED;
-    },
   });
 }
 

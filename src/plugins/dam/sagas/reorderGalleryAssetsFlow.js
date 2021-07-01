@@ -1,10 +1,8 @@
-import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
+import { call, delay, fork, put, putResolve } from 'redux-saga/effects';
 import swal from 'sweetalert2';
-
 import { reorderGalleryOperations } from '@triniti/cms/plugins/curator/constants';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
 import toast from '@triniti/admin-ui-plugin/utils/toast';
-import waitForMyEvent from '@triniti/cms/plugins/ncr/sagas/waitForMyEvent';
 
 /**
  * @param reorderGalleryOperation
@@ -79,34 +77,13 @@ export function* failureFlow(failedOperation, reject) {
  * @param reject
  * @param obj
  */
-export default function* reorderGalleryAssetsFlow({
-  pbj,
-  resolve,
-  reject,
-  reorderGalleryOperation,
-  config,
-}) {
+export default function* reorderGalleryAssetsFlow({ pbj, resolve, reject, reorderGalleryOperation }) {
   try {
-    let timeout = 5000;
-    if (config.assetCount && config.assetCount > 10) {
-      timeout += (500 * (config.assetCount - 10));
-    }
-    const expectedEvent = config.schemas.galleryAssetReordered.getCurie().toString();
-    const eventChannel = yield actionChannel(expectedEvent);
     yield fork([toast, 'show']);
     yield putResolve(pbj);
-    const result = yield race({
-      event: call(waitForMyEvent, eventChannel, config.assetCount),
-      timeout: delay(timeout),
-    });
-    if (result.timeout) {
-      yield call(failureFlow, reorderGalleryOperation, reject);
-    } else {
-      // TODO: figure out why a race condition on search occurs after reorder ops
-      // delaying for .5 second ensure that gallery is updated when calling search gallery assets
-      yield delay(500);
-      yield call(successFlow, reorderGalleryOperation, resolve);
-    }
+    // delaying for 1 second ensure that gallery is updated when calling search gallery assets
+    yield delay(1000);
+    yield call(successFlow, reorderGalleryOperation, resolve);
   } catch (e) {
     yield call(failureFlow, reorderGalleryOperation, reject);
   }

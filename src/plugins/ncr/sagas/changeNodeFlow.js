@@ -1,11 +1,8 @@
-import { actionChannel, call, delay, fork, put, putResolve, race } from 'redux-saga/effects';
+import { call, fork, put, putResolve } from 'redux-saga/effects';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import noop from 'lodash/noop';
-import OperationTimedOut from '@triniti/cms/plugins/pbjx/exceptions/OperationTimedOut';
 import sendAlert from '@triniti/admin-ui-plugin/actions/sendAlert';
 import toast from '@triniti/admin-ui-plugin/utils/toast';
-import waitForMyEvent from './waitForMyEvent';
-import waitForFlow from './waitForFlow';
 
 /**
  * @param {String}   successMessage
@@ -40,7 +37,6 @@ export function* failureFlow(failureMessage, error, onAfterFailureFlow = noop) {
 }
 
 export default function* ({
-  expectedEvent,
   failureMessage,
   getNodeRequestSchema,
   onContinueFlow,
@@ -49,7 +45,6 @@ export default function* ({
   pbj,
   successMessage,
   toastMessage,
-  verify,
 }) {
   if (toastMessage) {
     yield fork([toast, 'show'], toastMessage);
@@ -58,31 +53,21 @@ export default function* ({
   }
 
   try {
-    const eventChannel = yield actionChannel(expectedEvent);
     yield putResolve(pbj);
 
-    yield race({
-      event: call(waitForMyEvent, eventChannel),
-      timeout: delay(1000),
-    });
-
+    // fetching the node after the operation is left for
+    // legacy reasons, some UI operations expect the node
+    // to be fetched again which resets redux state.
     const nodeRef = pbj.has('node_ref') ? pbj.get('node_ref') : NodeRef.fromNode(pbj.get('node'));
-    const wasSuccessful = yield call(
-      waitForFlow,
-      getNodeRequestSchema,
-      nodeRef,
-      verify,
-    );
+    const getNodeRequest = getNodeRequestSchema.createMessage().set('node_ref', nodeRef);
+    yield putResolve(getNodeRequest);
 
-    if (wasSuccessful) {
-      if (onContinueFlow) {
-        yield call(onContinueFlow);
-        return;
-      }
-      yield call(successFlow, successMessage, onAfterSuccessFlow);
-    } else {
-      yield call(failureFlow, failureMessage, new OperationTimedOut(pbj), onAfterFailureFlow);
+    if (onContinueFlow) {
+      yield call(onContinueFlow);
+      return;
     }
+
+    yield call(successFlow, successMessage, onAfterSuccessFlow);
   } catch (e) {
     yield call(failureFlow, failureMessage, e, onAfterFailureFlow);
   }

@@ -16,7 +16,7 @@ export default (state, ref) => {
 
   let nodeRef = ref;
   if (!(nodeRef instanceof NodeRef)) {
-    nodeRef = NodeRef.fromString(ref);
+    nodeRef = NodeRef.fromString(`${ref}`);
   }
 
   if (!hasNode(state, nodeRef)) {
