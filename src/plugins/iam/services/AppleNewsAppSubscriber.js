@@ -41,13 +41,9 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
     const data = formEvent.getData();
     const { apiSecret } = data;
 
-    console.log('alon', apiSecret);
-
     if (!apiSecret) {
       return;
     }
-
-    console.log('alon passed return');
 
     const apiSecretWarning = apiSecret.length <= 200
       ? 'An encrypted apple news api secret is usually longer than the current input,'
@@ -57,7 +53,6 @@ export default class AppleNewsAppSubscriber extends EventSubscriber {
 
     if (apiSecret && !!apiSecretWarning) {
       formEvent.addWarning('apiSecret', apiSecretWarning);
-      console.log('alon warning');
     }
   }
 
