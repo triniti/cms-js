@@ -69,6 +69,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       'show_related_articles',
       'smartnews_enabled',
       'title',
+      'twitter_publish_enabled',
     ].forEach((fieldName) => {
       if (node.has(fieldName)) {
         data[camelCase(fieldName)] = node.get(fieldName);
@@ -183,6 +184,7 @@ export default class ArticleSubscriber extends EventSubscriber {
       'show_related_articles',
       'smartnews_enabled',
       'title',
+      'twitter_publish_enabled',
     ].forEach((fieldName) => {
       const value = data[camelCase(fieldName)];
       node.set(fieldName, isUndefined(value) ? null : value);

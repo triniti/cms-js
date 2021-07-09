@@ -32,6 +32,7 @@ export const serviceIds = {
   EMAIL_APP_SUBSCRIBER: t('email_app_subscriber'),
   IOS_APP_SUBSCRIBER: t('ios_app_subscriber'),
   ROLE_SUBSCRIBER: t('role_subscriber'),
+  TWITTER_APP_SUBSCRIBER: t('twitter_app_subscriber'),
   USER_SUBSCRIBER: t('user_subscriber'),
 };
 

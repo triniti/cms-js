@@ -104,6 +104,8 @@ registerTemplates({
   [`${APP_VENDOR}:timeline.cms`]: '/curator/timelines/{_id}',
   [`${APP_VENDOR}:timeline-teaser.canonical`]: '{+web_base_url}t/timeline/{_id}/',
   [`${APP_VENDOR}:timeline-teaser.cms`]: '/curator/teasers/timeline-teaser/{_id}',
+  [`${APP_VENDOR}:twitter-app.cms`]: '/iam/apps/twitter-app/{_id}',
+  [`${APP_VENDOR}:twitter-notification.cms`]: '/notify/notifications/twitter-notification/{_id}',
   [`${APP_VENDOR}:unknown-asset.cms`]: '/dam/assets/unknown-asset/{_id}',
   [`${APP_VENDOR}:user.cms`]: '/iam/users/{_id}',
   [`${APP_VENDOR}:video.canonical`]: '{+web_base_url}videos/{slug}/',
