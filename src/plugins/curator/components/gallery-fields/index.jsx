@@ -113,6 +113,16 @@ const GalleryFields = ({ isEditMode, gallery, formName, nodeRef, schemas }) => {
         />
         {schemas.node.hasMixin('triniti:boost:mixin:sponsorable')
           && <FieldArray label="Sponsor" name="sponsorRefs" component={SponsorPickerField} isEditMode={isEditMode} />}
+        {schemas.node.hasMixin('triniti:common:mixin:themeable')
+          && (
+          <Field
+            component={PicklistPickerField}
+            isEditMode={isEditMode}
+            label="Theme"
+            name="theme"
+            picklistId="gallery-themes"
+          />
+          )}
       </CardBody>
     </Card>
   );
