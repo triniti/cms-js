@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Fix copy/paste bug on YouTube video blocks.
+
+
 ## v0.16.0
 * Add support for auto posting to twitter
 
