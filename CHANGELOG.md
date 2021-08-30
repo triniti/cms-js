@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Fix paste bug on YouTube video blocks.
 
 
 ## v0.16.0
