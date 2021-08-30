@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Display warning if rending field is empty.
+
+
 ## v0.14.0
 * Allow users to copy from one tab and paste in another.
 * Display subtitled m3u8 on transcodeable-card
