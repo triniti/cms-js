@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Display warning if rending field is empty.
+* Fix paste bug on YouTube video blocks.
 
 
 ## v0.16.0
