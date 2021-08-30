@@ -5,6 +5,26 @@
 * Display warning if rending field is empty.
 
 
+## v0.16.0
+* Add support for auto posting to twitter
+
+
+## v0.15.0
+* Remove pbjx timeout checks on sagas as they are no longer needed. (note, sagas disappear completely in next major rev for 99% of operations).
+  The server runs write operations sync instead of async so any error will be reported immediately and we don't need to wait for the raven events to determine success.
+
+
+## v0.14.2
+* Fix `receiveEnvelope`.
+
+
+## v0.14.1
+* Add `layout` field to gallery screen.
+* Sort users by first name asc on search users screen.
+* Update viewportMaxHeight css variable for DAM uploader.
+* Notify user when session expired and give instructions on how to prevent losing work.
+
+
 ## v0.14.0
 * Allow users to copy from one tab and paste in another.
 * Display subtitled m3u8 on transcodeable-card

@@ -14,6 +14,7 @@ import BrowserAppSubscriber from './services/BrowserAppSubscriber';
 import EmailAppSubscriber from './services/EmailAppSubscriber';
 import IosAppSubscriber from './services/IosAppSubscriber';
 import RoleSubscriber from './services/RoleSubscriber';
+import TwitterAppSubscriber from './services/TwitterAppSubscriber';
 import UserSubscriber from './services/UserSubscriber';
 import { serviceIds, auth0config } from './constants';
 
@@ -60,6 +61,7 @@ export default class IamPlugin extends Plugin {
     bottle.service(serviceIds.BROWSER_APP_SUBSCRIBER, BrowserAppSubscriber);
     bottle.service(serviceIds.EMAIL_APP_SUBSCRIBER, EmailAppSubscriber);
     bottle.service(serviceIds.IOS_APP_SUBSCRIBER, IosAppSubscriber);
+    bottle.service(serviceIds.TWITTER_APP_SUBSCRIBER, TwitterAppSubscriber);
     bottle.service(serviceIds.USER_SUBSCRIBER, UserSubscriber);
     bottle.service(
       serviceIds.ROLE_SUBSCRIBER,
@@ -82,6 +84,7 @@ export default class IamPlugin extends Plugin {
       serviceIds.EMAIL_APP_SUBSCRIBER,
       serviceIds.IOS_APP_SUBSCRIBER,
       serviceIds.ROLE_SUBSCRIBER,
+      serviceIds.TWITTER_APP_SUBSCRIBER,
       serviceIds.USER_SUBSCRIBER,
     ];
   }
