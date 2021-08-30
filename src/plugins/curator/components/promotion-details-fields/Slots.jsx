@@ -55,7 +55,10 @@ export default class Slots extends React.Component {
 
   handleAdd() {
     const { fields } = this.props;
-    fields.push({ name: '' });
+    fields.push({
+      name: '',
+      rendering: { value: '' },
+    });
 
     if (fields.length < 1) {
       return;

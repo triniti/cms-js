@@ -12,7 +12,7 @@ const SelectField = ({
   input,
   isClearable,
   label,
-  meta: { error },
+  meta: { touched, error },
   multi,
   onInputChange: handleInputChange,
   ...rest
@@ -36,7 +36,8 @@ const SelectField = ({
         value={input.value || ''}
         {...rest}
       />
-      {error && <FormText key="error" color="danger" className="ml-1">{error}</FormText>}
+      {touched && error
+        && <FormText key="error" color="danger" className="ml-1">{error}</FormText>}
     </FormGroup>
   );
 };
