@@ -1,8 +1,13 @@
 # CHANGELOG
 
 
+## v0.16.1
+* Display warning if rending field is empty.
+* Fix paste bug on YouTube video blocks.
+
+
 ## v0.16.0
-* Add support for auto posting to twitter
+* Add support for auto posting to twitter.
 
 
 ## v0.15.0

@@ -176,7 +176,6 @@ class YouTubeVideoBlockModal extends React.Component {
   }
 
   handleKeyPress(event) {
-    event.preventDefault();
     if (event.charCode === 13 && event.target.value.trim().length) {
       this.handleAddBlock();
     }
