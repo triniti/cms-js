@@ -90,6 +90,11 @@ function* clone({ history, node }) {
       }
     }
   });
+
+  if (clonedNode.schema().className.indexOf('CodeWidget') !== -1) {
+    clonedNode.set('show_header', false);
+  }
+
   const message = createSchema.createMessage().set('node', clonedNode);
   yield put(createNode(message, noop, noop, history, { schemas }));
 }
