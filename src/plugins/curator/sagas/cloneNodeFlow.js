@@ -11,8 +11,6 @@ import SearchWidgetsRequestV1Mixin from '@triniti/schemas/triniti/curator/mixin/
 import TeaserV1Mixin from '@triniti/schemas/triniti/curator/mixin/teaser/TeaserV1Mixin';
 import WidgetV1Mixin from '@triniti/schemas/triniti/curator/mixin/widget/WidgetV1Mixin';
 
-// fixme: this flow is highly unusual and should be refactored.
-// ncr should not know of the existence of the higher level plugins
 const ignoredFieldNames = [
   '_id',
   '_schema',
