@@ -2,7 +2,7 @@ import { all, fork, takeLatest } from 'redux-saga/effects';
 import { actionTypes } from '../constants';
 
 import batchOperationFlow from './batchOperationFlow';
-import cloneNodeFlow from './cloneNodeFlow';
+import cloneNodeFlow from '../../curator/sagas/cloneNodeFlow';
 import createNodeFlow from './createNodeFlow';
 import deleteNodeFlow from './deleteNodeFlow';
 import lockNodeFlow from './lockNodeFlow';
