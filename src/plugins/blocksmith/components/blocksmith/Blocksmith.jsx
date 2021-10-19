@@ -1223,9 +1223,25 @@ class Blocksmith extends React.Component {
    * @param {Component} modalComponent - a react modal component.
    */
   handleOpenModal(modalComponent) {
+    const { editorState } = this.state;
+    const { editorState: currentPropsEditorState, delegate } = this.props;
+
+    delegate.handleStoreEditor(editorState);
+
+    const newEditorState = pushEditorState(
+      editorState,
+      currentPropsEditorState.getCurrentContent(),
+    );
+
+    /**
+     * Force editor to re-render when new editorState comes in via props. Required because the
+     * error boundary can "restore" the editor after an error.
+     */
     this.setState(() => ({
       readOnly: true,
       modalComponent,
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
     }));
   }
 
