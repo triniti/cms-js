@@ -1226,22 +1226,20 @@ class Blocksmith extends React.Component {
     const { editorState } = this.state;
     const { editorState: currentPropsEditorState, delegate } = this.props;
 
-    delegate.handleStoreEditor(editorState);
-
     const newEditorState = pushEditorState(
       editorState,
       currentPropsEditorState.getCurrentContent(),
     );
 
+    delegate.handleStoreEditor(editorState);
+
     /**
-     * Force editor to re-render when new editorState comes in via props. Required because the
-     * error boundary can "restore" the editor after an error.
+     * Force editor to re-render when new editorState comes in via props.
      */
     this.setState(() => ({
       readOnly: true,
       modalComponent,
       editorState: newEditorState.editorState,
-      errors: newEditorState.errors,
     }));
   }
 
