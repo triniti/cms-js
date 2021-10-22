@@ -1240,6 +1240,7 @@ class Blocksmith extends React.Component {
       readOnly: true,
       modalComponent,
       editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
     }));
   }
 
