@@ -1233,9 +1233,6 @@ class Blocksmith extends React.Component {
 
     delegate.handleStoreEditor(editorState);
 
-    /**
-     * Force editor to re-render when new editorState comes in via props.
-     */
     this.setState(() => ({
       readOnly: true,
       modalComponent,
