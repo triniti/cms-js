@@ -1223,9 +1223,21 @@ class Blocksmith extends React.Component {
    * @param {Component} modalComponent - a react modal component.
    */
   handleOpenModal(modalComponent) {
+    const { editorState } = this.state;
+    const { editorState: currentPropsEditorState, delegate } = this.props;
+
+    delegate.handleStoreEditor(editorState);
+
+    const newEditorState = pushEditorState(
+      editorState,
+      currentPropsEditorState.getCurrentContent(),
+    );
+
     this.setState(() => ({
       readOnly: true,
       modalComponent,
+      editorState: newEditorState.editorState,
+      errors: newEditorState.errors,
     }));
   }
 
