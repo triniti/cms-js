@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Fix text getting cutoff.
+
+
 ## v0.16.1
 * Display warning if rending field is empty.
 * Fix paste bug on YouTube video blocks.
