@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Add pagination to top of search results screen.
+
+
 ## v0.16.1
 * Display warning if rending field is empty.
 * Fix paste bug on YouTube video blocks.
