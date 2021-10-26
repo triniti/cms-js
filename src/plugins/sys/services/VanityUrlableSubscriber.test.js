@@ -6,7 +6,7 @@ import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
 import RedirectId from '@triniti/schemas/triniti/sys/RedirectId';
 import RedirectV1Mixin from '@triniti/schemas/triniti/sys/mixin/redirect/RedirectV1Mixin';
 import VanityUrlableV1Mixin
-  from '@triniti/schemas/triniti/sys/mixin/vanity-urlable/VanityUrlableV1Mixin';
+from '@triniti/schemas/triniti/sys/mixin/vanity-urlable/VanityUrlableV1Mixin';
 
 import VanityUrlableSubscriber from './VanityUrlableSubscriber';
 
