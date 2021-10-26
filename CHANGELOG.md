@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* inconsistent chrome prompt for leaving site without saving
+* Fix inconsistent chrome prompt for leaving site without saving
 
 
 ## v0.16.1
