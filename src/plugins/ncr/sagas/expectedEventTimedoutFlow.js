@@ -6,7 +6,7 @@ import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthe
  * @param {string} expectedEvent - the curie of expectedEvent
  * @returns {Message|null}
  */
-export default function* (getNodeRequest, { expectedEvent }) {
+export default function* (getNodeRequest, expectedEvent) {
   // wait for another 3 second after expected event timed out
   yield delay(3000);
   yield call([console, 'warn'], 'pbjx operation timed out, initiate node comparision!');
