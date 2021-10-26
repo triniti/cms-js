@@ -264,10 +264,7 @@ export default class AbstractSearchNodesScreen extends React.Component {
 
   renderResultCountAndTopPagination() {
     return (
-      <div
-        key="result-count-and-pagination"
-        className="d-flex justify-content-between"
-      >
+      <div className="d-flex justify-content-between" key="result-count-and-pagination">
         {this.renderResultCount()}
         {this.renderTopPagination()}
       </div>
