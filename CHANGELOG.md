@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Fix inconsistent chrome prompt for leaving site without saving
+
+
 ## v0.16.1
 * Display warning if rending field is empty.
 * Fix paste bug on YouTube video blocks.
