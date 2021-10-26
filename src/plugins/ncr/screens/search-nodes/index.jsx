@@ -206,10 +206,31 @@ export default class AbstractSearchNodesScreen extends React.Component {
     return [
       this.renderBatchOperationModal(),
       this.renderForm(),
-      this.renderResultCount(),
+      this.renderResultCountAndTopPagination(),
       this.renderNodeView(),
-      this.renderPagination(),
+      this.renderBottomPagination(),
     ];
+  }
+
+  renderBottomPagination() {
+    const {
+      searchNodesRequestState: { request, response, status },
+    } = this.props;
+
+    if (status === STATUS_FULFILLED) {
+      return (
+        <Pagination
+          className="d-flex justify-content-end"
+          currentPage={request.get('page') || 1}
+          key="pager-bottom"
+          onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
+          perPage={request.get('count')}
+          total={response.get('total')}
+        />
+      );
+    }
+
+    return null;
   }
 
   renderForm() {
@@ -241,6 +262,18 @@ export default class AbstractSearchNodesScreen extends React.Component {
     ) : null;
   }
 
+  renderResultCountAndTopPagination() {
+    return (
+      <div
+        key="result-count-and-pagination"
+        className="d-flex justify-content-between"
+      >
+        {this.renderResultCount()}
+        {this.renderTopPagination()}
+      </div>
+    );
+  }
+
   renderNodeView() {
     const { nodes, searchNodesRequestState: { request, status }, view } = this.props;
     const requestQ = (request && request.get('q')) || '';
@@ -267,27 +300,6 @@ export default class AbstractSearchNodesScreen extends React.Component {
     return <Spinner key="spinner" />;
   }
 
-  renderPagination() {
-    const {
-      searchNodesRequestState: { request, response, status },
-    } = this.props;
-
-    if (status === STATUS_FULFILLED) {
-      return (
-        <Pagination
-          className="ml-3"
-          currentPage={request.get('page') || 1}
-          key="pager"
-          onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
-          perPage={request.get('count')}
-          total={response.get('total')}
-        />
-      );
-    }
-
-    return null;
-  }
-
   renderHeader() {
     return this.getTitle();
   }
@@ -303,6 +315,26 @@ export default class AbstractSearchNodesScreen extends React.Component {
         <ActionButton text={`Create ${inflection.singularize(this.getTitle())}`} />
       </RouterLink>
     );
+  }
+
+  renderTopPagination() {
+    const {
+      searchNodesRequestState: { request, response, status },
+    } = this.props;
+
+    if (status === STATUS_FULFILLED) {
+      return (
+        <Pagination
+          currentPage={request.get('page') || 1}
+          key="pager-top"
+          onChangePage={(nextPage) => this.handleChangeSearchParam('page', nextPage)}
+          perPage={request.get('count')}
+          total={response.get('total')}
+        />
+      );
+    }
+
+    return null;
   }
 
   render() {
