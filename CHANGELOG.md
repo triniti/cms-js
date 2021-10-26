@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add pagination to top of search results screen.
+* Fix inconsistent chrome prompt for leaving site without saving
 
 
 ## v0.16.1
