@@ -1,7 +1,7 @@
 import FlagsetV1Mixin from '@triniti/schemas/triniti/sys/mixin/flagset/FlagsetV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 import ListAllFlagsetsRequestV1Mixin
-  from '@triniti/schemas/triniti/sys/mixin/list-all-flagsets-request/ListAllFlagsetsRequestV1Mixin';
+from '@triniti/schemas/triniti/sys/mixin/list-all-flagsets-request/ListAllFlagsetsRequestV1Mixin';
 
 export default {
   deleteNode: resolveSchema(FlagsetV1Mixin, 'command', 'delete-flagset'),

@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import isValidEmail from '@gdbots/common/isValidEmail';
 import getKeyValuesFieldErrors
-  from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
+from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
 import isEmpty from 'lodash/isEmpty';
 
 export default class EmailAppSubscriber extends EventSubscriber {

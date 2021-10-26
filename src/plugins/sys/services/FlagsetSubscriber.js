@@ -2,7 +2,7 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import FlagsetId from '@triniti/schemas/triniti/sys/FlagsetId';
 import getKeyValuesFieldErrors
-  from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
+from '@triniti/cms/components/key-values-field/getKeyValuesFieldErrors';
 
 export default class FlagsetSubscriber extends EventSubscriber {
   constructor() {
