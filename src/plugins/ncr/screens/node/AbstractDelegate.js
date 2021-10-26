@@ -521,6 +521,7 @@ export default class AbstractDelegate {
 
     /* eslint-disable no-param-reassign */
     leaveCollaborationOnUnload = (event) => {
+      // don't desctructure isPristine so it uses latest value, required for Chrome prompt
       if (this.component.props.isPristine) {
         this.stopCollaborationMonitor();
         return this.dispatch(leaveCollaboration(nodeRef));

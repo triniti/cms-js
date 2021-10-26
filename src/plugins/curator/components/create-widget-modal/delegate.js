@@ -1,5 +1,4 @@
-import AbstractDelegate
-from '@triniti/cms/plugins/ncr/components/create-node-modal/AbstractDelegate';
+import AbstractDelegate from '@triniti/cms/plugins/ncr/components/create-node-modal/AbstractDelegate';
 import { formNames } from '../../constants';
 import schemas from './schemas';
 

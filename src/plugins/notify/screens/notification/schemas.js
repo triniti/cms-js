@@ -1,5 +1,4 @@
-import NotificationV1Mixin
-from '@triniti/schemas/triniti/notify/mixin/notification/NotificationV1Mixin';
+import NotificationV1Mixin from '@triniti/schemas/triniti/notify/mixin/notification/NotificationV1Mixin';
 import SearchNotificationsRequestV1Mixin
 from '@triniti/schemas/triniti/notify/mixin/search-notifications-request/SearchNotificationsRequestV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';

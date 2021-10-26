@@ -1,7 +1,6 @@
 import ChannelV1Mixin from '@triniti/schemas/triniti/taxonomy/mixin/channel/ChannelV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
-import GetAllChannelsRequestV1Mixin
-from '@triniti/schemas/triniti/taxonomy/mixin/get-all-channels-request/GetAllChannelsRequestV1Mixin';
+import GetAllChannelsRequestV1Mixin from '@triniti/schemas/triniti/taxonomy/mixin/get-all-channels-request/GetAllChannelsRequestV1Mixin';
 
 export default {
   createNode: resolveSchema(ChannelV1Mixin, 'command', 'create-channel'),

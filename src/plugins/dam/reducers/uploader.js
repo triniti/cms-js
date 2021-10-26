@@ -2,8 +2,7 @@ import merge from 'lodash/merge';
 import mime from 'mime-types';
 import createReducer from '@triniti/app/createReducer';
 import BigNumber from '@gdbots/pbj/well-known/BigNumber';
-import GetUploadUrlsResponseV1Mixin
-from '@triniti/schemas/triniti/dam/mixin/get-upload-urls-response/GetUploadUrlsResponseV1Mixin';
+import GetUploadUrlsResponseV1Mixin from '@triniti/schemas/triniti/dam/mixin/get-upload-urls-response/GetUploadUrlsResponseV1Mixin';
 import { actionTypes, fileUploadStatuses } from '../constants';
 import { fromAssetId } from '../utils/assetFactory';
 

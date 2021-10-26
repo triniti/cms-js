@@ -1,6 +1,5 @@
 import FlagsetV1Mixin from '@triniti/schemas/triniti/sys/mixin/flagset/FlagsetV1Mixin';
-import ListAllFlagsetsRequestV1Mixin
-from '@triniti/schemas/triniti/sys/mixin/list-all-flagsets-request/ListAllFlagsetsRequestV1Mixin';
+import ListAllFlagsetsRequestV1Mixin from '@triniti/schemas/triniti/sys/mixin/list-all-flagsets-request/ListAllFlagsetsRequestV1Mixin';
 import resolveSchema from '@triniti/cms/utils/resolveSchema';
 
 export default {

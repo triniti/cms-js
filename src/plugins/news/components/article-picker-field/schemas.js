@@ -1,5 +1,4 @@
-import SearchArticlesRequestV1Mixin from
-'@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin';
+import SearchArticlesRequestV1Mixin from '@triniti/schemas/triniti/news/mixin/search-articles-request/SearchArticlesRequestV1Mixin';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort';
 
 export default {
