@@ -1222,7 +1222,7 @@ class Blocksmith extends React.Component {
    */
   handleOpenModal(modalComponent) {
     /* Setting readOnly to "true" seems like a good idea but if you follow these exact steps this bug will happen.
-      1. Type text into a content textbox on an article page.
+      1. Type text into a text block
       2. Either open the special character, edit, or delete modal
       3. Wait till the Raven heartbeat fires then close the modal
       4. Delete your typed text then type any text again.
