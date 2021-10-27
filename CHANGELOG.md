@@ -2,7 +2,8 @@
 
 
 ## vN.N.N
-* Fix text getting cutoff
+* Fix text getting cutoff when textbox modal is open
+* Add pagination to top of search results screen.
 * Fix inconsistent chrome prompt for leaving site without saving
 
 
