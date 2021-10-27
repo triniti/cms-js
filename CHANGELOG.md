@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Fix text getting cutoff.
+* Fix inconsistent chrome prompt for leaving site without saving
 
 
 ## v0.16.1
