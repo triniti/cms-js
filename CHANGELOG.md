@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* Fix text getting cutoff.
+* Fix text getting cutoff
 * Fix inconsistent chrome prompt for leaving site without saving
 
 
