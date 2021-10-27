@@ -718,7 +718,6 @@ class Blocksmith extends React.Component {
    */
   handleCloseModal() {
     this.setState(() => ({
-      readOnly: false,
       modalComponent: null,
     }));
   }
@@ -753,27 +752,28 @@ class Blocksmith extends React.Component {
     const { activeBlockKey, editorState, isDirty } = this.state;
     const { delegate } = this.props;
 
-    this.setState(() => ({ readOnly: true }), () => {
-      Blocksmith.confirmDelete().then((result) => {
-        this.setState(() => ({ readOnly: false }), () => {
-          if (!result.value) {
-            return; // do nothing, user declined to delete
+
+    Blocksmith.confirmDelete().then((result) => {
+      /* readOnly must be set to false due to an issue that
+        causes newly typed text to disappear when a modal is opened */
+      this.setState(() => ({ readOnly: false }), () => {
+        if (!result.value) {
+          return; // do nothing, user declined to delete
+        }
+        const newEditorState = pushEditorState(
+          editorState,
+          deleteBlock(editorState.getCurrentContent(), activeBlockKey),
+          'remove-range',
+        );
+        this.setState(() => ({
+          editorState: newEditorState.editorState,
+          errors: newEditorState.errors,
+        }), () => {
+          if (!isDirty) {
+            delegate.handleDirtyEditor();
           }
-          const newEditorState = pushEditorState(
-            editorState,
-            deleteBlock(editorState.getCurrentContent(), activeBlockKey),
-            'remove-range',
-          );
-          this.setState(() => ({
-            editorState: newEditorState.editorState,
-            errors: newEditorState.errors,
-          }), () => {
-            if (!isDirty) {
-              delegate.handleDirtyEditor();
-            }
-            // eslint-disable-next-line react/destructuring-assignment
-            delegate.handleStoreEditor(this.state.editorState);
-          });
+          // eslint-disable-next-line react/destructuring-assignment
+          delegate.handleStoreEditor(this.state.editorState);
         });
       });
     });
@@ -1223,21 +1223,11 @@ class Blocksmith extends React.Component {
    * @param {Component} modalComponent - a react modal component.
    */
   handleOpenModal(modalComponent) {
-    const { editorState } = this.state;
-    const { editorState: currentPropsEditorState, delegate } = this.props;
-
-    delegate.handleStoreEditor(editorState);
-
-    const newEditorState = pushEditorState(
-      editorState,
-      currentPropsEditorState.getCurrentContent(),
-    );
-
+    /* readOnly must be set to false due to an issue that
+      causes newly typed text to disappear when a modal is opened */
     this.setState(() => ({
-      readOnly: true,
+      readOnly: false,
       modalComponent,
-      editorState: newEditorState.editorState,
-      errors: newEditorState.errors,
     }));
   }
 
