@@ -754,8 +754,6 @@ class Blocksmith extends React.Component {
 
 
     Blocksmith.confirmDelete().then((result) => {
-      /* readOnly must be set to false due to an issue that
-        causes newly typed text to disappear when a modal is opened */
       this.setState(() => ({ readOnly: false }), () => {
         if (!result.value) {
           return; // do nothing, user declined to delete
@@ -1223,10 +1221,14 @@ class Blocksmith extends React.Component {
    * @param {Component} modalComponent - a react modal component.
    */
   handleOpenModal(modalComponent) {
-    /* readOnly must be set to false due to an issue that
-      causes newly typed text to disappear when a modal is opened */
+    /* Setting readOnly to "true" seems like a good idea but if you follow these exact steps this bug will happen.
+      1. Type text into a content textbox on an article page.
+      2. Either open the special character, edit, or delete modal
+      3. Wait till the Raven heartbeat fires then close the modal
+      4. Delete your typed text then type any text again.
+      5. Open the modal again and wait for the heartbeat to fire.
+         Notice how the text you typed disappears */
     this.setState(() => ({
-      readOnly: false,
       modalComponent,
     }));
   }
