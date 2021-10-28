@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.16.2
 * Fix bug where characters in text blocks disappear while blocksmith modals are open
 * Add pagination to top of search results screen.
 * Fix inconsistent chrome prompt for leaving site without saving
