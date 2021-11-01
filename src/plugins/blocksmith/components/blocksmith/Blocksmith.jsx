@@ -718,6 +718,7 @@ class Blocksmith extends React.Component {
    */
   handleCloseModal() {
     this.setState(() => ({
+      readOnly: false,
       modalComponent: null,
     }));
   }
