@@ -753,27 +753,26 @@ class Blocksmith extends React.Component {
     const { activeBlockKey, editorState, isDirty } = this.state;
     const { delegate } = this.props;
 
-    this.setState(() => ({ readOnly: true }), () => {
-      Blocksmith.confirmDelete().then((result) => {
-        this.setState(() => ({ readOnly: false }), () => {
-          if (!result.value) {
-            return; // do nothing, user declined to delete
+
+    Blocksmith.confirmDelete().then((result) => {
+      this.setState(() => ({ readOnly: false }), () => {
+        if (!result.value) {
+          return; // do nothing, user declined to delete
+        }
+        const newEditorState = pushEditorState(
+          editorState,
+          deleteBlock(editorState.getCurrentContent(), activeBlockKey),
+          'remove-range',
+        );
+        this.setState(() => ({
+          editorState: newEditorState.editorState,
+          errors: newEditorState.errors,
+        }), () => {
+          if (!isDirty) {
+            delegate.handleDirtyEditor();
           }
-          const newEditorState = pushEditorState(
-            editorState,
-            deleteBlock(editorState.getCurrentContent(), activeBlockKey),
-            'remove-range',
-          );
-          this.setState(() => ({
-            editorState: newEditorState.editorState,
-            errors: newEditorState.errors,
-          }), () => {
-            if (!isDirty) {
-              delegate.handleDirtyEditor();
-            }
-            // eslint-disable-next-line react/destructuring-assignment
-            delegate.handleStoreEditor(this.state.editorState);
-          });
+          // eslint-disable-next-line react/destructuring-assignment
+          delegate.handleStoreEditor(this.state.editorState);
         });
       });
     });
@@ -1223,8 +1222,14 @@ class Blocksmith extends React.Component {
    * @param {Component} modalComponent - a react modal component.
    */
   handleOpenModal(modalComponent) {
+    /* Setting readOnly to "true" seems like a good idea but if you follow these exact steps this bug will happen.
+      1. Type text into a text block
+      2. Either open the special character, edit, or delete modal
+      3. Wait till the Raven heartbeat fires then close the modal
+      4. Delete your typed text then type any text again.
+      5. Open the modal again and wait for the heartbeat to fire.
+         Notice how the text you typed disappears */
     this.setState(() => ({
-      readOnly: true,
       modalComponent,
     }));
   }

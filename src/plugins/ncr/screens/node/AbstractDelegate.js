@@ -512,7 +512,6 @@ export default class AbstractDelegate {
       isEditMode = false,
       canCollaborate = false,
       isCollaborating = false,
-      isPristine,
     } = this.component.props;
 
     this.stopCollaborationMonitor();
@@ -522,7 +521,8 @@ export default class AbstractDelegate {
 
     /* eslint-disable no-param-reassign */
     leaveCollaborationOnUnload = (event) => {
-      if (isPristine) {
+      // don't desctructure isPristine so it uses latest value, required for Chrome prompt
+      if (this.component.props.isPristine) {
         this.stopCollaborationMonitor();
         return this.dispatch(leaveCollaboration(nodeRef));
       }

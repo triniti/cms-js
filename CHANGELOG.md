@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v0.16.2
+* Fix bug where characters in text blocks disappear while blocksmith modals are open
+* Add pagination to top of search results screen.
+* Fix inconsistent chrome prompt for leaving site without saving
+
+
 ## v0.16.1
 * Display warning if rending field is empty.
 * Fix paste bug on YouTube video blocks.

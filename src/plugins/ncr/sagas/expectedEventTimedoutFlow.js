@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import { call, delay, putResolve, select } from 'redux-saga/effects';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
 
