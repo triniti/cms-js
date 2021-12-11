@@ -891,6 +891,9 @@ class Blocksmith extends React.Component {
         canvasBlock.set('updated_date', moment().toDate());
       }
     }
+    this.setState(() => ({
+      editorState: selectBlock(editorState, activeBlockKey),
+    }));
     this.handleToggleBlockModal(canvasBlock);
   }
 
