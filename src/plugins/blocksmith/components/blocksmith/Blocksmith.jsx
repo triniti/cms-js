@@ -893,8 +893,9 @@ class Blocksmith extends React.Component {
     }
     this.setState(() => ({
       editorState: selectBlock(editorState, activeBlockKey),
-    }));
-    this.handleToggleBlockModal(canvasBlock);
+    }), () => {
+      this.handleToggleBlockModal(canvasBlock);
+    });
   }
 
   /**
@@ -1350,27 +1351,39 @@ class Blocksmith extends React.Component {
    * Toggles the special character modal.
    */
   handleToggleSpecialCharacterModal() {
-    const { modalComponent, editorState, activeBlockKey } = this.state;
+    const { modalComponent, activeBlockKey, editorState } = this.state;
+    const selectionState = editorState.getSelection();
+    const insertingIntoNonActiveBlock = selectionState.getAnchorKey() !== activeBlockKey
+      || selectionState.getFocusKey() !== activeBlockKey;
 
     if (modalComponent) {
       this.handleCloseModal();
     } else {
-      this.setState(() => ({
-        editorState: selectBlock(
-          editorState,
-          activeBlockKey,
-          selectBlockSelectionTypes.END,
-        ),
-      }), () => {
-        this.handleOpenModal(() => (
-          <SpecialCharacterModal
-            isOpen
-            onSelectSpecialCharacter={this.handleSelectSpecialCharacter}
-            toggle={this.handleCloseModal}
-          />
-        ));
-      });
+      if (insertingIntoNonActiveBlock) {
+        this.setState(() => ({
+          editorState: selectBlock(
+            editorState,
+            activeBlockKey,
+            selectBlockSelectionTypes.END,
+          ),
+        }));
+      }
+
+      this.handleOpenModal(() => (
+        <SpecialCharacterModal
+          isOpen
+          onSelectSpecialCharacter={this.handleSelectSpecialCharacter}
+          toggle={this.handleCloseModal}
+        />
+      ));
     }
+  }
+
+  isInsertingIntoNonActiveBlock() {
+    const { activeBlockKey, editorState } = this.state;
+    const selectionState = editorState.getSelection();
+    return selectionState.getAnchorKey() !== activeBlockKey
+      || selectionState.getFocusKey() !== activeBlockKey;
   }
 
   /**
