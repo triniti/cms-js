@@ -891,6 +891,7 @@ class Blocksmith extends React.Component {
         canvasBlock.set('updated_date', moment().toDate());
       }
     }
+
     this.setState(() => ({
       editorState: selectBlock(editorState, activeBlockKey),
     }), () => {
@@ -1352,13 +1353,13 @@ class Blocksmith extends React.Component {
    */
   handleToggleSpecialCharacterModal() {
     const { modalComponent, activeBlockKey, editorState } = this.state;
-    const selectionState = editorState.getSelection();
-    const insertingIntoNonActiveBlock = selectionState.getAnchorKey() !== activeBlockKey
-      || selectionState.getFocusKey() !== activeBlockKey;
 
     if (modalComponent) {
       this.handleCloseModal();
     } else {
+      const selectionState = editorState.getSelection();
+      const insertingIntoNonActiveBlock = selectionState.getAnchorKey() !== activeBlockKey
+        || selectionState.getFocusKey() !== activeBlockKey;
       if (insertingIntoNonActiveBlock) {
         this.setState(() => ({
           editorState: selectBlock(
