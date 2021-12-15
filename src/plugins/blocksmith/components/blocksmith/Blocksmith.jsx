@@ -1379,13 +1379,6 @@ class Blocksmith extends React.Component {
     }
   }
 
-  isInsertingIntoNonActiveBlock() {
-    const { activeBlockKey, editorState } = this.state;
-    const selectionState = editorState.getSelection();
-    return selectionState.getAnchorKey() !== activeBlockKey
-      || selectionState.getFocusKey() !== activeBlockKey;
-  }
-
   /**
    * If there is a copied block available in local storage, use it to
    * create a draft block with it as the data payload.
