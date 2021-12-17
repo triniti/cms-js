@@ -1352,7 +1352,7 @@ class Blocksmith extends React.Component {
    * Toggles the special character modal.
    */
   handleToggleSpecialCharacterModal() {
-    const { modalComponent, activeBlockKey, editorState } = this.state;
+    const { activeBlockKey, editorState, modalComponent } = this.state;
 
     if (modalComponent) {
       this.handleCloseModal();
