@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Fix bug that doesn't register proper text-block updates.
+
+
 ## v0.16.2
 * Fix bug where characters in text blocks disappear while blocksmith modals are open
 * Add pagination to top of search results screen.
