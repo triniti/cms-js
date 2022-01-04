@@ -3,7 +3,8 @@
 
 ## vN.N.N
 * Fix bug that doesn't register proper text-block updates.
-* update nvmrc to 14.18.2
+* Update nvmrc to 14.18.2
+* Pin `lodash` and `lodash-es` to `4.17.15` due to known ESM issues with `4.17.21`
 
 
 ## v0.16.2
