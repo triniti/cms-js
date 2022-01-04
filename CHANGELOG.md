@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Fix bug that doesn't register proper text-block updates.
+* update nvmrc to 14.18.2
 
 
 ## v0.16.2
