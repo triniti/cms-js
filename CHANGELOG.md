@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v0.17.0
+* Fix bug that doesn't register proper text-block updates.
+* Update nvmrc to 14.18.2
+* Pin `lodash` and `lodash-es` to `4.17.15` due to known ESM issues with `4.17.21`
+
+
 ## v0.16.2
 * Fix bug where characters in text blocks disappear while blocksmith modals are open
 * Add pagination to top of search results screen.

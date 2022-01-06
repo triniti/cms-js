@@ -891,7 +891,12 @@ class Blocksmith extends React.Component {
         canvasBlock.set('updated_date', moment().toDate());
       }
     }
-    this.handleToggleBlockModal(canvasBlock);
+
+    this.setState(() => ({
+      editorState: selectBlock(editorState, activeBlockKey),
+    }), () => {
+      this.handleToggleBlockModal(canvasBlock);
+    });
   }
 
   /**
@@ -1347,11 +1352,24 @@ class Blocksmith extends React.Component {
    * Toggles the special character modal.
    */
   handleToggleSpecialCharacterModal() {
-    const { modalComponent } = this.state;
+    const { activeBlockKey, editorState, modalComponent } = this.state;
 
     if (modalComponent) {
       this.handleCloseModal();
     } else {
+      const selectionState = editorState.getSelection();
+      const insertingIntoNonActiveBlock = selectionState.getAnchorKey() !== activeBlockKey
+        || selectionState.getFocusKey() !== activeBlockKey;
+      if (insertingIntoNonActiveBlock) {
+        this.setState(() => ({
+          editorState: selectBlock(
+            editorState,
+            activeBlockKey,
+            selectBlockSelectionTypes.END,
+          ),
+        }));
+      }
+
       this.handleOpenModal(() => (
         <SpecialCharacterModal
           isOpen
