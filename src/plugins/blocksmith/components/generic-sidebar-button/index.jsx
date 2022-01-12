@@ -7,7 +7,6 @@ const GenericSidebarButton = ({
   config,
   message,
   onClick: handleClick,
-  replaceRegEx,
 }) => (
   <div role="presentation" onMouseDown={(e) => e.preventDefault()}>
     <Button outline onClick={handleClick}>
@@ -49,7 +48,7 @@ const GenericSidebarButton = ({
           ),
         ]}
       </span>
-      <span> { message.replace(replaceRegEx, '').replace(/(-|\s+)/g, ' ') } </span>
+      <span> { message.replace(/-block$/, '').replace(/(-|\s+)/g, ' ') } </span>
     </Button>
   </div>
 );
@@ -81,7 +80,6 @@ GenericSidebarButton.propTypes = {
   ]),
   message: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  replaceRegEx: PropTypes.instanceOf(RegExp).isRequired,
 };
 
 GenericSidebarButton.defaultProps = {
