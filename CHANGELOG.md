@@ -1,8 +1,9 @@
 # CHANGELOG
 
 
-## vN.N.N
+## v0.18.0
 * Updating blocksmith sidebar to allow for complete customization of buttons.
+
 
 ## v0.17.0
 * Fix bug that doesn't register proper text-block updates.
