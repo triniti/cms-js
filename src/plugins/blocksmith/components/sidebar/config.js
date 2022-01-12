@@ -16,8 +16,8 @@ export default {
         'poll-grid-block',
         'quote-block',
         'text-block',
-        'video-block'
-      ]
+        'video-block',
+      ],
     },
     {
       header: 'Social',
@@ -25,8 +25,8 @@ export default {
         'twitter-tweet-block',
         'facebook-post-block',
         'facebook-video-block',
-        'instagram-media-block'
-      ]
-    }
+        'instagram-media-block',
+      ],
+    },
   ],
 };
