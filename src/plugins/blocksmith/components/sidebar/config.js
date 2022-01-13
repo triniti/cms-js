@@ -1,8 +1,9 @@
+/* globals APP_VENDOR */
 export default {
   enableOther: true,
   groups: [
     {
-      header: 'Triniti',
+      header: APP_VENDOR,
       buttons: [
         'article-block',
         'audio-block',
