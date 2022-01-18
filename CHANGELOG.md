@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## v0.18.0
+## vN.N.N
 * Updating blocksmith sidebar to allow for complete customization of buttons.
 
 
