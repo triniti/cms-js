@@ -1410,6 +1410,7 @@ class Blocksmith extends React.Component {
    * @returns {string}
    */
   handlePastedText(text, html, editorState) {
+    console.clear();
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(
         html,
@@ -1434,25 +1435,8 @@ class Blocksmith extends React.Component {
 
         return 'handled';
       }
-    } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
-      const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(function(block) { return ObjectSerializer.deserialize(block); });
-
-      const selectionState = editorState.getSelection();
-      const insertionKey = selectionState.getIsBackward()
-        ? selectionState.getAnchorKey()
-        : selectionState.getFocusKey();
-
-      this.setState(() => ({
-        editorState: insertCanvasBlocks(
-          editorState,
-          insertionKey,
-          constants.POSITION_AFTER,
-          blocks,
-        ),
-      }), this.removeActiveStyling);
-      return 'handled';
     }
+
     return 'not-handled';
   }
 
@@ -1535,22 +1519,8 @@ class Blocksmith extends React.Component {
           return constants.DOUBLE_ENTER_ON_LIST;
         }
       }
-    } else if (
-      /^[cx]$/.test(e.key)
-      && ((e.metaKey && isMacOS()) || (e.ctrlKey && isWindows()))
-      && isAtomicBlockSelected(editorState)
-    ) {
-      if (e.key === 'c') {
-        selection.capture(editorState);
-        copySelectedBlocksToClipboard(editorState);
-        selection.restore();
-        return constants.ATOMIC_BLOCKS_COPIED; // just to prevent draft from doing anything
-      }
-      if (e.key === 'x') {
-        copySelectedBlocksToClipboard(editorState);
-        return constants.ATOMIC_BLOCKS_CUT;
-      }
     }
+
     return getDefaultKeyBinding(e);
   }
 
