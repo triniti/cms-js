@@ -32,10 +32,8 @@ import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
 import HighlightButton
   from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
-import isMacOS from '@triniti/cms/utils/isMacOS';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
-import isWindows from '@triniti/cms/utils/isWindows';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
@@ -95,7 +93,6 @@ import {
   handleDocumentDrop,
   insertCanvasBlocks,
   insertEmptyBlock,
-  isAtomicBlockSelected,
   isBlockAList,
   isBlockEmpty,
   isFirstListBlock,
