@@ -7,7 +7,6 @@ import attachImmutableEntitiesToEmojisFn from './attachImmutableEntitiesToEmojis
 import blockParentNodeUtil from './blockParentNode';
 import convertToCanvasBlocksFn from './convertToCanvasBlocks';
 import convertToEditorStateFn from './convertToEditorState';
-import copySelectedBlocksToClipboardFn from './copySelectedBlocksToClipboard';
 import createLinkAtSelectionFn from './createLinkAtSelection';
 import deleteBlockFn from './deleteBlock';
 import deleteSelectedBlocksFn from './deleteSelectedBlocks';
@@ -53,7 +52,6 @@ export const attachImmutableEntitiesToEmojis = attachImmutableEntitiesToEmojisFn
 export const blockParentNode = blockParentNodeUtil;
 export const convertToCanvasBlocks = convertToCanvasBlocksFn;
 export const convertToEditorState = convertToEditorStateFn;
-export const copySelectedBlocksToClipboard = copySelectedBlocksToClipboardFn;
 export const createLinkAtSelection = createLinkAtSelectionFn;
 export const deleteBlock = deleteBlockFn;
 export const deleteSelectedBlocks = deleteSelectedBlocksFn;

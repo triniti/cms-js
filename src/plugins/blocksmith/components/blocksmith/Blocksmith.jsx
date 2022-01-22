@@ -79,7 +79,6 @@ import {
   areKeysSame,
   blockParentNode,
   convertToEditorState,
-  copySelectedBlocksToClipboard,
   createLinkAtSelection,
   deleteBlock,
   deleteSelectedBlocks,
@@ -275,8 +274,6 @@ class Blocksmith extends React.Component {
     this.handleHoverInsert = this.handleHoverInsert.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleMouseCopy = this.handleMouseCopy.bind(this);
-    this.handleMouseCut = this.handleMouseCut.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -1157,38 +1154,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Allows copying advanced blocks to the clipboard, via serialization, to be pasted later.
-   *
-   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
-   */
-  handleMouseCopy(e) {
-    const { editorState } = this.state;
-    if (!isAtomicBlockSelected(editorState)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    selection.capture(editorState);
-    copySelectedBlocksToClipboard(editorState);
-    selection.restore();
-  }
-
-  /**
-   * Allows cutting advanced blocks to the clipboard, via serialization, to be pasted later.
-   *
-   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
-   */
-  handleMouseCut(e) {
-    const { editorState } = this.state;
-    if (!isAtomicBlockSelected(editorState)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    copySelectedBlocksToClipboard(editorState);
-  }
-
-  /**
    * Positions sidebar/button controls on blocks as the mouse is moved over them
    *
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
@@ -1409,8 +1374,7 @@ class Blocksmith extends React.Component {
    *
    * @returns {string}
    */
-  handlePastedText(text, html, editorState) {
-    console.clear();
+   handlePastedText(text, html, editorState) {
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(
         html,
@@ -1435,8 +1399,25 @@ class Blocksmith extends React.Component {
 
         return 'handled';
       }
-    }
+    } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
+      const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
+        .map(function(block) { return ObjectSerializer.deserialize(block); });
 
+      const selectionState = editorState.getSelection();
+      const insertionKey = selectionState.getIsBackward()
+        ? selectionState.getAnchorKey()
+        : selectionState.getFocusKey();
+
+      this.setState(() => ({
+        editorState: insertCanvasBlocks(
+          editorState,
+          insertionKey,
+          constants.POSITION_AFTER,
+          blocks,
+        ),
+      }), this.removeActiveStyling);
+      return 'handled';
+    }
     return 'not-handled';
   }
 
@@ -1749,8 +1730,6 @@ class Blocksmith extends React.Component {
             onStoreEditor={delegate.handleStoreEditor}
           >
             <div
-              onCopy={this.handleMouseCopy}
-              onCut={this.handleMouseCut}
               onDrop={this.handleDrop}
               onMouseLeave={this.handleMouseLeave}
               onMouseMove={this.handleMouseMove}
