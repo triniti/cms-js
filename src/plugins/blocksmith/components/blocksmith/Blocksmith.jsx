@@ -1371,7 +1371,7 @@ class Blocksmith extends React.Component {
    *
    * @returns {string}
    */
-   handlePastedText(text, html, editorState) {
+  handlePastedText(text, html, editorState) {
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(
         html,
