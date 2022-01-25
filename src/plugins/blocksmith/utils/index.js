@@ -37,7 +37,7 @@ import pushEditorStateFn from './pushEditorState';
 import removeLinkAtSelectionFn from './removeLinkAtSelection';
 import replaceBlockAtKeyFn from './replaceBlockAtKey';
 import selectBlockFn, { selectionTypes } from './selectBlock';
-import shiftBlockFn from './shiftBloc`k';
+import shiftBlockFn from './shiftBlock';
 import sidebarUtil from './sidebar';
 import styleBlockTargetNodeStatusFn from './styleBlockTargetNodeStatus';
 import styleDragTargetFn from './styleDragTarget';
