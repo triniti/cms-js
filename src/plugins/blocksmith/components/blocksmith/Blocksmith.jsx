@@ -103,7 +103,6 @@ import {
   replaceBlockAtKey,
   selectBlock,
   selectBlockSelectionTypes,
-  selection,
   shiftBlock,
   sidebar,
   styleDragTarget,
@@ -338,7 +337,6 @@ class Blocksmith extends React.Component {
   componentWillUnmount() {
     blockParentNode.clearCache();
     sidebar.clearCache();
-    selection.clearCache();
     updateBlocks.clearCache();
   }
 
