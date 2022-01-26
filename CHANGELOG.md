@@ -3,6 +3,7 @@
 
 ## v0.18.0
 * Updating blocksmith sidebar to allow for complete customization of buttons.
+* Removed advanced copy and paste for mouse and keyboard.
 
 
 ## v0.17.0

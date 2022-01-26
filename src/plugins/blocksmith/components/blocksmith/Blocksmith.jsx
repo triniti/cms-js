@@ -32,10 +32,8 @@ import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
 import HighlightButton
   from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
-import isMacOS from '@triniti/cms/utils/isMacOS';
 import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
 import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
-import isWindows from '@triniti/cms/utils/isWindows';
 import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
 import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
 import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
@@ -79,7 +77,6 @@ import {
   areKeysSame,
   blockParentNode,
   convertToEditorState,
-  copySelectedBlocksToClipboard,
   createLinkAtSelection,
   deleteBlock,
   deleteSelectedBlocks,
@@ -96,7 +93,6 @@ import {
   handleDocumentDrop,
   insertCanvasBlocks,
   insertEmptyBlock,
-  isAtomicBlockSelected,
   isBlockAList,
   isBlockEmpty,
   isFirstListBlock,
@@ -107,7 +103,6 @@ import {
   replaceBlockAtKey,
   selectBlock,
   selectBlockSelectionTypes,
-  selection,
   shiftBlock,
   sidebar,
   styleDragTarget,
@@ -275,8 +270,6 @@ class Blocksmith extends React.Component {
     this.handleHoverInsert = this.handleHoverInsert.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleMouseCopy = this.handleMouseCopy.bind(this);
-    this.handleMouseCut = this.handleMouseCut.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -344,7 +337,6 @@ class Blocksmith extends React.Component {
   componentWillUnmount() {
     blockParentNode.clearCache();
     sidebar.clearCache();
-    selection.clearCache();
     updateBlocks.clearCache();
   }
 
@@ -1157,38 +1149,6 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Allows copying advanced blocks to the clipboard, via serialization, to be pasted later.
-   *
-   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
-   */
-  handleMouseCopy(e) {
-    const { editorState } = this.state;
-    if (!isAtomicBlockSelected(editorState)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    selection.capture(editorState);
-    copySelectedBlocksToClipboard(editorState);
-    selection.restore();
-  }
-
-  /**
-   * Allows cutting advanced blocks to the clipboard, via serialization, to be pasted later.
-   *
-   * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
-   */
-  handleMouseCut(e) {
-    const { editorState } = this.state;
-    if (!isAtomicBlockSelected(editorState)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    copySelectedBlocksToClipboard(editorState);
-  }
-
-  /**
    * Positions sidebar/button controls on blocks as the mouse is moved over them
    *
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
@@ -1535,22 +1495,8 @@ class Blocksmith extends React.Component {
           return constants.DOUBLE_ENTER_ON_LIST;
         }
       }
-    } else if (
-      /^[cx]$/.test(e.key)
-      && ((e.metaKey && isMacOS()) || (e.ctrlKey && isWindows()))
-      && isAtomicBlockSelected(editorState)
-    ) {
-      if (e.key === 'c') {
-        selection.capture(editorState);
-        copySelectedBlocksToClipboard(editorState);
-        selection.restore();
-        return constants.ATOMIC_BLOCKS_COPIED; // just to prevent draft from doing anything
-      }
-      if (e.key === 'x') {
-        copySelectedBlocksToClipboard(editorState);
-        return constants.ATOMIC_BLOCKS_CUT;
-      }
     }
+
     return getDefaultKeyBinding(e);
   }
 
@@ -1779,8 +1725,6 @@ class Blocksmith extends React.Component {
             onStoreEditor={delegate.handleStoreEditor}
           >
             <div
-              onCopy={this.handleMouseCopy}
-              onCut={this.handleMouseCut}
               onDrop={this.handleDrop}
               onMouseLeave={this.handleMouseLeave}
               onMouseMove={this.handleMouseMove}
