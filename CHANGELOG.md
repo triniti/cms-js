@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v0.18.0
+* Updating blocksmith sidebar to allow for complete customization of buttons.
+* Removed advanced copy and paste for mouse and keyboard.
+
+
 ## v0.17.0
 * Fix bug that doesn't register proper text-block updates.
 * Update nvmrc to 14.18.2

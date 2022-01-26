@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import sortBy from 'lodash/sortBy';
+import sortedUniqBy from 'lodash/sortedUniqBy';
 
 import { localize } from '@triniti/cms/plugins/utils/services/Localization';
-import sidebarSections, { vendorButtonTypes } from '@triniti/cms/plugins/blocksmith/components/sidebar/config';
+import buttonConfig from '@triniti/cms/plugins/blocksmith/components/sidebar/config';
 import {
   Button,
   Icon,
@@ -20,13 +22,61 @@ import { blockParentNode } from '../../utils';
 import { getAllButtons } from '../../resolver';
 import './styles.scss';
 
-const buttons = getAllButtons();
-const sidebarSectionsWithVendor = [{
-  header: localize(buttons[0].schema.getId().getVendor()),
-  matchRegEx: new RegExp(`^(${vendorButtonTypes.join('|')})`),
-  doesMatch: true,
-  replaceRegEx: /block/,
-}].concat(sidebarSections);
+
+const allButtons = getAllButtons();
+const availableButtons = (() => {
+  const { enableOther, groups: buttonGroups } = buttonConfig;
+  const usedButtons = [];
+  const selectedButtonGroups = buttonGroups
+    .map(({ header, buttons }) => {
+      const buttonList = [];
+      buttons.forEach((item, index) => {
+        const button = allButtons.filter(({ schema }) => `${schema.getCurie().getMessage()}` === item);
+        buttonList[index] = button[0];
+        usedButtons.push(item);
+      });
+      return {
+        header,
+        buttons: buttonList,
+      }
+    });
+  
+  if (enableOther) {
+    return selectedButtonGroups.concat({
+      header: 'Other',
+      buttons: allButtons.filter((item) => !usedButtons.includes(`${item.schema.getCurie().getMessage()}`)),
+    });
+  }
+
+  return selectedButtonGroups;
+})();
+
+/**
+ * Search Button Groups
+ *
+ * Sorts buttons in alphabetical order, dedupes, and filters results by
+ * user query string.
+ *
+ * @param buttonGroups 
+ * @param q 
+ */
+const searchButtonGroups = (buttonGroups, q) => {
+  if (!q) {
+    return buttonGroups;
+  }
+
+  let buttons = [];
+  buttonGroups.forEach(buttonGroup => {
+    buttons = [...buttons, ...buttonGroup.buttons];
+  });
+  buttons = sortBy(buttons, [({ schema }) => `${schema.getCurie().getMessage()}`]);
+  buttons = sortedUniqBy(buttons, ({ schema }) => `${schema.getCurie().getMessage()}`);
+  buttons = buttons.filter(({ schema }) => `${schema.getCurie().getMessage()}`.indexOf(q.toLowerCase()) > -1);
+  return [{
+    header: 'Results',
+    buttons,
+  }];
+}
 
 export default class Sidebar extends React.Component {
   static propTypes = {
@@ -89,28 +139,19 @@ export default class Sidebar extends React.Component {
       onHoverInsert: handleHoverInsert,
       popoverRef,
     } = this.props;
-
-    const availableButtons = sidebarSectionsWithVendor
-      .map(({ doesMatch, header, matchRegEx, replaceRegEx }) => ({
-        filteredButtons: buttons
-          .filter(({ schema }) => `${schema.getCurie().getMessage()} ${header.toLowerCase()}`.indexOf(q.toLowerCase()) !== -1)
-          .filter(({ schema }) => (`${schema.getCurie().getMessage()}`.match(matchRegEx) ? doesMatch : !doesMatch)),
-        header,
-        replaceRegEx,
-      }))
-      .filter(({ filteredButtons }) => filteredButtons.length) // remove sections with no buttons
-      .map(({ filteredButtons, header, replaceRegEx }) => (
+    
+    const buttonSelection = searchButtonGroups(availableButtons, q)
+      .map(({ buttons, header }) => (
         <div className="popover-section-holder" key={header}>
-          <PopoverHeader className="text-center">{ header }</PopoverHeader>
+          <PopoverHeader className="text-center">{ localize(header) }</PopoverHeader>
           <PopoverBody>
             <div className="popover-row">
               {
-                filteredButtons.map(({ Button: ButtonComponent, schema }) => (
+                buttons.map(({ Button: ButtonComponent, schema }) => (
                   <ButtonComponent
                     key={schema.getCurie().getMessage()}
                     message={schema.getCurie().getMessage()}
                     onClick={() => this.handleClick(schema)}
-                    replaceRegEx={replaceRegEx}
                     className="button-icon-group"
                   />
                 ))
@@ -181,8 +222,8 @@ export default class Sidebar extends React.Component {
           </PopoverHeader>
           <ScrollableContainer>
             {
-              availableButtons.length
-                ? availableButtons
+              buttonSelection.length
+                ? buttonSelection
                 : (
                   <div className="popover-section-holder">
                     <PopoverHeader className="text-center">No blocks found</PopoverHeader>
