@@ -30,6 +30,7 @@ const MOMENT_DATE_FORMAT = 'MM/DD/YYYY';
 
 class DatePickerField extends React.Component {
   static propTypes = {
+    className: PropTypes.string,
     input: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     label: PropTypes.string,
     onTouch: PropTypes.func.isRequired,
@@ -188,6 +189,7 @@ class DatePickerField extends React.Component {
 
   render() {
     const {
+      className,
       input: { name, onChange, value },
       label,
       meta: { error },
@@ -211,7 +213,7 @@ class DatePickerField extends React.Component {
       dateValue = moment(value, MOMENT_DATE_FORMAT, true).format(MOMENT_DATE_FORMAT);
     }
     return (
-      <FormGroup>
+      <FormGroup className={className}>
         {
           label
           && (
