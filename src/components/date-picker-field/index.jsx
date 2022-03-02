@@ -51,6 +51,7 @@ class DatePickerField extends React.Component {
   };
 
   static defaultProps = {
+    className: '',
     label: null,
     showSetCurrentDateTimeIcon: true,
     showTime: true,
