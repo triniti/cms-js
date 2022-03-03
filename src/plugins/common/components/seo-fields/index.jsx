@@ -67,7 +67,7 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
           title="Select SEO Image"
         />
         <Field
-          className="seo-fields__published-at"
+          className="seo-fields__seo-published-at"
           component={DatePickerField}
           label="SEO Published At"
           name="seoPublishedAt"
