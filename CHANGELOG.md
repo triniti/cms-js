@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.19.0
+## v0.18.1
 * Added top level className prop to DateFieldPicker
 
 

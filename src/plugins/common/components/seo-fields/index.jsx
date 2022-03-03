@@ -32,7 +32,7 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
     }
   };
   return (
-    <Card>
+    <Card className="seo-fields">
       <CardHeader>SEO</CardHeader>
       <CardBody indent>
         <Field name="seoTitle" component={TextField} label="Seo Title Tag" readOnly={!isEditMode} />
@@ -67,7 +67,7 @@ const SeoFields = ({ areLinkedImagesAllowed, isEditMode, node }) => {
           title="Select SEO Image"
         />
         <Field
-          className="seo-published-at"
+          className="seo-fields__published-at"
           component={DatePickerField}
           label="SEO Published At"
           name="seoPublishedAt"
