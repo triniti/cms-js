@@ -11,6 +11,10 @@ This prop is provided by redux-form, a name prop must be passed to `Field` compo
 
 ###Optional Props
 
+**className : String**
+
+Default value - ''
+
 **label : String or Integer**
 
 Default value - ''
@@ -34,6 +38,7 @@ import DatePickerField from '@triniti/components/datepicker-field';
   label="Date"
   component={DatePickerField}
   placeholderText='blah'
+  className="foo bar"
 />
 ```
 

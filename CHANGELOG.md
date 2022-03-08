@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v0.18.1
+* Added top level className prop to DateFieldPicker
+
 
 ## v0.18.0
 * Updating blocksmith sidebar to allow for complete customization of buttons.
