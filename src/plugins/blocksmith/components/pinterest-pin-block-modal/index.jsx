@@ -61,22 +61,23 @@ export default class PinterestPinBlockModal extends Component {
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
-  handleMouseOut = e => {
+  handleMouseOut(e) {
     e.stopPropagation();
-  };
+  }
 
   componentDidMount() {
     setTimeout((t) => {
       t.inputElement.focus();
     }, 0, this);
     
-    window.addEventListener('mouseout',(e) => this.handleMouseOut(e), true);
+    window.addEventListener('mouseout',this.handleMouseOut, true);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseout',(e) => this.handleMouseOut(e), true);
+    window.removeEventListener('mouseout',this.handleMouseOut, true);
   }
 
   setBlock() {
