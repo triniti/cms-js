@@ -58,20 +58,20 @@ export default class FacebookPostBlockModal extends React.Component {
     this.handleChangeAside = this.handleChangeAside.bind(this);
   }
 
+  handleMouseOut = e => {
+    e.stopPropagation();
+  };
+
   componentDidMount() {
     setTimeout((t) => {
       t.inputElement.focus();
     }, 0, this);
     
-    window.addEventListener('mouseout', (e) => {
-      e.stopPropagation();
-    }, true);
+    window.addEventListener('mouseout',(e) => this.handleMouseOut(e), true);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseout', (e) => {
-      e.stopPropagation();
-    }, true);
+    window.removeEventListener('mouseout',(e) => this.handleMouseOut(e), true);
   }
 
   setBlock() {
