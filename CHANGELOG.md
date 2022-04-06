@@ -1,5 +1,6 @@
 # CHANGELOG
 
+
 ## v0.18.2
 * Fix flickering block previews
 
