@@ -47,10 +47,21 @@ export default class TwitterTweetBlockModal extends React.Component {
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
+    this.handleMouseOut = this.handleMouseOut(this);
+  }
+
+  handleMouseOut(e) {
+    e.stopPropagation();
   }
 
   componentDidMount() {
     this.inputElement.focus();
+
+    window.addEventListener('mouseout', this.handleMouseOut, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mouseout', this.handleMouseOut, true);
   }
 
   setBlock() {

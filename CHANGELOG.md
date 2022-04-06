@@ -1,5 +1,10 @@
 # CHANGELOG
 
+
+## v0.18.2
+* Fix flickering block previews
+
+
 ## v0.18.1
 * Added top level className prop to DateFieldPicker
 
