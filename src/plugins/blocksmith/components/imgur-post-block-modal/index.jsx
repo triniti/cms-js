@@ -58,7 +58,7 @@ export default class ImgurPostBlockModal extends React.Component {
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleMouseOut = this.handleMouseOut(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
   handleMouseOut(e) {
