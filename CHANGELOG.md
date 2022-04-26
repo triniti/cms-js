@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.18.3
+* Bind method to constructor for sm blocks
+
+
 ## v0.18.2
 * Fix flickering block previews
 
