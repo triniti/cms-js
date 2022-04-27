@@ -70,7 +70,7 @@ export default class FacebookPostBlockModal extends React.Component {
   
       window.addEventListener('mouseout', this.handleMouseOut, true);
     
-      ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true))
+      ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true));
     }
   
     componentWillUnmount() { 

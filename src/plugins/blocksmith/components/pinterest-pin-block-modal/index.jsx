@@ -73,7 +73,7 @@ export default class PinterestPinBlockModal extends Component {
       t.inputElement.focus();
     }, 0, this);
     
-    ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true))
+    ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true));
   }
 
   componentWillUnmount() { 

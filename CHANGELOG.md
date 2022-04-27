@@ -2,7 +2,7 @@
 
 
 ## v0.18.3
-* Bind method to constructor for sm blocks
+* Fix flickering block previews (round 2)
 
 
 ## v0.18.2
