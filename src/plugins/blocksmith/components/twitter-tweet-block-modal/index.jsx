@@ -51,7 +51,6 @@ export default class TwitterTweetBlockModal extends React.Component {
   }
 
   handleMouseOut(e) {
-    console.log("Mouse moving");
     e.stopPropagation();
   }
 

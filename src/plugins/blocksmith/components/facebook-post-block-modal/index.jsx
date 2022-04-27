@@ -69,11 +69,10 @@ export default class FacebookPostBlockModal extends React.Component {
     }, 0, this);
   
       window.addEventListener('mouseout', this.handleMouseOut, true);
-  
+    
       if (!this.props.isFreshBlock) {
         document.querySelector('.modal').addEventListener('mousemove', this.handleMouseOut, true);
       } 
-     
     }
   
     componentWillUnmount() {
