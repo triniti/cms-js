@@ -51,6 +51,7 @@ export default class TwitterTweetBlockModal extends React.Component {
   }
 
   handleMouseOut(e) {
+    console.log("Mouse moving");
     e.stopPropagation();
   }
 
@@ -58,10 +59,20 @@ export default class TwitterTweetBlockModal extends React.Component {
     this.inputElement.focus();
 
     window.addEventListener('mouseout', this.handleMouseOut, true);
+
+    if (!this.state.isFreshBlock) {
+      document.querySelector('.modal').addEventListener('mousemove', this.handleMouseOut, true);
+    } 
+   
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseout', this.handleMouseOut, true);
+    
+   window.removeEventListener('mouseout', this.handleMouseOut, true);
+
+    if (!this.state.isFreshBlock) {
+      document.querySelector('.modal').removeEventListener('mousemove', this.handleMouseOut, true);
+    } 
   }
 
   setBlock() {
