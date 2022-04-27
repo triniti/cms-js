@@ -76,7 +76,7 @@ export default class PinterestPinBlockModal extends Component {
     ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true));
   }
 
-  componentWillUnmount() { 
+  componentWillUnmount() {
     ['mouseout','mousemove'].forEach(mouseEvt => window.removeEventListener(mouseEvt, this.handleMouseOut, true));
   }
 

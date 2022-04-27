@@ -66,7 +66,7 @@ export default class TikTokEmbedBlockModal extends React.Component {
     ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true));
   }
 
-  componentWillUnmount() { 
+  componentWillUnmount() {
     ['mouseout','mousemove'].forEach(mouseEvt =>  window.removeEventListener(mouseEvt, this.handleMouseOut, true));
   }
 
