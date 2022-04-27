@@ -70,7 +70,7 @@ export default class ImgurPostBlockModal extends React.Component {
 
     window.addEventListener('mouseout', this.handleMouseOut, true);
 
-    if(!this.props.isFreshBlock){
+    if (!this.props.isFreshBlock) {
       document.querySelector('.modal').addEventListener('mousemove', this.handleMouseOut, true);
     }
   
