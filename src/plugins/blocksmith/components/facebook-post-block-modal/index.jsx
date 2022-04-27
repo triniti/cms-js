@@ -68,14 +68,14 @@ export default class FacebookPostBlockModal extends React.Component {
       t.inputElement.focus();
     }, 0, this);
   
-      window.addEventListener('mouseout', this.handleMouseOut, true);
-    
-      ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true));
-    }
+    window.addEventListener('mouseout', this.handleMouseOut, true);
+
+    ['mouseout','mousemove'].forEach(mouseEvt => window.addEventListener(mouseEvt, this.handleMouseOut, true));
+  }
   
-    componentWillUnmount() { 
-      ['mouseout','mousemove'].forEach(mouseEvt =>  window.removeEventListener(mouseEvt, this.handleMouseOut, true));
-    }
+  componentWillUnmount() { 
+    ['mouseout','mousemove'].forEach(mouseEvt =>  window.removeEventListener(mouseEvt, this.handleMouseOut, true));
+  }
 
   setBlock() {
     const { hasUpdatedDate, href, showText, updatedDate, aside } = this.state;
