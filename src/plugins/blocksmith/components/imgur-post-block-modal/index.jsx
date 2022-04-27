@@ -72,7 +72,7 @@ export default class ImgurPostBlockModal extends React.Component {
   }
 
   componentWillUnmount() { 
-    ['mouseout','mousemove'].forEach(mouseEvt =>  window.removeEventListener(mouseEvt, this.handleMouseOut, true));
+    ['mouseout','mousemove'].forEach(mouseEvt => window.removeEventListener(mouseEvt, this.handleMouseOut, true));
   }
 
   setBlock() {
