@@ -67,7 +67,6 @@ export default class TwitterTweetBlockModal extends React.Component {
   }
 
   componentWillUnmount() {
-    
    window.removeEventListener('mouseout', this.handleMouseOut, true);
 
     if (!this.state.isFreshBlock) {
