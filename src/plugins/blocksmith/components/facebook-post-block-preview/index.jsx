@@ -14,6 +14,11 @@ export default class FacebookPostBlockPreview extends React.Component {
     loadFacebookSDK();
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { block } = this.props;
+    return block.generateMessageRef().id !== nextProps.block.generateMessageRef().id;
+  }
+
   render() {
     const { block, width } = this.props;
 
