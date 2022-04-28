@@ -11,6 +11,11 @@ class PinterestPinBlockPreview extends Component {
     this.embed = this.embed.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { block } = this.props;
+    return block.generateMessageRef().id !== nextProps.block.generateMessageRef().id;
+  }
+
   componentDidMount() {
     this.embed();
   }
