@@ -57,11 +57,11 @@ export default class TwitterTweetBlockModal extends React.Component {
   componentDidMount() {
     this.inputElement.focus();
 
-    window.addEventListener('mouseout', this.handleMouseOut, true)
+    window.addEventListener('mouseout', this.handleMouseOut, true);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseout', this.handleMouseOut, true)
+    window.removeEventListener('mouseout', this.handleMouseOut, true);
   }
 
   setBlock() {
