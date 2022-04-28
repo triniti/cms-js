@@ -13,7 +13,12 @@ class PinterestPinBlockPreview extends Component {
 
   shouldComponentUpdate(nextProps) {
     const { block } = this.props;
-    return block.get('href') !== nextProps.block.get('href');
+    
+    return (
+      block.get('href') !== nextProps.block.get('href') ||
+      block.get('size') !== nextProps.block.get('size') ||
+      block.get('terse') !== nextProps.block.get('terse')
+    );
   }
 
   componentDidMount() {

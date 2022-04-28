@@ -16,7 +16,11 @@ export default class FacebookPostBlockPreview extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     const { block } = this.props;
-    return (block.get('href') !== nextProps.block.get('href') || block.get('show_text') !== nextProps.block.get('show_text'));
+
+    return (
+      block.get('href') !== nextProps.block.get('href') || 
+      block.get('show_text') !== nextProps.block.get('show_text')
+      );
   }
 
   render() {
