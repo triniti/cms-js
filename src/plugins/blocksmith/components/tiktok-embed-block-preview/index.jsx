@@ -16,6 +16,7 @@ class TikTokBlockPreview extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     const { block } = this.props;
+    
     return block.get('tiktok_id') !== nextProps.block.get('tiktok_id');
   }
 
