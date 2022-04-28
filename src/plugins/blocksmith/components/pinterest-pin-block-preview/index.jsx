@@ -13,7 +13,7 @@ class PinterestPinBlockPreview extends Component {
 
   shouldComponentUpdate(nextProps) {
     const { block } = this.props;
-    return block.generateMessageRef().id !== nextProps.block.generateMessageRef().id;
+    return block.get('href') !== nextProps.block.get('href');
   }
 
   componentDidMount() {

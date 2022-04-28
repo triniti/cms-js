@@ -12,7 +12,7 @@ class ImgurPostBlockPreview extends Component {
 
   shouldComponentUpdate(nextProps) {
     const { block } = this.props;
-    return block.generateMessageRef().id !== nextProps.block.generateMessageRef().id;
+    return block.get('id') !== nextProps.block.get('id');
   }
 
   componentDidMount() {
