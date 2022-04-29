@@ -49,10 +49,6 @@ export default class TwitterTweetBlockModal extends React.Component {
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
-  handleMouseOut(e) {
-    e.stopPropagation();
-  }
-
   componentDidMount() {
     this.inputElement.focus();
   }
