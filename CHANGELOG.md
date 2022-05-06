@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.18.3
+* Fix flickering block previews (round 2)
+
+
 ## v0.18.2
 * Fix flickering block previews
 

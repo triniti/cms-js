@@ -53,23 +53,12 @@ export default class TikTokEmbedBlockModal extends React.Component {
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
     this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleMouseOut = this.handleMouseOut(this);
-  }
-
-  handleMouseOut(e) {
-    e.stopPropagation();
   }
 
   componentDidMount() {
     this.inputElement.focus();
-
-    window.addEventListener('mouseout', this.handleMouseOut, true);
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('mouseout', this.handleMouseOut, true);
-  }
-
+  
   setBlock() {
     const { hasUpdatedDate,
       tiktokId,

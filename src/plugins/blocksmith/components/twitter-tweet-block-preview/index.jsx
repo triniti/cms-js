@@ -13,6 +13,16 @@ export default class TwitterTweetBlockPreview extends React.Component {
     loadTwitterSDK();
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { block } = this.props;
+    
+    return (
+      block.get('tweet_id') !== nextProps.block.get('tweet_id') || 
+      block.get('hide_media') !== nextProps.block.get('hide_media') || 
+      block.get('hide_thread') !== nextProps.block.get('hide_thread')
+      );
+  }
+
   render() {
     const { block } = this.props;
 

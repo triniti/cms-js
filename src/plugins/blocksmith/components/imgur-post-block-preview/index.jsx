@@ -10,6 +10,15 @@ class ImgurPostBlockPreview extends Component {
     this.embed = this.embed.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { block } = this.props;
+
+    return (
+      block.get('id') !== nextProps.block.get('id') || 
+      block.get('show_text') !== nextProps.block.get('show_text')
+      );
+  }
+
   componentDidMount() {
     this.embed();
   }

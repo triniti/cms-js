@@ -14,6 +14,12 @@ class TikTokBlockPreview extends React.Component {
     this.embed = this.embed.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { block } = this.props;
+    
+    return block.get('tiktok_id') !== nextProps.block.get('tiktok_id');
+  }
+
   componentDidMount() {
     this.embed();
   }
