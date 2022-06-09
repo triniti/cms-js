@@ -187,7 +187,7 @@ class Uploader extends React.Component {
 
                 <div className="meta-form border-left">
                   <Card className="pt-3 px-3 pb-1 mb-0">
-                    {activeHashName && activeAsset
+                    {activeHashName && activeAsset && !hasFilesProcessing
                       // Form `key` is REQUIRED to update the form
                       // when activeHashName has changed
                       && (
