@@ -65,6 +65,10 @@ export default class UploaderAssetFields extends React.Component {
     onExpiresAtApplyToAll(currentValues.expiresAt || null, uploadedFiles, initialValues);
   }
 
+  // shouldComponentUpdate() {
+  //   debugger;
+  // }
+
   render() {
     const {
       activeHashName,

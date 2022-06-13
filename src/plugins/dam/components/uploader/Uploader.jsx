@@ -92,6 +92,22 @@ class Uploader extends React.Component {
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+    const { currentValues, hasFilesProcessing, activeHashName } = this.props;
+
+    // currently not working because altText is null in props and "" in next props
+    const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(nextProps.currentValues));
+
+    const hasUpdatedImage = activeHashName !== nextProps.activeHashName;
+    const uploadFormHasChanges = !isPropsEqual || hasUpdatedImage || hasFilesProcessing;
+
+    if (uploadFormHasChanges) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   componentDidMount() {
     const { delegate } = this.props;
     delegate.componentDidMount();
@@ -187,7 +203,7 @@ class Uploader extends React.Component {
 
                 <div className="meta-form border-left">
                   <Card className="pt-3 px-3 pb-1 mb-0">
-                    {activeHashName && activeAsset && !hasFilesProcessing
+                    {activeHashName && activeAsset
                       // Form `key` is REQUIRED to update the form
                       // when activeHashName has changed
                       && (
@@ -255,4 +271,4 @@ class Uploader extends React.Component {
 export default connect(
   selector,
   createDelegateFactory(delegateFactory),
-)(Uploader);
+)(React.memo(Uploader));
