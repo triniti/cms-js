@@ -95,13 +95,18 @@ class Uploader extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     const { currentValues, hasFilesProcessing, activeHashName } = this.props;
 
-    // currently not working because altText is null in props and "" in next props
     const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(nextProps.currentValues));
 
-    const hasUpdatedImage = activeHashName !== nextProps.activeHashName;
-    const uploadFormHasChanges = !isPropsEqual || hasUpdatedImage || hasFilesProcessing;
+    // debugger;
 
-    if (uploadFormHasChanges) {
+
+    if(!isPropsEqual){
+      return false;
+    }
+
+    const hasUpdatedImage = activeHashName !== nextProps.activeHashName;
+
+    if (hasUpdatedImage || hasFilesProcessing) {
       return true
     } else {
       return false
@@ -203,7 +208,7 @@ class Uploader extends React.Component {
 
                 <div className="meta-form border-left">
                   <Card className="pt-3 px-3 pb-1 mb-0">
-                    {activeHashName && activeAsset
+                    {activeHashName && activeAsset && !hasFilesProcessing
                       // Form `key` is REQUIRED to update the form
                       // when activeHashName has changed
                       && (
