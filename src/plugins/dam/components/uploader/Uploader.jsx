@@ -92,15 +92,12 @@ class Uploader extends React.Component {
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState){
+  shouldComponentUpdate(nextProps){
     const { currentValues, hasFilesProcessing, activeHashName } = this.props;
 
     const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(nextProps.currentValues));
-
-    // debugger;
-
-
-    if(!isPropsEqual){
+    
+    if (!isPropsEqual) {
       return false;
     }
 
