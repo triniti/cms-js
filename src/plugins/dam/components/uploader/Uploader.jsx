@@ -89,6 +89,10 @@ class Uploader extends React.Component {
     } = props;
     delegate.bindToComponent(this);
 
+    this.state = {
+      isFormSubmitted: false
+    }
+
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
@@ -96,7 +100,7 @@ class Uploader extends React.Component {
     const { currentValues, hasFilesProcessing, activeHashName } = this.props;
 
     const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(nextProps.currentValues));
-    
+
     if (!isPropsEqual) {
       return false;
     }
@@ -112,6 +116,7 @@ class Uploader extends React.Component {
 
   componentDidMount() {
     const { delegate } = this.props;
+
     delegate.componentDidMount();
   }
 
@@ -229,7 +234,7 @@ class Uploader extends React.Component {
                           uploadedFiles={uploadedFiles}
                         />
                       )}
-                    {activeHashName && !activeAsset && <h3>Processing...</h3>}
+                    {hasFilesProcessing && <h3>Processing...</h3>}
                     {!activeHashName && 'Add files using the component to the left.'}
                   </Card>
                 </div>
