@@ -255,7 +255,7 @@ class Uploader extends React.Component {
                   <div>
                     <Button
                       onClick={delegate.handleSave}
-                      disabled={!enableSaveChanges}
+                      disabled={hasFilesProcessing}
                     >
                       Save Changes
                     </Button>
