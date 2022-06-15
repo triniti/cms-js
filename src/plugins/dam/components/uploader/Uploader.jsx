@@ -89,10 +89,6 @@ class Uploader extends React.Component {
     } = props;
     delegate.bindToComponent(this);
 
-    this.state = {
-      isFormSubmitted: false
-    }
-
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
@@ -253,12 +249,7 @@ class Uploader extends React.Component {
               && (
                 <div className="ml-auto pr-3">
                   <div>
-                    <Button
-                      onClick={delegate.handleSave}
-                      disabled={hasFilesProcessing}
-                    >
-                      Save Changes
-                    </Button>
+                    {/* <SaveButton handleSave={delegate.handleSave} /> */}
                     <Button
                       onClick={() => this.handleToggleUploader(true)}
                       disabled={hasFilesProcessing}
@@ -272,6 +263,46 @@ class Uploader extends React.Component {
         </Modal>
       </div>
     );
+  }
+}
+
+class SaveButton extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggleDisable = this.toggleDisable.bind(this);
+
+    this.state = {
+      isDisabled: true
+    }
+  }
+
+  toggleDisable (e) {
+    if(!!e.target.value){
+      this.setState({ isDisabled: false});
+    } else {
+      this.setState({ isDisabled: true});
+    }
+
+  }
+
+  componentDidMount(){
+    document.querySelector('.dam-uploader-wrapper').addEventListener('input', this.toggleDisable)
+  }
+
+  componentWillUnmount(){
+    document.querySelector('.dam-uploader-wrapper').removeEventListener('input', this.toggleDisable)
+  }
+
+  render() {
+    return (
+      <Button
+        onClick={this.props.handleSave}
+        disabled={this.state.isDisabled}
+      >
+        Save Changes
+      </Button>
+    )
   }
 }
 
