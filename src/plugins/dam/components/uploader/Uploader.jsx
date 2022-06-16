@@ -249,7 +249,7 @@ class Uploader extends React.Component {
               && (
                 <div className="ml-auto pr-3">
                   <div>
-                    {/* <SaveButton handleSave={delegate.handleSave} /> */}
+                    <SaveButton handleSave={delegate.handleSave} />
                     <Button
                       onClick={() => this.handleToggleUploader(true)}
                       disabled={hasFilesProcessing}
@@ -278,20 +278,15 @@ class SaveButton extends React.Component {
   }
 
   toggleDisable (e) {
-    if(!!e.target.value){
-      this.setState({ isDisabled: false});
-    } else {
-      this.setState({ isDisabled: true});
-    }
-
+    this.setState({ isDisabled: !!e.target.value ? false : true});
   }
 
   componentDidMount(){
-    document.querySelector('.dam-uploader-wrapper').addEventListener('input', this.toggleDisable)
+    document.addEventListener('input', this.toggleDisable)
   }
 
   componentWillUnmount(){
-    document.querySelector('.dam-uploader-wrapper').removeEventListener('input', this.toggleDisable)
+    document.removeEventListener('input', this.toggleDisable)
   }
 
   render() {
