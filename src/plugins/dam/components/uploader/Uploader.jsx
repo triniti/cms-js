@@ -249,7 +249,7 @@ class Uploader extends React.Component {
               && (
                 <div className="ml-auto pr-3">
                   <div>
-                    <SaveButton handleSave={delegate.handleSave} />
+                    <SaveButton handleSave={delegate.handleSave} delegate={delegate} />
                     <Button
                       onClick={() => this.handleToggleUploader(true)}
                       disabled={hasFilesProcessing}
@@ -278,15 +278,26 @@ class SaveButton extends React.Component {
   }
 
   toggleDisable (e) {
-    this.setState({ isDisabled: !!e.target.value ? false : true});
+    const { delegate } = this.props;
+    const currentValues = {
+        ...delegate.component.props.currentValues, 
+        description: delegate.component.props.currentValues.description === "" ? null : delegate.component.props.currentValues.description,
+        displayTitle: delegate.component.props.currentValues.displayTitle === "" ? null : delegate.component.props.currentValues.displayTitle,
+        altText: delegate.component.props.currentValues.altText === "" ? null : delegate.component.props.currentValues.altText,
+       };
+
+
+    const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(delegate.getInitialValues()));
+
+    this.setState({ isDisabled: !!isPropsEqual });
   }
 
   componentDidMount(){
-    document.addEventListener('input', this.toggleDisable)
+    ['input', 'click'].forEach(event => document.addEventListener(event, this.toggleDisable));
   }
 
   componentWillUnmount(){
-    document.removeEventListener('input', this.toggleDisable)
+    ['input', 'click'].forEach(event => document.removeEventListener(event, this.toggleDisable));
   }
 
   render() {
