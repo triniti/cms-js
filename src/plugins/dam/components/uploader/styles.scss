@@ -2,7 +2,6 @@ $normalHeight: 766px;
 $smallHeight: calc(100vh - 180px);
 $viewportMaxHeight: 950px;
 
-
 .dam-uploader-wrapper {
   @media (min-height: $viewportMaxHeight) {
     min-height: $normalHeight;
