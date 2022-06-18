@@ -278,26 +278,35 @@ class SaveButton extends React.Component {
   }
 
   toggleDisable (e) {
-    const { delegate } = this.props;
-    const currentValues = {
-        ...delegate.component.props.currentValues, 
-        description: delegate.component.props.currentValues.description === "" ? null : delegate.component.props.currentValues.description,
-        displayTitle: delegate.component.props.currentValues.displayTitle === "" ? null : delegate.component.props.currentValues.displayTitle,
-        altText: delegate.component.props.currentValues.altText === "" ? null : delegate.component.props.currentValues.altText,
-       };
+    setTimeout(() => {
+      const { delegate } = this.props;
+      const hasCredits = !!document.querySelector('.select__single-value');
+      const { description, displayTitle, altText, credit } = delegate.component.props.currentValues
+  
+      const currentValues = {
+          ...delegate.component.props.currentValues, 
+          description: description === "" ? null : description,
+          displayTitle: displayTitle === "" ? null : displayTitle,
+          altText: altText === "" ? null : altText,
+          credit: hasCredits === false ? undefined : credit,
+         };
+  
+      const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(delegate.getInitialValues()));
 
-
-    const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(delegate.getInitialValues()));
-
-    this.setState({ isDisabled: !!isPropsEqual });
+      if (hasCredits) {
+        this.setState({ isDisabled: false });
+      } else {
+        this.setState({ isDisabled: hasCredits === false && isPropsEqual ? true : false });
+      }
+    }, 0);
   }
-
+  
   componentDidMount(){
-    ['input', 'click'].forEach(event => document.addEventListener(event, this.toggleDisable));
+    ['input', 'click', 'pointerdown'].forEach(event => document.addEventListener(event, this.toggleDisable));
   }
 
   componentWillUnmount(){
-    ['input', 'click'].forEach(event => document.removeEventListener(event, this.toggleDisable));
+    ['input', 'click', 'pointerdown'].forEach(event => document.removeEventListener(event, this.toggleDisable));
   }
 
   render() {
