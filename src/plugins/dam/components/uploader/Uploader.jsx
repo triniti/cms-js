@@ -292,8 +292,7 @@ class SaveButton extends React.Component {
   
       const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(delegate.getInitialValues()));
 
-      this.setState({ isDisabled: hasCredits ? false: !!isPropsEqual });
-     
+      this.setState({ isDisabled: hasCredits ? false : !!isPropsEqual });
     }, 0);
   }
   
