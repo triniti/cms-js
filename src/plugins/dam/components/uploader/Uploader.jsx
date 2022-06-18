@@ -293,11 +293,8 @@ class SaveButton extends React.Component {
   
       const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(delegate.getInitialValues()));
 
-      if (hasCredits) {
-        this.setState({ isDisabled: false });
-      } else {
-        this.setState({ isDisabled: hasCredits === false && isPropsEqual ? true : false });
-      }
+      this.setState({ isDisabled: hasCredits ? false: !!isPropsEqual });
+     
     }, 0);
   }
   
@@ -324,4 +321,4 @@ class SaveButton extends React.Component {
 export default connect(
   selector,
   createDelegateFactory(delegateFactory),
-)(React.memo(Uploader));
+)(Uploader);
