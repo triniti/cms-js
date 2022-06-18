@@ -112,7 +112,6 @@ class Uploader extends React.Component {
 
   componentDidMount() {
     const { delegate } = this.props;
-
     delegate.componentDidMount();
   }
 
