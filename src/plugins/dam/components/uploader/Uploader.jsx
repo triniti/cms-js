@@ -276,7 +276,7 @@ class SaveButton extends React.Component {
     }
   }
 
-  toggleDisable (e) {
+  toggleDisable(e) {
     setTimeout(() => {
       const { delegate } = this.props;
       const hasCredits = !!document.querySelector('.select__single-value');
@@ -296,11 +296,11 @@ class SaveButton extends React.Component {
     }, 0);
   }
   
-  componentDidMount(){
+  componentDidMount() {
     ['input', 'click', 'pointerdown'].forEach(event => document.addEventListener(event, this.toggleDisable));
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     ['input', 'click', 'pointerdown'].forEach(event => document.removeEventListener(event, this.toggleDisable));
   }
 
