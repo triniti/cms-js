@@ -92,24 +92,6 @@ class Uploader extends React.Component {
     this.handleToggleUploader = this.handleToggleUploader.bind(this);
   }
 
-  shouldComponentUpdate(nextProps){
-    const { currentValues, hasFilesProcessing, activeHashName } = this.props;
-
-    const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(nextProps.currentValues));
-
-    if (!isPropsEqual) {
-      return false;
-    }
-
-    const hasUpdatedImage = activeHashName !== nextProps.activeHashName;
-
-    if (hasUpdatedImage || hasFilesProcessing) {
-      return true
-    } else {
-      return false
-    }
-  }
-
   componentDidMount() {
     const { delegate } = this.props;
     delegate.componentDidMount();
@@ -205,7 +187,7 @@ class Uploader extends React.Component {
 
                 <div className="meta-form border-left">
                   <Card className="pt-3 px-3 pb-1 mb-0">
-                    {activeHashName && activeAsset && !hasFilesProcessing
+                    {activeHashName && activeAsset
                       // Form `key` is REQUIRED to update the form
                       // when activeHashName has changed
                       && (
@@ -229,7 +211,7 @@ class Uploader extends React.Component {
                           uploadedFiles={uploadedFiles}
                         />
                       )}
-                    {hasFilesProcessing && <h3>Processing...</h3>}
+                    {activeHashName && !activeAsset && <h3>Processing...</h3>}
                     {!activeHashName && 'Add files using the component to the left.'}
                   </Card>
                 </div>
@@ -248,7 +230,12 @@ class Uploader extends React.Component {
               && (
                 <div className="ml-auto pr-3">
                   <div>
-                    <SaveButton handleSave={delegate.handleSave} delegate={delegate} />
+                    <Button
+                      onClick={delegate.handleSave}
+                      disabled={!enableSaveChanges}
+                    >
+                      Save Changes
+                    </Button>
                     <Button
                       onClick={() => this.handleToggleUploader(true)}
                       disabled={hasFilesProcessing}
@@ -262,57 +249,6 @@ class Uploader extends React.Component {
         </Modal>
       </div>
     );
-  }
-}
-
-class SaveButton extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.toggleDisable = this.toggleDisable.bind(this);
-
-    this.state = {
-      isDisabled: true
-    }
-  }
-
-  toggleDisable(e) {
-    setTimeout(() => {
-      const { delegate } = this.props;
-      const hasCredits = !!document.querySelector('.select__single-value');
-      const { description, displayTitle, altText, credit } = delegate.component.props.currentValues
-  
-      const currentValues = {
-          ...delegate.component.props.currentValues, 
-          description: description === "" ? null : description,
-          displayTitle: displayTitle === "" ? null : displayTitle,
-          altText: altText === "" ? null : altText,
-          credit: hasCredits === false ? undefined : credit,
-         };
-  
-      const isPropsEqual = (JSON.stringify(currentValues) === JSON.stringify(delegate.getInitialValues()));
-
-      this.setState({ isDisabled: hasCredits ? false : !!isPropsEqual });
-    }, 0);
-  }
-  
-  componentDidMount() {
-    ['input', 'click', 'pointerdown'].forEach(event => document.addEventListener(event, this.toggleDisable));
-  }
-
-  componentWillUnmount() {
-    ['input', 'click', 'pointerdown'].forEach(event => document.removeEventListener(event, this.toggleDisable));
-  }
-
-  render() {
-    return (
-      <Button
-        onClick={this.props.handleSave}
-        disabled={this.state.isDisabled}
-      >
-        Save Changes
-      </Button>
-    )
   }
 }
 
