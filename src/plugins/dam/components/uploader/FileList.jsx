@@ -35,19 +35,7 @@ class FileList extends React.Component {
   }
 
   componentDidUpdate() {
-    // Raven is making `componentDidUpdate` fire on each heart beat thus
-    // the uploader modal jumps when users with a small screen (like a 13" mbp)
-    // scrolls down. This will check if the user's browser is about a 13" screen
-    // or less and prevent the scrolling into view from happening.
-    if (document.documentElement.clientHeight > 792) {
-      this.ensureActiveItemVisible();
-    }
-  }
-
-  ensureActiveItemVisible() {
-    if (this.activeFileItem) {
-      scrollIntoViewIfNeeded(this.activeFileItem, { duration: 500 });
-    }
+    this.ensureActiveItemVisible();
   }
 
   handleOnChange(hashName) {
@@ -61,6 +49,36 @@ class FileList extends React.Component {
         } else {
           // do nothing, user declined
         }
+      });
+    }
+  }
+
+  ensureActiveItemVisible() {
+    if (this.activeFileItem) {
+      scrollIntoViewIfNeeded(this.activeFileItem, {
+        scrollMode: 'if-needed',
+        behavior: (actions) => {
+          const canSmoothScroll = ('scrollBehavior' in document.body.style);
+          actions.forEach((_ref) => {
+            if (_ref.el.className !== 'dam-file-list') { // todo: use a ref for this comparison
+              return;
+            }
+            const el = _ref.el;
+            const top = _ref.top;
+            const left = _ref.left;
+
+            if (el.scroll && canSmoothScroll) {
+              el.scroll({
+                top,
+                left,
+                behavior: 'smooth',
+              });
+            } else {
+              el.scrollTop = top;
+              el.scrollLeft = left;
+            }
+          });
+        },
       });
     }
   }
