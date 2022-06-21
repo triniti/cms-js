@@ -60,7 +60,7 @@ class FileList extends React.Component {
         behavior: (actions) => {
           const canSmoothScroll = ('scrollBehavior' in document.body.style);
           actions.forEach((_ref) => {
-            if (_ref.el.className !== 'dam-file-list') {
+            if (_ref.el.className !== 'dam-file-list') { // todo: use a ref for this comparison
               return;
             }
             const el = _ref.el;
