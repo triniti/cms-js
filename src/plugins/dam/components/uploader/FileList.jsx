@@ -1,7 +1,7 @@
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+import computeScrollIntoView from 'compute-scroll-into-view';
 import swal from 'sweetalert2';
 
 import FileItem from './FileItem';
@@ -35,7 +35,7 @@ class FileList extends React.Component {
   }
 
   componentDidUpdate() {
-    this.ensureActiveItemVisible();
+    setTimeout(() => this.ensureActiveItemVisible(), 2000);
   }
 
   handleOnChange(hashName) {
@@ -54,33 +54,25 @@ class FileList extends React.Component {
   }
 
   ensureActiveItemVisible() {
-    if (this.activeFileItem) {
-      scrollIntoViewIfNeeded(this.activeFileItem, {
-        scrollMode: 'if-needed',
-        behavior: (actions) => {
-          const canSmoothScroll = ('scrollBehavior' in document.body.style);
-          actions.forEach((_ref) => {
-            if (_ref.el.className !== 'dam-file-list') { // todo: use a ref for this comparison
-              return;
-            }
-            const el = _ref.el;
-            const top = _ref.top;
-            const left = _ref.left;
-
-            if (el.scroll && canSmoothScroll) {
-              el.scroll({
-                top,
-                left,
-                behavior: 'smooth',
-              });
-            } else {
-              el.scrollTop = top;
-              el.scrollLeft = left;
-            }
-          });
-        },
-      });
+    if (!this.activeFileItem) {
+      return;
     }
+    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
+      if (action.el.className !== 'dam-file-list') { // fixme: use the class name from a ref instead of hardcoding
+        return;
+      }
+      const el = action.el;
+      const top = action.top;
+
+      if (el.scroll && ('scrollBehavior' in document.body.style)) {
+        el.scroll({
+          top,
+          behavior: 'smooth',
+        });
+      } else {
+        el.scrollTop = top;
+      }
+    });
   }
 
   render() {
