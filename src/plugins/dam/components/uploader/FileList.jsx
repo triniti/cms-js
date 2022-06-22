@@ -1,4 +1,5 @@
 import noop from 'lodash/noop';
+import throttle from 'lodash/throttle';
 import PropTypes from 'prop-types';
 import React from 'react';
 import computeScrollIntoView from 'compute-scroll-into-view';
@@ -32,10 +33,11 @@ class FileList extends React.Component {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.damFileList = React.createRef();
   }
 
   componentDidUpdate() {
-    setTimeout(() => this.ensureActiveItemVisible(), 2000);
+   this.ensureActiveItemVisible();
   }
 
   handleOnChange(hashName) {
@@ -55,12 +57,16 @@ class FileList extends React.Component {
 
   ensureActiveItemVisible() {
     if (!this.activeFileItem) {
-      return;
+      return
     }
-    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
-      if (action.el.className !== 'dam-file-list') { // fixme: use the class name from a ref instead of hardcoding
-        return;
+
+    const currentClassName = this.damFileList.current.className;
+
+    const throttledComputeScrollIntoView = computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
+      if (action.el.className !== currentClassName) {
+        return
       }
+      
       const el = action.el;
       const top = action.top;
 
@@ -73,6 +79,8 @@ class FileList extends React.Component {
         el.scrollTop = top;
       }
     });
+
+    throttle(() => throttledComputeScrollIntoView(), 5000);
   }
 
   render() {
@@ -84,7 +92,7 @@ class FileList extends React.Component {
     } = this.props;
 
     return (
-      <div className="dam-file-list">
+      <div className="dam-file-list" ref={this.damFileList}>
         {
           Object.keys(files).map((hash) => (
             <FileItem
