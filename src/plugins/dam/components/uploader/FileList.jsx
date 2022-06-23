@@ -37,7 +37,7 @@ class FileList extends React.Component {
   }
 
   componentDidUpdate() {
-   throttle(() => this.ensureActiveItemVisible(), 5000);
+   this.ensureActiveItemVisible();
   }
 
   handleOnChange(hashName) {
@@ -79,6 +79,8 @@ class FileList extends React.Component {
         el.scrollTop = top;
       }
     });
+
+    throttle(() => throttledComputeScrollIntoView(), 5000);
   }
 
   render() {
