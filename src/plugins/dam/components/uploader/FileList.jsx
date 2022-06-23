@@ -33,11 +33,21 @@ class FileList extends React.Component {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.damFileList = React.createRef();
+    this.fileList = React.createRef();
+    this.ensureActiveItemVisible = this.ensureActiveItemVisible.bind(this);
   }
 
   componentDidUpdate() {
-   this.ensureActiveItemVisible();
+    const throttleActiveItemVisibility = throttle(this.ensureActiveItemVisible, 5000);
+    throttleActiveItemVisibility();
+
+    // fix -- description text is reset while files are processing
+
+    ['input', 'click'].forEach(event => document.addEventListener(event,throttleActiveItemVisibility));
+  }
+
+  componentWillUnmount(){
+    ['input', 'click'].forEach(event =>  document.removeEventListener(event, this.ensureActiveItemVisible));
   }
 
   handleOnChange(hashName) {
@@ -59,16 +69,18 @@ class FileList extends React.Component {
     if (!this.activeFileItem) {
       return
     }
+    
+    const currentClassName = !!this.fileList.current.className ? this.fileList.current.className : false;
 
-    const currentClassName = this.damFileList.current.className;
+    if(!currentClassName){
+      return
+    }
 
-    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
-      if (action.el.className !== currentClassName) {
+    // computeScrollIntoView thinks we need to scroll more elements than is actually necessary/desired
+    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach(({el, top }) => {
+      if (el.className !== currentClassName) {
         return
       }
-      
-      const el = action.el;
-      const top = action.top;
 
       if (el.scroll && ('scrollBehavior' in document.body.style)) {
         el.scroll({
@@ -79,8 +91,6 @@ class FileList extends React.Component {
         el.scrollTop = top;
       }
     });
-
-    throttle(() => throttledComputeScrollIntoView(), 5000);
   }
 
   render() {
@@ -92,7 +102,7 @@ class FileList extends React.Component {
     } = this.props;
 
     return (
-      <div className="dam-file-list" ref={this.damFileList}>
+      <div className="dam-file-list" ref={this.fileList}>
         {
           Object.keys(files).map((hash) => (
             <FileItem

@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## v0.18.4
-* Typing in the description field bounces the modal
+* When uploading, Typing in the description field bounces the modal.
 
 
 ## v0.18.3
