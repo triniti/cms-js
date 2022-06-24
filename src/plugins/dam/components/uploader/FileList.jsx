@@ -41,8 +41,6 @@ class FileList extends React.Component {
     const throttleActiveItemVisibility = throttle(this.ensureActiveItemVisible, 5000);
     throttleActiveItemVisibility();
 
-    // fix -- description text is reset while files are processing
-
     ['input', 'click'].forEach(event => document.addEventListener(event,throttleActiveItemVisibility));
   }
 
