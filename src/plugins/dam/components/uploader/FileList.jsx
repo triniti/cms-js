@@ -62,12 +62,6 @@ class FileList extends React.Component {
       return
     }
     
-    const currentClassName = !!this.fileList.current.className ? this.fileList.current.className : false;
-
-    if(!currentClassName){
-      return
-    }
-
     // computeScrollIntoView thinks we need to scroll more elements than is actually necessary/desired
     computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
       if (action.el.className !== this.fileList.current.className) {
