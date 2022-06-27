@@ -32,14 +32,14 @@ class FileList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnChange = this.handleOnChange.bind(this);
     this.fileList = React.createRef();
-    this.ensureActiveItemVisible = this.ensureActiveItemVisible.bind(this);
-    this.throttleActiveItemVisibility = throttle(this.ensureActiveItemVisible, 5000);
+
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.ensureActiveItemVisible = throttle(this.ensureActiveItemVisible, 5000);
   }
 
   componentDidUpdate() {
-    this.throttleActiveItemVisibility();
+    this.ensureActiveItemVisible();
   }
 
   handleOnChange(hashName) {
@@ -59,13 +59,14 @@ class FileList extends React.Component {
 
   ensureActiveItemVisible() {
     if (!this.activeFileItem) {
-      return
+      return;
     }
-    
-    // computeScrollIntoView thinks we need to scroll more elements than is actually necessary/desired
+
     computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
       if (action.el.className !== this.fileList.current.className) {
-        return
+        // computeScrollIntoView thinks we need to scroll
+        // more elements than is actually necessary/desired
+        return;
       }
 
       const el = action.el;
