@@ -35,17 +35,11 @@ class FileList extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.fileList = React.createRef();
     this.ensureActiveItemVisible = this.ensureActiveItemVisible.bind(this);
+    this.throttleActiveItemVisibility = throttle(this.ensureActiveItemVisible, 5000);
   }
 
   componentDidUpdate() {
-    const throttleActiveItemVisibility = throttle(this.ensureActiveItemVisible, 5000);
-    throttleActiveItemVisibility();
-
-    ['input', 'click'].forEach(event => document.addEventListener(event,throttleActiveItemVisibility));
-  }
-
-  componentWillUnmount(){
-    ['input', 'click'].forEach(event =>  document.removeEventListener(event, this.ensureActiveItemVisible));
+    this.throttleActiveItemVisibility();
   }
 
   handleOnChange(hashName) {
@@ -75,10 +69,13 @@ class FileList extends React.Component {
     }
 
     // computeScrollIntoView thinks we need to scroll more elements than is actually necessary/desired
-    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach(({el, top }) => {
-      if (el.className !== currentClassName) {
+    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
+      if (action.el.className !== this.fileList.current.className) {
         return
       }
+
+      const el = action.el;
+      const top = action.top;
 
       if (el.scroll && ('scrollBehavior' in document.body.style)) {
         el.scroll({
