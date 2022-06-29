@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v0.18.4
+* When uploading, Typing in the description field bounces the modal.
+
 
 ## v0.18.3
 * Fix flickering block previews (round 2)

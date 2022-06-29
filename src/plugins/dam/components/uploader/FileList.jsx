@@ -1,7 +1,8 @@
 import noop from 'lodash/noop';
+import throttle from 'lodash/throttle';
 import PropTypes from 'prop-types';
 import React from 'react';
-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+import computeScrollIntoView from 'compute-scroll-into-view';
 import swal from 'sweetalert2';
 
 import FileItem from './FileItem';
@@ -31,23 +32,14 @@ class FileList extends React.Component {
   constructor(props) {
     super(props);
 
+    this.fileList = React.createRef();
+
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.ensureActiveItemVisible = throttle(this.ensureActiveItemVisible, 5000);
   }
 
   componentDidUpdate() {
-    // Raven is making `componentDidUpdate` fire on each heart beat thus
-    // the uploader modal jumps when users with a small screen (like a 13" mbp)
-    // scrolls down. This will check if the user's browser is about a 13" screen
-    // or less and prevent the scrolling into view from happening.
-    if (document.documentElement.clientHeight > 792) {
-      this.ensureActiveItemVisible();
-    }
-  }
-
-  ensureActiveItemVisible() {
-    if (this.activeFileItem) {
-      scrollIntoViewIfNeeded(this.activeFileItem, { duration: 500 });
-    }
+    this.ensureActiveItemVisible();
   }
 
   handleOnChange(hashName) {
@@ -65,6 +57,32 @@ class FileList extends React.Component {
     }
   }
 
+  ensureActiveItemVisible() {
+    if (!this.activeFileItem) {
+      return;
+    }
+
+    computeScrollIntoView(this.activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
+      if (action.el.className !== this.fileList.current.className) {
+        // computeScrollIntoView thinks we need to scroll
+        // more elements than is actually necessary/desired
+        return;
+      }
+
+      const el = action.el;
+      const top = action.top;
+
+      if (el.scroll && ('scrollBehavior' in document.body.style)) {
+        el.scroll({
+          top,
+          behavior: 'smooth',
+        });
+      } else {
+        el.scrollTop = top;
+      }
+    });
+  }
+
   render() {
     const {
       files,
@@ -74,7 +92,7 @@ class FileList extends React.Component {
     } = this.props;
 
     return (
-      <div className="dam-file-list">
+      <div className="dam-file-list" ref={this.fileList}>
         {
           Object.keys(files).map((hash) => (
             <FileItem
