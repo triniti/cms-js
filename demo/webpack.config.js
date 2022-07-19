@@ -28,6 +28,7 @@ const compileEnvVars = (webpackEnv) => Object.entries(process.env).reduce((acc, 
 
 module.exports = (webpackEnv = {}) => {
   const env = compileEnvVars(webpackEnv);
+  env['process.env.NODE_DEBUG'] = false;
   return {
     entry: {
       //'webpack-dev-server/client?https://localhost:3000',
@@ -43,8 +44,10 @@ module.exports = (webpackEnv = {}) => {
         'Access-Control-Allow-Headers': '*',
       },
       historyApiFallback: true,
-      https: true,
       port: 3000,
+      server: {
+        type: 'https',
+      },
     },
     stats: 'normal',
     output: {
@@ -64,6 +67,7 @@ module.exports = (webpackEnv = {}) => {
         fs: false,
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
+        //process: resolve(__dirname, '../src') + '/hacks/process/browser.js',
       }
     },
     externals: {},
@@ -162,11 +166,8 @@ module.exports = (webpackEnv = {}) => {
       }, {})),
 
       new webpack.ProvidePlugin({
-        process: resolve(__dirname, '../src') + '/hacks/process/browser.js',
         Buffer: ['buffer', 'Buffer'],
       }),
-
-      new webpack.HotModuleReplacementPlugin(),
     ]
   };
 };

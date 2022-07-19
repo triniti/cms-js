@@ -76,7 +76,8 @@ export default function LoginScreen() {
       audience={AUTH0_AUDIENCE}
       domain={AUTH0_DOMAIN}
       clientId={AUTH0_CLIENT_ID}
-      redirectUri={SITE_BASE_URL + 'login'}
+      //redirectUri={APP_BASE_URL + 'login'}
+      redirectUri={'https://localhost:3000/login'}
       cache={cache}
     >
       <Login />

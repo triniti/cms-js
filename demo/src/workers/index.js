@@ -1,7 +1,9 @@
 import HelloWorker from './hello';
 import RavenWorker from './raven';
 
-const WORKER_PATH = CLOUD_PROVIDER === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('eme-api').pop();
+// todo: replace with CLOUD_PROVIDER var
+//const WORKER_PATH = CLOUD_PROVIDER === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
+const WORKER_PATH = 'private' === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
 
 /**
  * Derives the path from the generated bundle code from webpack

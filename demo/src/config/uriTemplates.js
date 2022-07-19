@@ -11,12 +11,20 @@ let ovpBaseUrl;
 if (APP_ENV === 'prod') {
   ampBaseUrl = `https://amp.${tld}/`;
   webBaseUrl = `https://www.${tld}/`;
-} else if (APP_ENV === 'dev') {
-  ampBaseUrl = `https://master.amp.${APP_ENV}.${tld}/`;
-  webBaseUrl = `https://master.www.${APP_ENV}.${tld}/`;
+  damBaseUrl = `https://dam.${tld}/`;
+  imageBaseUrl = damBaseUrl;
+  ovpBaseUrl = damBaseUrl;
+} else if (APP_ENV === 'dev' || APP_ENV === 'local') {
+  ampBaseUrl = `https://main.amp.dev.${tld}/`;
+  webBaseUrl = `https://main.www.dev.${tld}/`;
+  damBaseUrl = `https://dam.dev.${tld}/`;
+  imageBaseUrl = damBaseUrl;
+  ovpBaseUrl = damBaseUrl;
 } else {
   ampBaseUrl = `https://amp.${APP_ENV}.${tld}/`;
   webBaseUrl = `https://www.${APP_ENV}.${tld}/`;
+  damBaseUrl = `https://dam.${APP_ENV}.${tld}/`;
+  imageBaseUrl = damBaseUrl;
 }
 
 registerGlobals({

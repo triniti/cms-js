@@ -17,7 +17,9 @@ function Logout() {
 
     if (isAuthenticated) {
       dispatch(logout());
-      auth0Logout({ returnTo: SITE_BASE_URL + 'login' });
+      //auth0Logout({ returnTo: APP_BASE_URL + 'login' });
+      auth0Logout({ returnTo: 'https://localhost:3000/login' });
+      'https://localhost:3000/login'
     } else {
       navigate(-1);
     }
@@ -32,7 +34,8 @@ export default function LogoutScreen() {
       audience={AUTH0_AUDIENCE}
       domain={AUTH0_DOMAIN}
       clientId={AUTH0_CLIENT_ID}
-      redirectUri={SITE_BASE_URL + 'login'}
+      //redirectUri={APP_BASE_URL + 'login'}
+      redirectUri={'https://localhost:3000/login'}
     >
       <Logout />
     </Auth0Provider>
