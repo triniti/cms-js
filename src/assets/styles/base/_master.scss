@@ -1,0 +1,558 @@
+// Master
+//
+// Includes body, font-size above 1600, focus outline removal
+//
+
+body {
+  display: block;
+  overflow: hidden;
+  height: 100%;
+  letter-spacing: -.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-feature-settings: 'kern' 1;
+  -moz-font-feature-settings: 'kern' 1;
+}
+
+
+// removal of the glow on objects on focus
+object,
+embed,
+input,
+textarea,
+select {
+  outline: 0;
+}
+
+a:focus,
+input[type='file']:focus,
+input[type='radio']:focus,
+input[type='text']:focus,
+input[type='checkbox']:focus,
+button:focus,
+.btn:focus,
+.btn:active:focus,
+.form-control:focus {
+  outline: 0;
+  // outline: 0 auto -webkit-focus-ring-color; // shows up in safari when this is enabled
+  outline-offset: 0;
+}
+
+input::-moz-focus-inner {
+  border: 0;
+}
+
+a:focus {
+  box-shadow: none;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin-bottom: .4em;
+  letter-spacing: .008em;
+}
+
+.header {
+  font-size: 1rem;
+  letter-spacing: 0;
+  margin-bottom: 1.25rem;
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small,
+.h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small,
+h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small,
+.h1 .small, .h2 .small, .h3 .small, .h4 .small, .h5 .small, .h6 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: $dark;
+}
+
+p {
+  font-size: .875rem;
+}
+
+a:not([href]):not([tabindex]),
+.nav-link:hover {
+  cursor: pointer;
+}
+
+
+// select background color
+
+::selection {
+  background: darken($status-expired, 2%);
+}
+
+::-moz-selection {
+  background: darken($status-expired, 2%);
+}
+
+
+// Force col to 100% width on mobile if no col-12 set
+
+.col-xl-2p {
+  @media (min-width: 1200px) {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+  @media (min-width: 1400px) {
+    flex: 0 0 16.66667%;
+    max-width: 16.66667%;
+  }
+}
+
+.col-btn {
+  padding: 0 !important;
+  min-width: 40px;
+  max-width: 40px;
+
+  &--double {
+    min-width: 80px;
+    max-width: 80px;
+  }
+  &--triple {
+    min-width: 120px;
+    max-width: 120px;
+  }
+}
+
+
+// max-widths
+
+.mw-240px {max-width: 240px;}
+.mw-320px {max-width: 320px;}
+.mw-360px {max-width: 360px;}
+.mw-400px {max-width: 400px;}
+.mw-480px {max-width: 480px;}
+
+
+// remove container-fluid & container padding if directly inside card-body since it has its own
+
+.card-body > .container,
+.card-body > .container-fluid {
+
+  @media (max-width: 767px) {
+    padding: 0;
+  }
+}
+
+
+// custom text colors
+
+.text-light {
+  color: $dark !important;
+}
+
+.text-body-light {
+  color: $body-color-light !important;
+}
+
+.text-label {
+  font-size: $font-size-base;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: $font-weight-normal;
+  color: $body-color;
+}
+
+
+// custom utility classes
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.sticky-top {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+}
+
+
+// Layout
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.main-content-footer {
+  position: absolute;
+  z-index: $zindex-sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: .5rem 1.5rem;
+  background-color: rgba(74, 74, 74, .8);
+  flex: 0 0 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tab-content {
+  width: 100%;
+}
+
+
+// Close - used with modals and buttons
+
+.close,
+.btn-close {
+  vertical-align: top;
+  line-height: .825;
+
+  &:hover,
+  &:focus {
+    color: $btn-close-color;
+    text-decoration: none;
+    opacity: .75;
+  }
+}
+
+
+// gray backgrounds
+
+.bg-gray-100 {background-color: $gray-100 !important;}
+.bg-gray-200 {background-color: $gray-200 !important;}
+.bg-gray-300 {background-color: $gray-300 !important;}
+.bg-gray-400 {background-color: $gray-400 !important;}
+.bg-gray-500 {background-color: $gray-500 !important;}
+.bg-gray-600 {background-color: $gray-600 !important;}
+.bg-gray-700 {background-color: $gray-700 !important;}
+.bg-gray-800 {background-color: $gray-800 !important;}
+.bg-gray-900 {background-color: $gray-900 !important;}
+
+
+// remove backgrounds
+
+.bg-none {
+  background: transparent !important;
+}
+
+.border-white {
+  border-color: $white;
+}
+
+.border-light {
+  border-color: $gray-400 !important;
+}
+
+.rounded-4 {
+  border-radius: $border-radius-xl; // 6px
+}
+
+
+// Borderless - remove border and box-shadow
+
+.borderless {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.border:empty {
+  border: none !important;
+}
+
+.border:empty {
+  border: none !important;
+}
+
+
+// Hover that adds a transitioned background color on any element
+
+.hover {
+  transition: background-color $transition;
+}
+
+.hover:hover {
+  background-color: $gray-100;
+}
+
+
+// Hover that adds an inset semi transparent border on any element
+
+.hover-outline {
+  position: relative;
+}
+
+.hover-outline::after {
+  position: absolute;
+  z-index: 1031;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  content: '';
+  pointer-events: none;
+  border: 4px solid $black;
+  opacity: 0;
+  transition: opacity $transition;
+}
+
+.hover-outline:hover::after {
+  border: 4px solid $black;
+  opacity: .0625;
+}
+
+
+// Box-shadow
+
+.shadow-depth-0 {box-shadow: $shadow-depth-0 !important;}
+.shadow-depth-1 {box-shadow: $shadow-depth-1 !important;}
+.shadow-depth-2 {box-shadow: $shadow-depth-2 !important;}
+.shadow-depth-3 {box-shadow: $shadow-depth-3 !important;}
+.shadow-depth-4 {box-shadow: $shadow-depth-4 !important;}
+.shadow-depth-5 {box-shadow: $shadow-depth-5 !important;}
+.shadow-depth-6 {box-shadow: $shadow-depth-6 !important;}
+.shadow-depth-7 {box-shadow: $shadow-depth-7 !important;}
+.shadow-depth-8 {box-shadow: $shadow-depth-8 !important;}
+
+
+// Flex Order
+
+.flex-order-1 {order: 1;}
+.flex-order-2 {order: 2;}
+.flex-order-3 {order: 3;}
+.flex-order-4 {order: 4;}
+.flex-order-5 {order: 5;}
+.flex-order-6 {order: 6;}
+.flex-order-7 {order: 7;}
+.flex-order-8 {order: 8;}
+
+@media (max-width: 767px) {
+  .flex-order-mobile-1 {order: 1 !important;}
+  .flex-order-mobile-2 {order: 2 !important;}
+  .flex-order-mobile-3 {order: 3 !important;}
+  .flex-order-mobile-4 {order: 4 !important;}
+  .flex-order-mobile-5 {order: 5 !important;}
+  .flex-order-mobile-6 {order: 6 !important;}
+  .flex-order-mobile-7 {order: 7 !important;}
+  .flex-order-mobile-8 {order: 8 !important;}
+}
+
+
+// css columns
+
+.column-count-6 {column-count: 6;}
+
+.column-gap-0 {column-gap: 0;}
+
+.cursor-pointer {cursor: pointer;}
+
+
+// Modal & Alert Animations
+
+@keyframes animate-bounce {
+  0% {
+    transform: scale(0.7);
+  }
+  80% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animate-slidein-top {
+  0% {
+    transform: translateY(-.5rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes animate-slidein-right {
+  0% {
+    transform: translateX(1rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes animate-slidein-left {
+  0% {
+    transform: translateX(-1rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+// Aspect Ratio
+
+.aspect-ratio {
+  position: relative;
+  display: block !important;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  background-color: $gray-300;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+  }
+
+  & > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.aspect-ratio-1by1::before {
+  padding-bottom: 100%;
+}
+
+.aspect-ratio-4by3::before {
+  padding-bottom: 75%;
+}
+
+.aspect-ratio-16by9::before {
+  padding-bottom: 56.25%;
+}
+
+.aspect-ratio-2by1::before {
+  padding-bottom: 50%;
+}
+
+.aspect-ratio-3by1::before {
+  padding-bottom: 33.3333%;
+}
+
+
+// gradient overlay
+
+.gradient-overlay::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 40%,rgba(0,0,0,0.5) 75%,rgba(0,0,0,0.65) 100%);
+  pointer-events: none;
+}
+
+
+// wrapper for not found text and inline buttons
+
+.not-found-message {
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+
+  p {
+    padding: 3px 0;
+  }
+  p,
+  button {
+    display: inline-flex;
+    margin-bottom: 0;
+  }
+}
+
+
+// add padding to the error message when pages don't load
+
+nav + div:not(.screen) {
+  padding: 1rem;
+}
+
+
+// hide disabled buttons when disabled
+
+.disabled-hidden {
+
+  .disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+}
+
+.hide {
+  pointer-events: auto;
+}
+
+.hide:not(.fade) {
+  pointer-events: none;
+}
+
+
+// height resets
+
+.h-x-md-auto {
+
+  @media (max-width: 767px) {
+    height: auto !important;
+  }
+}
+
+
+// Triniti Specific Styles
+
+// Gallery Grid Container
+
+.gallery-grid-container,
+.image-grid-container {
+  min-height: 286px;
+  padding: .5rem 0;
+
+  @media (min-width: 360px) {
+    padding: 1rem .5rem;
+  }
+  @media (min-width: 480px) {
+    padding: 1rem;
+  }
+}
+
+
+// fix bootstrap 5 container breakpoint order
+
+@media (min-width: 1200px) {
+  .container-xl {
+    max-width: 1140px; } }
+
+@media (min-width: 1025px) {
+  .container-lg {
+    max-width: 960px; } }
+
+@media (min-width: 768px) {
+  .container-md {
+    max-width: 720px; } }
+
+@media (min-width: 576px) {
+  .container-sm {
+    max-width: 540px; } }

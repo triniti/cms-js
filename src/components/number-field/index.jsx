@@ -1,56 +1,44 @@
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { FormGroup, FormText, InputNumber, Label } from '@triniti/admin-ui-plugin/components';
+import classNames from 'classnames';
+import { Badge, FormText, InputGroup, InputGroupText, Label } from 'reactstrap';
+import { Icon, useField, useFormContext } from 'components/index';
 
-const NumberField = ({
-  className,
-  disabled,
-  hasBorder,
-  input,
-  label,
-  meta: { touched, error, warning },
-  ...rest
-}) => (
-  <FormGroup className={classNames(className, { 'has-border': hasBorder })}>
-    {
-      label
-      && <Label for={input.name}>{label}</Label>
-    }
-    <InputNumber
-      disabled={disabled}
-      id={input.name}
-      style={!disabled} /* hides arrows. see "With inline styles disabled" here: http://vlad-ignatov.github.io/react-numeric-input/ */
-      {...input}
-      {...rest}
-    />
-    {
-      warning
-      && <FormText key="warning" color="warning" className="ml-1">{warning}</FormText>
-    }
-    {
-      touched && error
-      && <FormText key="error" color="danger" className="ml-1">{error}</FormText>
-    }
-  </FormGroup>
-);
+export default function NumberField(props) {
+  const { groupClassName = '', name, label, description, validator, pbjName, required, ...rest } = props;
+  const formContext = useFormContext();
+  const { editMode } = formContext;
+  const { input, meta } = useField({ ...props, withPbjParse: true }, formContext);
 
-NumberField.propTypes = {
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  input: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  meta: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  readOnly: PropTypes.bool,
-  hasBorder: PropTypes.bool,
-};
+  const rootClassName = classNames(
+    groupClassName,
+    'form-group',
+  );
 
-NumberField.defaultProps = {
-  className: '',
-  disabled: false,
-  label: '',
-  readOnly: false,
-  hasBorder: false,
-};
+  const className = classNames(
+    'form-control',
+    meta.touched && !meta.valid && 'is-invalid',
+    meta.touched && meta.valid && 'is-valid',
+  );
 
-export default NumberField;
+  return (
+    <div className={rootClassName} id={`form-group-${pbjName || name}`}>
+      {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
+      <InputGroup>
+        <InputGroupText className="px-2 text-black-50">
+          <Icon imgSrc="number-sign" size="sd" />
+        </InputGroupText>
+        <input
+          id={name}
+          name={name}
+          className={className}
+          readOnly={!editMode}
+          type="number"
+          {...input}
+          {...rest}
+        />
+      </InputGroup>
+      {description && <FormText color="dark">{description}</FormText>}
+      {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
+    </div>
+  );
+}

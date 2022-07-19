@@ -1,0 +1,17 @@
+// pagination
+
+.page-link {
+
+  &:hover {
+    color: $body-color;
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.pager {
+  .card + & {
+    margin-top: -.75rem;
+  }
+}

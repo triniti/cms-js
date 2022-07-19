@@ -1,7 +1,8 @@
 const { resolve } = require('path');
 
-const env = process.env.BABEL_ENV || 'cjs';
-const root = resolve(`${__dirname}/../`);
+const env = process.env.BABEL_ENV || 'browser';
+const root = resolve(__dirname, '');
+
 const presets = [
   '@babel/preset-react',
 ];
@@ -10,37 +11,56 @@ const plugins = [
   [
     'babel-plugin-module-resolver',
     {
-      root: [`${root}demo/src`],
+      root: [`${root}/../src`],
       alias: {
-        '@triniti/cms': `${root}/src`,
-        '@triniti/admin-ui-plugin': `${root}/node_modules/@triniti/admin-ui-plugin`,
-        config: `${root}/demo/src/config`,
-        assets: `${root}/demo/src/assets`,
+        //'@some/path/Example': `${root}/src/path/Example`,
+        '@triniti/cms': `${root}/../src`,
+        '@app': `${root}/src`,
+        '@assets': `${root}/src/assets`,
+        '@config': `${root}/src/config`,
       },
     },
   ],
-  // [
-  //   'babel-plugin-transform-builtin-extend',
-  //   {
-  //     globals: ['Error']
-  //   }
-  // ],
-  '@babel/plugin-syntax-dynamic-import',
-  '@babel/plugin-transform-async-to-generator',
-  '@babel/plugin-proposal-class-properties',
   [
-    '@babel/plugin-proposal-decorators',
+    'babel-plugin-transform-builtin-extend',
     {
-      legacy: true,
+      globals: ['Error'],
     },
   ],
+  [
+    '@babel/plugin-proposal-class-properties',
+    {
+      loose: false,
+    },
+  ],
+  '@babel/plugin-proposal-export-default-from',
   '@babel/plugin-proposal-object-rest-spread',
+  '@babel/plugin-syntax-dynamic-import',
+  '@babel/plugin-transform-async-to-generator',
   '@babel/plugin-transform-regenerator',
   '@babel/plugin-transform-runtime',
 ];
 
 switch (env) {
+  case 'cjs':
+  case 'test':
+    presets.push([
+      '@babel/preset-env',
+      {
+        targets: {
+          node: 'current',
+        },
+        modules: 'commonjs',
+        useBuiltIns: 'usage',
+        corejs: 3,
+      },
+    ]);
+
+    plugins.push('@babel/plugin-transform-modules-commonjs');
+    break;
+
   case 'browser':
+  default:
     presets.push([
       '@babel/preset-env',
       {
@@ -49,33 +69,16 @@ switch (env) {
             'last 2 versions',
           ],
         },
-        exclude: [
-          'babel-plugin-transform-classes',
-          '@babel/plugin-transform-classes',
-        ],
-        modules: false,
-        corejs: '3.0.0',
-      },
-    ]);
-
-    break;
-
-  case 'test':
-  case 'cjs':
-    presets.push([
-      '@babel/preset-env',
-      {
-        targets: {
-          node: 'current',
-        },
         modules: false,
         useBuiltIns: 'usage',
-        corejs: '3.0.0',
+        corejs: 3,
       },
     ]);
-    break;
 
-  default:
+    if (process.env.NODE_ENV !== 'production') {
+      plugins.push('react-hot-loader/babel');
+    }
+
     break;
 }
 

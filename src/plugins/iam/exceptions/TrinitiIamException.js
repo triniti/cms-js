@@ -1,4 +1,4 @@
-import Exception from '@gdbots/common/Exception';
+import Exception from '@gdbots/pbj/Exception';
 
 export default class TrinitiIamException extends Exception {
 }

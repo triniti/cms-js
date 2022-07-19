@@ -1,23 +1,54 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import { Provider } from 'react-redux';
-import App from '@triniti/admin-ui-plugin/components/app';
-import getUserConfirmation from '@triniti/admin-ui-plugin/utils/getUserConfirmation';
-import ProtectedRoute from '../../src/plugins/iam/components/protected-route';
-import Nav from './Nav';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ErrorBoundary, Loading, Navbar } from '@triniti/cms/components';
+import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser';
+import loadUser from '@triniti/cms/plugins/iam/actions/loadUser';
+import AppRoutes from './config/Routes';
 
-const Root = ({ store, routes, baseUrl }) => (
-  <Provider store={store}>
-    <BrowserRouter basename={baseUrl} getUserConfirmation={getUserConfirmation}>
-      <App
-        authHoc={ProtectedRoute}
-        navComponent={<Nav store={store} />}
-        routes={routes}
-      />
-    </BrowserRouter>
-  </Provider>
-);
+const LoggedIn = () => {
+  const user = useSelector(getUser);
+  if (!user) {
+    return <Loading />;
+  }
 
-export default hot(module)(Root);
+  return (
+    <div id="wrapper">
+      <Navbar />
+      <Suspense fallback={<Loading />}>
+        <ErrorBoundary>
+          <AppRoutes />
+        </ErrorBoundary>
+      </Suspense>
+    </div>
+  );
+}
+
+const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen'));
+const LoggedOut = () => <Routes><Route path="*" element={<Login />} /></Routes>;
+
+function Root() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(isAuthenticated);
+
+  // fixme: cleanup the login/user fetch/raven/etc. process
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(loadUser());
+    }
+  }, [isLoggedIn]);
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <BrowserRouter>
+        {isLoggedIn ? <LoggedIn /> : <LoggedOut />}
+      </BrowserRouter>
+    </Suspense>
+  );
+}
+
+//export default hot(module)(Root);
+// fixme: the hmr broke react router or whatever
+export default Root;

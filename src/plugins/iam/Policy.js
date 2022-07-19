@@ -1,4 +1,4 @@
-import InvalidArgumentException from '@triniti/app/exceptions/InvalidArgumentException';
+import InvalidArgumentException from 'exceptions/InvalidArgumentException';
 
 const wildcard = '*';
 const delimiter = ':';
@@ -22,7 +22,7 @@ const delimiter = ':';
  *
  * @param {string} action
  *
- * @returns {Array}
+ * @returns {string[]}
  */
 const getRules = (action) => {
   const rules = [];
@@ -61,7 +61,7 @@ export default class Policy {
   }
 
   /**
-   * @param {RoleId|string} id
+   * @param {Identifier|string} id
    *
    * @returns {boolean}
    */

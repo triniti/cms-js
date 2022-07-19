@@ -1,0 +1,277 @@
+// .modal-open      - body class for killing the scroll
+// .modal           - container to scroll within
+// .modal-dialog    - positioning shell for the actual modal
+// .modal-content   - actual modal w/ bg and corners and stuff
+
+
+// smooth scrolling on mobile
+.modal-open .modal.show {
+  -webkit-overflow-scrolling: touch;
+  -webkit-backface-visibility: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -ms-overflow-style: none;
+}
+
+
+// Shell div to position the modal with bottom padding
+.modal-dialog {
+  margin-left: auto;
+  margin-right: auto;
+
+  .modal.fade & {
+    transform: none;
+  }
+  .modal.show & {
+    transform: none;
+    animation: animate-slidein-top 0.3s;
+  }
+  .show.animate-center & {
+    animation: animate-bounce 0.3s;
+  }
+  .show.animate-left & {
+    animation: animate-slidein-left 0.3s;
+  }
+  .show.animate-right & {
+    animation: animate-slidein-right 0.3s;
+  }
+  .modal-align-right & {
+    margin-right: $modal-dialog-margin;
+  }
+  .modal-align-left & {
+    margin-left: $modal-dialog-margin;
+  }
+  .modal-dialog-centered.modal-align-bottom & {
+    align-items: flex-end;
+  }
+  @media (min-width: 576px) {
+    margin: 1.125rem auto .875rem auto;
+  }
+}
+
+
+// Actual modal
+.modal-content {
+  border: none;
+  @include border-radius($modal-content-border-radius);
+  box-shadow: $shadow-depth-6;
+
+  & > div:last-child {
+    border-radius: 0 0 $modal-content-border-radius $modal-content-border-radius;
+  }
+}
+
+
+// Modal header
+// Top section of the modal w/ title and dismiss
+.modal-header {
+  background-color: $gray-100;
+  border-radius: $modal-content-border-radius $modal-content-border-radius 0 0;
+  padding-right: 3rem;
+
+  .btn-close {
+    float: none;
+    padding: 1rem;
+    margin: 1px 0 0 0;
+  }
+}
+
+.modal-title {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.modal-headline {
+  font-size: 1.675rem;
+  font-weight: 500;
+  letter-spacing: .008em;
+}
+
+
+// Modal body
+// Where all modal content resides (sibling of .modal-header and .modal-footer)
+.modal-body {
+  padding: 1.5rem;
+
+  & > p:last-child {
+    margin-bottom: .5rem;
+  }
+  .sticky-top {
+    background-color: $white;
+
+    body.theme-dark & {
+      background-color: var(--modal-bg);
+    }
+  }
+  .pager {
+    padding: .75rem 1rem 1.25rem 1rem;
+
+    @media (min-width: 768px) {
+      padding: .75rem 1rem 1.25rem 1.25rem;
+    }
+  }
+}
+
+.modal-scrollable {
+  max-height: calc(100vh - 160px); // subtract modal-header modal-footer
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-backface-visibility: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -ms-overflow-style: none;
+
+  .modal-fullscreen & {
+    max-height: none;
+  }
+  .modal-body {
+    min-height: 240px;
+  }
+}
+
+.modal-scrollable--tabs {
+  height: calc(100vh - 155px); // subtract modal-header modal-footer and search field
+  max-height: none;
+
+  .nav-underline + .tab-content & {
+    height: calc(100vh - 210px); // subtract modal-header modal-footer and search field
+    max-height: none;
+  }
+}
+
+.modal-footer {
+
+  @media(max-width: 575px) {
+    padding: .5rem !important;
+  }
+  & > .btn {
+    margin-top: 0; // bootstrap adds .25 margins to > * in modal-footer
+  }
+}
+
+
+// Max-width of modal sizes
+.modal-dialog {
+  @media (max-width: 767px) {
+    max-width: calc(100% - 1rem) !important;
+  }
+}
+
+.modal-xs {
+  max-width: 240px;
+}
+
+.modal-sm {
+  max-width: $modal-sm;
+}
+
+.modal-sd {
+  @media (min-width: 480px) {
+    max-width: $modal-sd;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-lg {
+    width: calc(100% - 1rem);
+    max-width: $modal-lg;
+  }
+  .modal-xl {
+    width: calc(100% - 1rem);
+    max-width: $modal-xl;
+  }
+  .modal-xxl {
+    width: calc(100% - 1rem);
+    max-width: $modal-xxl;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-lg {
+    width: calc(100% - 2rem);
+    max-width: $modal-lg;
+  }
+  .modal-xl {
+    width: calc(100% - 2rem);
+    max-width: $modal-xl;
+  }
+  .modal-xxl {
+    width: calc(100% - 2rem);
+    max-width: $modal-xxl;
+  }
+}
+
+.modal-fullscreen {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.modal-loading {
+  max-width: 60px;
+
+  & .modal-content {
+    background: rgba($navbar-theme-dark,.25);
+  }
+}
+
+
+// text style to match sweet alert body text
+.icon-modal {
+  margin-bottom: 1.75rem;
+}
+
+.text-modal {
+  font-size: 1.192em;
+  color: $dark;
+}
+
+.modal-actions {
+  margin: 1.5rem auto 0;
+}
+
+.btn-modal {
+  font-size: 1.125em;
+  box-shadow: $shadow-depth-3;
+  border-radius: 0.25em;
+  margin-right: .65rem;
+}
+
+
+// modal spinner
+
+.modal-spinner {
+  position: relative;
+  width: 60px !important;
+  height: 60px !important;
+  -webkit-transform: translate(-30px, -30px) scale(1) translate(30px, 30px);
+  transform: translate(-30px, -30px) scale(1) translate(30px, 30px);
+  flex-grow: 0 !important;
+}
+
+.modal-spinner > div:first-child,
+.modal-spinner > div:first-child:after {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid $gray-700;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+.modal-spinner > div:first-child {
+  animation: $spinner-transition;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  padding: 0;
+}
+
+.modal-spinner > div:first-child:after {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}

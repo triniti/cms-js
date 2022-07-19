@@ -1,0 +1,95 @@
+// Avatar
+//
+// Styles for avatar using initials.  Could be made into a component.
+
+.avatar-initials {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-right: .675rem;
+  font-size: .825rem;
+  font-weight: 600;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10rem;
+  letter-spacing: 0;
+  background-color: $gray-200;
+  color: $body-color;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px $gray-rgba-100;
+
+  &:first-child {
+    @media (max-width: 767px) {
+      margin-left: .675rem;
+    }
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+  td & {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: .5625rem;
+    margin-left: .375rem;
+    margin-right: 0;
+  }
+}
+
+.avatar-initials-xs {
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: .5625rem;
+}
+
+.avatar-initials-sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: .6875rem;
+}
+
+.avatar-initials-lg {
+  width: 3.75rem;
+  height: 3.75rem;
+  font-size: 1rem;
+}
+
+
+// chat collaborators
+
+.screen-primary-actions-collaborators {
+  display: flex;
+}
+
+.screen-primary-actions-collaborators:not(:empty) {
+
+  .screen-primary-actions-body & {
+    text-align: center;
+    margin-bottom: 1.75rem;
+
+    @media (max-width: 767px) {
+      color: $white;
+
+      &::before {
+        content: 'Current Editors';
+      }
+    }
+    @media (min-width: 768px) {
+      margin-right: 2rem;
+      margin-bottom: 0;
+      text-align: right;
+    }
+    @media (min-width: 1024px) {
+      margin-right: 3rem;
+    }
+  }
+  td & {
+    float: right;
+    margin: -2px 0 0 .75rem;
+  }
+}
+
+.screen-primary-actions-collaborators:empty {
+  display: none;
+}

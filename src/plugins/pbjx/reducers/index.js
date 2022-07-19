@@ -1,57 +1,24 @@
-import createReducer from '@triniti/app/createReducer';
-import { actionTypes as pbjxActionTypes } from '@triniti/cms/plugins/pbjx/constants';
-import { STATUS_NONE } from '@triniti/app/constants';
+import createReducer from 'utils/createReducer';
+import { actionTypes } from 'plugins/pbjx/constants';
 
-/**
- * This reducer currently only establishes the "pbjx"
- * part of the state tree with an empty object.
- *
- * Most of the real reducing is done in the ../pbjx/reducer.js
- * file which uses the observable pbjx root reducer.
- */
 export const initialState = {};
 
-const onChannelCleared = (prevState = {}, action) => {
+const onRequestCleared = (prevState = {}, action) => {
   const state = { ...prevState };
-  const { channel } = action;
-
-  if (channel) {
-    delete state[channel];
-  }
-
-  return state;
-};
-
-const onResponseCleared = (prevState = {}, action) => {
   const { channel, curie } = action;
-  const slot = (channel && curie && prevState[channel]) ? prevState[channel][`${curie}`] : null;
-  if (!slot || !slot.response) {
-    return prevState;
-  }
-  const state = { ...prevState };
-  state[channel] = { ...state[channel] };
-  state[channel][`${curie}`] = {
-    ...state[channel][`${curie}`],
-    response: null,
-    status: STATUS_NONE,
-  };
-
+  delete state[`${curie}${channel}`];
   return state;
 };
 
-const onUpdateResponseNode = (prevState = {}, { node, channel, curie }) => {
+const onRequestPersisted = (prevState = {}, action) => {
   const state = { ...prevState };
-  const curieStr = `${curie}`;
-  const newResponse = state[channel][curieStr].response.clone();
-
-  newResponse.set('node', node);
-  state[channel][curieStr].response = newResponse;
-
+  const { channel, pbj } = action;
+  const curie = pbj.schema().getCurie().toString();
+  state[`${curie}${channel}`] = pbj.toObject();
   return state;
 };
 
 export default createReducer(initialState, {
-  [pbjxActionTypes.CHANNEL_CLEARED]: onChannelCleared,
-  [pbjxActionTypes.RESPONSE_CLEARED]: onResponseCleared,
-  [pbjxActionTypes.UPDATE_RESPONSE_NODE]: onUpdateResponseNode,
+  [actionTypes.REQUEST_CLEARED]: onRequestCleared,
+  [actionTypes.REQUEST_PERSISTED]: onRequestPersisted,
 });

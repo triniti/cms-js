@@ -1,0 +1,21 @@
+// Breadcrumb
+
+.breadcrumb {
+  margin-right: .5rem;
+  text-transform: capitalize;
+  transition: margin $transition;
+}
+
+// Breadcrumb Item
+
+.breadcrumb-item {
+  color: $breadcrumb-active-color;
+
+  & a {
+    color: $breadcrumb-active-color;
+  }
+  &:hover,
+  & a:hover {
+    color: darken($breadcrumb-active-color, 15%);
+  }
+}

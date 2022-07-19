@@ -1,0 +1,40 @@
+// Border used in Layout Example to show borders on the columns
+
+:root {
+  --demo-border-color: #efeff1; // $gray-400
+  --demo-bg-color: #f2f2f4; // $gray-300
+}
+
+body.theme-dark {
+  --demo-border-color: #242d3c;
+  --demo-bg-color: #293143;
+}
+
+.ui-cols .row > [class^='col'] > *,
+.ui-cols .row:not([class*="gx-"]) > [class^='col'] {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  border: 1px solid var(--demo-border-color);
+  background-color: var(--demo-bg-color);
+}
+
+.ui-cols .row:not(.gx-0):not([class*="gx-"]) {
+  margin-bottom: 1rem;
+}
+
+.ui-cols .row[class*="gx-"] > [class^='col'] .form-group {
+  padding: .75rem;
+  border: 1px solid var(--demo-border-color);
+  background-color: var(--demo-bg-color);
+}
+
+.ui-cols .gx-0 .col,
+.ui-cols .gx-0 .col-auto {
+  padding: 0;
+  border: 1px solid var(--demo-border-color);
+  background-color: var(--demo-bg-color);
+}
+
+.ui-cols .gx-0 .form-group {
+  padding: .75rem;
+}

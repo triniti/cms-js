@@ -61,11 +61,5 @@ GOOGLE_MAPS_API_KEY=blahblahblahblahblahblah
 ## example `schemas.js` file:
 
 ```
-import schemas from '@acme/schemas';
-import SearchArticlesRequestV1 from '@acme/schemas/acme/news/request/SearchArticlesRequestV1';
-import VideoV1 from '@acme/schemas/acme/ovp/node/VideoV1';
-
-export default schemas;
-export const SearchArticlesRequest = SearchArticlesRequestV1;
-export const Video = VideoV1;
+export default from '@acme/schemas';
 ```

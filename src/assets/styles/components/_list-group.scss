@@ -1,0 +1,316 @@
+// list-group
+
+// Custom Classes
+
+.list-group-item {
+
+  &.active,
+  &:active {
+    color: $body-color;
+    z-index: 0;
+  }
+  &.disabled,
+  &:disabled {
+    color: $text-disabled;
+  }
+  &:hover,
+  &:focus {
+    z-index: 0;
+  }
+  .screen-sidebar .list-group:not(.list-group-chat):not(.list-group-nav) & {
+    padding: 0.675rem 1rem;
+    border-color: $gray-500;
+  }
+}
+
+.list-group-item-text {
+  opacity: .8;
+
+  .list-group-item-heading + & {
+    width: 100%;
+  }
+}
+
+
+// list-group-nav styles
+
+.list-group-nav {
+  flex-shrink: 0;
+
+  .list-group-item {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    > a,
+    > .btn {
+      position: static;
+      display: block;
+      font-size: .9rem;
+      color: $gray-900;
+      font-weight: 400;
+      line-height: 1;
+      padding: 1rem 1.25rem;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background-color: $gray-100;
+        box-shadow: inset 3px 0 0 $gray-700;
+      }
+    }
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      margin-left: 1.25rem;
+      width: calc(100% - 1.25rem);
+      content: '';
+      border-top: 1px solid $gray-300;
+
+      .screen-sidenav & {
+        margin-left: 3.375rem;
+        width: calc(100% - 3.375rem);
+      }
+    }
+    &:last-child::before {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: block;
+      margin-left: 1.25rem;
+      width: calc(100% - 1.25rem);
+      content: '';
+      border-bottom: 1px solid $gray-300;
+
+      .screen-sidenav & {
+        margin-left: 3.375rem;
+        width: calc(100% - 3.375rem);
+      }
+    }
+  }
+  .list-group-item-action.active {
+    color: $body-color;
+    background-color: $gray-300;
+    box-shadow: inset 3px 0 0 $primary;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-300;
+      box-shadow: inset 3px 0 0 $primary;
+    }
+    body.theme-dark & {
+      color: var(--body-color);
+      background-color: transparent;
+    }
+  }
+  .list-group-collapse {
+    border-top: 1px solid $gray-500;
+    padding-left: 0;
+    background-color: $gray-200;
+    transition: height $transition;
+
+    .list-group-item a:hover,
+    .list-group-item a:focus {
+      background-color: $gray-500;
+    }
+  }
+}
+
+
+// Borderless
+//
+// Remove top and bottom borders and border-radius to keep list group items edge-to-edge.
+
+.list-group-borderless {
+  .list-group-item {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .list-group-item::before,
+  .list-group-item::after {
+    border: none !important;
+  }
+}
+
+
+// For Roles Page
+
+.list-group-item-roles {
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  margin: 0;
+  min-height: $header-height;
+  padding-right: .75rem;
+  padding-left: 1.5rem;
+  border-bottom: 1px solid $gray-400;
+
+  &:last-child {
+    border-bottom: none;
+  }
+  & .list-group-item-text {
+    margin-bottom: 0;
+    align-self: center;
+  }
+}
+
+
+// Style for list-group-chat
+
+.list-group-chat {
+  flex-direction: column-reverse;
+
+  & .list-group-item {
+    border-radius: 6px !important;
+    margin-bottom: .5rem !important;
+    background-color: $white;
+    border-bottom-left-radius: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0 !important;
+  }
+  & .list-group-chat-item-me {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 6px !important;
+    background-color: $gray-400;
+    border-color: $gray-400;
+  }
+  & .list-group-item::before {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent $gray-700 transparent transparent;
+    content: '';
+    position: absolute;
+    left: -8px;
+    bottom: -1px;
+    border-width: 8px 8px 0 0;
+  }
+  & .list-group-item::after {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent $white transparent transparent;
+    content: '';
+    position: absolute;
+    left: -6px;
+    bottom: 0;
+    border-width: 8px 8px 0 0;
+  }
+  & .list-group-chat-item-me::before {
+    border-color: transparent transparent transparent $gray-400;
+    left: auto;
+    right: -8px;
+    border-width: 8px 0 0 8px;
+  }
+  & .list-group-chat-item-me::after {
+    display: none;
+  }
+  & .list-group-item-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & small {
+      font-size: .625rem;
+    }
+  }
+}
+
+
+// Styles for list-group-history
+
+.list-group-history {
+  position: relative;
+
+  .list-group-item {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .list-group-item::before,
+  .list-group-item::after {
+    border: none;
+  }
+
+  &::before {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    left: 0;
+    margin-left: -3px;
+    display: block;
+    width: 3px;
+    content: '';
+    border-radius: 3px;
+    background-color: $gray-400;
+  }
+
+  & .list-group-item {
+    padding-top: 0;
+  }
+
+  & > .list-group-item::after {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '';
+    width: .875rem;
+    height: .875rem;
+    margin-left: -9px;
+    border-radius: $round;
+    background: $white;
+    border: 3px solid $gray-400;
+  }
+}
+
+
+// horizontal action
+
+.list-group-horizontal {
+  flex-wrap: wrap;
+  font-size: .9em;
+
+  .list-group-item {
+    margin-bottom: .5rem;
+    padding: .375rem .75rem;
+  }
+  .list-group-item-action {
+    width: auto;
+  }
+}
+
+
+// collection theme
+
+.list-group-collection {
+  align-items: flex-start;
+
+  .list-group-item {
+    border: none;
+    border-radius: 10rem !important;
+    margin: 0 0 .5rem 0 !important;
+    padding: .375rem .5rem;
+    line-height: 1;
+    font-size: .75em;
+    background-color: $gray-400;
+    transition: background-color $transition;
+
+    &:hover {
+      background-color: $gray-200;
+    }
+  }
+  &.list-group-horizontal {
+    margin: 0 -.25rem;
+
+    .list-group-item {
+      margin: 0 .25rem .5rem .25rem !important;
+    }
+  }
+  .list-group-item-action {
+    width: auto;
+  }
+}

@@ -1,61 +1,12 @@
-import { FormGroup, Label } from '@triniti/admin-ui-plugin/components';
-import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
-import PropTypes from 'prop-types';
 import React from 'react';
-import constants from './constants';
-import Menu from './Menu';
-import Option from './Option';
-import schemas from './schemas';
-import SortableList from './SortableList';
+import SearchGalleriesSort from '@triniti/schemas/triniti/curator/enums/SearchGalleriesSort';
+import withRequest from 'plugins/pbjx/components/with-request';
+import NodePickerField from 'plugins/ncr/components/node-picker-field';
 
-const GalleryPickerField = (props) => {
-  const { disabled, fields, isEditMode, isMulti, label } = props;
-  return (
-    <>
-      {!!fields.length && (
-        <SortableList
-          fields={fields}
-          isMulti={isMulti}
-          readOnly={!isEditMode || disabled}
-        />
-      )}
-      {isEditMode && (
-        <FormGroup>
-          <Label>{label || `search and select ${isMulti ? 'galleries' : 'a gallery'}`}</Label>
-          <NodePickerField
-            {...props}
-            className="mb-4"
-            constants={constants}
-            isClearable={false}
-            isDisabled={!isEditMode}
-            schemas={schemas}
-            selectComponents={{
-              Menu,
-              MultiValue: () => null,
-              Option,
-              SingleValue: () => null,
-            }}
-            shouldClearInputOnSelect={false}
-          />
-        </FormGroup>
-      )}
-    </>
-  );
-};
-
-GalleryPickerField.propTypes = {
-  disabled: PropTypes.bool,
-  fields: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  isEditMode: PropTypes.bool,
-  isMulti: PropTypes.bool,
-  label: PropTypes.string,
-};
-
-GalleryPickerField.defaultProps = {
-  disabled: false,
-  isEditMode: true,
-  isMulti: true,
-  label: null,
-};
-
-export default GalleryPickerField;
+export default withRequest(NodePickerField, 'triniti:curator:request:search-galleries-request', {
+  channel: 'picker',
+  initialData: {
+    sort: SearchGalleriesSort.ORDER_DATE_DESC.getValue(),
+    autocomplete: true,
+  }
+});

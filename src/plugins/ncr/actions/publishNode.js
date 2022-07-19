@@ -1,15 +1,11 @@
-import { actionTypes } from '../constants';
+import MessageResolver from '@gdbots/pbj/MessageResolver';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
-/**
- * Create a PUBLISH NODE REQUESTED action
- *
- * @param {Message} command - the pbjx command
- * @param {Object} config - the configuration for publishNodeFlow saga
- *
- * @returns {{pbj: {Message}, config: {Object} }}
- */
-export default (command, config) => ({
-  type: actionTypes.PUBLISH_NODE_REQUESTED,
-  pbj: command,
-  config,
-});
+export default (nodeRef, publishAt = null) => async (dispatch, getState, app) => {
+  const PublishNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:publish-node:v1');
+  const pbjx = app.getPbjx();
+  const command = PublishNodeV1.create()
+    .set('node_ref', NodeRef.fromString(`${nodeRef}`))
+    .set('publish_at', publishAt);
+  await pbjx.send(command);
+};

@@ -1,4 +1,4 @@
 export default [
   { label: 'home', value: 'home' },
-  { label: 'sports', value: 'sports' },
+  { label: 'home-features', value: 'home-features' },
 ];

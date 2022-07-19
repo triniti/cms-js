@@ -1,5 +1,5 @@
-import Policy from '../Policy';
+import Policy from 'plugins/iam/Policy';
 
-export default ({ iam }) => (
-  iam.auth.policy || new Policy()
-);
+const emptyPolicy = new Policy;
+
+export default ({ iam }) => iam.policy || emptyPolicy;

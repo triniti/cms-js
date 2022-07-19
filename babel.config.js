@@ -1,48 +1,46 @@
 const { resolve } = require('path');
 
-const env = process.env.BABEL_ENV || 'test';
-const root = resolve(__dirname);
+const env = process.env.BABEL_ENV || 'browser';
+const root = resolve(__dirname, '');
 
 const presets = [
   '@babel/preset-react',
 ];
 
-const plugins = [];
-
-if (env !== 'build') {
-  plugins.push([
+const plugins = [
+  [
     'babel-plugin-module-resolver',
     {
-      root: ['./src'],
+      root: [`${root}/src`],
       alias: {
+        //'@some/path/Example': `${root}/src/path/Example`,
         '@triniti/cms': `${root}/src`,
       },
     },
-  ]);
-  plugins.push('react-hot-loader/babel');
-}
-
-[
-  '@babel/plugin-syntax-dynamic-import',
-  '@babel/plugin-transform-async-to-generator',
+  ],
+  [
+    'babel-plugin-transform-builtin-extend',
+    {
+      globals: ['Error'],
+    },
+  ],
   [
     '@babel/plugin-proposal-class-properties',
     {
       loose: false,
     },
   ],
+  '@babel/plugin-proposal-export-default-from',
   '@babel/plugin-proposal-object-rest-spread',
-  [
-    '@babel/plugin-transform-runtime',
-    {
-      regenerator: true,
-    },
-  ],
-].forEach((plugin) => plugins.push(plugin));
+  '@babel/plugin-syntax-dynamic-import',
+  '@babel/plugin-transform-async-to-generator',
+  '@babel/plugin-transform-regenerator',
+  '@babel/plugin-transform-runtime',
+];
 
 switch (env) {
-  case 'test':
   case 'cjs':
+  case 'test':
     presets.push([
       '@babel/preset-env',
       {
@@ -54,15 +52,19 @@ switch (env) {
         corejs: 3,
       },
     ]);
+
+    plugins.push('@babel/plugin-transform-modules-commonjs');
     break;
 
-  case 'build':
-  case 'es6':
+  case 'browser':
+  default:
     presets.push([
       '@babel/preset-env',
       {
         targets: {
-          node: 'current',
+          browsers: [
+            'last 2 versions',
+          ],
         },
         modules: false,
         useBuiltIns: 'usage',
@@ -70,11 +72,10 @@ switch (env) {
       },
     ]);
 
-    plugins.push('lodash');
-    plugins.push('./use-lodash-es');
-    break;
+    if (process.env.NODE_ENV !== 'production') {
+      plugins.push('react-hot-loader/babel');
+    }
 
-  default:
     break;
 }
 

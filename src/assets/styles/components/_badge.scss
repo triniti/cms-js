@@ -1,0 +1,185 @@
+// Badge
+
+.badge {
+  display: inline-flex;
+  background-color: $secondary; // default color
+  vertical-align: middle;
+  line-height: 1.125;
+  letter-spacing: .001em;
+  justify-content: center;
+
+  .card-header span &,
+  .form-group label &,
+  [id^="form-group-"] label & {
+    margin-top: -1px;
+    margin-left: .125rem;
+    text-transform: uppercase;
+    font-size: 8.85px;
+    font-weight: 500;
+  }
+  .form-group label &,
+  [id^="form-group-"] label & {
+    margin-top: -2px;
+  }
+  &[class^="status-"],
+  &[class*=" status-"] {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .sortable-field & {
+    text-transform: uppercase;
+    font-size: 8.85px;
+    font-weight: 500;
+  }
+}
+
+.badge.bg-light {
+  background-color: $gray-500 !important;
+  text-shadow: none;
+  font-weight: 500;
+  color: $body-color;
+
+  label &,
+  .sortable-field & {
+    color: #757575;
+  }
+}
+
+.badge-alert,
+.btn .badge-alert {
+  position: absolute;
+  top: -5px;
+  right: -6px;
+  border-radius: $round;
+}
+
+@media (max-width: 1024px) {
+  .btn-nav .badge-alert {
+    top: -2px;
+    right: -7px;
+  }
+}
+
+.nav-link .badge-alert {
+  font-size: .625rem;
+  top: 1px;
+  right: 1px;
+}
+
+.list-group-item .badge {
+  font-size: .95em;
+}
+
+.list-group-item .badge-alert {
+  position: relative;
+  left: .25rem;
+  top: -.5rem;
+  right: auto;
+  font-size: .75em;
+}
+
+
+// tiny indicator used with avatar-initials
+
+.badge-indicator {
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: .5rem;
+    height: .5rem;
+    border-radius: 1rem;
+    background-color: $warning;
+  }
+  &.avatar-initials-xs::after {
+    top: -1px;
+    right: -1px;
+    width: .375rem;
+    height: .375rem;
+  }
+  &.avatar-initials-sm::after {
+    top: -1px;
+    right: -1px;
+
+    td & {
+      width: .375rem;
+      height: .375rem;
+    }
+  }
+  &.avatar-initials-lg::after {
+    top: 3px;
+    right: 3px;
+    width: .75rem;
+    height: .75rem;
+  }
+}
+
+
+// Screen Header Pagination
+
+.badge.badge-pagination {
+  padding-right: 0.875em;
+  padding-left: 0.75em;
+  font-size: 12px;
+  font-weight: $font-weight-normal;
+  letter-spacing: -.01em;
+  color: $gray-rgba-700;
+  background-color: $gray-200;
+  text-transform: none;
+}
+
+
+// animated text inside badge
+
+.screen-primary-actions-body {
+
+  .badge {
+    position: absolute;
+    top: 100%;
+    right: 2rem;
+    margin-top: 1.375rem;
+    margin-bottom: 0;
+
+    @media (max-width: 767px) {
+      right: 50%;
+      transform: translateX(50%);
+      background-color: $gray-rgba-600;
+    }
+  }
+}
+
+@keyframes badge-animation {
+  0% { background-position-x: 100% }
+  100% { background-position-x: 0 }
+}
+
+.badge-animated {
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: .1rem .375rem;
+  position: relative;
+  line-height: 1;
+  font-size: 12px;
+  letter-spacing: .01em;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-position-x: 0;
+  background-position-y: 0;
+  background-size: 250% 100%;
+  animation-name: badge-animation;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  background-image: linear-gradient(90deg, $dark, $gray-600, $gray-600, $dark, $dark, $gray-600, $gray-600, $dark);
+
+  .screen-primary-actions-body & {
+
+    @media (max-width: 767px) {
+      background-image: linear-gradient(90deg, $dark, $text-muted, $text-muted, $dark, $dark, $text-muted, $text-muted, $dark);
+    }
+  }
+}

@@ -1,0 +1,61 @@
+// toast themes
+
+@each $color, $value in $theme-colors {
+  .toast--#{$color} {
+    background-color: $value;
+    border: none;
+
+    .toast-header {
+      color: $white;
+      background-color: $gray-rgba-200;
+
+      body.theme-dark & {
+        background-color: $white-rgba-200;
+      }
+      strong {
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2)
+      }
+    }
+    .toast-body {
+      color: $white;
+    }
+  }
+}
+
+.toast-header {
+  padding: 0.25rem .5rem .25rem 0.75rem;
+
+  .btn-close {
+    position: relative;
+    margin-top: -11px;
+    margin-left: .5rem;
+    background: none;
+    opacity: .5;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+
+    .toast--info &,
+    .toast--success &,
+    .toast--warning &,
+    .toast--danger & {
+      color: $white;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    &::before {
+      content: "×";
+      font-weight: 700;
+      font-size: 1.2375rem;
+    }
+    &:hover,
+    &:focus {
+      opacity: .75;
+    }
+    body.theme-dark & {
+      color: $white;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.toast:not(:last-child) {
+  margin-bottom: 0.75rem;
+}

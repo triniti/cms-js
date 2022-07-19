@@ -1,22 +1,20 @@
 import { ACCESS_TOKEN_STORAGE_KEY } from '@gdbots/pbjx/constants';
-import isJwtExpired from '../../../src/plugins/iam/utils/isJwtExpired';
-import authUser from '../../../src/plugins/iam/utils/authUser';
-import authRoles from '../../../src/plugins/iam/utils/authRoles';
-import Policy from '../../../src/plugins/iam/Policy';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
+import { THEME_STORAGE_KEY } from '@triniti/cms/constants';
 
-let accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
-const isAuthenticated = !isJwtExpired(accessToken);
-const user = isAuthenticated ? authUser.get() : null;
-const policy = new Policy(authRoles.get());
-accessToken = isAuthenticated ? accessToken : null;
+export default () => {
+  const preloadedState = CLIENT_PRELOADED_STATE || {};
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
+  const isAuthenticated = !isJwtExpired(accessToken);
 
-export default {
-  iam: {
-    auth: {
-      isAuthenticated,
-      user,
-      accessToken,
-      policy,
-    },
-  },
+  preloadedState.app = {
+    theme: localStorage.getItem(THEME_STORAGE_KEY),
+  };
+
+  preloadedState.iam = {
+    accessToken: isAuthenticated ? accessToken : null,
+    isAuthenticated,
+  };
+
+  return preloadedState;
 };

@@ -1,16 +1,9 @@
-import { actionTypes } from '../constants';
+import MessageResolver from '@gdbots/pbj/MessageResolver';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
-
-/**
- * Create a MARK NODE AS PENDING REQUESTED action
- *
- * @param {Message} command - the pbjx command
- * @param {Object} config - the configuration for markNodeAsPendingFlow saga
- *
- * @returns {{type: {String}, pbj: {Message}, config: {Object} }}
- */
-export default (command, config) => ({
-  type: actionTypes.MARK_NODE_AS_PENDING_REQUESTED,
-  pbj: command,
-  config,
-});
+export default (nodeRef) => async (dispatch, getState, app) => {
+  const MarkNodeAsPendingV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:mark-node-as-pending:v1');
+  const pbjx = app.getPbjx();
+  const command = MarkNodeAsPendingV1.create().set('node_ref', NodeRef.fromString(`${nodeRef}`));
+  await pbjx.send(command);
+};

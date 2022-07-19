@@ -1,0 +1,96 @@
+/*!
+ * Bootstrap v5.1.3 (https://getbootstrap.com/)
+ * Copyright 2011-2021 The Bootstrap Authors
+ * Copyright 2011-2021 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Configuration
+@import "~bootstrap/scss/functions";
+@import "variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+
+// Layout & components
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers"; // new
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/accordion";  // new
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/toasts";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/popover";
+@import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/offcanvas"; // new
+@import "~bootstrap/scss/placeholders"; // new
+
+// Helpers
+@import "~bootstrap/scss/helpers"; // new
+
+// Utilities
+@import "~bootstrap/scss/utilities/api";
+
+// base
+//@import "base/mixins";
+@import "base/master";
+@import "base/avatar";
+@import "base/print";
+
+// components
+@import "components/alert";
+@import "components/backdrop";
+@import "components/backdrop-image";
+@import "components/badge";
+@import "components/breadcrumb";
+@import "components/button";
+@import "components/card";
+@import "components/carousel";
+@import "components/dropdown";
+@import "components/forms";
+@import "components/icon";
+@import "components/list-group";
+@import "components/loading";
+@import "components/media";
+@import "components/modal";
+@import "components/nav";
+@import "components/navbar";
+@import "components/navbar-brand"; // triniti not eme
+@import "components/pagination";
+@import "components/popover";
+@import "components/primary-actions";
+@import "components/progress";
+@import "components/react-datepicker";
+@import "components/react-select";
+@import "components/screen";
+@import "components/scrollable-container";
+@import "components/sidebar"; // triniti not eme
+@import "components/slider";
+@import "components/sortable-field";
+@import "components/spinner";
+@import "components/status";
+@import "components/sweetalert";
+@import "components/switch-field";
+@import "components/table";
+@import "components/toasts";
+
+@import "base/theme-dark";

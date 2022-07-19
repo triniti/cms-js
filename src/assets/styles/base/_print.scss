@@ -1,0 +1,53 @@
+@media print {
+  html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+  #wrapper {
+    height: auto !important;
+  }
+
+  .screen-main {
+    width: 100% !important;
+  }
+
+  .navbar-main-wrapper,
+  .screen-primary-actions,
+  .screen-navtabs,
+  .screen-sidenav,
+  .screen-sidebar,
+  .alert-wrapper {
+    display: none !important;
+  }
+
+  .screen-body-content {
+    padding: 0 !important;
+  }
+
+  .screen-body {
+    overflow: visible !important;
+  }
+
+  .icon {
+    color: $body-color !important;  // white icon on colored backgrounds disappear
+  }
+
+  #viewPortSize {
+    display: none !important;
+  }
+}

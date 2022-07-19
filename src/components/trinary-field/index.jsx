@@ -1,44 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { FormGroup, Label, TrinaryControl } from '@triniti/admin-ui-plugin/components';
+import SelectField from 'components/select-field';
 
-const TrinaryField = ({
-  input, label, trueText, falseText, disabled, hasBorder, readOnly, unsetText,
-}) => (
-  <FormGroup className={classNames({ 'has-border': hasBorder })}>
-    <Label>{label}</Label>
-    <TrinaryControl
-      {...input}
-      name={input.name}
-      width="120px"
-      unsetText={unsetText}
-      trueText={trueText}
-      falseText={falseText}
-      value={input.value || 0}
-      disabled={disabled || readOnly}
-    />
-  </FormGroup>
-);
+const options = new Map;
 
-TrinaryField.propTypes = {
-  disabled: PropTypes.bool,
-  falseText: PropTypes.string,
-  hasBorder: PropTypes.bool,
-  input: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  label: PropTypes.string.isRequired,
-  readOnly: PropTypes.bool,
-  trueText: PropTypes.string,
-  unsetText: PropTypes.string,
-};
+export default function TrinaryField(props) {
+  const { unknownLabel = 'UNKNOWN', trueLabel = 'TRUE', falseLabel = 'FALSE', ...rest } = props;
+  const key = `o${unknownLabel}${trueLabel}${falseLabel}`;
 
-TrinaryField.defaultProps = {
-  disabled: false,
-  falseText: 'False',
-  hasBorder: false,
-  readOnly: false,
-  trueText: 'True',
-  unsetText: 'Any',
-};
+  if (!options.has(key)) {
+    options.set(key, [
+      { value: 0, label: unknownLabel },
+      { value: 1, label: trueLabel },
+      { value: 2, label: falseLabel },
+    ]);
+  }
 
-export default TrinaryField;
+  return <SelectField {...rest} isClearable={false} options={options.get(key)} />;
+}

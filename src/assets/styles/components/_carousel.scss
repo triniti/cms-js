@@ -1,0 +1,40 @@
+// Carousel
+
+.carousel-item {
+  .aspect-ratio {
+    margin-bottom: 0;
+  }
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  cursor: pointer;
+}
+
+.carousel-control-prev-icon {
+  margin-right: auto;
+  margin-left: 1rem;
+}
+
+.carousel-control-next-icon {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 60% 60%;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 2px black);
+
+  .carousel-control-next:hover > & ,
+  .carousel-control-prev:hover > & {
+    background-color: $gray-rgba-600;
+  }
+}
+
+.carousel-indicators [data-bs-target] {
+  font-size: 0;
+}

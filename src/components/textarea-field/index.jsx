@@ -1,44 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { FormGroup, FormText, Input, Label } from '@triniti/admin-ui-plugin/components';
+import classNames from 'classnames';
+import { Badge, FormText, Label } from 'reactstrap';
+import { useField, useFormContext } from 'components/index';
 
-const TextareaField = ({
-  input, label, meta: { touched, error, warning }, readOnly, hasBorder, rows, ...rest
-}) => {
-  const readOnlyField = readOnly ? 'readonly' : null;
-  const borderClass = hasBorder ? 'has-border' : null;
+export default function TextareaField(props) {
+  const { groupClassName = '', name, label, description, parse, validator, pbjName, required, ...rest } = props;
+  const formContext = useFormContext();
+  const { editMode } = formContext;
+  const { input, meta } = useField({ ...props }, formContext);
+
+  const rootClassName = classNames(
+    groupClassName,
+    'form-group',
+  );
+
+  const className = classNames(
+    'form-control',
+    meta.touched && !meta.valid && 'is-invalid',
+    meta.touched && meta.valid && 'is-valid',
+  );
 
   return (
-    <FormGroup className={borderClass}>
-      {label && <Label for={input.name}>{label}</Label>}
-      <Input id={input.name} valid={touched && !error} invalid={touched && !!error} {...input} {...rest} type="textarea" rows={rows} readOnly={readOnlyField} disabled={readOnly} />
-      {
-        warning
-        && (
-          <FormText color={!input.value ? 'info' : 'warning'} className="ml-1">
-            {warning}
-          </FormText>
-        )
-      }
-      {touched && error && <FormText color="danger" className="ml-1">{error}</FormText>}
-    </FormGroup>
+    <div className={rootClassName} id={`form-group-${pbjName || name}`}>
+      {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
+      <textarea
+        id={name}
+        name={name}
+        className={className}
+        readOnly={!editMode}
+        required={required}
+        {...input}
+        {...rest}
+      />
+      {description && <FormText color="dark">{description}</FormText>}
+      {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
+    </div>
   );
-};
-
-TextareaField.propTypes = {
-  input: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  meta: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  readOnly: PropTypes.bool,
-  hasBorder: PropTypes.bool,
-  rows: PropTypes.number,
-};
-
-TextareaField.defaultProps = {
-  label: '',
-  readOnly: false,
-  hasBorder: false,
-  rows: 5,
-};
-
-export default TextareaField;
+}

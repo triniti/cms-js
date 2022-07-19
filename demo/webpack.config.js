@@ -1,12 +1,12 @@
 const dotenv = require('dotenv');
-const webpack = require('webpack');
 const { resolve } = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 /**
- * This block of code grabs the .env variables and overwrites them
- * with any environment variables set.
+ * @link https://webpack.js.org/configuration/
  *
- * @param {Object} webpackEnv
+ * @param {Object} env
  *
  * @return {Object}
  */
@@ -29,71 +29,103 @@ const compileEnvVars = (webpackEnv) => Object.entries(process.env).reduce((acc, 
 module.exports = (webpackEnv = {}) => {
   const env = compileEnvVars(webpackEnv);
   return {
-    context: `${__dirname}/src`,
     entry: {
-      javascript: './index.jsx',
-      html: './index.html',
-    },
-    output: {
-      filename: '[name].js',
-      chunkFilename: 'chunks/[name].js',
-      path: `${resolve(__dirname, 'dist')}${env.ASSET_PATH}`,
-      publicPath: env.ASSET_PATH,
-    },
-    resolve: {
-      extensions: ['*', '.js', '.jsx', '.json'],
-    },
-    devServer: {
-      port: 3000,
-      https: true,
-      hot: true,
-      // contentBase: resolve(__dirname, 'public'),
-      watchOptions: {
-        ignored: /\/node_modules\/.*/,
-      },
+      //'webpack-dev-server/client?https://localhost:3000',
+      //'webpack/hot/only-dev-server',
+      main: './main.jsx'
     },
     mode: 'development',
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-cheap-module-source-map',
+    devServer: {
+      allowedHosts: 'all',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+      },
+      historyApiFallback: true,
+      https: true,
+      port: 3000,
+    },
+    stats: 'normal',
+    output: {
+      path: `${resolve(__dirname, 'dist')}${env.ASSET_PATH}`,
+      publicPath: '/',
+      filename: '[name].js',
+      chunkFilename: 'chunks/[name].js',
+      pathinfo: false,
+    },
+    context: resolve(__dirname, 'src'),
+    resolve: {
+      alias: {},
+      extensions: ['*', '.js', '.jsx', '.json'],
+      fallback: {
+        buffer: require.resolve('buffer/'),
+        crypto: require.resolve('crypto-browserify'),
+        fs: false,
+        stream: require.resolve('stream-browserify'),
+        util: require.resolve('util/'),
+      }
+    },
+    externals: {},
     module: {
+      exprContextCritical: false,
+      noParse: [
+        /\.md$/,
+      ],
       rules: [
         {
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          loaders: ['babel-loader'],
-        },
-        {
-          test: /\.svg$/,
+          test: /workers\/(hello|raven)\.js$/,
           use: [
-            'raw-loader',
+            {
+              loader: 'worker-loader',
+              options: {
+                //inline: 'no-fallback',
+              },
+            },
+            {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: true,
+              }
+            },
           ],
         },
         {
-          test: /\.html$/,
-          loaders: ['file-loader?name=[name].[ext]'],
+          test: /\.jsx?$/,
+          include: [
+            resolve(__dirname, 'src'),
+            resolve(__dirname, '../src'),
+            /node_modules\/(@gdbots|@triniti)/,
+          ],
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          }
+        },
+        {
+          test: /\.(eot|gif|jpg|jpeg|png|ttf|woff|woff2)$/,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.svg$/,
+          type: 'asset/source',
         },
         {
           test: /\.css$/,
-          loader: [
-            'style-loader',
-            'css-loader',
+          use: [
             {
-              loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: resolve(__dirname, 'postcss.config.js'),
-                },
-              },
+              loader: MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
             },
           ],
         },
         {
           test: /\.scss$/,
-          resolve: {
-            extensions: ['.scss', '.sass'],
-          },
           use: [
             {
-              loader: 'style-loader',
+              loader: MiniCssExtractPlugin.loader,
             },
             {
               loader: 'css-loader',
@@ -103,11 +135,6 @@ module.exports = (webpackEnv = {}) => {
             },
             {
               loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: resolve(__dirname, 'postcss.config.js'),
-                },
-              },
             },
             {
               loader: 'sass-loader',
@@ -123,12 +150,23 @@ module.exports = (webpackEnv = {}) => {
       ],
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: 'chunks/[id].css',
+      }),
+
       new webpack.DefinePlugin(Object.entries(env).reduce((acc, pair) => {
         const [key, value] = pair;
         acc[key] = JSON.stringify(value);
         return acc;
       }, {})),
+
+      new webpack.ProvidePlugin({
+        process: resolve(__dirname, '../src') + '/hacks/process/browser.js',
+        Buffer: ['buffer', 'Buffer'],
+      }),
+
       new webpack.HotModuleReplacementPlugin(),
-    ],
+    ]
   };
 };
