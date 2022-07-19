@@ -1,6 +1,6 @@
 demo/.env
 demo/.env.dist
-demo/schemas.js
+demo/src/schemas.js
 
 # Package Files #
 ############
