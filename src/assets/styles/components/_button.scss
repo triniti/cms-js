@@ -1,0 +1,790 @@
+// Button
+
+//
+// Base styles
+//
+
+$button-gradient: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, 0)) repeat-x;  // transparent gradient overlay on button
+$button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0)) repeat-x;
+
+.btn {
+  z-index: 1; // required for gradient hover transition
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  min-height: 40px;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out, color 0.1s ease-in-out;
+
+  @media (pointer: fine) { // add gradient hover transition
+    &::before {
+      content: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+      background: transparent;
+      z-index: -1;
+    }
+    .btn-group &:not(:first-child):not(:last-child)::before,
+    .btn-group-vertical &:not(:first-child):not(:last-child)::before {
+      border-radius: 0;
+    }
+    .btn-group &:first-child::before {
+      border-radius: 2px 0 0 2px;
+    }
+    .btn-group &:last-child::before {
+      border-radius: 0 2px 2px 0;
+    }
+    .btn-group-vertical &:first-child::before {
+      border-radius: 2px 2px 0 0;
+    }
+    .btn-group-vertical &:last-child::before {
+      border-radius: 0 0 2px 2px;
+    }
+  }
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
+  &:last-child,
+  &.d-block {
+    margin-right: 0;
+  }
+  .checkbox-input-button & {
+    text-transform: none;
+  }
+  .checkbox-input:checked + .checkbox-input-button & {
+    color: $white !important;
+    background: $secondary;
+    border-color: darken($secondary, 5%);
+  }
+  form &:not(:focus):hover,
+  .form-group &:not(:focus):hover,
+  [id^="form-group-"] &:not(:focus):hover,
+  .input-group &:not(:focus):hover {
+    box-shadow: $hover-shadow;
+  }
+  .dropright > & {
+    margin-right: 0; // remove margin when dropdown menu aligns to the right of a dropdown
+  }
+  .input-group & {
+    margin: 0;
+    min-height: 100%;
+  }
+  .input-group-prepend &,
+  .input-group-append & {
+    z-index: 1; // what-it-does: fix for dropdown menu showing under
+  }
+  .dropdown-menu &.btn-action {
+    margin-bottom: .5rem;
+    margin-left: 0 !important;
+    box-shadow: none;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    color: $white;
+    border-color: darken($value, 9%);
+    border-bottom-color: darken($value, 13%);
+
+    &:hover,
+    &:focus:not(:hover),
+    &.focus:not(:hover),
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
+      color: $white;
+      background-color: darken($value, 6%);
+      border-color: darken($value, 14%);
+      border-bottom-color: darken($value, 18%);
+
+      body.theme-dark & {
+        color: $white;
+        background-color: darken($value, 6%);
+        border-color: darken($value, 14%);
+        border-bottom-color: darken($value, 18%);
+      }
+    }
+    &.disabled,
+    &:disabled {
+      color: $white;
+    }
+    &::before {
+      content: "";
+      background: $button-gradient;
+
+      body.theme-dark & {
+        background: $button-gradient-dark;
+      }
+    }
+  }
+  .btn-outline-#{$color} {
+    color: $body-color;
+    background-color: $gray-300;
+    border: $input-btn-border-width solid $gray-700;
+
+    body.theme-dark & {
+      border-color: var(--button-border-color);
+      background-color: var(--button-bg);
+    }
+    .modal-footer-buttons &:not(:hover):not(:active):not(.active):not(:disabled) {
+      background-color: $white;
+
+      body.theme-dark & {
+        background-color: var(--modal-bg);
+      }
+    }
+    &:hover,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
+      color: $white;
+      background-color: darken($value, 6%);
+      border-color: darken($value, 14%);
+      border-bottom-color: darken($value, 18%);
+
+      body.theme-dark & {
+        color: $white;
+        background-color: darken($value, 6%);
+        border-color: darken($value, 14%);
+        border-bottom-color: darken($value, 18%);
+      }
+    }
+    &.disabled,
+    &:disabled {
+      color: $body-color;
+      background-color: $gray-300;
+
+      body.theme-dark & {
+        border-color: var(--button-border-color);
+        background-color: var(--button-bg);
+      }
+    }
+    &::before {
+      content: "";
+      background: $button-gradient;
+
+      body.theme-dark & {
+        background: $button-gradient-dark;
+      }
+    }
+  }
+}
+
+
+// btn-light, btn-outline-light overrides
+
+.btn-light {
+  background-color: $white;
+
+  &.disabled,
+  &:disabled {
+    background-color: $white;
+  }
+  body.theme-dark & {
+    color: var(--body-color);
+    border-color: var(--button-border-color);
+    background-color: var(--button-bg);
+
+    &::before {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)) repeat-x;
+    }
+    &.btn-sm::before {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)) repeat-x;
+    }
+  }
+}
+
+.btn-outline-light {
+  background-color: $gray-300;
+}
+
+.btn-light,
+.btn-outline-light {
+  color: $body-color;
+  border-color: $gray-700;
+
+  body.theme-dark & {
+    color: var(--body-color);
+    border-color: var(--button-border-color);
+    background-color: var(--button-bg);
+  }
+  .input-group & {
+    body.theme-dark & {
+      border-color: var(--form-control-border-color);
+    }
+  }
+  &:focus,
+  &:focus:not(:hover),
+  &.focus:not(:hover),
+  &:not(:disabled):not(.disabled):active:focus,
+  &:not(:disabled):not(.disabled).active:focus,
+  .show > &.dropdown-toggle:focus {
+    color: $body-color;
+    background-color: $gray-300;
+    box-shadow: 0 0 0 3px rgba(212, 212, 212, 0.5);
+
+    body.theme-dark & {
+      color: $white;
+      background-color: var(--button-bg);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, .15);
+    }
+  }
+  &:hover,
+  &:focus:hover {
+    color: $body-color;
+    background-color: darken($gray-400, 2.25%);
+    border-color: darken($gray-700, 4%);
+    border-bottom-color: darken($gray-700, 8%);
+
+    body.theme-dark & {
+      color: $white;
+      background-color: var(--button-bg);
+      border-color: var(--button-border-color-hover);
+    }
+  }
+  &.disabled,
+  &:disabled {
+    color: $body-color !important;
+    background-color: $gray-200 !important;
+    border-color: $gray-700;
+
+    body.theme-dark & {
+      color: var(--body-color) !important;
+      background-color: var(--button-bg) !important;
+      border-color: var(--button-border-color);
+    }
+  }
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle  {
+    color: $body-color !important;
+    background-color: darken($gray-400, 2%) !important;
+
+    body.theme-dark & {
+      color: $white !important;
+      background-color: var(--button-bg) !important;
+    }
+  }
+}
+
+.btn-light {
+
+  &.disabled,
+  &:disabled {
+    background-color: $white;
+
+    body.theme-dark & {
+      background-color: var(--button-bg);
+    }
+  }
+}
+
+.show > .btn-light.dropdown-toggle {
+  color: $body-color;
+  background-color: $white;
+  border-color: $gray-700;
+
+  body.theme-dark & {
+    color: var(--body-color);
+    background-color: var(--button-bg);
+    border-color: var(--button-border-color);
+  }
+  &:hover,
+  &:focus:hover {
+    background-color: $gray-400;
+    border-color: $gray-700;
+
+    body.theme-dark & {
+      background-color: var(--button-bg);
+      border-color: var(--button-border-color-hover);
+    }
+  }
+  &:focus {
+    background-color: $white;
+    border-color: $gray-700;
+
+    body.theme-dark & {
+      background-color: var(--button-bg);
+      border-color: var(--button-border-color-hover);
+    }
+  }
+}
+
+.btn.disabled,
+.btn.disabled:hover,
+.btn:disabled,
+.btn:disabled:hover {
+  cursor: not-allowed;
+  box-shadow: $shadow-depth-0;
+  pointer-events: none;
+}
+
+
+// instances to remove margin bottom
+
+.card-header .btn,
+.screen-header-container .btn,
+.sidenav-header .btn,
+.modal-header .btn,
+.modal-footer .btn,
+.btn-group .btn,
+.btn-toolbar .btn,
+.input-group-btn .btn,
+.btn-group-vertical .btn {
+  margin-bottom: 0;
+}
+
+.btn-group,
+.btn-group-vertical {
+  vertical-align: top;
+
+  > .btn {
+    margin-right: 0;
+  }
+}
+
+.btn-group > .btn,
+.btn-group-vertical > .btn {
+
+  &:focus,
+  &:active,
+  &.active {
+    z-index: 2;
+  }
+}
+
+.btn-group--icons {
+  margin-right: .5rem;
+
+  .btn {
+    margin: 0;
+    padding: .5rem .75rem;
+  }
+  .dropdown {
+    align-items: center;
+
+    > .btn-hover {
+      padding: .5rem;
+      max-height: 40px;
+    }
+  }
+}
+
+
+// btn-toggler style
+
+.btn-toggler {
+  padding-left: 1.75rem;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: $shadow-depth-0;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    margin-top: -.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    content: '';
+    transition: transform $transition;
+    opacity: .5;
+    background: transparent url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='17' height='17' viewBox='0 0 17 17'%3e%3cpath d='M13.207 8.472l-7.854 7.854-.707-.707 7.146-7.146-7.146-7.148.707-.707 7.854 7.854z' fill='%23000000'/%3e%3c/svg%3e") center center / auto 14px no-repeat;
+    transform: rotate(90deg);
+  }
+  &.active::before {
+    transform: rotate(-90deg);
+  }
+  &:hover::after,
+  &:hover::before {
+    opacity: 1;
+  }
+  &:hover,
+  &.active {
+    color: $body-color;
+    border-color: transparent;
+    background-color: transparent;
+    text-shadow: none;
+  }
+  .card-header & {
+    font-size: 1rem;
+    font-weight: 500;
+    color: inherit;
+  }
+}
+
+
+// btn-hover style
+
+.btn-hover {
+  opacity: .625;
+  box-shadow: none !important;
+
+  &:hover,
+  &.active {
+    opacity: 1;
+  }
+  .td-icons & {
+    margin-right: .25rem;
+    padding: 0;
+    width: 2.125rem;
+    height: 2.125rem;
+  }
+  tr.bg-selected & {
+    color: $white;
+  }
+}
+
+
+// btn-hover-bg style
+
+.btn-hover-bg,
+.btn-icon-hover-bg {
+  opacity: .625;
+
+  &:hover,
+  &.active {
+    opacity: 1;
+    background-color: rgba(#000, .05); // #f2f2f4 $gray-300
+  }
+  .form-group &,
+  [id^="form-group-"] & {
+    box-shadow: none !important;
+  }
+}
+
+
+// Footer Buttons
+//
+// Most often useed with small modals and asides so that the buttons touch the edges
+
+.modal-footer-buttons {
+  padding: 0;
+  justify-content: space-between;
+
+  .btn {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: inset -1px 0 0 0 $gray-500;
+    flex: 1;
+
+    &:last-child {
+      box-shadow: none;
+    }
+  }
+}
+
+.footer-button.border-0 {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.modal-dialog:not(.modal-sm) .modal-footer-buttons .btn {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.modal-footer-buttons .btn:first-child {
+  margin-left: 0;
+  border-bottom-left-radius: $modal-content-border-radius - 1px;
+}
+
+.modal-footer-buttons .btn:last-child {
+  border-bottom-right-radius: $modal-content-border-radius - 1px;
+}
+
+// modal-footer fixes
+.modal-footer.modal-footer-buttons {
+  padding: 0;
+}
+
+.modal-footer.modal-footer-buttons .btn {
+  margin: 0;
+}
+
+.btn-tab,
+.btn-table {
+  padding-right: .75rem; // $table-cell-padding
+  padding-left: .75rem; // $table-cell-padding
+}
+
+
+//
+// Button Sizes
+//
+
+.btn-xxs,
+.btn-xs,
+.btn-sm {
+  font-weight: 400;
+}
+
+.btn-xxs {
+  min-height: 16px;
+}
+
+.btn-xs {
+  min-height: 22px;
+}
+
+.btn-sm {
+  min-height: 28px;
+  line-height: 1.45;
+}
+
+.btn-lg {
+  min-height: 54px;
+  line-height: 1.8;
+  font-weight: $btn-font-weight;
+}
+
+.btn-xl {
+  font-size: 1.25rem;
+  font-weight: $btn-font-weight;
+  padding: 1.25rem 3rem;
+  min-height: 78px;
+  line-height: 1.8;
+}
+
+
+//
+// radius parameter: round, square, circle
+//
+
+.rounded-pill {
+
+  &.btn::before {
+    border-radius: 50rem !important;
+  }
+  &.btn {
+    border-radius: $round;
+    padding-left: $input-btn-padding-x + .25rem;
+    padding-right: $input-btn-padding-x + .25rem;
+  }
+  &.btn-sm {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+  .checkbox-input-button &.btn {
+    padding-left: 1rem;
+    padding-right: .75rem;
+  }
+  .checkbox-input-button &.btn-sm {
+    padding-left: .675rem;
+    padding-right: .5rem;
+  }
+  .checkbox-input-button &.btn-lg {
+    padding-left: 1.125rem;
+    padding-right: 1.125rem;
+  }
+}
+
+.rounded-circle {
+
+  &.btn::before {
+    border-radius: 50% !important;
+  }
+  &.btn {
+    width: $button-round-height;
+    height: $button-round-height;
+    min-height: 1rem;
+    padding: 0;
+    letter-spacing: 0;
+    border-radius: $round;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  &.btn-xxs {
+    width: $button-round-height-xxs;
+    height: $button-round-height-xxs;
+  }
+  &.btn-xs {
+    width: $button-round-height-xs;
+    height: $button-round-height-xs;
+  }
+  &.btn-sm {
+    width: $button-round-height-sm;
+    height: $button-round-height-sm;
+  }
+  &.btn-md {
+    width: $button-round-height-md;
+    height: $button-round-height-md;
+  }
+  &.btn-lg {
+    width: $button-round-height-lg;
+    height: $button-round-height-lg;
+  }
+  &.btn-xl {
+    width: $button-round-height-xl;
+    height: $button-round-height-xl;
+  }
+}
+
+.rounded-0 {
+
+  &.btn::before {
+    border-radius: 0 !important;
+  }
+}
+
+
+// Close Button
+
+.btn-close {
+  position: absolute;
+  top: .25rem;
+  right: .25rem;
+  min-height: 0;
+
+  .alert &,
+  body.theme-dark .alert & {
+    background: none;
+
+    &:before {
+      content: '×';
+      font-size: 24px;
+      font-weight: 600;
+      line-height: .5;
+      color: $white;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+  }
+  .alert-inverse & {
+
+    &:before,
+    body.theme-dark &:before {
+      color: $body-color;
+      text-shadow: none;
+    }
+    &.alert-link,
+    body.theme-dark &.alert-link { // add to btn-close for theme colored buttons
+      text-decoration: none !important;
+
+      &:before,
+      &:hover,
+      &:focus {
+        color: inherit;
+      }
+    }
+  }
+}
+
+
+// Rounded Button
+
+.btn.rounded {
+  overflow: hidden;
+  border-radius: 6px !important;
+}
+
+
+// zoom theme
+
+.btn-zoom {
+  overflow: hidden;
+  padding: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color .15s ease;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 2rem;
+  }
+  &:hover {
+    &::after {
+      background-color: $gray-rgba-800;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3e%3cpath fill='%23fff' d='M17.411 16.018l5.577 5.742a1 1 0 1 1-1.435 1.393l-5.662-5.83A9.457 9.457 0 0 1 10.5 19 9.5 9.5 0 0 1 1 9.5 9.5 9.5 0 0 1 10.5 0a9.5 9.5 0 0 1 6.911 16.018zM18 9.5a7.5 7.5 0 1 0-15 0 7.5 7.5 0 0 0 15 0zm-8.5-1V6a1 1 0 1 1 2 0v2.5H14a1 1 0 0 1 0 2h-2.5V13a1 1 0 0 1-2 0v-2.5H7a1 1 0 0 1 0-2h2.5z'/%3e%3c/svg%3e");
+    }
+  }
+}
+
+
+// Additional properties for button version
+// iOS requires the button element instead of an anchor tag.
+// If you want the anchor version, it requires `href="#"`.
+// See https://developer.mozilla.org/en-US/docs/Web/Events/click#Safari_Mobile
+
+// scss-lint:disable QualifyingElement
+button.close {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+
+
+// circle button for icons
+
+.btn-radius-circle {
+  width: 2.125rem;
+  height: 2.125rem;
+  min-height: 1rem;
+  padding: 0;
+  letter-spacing: 0;
+  border-radius: 10rem;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+
+// blocksmith button styles
+
+.btn-blocksmith {
+  margin: .25rem;
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 1rem;
+  width: 100px;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 3px;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    border-color: $info;
+  }
+  > div {
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  > span:last-child {
+    display: block;
+    min-height: 34px;
+    white-space: normal;
+    word-wrap: normal;
+    text-align: center;
+    line-height: 1.3;
+    margin-top: .375rem;
+    font-size: .75rem;
+  }
+}
+
+.block-buttons-holder .btn:focus {
+  box-shadow: none;
+}

@@ -1,0 +1,145 @@
+// Media
+
+.media {
+  margin-bottom: 1rem;
+
+  .media-body > & {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+  &.aspect-ratio {
+    margin-bottom: 0;
+  }
+}
+
+.media-body {
+
+  p:empty {
+    display: none;
+  }
+}
+
+.media-list {
+  padding: 0;
+}
+
+.media-left {
+  margin-right: .75rem; // $table-cell-padding
+}
+
+.media-right {
+  margin-left: .75rem; // $table-cell-padding
+}
+
+.media-object {
+  border-radius: 0; // $border-radius
+
+  &.rounded {
+    border-radius: 6px !important;
+  }
+  &.rounded-circle {
+    border-radius: 50%;
+  }
+}
+
+
+// Hover Class
+
+.media-hover-shadow {
+  position: relative;
+  display: inline-block;
+  transition: transform $transition;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: '';
+    transition: opacity $transition;
+    opacity: 0;
+    box-shadow: $shadow-depth-6;
+  }
+  &:hover {
+    transform: translate(0, -1px);
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+// Media Hover Outline
+
+.media-hover-outline {
+  position: relative;
+  display: inline-flex;
+
+  &::after {
+    position: absolute;
+    z-index: 1031;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    content: '';
+    pointer-events: none;
+    border: 4px solid $black;
+    opacity: 0;
+    transition: opacity $transition;
+  }
+  &:hover::after {
+    opacity: .0625;
+  }
+  &.rounded-circle::after {
+    border-radius: 50%;
+  }
+}
+
+
+// Media Hover Opacity
+
+.media-hover-opacity {
+  transition: opacity $transition;
+  opacity: 1;
+
+  &:hover {
+    opacity: .4;
+  }
+}
+
+
+// Media Preview
+
+.media-preview {
+  border: 4px solid $white !important;
+  box-shadow: $shadow-depth-2;
+
+  &:hover {
+    border: 4px solid $secondary !important;
+    cursor: pointer;
+  }
+  &.media-preview-selected {
+    border: 4px solid $primary !important;
+  }
+}
+
+.media-preview-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: .25rem .5rem;
+  background-color: $gray-rgba-700;
+  color: $white;
+
+  .media-preview-selected & {
+    background-color: rgba($primary, .97);
+    font-weight: 700;
+  }
+}

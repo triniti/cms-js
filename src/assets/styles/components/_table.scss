@@ -1,0 +1,286 @@
+// Table
+
+
+.table {
+  margin-bottom: .25rem;
+  color: inherit;
+
+  td,
+  th {
+    font-size: .8rem;
+  }
+  thead th {
+    border-bottom: 1px solid rgba(#030305, .08); // .02 darker than $table-border-color
+    border-top: none;
+    white-space: nowrap;
+    font-size: .9em;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    font-weight: 500;
+    color: $body-color-light;
+  }
+  td & {
+    margin-bottom: 0;
+  }
+  .screen-sidebar .card-header + & {
+    margin-top: -1px;
+  }
+  & > :not(:first-child) {
+    border-top: none;
+  }
+  & > :not(caption) > * > * {
+    border-top-width: 1px;
+    border-color: $table-border-color;
+    border-bottom-width: 0;
+  }
+}
+
+.table-hover tr:hover {
+  cursor: pointer;
+}
+
+.table-hover > tbody > tr:hover > * {
+  background-color: $table-hover-bg;
+  --bs-table-accent-bg: transparent;
+  color: inherit;
+}
+
+.table-dark {
+  color: #e3e3e8; // var(--body-color)
+
+  thead th {
+    color: $white; // var(--body-color)
+  }
+}
+
+tr {
+
+  &.bg-selected,
+  .bg-selected & {
+    color: $white !important;
+    background-color: $success !important;
+  }
+}
+
+td {
+
+  &.td-icons {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+  .table-sm &.td-icons {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .table-lg &.td-icons {
+    padding-top: .375rem;
+  }
+}
+
+table tr th,
+table tr td,
+.table tr th,
+.table tr td {
+  vertical-align: middle;
+}
+
+tr[class^="status-"],
+tr[class*=" status-"] {
+
+  th,
+  td {
+    box-shadow: inset 0 1px 0 $gray-rgba-200;
+    border: none !important;
+
+    .table-borderless & {
+      box-shadow: none;
+    }
+  }
+}
+
+tr:first-child th,
+tr:first-child td {
+  box-shadow: none;
+}
+
+.td-icons {
+  white-space: nowrap;
+  width: 52px; // set to width of 1 icon to tighten white-space
+
+  & .btn {
+    margin-bottom: 0;
+  }
+}
+
+.table-sm tr th {
+  &:first-child {
+    padding-left: 1.5rem;
+  }
+}
+
+.table-sm thead th {
+  padding: .625rem .375rem;
+}
+
+.table-striped {
+  --bs-table-accent-bg: $table-hover-bg;
+
+  & > tbody > tr:nth-of-type(odd) > * {
+    background-color: $table-hover-bg;
+    color: inherit;
+  }
+  &.table-hover tbody tr:hover {
+    background-color: rgba(#030305, .04);
+  }
+}
+
+.table .table th:first-child {
+  padding: .25rem .5rem .25rem 0;
+  width: 1%;
+}
+
+.table-fixed {
+  table-layout: fixed;
+}
+
+.table-borderless {
+
+  th,
+  td {
+    border-color: transparent !important;
+    border: none !important;
+  }
+  thead th {
+    border-bottom: 1px solid $gray-500 !important;
+  }
+}
+
+
+// Sticky-top tables
+
+.table.sticky-top {
+  margin-bottom: 0;
+  background-color: $white;
+
+  + .table {
+    margin-top: 0;
+  }
+  th {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: $header-height + 2;
+    border-top: none;
+    line-height: 50px;
+  }
+  .card-body & {
+    margin-top: -1px !important;
+  }
+}
+
+.table-stretch tr td:last-child {
+  white-space: nowrap;
+  width: 1px;
+  text-align: right;
+}
+
+
+// fixed table columns widths
+
+.table-col-sm {
+  width: 3.25rem;  // 52px
+}
+
+.table-col-md {
+  width: 5rem;  // 80px
+}
+
+.table-col-lg {
+  width: 7.5rem;  // 120px
+}
+
+
+// Left padding
+
+tr > th:first-child,
+tr > td:first-child {
+  padding-left: 1rem;
+}
+
+@media (min-width: 768px) {
+  tr > th:first-child,
+  tr > td:first-child {
+    padding-left: 1.5rem;
+  }
+}
+
+
+// sticky thead or set height table with scrollable tbody
+
+.sticky-thead,
+.sticky-tbody {
+  display: block;
+  width: 100%;
+
+  & thead,
+  & tr {
+    display: flex;
+    flex: 1 0 auto;
+    width: 100%;
+  }
+  & thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background-color: $white;
+    overflow: visible;
+    box-shadow: 0 3px 2px -2px $gray-rgba-300;
+
+    & th {
+      border: none;
+    }
+  }
+  & tbody {
+    display: flex;
+    flex: 1 0 100%;
+    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+  }
+  & th,
+  & td {
+    flex: 1 0;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+}
+
+.sticky-tbody {
+  margin-bottom: 0;
+
+  & thead {
+    position: relative;
+    z-index: 0;
+  }
+  & tbody {
+    padding-bottom: 5rem;
+    max-height: 200px; // variable
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3rem;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.625) 50%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+  }
+}

@@ -43,11 +43,12 @@ APP_VERSION=v0.1.0
 APP_BUILD=20190925145136
 APP_DEPLOYMENT_ID=20190925145136
 APP_DEV_BRANCH=master
+CLIENT_PUBLIC_PATH=/
 DAM_BASE_URL=https://dam.dev.acme.com/
 IMAGE_BASE_URL=https://imagez-dev.acme.com/
 VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
 
-AUTH0_API_IDENTIFIER=https://api.dev.acme.com/
+AUTH0_AUDIENCE=https://api.dev.acme.com/
 AUTH0_CLIENT_ID=blahblahblahblahblahblah
 AUTH0_DOMAIN=acme.auth0.com
 
@@ -61,11 +62,5 @@ GOOGLE_MAPS_API_KEY=blahblahblahblahblahblah
 ## example `schemas.js` file:
 
 ```
-import schemas from '@acme/schemas';
-import SearchArticlesRequestV1 from '@acme/schemas/acme/news/request/SearchArticlesRequestV1';
-import VideoV1 from '@acme/schemas/acme/ovp/node/VideoV1';
-
-export default schemas;
-export const SearchArticlesRequest = SearchArticlesRequestV1;
-export const Video = VideoV1;
+export default from '@acme/schemas';
 ```

@@ -1,0 +1,309 @@
+// Status Background Colors
+
+
+.status-status {
+  background-color: $white !important;
+
+  .select__option:hover & {
+    background-color: darken($white, 2%) !important;
+  }
+  .select__option.is-selected & {
+    background-color: darken($white, 2%) !important;
+    box-shadow: inset 2px 0 0 $gray-700;
+  }
+}
+
+tr.status-status,
+.status-status-border {
+  box-shadow: inset 3px 0 0 $gray-700;
+
+  &:hover {
+    background-color: darken($white, 2%) !important;
+  }
+}
+
+.status-archived {
+  background-color: $status-archived !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-archived, 2%) !important;
+    box-shadow: inset 2px 0 0 $purple;
+  }
+  &.badge {
+    background-color: #d9d9fd !important;
+    color: #6c3eb5;
+  }
+}
+
+tr.status-archived,
+.status-archived-border {
+  box-shadow: inset 3px 0 0 $purple;
+
+  &:hover {
+    background-color: darken($status-archived, 2%) !important;
+  }
+}
+
+.status-draft {
+  background-color: $status-draft !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-draft, 2%) !important;
+    box-shadow: inset 2px 0 0 $dark;
+  }
+  &.badge {
+    background-color: #eaeaed !important;
+    color: #7a7a7c;
+  }
+}
+
+tr.status-draft,
+.status-draft-border {
+  box-shadow: inset 3px 0 0 $dark;
+
+  &:hover {
+    background-color: darken($status-draft, 2%) !important;
+  }
+}
+
+.status-deleted {
+  background-color: $status-deleted !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-deleted, 2%) !important;
+    box-shadow: inset 2px 0 0 $warning;
+  }
+  &.badge {
+    background-color: #ffead3 !important;
+    color: #a2621d;
+  }
+}
+
+tr.status-deleted,
+.status-deleted-border {
+  box-shadow: inset 3px 0 0 $warning;
+
+  &:hover {
+    background-color: darken($status-deleted, 2%) !important;
+  }
+}
+
+.status-expired {
+  background-color: $status-expired !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-expired, 2%) !important;
+    box-shadow: inset 2px 0 0 $info;
+  }
+  &.badge {
+    background-color: #d1ecfd !important;
+    color: #3a769b
+  }
+}
+
+tr.status-expired,
+.status-expired-border {
+  box-shadow: inset 3px 0 0 $info;
+
+  &:hover {
+    background-color: darken($status-expired, 2%) !important;
+  }
+}
+
+.status-pending {
+  background-color: $status-pending !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-pending, 1%) !important;
+    box-shadow: inset 2px 0 0 $danger;
+  }
+  &.badge {
+    background-color: #f7dede !important;
+    color: #b13939;
+  }
+}
+
+tr.status-pending,
+.status-pending-border {
+  box-shadow: inset 3px 0 0 $danger;
+
+  &:hover {
+    background-color: darken($status-pending, 1%) !important;
+  }
+}
+
+.status-scheduled {
+  background-color: $status-scheduled !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-scheduled, 3%) !important;
+    box-shadow: inset 2px 0 0 $yellow;
+  }
+  &.badge {
+    background-color: #fff3bd !important;
+    color: #807108;
+  }
+}
+
+tr.status-scheduled,
+.status-scheduled-border {
+  box-shadow: inset 3px 0 0 $yellow;
+
+  &:hover {
+    background-color: darken($status-scheduled, 3%) !important;
+  }
+}
+
+.status-published {
+  background-color: $status-published !important;
+
+  .select__option:hover &,
+  .select__option.is-selected & {
+    background-color: darken($status-published, 3%) !important;
+    box-shadow: inset 2px 0 0 $success;
+    position: relative;
+    z-index: 1;
+  }
+  &.badge {
+    background-color: #d3f4e7 !important;
+    color: #227254;
+  }
+}
+
+tr.status-published,
+.status-published-border {
+  background-color: $white !important;
+  box-shadow: inset 3px 0 0 $success;
+
+  &:hover {
+    background-color: $gray-100 !important;
+  }
+}
+
+.status-copy {
+  position: relative;
+  padding: 2px 6px;
+  border-radius: $border-radius;
+  margin-left: .25rem;
+}
+
+.status-failed {
+  background-color: #ffd1d1 !important;
+
+  &.badge {
+    background-color: #f7dede !important;
+    color: #b13939;
+  }
+}
+
+tr.status-failed {
+  box-shadow: inset 3px 0 0 $red;
+
+  &:hover {
+    background-color: darken(#ffd1d1, 3%) !important;
+  }
+}
+
+.status-sent {
+  background-color: #e1f6f3 !important;
+}
+
+tr.status-sent {
+  background-color: #fff !important;
+  box-shadow: inset 3px 0 0 #04c5a2;
+
+  &:hover {
+    background-color: darken(#e1f6f3, 3%) !important;
+  }
+}
+
+
+// Batch Operation Status
+
+tr.status-none {
+  background-color: $gray-300 !important;
+
+  &:hover {
+    background-color: darken($gray-300, 2%) !important;
+    box-shadow: inset 3px 0 0 $text-disabled;
+  }
+}
+
+tr.status-running {
+  background-color: $status-expired !important;
+  box-shadow: inset 3px 0 0 $info;
+
+  &:hover {
+    background-color: darken($status-expired, 2%) !important;
+  }
+}
+
+tr.status-completed {
+  background-color: transparent !important;
+  box-shadow: inset 3px 0 0 #04c5a2;
+
+  &:hover {
+    background-color: $gray-300  !important;
+  }
+  &.results-fail {
+    background-color: $status-pending !important;
+    box-shadow: inset 3px 0 0 indianred;
+
+    &:hover {
+      background-color: darken($status-pending, 1%)  !important;
+    }
+  }
+}
+
+
+// Status archive buttons
+
+button:not(.disabled):hover,
+button.disabled {
+
+  &.status-archived {
+    background: darken($status-archived, 2%) !important;
+    box-shadow: inset 2px 0 0 $purple;
+  }
+  &.status-deleted {
+    background: darken($status-deleted, 2%) !important;
+    box-shadow: inset 2px 0 0 $warning;
+  }
+  &.status-draft {
+    background: darken($status-draft, 2%) !important;
+    box-shadow: inset 2px 0 0 $dark;
+  }
+  &.status-expired {
+    background: darken($status-expired, 2%) !important;
+    box-shadow: inset 2px 0 0 $info;
+  }
+  &.status-pending {
+    background: darken($status-pending, 1%) !important;
+    box-shadow: inset 2px 0 0 $danger;
+  }
+  &.status-published {
+    background: darken($status-published, 3%) !important;
+    box-shadow: inset 3px 0 0 $success;
+  }
+  &.status-scheduled {
+    background: darken($status-scheduled, 3%) !important;
+    box-shadow: inset 2px 0 0 $yellow;
+  }
+}
+
+button.disabled[class^="status-"],
+button.disabled[class*=" status-"] {
+  color: $body-color;
+}
+
+button[class^="status-"],
+button[class*=" status-"] {
+  padding-top: .625rem;
+  padding-bottom: .625rem;
+}

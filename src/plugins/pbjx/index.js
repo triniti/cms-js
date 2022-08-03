@@ -1,39 +1,29 @@
-/* eslint-disable no-unused-vars, class-methods-use-this */
-import { serviceIds as appServiceIds } from '@triniti/app/constants';
-import { serviceIds as pbjxServiceIds, TRANSPORT_HTTP_ENVELOPE_RECEIVED } from '@gdbots/pbjx/constants';
-import Plugin from '@triniti/app/Plugin';
-import reducer from './reducers';
-import pbjxReducer from './reducers/pbjx';
-import receiveEnvelope from './actions/receiveEnvelope';
-import { serviceIds } from './constants';
-import CtxBinder from './binders/CtxBinder';
+import { TRANSPORT_HTTP_ENVELOPE_RECEIVED } from '@gdbots/pbjx/constants';
+import Plugin from 'Plugin';
+import reducer from 'plugins/pbjx/reducers';
+import saga from 'plugins/pbjx/sagas';
+import receiveEnvelope from 'plugins/pbjx/actions/receiveEnvelope';
+import { serviceIds } from 'plugins/pbjx/constants';
 
 export default class PbjxPlugin extends Plugin {
   constructor() {
-    super('triniti', 'pbjx', '0.6.3');
+    super('triniti', 'pbjx');
   }
 
-  configure(app, bottle) {
-    bottle.service(serviceIds.CTX_BINDER, CtxBinder, appServiceIds.CONTAINER);
+  async configure(app) {
     this.reducer = reducer;
-  }
+    this.saga = saga;
 
-  start(app) {
-    const container = app.getContainer();
-    app.getDispatcher().addSubscriber(container.get(serviceIds.CTX_BINDER));
-    pbjxReducer(container.get(pbjxServiceIds.REDUX_REDUCER));
-  }
+    app.register(serviceIds.MESSAGE_BINDER, async () => {
+      const MessageBinder = (await import('plugins/pbjx/MessageBinder')).default;
+      return new MessageBinder(app);
+    });
 
-  /**
-   * @param {EnvelopeReceivedEvent} event
-   */
-  onEnvelopeReceived(event) {
-    event.getRedux().dispatch(receiveEnvelope(event.getEnvelope()));
-  }
+    app.subscribe('gdbots:pbjx:mixin:command.bind', serviceIds.MESSAGE_BINDER, 'bindCtx');
+    app.subscribe('gdbots:pbjx:mixin:request.bind', serviceIds.MESSAGE_BINDER, 'bindCtx');
 
-  getSubscribedEvents() {
-    return {
-      [TRANSPORT_HTTP_ENVELOPE_RECEIVED]: this.onEnvelopeReceived,
-    };
+    app.getDispatcher().addListener(TRANSPORT_HTTP_ENVELOPE_RECEIVED, (event) => {
+      app.getRedux().dispatch(receiveEnvelope(event.getEnvelope()));
+    });
   }
 }

@@ -1,0 +1,372 @@
+// Card
+
+.card {
+  flex-shrink: 0;
+  margin: 0 0 .5rem 0;
+  width: 100%;
+  border: none;
+
+  @media (min-width: 421px) {
+    margin-bottom: .75rem;
+  }
+  @media (min-width: 600px) {
+    margin-bottom: 1rem;
+  }
+  &[class^="border-"],
+  &[class*=" border-"] {
+    border-width: 1px !important;
+    // border-style: solid !important;
+  }
+  .tab-pane > & {
+    margin-top: 0;
+  }
+  .card-group > & {
+    border-right: $card-border-width solid $card-border-color;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+  .screen-sidenav-body > & {
+    background-color: transparent;
+    border: none;
+    margin-bottom: 0;
+  }
+  .screen-body-content > &,
+  .screen-body-content > form > &,
+  .card-deck  > &,
+  .screen-body-content > div:not([class]) > &,
+  .tab-pane > & {
+    box-shadow: $shadow-card;
+
+    @media (min-width: 768px) {
+      margin-bottom: 2rem;
+    }
+  }
+  .cards-container &,
+  .screen-body-content > .row > div > & {
+    box-shadow: $shadow-card;
+  }
+  &.card-collapse .collapse:not(.navbar-collapse).show {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+.card-border {
+  border: $card-border-width solid $card-border-color;
+}
+
+.card-hover-border {
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  &:hover {
+    &::after {
+      box-shadow: inset 0 0 0 4px map-get($theme-colors, "secondary");
+    }
+  }
+  &.selected {
+    &::after {
+      box-shadow: inset 0 0 0 4px map-get($theme-colors, "primary");
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.card-shadow {
+  box-shadow: $shadow-depth-2;
+}
+
+.card-group {
+  box-shadow: $shadow-card;
+}
+
+.card-body-indent {
+
+  @media (min-width: 420px) {
+    padding: 1.25rem;
+  }
+  @media (min-width: 600px) {
+    padding: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+  @media (min-width: 1360px) {
+    padding: 2.5rem 3rem 3rem 3rem;
+  }
+}
+
+.card-body {
+  .screen-body-content & {
+
+    @media (max-width: 419px) {
+      padding: 1rem;
+    }
+    @media (min-width: 420px) and (max-width: 599px) {
+      padding: 1.25rem;
+    }
+  }
+  .card > .card-body + & {
+    box-shadow: inset 0 1px 0 0 rgba($black, .1); // add dividing line between 2 stacked card-body
+  }
+}
+
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1 auto;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: .01em;
+}
+
+div.card-title {
+  font-size: $h4-font-size; // 1 rem
+}
+
+h1.card-title {
+  margin-bottom: 1.5rem;
+}
+h2.card-title {
+  margin-bottom: 1.25rem;
+}
+h3.card-title {
+  margin-bottom: 1rem;
+}
+
+.card-title {
+
+  &.h1 {
+    font-size: $h1-font-size;
+  }
+  &.h2 {
+    font-size: $h2-font-size;
+  }
+  &.h3 {
+    font-size: $h3-font-size;
+  }
+  &.h5 {
+    font-size: $h5-font-size;
+  }
+  &.h6 {
+    font-size: $h6-font-size;
+  }
+}
+
+.card-subtitle {
+  font-size: .9rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+// Card Img Overlay
+
+.card-img-overlay {
+  top: auto; // only covers bottom up, based on content height
+  padding: .75rem;
+  background-color: $gray-rgba-700;
+
+  .card-title {
+    display: block;
+  }
+}
+
+.card-section-title {
+  position: relative;
+  min-height: auto;
+  margin-bottom: 1.25rem;
+  padding: 0;
+  border-bottom: $card-border-width solid $card-border-color;
+  white-space: nowrap;
+  font-size: .9em;
+  line-height: 2;
+  letter-spacing: .03em;
+  font-weight: 400;
+  color: $gray-rgba-800;
+  background-color: transparent;
+  z-index: initial;
+}
+
+.card-title-sm {
+  margin-right: auto;
+  margin-left: .5rem;
+  font-size: $small-font-size;
+  color: $text-muted;
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+
+//
+// Optional textual caps
+//
+
+
+// Card Header
+
+.card-header {
+  display: flex;
+  flex: 0 0 auto;
+  padding: 0 $card-spacer-x;
+  font-size: 1rem;
+  font-weight: 600;
+  align-items: center;
+  justify-content: space-between;
+  min-height: $header-height + 2;
+  box-shadow: inset 0 0 0 1px $white;
+  border-top: 1px solid $gray-rgba-400;
+
+  .card > &:first-child {
+    border-top: none;
+  }
+  & span {
+    vertical-align: middle;
+  }
+  .screen-sidebar & {
+    font-weight: 500;
+    background-color: $gray-100;
+    background: linear-gradient(180deg, $white 0%, $gray-100 100%);
+    font-size: .875rem;
+    min-height: 44px;
+    z-index: 2;
+
+    & .btn-toggler {
+      font-size: .875rem;
+    }
+  }
+  .screen-body-content > .card > &,
+  .screen-body-content > div:not(.card) > .card > &,
+  .screen-body-content > .row > div:not(.card) > .card > &,
+  .tab-pane > .card > & {
+    min-height: 57px;
+    background-color: $gray-100;
+    background: linear-gradient(180deg, $white 0%, $gray-100 100%);
+  }
+  + .table {
+    margin-top: -1px;
+  }
+  .rounded > &:first-child {
+    border-radius: $border-radius $border-radius 0 0;
+  }
+}
+
+.card-header-toggler {
+  box-shadow: 0 -1px 0 $gray-400;
+
+  .card:first-child & {
+    box-shadow: none;
+  }
+}
+
+
+// Subheader - most often used in sidebars
+
+.card-subheader {
+  position: relative;
+  min-height: auto;
+  margin-bottom: 1.25rem;
+  padding: 0;
+  border-bottom: $card-border-width solid $card-border-color;
+  white-space: nowrap;
+  font-size: .9em;
+  line-height: 2;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  font-weight: 400;
+  color: $gray-rgba-800;
+  background-color: transparent;
+  z-index: initial;
+
+  &::before {
+    display: none;
+  }
+}
+
+
+// Card Hover Class
+
+.card-hover {
+  position: relative;
+  transition: transform $transition;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: '';
+    transition: opacity $transition;
+    opacity: 0;
+    box-shadow: $shadow-depth-6;
+  }
+
+  &:hover {
+    transform: translate(0, -4px);
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+.card-footer {
+  font-size: .9em;
+
+  .rounded > & {
+    border-radius: 0 0 $border-radius $border-radius;
+  }
+}
+
+
+// Card List Theme
+// Used in EME, Example in DEMO
+
+.card--list {
+  flex-direction: row;
+  align-items: center;
+
+  .card-body {
+    align-self: flex-start;
+    padding: .75rem .25rem .5rem .25rem;
+  }
+  p {
+    font-size: .75rem;
+  }
+}
+
+
+// sidebar for EME forms
+.card-sidebar {
+  border-top: 1px solid $gray-rgba-300;
+
+  @media (min-width: 768px) {
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 360px;
+    min-width: 360px;
+    border-top: none;
+    border-right: 1px solid $gray-rgba-300;
+  }
+  & + div {
+
+    @media (min-width: 768px) {
+      width: calc(100% - 360px);
+    }
+  }
+}

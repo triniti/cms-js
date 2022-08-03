@@ -1,6 +1,7 @@
-import { actionTypes } from '../constants';
+import { ACCESS_TOKEN_STORAGE_KEY } from '@gdbots/pbjx/constants';
+import { actionTypes } from 'plugins/iam/constants';
 
-export default (accessToken) => ({
-  type: actionTypes.LOGIN_ACCEPTED,
-  accessToken,
-});
+export default (accessToken) => {
+  localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
+  return { type: actionTypes.LOGIN_ACCEPTED, accessToken };
+};

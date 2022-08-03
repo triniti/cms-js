@@ -1,0 +1,714 @@
+// form
+
+// scss-lint:disable QualifyingElement, VendorPrefix
+
+::-webkit-calendar-picker-indicator {
+  opacity: 0.6; // time icon
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+form {
+
+  #wrapper & {
+    display: flex;
+    height: 100%; // set height of form that wraps screens for overall layout to fit height of browser
+  }
+}
+
+.form-control,
+.custom-select,
+.custom-file-input,
+.swal2-container .swal2-popup .form-control {
+  position: relative;
+  line-height: $input-btn-line-height;
+  border-radius: $form-control-radius;
+
+  // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
+  background-image: none;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
+  &:focus {
+    border-color: $secondary;
+    color: $body-color;
+    background-color: $white !important;
+    box-shadow: $input-focus-box-shadow; // 0 0 0 1px rgba(8,160,232,0.25)
+  }
+  .input-group-prepend & {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .input-group-append & {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.form-control {
+  max-width: 100%;
+
+  .input-group > &[type="number"],
+  .input-group > &[type="time"] {
+    flex-grow: 0;
+    padding-right: calc(1.667em + 1rem); // padding for valid check icon
+    width: auto;
+
+    .row & {
+      flex-grow: 1;
+      width: 1%;
+    }
+  }
+  &[type="number"],
+  &[type="time"] {
+    padding-right: calc(1.667em + 1rem); // padding for valid check icon
+  }
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+// fix for keyValuesFields getting larger when validated
+/* .form-inline .form-control {
+  padding-right: 2.4025rem;
+} */
+
+.swal2-container .swal2-popup .form-control {
+  box-shadow: $shadow-depth-0;
+}
+
+.input-group > div:focus-within,
+.input-group > .form-control:focus-within {
+  z-index: 3;
+}
+
+
+// custom line-heights for form-control sizes
+
+.form-control-sm {
+  line-height: 1;
+  font-size: .75rem;
+  min-height: calc(1.45em + 0.5rem + 2px); // 28.5px
+}
+
+.form-control-lg {
+  line-height: 1.8;
+}
+
+.form-control-xlg {
+  line-height: 2.5;
+}
+
+
+// select
+
+select:-moz-focusring {
+  color: transparent !important;
+  text-shadow: 0 0 0 #000;
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  &:focus::-ms-value {
+    // Suppress the nested default white text on blue background highlight given to
+    // the selected option text when the (still closed) <select> receives focus
+    // in IE and (under certain conditions) Edge, as it looks bad and cannot be made to
+    // match the appearance of the native widget.
+    // See https://github.com/twbs/bootstrap/issues/19398.
+    color: $input-color;
+    background-color: $white;
+    // box-shadow: 0 1px 3px 0px $gray-rgba-400;
+  }
+}
+
+select:not([multiple]) {
+  -webkit-padding-end: 1.75rem;
+  -webkit-padding-start: .875rem;
+  -webkit-user-select: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; // hide arrow
+  // text-indent: 1px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3e%3cpath d='M5 9h14l-6.079 6.586a1.233 1.233 0 0 1-1.842 0L5 9z' fill='%23999999'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right .55rem center;
+  background-size: auto 16px;
+  // overflow: hidden;  adds expandable corner in Safari if this is enabled
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 1.75rem;
+  padding-left: .875rem;
+}
+
+select::-ms-expand {
+  display: none; // hide arrow in ie10
+}
+
+select:not([multiple]).form-control-sm {
+  -webkit-padding-start: $input-btn-padding-x-sm;
+  padding-left: $input-btn-padding-x-sm;
+}
+
+select:not([multiple]).form-control-radius-round {
+  -webkit-padding-start: 1rem;
+  padding-left: 1rem;
+}
+
+select:not([multiple]).form-control-lg {
+  -webkit-padding-start: $input-padding-x-lg;
+  padding-left: $input-padding-x-lg;
+}
+
+
+// Label
+
+label,
+.label {
+  display: block;
+  font-size: .9em;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  font-weight: 500;
+  color: $dark;
+}
+
+.form-check-label {
+  display: inline-block;
+  font-size: $font-size-base;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: $font-weight-normal;
+  color: $body-color;
+
+  &:empty {
+    display: none;
+  }
+}
+
+legend {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: .01em;
+}
+
+
+// Form Text
+
+.form-text {
+  font-size: 90.91%; // increase from 80% size
+
+  + .form-text.text-danger {
+    margin-top: 0;
+  }
+}
+
+
+// custom styles
+
+.form-control-static {
+  display: block;
+  width: 100%;
+  padding: .5rem .75rem;
+  font-size: .825rem;
+  line-height: 1.25;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.form-control-lg.form-control-static {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+select:focus option:checked {
+  background-color: $secondary;
+}
+
+input[type='text']:focus,
+.form-control:focus,
+.was-validated .form-control:valid,
+.was-validated .custom-select:valid {
+  background-color: $body-bg;
+}
+
+.form-label-strong {
+  font-size: .9em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: $body-color;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+
+  &:hover {
+    cursor: pointer;
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+
+// disabled form-control
+
+.form-control:disabled,
+.form-control.disabled {
+  opacity: $btn-disabled-opacity;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+.form-check.disabled,
+.form-check.disabled .form-check-label {
+  cursor: not-allowed;
+}
+
+
+// readonly form-control
+
+.form-control[readonly] {
+  border: 1px dashed $gray-600 !important;
+  background-color: transparent;
+  background-image: none !important;
+  // font-size: .9rem;
+  color: $gray-900;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  // resize: none;
+
+  &::-webkit-input-placeholder {
+    color: transparent;
+  }
+  &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: transparent;
+  }
+  &::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: transparent;
+  }
+  &:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: transparent;
+  }
+}
+
+.form-check[readonly],
+.form-check[readonly] .form-check-label {
+  cursor: text;
+}
+
+
+// forms in screen-header-container or card-header - could use utility classes
+
+.screen-header-container form,
+.card-header form {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.card-header label {
+  font-size: .825rem;
+}
+
+.card-header .form-label-strong {
+  font-size: .75rem;
+}
+
+
+// form check input
+
+.form-check {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+  min-height: 1.25rem;
+
+  .form-check-input {
+    margin-left: -2rem;
+  }
+  &.form-check-inline .form-check {
+    padding-left: 0;
+  }
+  .modal & {
+    margin-bottom: 1.25rem;
+  }
+  .gx-1.row &,
+  .gx-2.row & {
+    margin-bottom: .5rem;
+  }
+  .gx-3.row & {
+    margin-bottom: 1rem;
+  }
+  .form-check {
+    margin-bottom: 0;
+  }
+}
+
+.form-switch {
+  margin-bottom: 1.25rem;
+  padding-left: 3rem;
+  min-height: 1.5rem;
+
+  .form-check-input {
+    margin-left: -3rem;
+    width: 2.5rem;
+  }
+  .form-check {
+    margin-bottom: 0;
+  }
+  &.form-check-inline .form-check {
+    padding-left: 0;
+  }
+}
+
+.form-check-inline {
+  margin-right: 1.75rem;
+}
+
+.form-check-input {
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: background-color $transition;
+
+  &[type="radio"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%272%27 fill=%27%23e5e5e5%27/%3e%3c/svg%3e");
+    background-size: 78%;
+  }
+  &:checked[type="radio"] {
+    background-size: 88%;
+  }
+  &[type="checkbox"] {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%23e5e5e5%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
+    background-size: 76%;
+  }
+  &:checked[type="checkbox"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%23fff%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
+    border-color: $secondary;
+  }
+  .form-switch &[type="checkbox"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23e5e5e5%27/%3e%3c/svg%3e");
+    background-size: contain;
+  }
+  .form-switch &:checked[type="checkbox"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
+  }
+  body.theme-dark & {
+    border-color: var(--body-color);
+
+    &:checked {
+      border-color: $secondary;
+    }
+  }
+}
+
+.form-check-label {
+  margin-top: 3px;
+  margin-bottom: 0;
+}
+
+.form-check-sm {
+  padding-left: 1.5rem;
+  min-height: 1rem;
+
+  .form-check-input {
+    margin-left: -1.5rem;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .form-check-label {
+    margin-top: 0;
+  }
+}
+
+
+// input group
+
+.input-group {
+  flex-wrap: nowrap;
+
+  & > .mb-3,
+  & .mb-3 {
+    margin-bottom: 0 !important;  // remove margin if inside input-group
+  }
+}
+
+.input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) > .dropdown-toggle > .btn,
+.input-group:not(.has-validation) > .dropdown:nth-last-child(n + 3) > .btn,
+.input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n + 3) > .btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) > .dropdown-toggle {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-inline {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
+  align-items: center;
+
+  > .form-group,
+  > .custom-control,
+  > .input-group {
+    margin-right: 2em; // add right margin for repeating items
+    margin-bottom: 1.5rem;
+  }
+}
+
+.custom-control {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  min-height: 1.2375rem;
+  padding-left: 2rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+
+  .form-group > & {
+    margin-bottom: 0;
+  }
+}
+
+.custom-control-input {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  width: 1.5rem;
+  height: 1.36875rem;
+  opacity: 0;
+}
+
+.custom-control-inline {
+  display: inline-flex; // custom-controls can be inlined
+}
+
+.form-group-inline {
+  flex-direction: row; // elements in form-group will be in a row
+  vertical-align: top;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  .modal & {
+    margin-bottom: 1.25rem;
+  }
+  .gx-1.row &,
+  .gx-2.row & {
+    margin-bottom: .5rem;
+  }
+  .gx-3.row & {
+    margin-bottom: 1rem;
+  }
+  .input-group & {
+    margin-bottom: 0;
+  }
+}
+
+
+.custom-checkbox,
+.custom-radio {
+  padding-left: 2rem;
+  min-height: 1.5rem; // $custom-control-indicator-size
+
+  &.custom-control-right {
+    padding-right: 2rem;
+    padding-left: 0;
+  }
+}
+
+
+// align control to the right of the label
+
+.custom-control-right {
+
+  .custom-control-label::before,
+  .custom-control-label::after {
+    right: -2rem;
+    left: auto;
+  }
+}
+
+.custom-control-header {
+  display: block;
+  width: 100%;
+}
+
+.custom-control-label {
+  margin-bottom: 0;
+  font-size: $font-size-base;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: $font-weight-normal;
+  color: $body-color;
+  text-align: left;
+
+  &::after {
+    border: 2px solid transparent;
+    background-size: 60% 60%;
+
+    .custom-checkbox & {
+      background-size: 80% 80%;
+    }
+  }
+  .custom-checkbox .custom-control-input:not(:checked) ~ &::after {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='22' height='18' viewBox='0 0 22 18'%3e%3cpath fill='%23e0e0e2' d='M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z'/%3e%3c/svg%3e");
+  }
+  .custom-radio .custom-control-input:not(:checked) ~ &::after {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23e0e0e2'/%3e%3c/svg%3e");
+  }
+  &:hover {
+    cursor: pointer;
+
+    .custom-control-input:disabled ~ & {
+      cursor: not-allowed;
+    }
+  }
+  .custom-control.w-100 & {
+    width: 100%;
+  }
+}
+
+.custom-control-input {
+
+  &:disabled {
+
+    & ~ .custom-control-label {
+
+      &::before {
+        opacity: .6;
+      }
+    }
+  }
+}
+
+.custom-file-input {
+
+  &:disabled {
+    cursor: not-allowed;
+
+    & ~ .custom-file-label {
+      box-shadow: none;
+      opacity: 0.5;
+    }
+  }
+  &:hover ~ .custom-file-label {
+    box-shadow: $hover-shadow;
+  }
+  &:focus ~ .custom-file-label {
+    border-color: $secondary;
+    box-shadow: none;
+
+    &::after {
+      border-color: $secondary;
+      box-shadow: none;
+    }
+  }
+}
+
+.custom-select {
+
+  &:disabled {
+    color: $body-color;
+    box-shadow: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+
+// turn custom-switch toggle button white
+
+.custom-switch {
+  padding-left: (1.5rem * 1.75) + .5rem; // $custom-switch-width
+
+  .custom-control-input {
+    width: 1.5rem * 1.75; // $custom-switch-width
+  }
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+  filter: brightness(0) invert(1);
+}
+
+
+// Keep input dropdown arrows consistent across browsers
+
+input::-webkit-calendar-picker-indicator {
+  background-color: inherit;
+}
+
+
+// custom checkbox button - used on widget search
+
+.form-check--button {
+  position: relative;
+  margin-right: .5rem;
+  margin-bottom: .5rem;
+  padding-left: 0;
+
+  .form-check-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
+    background: none !important;
+  }
+  .form-check-label {
+    border: 1px solid $gray-300;
+    border-radius: $border-radius;
+    margin-top: 0;
+    padding: .125rem .625rem;
+    background-color: $gray-300;
+    font-size: .75rem;
+
+    body.theme-dark & {
+      border: 1px solid var(--form-control-bg);
+      background-color: var(--form-control-bg); // --content-bg-hover
+    }
+    &::after,
+    &::before {
+      display: none;
+      content: none;
+    }
+    &:hover {
+      border-color: $gray-500;
+      background-color: $gray-500;
+
+      body.theme-dark & {
+        border-color: var(--button-border-color);
+        background-color: var(--content-bg-active);
+      }
+    }
+  }
+  .form-check-input:checked ~ .form-check-label {
+    color: $white;
+    border-color: $secondary;
+    background-color: $secondary;
+
+    body.theme-dark & {
+      color: var(--body-color);
+      border-color: $secondary;
+      background-color: $secondary;
+    }
+  }
+}

@@ -1,15 +1,9 @@
-import { actionTypes } from '../constants';
+import MessageResolver from '@gdbots/pbj/MessageResolver';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
-/**
- * Create a UNPUBLISH NODE REQUESTED action
- *
- * @param {Message} command - the pbjx command
- * @param {Object} config - the configuration for unpublishNodeFlow saga
- *
- * @returns {{type: {String}, pbj: {Message}, config: {Object} }}
- */
-export default (command, config) => ({
-  type: actionTypes.UNPUBLISH_NODE_REQUESTED,
-  pbj: command,
-  config,
-});
+export default (nodeRef) => async (dispatch, getState, app) => {
+  const UnpublishNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:unpublish-node:v1');
+  const pbjx = app.getPbjx();
+  const command = UnpublishNodeV1.create().set('node_ref', NodeRef.fromString(`${nodeRef}`));
+  await pbjx.send(command);
+};

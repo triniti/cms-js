@@ -1,0 +1,36 @@
+// Background Image
+
+.background-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-position: center center;
+}
+
+// background utility classes
+
+.background-image-contain {
+  background-size: contain !important;
+}
+
+.background-image-cover {
+  background-size: cover !important;
+}
+
+.background-image-no-repeat {
+  background-repeat: no-repeat !important;
+}
+
+.background-image-repeat {
+  background-repeat: repeat !important;
+}
+
+.background-image-repeat-y {
+  background-repeat: repeat-y !important;
+}
+
+.background-image-repeat-x {
+  background-repeat: repeat-x !important;
+}

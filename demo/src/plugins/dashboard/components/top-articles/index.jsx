@@ -1,118 +1,99 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import Message from '@gdbots/pbj/Message';
-import { STATUS_FULFILLED } from '@triniti/app/constants';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Icon,
-  StatusMessage,
-  Table,
-} from '@triniti/admin-ui-plugin/components';
-import delegateFactory from './delegate';
-import selector from './selector';
-import TableRow from './TableRow';
+import React, { lazy } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Card, CardHeader, Table } from 'reactstrap';
+import { CreateModalButton, Icon, Loading } from '@triniti/cms/components';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import formatDate from '@triniti/cms/utils/formatDate';
 
-class TopArticles extends Component {
-  static propTypes = {
-    delegate: PropTypes.object.isRequired,
-    exception: PropTypes.object,
-    location: PropTypes.object.isRequired,
-    response: PropTypes.instanceOf(Message),
-    status: PropTypes.string,
-    title: PropTypes.string.isRequired,
-  };
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+};
 
-  static defaultProps = {
-    exception: null,
-    response: null,
-    status: '',
-  };
+const delay = (time = 500) => new Promise((resolve) => setTimeout(resolve, time));
 
-  constructor(props) {
-    super(props);
-    const { delegate } = this.props;
-    delegate.bindToComponent(this);
-    this.handleRefresh = this.handleRefresh.bind(this);
+const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal'));
+
+const sampleBatchOperation = async (dispatch, node) => {
+  const num = getRandomInt(0, 10);
+  if (num < 4) {
+    throw new Error('omg, it broke for some raisin');
   }
+  await delay(2000);
+  console.log('sampleBatchOperation::starting', node.toObject());
+  await delay(2000);
+  console.log('sampleBatchOperation::complete', node.toObject());
+  return { stuff: 'thing', key: node.generateNodeRef().toString() };
+};
 
-  componentDidMount() {
-    const { delegate } = this.props;
-    delegate.componentDidMount();
-  }
+export default function TopArticles(props) {
+  const policy = usePolicy();
+  const canUpdate = policy.isGranted('tcd:article:update');
+  const { title, request } = props;
+  const { response, pbjxError } = useRequest(request, true);
 
-  componentDidUpdate(prevProps) {
-    const { location, delegate } = this.props;
-    const { location: prevLocation, status } = prevProps;
-    /**
-     * If user clicks same nav item they are already on (same pathname but different key)
-     * search again to refresh results.
-     */
-    if (
-      prevLocation.pathname === location.pathname
-      && prevLocation.key !== location.key
-      && status === STATUS_FULFILLED
-    ) {
-      delegate.bindToComponent(this);
-      delegate.handleRefresh();
-    }
-  }
-
-  componentWillUnmount() {
-    const { delegate } = this.props;
-    delegate.componentWillUnmount();
-  }
-
-  handleRefresh() {
-    const { delegate } = this.props;
-    delegate.bindToComponent(this);
-    delegate.handleRefresh();
-  }
-
-  render() {
-    const { exception, response, status, title } = this.props;
-    const isFulfilled = status === STATUS_FULFILLED;
-
-    return (
-      <Card shadow>
-        <CardHeader className="pr-2">
-          {title}
-          <Button onClick={this.handleRefresh} size="sm">
-            <Icon imgSrc="refresh" noborder />
-          </Button>
-        </CardHeader>
-        <CardBody className="pl-0 pr-0 pt-0 pb-0">
-          {!isFulfilled ? <StatusMessage status={status} exception={exception} /> : (
-            <Table className="table-stretch table-sm" borderless hover responsive>
-              <thead>
-                <tr>
-                  <th style={{ width: '1px' }} />
-                  <th>Title</th>
-                  <th />
-                  <th>Slotting</th>
-                  <th>Order Date</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {response.get('nodes', []).map((article, idx) => (
-                  <TableRow
-                    article={article}
-                    idx={idx}
-                    key={article.get('_id')}
-                  />
-                ))}
-              </tbody>
-            </Table>
-          )}
-        </CardBody>
-      </Card>
-    );
-  }
+  return (
+    <>
+      {(!response || pbjxError) && <Loading error={pbjxError} />}
+      {response && (
+        <Card>
+          <CardHeader className="pe-3">
+            {title}
+            <CreateModalButton
+              text="Sample Batch Edit"
+              modal={BatchOperationModal}
+              modalProps={{
+                header: 'Sample Batch Thingy',
+                runningText: 'Doing stuff',
+                completedText: 'Did Stuff',
+                nodes: response.get('nodes'),
+                operation: sampleBatchOperation,
+              }}
+            />
+          </CardHeader>
+          <Table hover responsive>
+            <thead>
+            <tr>
+              <th>Title</th>
+              <th>Slotting</th>
+              <th>Order Date</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {response.get('nodes', []).map(node => (
+              <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                <td>{node.get('title')}</td>
+                <td>
+                  {node.has('slotting')
+                    ? Object.entries(node.get('slotting')).map(([key, slot]) => (
+                      <span key={`${key}:${slot}`}>{key}:{slot}</span>
+                    )) : null}
+                </td>
+                <td>{formatDate(node.get('order_date'))}</td>
+                <td className="td-icons">
+                  <Link to={nodeUrl(node, 'view')}>
+                    <Button color="hover" className="rounded-circle">
+                      <Icon imgSrc="eye" alt="view" />
+                    </Button>
+                  </Link>
+                  {canUpdate && (
+                    <Link to={nodeUrl(node, 'edit')}>
+                      <Button color="hover" className="rounded-circle">
+                        <Icon imgSrc="pencil" alt="edit" />
+                      </Button>
+                    </Link>
+                  )}
+                </td>
+              </tr>
+            ))}
+            </tbody>
+          </Table>
+        </Card>
+      )}
+    </>
+  );
 }
-
-export default connect(selector, createDelegateFactory(delegateFactory))(TopArticles);

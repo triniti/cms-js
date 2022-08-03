@@ -1,15 +1,14 @@
 import swal from 'sweetalert2';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code';
-import dismissAlert from '@triniti/admin-ui-plugin/actions/dismissAlert';
-import getAlerts from '@triniti/admin-ui-plugin/selectors/getAlerts';
-import { actionTypes } from '../constants';
+import clearAlerts from 'actions/clearAlerts';
+import { actionTypes } from 'plugins/pbjx/constants';
 
 /**
  * Once the Pbjx HTTP operation completes it will dispatch
  * an event using its dispatcher (not redux).
  *
- * @link https://github.com/gdbots/pbjx-js/blob/master/src/transports/HttpTransport.js#L105
+ * @link https://github.com/gdbots/pbjx-js/blob/master/src/transports/HttpTransport.js#L96
  *
  * We listen for that and dispatch it again through redux so
  * we can extract its sweet, sweet juices in the form of derefs
@@ -20,15 +19,15 @@ import { actionTypes } from '../constants';
  *
  * @returns {Object}
  */
-export default (envelope) => (dispatch, getState) => {
+export default (envelope) => (dispatch) => {
   if (envelope.get('code') === Code.UNAUTHENTICATED.getValue()) {
     setTimeout(() => {
-      getAlerts(getState()).map((alert) => dispatch(dismissAlert(alert.id)));
+      dispatch(clearAlerts());
       swal.fire({
         title: 'Session Expired',
-        type: 'error',
+        icon: 'error',
         html: '<p><strong>To avoid losing your work:</strong>'
-          + '<ol class="text-left">'
+          + '<ol class="text-start">'
           + '<li class="pb-2"><mark><u>DO NOT</u></mark> close or refresh.</li>'
           + '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Login</strong></a> in a new tab.</li>'
           + '<li class="pb-2">Once logged in, return to this tab.</li>'

@@ -1,57 +1,61 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import {
-  FormGroup,
-  FormText,
-  Input,
-  InputGroup,
-  Label,
-} from '@triniti/admin-ui-plugin/components';
+import classNames from 'classnames';
+import { Badge, FormText, Input, Label } from 'reactstrap';
+import { useField, useFormContext } from 'components/index';
 
-const TimePickerField = ({
-  areSecondsAllowed,
-  className,
-  input,
-  label,
-  meta: { touched, error },
-  ...attributes
-}) => (
-  <FormGroup className={className}>
-    {
-      label
-      && <Label for={input.name}>{ label }</Label>
-    }
-    <InputGroup>
-      <Input
-        step={areSecondsAllowed ? 1 : 60}
-        type="time"
-        {...input}
-        {...attributes}
-      />
-    </InputGroup>
-    {
-      touched && error
-      && <FormText key="error" color="danger" className="ml-1">{ error }</FormText>
-    }
-  </FormGroup>
-);
+export default function TimePickerField(props) {
+  const {
+    className = '',
+    groupClassName = '',
+    name,
+    label,
+    description,
+    pbjName,
+    readOnly = false,
+    required = false
+  } = props;
+  const formContext = useFormContext();
+  const { editMode } = formContext;
+  const { input, meta } = useField({ ...props }, formContext);
 
-TimePickerField.propTypes = {
-  areSecondsAllowed: PropTypes.bool,
-  className: PropTypes.string,
-  input: PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(moment)]),
-    onChange: PropTypes.func,
-  }).isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  meta: PropTypes.shape({}).isRequired,
-};
+  const rootClassName = classNames(
+    groupClassName,
+    'form-group',
+  );
 
-TimePickerField.defaultProps = {
-  areSecondsAllowed: false,
-  className: '',
-  label: null,
-};
+  const inputClassName = classNames(
+    className,
+    'form-control',
+    meta.touched && !meta.valid && 'is-invalid',
+    meta.touched && meta.valid && 'is-valid',
+  );
 
-export default TimePickerField;
+  const currentTime = input.value ? input.value : '';
+
+  return (
+    <div className={rootClassName} id={`form-group-${pbjName || name}`}>
+      {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
+        {editMode && !readOnly && (
+          <Input
+            id={name}
+            name={name}
+            className={inputClassName}
+            readOnly={!editMode}
+            type="time"
+            step="1"
+            {...input}
+            value={currentTime}
+            onChange={time => {
+              input.onChange(time ? time : undefined);
+              input.onBlur();
+            }}
+          />
+        )}
+        {(!editMode || readOnly) && (
+          <input type="text" className="form-control" readOnly value={currentTime} />
+        )}
+      {description && <FormText color="dark">{description}</FormText>}
+      {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
+    </div>
+  );
+}

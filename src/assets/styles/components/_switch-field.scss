@@ -1,0 +1,163 @@
+// Switch Field
+
+.custom-control-switch {
+  position: relative;
+  display: inline-flex;
+  padding-left: 0;
+
+  .text-label {
+    margin-left: .5rem;
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+  &.custom-control-right .text-label {
+    margin-right: .5rem;
+    margin-left: 0;
+  }
+  &.custom-control-inline {
+    padding-right: 0;
+  }
+  .custom-control-input {
+    width: 100%;
+
+    .modal-content & {
+      z-index: 1;
+    }
+  }
+}
+
+.switch-input-label {
+  border-radius: 4px;
+  background-color: $gray-500;
+  cursor: pointer;
+  flex-direction: column;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+  cursor: pointer;
+  transition: $transition;
+  vertical-align: middle;
+  text-indent: -5000px;
+
+  .custom-control-right & {
+    order: 3;
+  }
+  input[disabled] + & {
+    opacity: .5;
+    cursor: not-allowed;
+    color: $gray-800;
+  }
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 4px;
+    transition: $transition;
+    background: transparent;
+  }
+  &::after {
+    background: transparent url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3e%3crect width='18' height='18' rx='2' fill='%23fff'/%3e%3c/svg%3e") center center / 100% auto no-repeat;
+    transform: scale(.76);
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.6));
+
+    input:checked + & {
+      left: 100%;
+      transform: translateX(-100%) scale(.76);
+    }
+  }
+  .custom-control-input:focus + & {
+    box-shadow: 0 0 3px $secondary;
+  }
+  input:checked + &::before {
+    width: 100%;
+    background: $secondary;
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,0.05);
+  }
+  span {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    align-self: flex-start;
+    justify-content: center;
+    font-size: .75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: left;
+    text-indent: 0;
+    opacity: 1;
+    transition: opacity $transition;
+
+    &:last-child {
+      font-weight: 600;
+      color: $white;
+      text-shadow: $text-shadow;
+      opacity: 0;
+    }
+    input:checked + & {
+      opacity: 0;
+
+      &:last-child {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+// switch sizes
+
+$form-check-height-xs:   1rem; // $custom-control-indicator-size - .5rem !default
+$form-check-height-sm:   1.25rem; // $custom-control-indicator-size - .25rem !default
+$form-check-height-sd:   1.5rem; // $custom-control-indicator-size !default
+$form-check-height-md:   1.75rem; // $custom-control-indicator-size + .25rem !default
+$form-check-height-lg:   2.5rem; // $custom-control-indicator-size + 1rem !default
+$form-check-width-ratio: 1.75;
+
+@mixin switch-sizes($switchWidth: $form-check-height, $switchLabelSize : .75rem) {
+  .switch-input-label {
+    height: $switchWidth;
+    min-width: $switchWidth * $form-check-width-ratio;
+
+    &::before,
+    &::after {
+      width: $switchWidth;
+      height: $switchWidth;
+    }
+    & span {
+      padding: 0 $switchWidth/2.3 0 ($switchWidth + .25rem);
+      height: $switchWidth;
+      line-height: $switchWidth;
+      font-size: $switchLabelSize;
+
+      &:last-child {
+        padding: 0 ($switchWidth + .25rem) 0 $switchWidth/2.3;
+        margin-top: -$switchWidth;
+      }
+    }
+  }
+}
+
+@include switch-sizes($switchWidth : $form-check-height-sd, $switchLabelSize : .75rem);
+
+.custom-control-xs {
+  @include switch-sizes($switchWidth : $form-check-height-xs, $switchLabelSize : .5rem);
+}
+
+.custom-control-sm {
+  @include switch-sizes($switchWidth : $form-check-height-sm, $switchLabelSize : .675rem);
+}
+
+.custom-control-sd {
+  @include switch-sizes($switchWidth : $form-check-height-sd, $switchLabelSize : .75rem);
+}
+
+.custom-control-md {
+  @include switch-sizes($switchWidth : $form-check-height-md, $switchLabelSize : .8rem);
+}
+
+.custom-control-lg {
+  @include switch-sizes($switchWidth : $form-check-height-lg, $switchLabelSize : .875rem);
+}

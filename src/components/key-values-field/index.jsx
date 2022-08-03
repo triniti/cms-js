@@ -1,156 +1,74 @@
-import { Button, Col, FormGroup, Icon, Label, Row } from '@triniti/admin-ui-plugin/components';
-import { Field } from 'redux-form';
-import NumberField from '@triniti/cms/components/number-field';
-import PropTypes from 'prop-types';
 import React from 'react';
-import SelectField from '@triniti/cms/components/select-field';
-import TextField from '@triniti/cms/components/text-field';
-import TrinaryField from '@triniti/cms/components/trinary-field';
-import unCamelCase from '@triniti/cms/utils/unCamelCase';
-import './styles.scss';
+import classNames from "classnames";
+import { Badge, Button, Col, Label, Row } from 'reactstrap';
+import { FieldArray } from 'react-final-form-arrays';
+import isEmpty from 'lodash-es/isEmpty';
+import fastDeepEqual from 'fast-deep-equal/es6';
+import { Icon, useFormContext } from 'components/index';
+import TextKeyField from 'components/key-values-field/TextKeyField';
 
-const KeyValuesField = ({
-  fields,
-  keyFieldComponent,
-  keyPlaceholder,
-  label,
-  readOnly,
-  selectFieldOptions,
-  type,
-  valuePlaceholder,
-  valueType,
-}) => {
-  function handleAddEmptyField() {
-    fields.push({ key: null, value: null });
-  }
+const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
-  function handleRemoveField(i) {
-    fields.remove(i);
-  }
+export default function KeyValuesField(props) {
+  const {
+    groupClassName = '',
+    name,
+    label,
+    component: Component,
+    validator,
+    pbjName,
+    required,
+    ...rest
+  } = props;
+  const { editMode, form } = useFormContext();
+  const { push } = form.mutators;
+
+  const rootClassName = classNames(
+    groupClassName,
+    'form-group',
+  );
 
   return (
-    <FormGroup>
-      <Row>
-        <Col>
-          <Label for={fields.name}>{label || unCamelCase(fields.name)}</Label>
-        </Col>
-      </Row>
-      {fields.map((field, i) => (
-        <FormGroup key={field} inline className="mb-2 flex-nowrap align-items-start key-values-field">
-          {keyFieldComponent === 'textField'
-          && (
-            <Field
-              component={TextField}
-              inline={false}
-              name={`${field}.key`}
-              placeholder={keyPlaceholder}
-              readOnly={readOnly}
-            />
-          )}
-          {keyFieldComponent === 'selectField'
-          && (
-            <Field
-              className="key-values-field__select-dropdown"
-              component={SelectField}
-              disabled={readOnly}
-              inline={false}
-              name={`${field}.key`}
-              options={selectFieldOptions}
-              placeholder={keyPlaceholder}
-            />
-          )}
-          {valueType === 'string'
-          && (
-            <Field
-              className="key-values-field__string"
-              component={TextField}
-              inline={false}
-              name={`${field}.value`}
-              placeholder={valuePlaceholder}
-              readOnly={readOnly}
-              style={{ width: '22rem' }}
-            />
-          )}
-          {valueType === 'number'
-          && (
-            <Field
-              className="key-values-field__number"
-              component={NumberField}
-              name={`${field}.value`}
-              normalize={(value) => +value}
-              placeholder={valuePlaceholder}
-              readOnly={readOnly}
-            />
-          )}
-          {valueType === 'boolean'
-          && (
-            <Field
-              className="key-values-field__boolean"
-              component={SelectField}
-              disabled={readOnly}
-              inline={false}
-              name={`${field}.value`}
-              options={[{ label: 'true', value: true }, { label: 'false', value: false }]}
-              placeholder={valuePlaceholder}
-            />
-          )}
-          {valueType === 'trinary'
-          && (
-            <Field
-              component={TrinaryField}
-              disabled={readOnly}
-              inline={false}
-              label=""
-              name={`${field}.value`}
-            />
-          )}
-          {!readOnly
-          && (
-          <Button
-            className="align-self-start key-values-field__button"
-            color="hover"
-            onClick={() => handleRemoveField(i)}
-            radius="circle"
-          >
-            <Icon imgSrc="delete" alt="delete" />
-          </Button>
-          )}
-        </FormGroup>
-      ))}
-      {!readOnly
-        && (
-          <Button onClick={handleAddEmptyField}>
-            <Icon imgSrc="plus-outline" size="sm" className="mr-2" />{`Add ${type}`}
-          </Button>
-        )}
-    </FormGroup>
+    <div className={rootClassName} id={`form-group-${pbjName || name}`}>
+      <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>
+      <FieldArray name={name} isEqual={isEqual}>
+        {({ fields }) => {
+          if (!editMode && fields.length === 0) {
+            return <input className="form-control" readOnly value="No values" />;
+          }
+
+          return fields.map((fname, index) => (
+            <Row className="gx-2" key={fname}>
+              <Col xs="4">
+                <TextKeyField name={`${fname}.key`} pbjName={name} required />
+              </Col>
+              <Col>
+                <Component
+                  name={`${fname}.value`}
+                  placeholder="Value"
+                  label=""
+                  pbjName={name}
+                  validator={validator}
+                  required
+                  {...rest}
+                />
+              </Col>
+              {editMode && (
+                <Col xs="1" className="col-btn">
+                  <Button color="hover" className="rounded-circle" onClick={() => fields.remove(index)}>
+                    <Icon imgSrc="trash" alt="Remove" />
+                  </Button>
+                </Col>
+              )}
+            </Row>
+          ));
+        }}
+      </FieldArray>
+      {editMode && (
+        <Button outline color="light" onClick={() => push(name)}>
+          <Icon imgSrc="plus-outline" size="sm" className="me-2" /> Add
+        </Button>
+      )}
+    </div>
   );
-};
-
-KeyValuesField.propTypes = {
-  fields: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  keyFieldComponent: PropTypes.string,
-  keyPlaceholder: PropTypes.string,
-  label: PropTypes.string,
-  readOnly: PropTypes.bool,
-  selectFieldOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })),
-  type: PropTypes.string,
-  valuePlaceholder: PropTypes.string,
-  valueType: PropTypes.string,
-};
-
-KeyValuesField.defaultProps = {
-  keyFieldComponent: 'textField',
-  keyPlaceholder: 'Enter name',
-  label: null,
-  readOnly: false,
-  selectFieldOptions: null,
-  type: 'Pair',
-  valuePlaceholder: 'Enter value',
-  valueType: 'string',
-};
-
-export default KeyValuesField;
+}

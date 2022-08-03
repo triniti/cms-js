@@ -1,0 +1,208 @@
+// dropdown
+
+.dropdown {
+  display: inline-flex;
+  vertical-align: top;
+}
+
+.dropdown-item {
+
+  &.active,
+  &:active {
+    color: $body-color;
+    background: $gray-200;
+    font-weight: 600;
+  }
+  &:not(.disabled) {
+
+    &:focus,
+    &:hover,
+    &.active,
+    &:active {
+      cursor: pointer;
+    }
+  }
+}
+
+.dropdown-toggle {
+  margin-bottom: 0;
+  padding-right: .75rem;
+  padding-left: .75rem;
+
+  &::after {
+    vertical-align: middle;
+  }
+  .dropleft &::before { // arrow pointing to nav
+    width: 0;
+    height: 0;
+    top: 50%;
+    margin-top: -4px;
+    margin-left: 4px;
+    background: transparent;
+    opacity: 1; // required due to btn gradient hover
+  }
+}
+
+
+// The dropdown menu
+
+.dropdown-menu {
+  box-shadow: $dropdown-box-shadow;
+
+  @media (min-width: 1600px) {
+    font-size: .875rem;
+  }
+  .navbar-nav & {
+    @media (max-width: 767px) {
+      box-shadow: none;
+    }
+  }
+  .table-responsive & {
+    margin-bottom: .75rem; // adds bottom margin when dropdown is within a responsive table
+  }
+}
+
+
+// Open state for the dropdown
+
+.show {
+  // Remove the outline when :focus is triggered
+  > a {
+    outline: 0;
+  }
+}
+
+
+// Dropdown section headers
+
+.dropdown-header {
+  position: relative;
+  padding: .75rem $dropdown-item-padding-x;
+  margin-top: -.5rem;
+  margin-bottom: .5rem;
+  font-size: .8em;
+  color: $gray-rgba-700;
+  border-bottom: 1px solid $gray-500;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  font-weight: 400;
+}
+
+.dropdown-divider {
+  margin: 0.375rem 0;
+  border-color: $gray-400;
+}
+
+
+// Dropdown menu top arrow
+
+.dropdown-menu-arrow-left,
+.dropdown-menu-arrow-right {
+
+  &[data-popper-placement="bottom-end"] {
+    &::before,
+    &::after {
+      content: '';
+    }
+  }
+  &::before,
+  &::after {
+    position: absolute;
+    bottom: 100%;
+    left: 7px;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    border-style: solid;
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent $gray-rgba-300 transparent;
+  }
+  &::after {
+    left: 9px;
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent $white transparent;
+  }
+  .dropright &,
+  .dropleft &,
+  &.dropdown-menu[data-popper-placement="top"],
+  &.dropdown-menu[data-popper-placement="right"],
+  &.dropdown-menu[data-popper-placement="bottom"],
+  &.dropdown-menu[data-popper-placement="left"]  {
+
+    &::after,
+    &::before {
+      content: none; // hide arrow when menu is stuck to sides
+    }
+  }
+}
+
+.dropdown-menu-arrow-right {
+
+  &::before {
+    left: auto;
+    right: 7px;
+  }
+  &::after {
+    left: auto;
+    right: 9px;
+  }
+}
+
+
+// show dropdown on hover above 1025px
+
+@media (min-width: 1025px) {
+  .dropdown:hover > .nav-dropdown-menu {
+    display: block;
+  }
+}
+
+
+// Dropdown action button
+
+.input-group > .input-group-prepend:first-child > .btn.dropdown-toggle-save-options {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  &.show {
+    transform: translate3d(-45px, 40px, 0px);
+  }
+  &:after {
+    border-top: 0.4em solid;
+    border-right: 0.4em solid transparent;
+    border-left: 0.4em solid transparent;
+    margin-left: 0;
+    margin-top: 0.2em;
+  }
+  &:not(.disabled) {
+    color: #fff;
+    background: #04c5a2;
+    border-color: #03ac8d;
+    border-bottom-color: #039479;
+  }
+}
+
+.dropdown-menu-save-options {
+  > .btn-action {
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  &:after {
+    left: auto;
+    content: '';
+    position: absolute;
+    right: 9px;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent rgba(255, 255, 255, 1) transparent;
+    pointer-events: none;
+
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+}

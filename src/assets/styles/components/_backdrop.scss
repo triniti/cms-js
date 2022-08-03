@@ -1,0 +1,37 @@
+// Aside Backdrop
+//
+// Overlay that appears when aside is active
+
+.backdrop {
+  position: fixed;
+  z-index: -2;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: all $transition;
+  pointer-events: none;
+  opacity: 0;
+  background-color: $gray-rgba-800;
+
+  .navbar-main & {
+    @media (max-width: 1024px) {
+      top: 2.5rem;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .offcanvas-left + .backdrop,
+  .offcanvas-right + .backdrop {
+    pointer-events: auto;
+    opacity: .3;
+  }
+  .main-nav.is-open + .backdrop {
+    pointer-events: auto;
+    opacity: .3;
+  }
+  .usernav-wrapper + .backdrop {
+    z-index: 1;
+  }
+}

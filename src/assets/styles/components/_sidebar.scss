@@ -1,0 +1,88 @@
+// Sidebar
+
+#sidebar-button {
+  padding: .5rem 0;
+  float: left;
+  margin: -.5rem 0 0 0;
+
+  span {
+    margin: 0;
+  }
+}
+
+#sidebar-icon {
+  transition: transform 1s cubic-bezier(.3,1.2,.2,1);
+}
+
+#hover-insert-mode-indicator {
+  position: absolute;
+  top: 8px;
+  height: 22px;
+  background-color: transparent;
+  opacity: .625;
+  pointer-events: auto;
+
+  &::after {
+    position: absolute;
+    top: 8px;
+    height: 2px;
+    width: 100%;
+    background-color: $primary;
+    content: '';
+  }
+}
+
+.sidebar-holder {
+  left: -33px;
+  position: absolute;
+  padding-right: 5px;
+
+  button {
+    width: 37px;
+  }
+}
+
+.sidebar-scrollable {
+  .popover {
+    width: 100%;
+    height: calc(86vh - 124px);
+    min-height: 200px;
+    max-width: 780px;
+    min-width: 238px;
+
+    @media (min-width: 400px) {
+      max-width: 346px;
+    }
+    @media (min-width: 520px) {
+      max-width: 454px;
+    }
+    @media (min-width: 1023px) {
+      max-width: 562px;
+    }
+    @media (min-width: 1160px) {
+      max-width: 670px;
+    }
+    @media (min-width: 1400px) {
+      max-width: 780px;
+    }
+    @media (min-height: 1000px) {
+      height: calc(70vh - 124px);
+    }
+  }
+  .popover-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  .popover-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.25rem;
+    margin-left: -.25rem;
+  }
+  .popover-section-holder {
+    width: 100%;
+  }
+}

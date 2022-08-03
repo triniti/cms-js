@@ -1,0 +1,104 @@
+// loading
+
+@keyframes fadeInOpacity {  // animation to fade in loading fixed
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  flex: 0 0 auto;
+  vertical-align: middle;
+
+  #react-root > & {
+    height: 100vh;
+  }
+  .modal-body & {
+    min-height: 240px;
+  }
+  .modal-body .sticky-top + & {
+    min-height: 184px;
+  }
+  &.loading-fixed,
+  .loading-fixed & { // use with creat-modal-button component so loader will appear centered in page instead of inline with button
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $zindex-fixed;
+    justify-content: center;
+    margin-top: -50px;
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1s;
+
+    &:before {
+      position: relative;
+      top: 50px;
+      left: 0;
+      margin: 0 auto;
+      width: 60px;
+      height: 60px;
+      content: '';
+      border-radius: 6px;
+      background-color: $gray-rgba-600;
+      box-shadow: $shadow-depth-7;
+    }
+  }
+}
+
+.loading-children {
+  font-weight: 600;
+  color: $text-muted;
+  margin-top: 1rem;
+
+  .loading-inline & {
+    margin-top: 0;
+    margin-left: .5rem;
+  }
+  .loading-fixed & {
+    margin-top: 1.375rem;
+    border-radius: 1rem;
+    padding: 2px 10px;
+    background-color: $gray-rgba-600;
+    color: $gray-200 !important;
+    box-shadow: $shadow-depth-7;
+
+    body.theme-dark & {
+      color: $gray-700 !important;
+    }
+  }
+
+}
+
+.loading-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-self: center;
+  width: auto;
+  height: auto;
+  vertical-align: middle;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $white;
+  z-index: 100;
+}

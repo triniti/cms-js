@@ -1,0 +1,53 @@
+// Sortable Field
+
+.sortable-field {
+  margin: .5rem 0;
+  border: 1px solid $gray-700;
+  min-height: 40px;
+  padding: 0.25rem 0;
+  font-size: 0.825rem;
+  line-height: 1.7;
+  border-radius: $border-radius;
+  background-color: $white;
+
+  body.theme-dark & {
+    background-color: var(--form-control-bg);
+    border-color: var(--form-control-bg);
+  }
+}
+
+.sortable-handle {
+  cursor: move;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .12); // $shadow-depth-4
+
+    body.theme-dark & {
+      border-color: var(--button-border-color);
+    }
+  }
+  &[draggable="true"] {
+    border-color: $secondary;
+    box-shadow: 0 0 0 2px rgba($secondary, .3), $shadow-depth-5;
+
+    body.theme-dark & {
+      border-color: $secondary;
+      box-shadow: 0 0 2px 3px rgba($secondary, .5), $shadow-depth-3, $shadow-depth-6;
+    }
+  }
+  .btn:not(:focus):hover {
+    box-shadow: none;
+  }
+}
+
+
+// sortable ghost will reduce to a thin line when chosen item is selected
+
+.sortable-ghost {
+  min-height: 1px;
+  padding: 0;
+
+  > div {
+    display: none !important;
+  }
+}

@@ -1,0 +1,250 @@
+// Stepper
+
+.stepper-container {
+
+  & a,
+  & span {
+    line-height: 2.2 !important;
+  }
+
+  & div + a {
+    line-height: 1.5 !important;
+  }
+}
+
+.stepper-horizontal {
+  padding: .5rem 0;
+
+  & > div > div > div {
+    text-align: center;
+
+    & > div {
+      display: inline-block !important;
+      position: relative;
+      z-index: 2;
+      margin-top: 0 !important;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      background: $white;
+
+      .modal-header & {
+        background: $gray-100;
+      }
+      body.theme-dark & {
+        background-color: var(--modal-header-bg);
+        color: var(--body-color) !important;
+      }
+      &:first-child {
+        box-shadow: 0 0 0 5px $white;
+
+        .modal-header & {
+          box-shadow: 0 0 0 5px $gray-100;
+        }
+        body.theme-dark & {
+          box-shadow: 0 0 0 5px var(--modal-header-bg);
+        }
+      }
+      &:last-child {
+        display: inline-block !important;
+        position: absolute;
+        z-index: 0;
+        padding: 0;
+        background: transparent;
+      }
+    }
+
+    & > a {
+      position: relative;
+      z-index: 2;
+      display: inline-block !important;
+      margin-top: 0 !important;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      background: $white;
+
+      .modal-header & {
+        background: $gray-100;
+      }
+      body.theme-dark & {
+        background-color: var(--modal-header-bg);
+        color: var(--body-color) !important;
+      }
+      & + div {
+        z-index: 1;
+      }
+    }
+  }
+
+  &.stepper-fullwidth {
+    & > div > div > div {
+
+      &:first-child {
+        text-align: left;
+        overflow: hidden;
+        padding-top: 0 !important;
+
+        & > div:last-child {
+          left: 0 !important;
+          top: 50%;
+        }
+      }
+      &:last-child {
+        text-align: right;
+        overflow: hidden;
+        padding-top: 0 !important;
+
+        & > div:last-child {
+          right: 0 !important;
+          top: 50%;
+        }
+      }
+    }
+  }
+}
+
+// handle border color of bg-gray-100 - 400
+
+.bg-gray-100 > .stepper-horizontal,
+.stepper-horizontal.bg-gray-100 {
+
+  & > div > div > div {
+
+    & > div {
+      background: $gray-100;
+
+      &:first-child {
+        box-shadow: 0 0 0 5px $gray-100;
+
+        .modal-header & {
+          box-shadow: 0 0 0 5px $gray-100;
+        }
+        body.theme-dark & {
+          box-shadow: 0 0 0 5px var(--modal-header-bg);
+        }
+      }
+
+      &:last-child {
+        background: transparent;
+      }
+    }
+
+    & > a {
+      background: $gray-100;
+    }
+  }
+}
+
+.bg-gray-200 > .stepper-horizontal,
+.stepper-horizontal.bg-gray-200 {
+
+  & > div > div > div {
+
+    & > div {
+      background: $gray-200;
+
+      &:first-child {
+        box-shadow: 0 0 0 5px $gray-200;
+
+        .modal-header & {
+          box-shadow: 0 0 0 5px $gray-100;
+        }
+        body.theme-dark & {
+          box-shadow: 0 0 0 5px var(--modal-header-bg);
+        }
+      }
+
+      &:last-child {
+        background: transparent;
+      }
+    }
+
+    & > a {
+      background: $gray-200;
+    }
+  }
+}
+
+.bg-gray-300 > .stepper-horizontal,
+.stepper-horizontal.bg-gray-300 {
+
+  & > div > div > div {
+
+    & > div {
+      background: $gray-300;
+
+      &:first-child {
+        box-shadow: 0 0 0 5px $gray-300;
+
+        .modal-header & {
+          box-shadow: 0 0 0 5px $gray-100;
+        }
+        body.theme-dark & {
+          box-shadow: 0 0 0 5px var(--modal-header-bg);
+        }
+      }
+
+      &:last-child {
+        background: transparent;
+      }
+    }
+
+    & > a {
+      background: $gray-300;
+    }
+  }
+}
+
+.bg-gray-400 > .stepper-horizontal,
+.stepper-horizontal.bg-gray-400 {
+
+  & > div > div > div {
+
+    & > div {
+      background: $gray-400;
+
+      &:first-child {
+        box-shadow: 0 0 0 5px $gray-400;
+
+        .modal-header & {
+          box-shadow: 0 0 0 5px $gray-100;
+        }
+        body.theme-dark & {
+          box-shadow: 0 0 0 5px var(--modal-header-bg);
+        }
+      }
+
+      &:last-child {
+        background: transparent;
+      }
+    }
+
+    & > a {
+      background: $gray-400;
+    }
+  }
+}
+
+
+// fix for line over number and text
+
+.stepper-horizontal > div > div > div > a,
+.stepper-horizontal > div > div > div > div:nth-child(-n+2) {
+  position: relative;
+  z-index: 3;
+  // font-size: 12px;
+
+  a {
+    // width: 27px;
+    // display: block;
+    // line-height: 27px !important;
+  }
+}
+
+@media (max-width: 840px){
+  .stepper-horizontal.stepper-items-3 > div > div > div > a,
+  .stepper-horizontal.stepper-items-3 > div > div > div > div:nth-child(2) {
+    width: 100%;
+    padding: 0;
+    display: none !important;
+  }
+}

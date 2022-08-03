@@ -1,0 +1,148 @@
+// Alert
+
+.alert {
+  font-size: .875rem;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05);
+  text-align: center;
+  letter-spacing: .01em;
+
+  .card-body > &,
+  .alert-container & {
+    border-radius: $border-radius;
+  }
+  .alert-container & {
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.0625), $shadow-depth-7;
+  }
+  .alert-wrapper & {
+    animation: 300ms ease-out 0s 1 animate-slidein;
+  }
+  &:not(.alert-inverse) {
+    font-weight: 600;
+    color: $white;
+    text-shadow: 0 1px 0 $gray-rgba-600;
+  }
+  .screen-body-content > & {
+    margin-top: -.5rem;
+    margin-right: -.5rem;
+    margin-left: -.5rem;
+
+    @media (min-width: 421px) {
+      margin-top: -.75rem;
+      margin-right: -.75rem;
+      margin-left: -.75rem;
+    }
+    @media (min-width: 600px) {
+      margin-top: -1rem;
+      margin-right: -1rem;
+      margin-left: -1rem;
+    }
+    @media (min-width: 768px) {
+      margin-top: -1.25rem;
+      margin-right: -1.25rem;
+      margin-left: -1.25rem;
+    }
+    @media (min-width: 1025px) {
+      margin-top: -.75rem;
+      margin-right: 0;
+      margin-left: 0;
+      border-radius: 4px;
+    }
+  }
+}
+
+// alert animation
+@keyframes slideInAlert {
+  0% {
+    transform: translateY(-.5rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.alert-wrapper {
+  position: relative;
+}
+
+.alert-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  margin: 0 auto;
+  padding: .5rem 1rem;
+  max-width: 680px;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.alert-link {
+  font-weight: 600;
+  color: inherit;
+  text-decoration: underline;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+@each $color, $value in $theme-colors {
+  body.theme-dark {
+    .alert-#{$color}.alert-inverse {
+      background: shift-color($value, -67);
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .alert-#{$color}:not(.alert-inverse) {
+    background: shift-color($value, 2);
+
+    .alert-link {
+      font-weight: 700;
+      color: $white;
+      border-bottom: 1px dotted rgba(255,255,255,0.7);
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        border-bottom: 1px solid rgba(255, 255, 255, .9);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.alert-dismissible {
+  padding-right: 3rem;
+}
+
+
+// Alerts in tables
+.table .alert {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+td.alert,
+th.alert,
+.alert th,
+.alert td {
+  text-align: left;
+}
+
+.alert td,
+.alert td:hover .alert th,
+.alert th:hover {
+  border-radius: 0;
+  background-color: inherit;
+}
+
+.alert p:last-of-type {
+  margin-bottom: 0;
+}

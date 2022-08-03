@@ -1,0 +1,74 @@
+// Popover
+
+.popover {
+  box-shadow: $popover-box-shadow;
+
+  .popover-scrollable & {
+    width: 100%;
+    height: calc(86vh - 124px);
+    min-height: 200px;
+    max-width: 780px;
+    min-width: 238px;
+
+    @media (min-width: 400px) {
+      max-width: 346px;
+    }
+    @media (min-width: 520px) {
+      max-width: 454px;
+    }
+    @media (min-width: 1023px) {
+      max-width: 562px;
+    }
+    @media (min-width: 1160px) {
+      max-width: 670px;
+    }
+    & .popover-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+}
+
+.popover-header {
+  box-shadow: 0 -1px 0 0 $gray-rgba-300;
+}
+
+.bs-popover-bottom .popover-header::before,
+.bs-popover-auto[x-placement^="bottom"] .popover-header::before {
+  border-bottom: none;
+}
+
+.btn-popover { // for use with icon-group and span of text
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 1rem;
+  text-align: center;
+  background: $white;
+  width: 100px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  margin: 0 .25rem .5rem .25rem;
+
+  &::before {
+    content: '';
+  }
+  &:hover,
+  &:focus {
+    background: $white;
+    border-color: $secondary;
+  }
+  & > span:last-child {
+    display: block;
+    min-height: 34px;
+    white-space: normal;
+    word-wrap: normal;
+    text-align: center;
+    line-height: 1.3;
+    margin-top: .375rem;
+    font-size: .75rem;
+  }
+}

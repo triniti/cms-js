@@ -1,24 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, Label } from '@triniti/admin-ui-plugin/components';
+import classNames from 'classnames';
+import { Label } from 'reactstrap';
+import { useField, useFormContext } from 'components/index';
 
-const CheckboxField = ({ input, label, ...rest }) => (
-  <FormGroup check className="mr-4">
-    <Checkbox size="sd" id={input.name} {...input} checked={input.value === true} {...rest}>
-      <Label>{ label }</Label>
-    </Checkbox>
-  </FormGroup>
-);
+export default function CheckboxField(props) {
+  const { className = '', id, name, label, pbjName, inline, right, size, readOnly = false, ...rest } = props;
+  const formContext = useFormContext();
+  const { editMode } = formContext;
+  const { input } = useField({ ...props, type: 'checkbox' }, formContext);
 
-CheckboxField.propTypes = {
-  disabled: PropTypes.bool,
-  input: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
+  const groupClassName = classNames(
+    className,
+    'form-check',
+    {
+      'form-check-inline': inline,
+      'form-check-right': right,
+      [`form-check-${size}`]: !!size,
+    },
+  );
 
-CheckboxField.defaultProps = {
-  disabled: false,
-  label: '',
-};
+  const domId = (id || name || pbjName).replace(/(\[|\])/g, '-');
 
-export default CheckboxField;
+  return (
+    <div id={`form-group-${domId}`} className={groupClassName}>
+      <input
+        id={domId}
+        name={name}
+        className="form-check-input"
+        disabled={!editMode || readOnly}
+        type="checkbox"
+        {...input}
+        {...rest}
+      />
+      <Label className="form-check-label" htmlFor={domId}>{label}</Label>
+    </div>
+  );
+}

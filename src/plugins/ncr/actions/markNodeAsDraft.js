@@ -1,16 +1,9 @@
-import { actionTypes } from '../constants';
+import MessageResolver from '@gdbots/pbj/MessageResolver';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
-
-/**
- * Create a MARK NODE AS DRAFT REQUESTED action
- *
- * @param {Message} command - the pbjx command
- * @param {Object} config - the configuration for markNodeAsDraftFlow saga
- *
- * @returns {{type: {String}, pbj: {Message}, config: {Object} }}
- */
-export default (command, config) => ({
-  type: actionTypes.MARK_NODE_AS_DRAFT_REQUESTED,
-  pbj: command,
-  config,
-});
+export default (nodeRef) => async (dispatch, getState, app) => {
+  const MarkNodeAsDraftV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:mark-node-as-draft:v1');
+  const pbjx = app.getPbjx();
+  const command = MarkNodeAsDraftV1.create().set('node_ref', NodeRef.fromString(`${nodeRef}`));
+  await pbjx.send(command);
+};

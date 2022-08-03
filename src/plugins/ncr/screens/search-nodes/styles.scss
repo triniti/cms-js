@@ -1,9 +1,0 @@
-// fix for search input not being able to click to desired character
-// consider moving to admin-ui
-.search-nodes__input {
-  max-width: 100%;
-  resize: both;
-  height: unset !important;
-  line-height: 36px !important;
-  padding: 0 1rem 0 0.5rem !important;
-}
