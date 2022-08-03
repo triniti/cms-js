@@ -886,6 +886,7 @@ class Blocksmith extends React.Component {
 
     this.setState(() => ({
       editorState: selectBlock(editorState, activeBlockKey),
+      isDirty: false,
     }), () => {
       this.handleToggleBlockModal(canvasBlock);
     });
@@ -1688,6 +1689,7 @@ class Blocksmith extends React.Component {
       blockButtonsStyle,
       editorState,
       errors,
+      isDirty,
       isHoverInsertMode,
       isSidebarOpen,
       modalComponent: Modal,
@@ -1777,6 +1779,7 @@ class Blocksmith extends React.Component {
                   popoverRef={this.popoverRef}
                 />
               </div>
+              {isDirty && (
               <InlineToolbar>
                 {(props) => (
                   <>
@@ -1795,6 +1798,7 @@ class Blocksmith extends React.Component {
                   </>
                 )}
               </InlineToolbar>
+              )}
               {Modal && (
                 <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
                   <Modal />
