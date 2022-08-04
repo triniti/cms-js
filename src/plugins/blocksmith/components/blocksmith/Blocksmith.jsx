@@ -713,6 +713,8 @@ class Blocksmith extends React.Component {
       readOnly: false,
       modalComponent: null,
     }));
+    const inlinetoolbarStyle = document.querySelector('.inline-toolbar');
+    inlinetoolbarStyle.style.visibility = 'hidden';
   }
 
   /**
@@ -886,7 +888,6 @@ class Blocksmith extends React.Component {
 
     this.setState(() => ({
       editorState: selectBlock(editorState, activeBlockKey),
-      isDirty: false,
     }), () => {
       this.handleToggleBlockModal(canvasBlock);
     });
@@ -1779,7 +1780,6 @@ class Blocksmith extends React.Component {
                   popoverRef={this.popoverRef}
                 />
               </div>
-              {isDirty && (
               <InlineToolbar>
                 {(props) => (
                   <>
@@ -1798,7 +1798,6 @@ class Blocksmith extends React.Component {
                   </>
                 )}
               </InlineToolbar>
-              )}
               {Modal && (
                 <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
                   <Modal />
