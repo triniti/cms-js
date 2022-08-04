@@ -713,8 +713,6 @@ class Blocksmith extends React.Component {
       readOnly: false,
       modalComponent: null,
     }));
-    const inlinetoolbarStyle = document.querySelector('.inline-toolbar');
-    inlinetoolbarStyle.style.visibility = 'hidden';
   }
 
   /**
@@ -1199,6 +1197,7 @@ class Blocksmith extends React.Component {
     this.setState(() => ({
       modalComponent,
     }));
+    document.querySelector('.inline-toolbar').style.visibility = 'hidden';
   }
 
   /**
