@@ -1689,7 +1689,6 @@ class Blocksmith extends React.Component {
       blockButtonsStyle,
       editorState,
       errors,
-      isDirty,
       isHoverInsertMode,
       isSidebarOpen,
       modalComponent: Modal,
@@ -1779,6 +1778,7 @@ class Blocksmith extends React.Component {
                   popoverRef={this.popoverRef}
                 />
               </div>
+              {!Modal && (
               <InlineToolbar>
                 {(props) => (
                   <>
@@ -1797,6 +1797,7 @@ class Blocksmith extends React.Component {
                   </>
                 )}
               </InlineToolbar>
+              )}
               {Modal && (
                 <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
                   <Modal />
