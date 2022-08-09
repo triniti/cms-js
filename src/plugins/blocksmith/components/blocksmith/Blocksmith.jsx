@@ -1778,7 +1778,7 @@ class Blocksmith extends React.Component {
                   popoverRef={this.popoverRef}
                 />
               </div>
-              {!Modal && (
+              {//!Modal && (
               <InlineToolbar>
                 {(props) => (
                   <>
@@ -1797,7 +1797,8 @@ class Blocksmith extends React.Component {
                   </>
                 )}
               </InlineToolbar>
-              )}
+              //)
+            }
               {Modal && (
                 <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
                   <Modal />
