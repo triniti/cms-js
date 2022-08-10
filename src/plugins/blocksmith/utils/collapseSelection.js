@@ -8,14 +8,13 @@ import { EditorState, SelectionState } from 'draft-js';
  * @returns {EditorState} an EditorState instance
  */
 export default (editorState) => {
-
   const selectionState = editorState.getSelection();
   const anchorKey = selectionState.getAnchorKey();
 
   const updateSelection = new SelectionState({
     anchorKey,
     anchorOffset: 0,
-    focusKey : anchorKey,
+    focusKey: anchorKey,
     focusOffset: 0,
     isBackward: false,
   });
