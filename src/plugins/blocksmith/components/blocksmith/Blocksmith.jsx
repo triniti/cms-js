@@ -76,6 +76,7 @@ import {
   addEmoji,
   areKeysSame,
   blockParentNode,
+  collapseSelection,
   convertToEditorState,
   createLinkAtSelection,
   deleteBlock,
@@ -1197,7 +1198,6 @@ class Blocksmith extends React.Component {
     this.setState(() => ({
       modalComponent,
     }));
-    document.querySelector('.inline-toolbar').style.visibility = 'hidden';
   }
 
   /**
@@ -1259,25 +1259,29 @@ class Blocksmith extends React.Component {
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
   handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
-    const { modalComponent } = this.state;
+    const { editorState, modalComponent } = this.state;
 
     if (modalComponent) {
       this.handleCloseModal();
     } else {
       const { node } = this.props;
-      const message = canvasBlock.schema().getCurie().getMessage();
-      const ModalComponent = getModalComponent(message);
-      this.handleOpenModal(() => (
-        <ModalComponent
-          block={canvasBlock}
-          isFreshBlock={isFreshBlock}
-          isOpen
-          node={node}
-          onAddBlock={this.handleAddCanvasBlock}
-          onEditBlock={this.handleEditCanvasBlock}
-          toggle={this.handleCloseModal}
-        />
-      ));
+      this.setState(() => ({
+        editorState: collapseSelection(editorState),
+      }), () => {
+        const message = canvasBlock.schema().getCurie().getMessage();
+        const ModalComponent = getModalComponent(message);
+        this.handleOpenModal(() => (
+          <ModalComponent
+            block={canvasBlock}
+            isFreshBlock={isFreshBlock}
+            isOpen
+            node={node}
+            onAddBlock={this.handleAddCanvasBlock}
+            onEditBlock={this.handleEditCanvasBlock}
+            toggle={this.handleCloseModal}
+          />
+        ));
+      });
     }
   }
 
@@ -1397,7 +1401,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(function(block) { return ObjectSerializer.deserialize(block); });
+        .map(function (block) { return ObjectSerializer.deserialize(block); });
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
@@ -1778,7 +1782,6 @@ class Blocksmith extends React.Component {
                   popoverRef={this.popoverRef}
                 />
               </div>
-              {//!Modal && (
               <InlineToolbar>
                 {(props) => (
                   <>
@@ -1797,8 +1800,6 @@ class Blocksmith extends React.Component {
                   </>
                 )}
               </InlineToolbar>
-              //)
-            }
               {Modal && (
                 <ModalErrorBoundary onCloseModal={this.handleCloseModal}>
                   <Modal />
