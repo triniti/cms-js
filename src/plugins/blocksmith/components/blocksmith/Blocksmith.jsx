@@ -1266,7 +1266,7 @@ class Blocksmith extends React.Component {
     } else {
       const { node } = this.props;
       this.setState(() => ({
-        editorState: collapseSelection(editorState),
+        editorState: collapseSelection(editorState), // this way inline toolbar thinks that nothing is selected and will remain invisible in open/close Modal events.
       }), () => {
         const message = canvasBlock.schema().getCurie().getMessage();
         const ModalComponent = getModalComponent(message);
