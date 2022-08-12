@@ -11,7 +11,7 @@ export default function PicklistField({ picklist, ...rest }) {
 
   if (!node) {
     const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
-    return <Loading inline size="md" error={error}>Loading picklist {picklist}...</Loading>;
+    return <Loading inline size="sm" error={error}>Loading picklist {picklist}...</Loading>;
   }
 
   const allowOther = node.get('allow_other');
