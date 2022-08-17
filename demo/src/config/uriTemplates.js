@@ -40,4 +40,5 @@ registerTemplates({
   'pbj.json-schema': `https://schemas.${tld}/json-schema/{vendor}/{package}{/category}/{message}/{version}.json`,
   'node.edit': '/ncr/{label}/{_id}/edit',
   'node.view': '/ncr/{label}/{_id}',
+  [`${APP_VENDOR}:article.canonical`]: '{+web_base_url}{+slug}/',
 });
