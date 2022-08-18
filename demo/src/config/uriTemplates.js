@@ -41,4 +41,6 @@ registerTemplates({
   'node.edit': '/ncr/{label}/{_id}/edit',
   'node.view': '/ncr/{label}/{_id}',
   [`${APP_VENDOR}:article.canonical`]: '{+web_base_url}{+slug}/',
+  [`${APP_VENDOR}:article.cms`]: '/ncr/article/{_id}',
+  [`${APP_VENDOR}:article.preview`]: '{+web_base_url}_/preview/article/{_id}/',
 });
