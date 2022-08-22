@@ -130,7 +130,7 @@ const configs = {
     },
     label: 'Imgur Post Block',
   },
-  'instagram': {
+  'instagram-media-block': {
     icon: {
       imgSrc: 'instagram',
     },
