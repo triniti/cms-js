@@ -466,7 +466,7 @@ class Blocksmith extends React.Component {
         isHoverInsertModeBottom: null,
         editorState: selectBlock(newEditorState.editorState, newBlockKey),
         errors: newEditorState.errors,
-      }), () => this.positionComponents(newEditorState.getCurrentContent(), newBlockKey));
+      }), () => this.positionComponents(newEditorState.editorState.getCurrentContent(), newBlockKey));
     });
   }
 
