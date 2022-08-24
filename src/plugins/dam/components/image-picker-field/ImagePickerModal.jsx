@@ -22,6 +22,10 @@ export default function ImagePickerModal(props) {
   const tab = allowLinked ? 'linked-images' : 'search-images'
   const [activeTab, setActiveTab] = useState(tab);
 
+  const selectActiveTab = (tab) => {
+    setActiveTab(tab);
+  }
+
   return (
     <Modal isOpen backdrop="static" size="xxl">
       <ModalHeader toggle={props.toggle}>Select Primary Image</ModalHeader>
@@ -31,8 +35,8 @@ export default function ImagePickerModal(props) {
             {imageRef && (
               <NavItem active={'linked-images' === activeTab}>
                 <div
-                  className={'linked-images' === activeTab ? 'nav-link active': 'nav-link'}
-                  onClick={() => {setActiveTab('linked-images')}}
+                  className={'linked-images' === activeTab ? 'nav-link active' : 'nav-link'}
+                  onClick={() => selectActiveTab('linked-images')}
                 >
                   Linked Images
                 </div>
@@ -40,8 +44,8 @@ export default function ImagePickerModal(props) {
             )}
             <NavItem active={'search-images' === activeTab}>
               <div
-                className={'search-images' === activeTab ? 'nav-link active': 'nav-link'}
-                onClick={() => {setActiveTab('search-images')}}
+                className={'search-images' === activeTab ? 'nav-link active' : 'nav-link'}
+                onClick={() => selectActiveTab('search-images')}
               >
                 Search Images
               </div>
@@ -49,8 +53,8 @@ export default function ImagePickerModal(props) {
             {isGallery && (
               <NavItem active={'gallery-images' === activeTab}>
                 <div
-                  className={'gallery-images' === activeTab ? 'nav-link active': 'nav-link'}
-                  onClick={() => {setActiveTab('gallery-images')}}
+                  className={'gallery-images' === activeTab ? 'nav-link active' : 'nav-link'}
+                  onClick={() => selectActiveTab('gallery-images')}
                 >
                   Gallery Images
                 </div>
@@ -70,20 +74,21 @@ export default function ImagePickerModal(props) {
           </TabPane>
           <TabPane tabId="linked-images">
             <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
-            <LinkedImages
-              nodeRef={nodeRef}
-              selectImage={selectImage}
-              toggle={props.toggle}
-            />
+              <LinkedImages
+                nodeRef={nodeRef}
+                selectActiveTab={selectActiveTab}
+                selectImage={selectImage}
+                toggle={props.toggle}
+              />
             </div>
           </TabPane>
           <TabPane tabId="gallery-images">
             <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
-            <GalleryImages
-              nodeRef={nodeRef}
-              selectImage={selectImage}
-              toggle={props.toggle}
-            />
+              <GalleryImages
+                nodeRef={nodeRef}
+                selectImage={selectImage}
+                toggle={props.toggle}
+              />
             </div>
           </TabPane>
         </TabContent>
