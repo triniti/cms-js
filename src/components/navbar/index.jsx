@@ -57,6 +57,9 @@ export default function () {
                 {policy.isGranted('cms-view-articles') && (
                   <RouterLink to="/news/articles" className="dropdown-item" onClick={() => toggle('content')}>Articles</RouterLink>
                 )}
+                {policy.isGranted('cms-view-galleries') && (
+                  <RouterLink to="/curator/galleries" className="dropdown-item" onClick={() => toggle('content')}>Galleries</RouterLink>
+                )}
                 {policy.isGranted('cms-view-pages') && (
                   <RouterLink to="/canvas/pages" className="dropdown-item" onClick={() => toggle('content')}>Pages</RouterLink>
                 )}

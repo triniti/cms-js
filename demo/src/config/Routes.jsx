@@ -8,6 +8,7 @@ const ChannelScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/component
 const DashboardScreen = lazy(() => import('../plugins/dashboard/components/dashboard-screen'));
 const DemoScreen = lazy(() => import('../plugins/dashboard/components/demo-screen'));
 const FlagsetScreen = lazy(() => import('@triniti/cms/plugins/sys/components/flagset-screen'));
+const GalleryScreen = lazy(() => import('@triniti/cms/plugins/curator/components/gallery-screen'));
 const LoginScreen = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen'));
 const LogoutScreen = lazy(() => import('@triniti/cms/plugins/iam/components/logout-screen'));
 const NotificationScreen = lazy(() => import('@triniti/cms/plugins/notify/components/notification-screen'));
@@ -23,6 +24,7 @@ const SearchArticlesScreen = lazy(() => import('@triniti/cms/plugins/news/compon
 const SearchCategoriesScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/search-categories-screen'));
 const SearchChannelsScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/search-channels-screen'));
 const SearchFlagsetsScreen = lazy(() => import('@triniti/cms/plugins/sys/components/search-flagsets-screen'));
+const SearchGalleriesScreen = lazy(() => import('@triniti/cms/plugins/curator/components/search-galleries-screen'));
 const SearchNotificationsScreen = lazy(() => import('@triniti/cms/plugins/notify/components/search-notifications-screen'));
 const SearchPagesScreen = lazy(() => import('@triniti/cms/plugins/canvas/components/search-pages-screen'));
 const SearchPeopleScreen = lazy(() => import('@triniti/cms/plugins/people/components/search-people-screen'));
@@ -50,6 +52,7 @@ export default () => (
     <Route path="/apollo/polls" element={<SearchPollsScreen />} />
     <Route path="/boost/sponsors" element={<SearchSponsorsScreen />} />
     <Route path="/canvas/pages" element={<SearchPagesScreen />} />
+    <Route path="/curator/galleries" element={<SearchGalleriesScreen />} />
     <Route path="/curator/promotions" element={<SearchPromotionsScreen />} />
     <Route path="/curator/teasers" element={<SearchTeasersScreen />} />
     <Route path="/curator/timelines" element={<SearchTimelinesScreen />} />
@@ -83,6 +86,7 @@ export default () => (
     <Route path="/ncr/email-app/:id/*" element={<AppScreen label="email-app" />} />
     <Route path="/ncr/email-notification/:id/*" element={<NotificationScreen label="email-notification" />} />
     <Route path="/ncr/flagset/:id/*" element={<FlagsetScreen />} />
+    <Route path="/ncr/gallery/:id/*" element={<GalleryScreen />} />
     <Route path="/ncr/gallery-teaser/:id/*" element={<TeaserScreen label="gallery-teaser" />} />
     <Route path="/ncr/gallery-widget/:id/*" element={<WidgetScreen label="gallery-widget" />} />
     <Route path="/ncr/gridler-widget/:id/*" element={<WidgetScreen label="gridler-widget" />} />
