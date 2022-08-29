@@ -1,12 +1,13 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
+import CodeTab from 'plugins/common/components/code-tab';
+import SeoTab from 'plugins/common/components/seo-tab';
 import HistoryTab from 'plugins/ncr/components/history-tab';
 import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
-import SeoTab from 'plugins/common/components/seo-tab';
 import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/curator/components/gallery-screen/DetailsTab';
 
 function GalleryScreen(props) {
@@ -42,8 +43,9 @@ function GalleryScreen(props) {
       activeTab={tab}
       tabs={[
         { text: 'Details', to: urls.tab('details') },
+        { text: 'Code', to: urls.tab('code') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
-        { text: 'Seo', to: urls.tab('seo') },
+        { text: 'SEO', to: urls.tab('seo') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -107,6 +109,9 @@ function GalleryScreen(props) {
           <TabPane tabId="details">
             <DetailsTab {...props} />
           </TabPane>
+          <TabPane tabId="code">
+            <CodeTab {...props} />
+          </TabPane>
           <TabPane tabId="taxonomy">
             <TaxonomyTab {...props} />
           </TabPane>
@@ -127,6 +132,6 @@ function GalleryScreen(props) {
 
 export default withNodeScreen(GalleryScreen, {
   label: 'gallery',
-  defaultTab: 'story',
+  defaultTab: 'details',
   leaveUrl: '/curator/galleries',
 });
