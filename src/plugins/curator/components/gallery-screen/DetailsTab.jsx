@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { DatePickerField, SelectField, TextareaField, TextField } from 'components';
+import { DatePickerField, SelectField, SwitchField, TextareaField, TextField } from 'components';
 import AdvertisingFields from 'plugins/common/components/advertising-fields';
+import GalleryPickerField from 'plugins/curator/components/gallery-picker-field';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import SlugField from 'plugins/ncr/components/slug-field';
@@ -23,7 +24,10 @@ export default function DetailsTab(props) {
           <DatePickerField name="expires_at" label="Expires At" />
           <TextareaField name="description" label="Description" />
           <ImagePickerField name="image_ref" label="Primary Image" nodeRef={nodeRef} />
+          <TextField name="launch_text" label="Launch Text" />
           <SelectField name="layout" label="Layout" />
+          <SwitchField name="allow_comments" label="Allow Comments" />
+          <GalleryPickerField name="related_gallery_refs" label="Related Galleries" isMulti />
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
           )}
