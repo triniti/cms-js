@@ -11,7 +11,7 @@ import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/news/components/search-articles-screen/SearchForm';
 
-//const CreateGalleryModal = lazy(() => import('plugins/news/components/create-gallery-modal'));
+const CreateGalleryModal = lazy(() => import('plugins/curator/components/create-gallery-modal'));
 
 function SearchGalleriesScreen(props) {
   const { request, delegate } = props;
@@ -34,6 +34,7 @@ function SearchGalleriesScreen(props) {
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
+          {canCreate && <CreateModalButton text="Create Gallery" modal={CreateGalleryModal} />}
         </>
       }
     >
