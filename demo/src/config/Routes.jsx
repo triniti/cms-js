@@ -21,6 +21,7 @@ const RedirectScreen = lazy(() => import('@triniti/cms/plugins/sys/components/re
 const RoleScreen = lazy(() => import('@triniti/cms/plugins/iam/components/role-screen'));
 const SearchAppsScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-apps-screen'));
 const SearchArticlesScreen = lazy(() => import('@triniti/cms/plugins/news/components/search-articles-screen'));
+const SearchAssetsScreen = lazy(() => import('@triniti/cms/plugins/dam/components/search-assets-screen'));
 const SearchCategoriesScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/search-categories-screen'));
 const SearchChannelsScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/search-channels-screen'));
 const SearchFlagsetsScreen = lazy(() => import('@triniti/cms/plugins/sys/components/search-flagsets-screen'));
@@ -57,6 +58,7 @@ export default () => (
     <Route path="/curator/teasers" element={<SearchTeasersScreen />} />
     <Route path="/curator/timelines" element={<SearchTimelinesScreen />} />
     <Route path="/curator/widgets" element={<SearchWidgetsScreen />} />
+    <Route path="/dam/assets" element={<SearchAssetsScreen />} />
     <Route path="/demo" element={<DemoScreen />} />
     <Route path="/iam/apps" element={<SearchAppsScreen />} />
     <Route path="/iam/roles" element={<SearchRolesScreen />} />

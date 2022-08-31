@@ -88,6 +88,11 @@ export default function () {
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
+           {policy.isGranted('cms-view-asset') && (
+                <NavItem className={isGroupActive('asset') ? 'is-current' : ''}>
+                <RouterLink to="/dam/assets" navTab onClick={() => toggle('asset')}>Assets</RouterLink>
+              </NavItem>
+          )}
           {policy.isGranted('cms-view-structure') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
               <DropdownToggle nav>Structure</DropdownToggle>
