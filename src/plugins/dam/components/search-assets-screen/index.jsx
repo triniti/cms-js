@@ -1,9 +1,11 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Table } from 'reactstrap';
+import { Badge, Button, Card, Media, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
 import { scrollToTop } from 'components/screen';
+import damUrl from 'plugins/dam/damUrl';
+import filesize from 'filesize';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useCuries from 'plugins/pbjx/components/useCuries';
 import useRequest from 'plugins/pbjx/components/useRequest';
@@ -55,6 +57,7 @@ function SearchAssetsScreen(props) {
             <Table hover responsive>
               <thead>
                 <tr>
+                  <th></th>  
                   <th>Title</th>
                   <th>Mime type</th>
                   <th>File size</th>
@@ -69,13 +72,25 @@ function SearchAssetsScreen(props) {
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                       <td>
+                        {schema.getCurie().getMessage().replace('-asset', '') === 'image' && (
+                          <Media
+                            src={damUrl(node, '1by1', 'xs', null)}
+                            alt=""
+                            width="32"
+                            height="32"
+                            object
+                            className="rounded-2"
+                          />
+                        )}
+                      </td>  
+                      <td>
                         {node.get('title')}
                         <Badge className="ms-1" color="light" pill>
-                          {schema.getCurie().getMessage().replace('-asseet', '')}
+                          {schema.getCurie().getMessage().replace('-asset', '')}
                         </Badge>
                       </td>
-                      <td></td>
-                      <td></td>
+                      <td>{node.get('mime_type')}</td>
+                      <td>{filesize(node.get('file_size'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
