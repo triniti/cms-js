@@ -35,7 +35,6 @@ function SearchAssetsScreen(props) {
 
     const components = {};
     const resolveComponent = (label) => {
-        console.log('label =', label);
     if (components[label]) {
         return components[label];
     }
@@ -102,7 +101,7 @@ function SearchAssetsScreen(props) {
                         </Badge>
                       </td>
                       <td>{node.get('mime_type')}</td>
-                      <td>{filesize(node.get('file_size'))}</td>
+                      <td>{filesize(node.get('file_size').toString(), { round: 1 })}</td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>

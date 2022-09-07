@@ -2,21 +2,17 @@ import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
-  CheckboxField,
-  DatePickerField,
-  ErrorBoundary,
-  KeyValuesField,
-  Loading,
-  NumberField,
-  TextareaField,
   TextField
 } from 'components';
-import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
-import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import AdvertisingFields from 'plugins/common/components/advertising-fields';
+import filesize from 'filesize';
 import TaggableFields from 'plugins/common/components/taggable-fields';
-import PicklistField from 'plugins/sys/components/picklist-field';
+
+const getFileSize = (value) => {
+    return filesize(value.toString(), {round :1});
+  }
+
+
+
 
 const components = {};
 const resolveComponent = (label) => {
@@ -34,11 +30,20 @@ export default function DetailsTab(props) {
   const FieldsComponent = resolveComponent(label);
   const schema = node.schema();
 
+  const getDimensions = (value) =>{
+    return `${value} x ${node.get('height')}`;
+ }
+
   return (
     <>
       <Card>
-        <CardHeader>Details</CardHeader>
+        <CardHeader>{startCase(label).replace(/\s/g, ' ')}</CardHeader>
         <CardBody>
+          <TextField name="mime_type" label="MIME type" readOnly />
+          <TextField name="file_size" label="File size"  format={getFileSize} />
+          {label==='image-asset' && (
+            <TextField name="width" label="Dimensions"  format={getDimensions} />
+          )}
           <TextField name="title" label="Title" required />
         </CardBody>
       </Card>
