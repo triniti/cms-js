@@ -1,10 +1,10 @@
-import React, { lazy } from 'react';
-import { Badge, Button, Card, Media, Table } from 'reactstrap';
+import React, { lazy, Suspense } from 'react';
+import startCase from 'lodash-es/startCase';
+import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
+import { CreateModalButton, ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from 'components';
 import { scrollToTop } from 'components/screen';
-import damUrl from 'plugins/dam/damUrl';
 import filesize from 'filesize';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useCuries from 'plugins/pbjx/components/useCuries';
@@ -32,6 +32,18 @@ function SearchAssetsScreen(props) {
     run();
     scrollToTop();
   };
+
+    const components = {};
+    const resolveComponent = (label) => {
+        console.log('label =', label);
+    if (components[label]) {
+        return components[label];
+    }
+
+    const file = startCase(label).replace(/\s/g, '');
+    components[label] = lazy(() => import(`./${file}Icon`));
+    return components[label];
+    };
 
   return (
     <Screen
@@ -68,20 +80,20 @@ function SearchAssetsScreen(props) {
               <tbody>
                 {response.get('nodes', []).map(node => {
                   const schema = node.schema();
+                  const label = schema.getCurie().getMessage();
+                  const hasAssetIcon = label=== 'image-asset' || label === 'video-asset' || label==='audio-asset' ? true : false;
+                  const FieldsComponent = resolveComponent(label);
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                       <td>
-                        {schema.getCurie().getMessage().replace('-asset', '') === 'image' && (
-                          <Media
-                            src={damUrl(node, '1by1', 'xs', null)}
-                            alt=""
-                            width="32"
-                            height="32"
-                            object
-                            className="rounded-2"
-                          />
-                        )}
+                       {hasAssetIcon && (
+                        <Suspense fallback={<Loading />}>
+                          <ErrorBoundary>
+                             <FieldsComponent asset={node} />
+                          </ErrorBoundary>
+                        </Suspense>
+                       )}
                       </td>  
                       <td>
                         {node.get('title')}

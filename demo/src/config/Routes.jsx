@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 const AppScreen = lazy(() => import('@triniti/cms/plugins/iam/components/app-screen'));
 const ArticleScreen = lazy(() => import('@triniti/cms/plugins/news/components/article-screen'));
+const AssetScreen = lazy(() => import('@triniti/cms/plugins/dam/components/asset-screen'));
 const CategoryScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/category-screen'));
 const ChannelScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/channel-screen'));
 const DashboardScreen = lazy(() => import('../plugins/dashboard/components/dashboard-screen'));
@@ -93,6 +94,7 @@ export default () => (
     <Route path="/ncr/gallery-widget/:id/*" element={<WidgetScreen label="gallery-widget" />} />
     <Route path="/ncr/gridler-widget/:id/*" element={<WidgetScreen label="gridler-widget" />} />
     <Route path="/ncr/hero-bar-widget/:id/*" element={<WidgetScreen label="hero-bar-widget" />} />
+    <Route path="/ncr/image-asset/:id/*" element={<AssetScreen label="image-asset" />} />
     <Route path="/ncr/ios-app/:id/*" element={<AppScreen label="ios-app" />} />
     <Route path="/ncr/ios-notification/:id/*" element={<NotificationScreen label="ios-notification" />} />
     <Route path="/ncr/link-teaser/:id/*" element={<TeaserScreen label="link-teaser" />} />
