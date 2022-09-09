@@ -1,18 +1,9 @@
 import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import {
-  TextField
-} from 'components';
-import filesize from 'filesize';
+import { ErrorBoundary,  Loading, TextField } from 'components';
+import humanizeBytes from 'utils/humanizeBytes';
 import TaggableFields from 'plugins/common/components/taggable-fields';
-
-const getFileSize = (value) => {
-    return filesize(value.toString(), {round :1});
-  }
-
-
-
 
 const components = {};
 const resolveComponent = (label) => {
@@ -30,22 +21,19 @@ export default function DetailsTab(props) {
   const FieldsComponent = resolveComponent(label);
   const schema = node.schema();
 
-  const getDimensions = (value) =>{
-    return `${value} x ${node.get('height')}`;
- }
-
   return (
     <>
       <Card>
         <CardHeader>{startCase(label).replace(/\s/g, ' ')}</CardHeader>
         <CardBody>
           <TextField name="mime_type" label="MIME type" readOnly />
-          <TextField name="file_size" label="File size"  format={getFileSize} />
-          {label==='image-asset' && (
-            <TextField name="width" label="Dimensions"  format={getDimensions} />
-          )}
-          <TextField name="title" label="Title" required />
-        </CardBody>
+          <TextField name="file_size" label="File size" format={humanizeBytes} />
+          <Suspense fallback={<Loading />}>
+            <ErrorBoundary>
+              <FieldsComponent {...props} asset={node}/>
+            </ErrorBoundary>
+          </Suspense>
+        </CardBody>  
       </Card>
       <TaggableFields />
     </>

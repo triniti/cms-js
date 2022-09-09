@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import { CreateModalButton, ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from 'components';
 import { scrollToTop } from 'components/screen';
-import filesize from 'filesize';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useCuries from 'plugins/pbjx/components/useCuries';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
+import humanizeBytes from 'utils/humanizeBytes';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/dam/components/search-assets-screen/SearchForm';
 
@@ -101,7 +101,7 @@ function SearchAssetsScreen(props) {
                         </Badge>
                       </td>
                       <td>{node.get('mime_type')}</td>
-                      <td>{filesize(node.get('file_size').toString(), { round: 1 })}</td>
+                      <td>{humanizeBytes(node.get('file_size'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>

@@ -74,6 +74,7 @@ export default () => (
     <Route path="/ncr/android-notification/:id/*" element={<NotificationScreen label="android-notification" />} />
     <Route path="/ncr/apple-news-app/:id/*" element={<AppScreen label="apple-news-app" />} />
     <Route path="/ncr/apple-news-notification/:id/*" element={<NotificationScreen label="apple-news-notification" />} />
+    <Route path="/ncr/archive-asset/:id/*" element={<AssetScreen label="archive-asset" />} />
     <Route path="/ncr/article/:id/*" element={<ArticleScreen />} />
     <Route path="/ncr/article-teaser/:id/*" element={<TeaserScreen label="article-teaser" />} />
     <Route path="/ncr/asset-teaser/:id/*" element={<TeaserScreen label="asset-teaser" />} />
@@ -126,6 +127,7 @@ export default () => (
     <Route path="/ncr/twitter-notification/:id/*" element={<NotificationScreen label="twitter-notification" />} />
     <Route path="/ncr/user/:id/*" element={<UserScreen />} />
     <Route path="/ncr/video/:id/*" element={<VideoScreen />} />
+    <Route path="/ncr/video-asset/:id/*" element={<AssetScreen label="video-asset" />} />
     <Route path="/ncr/video-teaser/:id/*" element={<TeaserScreen label="video-teaser" />} />
     <Route path="/ncr/youtube-video-teaser/:id/*" element={<TeaserScreen label="youtube-video-teaser" />} />
     <Route path="/news/articles" element={<SearchArticlesScreen />} />

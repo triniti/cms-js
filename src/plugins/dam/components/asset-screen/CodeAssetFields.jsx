@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default function AudioAssetFields(props) {
+export default function CodeAssetFields(props) {
   const {asset, groupClassName = ''} = props  
 
   const rootClassName = classNames(
