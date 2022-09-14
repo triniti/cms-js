@@ -78,6 +78,7 @@ export default () => (
     <Route path="/ncr/article/:id/*" element={<ArticleScreen />} />
     <Route path="/ncr/article-teaser/:id/*" element={<TeaserScreen label="article-teaser" />} />
     <Route path="/ncr/asset-teaser/:id/*" element={<TeaserScreen label="asset-teaser" />} />
+    <Route path="/ncr/audio-asset/:id/*" element={<AssetScreen label="audio-asset" />} />
     <Route path="/ncr/blogroll-widget/:id/*" element={<WidgetScreen label="blogroll-widget" />} />
     <Route path="/ncr/browser-app/:id/*" element={<AppScreen label="browser-app" />} />
     <Route path="/ncr/browser-notification/:id/*" element={<NotificationScreen label="browser-notification" />} />
@@ -86,7 +87,9 @@ export default () => (
     <Route path="/ncr/category-teaser/:id/*" element={<TeaserScreen label="category-teaser" />} />
     <Route path="/ncr/channel/:id/*" element={<ChannelScreen />} />
     <Route path="/ncr/channel-teaser/:id/*" element={<TeaserScreen label="channel-teaser" />} />
+    <Route path="/ncr/code-asset/:id/*" element={<AssetScreen label="code-asset" />} />
     <Route path="/ncr/code-widget/:id/*" element={<WidgetScreen label="code-widget" />} />
+    <Route path="/ncr/document-asset/:id/*" element={<AssetScreen label="document-asset" />} />
     <Route path="/ncr/email-app/:id/*" element={<AppScreen label="email-app" />} />
     <Route path="/ncr/email-notification/:id/*" element={<NotificationScreen label="email-notification" />} />
     <Route path="/ncr/flagset/:id/*" element={<FlagsetScreen />} />
@@ -125,6 +128,7 @@ export default () => (
     <Route path="/ncr/timeline-teaser/:id/*" element={<TeaserScreen label="timeline-teaser" />} />
     <Route path="/ncr/twitter-app/:id/*" element={<AppScreen label="twitter-app" />} />
     <Route path="/ncr/twitter-notification/:id/*" element={<NotificationScreen label="twitter-notification" />} />
+    <Route path="/ncr/unknown-asset/:id/*" element={<AssetScreen label="unknown-asset" />} />
     <Route path="/ncr/user/:id/*" element={<UserScreen />} />
     <Route path="/ncr/video/:id/*" element={<VideoScreen />} />
     <Route path="/ncr/video-asset/:id/*" element={<AssetScreen label="video-asset" />} />

@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import CommonFields from './CommonFields';
 
 export default function ArchiveAssetFields(props) {
   const {asset, groupClassName = ''} = props  
@@ -9,6 +10,8 @@ export default function ArchiveAssetFields(props) {
      'form-group',
   );  
   return (
-    <div className={rootClassName}> Archive Asset Fields</div>  
+    <div className={rootClassName}>
+      <CommonFields asset={asset} credit="archive-asset-credits" />
+    </div>  
   );
 }

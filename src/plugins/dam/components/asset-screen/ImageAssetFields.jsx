@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { Media } from 'reactstrap';
 import { TextField } from 'components';
 import damUrl from 'plugins/dam/damUrl';
+import PollPickerField from 'plugins/apollo/components/poll-picker-field';
+import CommonFields from './CommonFields';
 
 export default function ImageAssetFields(props) {
   const {asset, groupClassName = ''} = props  
@@ -25,7 +27,9 @@ export default function ImageAssetFields(props) {
          height="auto"
          object
          className="rounded-2" 
-       />
+      />
+      <CommonFields asset={asset} credit="image-asset-credits"/>
+      <PollPickerField name="polls" label="Search and Select a Poll" />
     </div>  
   );
 }

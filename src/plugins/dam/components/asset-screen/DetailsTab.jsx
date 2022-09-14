@@ -27,7 +27,7 @@ export default function DetailsTab(props) {
         <CardHeader>{startCase(label).replace(/\s/g, ' ')}</CardHeader>
         <CardBody>
           <TextField name="mime_type" label="MIME type" readOnly />
-          <TextField name="file_size" label="File size" format={humanizeBytes} />
+          <TextField name="file_size" label="File size" format={humanizeBytes} readOnly />
           <Suspense fallback={<Loading />}>
             <ErrorBoundary>
               <FieldsComponent {...props} asset={node}/>
