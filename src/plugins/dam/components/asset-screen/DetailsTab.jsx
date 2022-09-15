@@ -4,6 +4,8 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { ErrorBoundary,  Loading, TextField } from 'components';
 import humanizeBytes from 'utils/humanizeBytes';
 import TaggableFields from 'plugins/common/components/taggable-fields';
+import TranscodeableCard from './TranscodeableCard';
+import TranscribeableCard from './TranscribeableCard';
 
 const components = {};
 const resolveComponent = (label) => {
@@ -35,7 +37,15 @@ export default function DetailsTab(props) {
           </Suspense>
         </CardBody>  
       </Card>
-      <TaggableFields />
+      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
+       <TranscodeableCard asset={node} />
+      )}
+      {schema.hasMixin('triniti:ovp:mixin:transcribable') && (
+       <TranscribeableCard asset={node} />
+      )}
+      {schema.hasMixin('gdbots:common:mixin:taggable') && (
+       <TaggableFields />
+      )}
     </>
   );
 }
