@@ -14,15 +14,14 @@ export default function TranscodeableCard({ asset }) {
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
   const schema = asset.schema();
 
-
   return (
     <Card>
       <CardHeader>
+        Transcoding
         <span>
           Status <Badge color="dark" pill className={`status-${status}`}>{status}</Badge>
         </span>
       </CardHeader>
-
       <Table className="border-bottom border-light mb-0">
         <tbody>
           {['original', 'manifest', 'subtitled', 'video', 'tooltip-thumbnail-sprite', 'tooltip-thumbnail-track'].map((type) => (
@@ -41,9 +40,6 @@ export default function TranscodeableCard({ asset }) {
           ))}
         </tbody>
       </Table>
-
-
     </Card>
-
   )
 }
