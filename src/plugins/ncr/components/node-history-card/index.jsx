@@ -1,19 +1,23 @@
 import React, { lazy, useEffect, useState } from 'react';
 import startCase from 'lodash-es/startCase';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { Badge, Button, ButtonGroup, Card, CardBody, CardHeader, Spinner } from 'reactstrap';
 import { CreateModalButton, Icon, Loading } from 'components';
 import { scrollToTop } from 'components/screen';
+import usePolicy from 'plugins/iam/components/usePolicy';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import Event from 'plugins/ncr/components/node-history-card/Event';
+import RevertButton from 'plugins/ncr/components/revert-button';
 import UserLink from 'plugins/ncr/components/node-history-card/UserLink';
 
 const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
 
 function NodeHistoryCard(props) {
-  const { nodeRef: nodeRefStr, request } = props;
+  const policy = usePolicy();
+  const { nodeRef: nodeRefStr, request, isRevertGranted } = props;
   const nodeRef = NodeRef.fromString(nodeRefStr);
   request
     .set('node_ref', nodeRef)
@@ -43,6 +47,21 @@ function NodeHistoryCard(props) {
     run();
   };
 
+  /**
+   * Is Db Value Same As Node Value
+   *
+   * (For lack of a shorter name.)
+   *
+   * @param {string} id
+   * @param {*} dbValue
+   * @returns boolean
+   */
+ const isDbValueSameAsNodeValue = (id, dbValue) => {
+   const nodeValue = this.ownProps.node.toObject()[id];
+   return isEqual(dbValue, nodeValue);
+ }
+
+  window.x = response;
   return (
     <Card>
       <CardHeader id={`${nodeRefStr}-history`}>
@@ -63,12 +82,14 @@ function NodeHistoryCard(props) {
               const occurredAt = date.format('MMM DD, YYYY hh:mm:ss A');
               const occurredAtAgo = date.fromNow();
               const userRef = event.get('ctx_user_ref');
+              const schema = event.schema();
+              const pathsLength = event.get('paths', []).length;
               return (
                 <div key={event.get('event_id')} className="mb-4">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div className="d-flex flex-column ">
                       <h5>
-                        <span className="me-1"><strong>{startCase(event.schema().getCurie().getMessage())}</strong></span>
+                        <span className="me-1"><strong>{startCase(schema.getCurie().getMessage())}</strong></span>
                         <span className="me-1">by <strong><UserLink userRef={userRef} /></strong></span>
                       </h5>
                       <small className="d-flex align-items-center">
@@ -76,6 +97,21 @@ function NodeHistoryCard(props) {
                         <span>{occurredAt}</span>
                       </small>
                     </div>
+                    {
+                      policy.isGranted('cms-history-revert')
+                      && schema.hasMixin('gdbots:ncr:mixin:node-updated')
+                      && event.get('new_etag') !== event.get('old_etag')
+                      && pathsLength > 0
+                      && (
+                        <RevertButton
+                          disabled={!index /*|| !hasDifferentDbValues(event)*/}
+                          event={event}
+                          isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+                          // isFormDirty={isFormDirty}
+                          // onRevert={handleRevert}
+                        />
+                      )
+                    }
                     <CreateModalButton
                       text="View Raw Data"
                       size="sm"
