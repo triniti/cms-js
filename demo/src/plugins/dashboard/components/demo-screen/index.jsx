@@ -72,7 +72,8 @@ import {
   Loading,
   Screen,
   SwitchField,
-  withForm
+  withForm,
+  withPbj
 } from '@triniti/cms/components';
 import ModalExample from './Modals';
 import './styles.scss';
@@ -4730,7 +4731,7 @@ function DemoScreen() {
   );
 }
 
-function createScreen() {
+/*function createScreen() {
   const ScreenWithForm = withForm(DemoScreen, {
     name: 'demo',
     keepDirtyOnReinitialize: false,
@@ -4742,6 +4743,6 @@ function createScreen() {
     const pbj = {};
     return <ScreenWithForm pbj={pbj} {...props} />;
   };
-}
+}*/
 
-export default createScreen();
+export default withPbj(withForm(DemoScreen),'*:ovp:node:video:v1');

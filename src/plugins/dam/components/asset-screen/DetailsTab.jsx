@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { ErrorBoundary,  Loading, TextField } from 'components';
-import humanizeBytes from 'utils/humanizeBytes';
 import TaggableFields from 'plugins/common/components/taggable-fields';
 import TranscodeableCard from './TranscodeableCard';
 import TranscribeableCard from './TranscribeableCard';
@@ -28,8 +27,6 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>{startCase(label).replace(/\s/g, ' ')}</CardHeader>
         <CardBody>
-          <TextField name="mime_type" label="MIME type" readOnly />
-          <TextField name="file_size" label="File size" format={humanizeBytes} readOnly />
           <Suspense fallback={<Loading />}>
             <ErrorBoundary>
               <FieldsComponent {...props} asset={node}/>
