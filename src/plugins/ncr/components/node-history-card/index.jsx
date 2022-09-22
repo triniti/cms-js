@@ -109,6 +109,8 @@ function NodeHistoryCard(props) {
                           isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
                           // isFormDirty={isFormDirty}
                           // onRevert={handleRevert}
+                          isFormDirty={false}
+                          onRevert={() => {}}
                         />
                       )
                     }

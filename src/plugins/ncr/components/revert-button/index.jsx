@@ -1,46 +1,33 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import RevertModal from 'plugins/ncr/components/revert-modal';
 import Message from '@gdbots/pbj/Message';
 
-export default class RevertButton extends React.Component {
-  static propTypes = {
-    event: PropTypes.instanceOf(Message).isRequired,
-    isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-    isFormDirty: PropTypes.bool.isRequired,
-    onRevert: PropTypes.func.isRequired,
-  };
+const RevertButton = ({
+  event,
+  isDbValueSameAsNodeValue,
+  isFormDirty,
+  onRevert: handleRevert,
+  ...btnProps
+  }) => {
 
-  constructor(props) {
-    super(props);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    this.state = {
-      isModalOpen: false,
-    };
-
-    this.handleToggleRevertModal = this.handleToggleRevertModal.bind(this);
+  const handleToggleRevertModal = () => {
+    setIsModalOpen(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
   }
 
-  handleToggleRevertModal() {
-    this.setState(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
-  }
-
-  render() {
-    const {
-      event,
-      isDbValueSameAsNodeValue,
-      isFormDirty,
-      onRevert: handleRevert,
-      ...btnProps
-    } = this.props;
-
-    const { isModalOpen } = this.state;
-
-    return ([
-      <Button key="a" color="light" size="sm" radius="round" className="mr-2" onClick={this.handleToggleRevertModal} {...btnProps}>Revert</Button>,
-      isModalOpen
-      && (
+  return ([
+    <Button
+      key="a"
+      color="light"
+      size="sm"
+      radius="round"
+      className="mr-2"
+      onClick={handleToggleRevertModal} {...btnProps}>Revert</Button>,
+    isModalOpen
+    && (
       <RevertModal
         key="b"
         isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
@@ -48,9 +35,17 @@ export default class RevertButton extends React.Component {
         isOpen={isModalOpen}
         event={event}
         onRevert={handleRevert}
-        onToggleRevertModal={this.handleToggleRevertModal}
+        onToggleRevertModal={handleToggleRevertModal}
       />
-      ),
-    ]);
-  }
+    ),
+  ]);
 }
+
+RevertButton.propTypes = {
+  event: PropTypes.instanceOf(Message).isRequired,
+  isDbValueSameAsNodeValue: PropTypes.func.isRequired,
+  isFormDirty: PropTypes.bool.isRequired,
+  onRevert: PropTypes.func.isRequired,
+};
+
+export default RevertButton;
