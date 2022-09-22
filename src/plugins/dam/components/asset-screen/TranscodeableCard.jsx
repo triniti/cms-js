@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import artifactUrl from 'plugins/ovp/artifactUrl';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
@@ -8,19 +8,12 @@ import damUrl from 'plugins/dam/damUrl';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import startCase from 'lodash/startCase';
-import useCuries from 'plugins/pbjx/components/useCuries';
-import useResolver from 'components/with-pbj/useResolver';
+import withPbj from 'components/with-pbj';
 
-export { useResolver };
-
-
-export default function TranscodeableCard({ asset }) {
+function TranscodeableCard({ asset, pbj }) {
   const status = asset.has('transcoding_status') ? asset.get('transcoding_status').getValue() : 'unknown';
   const videoId = AssetId.fromString(NodeRef.fromNode(asset).getId());
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
-
-  const imageAssetCurie = useCuries('triniti:dam:mixin:image-asset:v1');
-  const pbj = useResolver(imageAssetCurie);
 
   const image = pbj !== null ? pbj.set('_id', imageId) : null;
   const linkToImageAsset = image && nodeUrl(image, 'view');
@@ -38,7 +31,7 @@ export default function TranscodeableCard({ asset }) {
           <Table className="border-bottom border-light mb-0">
             <tbody>
               {['original', 'manifest', 'subtitled', 'video', 'tooltip-thumbnail-sprite', 'tooltip-thumbnail-track'].map((type) => (
-                <tr>
+                <tr key={type}>
                   <td className="pl-1">{`${startCase(camelCase(type))}:`}</td>
                   <td>
                     <a
@@ -59,7 +52,7 @@ export default function TranscodeableCard({ asset }) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {` ${damUrl(imageId)}`}
+                    {`${damUrl(imageId)}`}
                   </a>
                 </td>
               </tr>
@@ -67,7 +60,9 @@ export default function TranscodeableCard({ asset }) {
                 <td className="pl-1">Image Asset:</td>
                 <td>
                   {image && (
-                    <Link to={linkToImageAsset}>{linkToImageAsset}</Link>
+                    <Link to={linkToImageAsset} target="_blank" rel="noopener noreferrer">
+                      {`${linkToImageAsset}`}
+                    </Link>
                   )}
                 </td>
               </tr>
@@ -81,3 +76,5 @@ export default function TranscodeableCard({ asset }) {
     </Card>
   )
 }
+
+export default withPbj(TranscodeableCard, '*:dam:node:image-asset:v1');
