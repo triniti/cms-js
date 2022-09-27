@@ -121,7 +121,7 @@ function AssetScreen(props) {
           </TabPane>
           {node.schema().hasMixin('triniti:dam:mixin:image-asset') && (
           <TabPane tabId="variants">
-            <VariantsTab {...props} type="image-asset"/>
+            <VariantsTab {...props} asset={node} type="image-asset"/>
           </TabPane>
           )}
           <TabPane tabId="history">
