@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import damUrl from 'plugins/dam/damUrl';
-import getFileList from '../../selectors.js/getFileList';
+import getFileList from '../../selectors/getFileList';
 import variants from './variants';
 
 /*const getVariantSrc = (asset, version, updatedVariants) => {
