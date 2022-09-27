@@ -3,11 +3,11 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
 import HistoryTab from 'plugins/ncr/components/history-tab';
 import RawTab from 'plugins/ncr/components/raw-tab';
-import SeoTab from 'plugins/common/components/seo-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/dam/components/asset-screen/DetailsTab';
+import VariantsTab from 'plugins/dam/components/asset-screen/VariantsTab';
 
 function AssetScreen(props) {
   const {
@@ -31,6 +31,21 @@ function AssetScreen(props) {
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
 
+  const TabItems=[
+    { text: 'Details', to: urls.tab('details') },
+    { text: 'Taxonomy', to: urls.tab('taxonomy') },
+    { text: 'History', to: urls.tab('history') },
+    { text: 'Raw', to: urls.tab('raw') },
+  ]
+
+  const TabItemsWithVariants=[
+    { text: 'Details', to: urls.tab('details') },
+    { text: 'Taxonomy', to: urls.tab('taxonomy') },
+    { text: 'Variants', to: urls.tab('variants') },
+    { text: 'History', to: urls.tab('history') },
+    { text: 'Raw', to: urls.tab('raw') },
+  ]
+
   return (
     <Screen
       title={node.get('title')}
@@ -40,12 +55,7 @@ function AssetScreen(props) {
         { text: node.get('title') },
       ]}
       activeTab={tab}
-      tabs={[
-        { text: 'Details', to: urls.tab('details') },
-        { text: 'Taxonomy', to: urls.tab('taxonomy') },
-        { text: 'History', to: urls.tab('history') },
-        { text: 'Raw', to: urls.tab('raw') },
-      ]}
+      tabs={[...(node.schema().hasMixin('triniti:dam:mixin:image-asset') ? TabItemsWithVariants : TabItems)]}
       primaryActions={
         <>
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
@@ -109,6 +119,11 @@ function AssetScreen(props) {
           <TabPane tabId="taxonomy">
             <TaxonomyTab {...props} />
           </TabPane>
+          {node.schema().hasMixin('triniti:dam:mixin:image-asset') && (
+          <TabPane tabId="variants">
+            <VariantsTab {...props} type="image-asset"/>
+          </TabPane>
+          )}
           <TabPane tabId="history">
             <HistoryTab {...props} />
           </TabPane>
