@@ -6,7 +6,7 @@ import findNodeDiff from 'plugins/ncr/components/node-history-card/findNodeDiff'
 export default function Event({ event }) {
   const schema = event.schema();
 
-  if (schema.usesCurie('gdbots:ncr:event:node-updated')) {
+  if (schema.usesCurie('gdbots:ncr:mixin:node-updated')) {
     if (event.get('new_etag') === event.get('old_etag')) {
       return <div key="a"><strong className="text-black-50 ps-2 pe-2">No Changes</strong></div>;
     }

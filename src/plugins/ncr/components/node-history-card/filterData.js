@@ -20,6 +20,7 @@ const omitKeys = [
   'is_weekend',
   'last_event_ref',
   'month_of_year',
+  'node_ref',
   'occurred_at',
   'ts_ym',
   'ts_ymd',

@@ -239,15 +239,12 @@ function DemoScreen() {
   ];
 
   const options = [ // React Select Content
-    { value: 'Albert Gutierrez', label: 'Albert Gutierrez' },
-    { value: 'Arun Karnati', label: 'Arun Karnati' },
     { value: 'Christopher Murray', label: 'Christopher Murray' },
     { value: 'Greg Brown', label: 'Greg Brown' },
     { value: 'Jim Murphy', label: 'Jim Murphy' },
     { value: 'Joel Capillo', label: 'Joel Capillo' },
     { value: 'Mariam Gevorkyan', label: 'Mariam Gevorkyan' },
     { value: 'Vagram Kayfejian', label: 'Vagram Kayfejian' },
-    { value: 'Samuel White', label: 'Samuel White' },
     { value: 'Brian Hsiao', label: 'Brian Hsiao' },
     { value: 'Chris Clifton', label: 'Chris Clifton' },
     { value: 'Daniel Shneyder', label: 'Daniel Shneyder' },

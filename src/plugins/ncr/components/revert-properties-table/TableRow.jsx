@@ -5,22 +5,18 @@ import Message from '@gdbots/pbj/Message';
 import ValueRenderer from './ValueRenderer';
 
 const TableRow = ({
-  isFieldSelected,
   node,
   onSelectField: handleSelectField,
   property: [label, value],
 }) => {
-
-  handleSelectField(label, node.get(label), true);
 
   return (
     <tr>
       <th scope="row" className="pl-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>
         <Input
           id={label}
-          checked={isFieldSelected(label)}
           onChange={({ target: { checked } }) => { handleSelectField(label, node.get(label), checked); }}
-          size="sd"
+          bsSize="sd"
           type="checkbox"
         />
       </th>
@@ -31,7 +27,6 @@ const TableRow = ({
 }
 
 TableRow.propTypes = {
-  isFieldSelected: PropTypes.func.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   onSelectField: PropTypes.func.isRequired,
   property: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types

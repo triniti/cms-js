@@ -15,7 +15,7 @@ const RevertButton = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleRevertModal = () => {
-    setIsModalOpen(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
+    setIsModalOpen(!isModalOpen);
   }
 
   return ([

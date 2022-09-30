@@ -17,7 +17,7 @@ const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
 
 function NodeHistoryCard(props) {
   const policy = usePolicy();
-  const { nodeRef: nodeRefStr, request, isRevertGranted } = props;
+  const { isFormDirty, nodeRef: nodeRefStr, request, isRevertGranted } = props;
   const nodeRef = NodeRef.fromString(nodeRefStr);
   request
     .set('node_ref', nodeRef)
@@ -56,12 +56,11 @@ function NodeHistoryCard(props) {
    * @param {*} dbValue
    * @returns boolean
    */
- const isDbValueSameAsNodeValue = (id, dbValue) => {
-   const nodeValue = this.ownProps.node.toObject()[id];
-   return isEqual(dbValue, nodeValue);
- }
+  const isDbValueSameAsNodeValue = (id, dbValue) => {
+    const nodeValue = props.node.toObject()[id];
+    return isEqual(dbValue, nodeValue);
+  }
 
-  window.x = response;
   return (
     <Card>
       <CardHeader id={`${nodeRefStr}-history`}>
@@ -97,31 +96,33 @@ function NodeHistoryCard(props) {
                         <span>{occurredAt}</span>
                       </small>
                     </div>
-                    {
-                      policy.isGranted('cms-history-revert')
-                      && schema.hasMixin('gdbots:ncr:mixin:node-updated')
-                      && event.get('new_etag') !== event.get('old_etag')
-                      && pathsLength > 0
-                      && (
-                        <RevertButton
-                          disabled={!index /*|| !hasDifferentDbValues(event)*/}
-                          event={event}
-                          isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
-                          // isFormDirty={isFormDirty}
-                          // onRevert={handleRevert}
-                          isFormDirty={false}
-                          onRevert={() => {}}
-                        />
-                      )
-                    }
-                    <CreateModalButton
-                      text="View Raw Data"
-                      size="sm"
-                      className="rounded-pill"
-                      modal={RawPbjModal}
-                      modalProps={{
-                        pbj: event,
-                      }} />
+                    <span>
+                      {
+                        policy.isGranted('cms-history-revert')
+                        && schema.hasMixin('gdbots:ncr:mixin:node-updated')
+                        && event.get('new_etag') !== event.get('old_etag')
+                        && pathsLength > 0
+                        && (
+                          <RevertButton
+                            disabled={!index /*|| !hasDifferentDbValues(event)*/}
+                            event={event}
+                            isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
+                            isFormDirty={isFormDirty}
+                            // onRevert={handleRevert}
+                            onRevert={() => {}}
+                            className="rounded-pill"
+                          />
+                        )
+                      }
+                      <CreateModalButton
+                        text="View Raw Data"
+                        size="sm"
+                        className="rounded-pill"
+                        modal={RawPbjModal}
+                        modalProps={{
+                          pbj: event,
+                        }} />
+                    </span>
                   </div>
                   <Event event={event} />
                 </div>

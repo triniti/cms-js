@@ -119,7 +119,7 @@ function ArticleScreen(props) {
             <SeoTab {...props} />
           </TabPane>
           <TabPane tabId="history">
-            <HistoryTab {...props} />
+            <HistoryTab isFormDirty={dirty} {...props} />
           </TabPane>
           <TabPane tabId="raw">
             <RawTab {...props} />

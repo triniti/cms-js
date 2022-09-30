@@ -6,7 +6,7 @@ import filterRevertableData from 'plugins/ncr/components/node-history-card/filte
 import findNodeDiff from 'plugins/ncr/components/node-history-card/findNodeDiff';
 import fullMapsAndLists from 'plugins/ncr/components/node-history-card/fullMapsAndLists';
 
-const RevertDetails = ({ event, isFieldSelected, isDbValueSameAsNodeValue, onSelectField: handleSelectField }) => {
+const RevertDetails = ({ event, isDbValueSameAsNodeValue, onSelectField: handleSelectField }) => {
   // find properties in node that were removed
   const newNode = event.get('new_node').toObject();
   const oldNode = event.get('old_node').toObject();
@@ -26,7 +26,6 @@ const RevertDetails = ({ event, isFieldSelected, isDbValueSameAsNodeValue, onSel
       data={data}
       node={event.get('new_node')}
       isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
-      isFieldSelected={isFieldSelected}
       onSelectField={handleSelectField}
     />
   );
@@ -35,7 +34,6 @@ const RevertDetails = ({ event, isFieldSelected, isDbValueSameAsNodeValue, onSel
 RevertDetails.propTypes = {
   event: PropTypes.instanceOf(Message).isRequired,
   isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-  isFieldSelected: PropTypes.func.isRequired,
   onSelectField: PropTypes.func.isRequired,
 };
 

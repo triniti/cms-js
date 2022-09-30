@@ -34,23 +34,12 @@ const RevertModal = ({
   
   const [ selected, setSelected ] = useState([]);
 
-  const isFieldSelected = (id) => {
-    let found = false;
-    selected.forEach((item) => {
-      const { id: itemId } = item;
-      if (!found && id === itemId) {
-        found = true;
-      }
-    });
-    return found;
-  };
-
   const handleSelectField = (id, value, checked) => {
     if (checked) {
       selected.push({ id, value: filterRemoved(value) });
-      setSelected(selected);
+      setSelected([...selected]);
     } else {
-      setSelected(selected.filter(({ id: itemId }) => itemId !== id));
+      setSelected([...selected.filter(({ id: itemId }) => itemId !== id)]);
     }
   }
 
@@ -63,14 +52,13 @@ const RevertModal = ({
     <Modal centered isOpen={isOpen} toggle={handleToggleRevertModal} size="xl">
       <ModalHeader toggle={handleToggleRevertModal}>Revert Fields</ModalHeader>
       <ModalBody className="p-0 modal-body-break">
-        <Modal scrollable={true} className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
+        <div className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
           <RevertDetails
             event={event}
             isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
-            isFieldSelected={isFieldSelected}
             onSelectField={handleSelectField}
           />
-        </Modal>
+        </div>
       </ModalBody>
       <ModalFooter>
         {isFormDirty && (

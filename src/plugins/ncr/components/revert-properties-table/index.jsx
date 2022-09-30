@@ -9,7 +9,6 @@ import TableRow from './TableRow';
 const RevertPropertiesTable = ({
   data,
   isDbValueSameAsNodeValue,
-  isFieldSelected,
   onSelectField: handleSelectField,
   node,
 }) => (
@@ -33,7 +32,6 @@ const RevertPropertiesTable = ({
           !isDbValueSameAsNodeValue(property[0], property[1])
           && (
           <TableRow
-            isFieldSelected={isFieldSelected}
             key={property[0]}
             property={property}
             node={node}
@@ -49,7 +47,6 @@ const RevertPropertiesTable = ({
 RevertPropertiesTable.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-  isFieldSelected: PropTypes.func.isRequired,
   onSelectField: PropTypes.func.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
 };
