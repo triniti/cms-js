@@ -15,6 +15,7 @@ const omitKeys = [
   'ctx_user_ref',
   'day_of_month',
   'day_of_week',
+  'etag',
   'event_id',
   'hour_of_day',
   'is_weekend',

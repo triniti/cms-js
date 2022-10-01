@@ -11,13 +11,18 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import Event from 'plugins/ncr/components/node-history-card/Event';
 import RevertButton from 'plugins/ncr/components/revert-button';
+import filterRemoved from 'plugins/ncr/components/node-history-card/filterRemoved';
+import filterRevertableData from 'plugins/ncr/components/node-history-card/filterData';
+import fullMapsAndLists from 'plugins/ncr/components/node-history-card/fullMapsAndLists';
+import findNodeDiff from 'plugins/ncr/components/node-history-card/findNodeDiff';
 import UserLink from 'plugins/ncr/components/node-history-card/UserLink';
+
 
 const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
 
 function NodeHistoryCard(props) {
   const policy = usePolicy();
-  const { isFormDirty, nodeRef: nodeRefStr, request, isRevertGranted } = props;
+  const { isFormDirty, nodeRef: nodeRefStr, request } = props;
   const nodeRef = NodeRef.fromString(nodeRefStr);
   request
     .set('node_ref', nodeRef)
@@ -59,6 +64,30 @@ function NodeHistoryCard(props) {
   const isDbValueSameAsNodeValue = (id, dbValue) => {
     const nodeValue = props.node.toObject()[id];
     return isEqual(dbValue, nodeValue);
+  }
+
+  /**
+   * Checks against the current event for different db values.
+   * @param {*} event
+   * @returns boolean
+   */
+   const hasDifferentDbValues = (event) => {
+    // find properties in node that were removed
+    const newNode = event.get('new_node').toObject();
+    const oldNode = event.get('old_node').toObject();
+    const newNodeKeys = Object.keys(newNode);
+    const oldNodeKeys = Object.keys(oldNode);
+    const missingKeys = oldNodeKeys.filter((x) => !newNodeKeys.includes(x));
+
+    missingKeys.forEach((key) => {
+      newNode[key] = null;
+    });
+
+    const diffNode = findNodeDiff(filterRevertableData(newNode), filterRevertableData(oldNode));
+    const data = filterRemoved(fullMapsAndLists(filterRevertableData(diffNode), newNode));
+    const aDiffField = data[Object.keys(data).find((dbField) => !isDbValueSameAsNodeValue(dbField, data[dbField]))];
+
+    return aDiffField !== undefined;
   }
 
   return (
@@ -104,7 +133,7 @@ function NodeHistoryCard(props) {
                         && pathsLength > 0
                         && (
                           <RevertButton
-                            disabled={!index /*|| !hasDifferentDbValues(event)*/}
+                            disabled={!index || !hasDifferentDbValues(event)}
                             event={event}
                             isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
                             isFormDirty={isFormDirty}
