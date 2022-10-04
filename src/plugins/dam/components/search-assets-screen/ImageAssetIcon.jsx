@@ -3,7 +3,13 @@ import { Media } from 'reactstrap';
 import damUrl from 'plugins/dam/damUrl';
 
 export default function ImageAssetIcon({asset}) {
+
+  const previewUrl = damUrl(asset);
+
   return (
+    <>
+    {previewUrl && (
+      <a href={previewUrl} target="_blank" rel="noopener noreferrer">
       <Media
         src={damUrl(asset, '1by1', 'xs', null)}
         alt=""
@@ -12,5 +18,8 @@ export default function ImageAssetIcon({asset}) {
         object
         className="rounded-2"
       />
+      </a>
+    )}
+    </>
   );
 }
