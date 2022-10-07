@@ -6,23 +6,25 @@ import artifactUrl from 'plugins/ovp/artifactUrl';
 import VideoAssetButton from './VideoAssetButton';
 
 export default function VideoAssetIcon({ asset }) {
-
+  const playerRef = useRef(null);
+  
   const [mediaPlayer, setMediaPlayer] = useState({
+    controls: false,
+    currentlyPlayingAssetId: null,
     height: '0px',
+    isPlaying: false,
+    mediaType: null,
     url: '',
     volume: 1.0,
     width: '0px',
-    isPlaying: false,
-    currentlyPlayingAssetId: null
   });
 
-  const playerRef = useRef(null);
 
   const handleMediaPlayerCommand = (command, asset, mediaType, dimensions = { width: 0, height: 0 }) => {
-    playerRef.current.seekTo(0);
+    playerRef.current?.seekTo(0);
     let currentlyPlayingAssetId = null;
-    let isPlaying = false;
     let currentDimensions = { width: 0, height: 0 };
+    let isPlaying = false;
     let showControls = false;
     if (command === 'play') {
       currentlyPlayingAssetId = asset.get('_id');
@@ -36,8 +38,8 @@ export default function VideoAssetIcon({ asset }) {
     setMediaPlayer({
       controls: showControls,
       currentlyPlayingAssetId,
-      isPlaying,
       height: currentDimensions.height,
+      isPlaying,
       mediaType: mediaType || null,
       url: asset ? artifactUrl(asset, 'video') : null,
       volume: mediaPlayer.volume,
@@ -91,10 +93,10 @@ export default function VideoAssetIcon({ asset }) {
         />
       </div>
       <VideoAssetButton
-            asset={asset}
-            currentlyPlayingAssetId={mediaPlayer.currentlyPlayingAssetId}
-            onPlayerCommand={handleMediaPlayerCommand}
-          />
+        asset={asset}
+        currentlyPlayingAssetId={mediaPlayer.currentlyPlayingAssetId}
+        onPlayerCommand={handleMediaPlayerCommand}
+      />
     </>
   );
 }
