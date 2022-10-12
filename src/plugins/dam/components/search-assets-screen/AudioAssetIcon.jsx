@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player';
 import { Button } from 'reactstrap';
 import artifactUrl from 'plugins/ovp/artifactUrl';
 
-export default function VideoAssetIcon({ asset }) {
+export default function AudioAssetIcon({ asset }) {
   const playerRef = useRef(null);
 
   const [mediaPlayer, setMediaPlayer] = useState({
