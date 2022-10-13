@@ -6,42 +6,32 @@ import artifactUrl from 'plugins/ovp/artifactUrl';
 export default function AudioAssetIcon({ asset }) {
   const playerRef = useRef(null);
 
-  const [mediaPlayer, setMediaPlayer] = useState({
-    controls: false,
-    currentlyPlayingAssetId: null,
-    height: '0px',
-    isPlaying: false,
-    mediaType: null,
-    url: '',
-    volume: 1.0,
-    width: '0px',
-  });
-
+  const [controls, setControls] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentlyPlayingAssetId, setCurrentlyPlayingAssetId] = useState(null);
+  const [url, setUrl] = useState('');
+  const [height, setHeight] = useState('0px');
+  const [width, setWidth] = useState('0px');
+  const [mediaType, setMediaType] = useState(null);
+  const [volume, setVolume] = useState(1.0);
 
   const handleMediaPlayerCommand = (command, asset, mediaType, dimensions = { width: 0, height: 0 }) => {
-    playerRef.current?.seekTo(0);
-    let currentlyPlayingAssetId = null;
-    let currentDimensions = { width: 0, height: 0 };
-    let isPlaying = false;
-    if (command === 'play') {
-      currentlyPlayingAssetId = asset.get('_id');
-      isPlaying = true;
-      currentDimensions = dimensions;
-    }
+    playerRef.current.seekTo(10);
 
-    setMediaPlayer({
-      controls: false,
-      currentlyPlayingAssetId,
-      height: currentDimensions.height,
-      isPlaying,
-      mediaType: mediaType || null,
-      url: asset ? artifactUrl(asset, 'video') : null,
-      volume: mediaPlayer.volume,
-      width: currentDimensions.width,
-    });
+    if (command === 'play') {
+      setCurrentlyPlayingAssetId(asset.get('_id'));
+      setIsPlaying(true);
+      setWidth(dimensions.width);
+      setHeight(dimensions.height);
+      setUrl(asset ? artifactUrl(asset, 'video') : null);
+      setMediaType(mediaType || null);
+    } else {
+      setCurrentlyPlayingAssetId(null);
+      setIsPlaying(false);
+    }
   }
 
-  const playing = mediaPlayer.currentlyPlayingAssetId !== null && asset.get('_id').toString() === mediaPlayer.currentlyPlayingAssetId.toString();
+  const playing = currentlyPlayingAssetId !== null && asset.get('_id').toString() === currentlyPlayingAssetId.toString();
   const buttonState = playing ? 'active' : '';
   const command = playing ? 'stop' : 'play';
 
@@ -49,13 +39,13 @@ export default function AudioAssetIcon({ asset }) {
     <>
       <div>
         <ReactPlayer
-          controls={mediaPlayer.controls}
-          height={mediaPlayer.height}
-          playing={mediaPlayer.isPlaying}
+          controls={controls}
+          height={height}
+          playing={isPlaying}
           ref={playerRef}
-          url={mediaPlayer.url}
-          volume={mediaPlayer.volume}
-          width={mediaPlayer.width}
+          url={url}
+          volume={volume}
+          width={width}
           className="embed-responsive embed-responsive-16by9"
           style={{ filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.4)' }}
         />
