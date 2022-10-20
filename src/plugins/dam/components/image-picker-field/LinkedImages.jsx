@@ -25,8 +25,7 @@ function LinkedImages(props) {
       {response && response.has('nodes') && (
         <div className="image-grid-container">
           <Row className="gx-3">
-            {response.get('nodes').map(node => {
-              return (
+            {response.get('nodes').map(node => (
                 <Col key={node.get('_id')} xs={12} sm={6} md={4} lg={3} className="col-xl-2p">
                   <Card
                     className="p-2 card-hover-border card-shadow text-white"
@@ -49,9 +48,7 @@ function LinkedImages(props) {
                     </Media>
                   </Card>
                 </Col>
-              );
-            }
-            )}
+            ))}
           </Row>
         </div>
       )}
