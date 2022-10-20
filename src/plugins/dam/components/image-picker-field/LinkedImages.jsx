@@ -61,7 +61,7 @@ function LinkedImages(props) {
             style={{ margin: "0 5px" }}
             color="light"
             outline
-          /> new images or
+          /> upload new images or
           <ActionButton
             text="search"
             icon="search"
@@ -69,8 +69,7 @@ function LinkedImages(props) {
             style={{ margin: "0 5px" }}
             color="light"
             outline
-          /> search
-          to find unlink images.
+          /> search to find unlink images.
         </div>
       )}
     </>
