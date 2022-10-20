@@ -1,4 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import startCase from 'lodash-es/startCase';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import isEqual from 'lodash/isEqual';
@@ -21,6 +22,7 @@ import UserLink from 'plugins/ncr/components/node-history-card/UserLink';
 const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
 
 function NodeHistoryCard(props) {
+  const dispatch = useDispatch();
   const policy = usePolicy();
   const { isFormDirty, nodeRef: nodeRefStr, request } = props;
   const nodeRef = NodeRef.fromString(nodeRefStr);
@@ -52,6 +54,43 @@ function NodeHistoryCard(props) {
     run();
   };
 
+  const handleRevert = (selected) => {
+    const { node, form, formName, setBlocks } = props;
+    console.log('Revert Debug', {
+      props,
+      selected,
+    });
+    
+    window.y = node;
+    window.x = props;
+    
+    selected.forEach((item) => {
+      const { id, value } = item;
+      const field = node.schema().getField(id);
+      if (id === 'blocks') {
+        setBlocks(dispatch, formName, value);
+        return;
+      }
+      form.change(id, value);
+      
+      // if (field.isASingleValue()) {
+      //   updatedNode.set(id, value);
+      // }
+      // if (field.isASet()) {
+      //   updatedNode.addToSet(id, value);
+      // }
+      // if (field.isAList()) {
+      //   updatedNode.addToList(id, value ? Array.from(value) : []);
+      // }
+      // if (field.isAMap()) {
+      //   /* eslint-disable no-restricted-syntax */
+      //   for (const [k, v] of Object.entries(value)) {
+      //     updatedNode.addToMap(id, k, v);
+      //   }
+      // }
+    });
+  }
+  
   /**
    * Is Db Value Same As Node Value
    *
@@ -137,8 +176,7 @@ function NodeHistoryCard(props) {
                             event={event}
                             isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
                             isFormDirty={isFormDirty}
-                            // onRevert={handleRevert}
-                            onRevert={() => {}}
+                            onRevert={handleRevert}
                             className="rounded-pill"
                           />
                         )
