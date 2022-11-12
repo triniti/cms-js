@@ -56,19 +56,11 @@ function NodeHistoryCard(props) {
 
   const handleRevert = (selected) => {
     const { node, form, formName, setBlocks } = props;
-    console.log('Revert Debug', {
-      props,
-      selected,
-    });
-    
-    window.y = node;
-    window.x = props;
     
     selected.forEach((item) => {
       const { id, value } = item;
-      const field = node.schema().getField(id);
       if (id === 'blocks') {
-        setBlocks(dispatch, formName, value);
+        form.change(id, value.map(x => x.toJSON()));
         return;
       }
       form.change(id, value);

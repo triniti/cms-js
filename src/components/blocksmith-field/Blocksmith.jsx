@@ -239,9 +239,20 @@ class Blocksmith extends React.Component {
    *
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
-  componentDidUpdate({editorState: prevPropsEditorState, editMode: prevEditMode}) {
-    const { editorState: currentPropsEditorState, editMode } = this.props;
+  async componentDidUpdate({blocks: prevBlocks, editorState: prevPropsEditorState, editMode: prevEditMode}) {
+    const { editorState: currentPropsEditorState, editMode, blocks } = this.props;
     const { editorState } = this.state;
+
+    // This is for revert support
+    if (prevBlocks.length !== blocks.length) {
+      const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
+      const convertedEditorState = convertToEditorState(blocksToMixins);
+
+      this.setState(() => ({
+        editorState: convertedEditorState,
+      }));
+      return;
+    }
 
     if (prevEditMode !== editMode) {
       this.setState(() => ({ readOnly: !editMode }));
@@ -1423,7 +1434,6 @@ class Blocksmith extends React.Component {
     //   isDirty = false;
     //   callback = delegate.handleCleanEditor;
     // }
-
     this.setState(() => ({
       editorState,
       readOnly: false, // todo: update
