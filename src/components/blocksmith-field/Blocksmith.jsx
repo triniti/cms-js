@@ -250,7 +250,6 @@ class Blocksmith extends React.Component {
 
     // This is for revert support
     if (prevBlocks !==  blocks) {
-
       const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
       const convertedEditorState = convertToEditorState(blocksToMixins);
       pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary').then(newEditorState => {
