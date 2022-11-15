@@ -243,19 +243,22 @@ class Blocksmith extends React.Component {
     const { editorState: currentPropsEditorState, editMode, blocks } = this.props;
     const { editorState } = this.state;
 
-    // This is for revert support
-    if (prevBlocks.length !== blocks.length) {
-      const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
-      const convertedEditorState = convertToEditorState(blocksToMixins);
-
-      this.setState(() => ({
-        editorState: convertedEditorState,
-      }));
+    if (prevEditMode !== editMode) {
+      this.setState(() => ({ readOnly: !editMode }));
       return;
     }
 
-    if (prevEditMode !== editMode) {
-      this.setState(() => ({ readOnly: !editMode }));
+    // This is for revert support
+    if (prevBlocks !==  blocks) {
+
+      const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
+      const convertedEditorState = convertToEditorState(blocksToMixins);
+      pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary').then(newEditorState => {
+        this.setState(() => ({
+          editorState: newEditorState.editorState,
+          errors: newEditorState.errors,
+        }));
+      });
       return;
     }
 
