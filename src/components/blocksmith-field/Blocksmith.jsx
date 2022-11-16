@@ -256,7 +256,10 @@ class Blocksmith extends React.Component {
         this.setState(() => ({
           editorState: newEditorState.editorState,
           errors: newEditorState.errors,
-        }));
+        }), () => {
+          const currContent = newEditorState.editorState.getCurrentContent();
+          this.positionComponents(currContent, currContent.getFirstBlock().getKey());
+        });
       });
       return;
     }
