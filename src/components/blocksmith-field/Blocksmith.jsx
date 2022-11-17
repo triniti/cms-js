@@ -254,12 +254,10 @@ class Blocksmith extends React.Component {
       const convertedEditorState = convertToEditorState(blocksToMixins);
       pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary').then(newEditorState => {
         this.setState(() => ({
-          editorState: newEditorState.editorState,
+          editorState: newEditorState.editorState, // Updates editorState with new content
           errors: newEditorState.errors,
-        }), () => {
-          const currContent = newEditorState.editorState.getCurrentContent();
-          this.positionComponents(currContent, currContent.getFirstBlock().getKey());
-        });
+          activeBlockKey: normalizeKey(newEditorState.editorState.getCurrentContent().getFirstBlock().getKey()), // Resets the activeBlockKey to a valid one
+        }));
       });
       return;
     }

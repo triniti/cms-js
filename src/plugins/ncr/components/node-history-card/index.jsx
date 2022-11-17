@@ -56,11 +56,20 @@ function NodeHistoryCard(props) {
 
   const handleRevert = (selected) => {
     const { node, form, formName, setBlocks } = props;
-    
+    const { push, pop } = form.mutators;
+
     selected.forEach((item) => {
       const { id, value } = item;
+      const isKeyValueField = node.schema().fields.get(id).getRule().getName() === 'A_MAP';
       if (id === 'blocks') {
-        form.change(id, value.map(x => x.toJSON()));
+        return form.change(id, value.map(x => x.toJSON()));
+      } else if (isKeyValueField) {
+        // remove current values
+        while(pop(id) !== undefined) {}
+        // insert new values
+        for (const key in value) {
+          push(id, { key, value: value[key] });
+        }
         return;
       }
       form.change(id, value);
