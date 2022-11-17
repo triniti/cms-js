@@ -4,6 +4,7 @@ import { Button, Label, Media } from 'reactstrap';
 import { CreateModalButton, Icon } from 'components';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
+import { useField, useFormContext } from 'components';
 
 // fixme: add uploader.
 
@@ -15,15 +16,20 @@ export default function ImagePickerField(props) {
     label,
     name,
     nodeRef,
+    readOnly = false,
     selectedImageRef,
     onSelectImage
   } = props;
 
   const { node } = useNode(nodeRef, false);
   const [imageRef, setImageRef] = useState(selectedImageRef || node.get('image_ref', null));
+  const formContext = useFormContext();
+  const { editMode } = formContext;
+  const { input, meta } = useField({ ...props }, formContext);
 
   const clearImage = () => {
     setImageRef('');
+    input.onChange('');
 
     if (onSelectImage) {
       onSelectImage(null);
@@ -32,6 +38,7 @@ export default function ImagePickerField(props) {
 
   const selectImage = (ref) => {
     setImageRef(ref);
+    input.onChange(ref);
 
     if (onSelectImage) {
       onSelectImage(ref);
@@ -58,17 +65,21 @@ export default function ImagePickerField(props) {
             alt={imageRef.toString()}
             className="d-flex mb-0 mw-100"
           />
-          <CreateModalButton
-            className="mt-2 mb-0"
-            text="Select a New Image"
-            modal={ImagePickerModal}
-            modalProps={{imageRef, nodeRef, selectImage}}
-            outline
-          />
-          <Button className="mt-2 mb-0" color="light" outline name="clear_image" onClick={clearImage}>Clear Image</Button>
+          {(editMode && !readOnly) && (
+            <>
+              <CreateModalButton
+                className="mt-2 mb-0"
+                text="Select a New Image"
+                modal={ImagePickerModal}
+                modalProps={{imageRef, nodeRef, selectImage}}
+                outline
+              />
+              <Button className="mt-2 mb-0" color="light" outline name="clear_image" onClick={clearImage}>Clear Image</Button>
+            </>
+          )}
         </>
       )}
-      {!imageRef && (
+      {!imageRef && (editMode || !readOnly) && (
         <div className="d-block">
           <CreateModalButton text="Select an Image" modal={ImagePickerModal} modalProps={{selectImage}} />
         </div>
