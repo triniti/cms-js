@@ -1,6 +1,7 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy } from 'react';
 import classNames from 'classnames';
 import { Button, Label, Media } from 'reactstrap';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import { CreateModalButton, Icon } from 'components';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
@@ -22,27 +23,24 @@ export default function ImagePickerField(props) {
   } = props;
 
   const { node } = useNode(nodeRef, false);
-  const [ imageRef, setImageRef ] = useState(selectedImageRef || node.get(name, null));
   const formContext = useFormContext();
   const { editMode } = formContext;
-  const { input } = useField({ initialValue: imageRef, ...props }, formContext);
+  const { input } = useField({ ...props, initialValue: selectedImageRef || node.get(name, null) }, formContext);
+
+  let imageRef = input.value;
+  if (typeof input.value === 'string' && input.value.length) {
+    // Make sure imageRef is a NodeRef
+    imageRef = NodeRef.fromString(input.value);
+  }
 
   const clearImage = () => {
-    setImageRef('');
     input.onChange('');
-
-    if (onSelectImage) {
-      onSelectImage(null);
-    }
+    onSelectImage && onSelectImage(null);
   };
 
   const selectImage = (ref) => {
-    setImageRef(ref);
     input.onChange(ref);
-
-    if (onSelectImage) {
-      onSelectImage(ref);
-    }
+    onSelectImage && onSelectImage(ref);
   };
 
   const rootClassName = classNames(
