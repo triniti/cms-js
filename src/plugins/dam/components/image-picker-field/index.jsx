@@ -22,10 +22,10 @@ export default function ImagePickerField(props) {
   } = props;
 
   const { node } = useNode(nodeRef, false);
-  const [imageRef, setImageRef] = useState(selectedImageRef || node.get('image_ref', null));
+  const [ imageRef, setImageRef ] = useState(selectedImageRef || node.get(name, null));
   const formContext = useFormContext();
   const { editMode } = formContext;
-  const { input, meta } = useField({ ...props }, formContext);
+  const { input } = useField({ initialValue: imageRef, ...props }, formContext);
 
   const clearImage = () => {
     setImageRef('');
