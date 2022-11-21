@@ -17,6 +17,7 @@ export default function SingleSelectField(props) {
     allowOther = false,
     ignoreUnknownOptions = false,
     isClearable = true,
+    isMulti = false,
     readOnly = false,
     required = false,
     ...rest
@@ -65,7 +66,6 @@ export default function SingleSelectField(props) {
         classNamePrefix="select"
         isDisabled={!editMode || readOnly}
         isClearable={isClearable}
-        isMulti={false}
         options={allOptions}
         value={currentOption}
         onChange={selected => input.onChange(selected ? selected.value : undefined)}
