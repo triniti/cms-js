@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## vN.N.N
+## v0.18.5
 * When Updating a Block in CMS, the Toolbar Becomes Sticky At Bottom of Story.
 
 
