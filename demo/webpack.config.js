@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const { resolve } = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 
 /**
  * @link https://webpack.js.org/configuration/
@@ -62,6 +64,7 @@ module.exports = (webpackEnv = {}) => {
       alias: {},
       extensions: ['*', '.js', '.jsx', '.json'],
       fallback: {
+        // path: false,
         buffer: require.resolve('buffer/'),
         crypto: require.resolve('crypto-browserify'),
         fs: false,
@@ -167,6 +170,10 @@ module.exports = (webpackEnv = {}) => {
 
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
+      }),
+
+      new NodePolyfillPlugin({
+        includeAliases: ['path']
       }),
     ]
   };

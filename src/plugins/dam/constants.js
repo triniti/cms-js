@@ -1,6 +1,29 @@
 export const PLUGIN_PREFIX = 'dam/';
 const t = id => `${PLUGIN_PREFIX}${id}`;
 
+export const serviceIds = {
+  PREFIX: PLUGIN_PREFIX,
+  ASSET_SUBSCRIBER: t('asset_subscriber'),
+  IMAGE_ASSET_SUBSCRIBER: t('image_asset_subscriber'),
+  PATCH_ASSETS_SUBSCRIBER: t('patch_assets_subscriber'),
+};
+
+export const routeIds = {
+  PREFIX: PLUGIN_PREFIX,
+
+  ASSET: t('asset'),
+  SEARCH_ASSETS: t('search_assets'),
+
+  INDEX: t('index'),
+};
+
+export const formNames = {
+  BATCH_EDIT: t('batch_edit'),
+  UPLOADER_FORM_PREFIX: t('uploader-'),
+  ASSET: t('asset'),
+};
+
+
 export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
   PATCH_ASSETS_REQUESTED: t('PATCH_ASSETS_REQUESTED'),
@@ -41,4 +64,23 @@ export const fileUploadStatuses = {
   PROCESSING: 'PROCESSING',
   UPLOADED: 'UPLOADED',
   UPLOADING: 'UPLOADING',
+};
+
+export const utilityTypes = {
+  GALLERY_SEQUENCE_COUNTER: t('uploaderGallerySequence'),
+};
+
+export const DATE_FIELD_QUICK_SELECT_OPTIONS = [
+  {
+    amount: 5,
+    unit: 'year',
+  },
+  {
+    amount: 1,
+    unit: 'year',
+  },
+];
+
+export const pbjxChannelNames = {
+  DOCUMENT_ASSET_SEARCH: t('documentAssetSearch'),
 };

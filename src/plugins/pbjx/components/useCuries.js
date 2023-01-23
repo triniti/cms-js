@@ -20,6 +20,7 @@ export default (mixin, withMajor = false) => {
       let curies;
 
       try {
+        console.log('Richard mixin', mixin);
         curies = await MessageResolver.findAllUsingMixin(mixin, withMajor);
       } catch (e) {
         console.error('useCuries was unable to resolve mixin', e, mixin, withMajor);

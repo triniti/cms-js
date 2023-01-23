@@ -22,6 +22,11 @@ function AssetScreen(props) {
     tab,
     urls
   } = props;
+  console.log('Richard Asset NodeRef', {
+    nodeRef,
+    node,
+    props
+  });
 
   const delegate = useDelegate(props);
 

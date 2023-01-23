@@ -13,6 +13,7 @@ import formatDate from 'utils/formatDate';
 import humanizeBytes from 'utils/humanizeBytes';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/dam/components/search-assets-screen/SearchForm';
+import UploaderButton from 'plugins/dam/components/uploader-button';
 
 //const CreateAssetModal = lazy(() => import('plugins/dam/components/create-asset-modal'));
 
@@ -52,6 +53,7 @@ function SearchAssetsScreen(props) {
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
+          <UploaderButton />
         </>
       }
     >
