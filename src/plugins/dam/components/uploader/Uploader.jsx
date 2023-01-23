@@ -213,7 +213,9 @@ const Uploader = (props) => {
     const assetIds = uploadUrls.get('asset_ids');
 
     // Begin uploading the process
-    Object.keys(processedFiles).map(async hashName => {
+    const proccessedFilesKeys = Object.keys(processedFiles);
+    for (let i = 0; i < proccessedFilesKeys.length; i++) {
+      let hashName = proccessedFilesKeys[i];
       try {
         const { file } = processedFiles[hashName];
         const postUrl = s3PresignedUrls[hashName];
@@ -257,7 +259,9 @@ const Uploader = (props) => {
         console.log('Issue uploading files', e);
         dispatch({ type: 'processFileFailed', hashName, info: { error: e } });
       }
-    });
+    }
+    // Object.keys(processedFiles).map(async hashName => {
+    // });
   }
 
   const handleRetryUpload = async (hashName) => {
