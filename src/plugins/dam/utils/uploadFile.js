@@ -44,7 +44,6 @@ const uploadToS3 = async (file, s3PresignedUrl, controller) => {
 
 const getTestUrl = (s3PresignedUrl, tenantId) => {
   const s3Url = new URL(s3PresignedUrl);
-  console.log('Richard debug presigned url', { s3PresignedUrl });
   let url = UGC_BASE_URL.substring(0, UGC_BASE_URL.length - 1);
 
   if (s3Url.host.includes('-static.')) {
@@ -80,10 +79,7 @@ export default async (file, postUrl, variant, controller) => {
   //await delay(3000); // for testing UI states
   await uploadToS3(file, postUrl, controller);
   return;
-//   return await fromAssetId(assetIds[fileKey]);
-//   console.log('Richard fromAssetId', {
-//     fromAssetId: asset,
-//   });
+
 
   const testUrl = getTestUrl(s3PresignedUrl, response.get('ctx_tenant_id'));
   if (testUrl) {

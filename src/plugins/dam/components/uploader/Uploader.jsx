@@ -1,6 +1,6 @@
 import noop from 'lodash/noop';
 import PropTypes from 'prop-types';
-import React, { useState, useReducer } from 'react';
+import React, { useReducer, useRef } from 'react';
 import swal from 'sweetalert2';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from 'components';
 import merge from 'lodash-es/merge'
@@ -22,11 +22,13 @@ import MessageResolver from '@gdbots/pbj/MessageResolver';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import getImageUrlDimensions from 'plugins/dam/utils/getImageUrlDimensions';
 
+
 // import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import {
   Button,
   Card,
+  CardBody,
   Modal,
   ModalHeader,
   ModalBody,
@@ -39,9 +41,15 @@ import FileList from './FileList';
 import Form from './Form';
 import Paginator from './Paginator';
 // import useDelegate from 'plugins/dam/components/uploader/useDelegate';
-import DetailsTab from 'plugins/dam/components/asset-screen/DetailsTab';
+import CommonFields from 'plugins/dam/components/uploader/CommonFields';
+import updateNode from 'plugins/ncr/actions/updateNode';
+import progressIndicator from 'utils/progressIndicator';
+import clearAlerts from 'actions/clearAlerts';
+import sendAlert from 'actions/sendAlert';
+import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 
 import './styles.scss';
+import { useState } from 'react';
 
 const confirmDone = async (text) => {
   return swal.fire({
@@ -158,10 +166,7 @@ const Uploader = (props) => {
     currentValues = {},
     enableCreditApplyAll = false,
     enableExpirationDateApplyAll = false,
-    enableSaveChanges = false,
     hasFilesProcessing = false,
-    hasMultipleFiles = false,
-    isFormDirty = false,
     isOpen = false,
     lastGallerySequence = 0,
     mimeTypeErrorMessage = 'Invalid Action: Trying to upload invalid file type.',
@@ -174,8 +179,19 @@ const Uploader = (props) => {
   } = props;
 
   const [ files, dispatch ] = useReducer(reducer, {});
+  const [ isFormDirty, setIsFormDirty ] = useState(false);
+  const formState = useRef();
+  const currentForm = useRef();
+  const currentNode = useRef();
   const activeHashName = getActiveHashName(files);
   const activeAsset = files[activeHashName]?.asset;
+  const activeAssetStatus = files[activeHashName]?.status;
+  const activeAssetError = files[activeHashName]?.error;
+  const hasMultipleFiles = Object.keys(files).length > 1;
+  const enableSaveChanges = isFormDirty && formState.current.valid;
+
+  console.log('Richard what is the form state?', { formState });
+  window.fs = formState;
 
   // const delegate = useDelegate({
   //   ...props,
@@ -253,15 +269,12 @@ const Uploader = (props) => {
         // Save to DB
         const command = CreateNodeV1.create().set('node', asset);
         await pbjx.send(command);
-        // await new Promise(resolve => setTimeout(resolve, 3000));
         dispatch({ type: 'processCompleted', hashName});
       } catch (e) {
         console.log('Issue uploading files', e);
-        dispatch({ type: 'processFileFailed', hashName, info: { error: e } });
+        dispatch({ type: 'processFileFailed', hashName, error: e });
       }
     }
-    // Object.keys(processedFiles).map(async hashName => {
-    // });
   }
 
   const handleRetryUpload = async (hashName) => {
@@ -319,23 +332,39 @@ const Uploader = (props) => {
 
   const handleSelectFile = (hashName) => dispatch({ type: 'selectFile', hashName });
   
-  const onGetUploadUrlsResponse = ({ pbj }) => {
-    // Create file object map with asset ids
-    const assetIds = pbj.get('asset_ids');
-    const fileInfos = Object.keys(assetIds).reduce((accumulator, hashName) => {
-      const prevFileInfo = files[hashName];
-      const asset = fromAssetId(assetIds[hashName]);
-      asset.set('title', prevFileInfo.file.name);
-      asset.set('mime_type', prevFileInfo.file.type || mime.lookup(prevFileInfo.file.name));
-      asset.set('file_size', new BigNumber(prevFileInfo.file.size || 0));
-      /* eslint no-param-reassign: off */
-      accumulator[hashName] = {
-        asset,
-      };
-      return accumulator;
-    }, {});
-  
-    return updateManyFileInfo(fileInfos);
+  const handleFormSubmit = async (event) => {
+    console.log('Richard useDelegate save', { values, node });
+    const { current: form } = currentForm;
+    const { current: node } = currentNode;
+    const { values } = formState.current;
+    try {
+      const ref = NodeRef.fromString(activeAsset.get('_id').toString());
+      await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
+      await dispatch(updateNode(values, form, node));
+
+      await progressIndicator.close();
+      toast({ title: `${startCase(ref.getLabel())} saved.` });
+      dispatch(clearAlerts());
+
+      // if (action === 'save-and-publish' && node.schema().hasMixin('gdbots:ncr:mixin:publishable')) {
+      //   await progressIndicator.update(`Publishing ${startCase(ref.getLabel())}...`);
+      //   await dispatch(publishNode(nodeRef));
+      // }
+
+      // delegate.shouldReinitialize = true;
+      // delegate.onAfterReinitialize = () => {
+      //   progressIndicator.close();
+      //   toast({ title: `${startCase(ref.getLabel())} saved.` });
+      // };
+      // setTimeout(refreshNode);
+    } catch (e) {
+      await progressIndicator.close();
+      const message = getFriendlyErrorMessage(e);
+      dispatch(sendAlert({ type: 'danger', message }));
+      return { [FORM_ERROR]: message };
+    }
+
+    await form.submit();
   };
 
   const handleToggleUploader = (toggleAllModals = false) => {
@@ -345,7 +374,7 @@ const Uploader = (props) => {
       return;
     }
 
-    if (hasFilesProcessing || isFormDirty) {
+    if (hasFilesProcessing || formState.current.dirty) {
       const confirmText = hasFilesProcessing
         ? 'Some files are still processing. Exiting early will cause an interruption and files may not be saved.'
         : 'Do you want to leave the form without saving?';
@@ -396,7 +425,8 @@ const Uploader = (props) => {
 
               <div className="meta-form border-left">
                 <Card className="pt-3 px-3 pb-1 mb-0">
-                  {activeHashName && activeAsset
+                  {console.log('Richard FILES', {activeHashName, activeAsset, files})}
+                  {activeHashName && activeAsset && activeAssetStatus === fileUploadStatuses.COMPLETED
                     // Form `key` is REQUIRED to update the form
                     // when activeHashName has changed
                     && (
@@ -405,6 +435,14 @@ const Uploader = (props) => {
                           id={activeAsset.get('_id').toString()}
                           label={`${activeAsset.get('_id').getType()}-asset`}
                           editMode={true}
+                          uploaderCurrentForm={currentForm}
+                          uploaderCurrentNode={currentNode}
+                          uploaderFormState={formState}
+                          commonFieldsComponent={CommonFields}
+                          allowMultiUpload={allowMultiUpload}
+                          hasMultipleFiles={hasMultipleFiles}
+                          setIsFormDirty={setIsFormDirty}
+                          onSubmit={handleFormSubmit}
                         />
                       </>
                       //   // key={delegate.getFormName()}
@@ -431,7 +469,17 @@ const Uploader = (props) => {
                       //   uploadedFiles={uploadedFiles}
                       // />
                     )}
-                  {activeHashName && !activeAsset && <h3>Processing...</h3>}
+                  {activeHashName && [fileUploadStatuses.COMPLETED, fileUploadStatuses.ERROR].indexOf(activeAssetStatus) == -1 && <h3>Processing...</h3>}
+                  {activeHashName && activeAssetStatus === fileUploadStatuses.ERROR && (
+                    <>
+                      <h3>Error</h3>
+                      <Card>
+                        <CardBody>
+                          <code>{activeAssetError.toString()}</code>
+                        </CardBody>
+                      </Card>
+                    </>
+                  )}
                   {!activeHashName && 'Add files using the component to the left.'}
                 </Card>
               </div>
@@ -446,26 +494,25 @@ const Uploader = (props) => {
               className="m-auto"
             />
           </div>
-          {activeHashName && activeAsset
-            && (
-              <div className="ml-auto pr-3">
-                <div>
-                  <Button
-                    // onClick={delegate.handleSave}
-                    onClick={() => {}}
-                    disabled={!enableSaveChanges}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    onClick={() => handleToggleUploader(true)}
-                    disabled={hasFilesProcessing}
-                  >
-                    Done
-                  </Button>
-                </div>
-              </div>
+          <div className="ms-auto pe-3">
+            {activeHashName && activeAsset
+              && (
+                  <div>
+                    <Button
+                      onClick={handleFormSubmit}
+                      disabled={!enableSaveChanges}
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      onClick={() => handleToggleUploader(true)}
+                      disabled={hasFilesProcessing}
+                    >
+                      Done
+                    </Button>
+                  </div>
             )}
+          </div>
         </ModalFooter>
       </Modal>
     </div>
@@ -481,11 +528,7 @@ Uploader.propTypes = {
   // delegate: PropTypes.instanceOf(Delegate).isRequired,
   enableCreditApplyAll: PropTypes.bool,
   enableExpirationDateApplyAll: PropTypes.bool,
-  enableSaveChanges: PropTypes.bool,
-  // files: PropTypes.shape({ hashName: PropTypes.shape({}) }).isRequired,
   hasFilesProcessing: PropTypes.bool,
-  hasMultipleFiles: PropTypes.bool,
-  isFormDirty: PropTypes.bool,
   isOpen: PropTypes.bool,
   lastGallerySequence: PropTypes.number,
   mimeTypeErrorMessage: PropTypes.string,
@@ -502,9 +545,4 @@ Uploader.propTypes = {
   }),
 }
 
-// export default connect(
-//   selector,
-//   // createDelegateFactory(delegateFactory),
-// )(Uploader);
-// export default connect(selector)(Uploader);
 export default Uploader;

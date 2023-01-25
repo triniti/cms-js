@@ -4,7 +4,8 @@ import humanizeBytes from 'utils/humanizeBytes';
 import CommonFields from './CommonFields';
 
 export default function ArchiveAssetFields(props) {
-  const { asset } = props  
+  const { asset, commonFieldsComponent } = props;
+  const CommonFieldsComponent = commonFieldsComponent || CommonFields;
 
   return (
     <>
@@ -16,7 +17,7 @@ export default function ArchiveAssetFields(props) {
           </Col>
         </Row>
       </Container>
-      <CommonFields asset={asset} credit="archive-asset-credits" />
-    </>  
+      <CommonFieldsComponent asset={asset} credit="archive-asset-credits" {...props}  />
+    </>
   );
 }

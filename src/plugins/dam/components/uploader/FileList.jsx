@@ -23,13 +23,14 @@ const confirmSelect = async () => {
 const FileList = props => {
   const {
     files,
-    isFormDirty,
+    isFormDirty = false,
     onDelete,
     onRetry,
     onSelectFile,
   } = props;
   const fileList = useRef();
   let activeFileItem = null;
+  console.log('Richard FILE LIST PROPS', { props });
 
   const handleOnChange = (hashName) => {
     if (!isFormDirty) {
@@ -99,7 +100,7 @@ const FileList = props => {
 
 FileList.propTypes = {
   files: PropTypes.shape({ hashName: PropTypes.object }).isRequired,
-  isFormDirty: PropTypes.bool.isRequired,
+  isFormDirty: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
   onSelectFile: PropTypes.func.isRequired,
   onRetry: PropTypes.func.isRequired,

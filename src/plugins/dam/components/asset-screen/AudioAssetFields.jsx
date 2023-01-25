@@ -5,7 +5,8 @@ import humanizeBytes from 'utils/humanizeBytes';
 import CommonFields from './CommonFields';
 
 export default function AudioAssetFields(props) {
-  const { asset } = props  
+  const { asset, commonFieldsComponent } = props;
+  const CommonFieldsComponent = commonFieldsComponent || CommonFields;
 
   return (
     <> 
@@ -17,7 +18,7 @@ export default function AudioAssetFields(props) {
           </Col>
         </Row>
       </Container>
-      <CommonFields asset={asset} credit="audio-asset-credits"/>
+      <CommonFieldsComponent asset={asset} credit="audio-asset-credits" {...props} />
     </>  
   );
 }

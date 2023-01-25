@@ -14,7 +14,7 @@ export default function VariantsTab({ type, asset }) {
     return (
         <Card>
             <CardHeader>Variants</CardHeader>
-            <CardBody className="pl-0 pr-0 pt-0 variants-body">
+            <CardBody className="pl-0 pe-0 pt-0 variants-body">
                 <p>
                     Click an image you would like to replace or drag a new image over it.
                 </p>

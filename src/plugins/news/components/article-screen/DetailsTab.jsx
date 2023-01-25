@@ -12,11 +12,6 @@ export default function DetailsTab(props) {
   const { node, nodeRef } = props;
   const schema = node.schema();
 
-  console.log('Richard DetailsTab', {
-    props,
-  });
-  window.detailsProps = props;
-
   return (
     <>
       <Card>

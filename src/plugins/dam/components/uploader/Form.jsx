@@ -1,29 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
-import { useDispatch } from 'react-redux';
-import { Loading, withForm } from 'components';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import pruneNodes from 'plugins/ncr/actions/pruneNodes';
-import useNode from 'plugins/ncr/components/useNode';
 import useDelegate from 'plugins/ncr/components/with-node-screen/useDelegate';
 import useParams from 'plugins/ncr/components/with-node-screen/useParams';
 import PropTypes from 'prop-types';
-import DetailsTab from 'plugins/dam/components/asset-screen/DetailsTab';
 import withNodeScreen from 'plugins/ncr/components/with-node-screen';
-import { Form } from 'reactstrap';
+import { Form, Card, CardBody } from 'reactstrap';
+import { ErrorBoundary,  Loading } from 'components';
+import { FormSpy } from 'react-final-form';
 
 
 export { useDelegate, useParams };
 
-const defaultFormConfig = {
-  restorable: true,
-  keepDirtyOnReinitialize: true,
+const components = {};
+const resolveComponent = (label) => {
+  if (components[label]) {
+    return components[label];
+  }
+
+  const file = startCase(label).replace(/\s/g, '');
+  components[label] = lazy(() => import(`../asset-screen/${file}Fields`));
+  return components[label];
 };
 
 const UploaderForm = props => {
   const {
+    form,
     formState,
-    handleSubmit,
+    onSubmit: handleSubmit,
     editMode,
     node,
     isRefreshing,
@@ -31,19 +34,40 @@ const UploaderForm = props => {
     nodeRef,
     policy,
     tab,
-    urls
+    urls,
+    label,
+    uploaderFormState,
+    uploaderCurrentForm,
+    uploaderCurrentNode,
+    setIsFormDirty,
   } = props;
 
+  window.f = form;
   const delegate = useDelegate(props);
 
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
+  const FieldsComponent = resolveComponent(label);
+  uploaderFormState.current = formState;
+  uploaderCurrentForm.current = form;
+  uploaderCurrentNode.current = node;
 
   return (
     <>
       {/* {dirty && hasValidationErrors && <FormErrors errors={errors} />} */}
       <Form onSubmit={handleSubmit} autoComplete="off">
-        <DetailsTab {...props} />
+        <Card>
+          <CardBody>
+            <Suspense fallback={<Loading />}>
+              <ErrorBoundary>
+                <FieldsComponent {...props} asset={node}/>
+              </ErrorBoundary>
+            </Suspense>
+          </CardBody>  
+        </Card>
+        <FormSpy>
+          {({ dirty }) => { setIsFormDirty(dirty); return null; }}
+        </FormSpy>
       </Form>
     </>
   );

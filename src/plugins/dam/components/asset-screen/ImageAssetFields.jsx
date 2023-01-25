@@ -6,7 +6,10 @@ import humanizeBytes from 'utils/humanizeBytes';
 import PollPickerField from 'plugins/apollo/components/poll-picker-field';
 import CommonFields from './CommonFields';
 
-export default function ImageAssetFields({ asset }) {
+export default function ImageAssetFields(props) {
+  const { asset, commonFieldsComponent } = props;
+  const CommonFieldsComponent = commonFieldsComponent || CommonFields;
+
   const getDimensions = (value) => {
     return `${value} x ${asset.get('height')}`;
   }
@@ -37,7 +40,7 @@ export default function ImageAssetFields({ asset }) {
           </Col>
         </Row>
       </Container>
-      <CommonFields asset={asset} credit="image-asset-credits" />
+      <CommonFieldsComponent asset={asset} credit="image-asset-credits" {...props}  />
       <PollPickerField name="polls" label="Search and Select a Poll" />
     </>
   );

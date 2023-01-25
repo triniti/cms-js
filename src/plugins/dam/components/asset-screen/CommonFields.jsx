@@ -3,8 +3,7 @@ import { DatePickerField, TextareaField, TextField, UrlField } from 'components'
 import PicklistField from 'plugins/sys/components/picklist-field';
 
 export default function CommonFields(props) {
-  const {asset, credit, groupClassName = ''} = props  
-
+  const { credit } = props;
 
   return (
     <>

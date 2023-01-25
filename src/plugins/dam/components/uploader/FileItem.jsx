@@ -47,7 +47,7 @@ const FileItem = (props) => {
           onClick={onClick}
           {...options}
         >
-          <span className="ml-auto mr-auto w-100 text-truncate">{file.file.name}</span>
+          <span className="ms-auto mr-auto w-100 text-truncate">{file.file.name}</span>
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem onClick={() => onRetry(hashName)}>Retry</DropdownItem>
