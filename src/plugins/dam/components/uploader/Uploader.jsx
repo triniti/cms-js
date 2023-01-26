@@ -6,6 +6,7 @@ import { ActionButton, FormErrors, TextField, withForm, withPbj } from 'componen
 import merge from 'lodash-es/merge'
 import { fileUploadStatuses } from 'plugins/dam/constants';
 import damUrl from 'plugins/dam/damUrl';
+import startCase from 'lodash-es/startCase';
 
 import { v4 as uuid } from 'uuid';
 import md5 from 'md5';
@@ -21,9 +22,10 @@ import { getInstance } from '@app/main';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import getImageUrlDimensions from 'plugins/dam/utils/getImageUrlDimensions';
+import { useDispatch } from 'react-redux';
+import toast from 'utils/toast';
 
 
-// import createDelegateFactory from '@triniti/app/createDelegateFactory';
 import Message from '@gdbots/pbj/Message';
 import {
   Button,
@@ -35,7 +37,6 @@ import {
   ModalFooter,
 } from 'reactstrap';
 
-// import delegateFactory, { Delegate } from './delegate';
 import DropArea from './DropArea';
 import FileList from './FileList';
 import Form from './Form';
@@ -178,25 +179,30 @@ const Uploader = (props) => {
     variant = {},
   } = props;
 
+  const appDispatch = useDispatch();
   const [ files, dispatch ] = useReducer(reducer, {});
   const [ isFormDirty, setIsFormDirty ] = useState(false);
-  const formState = useRef();
-  const currentForm = useRef();
-  const currentNode = useRef();
+  const formStateRef = useRef();
+  const currentFormRef = useRef();
+  const currentNodeRef = useRef();
+  const delegateRef = useRef({
+    onAfterReinitialize: noop,
+    shouldReinitialize: true,
+    reinitialize: false,
+  });
+  const refreshNodeRef = useRef();
   const activeHashName = getActiveHashName(files);
   const activeAsset = files[activeHashName]?.asset;
   const activeAssetStatus = files[activeHashName]?.status;
   const activeAssetError = files[activeHashName]?.error;
   const hasMultipleFiles = Object.keys(files).length > 1;
-  const enableSaveChanges = isFormDirty && formState.current.valid;
 
-  console.log('Richard what is the form state?', { formState });
-  window.fs = formState;
+  // const { submitting, isRefreshing, dirty, valid, hasSubmitErrors } = formStateRef?.current;
+  // const enableSaveChanges = submitting || isRefreshing || !isFormDirty || (!valid && !hasSubmitErrors);
+  const enableSaveChanges = isFormDirty && formStateRef.current.valid;
 
-  // const delegate = useDelegate({
-  //   ...props,
-  //   mimeTypeErrorMessage,
-  // });
+  
+  window.fs = formStateRef.current;
   
   const handleFileDrop = async (droppedFiles) => {
     const newFormattedFiles = processFiles(droppedFiles); // formats list with hash
@@ -330,37 +336,40 @@ const Uploader = (props) => {
     dispatch({ type: 'setFiles', files: newActiveMap });
   };
 
-  const handleSelectFile = (hashName) => dispatch({ type: 'selectFile', hashName });
+  const handleSelectFile = (hashName) => {
+    delegateRef.current = {
+      onAfterReinitialize: noop,
+      shouldReinitialize: true,
+      reinitialize: false,
+    };
+    dispatch({ type: 'selectFile', hashName });
+  }
   
-  const handleFormSubmit = async (event) => {
-    console.log('Richard useDelegate save', { values, node });
-    const { current: form } = currentForm;
-    const { current: node } = currentNode;
-    const { values } = formState.current;
+  const handleFormSubmit = async (/*values, node*/) => {
+    const { current: form } = currentFormRef;
+    const { current: node } = currentNodeRef;
+    const { values } = formStateRef.current;
     try {
-      const ref = NodeRef.fromString(activeAsset.get('_id').toString());
+      const ref = NodeRef.fromNode(activeAsset);
       await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
-      await dispatch(updateNode(values, form, node));
+      await appDispatch(updateNode(values, form, node));
 
       await progressIndicator.close();
       toast({ title: `${startCase(ref.getLabel())} saved.` });
-      dispatch(clearAlerts());
+      appDispatch(clearAlerts());
 
-      // if (action === 'save-and-publish' && node.schema().hasMixin('gdbots:ncr:mixin:publishable')) {
-      //   await progressIndicator.update(`Publishing ${startCase(ref.getLabel())}...`);
-      //   await dispatch(publishNode(nodeRef));
-      // }
-
-      // delegate.shouldReinitialize = true;
-      // delegate.onAfterReinitialize = () => {
-      //   progressIndicator.close();
-      //   toast({ title: `${startCase(ref.getLabel())} saved.` });
-      // };
+      const { current: delegate } = delegateRef;
+      delegate.shouldReinitialize = true;
+      delegate.onAfterReinitialize = () => {
+        progressIndicator.close();
+        toast({ title: `${startCase(ref.getLabel())} saved.` });
+      };
       // setTimeout(refreshNode);
+      setTimeout(refreshNodeRef.current);
     } catch (e) {
       await progressIndicator.close();
       const message = getFriendlyErrorMessage(e);
-      dispatch(sendAlert({ type: 'danger', message }));
+      appDispatch(sendAlert({ type: 'danger', message }));
       return { [FORM_ERROR]: message };
     }
 
@@ -374,7 +383,7 @@ const Uploader = (props) => {
       return;
     }
 
-    if (hasFilesProcessing || formState.current.dirty) {
+    if (hasFilesProcessing || formStateRef.current.dirty) {
       const confirmText = hasFilesProcessing
         ? 'Some files are still processing. Exiting early will cause an interruption and files may not be saved.'
         : 'Do you want to leave the form without saving?';
@@ -425,7 +434,6 @@ const Uploader = (props) => {
 
               <div className="meta-form border-left">
                 <Card className="pt-3 px-3 pb-1 mb-0">
-                  {console.log('Richard FILES', {activeHashName, activeAsset, files})}
                   {activeHashName && activeAsset && activeAssetStatus === fileUploadStatuses.COMPLETED
                     // Form `key` is REQUIRED to update the form
                     // when activeHashName has changed
@@ -435,14 +443,16 @@ const Uploader = (props) => {
                           id={activeAsset.get('_id').toString()}
                           label={`${activeAsset.get('_id').getType()}-asset`}
                           editMode={true}
-                          uploaderCurrentForm={currentForm}
-                          uploaderCurrentNode={currentNode}
-                          uploaderFormState={formState}
+                          currentFormRef={currentFormRef}
+                          currentNodeRef={currentNodeRef}
+                          formStateRef={formStateRef}
+                          refreshNodeRef={refreshNodeRef}
                           commonFieldsComponent={CommonFields}
                           allowMultiUpload={allowMultiUpload}
                           hasMultipleFiles={hasMultipleFiles}
                           setIsFormDirty={setIsFormDirty}
                           onSubmit={handleFormSubmit}
+                          delegateRef={delegateRef}
                         />
                       </>
                       //   // key={delegate.getFormName()}

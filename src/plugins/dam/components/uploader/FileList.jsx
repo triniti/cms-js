@@ -30,7 +30,6 @@ const FileList = props => {
   } = props;
   const fileList = useRef();
   let activeFileItem = null;
-  console.log('Richard FILE LIST PROPS', { props });
 
   const handleOnChange = (hashName) => {
     if (!isFormDirty) {
