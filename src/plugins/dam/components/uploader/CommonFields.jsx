@@ -1,10 +1,18 @@
 import React from 'react';
-import { DatePickerField, TextareaField, TextField, UrlField } from 'components';
+import { DatePickerField, TextareaField, TextField } from 'components';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import { Button } from 'reactstrap';
+import noop from 'lodash-es/noop';
 
 export default function CommonFields(props) {
-  const { allowMultiUpload = true, asset, credit, form, groupClassName = '', hasMultipleFiles = false } = props;
+  const {
+    allowMultiUpload = true,
+    credit,
+    form,
+    hasMultipleFiles = false,
+    onApplyAllCredit = noop,
+    onApplyAllExpiresAt = noop,
+  } = props;
 
   return (
     <>
@@ -22,6 +30,7 @@ export default function CommonFields(props) {
               color="light"
               style={{marginBottom: "0.8rem"}}
               disabled={!hasMultipleFiles || !form.getFieldState('credit')?.dirty}
+              onClick={onApplyAllCredit}
               >
               Apply to all
             </Button>
@@ -39,6 +48,7 @@ export default function CommonFields(props) {
               color="light"
               style={{marginBottom: '0.8rem'}}
               disabled={!hasMultipleFiles || !form.getFieldState('expires_at')?.dirty}
+              onClick={onApplyAllExpiresAt}
               >
               Apply to all
             </Button>

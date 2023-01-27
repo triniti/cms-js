@@ -1,25 +1,14 @@
-import React, { useState } from 'react';
-import Dropzone, { useDropzone } from 'react-dropzone'; 
-import PropTypes from 'prop-types';
+import React from 'react';
+import Dropzone from 'react-dropzone'; 
 import { Icon } from 'components';
 
 
-const DropArea = ({
+export default ({
   allowedMimeTypes = [],
   allowMultiUpload: multiple,
   onDrop: handleOnDrop,
   onDropRejected: handleOnDropRejected,
 }) => {
-  const [uploading, setUploading] = useState(false);
-  const [controller, setController] = useState(null);
-
-  const handleCancel = () => {
-    if (controller) {
-      controller.abort();
-    }
-    setUploading(false);
-  };
-
   const accept = {}; // eg: accept['text/html'] = [];
   allowedMimeTypes.map(x => accept[x] = []);
 
@@ -46,12 +35,3 @@ const DropArea = ({
     </Dropzone>
   );
 };
-
-DropArea.propTypes = {
-  allowedMimeTypes: PropTypes.arrayOf(PropTypes.string),
-  allowMultiUpload: PropTypes.bool,
-  onDrop: PropTypes.func,
-  onDropRejected: PropTypes.func,
-};
-
-export default DropArea;

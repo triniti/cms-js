@@ -101,8 +101,6 @@ export default (props) => {
   delegate.handleSave = async (event) => {
     const action = event.target?.value || 'save';
     delegate.handleSubmit = async (values) => {
-      console.log('Richard useDelegate save', { values, node });
-      window.x = node;
       try {
         const ref = NodeRef.fromString(nodeRef);
         await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);

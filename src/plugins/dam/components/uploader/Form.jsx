@@ -2,8 +2,7 @@ import React, { lazy, Suspense, useRef, useState, useEffect } from 'react';
 import startCase from 'lodash-es/startCase';
 import useNode from 'plugins/ncr/components/useNode';
 import useParams from 'plugins/ncr/components/with-node-screen/useParams';
-import PropTypes from 'prop-types';
-import { /*Form,*/ Card, CardBody } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import { Form } from 'react-final-form';
 import { ErrorBoundary,  Loading } from 'components';
 import { FormSpy } from 'react-final-form';
@@ -31,12 +30,6 @@ const withForm = Component => {
     const propsRef = useRef();
     propsRef.current = props;
     const { pbj, formName } = props;
-
-    // const delegateRef = useRef({
-    //   onAfterReinitialize: noop,
-    //   shouldReinitialize: true,
-    //   reinitialize: false,
-    // });
     const { delegateRef } = props;
 
     const [initialValues, setInitialValues] = useState();
@@ -70,7 +63,6 @@ const withForm = Component => {
                     form.setConfig('keepDirtyOnReinitialize', false);
                     form.reset();
                     form.restart();
-                    // form.setConfig('keepDirtyOnReinitialize', config.keepDirtyOnReinitialize);
                     form.setConfig('keepDirtyOnReinitialize', false);
                   });
                   delegate.onAfterReinitialize(pbj);
@@ -127,10 +119,8 @@ const UploaderForm = props => {
     form,
     formState,
     onSubmit: handleSubmit,
-    editMode,
     node,
     isRefreshing,
-    qname,
     nodeRef,
     label,
     formStateRef,

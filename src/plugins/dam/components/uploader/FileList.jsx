@@ -20,7 +20,7 @@ const confirmSelect = async () => {
   });
 }
 
-const FileList = props => {
+export default props => {
   const {
     files,
     isFormDirty = false,
@@ -72,10 +72,7 @@ const FileList = props => {
   };
 
   const ensureActiveItemVisibleThrottled = throttle(ensureActiveItemVisible, 5000);
-  useEffect(() => {
-    // ensureActiveItemVisible();
-    ensureActiveItemVisibleThrottled();
-  });
+  useEffect(() => ensureActiveItemVisibleThrottled());
 
   return (
     <div className="dam-file-list" ref={fileList}>
@@ -95,14 +92,4 @@ const FileList = props => {
       }
     </div>
   );
-}
-
-FileList.propTypes = {
-  files: PropTypes.shape({ hashName: PropTypes.object }).isRequired,
-  isFormDirty: PropTypes.bool,
-  onDelete: PropTypes.func.isRequired,
-  onSelectFile: PropTypes.func.isRequired,
-  onRetry: PropTypes.func.isRequired,
 };
-
-export default FileList;

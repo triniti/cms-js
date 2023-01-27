@@ -1,32 +1,6 @@
 import noop from 'lodash/noop';
-import PropTypes from 'prop-types';
-import React, { useReducer, useRef } from 'react';
-import swal from 'sweetalert2';
-import { ActionButton, FormErrors, TextField, withForm, withPbj } from 'components';
-import merge from 'lodash-es/merge'
-import { fileUploadStatuses } from 'plugins/dam/constants';
-import damUrl from 'plugins/dam/damUrl';
-import startCase from 'lodash-es/startCase';
-
-import { v4 as uuid } from 'uuid';
-import md5 from 'md5';
-import get from 'lodash/get';
-import { incrementValues } from 'plugins/dam/components/add-gallery-assets-modal';
-import getFileExtension from 'plugins/dam/utils/getFileExtension';
-
-import uploadFile, { getUploadUrls } from 'plugins/dam/utils/uploadFile';
-import { fromAssetId } from 'plugins/dam/utils/assetFactory';
-import mime from 'mime-types';
-import BigNumber from '@gdbots/pbj/well-known/BigNumber';
-import { getInstance } from '@app/main';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import getImageUrlDimensions from 'plugins/dam/utils/getImageUrlDimensions';
+import React, { useReducer, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import toast from 'utils/toast';
-
-
-import Message from '@gdbots/pbj/Message';
 import {
   Button,
   Card,
@@ -36,21 +10,42 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
+import swal from 'sweetalert2';
+import { v4 as uuid } from 'uuid';
+import md5 from 'md5';
+import get from 'lodash/get';
+import merge from 'lodash-es/merge'
+import startCase from 'lodash-es/startCase';
+import mime from 'mime-types';
 
-import DropArea from './DropArea';
-import FileList from './FileList';
-import Form from './Form';
-import Paginator from './Paginator';
-// import useDelegate from 'plugins/dam/components/uploader/useDelegate';
-import CommonFields from 'plugins/dam/components/uploader/CommonFields';
-import updateNode from 'plugins/ncr/actions/updateNode';
-import progressIndicator from 'utils/progressIndicator';
+// app
+import { getInstance } from '@app/main';
+import BigNumber from '@gdbots/pbj/well-known/BigNumber';
+import MessageResolver from '@gdbots/pbj/MessageResolver';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import Message from '@gdbots/pbj/Message';
 import clearAlerts from 'actions/clearAlerts';
 import sendAlert from 'actions/sendAlert';
+import toast from 'utils/toast';
+import progressIndicator from 'utils/progressIndicator';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
+import updateNode from 'plugins/ncr/actions/updateNode';
 
-import './styles.scss';
-import { useState } from 'react';
+// dam
+import damUrl from 'plugins/dam/damUrl';
+import { incrementValues } from 'plugins/dam/components/add-gallery-assets-modal';
+import { fileUploadStatuses } from 'plugins/dam/constants';
+import getFileExtension from 'plugins/dam/utils/getFileExtension';
+import uploadFile, { getUploadUrls } from 'plugins/dam/utils/uploadFile';
+import { fromAssetId } from 'plugins/dam/utils/assetFactory';
+import getImageUrlDimensions from 'plugins/dam/utils/getImageUrlDimensions';
+import DropArea from 'plugins/dam/components/uploader/DropArea';
+import FileList from 'plugins/dam/components/uploader/FileList';
+import Form from 'plugins/dam/components/uploader/Form';
+import Paginator from 'plugins/dam/components/uploader/Paginator';
+import CommonFields from 'plugins/dam/components/uploader/CommonFields';
+
+import 'plugins/dam/components/uploader/styles.scss';
 
 const confirmDone = async (text) => {
   return swal.fire({
@@ -160,18 +155,14 @@ const getActiveHashName = files => {
   return null;
 }
 
-const Uploader = (props) => {
+export default (props) => {
   const {
     allowedMimeTypes = [],
     allowMultiUpload = true,
-    currentValues = {},
-    enableCreditApplyAll = false,
-    enableExpirationDateApplyAll = false,
     hasFilesProcessing = false,
     isOpen = false,
     lastGallerySequence = 0,
     mimeTypeErrorMessage = 'Invalid Action: Trying to upload invalid file type.',
-    onClose = noop,
     onToggleUploader,
     linkedRefs,
     galleryRef,
@@ -200,9 +191,6 @@ const Uploader = (props) => {
   // const { submitting, isRefreshing, dirty, valid, hasSubmitErrors } = formStateRef?.current;
   // const enableSaveChanges = submitting || isRefreshing || !isFormDirty || (!valid && !hasSubmitErrors);
   const enableSaveChanges = isFormDirty && formStateRef.current.valid;
-
-  
-  window.fs = formStateRef.current;
   
   const handleFileDrop = async (droppedFiles) => {
     const newFormattedFiles = processFiles(droppedFiles); // formats list with hash
@@ -219,7 +207,7 @@ const Uploader = (props) => {
     try {
       await uploadProcessedFiles(newFormattedFiles);
     } catch (e) {
-      console.log('Uploader: Issue uploading files', e);
+      console.log('Uploader: Issue uploading files.', e);
     }
   };
 
@@ -277,7 +265,7 @@ const Uploader = (props) => {
         await pbjx.send(command);
         dispatch({ type: 'processCompleted', hashName});
       } catch (e) {
-        console.log('Issue uploading files', e);
+        console.log('Uploader: Issue processing files.', e);
         dispatch({ type: 'processFileFailed', hashName, error: e });
       }
     }
@@ -344,14 +332,50 @@ const Uploader = (props) => {
     };
     dispatch({ type: 'selectFile', hashName });
   }
+
+  const patchAssets = async (field) => {
+    const app = getInstance();
+    const pbjx = await app.getPbjx();
+    const { current: form } = currentFormRef;
+    const refs = [];
+    Object.keys(files).map(k => {
+      refs.push(NodeRef.fromNode(files[k].asset));
+    });
+    const PatchAssetsV1 = await MessageResolver.resolveCurie(`${APP_VENDOR}:dam:command:patch-assets:v1`);
+    const paths = [field];
+    const value = form.getFieldState(field).value;
+    const command = PatchAssetsV1.create()
+    .addToSet('node_refs', refs)
+    .addToSet('paths', paths)
+    .set(field, field === 'expires_at' ? new Date(value) : value);
+    await pbjx.send(command);
+  }
   
+  const handleApplyAll = async (field) => {
+    await progressIndicator.show(`Applying ${startCase(field)} to uploaded assets...`);
+    try {
+      await patchAssets(field);
+      await progressIndicator.close();
+      appDispatch(clearAlerts());
+
+      const { current: delegate } = delegateRef;
+      delegate.shouldReinitialize = true;
+      
+      setTimeout(refreshNodeRef.current);
+    } catch (e) {
+      await progressIndicator.close();
+      const message = getFriendlyErrorMessage(e);
+      appDispatch(sendAlert({ type: 'danger', message }));
+    }
+  }
+
   const handleFormSubmit = async (/*values, node*/) => {
     const { current: form } = currentFormRef;
     const { current: node } = currentNodeRef;
     const { values } = formStateRef.current;
     try {
       const ref = NodeRef.fromNode(activeAsset);
-      await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
+      await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`); 
       await appDispatch(updateNode(values, form, node));
 
       await progressIndicator.close();
@@ -360,17 +384,12 @@ const Uploader = (props) => {
 
       const { current: delegate } = delegateRef;
       delegate.shouldReinitialize = true;
-      delegate.onAfterReinitialize = () => {
-        progressIndicator.close();
-        toast({ title: `${startCase(ref.getLabel())} saved.` });
-      };
-      // setTimeout(refreshNode);
+      
       setTimeout(refreshNodeRef.current);
     } catch (e) {
       await progressIndicator.close();
       const message = getFriendlyErrorMessage(e);
       appDispatch(sendAlert({ type: 'danger', message }));
-      return { [FORM_ERROR]: message };
     }
 
     await form.submit();
@@ -435,8 +454,6 @@ const Uploader = (props) => {
               <div className="meta-form border-left">
                 <Card className="pt-3 px-3 pb-1 mb-0">
                   {activeHashName && activeAsset && activeAssetStatus === fileUploadStatuses.COMPLETED
-                    // Form `key` is REQUIRED to update the form
-                    // when activeHashName has changed
                     && (
                       <>
                         <Form
@@ -453,31 +470,10 @@ const Uploader = (props) => {
                           setIsFormDirty={setIsFormDirty}
                           onSubmit={handleFormSubmit}
                           delegateRef={delegateRef}
+                          onApplyAllCredit={() => handleApplyAll('credit')}
+                          onApplyAllExpiresAt={() => handleApplyAll('expires_at')}
                         />
                       </>
-                      //   // key={delegate.getFormName()}
-                      //   // form={delegate.getFormName()}
-                      //   key={'randokey'}
-                      //   form={'randoName'}
-                      //   activeHashName={activeHashName}
-                      //   currentValues={currentValues}
-                      //   enableCreditApplyAll={enableCreditApplyAll}
-                      //   enableExpirationDateApplyAll={enableExpirationDateApplyAll}
-                      //   files={files}
-                      //   onCreditApplyToAll={() => {}}
-                      //   onExpiresAtApplyToAll={() => {}}
-                      //   // onCreditApplyToAll={delegate.handleCreditApplyAll}
-                      //   // onExpiresAtApplyToAll={delegate.handleExpiresAtApplyAll}
-                      //   hasMultipleFiles={hasMultipleFiles}
-                      //   // initialValues={delegate.getInitialValues()}
-                      //   initialValues={() => {}}
-                      //   node={activeAsset}
-                      //   validate={delegate.handleValidate}
-                      //   warn={delegate.handleWarn}
-                      //   onSave={delegate.handleSave}
-                      //   onSubmit={delegate.handleSubmit}
-                      //   uploadedFiles={uploadedFiles}
-                      // />
                     )}
                   {activeHashName && [fileUploadStatuses.COMPLETED, fileUploadStatuses.ERROR].indexOf(activeAssetStatus) == -1 && <h3>Processing...</h3>}
                   {activeHashName && activeAssetStatus === fileUploadStatuses.ERROR && (
@@ -505,7 +501,7 @@ const Uploader = (props) => {
             />
           </div>
           <div className="ms-auto pe-3">
-            {activeHashName && activeAsset
+            {activeHashName && activeAsset && activeAssetStatus === fileUploadStatuses.COMPLETED
               && (
                   <div>
                     <Button
@@ -527,32 +523,4 @@ const Uploader = (props) => {
       </Modal>
     </div>
   );
-}
-
-Uploader.propTypes = {
-  activeAsset: PropTypes.instanceOf(Message),
-  activeHashName: PropTypes.string,
-  allowedMimeTypes: PropTypes.arrayOf(PropTypes.string),
-  allowMultiUpload: PropTypes.bool,
-  currentValues: PropTypes.shape({}),
-  // delegate: PropTypes.instanceOf(Delegate).isRequired,
-  enableCreditApplyAll: PropTypes.bool,
-  enableExpirationDateApplyAll: PropTypes.bool,
-  hasFilesProcessing: PropTypes.bool,
-  isOpen: PropTypes.bool,
-  lastGallerySequence: PropTypes.number,
-  mimeTypeErrorMessage: PropTypes.string,
-  /* eslint react/no-unused-prop-types: off */
-  onClose: PropTypes.func, // This is used in the delegate
-  onToggleUploader: PropTypes.func.isRequired,
-  linkedRefs: PropTypes.arrayOf(NodeRef),
-  galleryRef: PropTypes.instanceOf(NodeRef),
-  gallerySequence: PropTypes.number,
-  uploadedFiles: PropTypes.shape({ hashName: PropTypes.shape({}) }),
-  variant: PropTypes.shape({
-    version: PropTypes.string,
-    asset: PropTypes.instanceOf(NodeRef),
-  }),
-}
-
-export default Uploader;
+};

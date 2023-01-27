@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   ButtonDropdown,
@@ -10,7 +9,7 @@ import {
 } from 'reactstrap';
 import { fileUploadStatuses } from 'plugins/dam/constants';
 
-const FileItem = (props) => {
+export default (props) => {
   const {
     file = {},
     hashName,
@@ -92,14 +91,3 @@ const FileItem = (props) => {
     </Button>
   );
 }
-
-FileItem.propTypes = {
-  file: PropTypes.shape({}),
-  hashName: PropTypes.string.isRequired,
-  innerRef: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onRetry: PropTypes.func.isRequired,
-};
-
-export default FileItem;

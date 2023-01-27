@@ -5,13 +5,13 @@ import {
   PaginationLink,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import PaginatorItem from './PaginatorItem';
-import PaginatorNoFiles from './PaginatorNoFiles';
+import PaginatorItem from 'plugins/dam/components/uploader/PaginatorItem';
+import PaginatorNoFiles from 'plugins/dam/components/uploader/PaginatorNoFiles';
 
 // Change this to the amount of files to display as paginating buttons
 const MAX_FILE_LINKS = 3;
 
-const Paginator = ({
+export default ({
   files,
   onSelectFile,
   className,
@@ -105,15 +105,3 @@ const Paginator = ({
     </Pagination>
   );
 };
-
-Paginator.propTypes = {
-  files: PropTypes.shape({ hashName: PropTypes.object }).isRequired,
-  onSelectFile: PropTypes.func.isRequired,
-  className: PropTypes.string,
-};
-
-Paginator.defaultProps = {
-  className: '',
-};
-
-export default Paginator;
