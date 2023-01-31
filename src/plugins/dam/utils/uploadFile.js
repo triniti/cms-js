@@ -75,7 +75,7 @@ const checkUrl = async (url) => {
 };
 
 const MAX_CHECKS = 3;
-export default async (file, postUrl, variant, controller) => {
+export default async (file, postUrl, controller) => {
   //await delay(3000); // for testing UI states
   await uploadToS3(file, postUrl, controller);
   return;

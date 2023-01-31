@@ -11,7 +11,6 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import swal from 'sweetalert2';
-import { v4 as uuid } from 'uuid';
 import md5 from 'md5';
 import get from 'lodash/get';
 import merge from 'lodash-es/merge'
@@ -23,7 +22,6 @@ import { getInstance } from '@app/main';
 import BigNumber from '@gdbots/pbj/well-known/BigNumber';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Message from '@gdbots/pbj/Message';
 import clearAlerts from 'actions/clearAlerts';
 import sendAlert from 'actions/sendAlert';
 import toast from 'utils/toast';
@@ -35,15 +33,15 @@ import updateNode from 'plugins/ncr/actions/updateNode';
 import damUrl from 'plugins/dam/damUrl';
 import { incrementValues } from 'plugins/dam/components/add-gallery-assets-modal';
 import { fileUploadStatuses } from 'plugins/dam/constants';
-import getFileExtension from 'plugins/dam/utils/getFileExtension';
 import uploadFile, { getUploadUrls } from 'plugins/dam/utils/uploadFile';
 import { fromAssetId } from 'plugins/dam/utils/assetFactory';
-import getImageUrlDimensions from 'plugins/dam/utils/getImageUrlDimensions';
+import imageUrlDimensions from 'plugins/dam/utils/imageUrlDimensions';
 import DropArea from 'plugins/dam/components/uploader/DropArea';
 import FileList from 'plugins/dam/components/uploader/FileList';
 import Form from 'plugins/dam/components/uploader/Form';
 import Paginator from 'plugins/dam/components/uploader/Paginator';
 import CommonFields from 'plugins/dam/components/uploader/CommonFields';
+import fileToUuidName from 'plugins/dam/utils/fileToUuidName';
 
 import 'plugins/dam/components/uploader/styles.scss';
 
@@ -71,49 +69,12 @@ const updateFileInfo = (files, hashName, info = {}) => {
   return merge({}, files, updatedFile);
 };
 
-function reducer(prevFiles, action) {
-  const { type, hashName = null, info = {}, asset = null, previewUrl = null, files = {}, error = null } = action;
 
-  switch (type) {
-    case 'setFiles':
-      return { ... files };
-      break;
-    case 'selectFile':
-      const selectFile = { ... prevFiles };
-      Object.keys(prevFiles).forEach((currHashName) => {
-        selectFile[currHashName].active = currHashName === hashName;
-      });
-      return selectFile;
-      break;
-    case 'updateFileInfo':
-      return updateFileInfo(prevFiles, hashName, info);
-      break;
-    case 'uploadFileStarted':
-      return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.UPLOADING });
-      break;
-    case 'uploadFileFulfilled':
-      return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.UPLOADED, previewUrl, uploaded: true });
-      break;
-    case 'updateProcessedFileAsset':
-      return updateFileInfo(prevFiles, hashName, { asset });
-      break;
-    case 'processFileFailed':
-        return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.ERROR, error });
-        break;
-    case 'processRetryRequested':
-        return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.PROCESSING, error: null });
-        break;
-    case 'processCompleted':
-        return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.COMPLETED });
-        break;
-  }
-}
 
 const processFiles = (files, galleryRef, lastGallerySequence, variant) => {
   const variantWithDefaults = { ...variant, version: get(variant, 'version', 'o') };
   return files.reduce((accumulator, file, index) => {
-      const extension = getFileExtension(file).toLowerCase();
-      const uuidName = `${uuid()}${extension ? `.${extension}` : ''}`;
+      const uuidName = fileToUuidName(file);
       const hashName = md5(uuidName);
       const { version } = variantWithDefaults;
       const gallerySequence = galleryRef
@@ -155,6 +116,44 @@ const getActiveHashName = files => {
   return null;
 }
 
+const reducer = (prevFiles, action) => {
+  const { type, hashName = null, info = {}, asset = null, previewUrl = null, files = {}, error = null } = action;
+
+  switch (type) {
+    case 'setFiles':
+      return { ... files };
+      break;
+    case 'selectFile':
+      const selectFile = { ... prevFiles };
+      Object.keys(prevFiles).forEach((currHashName) => {
+        selectFile[currHashName].active = currHashName === hashName;
+      });
+      return selectFile;
+      break;
+    case 'updateFileInfo':
+      return updateFileInfo(prevFiles, hashName, info);
+      break;
+    case 'uploadFileStarted':
+      return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.UPLOADING });
+      break;
+    case 'uploadFileFulfilled':
+      return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.UPLOADED, previewUrl, uploaded: true });
+      break;
+    case 'updateProcessedFileAsset':
+      return updateFileInfo(prevFiles, hashName, { asset });
+      break;
+    case 'processFileFailed':
+        return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.ERROR, error });
+        break;
+    case 'processRetryRequested':
+        return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.PROCESSING, error: null });
+        break;
+    case 'processCompleted':
+        return updateFileInfo(prevFiles, hashName, { status: fileUploadStatuses.COMPLETED });
+        break;
+  }
+}
+
 export default (props) => {
   const {
     allowedMimeTypes = [],
@@ -162,7 +161,6 @@ export default (props) => {
     hasFilesProcessing = false,
     isOpen = false,
     lastGallerySequence = 0,
-    mimeTypeErrorMessage = 'Invalid Action: Trying to upload invalid file type.',
     onToggleUploader,
     linkedRefs,
     galleryRef,
@@ -230,7 +228,7 @@ export default (props) => {
         const { file } = processedFiles[hashName];
         const postUrl = s3PresignedUrls[hashName];
         dispatch({ type: 'uploadFileStarted', hashName });
-        await uploadFile(file, postUrl, variant, myController);
+        await uploadFile(file, postUrl, myController);
         dispatch({ type: 'uploadFileFulfilled', hashName });
 
         // Attach asset to files
@@ -254,7 +252,7 @@ export default (props) => {
         // specifics to be set. Something fancier can be mocked up when each asset type has
         // different logic.
         if (asset.get('_id').getType() === 'image') {
-          const { width, height } = await getImageUrlDimensions(damUrl(asset));
+          const { width, height } = await imageUrlDimensions(damUrl(asset));
           asset.set('width', width);
           asset.set('height', height);
         }
