@@ -41,7 +41,7 @@ export default function ImageAssetFields(props) {
         </Row>
       </Container>
       <CommonFieldsComponent asset={asset} credit="image-asset-credits" {...props}  />
-      <PollPickerField name="polls" label="Search and Select a Poll" />
+      <PollPickerField name="poll_ref" label="Search and Select a Poll" />
     </>
   );
 }
