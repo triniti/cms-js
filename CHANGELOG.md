@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.18.5
+* When Updating a Block in CMS, the Toolbar Becomes Sticky At Bottom of Story.
+
+
 ## v0.18.4
 * When uploading, Typing in the description field bounces the modal.
 
