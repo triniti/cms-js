@@ -8,6 +8,9 @@ import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/dam/components/asset-screen/DetailsTab';
 import VariantsTab from 'plugins/dam/components/asset-screen/VariantsTab';
+import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
+import Chat from '../../../raven/components/chat';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 function AssetScreen(props) {
   const {
@@ -58,6 +61,7 @@ function AssetScreen(props) {
       tabs={[...(node.schema().hasMixin('triniti:dam:mixin:image-asset') ? TabItemsWithVariants : TabItems)]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
@@ -106,10 +110,12 @@ function AssetScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          <Chat nodeRef={nodeRef} />
         </>
       }
     >
       {!editMode && <ViewModeWarning />}
+      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>

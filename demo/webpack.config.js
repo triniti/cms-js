@@ -173,8 +173,15 @@ module.exports = (webpackEnv = {}) => {
       }),
 
       new NodePolyfillPlugin({
-        includeAliases: ['path']
+        includeAliases: [
+          'path',
+          'process', // mqtt needs this explicitly defined
+        ]
       }),
+
+      // new webpack.DefinePlugin({
+      //   'process': undefined, // mqtt needs this explicitly defined
+      // }),
     ]
   };
 };

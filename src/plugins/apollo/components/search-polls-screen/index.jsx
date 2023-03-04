@@ -10,6 +10,8 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/apollo/components/search-polls-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const CreatePollModal = lazy(() => import('plugins/apollo/components/create-poll-modal'));
 
@@ -62,7 +64,7 @@ function SearchPollsScreen(props) {
                 {response.get('nodes', []).map(node => {
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                      <td>{node.get('title')}</td>
+                      <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
                       <td className="td-icons">

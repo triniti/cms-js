@@ -65,7 +65,14 @@ const onPruneNodes = (prevState) => {
   return state;
 };
 
+const onReceivedNodes = (prevState, { nodes }) => {
+  const state = { ...prevState };
+  addNodes(state, nodes);
+  return state;
+}
+
 export default createReducer(initialState, {
   [pbjxActionTypes.ENVELOPE_RECEIVED]: onPbjxEnvelopeReceived,
   [actionTypes.PRUNE_NODES]: onPruneNodes,
+  [actionTypes.NODES_RECEIVED]: onReceivedNodes,
 });

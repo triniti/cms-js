@@ -51,6 +51,7 @@ const WidgetScreen = lazy(() => import('@triniti/cms/plugins/curator/components/
 export default () => (
   <Routes>
     <Route path="/" element={<DashboardScreen />} />
+    <Route path="/active-edits" element={<DashboardScreen tab="active-edits" />} />
     <Route path="/apollo/polls" element={<SearchPollsScreen />} />
     <Route path="/boost/sponsors" element={<SearchSponsorsScreen />} />
     <Route path="/canvas/pages" element={<SearchPagesScreen />} />

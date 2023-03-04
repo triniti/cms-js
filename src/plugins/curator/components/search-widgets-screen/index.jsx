@@ -11,6 +11,8 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/curator/components/search-widgets-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const CreateWidgetModal = lazy(() => import('plugins/curator/components/create-widget-modal'));
 
@@ -72,6 +74,7 @@ function SearchWidgetsScreen(props) {
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                       <td>
                         {node.get('title')}
+                        <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-widget', '')}
                         </Badge>

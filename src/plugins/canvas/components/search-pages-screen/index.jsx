@@ -10,6 +10,8 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/canvas/components/search-pages-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const CreatePageModal = lazy(() => import('plugins/canvas/components/create-page-modal'));
 
@@ -62,7 +64,7 @@ function SearchPagesScreen(props) {
                 {response.get('nodes', []).map(node => {
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                      <td>{node.get('title')}</td>
+                      <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                       <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
                       <td className="td-icons">

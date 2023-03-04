@@ -7,6 +7,8 @@ import nodeUrl from 'plugins/ncr/nodeUrl';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import usePolicy from 'plugins/iam/components/usePolicy';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const CreateChannelModal = lazy(() => import('plugins/taxonomy/components/create-channel-modal'));
 
@@ -35,7 +37,7 @@ function SearchChannelsScreen(props) {
             <tbody>
             {response.get('nodes').map(node => (
               <tr key={`${node.get('_id')}`}>
-                <td>{node.get('title')}</td>
+                <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
                     <Button color="hover">

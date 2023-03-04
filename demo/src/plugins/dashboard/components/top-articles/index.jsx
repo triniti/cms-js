@@ -6,6 +6,8 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
 import formatDate from '@triniti/cms/utils/formatDate';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -66,7 +68,7 @@ export default function TopArticles(props) {
             <tbody>
             {response.get('nodes', []).map(node => (
               <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                <td>{node.get('title')}</td>
+                <td>{node.get('title')}  <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                 <td>
                   {node.has('slotting')
                     ? Object.entries(node.get('slotting')).map(([key, slot]) => (

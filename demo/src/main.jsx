@@ -10,7 +10,7 @@ import './assets/styles/main.scss';
 import './config/uriTemplates';
 import Root from './Root';
 import createApp from './createApp';
-import registerWorkers from './workers';
+import startWorkers from './workers';
 
 let app = null;
 export const getInstance = () => app;
@@ -19,7 +19,7 @@ export const getInstance = () => app;
   app = await createApp();
   window.cms = app;
   await app.start();
-  await registerWorkers(app);
+  await startWorkers(app);
 
   render(
     <Provider store={app.getRedux()}>

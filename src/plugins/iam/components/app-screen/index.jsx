@@ -7,6 +7,9 @@ import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/iam/components/app-screen/DetailsTab';
 import RolesTab from 'plugins/iam/components/app-screen/RolesTab';
+import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
+import Chat from '../../../raven/components/chat';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 function AppScreen(props) {
   const {
@@ -47,6 +50,7 @@ function AppScreen(props) {
       ]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
@@ -95,10 +99,12 @@ function AppScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          <Chat nodeRef={nodeRef} />
         </>
       }
     >
       {!editMode && <ViewModeWarning />}
+      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>

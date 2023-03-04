@@ -14,6 +14,9 @@ import humanizeBytes from 'utils/humanizeBytes';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/dam/components/search-assets-screen/SearchForm';
 import UploaderButton from 'plugins/dam/components/uploader-button';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+
 
 //const CreateAssetModal = lazy(() => import('plugins/dam/components/create-asset-modal'));
 
@@ -98,6 +101,7 @@ function SearchAssetsScreen(props) {
                       </td>  
                       <td>
                         {node.get('title')}
+                        <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-asset', '')}
                         </Badge>
