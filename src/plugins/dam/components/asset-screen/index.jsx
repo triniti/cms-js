@@ -9,7 +9,6 @@ import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'compone
 import DetailsTab from 'plugins/dam/components/asset-screen/DetailsTab';
 import VariantsTab from 'plugins/dam/components/asset-screen/VariantsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function AssetScreen(props) {
@@ -110,7 +109,6 @@ function AssetScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

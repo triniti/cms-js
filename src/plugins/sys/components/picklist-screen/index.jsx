@@ -7,7 +7,6 @@ import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/sys/components/picklist-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function PicklistScreen(props) {
@@ -97,7 +96,6 @@ function PicklistScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

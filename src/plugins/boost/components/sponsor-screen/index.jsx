@@ -7,7 +7,6 @@ import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import DetailsTab from 'plugins/boost/components/sponsor-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function SponsorScreen(props) {
@@ -97,7 +96,6 @@ function SponsorScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

@@ -9,7 +9,6 @@ import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import DetailsTab from 'plugins/apollo/components/poll-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
 import Collaborators from 'plugins/raven/components/collaborators';
-import Chat from '../../../raven/components/chat';
 
 function PollScreen(props) {
   const {
@@ -99,7 +98,6 @@ function PollScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

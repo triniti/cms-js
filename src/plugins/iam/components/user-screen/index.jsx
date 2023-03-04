@@ -8,7 +8,6 @@ import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'compone
 import DetailsTab from 'plugins/iam/components/user-screen/DetailsTab';
 import RolesTab from 'plugins/iam/components/user-screen/RolesTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function UserScreen(props) {
@@ -99,7 +98,6 @@ function UserScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

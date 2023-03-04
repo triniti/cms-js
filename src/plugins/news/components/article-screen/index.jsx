@@ -10,7 +10,6 @@ import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'compone
 import DetailsTab from 'plugins/news/components/article-screen/DetailsTab';
 import StoryTab from 'plugins/news/components/article-screen/StoryTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function ArticleScreen(props) {
@@ -103,7 +102,6 @@ function ArticleScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

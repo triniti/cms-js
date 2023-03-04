@@ -10,7 +10,6 @@ import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import DetailsTab from 'plugins/canvas/components/page-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function PageScreen(props) {
@@ -103,7 +102,6 @@ function PageScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

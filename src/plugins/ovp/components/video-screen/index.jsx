@@ -10,7 +10,6 @@ import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'compone
 import DetailsTab from 'plugins/ovp/components/video-screen/DetailsTab';
 import MediaTab from 'plugins/ovp/components/video-screen/MediaTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function VideoScreen(props) {
@@ -103,7 +102,6 @@ function VideoScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

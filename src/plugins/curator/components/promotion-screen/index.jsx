@@ -9,7 +9,6 @@ import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import DetailsTab from 'plugins/curator/components/promotion-screen/DetailsTab';
 import ScheduleTab from 'plugins/curator/components/promotion-screen/ScheduleTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function PromotionScreen(props) {
@@ -101,7 +100,6 @@ function PromotionScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

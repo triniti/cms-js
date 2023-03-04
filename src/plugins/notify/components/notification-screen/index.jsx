@@ -7,7 +7,6 @@ import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'compone
 import DetailsTab from 'plugins/notify/components/notification-screen/DetailsTab';
 import SendStatusCard from 'plugins/notify/components/notification-screen/SendStatusCard';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function NotificationScreen(props) {
@@ -95,7 +94,6 @@ function NotificationScreen(props) {
       sidebar={
         <>
           <SendStatusCard nodeRef={nodeRef} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >

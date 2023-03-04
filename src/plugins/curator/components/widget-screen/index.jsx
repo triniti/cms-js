@@ -9,7 +9,6 @@ import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'compone
 import WidgetHasSearchRequestFields from 'plugins/curator/components/widget-screen/widget-has-search-request-fields';
 import DetailsTab from 'plugins/curator/components/widget-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Chat from '../../../raven/components/chat';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 function WidgetScreen(props) {
@@ -110,7 +109,6 @@ function WidgetScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          <Chat nodeRef={nodeRef} />
         </>
       }
     >
