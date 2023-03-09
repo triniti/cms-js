@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import joinCollaboration from 'plugins/raven/actions/joinCollaboration';
 import leaveCollaboration from 'plugins/raven/actions/leaveCollaboration';
+import setCurrentNodeRef from 'plugins/raven/actions/setCurrentNodeRef';
 import sendHeartbeat from 'plugins/raven/actions/sendHeartbeat';
 import { getInstance } from '@app/main';
 
@@ -22,7 +23,7 @@ let handleVisibilityChange;
  */
 let leaveCollaborationOnUnload;
 
-export default ({ editMode, node, nodeRef, form }) => {
+export default ({ editMode, node, nodeRef }) => {
   const app = getInstance();
   const dispatch = app.getRedux().dispatch;
 
@@ -53,13 +54,16 @@ export default ({ editMode, node, nodeRef, form }) => {
   // Join / Leave Collaboration
   useEffect(() => {
     if (editMode) {
+      dispatch(setCurrentNodeRef(nodeRef));
       dispatch(joinCollaboration(nodeRef));
     } else {
       stopCollaborationMonitors();
+      dispatch(setCurrentNodeRef(''));
       dispatch(leaveCollaboration(nodeRef));
     }
     return () => {
       stopCollaborationMonitors();
+      dispatch(setCurrentNodeRef(''));
       dispatch(leaveCollaboration(nodeRef));
     }
   }, [ editMode, nodeRef ]);
@@ -102,11 +106,13 @@ export default ({ editMode, node, nodeRef, form }) => {
       const cancel = setTimeout(() => {
         clearTimeout(cancel);
         // user cancels leaving/closing the page so re-join
+        dispatch(setCurrentNodeRef(nodeRef));
         dispatch(joinCollaboration(nodeRef));
       }, 0);
       clearTimeout(start);
     }, 0);
     event.returnValue = 'Unsaved changes detected.'; // required to work in Chrome
+    dispatch(setCurrentNodeRef(''));
     dispatch(leaveCollaboration(nodeRef));
     return event.returnValue;
   };

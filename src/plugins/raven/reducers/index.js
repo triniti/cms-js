@@ -8,6 +8,7 @@ export const initialState = {
   collaborations: {},
   connection: connectionStatus.CLOSED,
   messages: {},
+  currNodeRef: null,
 };
 
 const onCollaboratorJoinedOrHeartbeat = (prevState, { nodeRef, userRef }) => ({ ...prevState, collaborations: addCollaborator(prevState.collaborations, nodeRef, userRef) });
@@ -27,6 +28,7 @@ const onCollaborationsUpdated = (prevState, { collaborations }) => ({ ...prevSta
 
 const onUpdateConnectionStatus = (prevState, { status }) => ({ ...prevState, connection: status, });
 
+const onCurrentNodeRefSet = (prevState, { nodeRef }) => ({ ...prevState, currNodeRef: nodeRef, });
 
 const onMessageReceived = (prevState, action) => {
   if (!action.message || !action.message.user) {
@@ -60,5 +62,6 @@ export default createReducer(initialState, {
   [actionTypes.COLLABORATOR_JOINED]: onCollaboratorJoinedOrHeartbeat,
   [actionTypes.COLLABORATOR_LEFT]: onCollaboratorLeft,
   [actionTypes.CONNECTION_UPDATED]: onUpdateConnectionStatus,
+  [actionTypes.CURRENT_NODE_REF_SET]: onCurrentNodeRefSet,
   // [actionTypes.MESSAGE_RECEIVED]: onMessageReceived,
 });

@@ -1,12 +1,7 @@
 /* globals API_ENDPOINT, APP_VERSION */
 /* eslint-disable no-underscore-dangle */
-import startCase from 'lodash/startCase';
-import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import md5 from 'md5';
-import receiveMessage from '../actions/receiveMessage';
-import sendText from '../actions/sendText';
 import { actionTypes, ravenTypes, connectionStatus } from 'plugins/raven/constants';
 import isEmpty from 'lodash-es/isEmpty';
 import isEqual from 'lodash-es/isEqual';
@@ -165,8 +160,7 @@ export default class Raven {
     }
     this.client.subscribe([this.pbjxTopic, `${this.topic}#`]);
 
-    this.client.on('message', (topic, message) => {
-      console.log('SOME MESSAGE RECIEVED', { topic, message });
+    this.client.on('message', async (topic, message) => {
       this.connecting = false;
       let parsedMessage;
 
@@ -178,30 +172,13 @@ export default class Raven {
         return;
       }
 
-      console.log('SOME PARSED MESSAGE', { parsedMessage });
+      // If schema exists then its always an event
       if (parsedMessage._schema) {
         try {
-          const pbj = ObjectSerializer.deserialize(parsedMessage).freeze();
-          if (!pbj.schema().hasMixin('gdbots:pbjx:mixin:event')) {
-            console.error('raven::received_pbj_is_not_event', topic, message);
-            return;
-          }
-
-          // this.store.dispatch(pbj);
-
-          // if we have a node_ref we'll also create a "TEXT" message
-          // into the collaboration so users can see what happened.
-          if (pbj.has('node_ref')) {
-            const text = startCase(pbj.schema().getCurie().getMessage());
-            const action = receiveMessage(sendText(text).message, pbj.get('node_ref').toString());
-            action.ts = Math.floor(pbj.get('occurred_at').toDate() / 1000);
-            action.message.user = pbj.has('ctx_user_ref')
-              ? NodeRef.fromMessageRef(pbj.get('ctx_user_ref')).toString()
-              : null;
-            action.message.pbj = pbj;
-            action.fromLocal = true;
-            // this.store.dispatch(action);
-          }
+          this.postMessage({
+            event: 'eventReceived',
+            message: parsedMessage,
+          });
           return;
         } catch (e) {
           this.onError(e);
@@ -278,13 +255,6 @@ export default class Raven {
         event: 'loadUser',
         userRef: message.user,
       });
-      // try {
-      //   if (!(yield select(hasNode, action.userRef))) {
-      //     yield putResolve(callPbjx(getUserRequestSchema.createMessage().set('node_ref', action.userRef), 'raven'));
-      //   }
-      // } catch (e) {
-      //   console.error('raven::receiveFlow::get-user-request-failed', e, receivedAction, action);
-      // }
     }
 
     const newCollaborationsRedux = simplifyCollaborations(collaborations);
@@ -296,8 +266,8 @@ export default class Raven {
       });
     }
 
-    this.postMessage('This current state!');
-    this.postMessage({ ravenType, collaborations, newCollaborationsRedux });
+    // this.postMessage('Raven: Current state debug:');
+    // this.postMessage({ ravenType, collaborations, newCollaborationsRedux });
   }
 
   /**
@@ -388,8 +358,4 @@ export default class Raven {
       console.error('raven::publish::error', e, fullTopic, message);
     }
   }
-
-   status() {
-    return 'Hello i am status!';
-   }
 }

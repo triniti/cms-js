@@ -10,26 +10,31 @@ import loadUser from 'plugins/raven/actions/loadUser';
 import isAuthenticated from 'plugins/iam/selectors/isAuthenticated';
 import isConnected from 'plugins/raven/selectors/isConnected';
 import getUserRef from 'plugins/iam/selectors/getUserRef';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
+import processEvent from 'plugins/raven/actions/processEvent';
 
 // This will hold worker instance
 let worker = null;
 
-const workerMessaged = (dispatch) => ({ data }) => {
+const workerMessaged = (dispatch) => async ({ data }) => {
   const event = data?.event;
   switch (event) {
+    case 'eventReceived': // When a change has happened on current node
+      const { message } = data;
+      const pbj = (await ObjectSerializer.deserialize(message)).freeze();
+      dispatch(processEvent(pbj));
+      break;
     case 'updateConnectionStatus':
       dispatch(updateConnectionStatus(data.status));
       break;
     case 'updateCollaborations':
-      console.log('From Saga (updateCollaborations):', data.collaborations);
       dispatch(updateCollaborations(data.collaborations));
       break;
     case 'loadUser':
-      console.log('From Saga (loadUser):', data.userRef);
       dispatch(loadUser(data.userRef));
       break;
     default:
-      console.log('From Saga (default):', data);
+      console.log('Raven: Uncaught from Saga:', data);
       break;
   }
 };

@@ -3,8 +3,6 @@ import Plugin from 'Plugin';
 import { serviceIds } from 'plugins/raven/constants';
 import reducer from 'plugins/raven/reducers';
 import saga from 'plugins/raven/sagas';
-// import NodeChangeWatcher from './services/NodeChangeWatcher';
-// import Raven from './services/Raven';
 
 export default class RavenPlugin extends Plugin {
   constructor() {
@@ -14,14 +12,14 @@ export default class RavenPlugin extends Plugin {
   async configure(app) {
     this.reducer = reducer;
     this.saga = saga;
+    
+    app.register(serviceIds.NODE_CHANGE_WATCHER, async () => {
+      const NodeChangeWatcher = (await import('plugins/raven/services/NodeChangeWatcher')).default;
+      return new NodeChangeWatcher(app);
+    });
+
+    app.subscribe('gdbots:ncr:mixin:node-updated.raven', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh');
+    app.subscribe('gdbots:ncr:event:node-updated.raven', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh'); // Future proof vodka
   }
 
-  /**
-   * @returns {string[]}
-   */
-  getSubscriberServices() {
-    return [
-      serviceIds.NODE_CHANGE_WATCHER,
-    ];
-  }
 }

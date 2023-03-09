@@ -28,6 +28,7 @@ export const actionTypes = {
 
   COLLABORATIONS_UPDATED: t('COLLABORATIONS_UPDATED'),
 
+  CURRENT_NODE_REF_SET: t('CURRENT_NODE_REF_SET'),
   PUBLISH_MESSAGE_REQUESTED: t('PUBLISH_MESSAGE_REQUESTED'),
   USER_LOADED: t('USER_LOADED'),
   MESSAGE_RECEIVED: t('MESSAGE_RECEIVED'),
@@ -38,7 +39,6 @@ export const actionTypes = {
   RT_COLLABORATOR_JOINED: t('rt/COLLABORATOR_JOINED'),
   RT_COLLABORATOR_LEFT: t('rt/COLLABORATOR_LEFT'),
   RT_HEARTBEAT: t('rt/HEARTBEAT'),
-  RT_TEXT: t('rt/TEXT'),
 };
 
 /**
@@ -63,7 +63,6 @@ export const ravenTypes = {
   COLLABORATOR_JOINED: 'collaborator_joined',
   COLLABORATOR_LEFT: 'collaborator_left',
   HEARTBEAT: 'heartbeat',
-  TEXT: 'text',
 };
 
 

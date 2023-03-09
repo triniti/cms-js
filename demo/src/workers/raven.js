@@ -26,7 +26,6 @@ self.onmessage = async function ({ data }) {
     case 'configure':
       const { apiEndpoint, appEnv, appName, appVendor, hostname } = payload;
       raven = new Raven(mqtt, apiEndpoint, appEnv, appName, appVendor, hostname, postMessage);
-      console.log(`Payload from worker ${JSON.stringify(payload)}`);
       self.postMessage('Raven Worker: Configured.');
       break;
     case 'connect':

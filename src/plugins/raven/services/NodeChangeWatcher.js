@@ -1,24 +1,21 @@
 /* globals APP_NAME */
 import swal from 'sweetalert2';
-import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
-import { actionTypes } from '@gdbots/pbjx/constants';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import getNode from 'plugins/ncr/selectors/getNode';
 import hasNode from 'plugins/ncr/selectors/hasNode';
-import getUserRef from 'plugins/iam/selectors/getUser';
+import getUser from 'plugins/iam/selectors/getUser';
 import isCollaborating from 'plugins/raven/selectors/isCollaborating';
 
-export default class NodeChangeWatcher extends EventSubscriber {
-  constructor() {
-    super();
-    this.forceRefresh = this.forceRefresh.bind(this);
+export default class NodeChangeWatcher {
+  constructor(app) {
+    this.app = app;
   }
 
   /**
    * @param {FilterActionEvent} event
    */
   forceRefresh(event) {
-    const { pbj } = event.getAction();
+    const pbj = event.getMessage();
     const schema = pbj.schema();
 
     if (!schema.hasMixin('gdbots:pbjx:mixin:event')) {
@@ -39,16 +36,13 @@ export default class NodeChangeWatcher extends EventSubscriber {
       return;
     }
 
-    const state = event.getRedux().getState();
+    const state = this.app.getRedux().getState();
     const nodeRef = pbj.get('node_ref');
-    if (window.location.pathname.indexOf(nodeRef.getId()) === -1) {
-      return;
-    }
 
     let username = 'SYSTEM';
     if (pbj.has('ctx_user_ref')) {
       const userRef = NodeRef.fromMessageRef(pbj.get('ctx_user_ref'));
-      const currentUserRef = getUserRef(state);
+      const currentUserRef = NodeRef.fromNode(getUser(state));
       const isMyEvent = currentUserRef.equals(userRef);
       if (pbj.has('ctx_app') && pbj.get('ctx_app').get('name') === APP_NAME && isMyEvent) {
         return;
@@ -80,7 +74,7 @@ export default class NodeChangeWatcher extends EventSubscriber {
         showConfirmButton: false,
         titleText: 'STALE DATA',
         toast: true,
-        type: 'warning',
+        icon: 'warning',
       });
     } else {
       swal.fire({
@@ -93,18 +87,12 @@ export default class NodeChangeWatcher extends EventSubscriber {
         cancelButtonText: 'Ignore',
         reverseButtons: true,
         title: 'STALE DATA',
-        type: 'warning',
+        icon: 'warning',
       }).then((result) => {
         if (result.value) {
           window.location.reload(); // eslint-disable-line
         }
       });
     }
-  }
-
-  getSubscribedEvents() {
-    return {
-      [actionTypes.FULFILLED]: this.forceRefresh,
-    };
   }
 }
