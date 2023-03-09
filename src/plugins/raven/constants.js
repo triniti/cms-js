@@ -31,7 +31,6 @@ export const actionTypes = {
   CURRENT_NODE_REF_SET: t('CURRENT_NODE_REF_SET'),
   PUBLISH_MESSAGE_REQUESTED: t('PUBLISH_MESSAGE_REQUESTED'),
   USER_LOADED: t('USER_LOADED'),
-  MESSAGE_RECEIVED: t('MESSAGE_RECEIVED'),
 
   // raven types as redux actions
   RT_USER_CONNECTED: t('rt/USER_CONNECTED'),
@@ -44,10 +43,8 @@ export const actionTypes = {
 /**
  * These types are distinct from redux action types as they
  * represent messages that are published through the raven
- * client (which is Aws Iot).  On the receiving end they
- * first become "MESSAGE_RECEIVED" redux actions and a saga
- * deals with determining what they really are and
- * dispatching an appropriate action type.
+ * client (which is Aws Iot).  On the receiving end they come
+ * through the raven service's `receivedMessage()`.
  *
  * This ensures that the app is only dispatching expected
  * actions. If we allow any action to be dispatched without
