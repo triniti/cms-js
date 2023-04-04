@@ -9,7 +9,7 @@ export default (props, config) => {
   const label = config.label || props.label;
 
   let tab = defaultTab;
-  const id = params.id || props.id;
+  const id = props.id || params.id;
   const parts = (params['*'] || '').split('/').filter(v => v);
   const editMode = parts.includes('edit') || props.editMode;
   if (parts.length >= 1) {

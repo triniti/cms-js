@@ -4,8 +4,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import nodeUrl from 'plugins/ncr/nodeUrl';
-import UncontrolledTooltip from 'components/uncontrolled-tooltip';
-import { Icon, RouterLink } from 'components';
+import { Icon, RouterLink, UncontrolledTooltip } from 'components';
 import { Button } from 'reactstrap';
 
 const TableRow = ({ idx, node }) => (

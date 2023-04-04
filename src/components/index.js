@@ -29,6 +29,7 @@ export TextField from 'components/text-field';
 export TextareaField from 'components/textarea-field';
 export TimePickerField from 'components/time-picker-field';
 export TrinaryField from 'components/trinary-field';
+export UncontrolledTooltip from 'components/uncontrolled-tooltip';
 export UriField from 'components/uri-field';
 export UrlField from 'components/url-field';
 export ViewModeWarning from 'components/view-mode-warning';

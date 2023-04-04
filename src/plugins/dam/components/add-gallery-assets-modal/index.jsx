@@ -1,7 +1,5 @@
 import noop from 'lodash/noop';
-import PropTypes from 'prop-types';
-import React from 'react';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import React, { useState } from 'react';
 import Uploader from 'plugins/dam/components/uploader';
 import {
   Button,
@@ -17,155 +15,118 @@ export const incrementValues = {
   ADD_GALLERY_ASSET_INCREMENT: 500,
 };
 
-export default class AddGalleryAssetsModal extends React.Component {
-  static propTypes = {
-    assetTypes: PropTypes.arrayOf(PropTypes.string),
-    lastGallerySequence: PropTypes.number,
-    isOpen: PropTypes.bool,
-    nodeRef: PropTypes.instanceOf(NodeRef),
-    onAddAssets: PropTypes.func.isRequired,
-    onAssetsUploaded: PropTypes.func,
-    onToggleModal: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    assetTypes: [],
-    isOpen: false,
-    lastGallerySequence: 0,
-    nodeRef: null,
-    onAssetsUploaded: noop,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedImages: [],
-      isUploaderOpen: false,
-    };
-
-    this.handleAddAssetsClick = this.handleAddAssetsClick.bind(this);
-    this.handleChangeQ = this.handleChangeQ.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleResetSelectedImages = this.handleResetSelectedImages.bind(this);
-    this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleUploaderToggle = this.handleUploaderToggle.bind(this);
-  }
-
-  async handleAddAssetsClick() {
-    const { selectedImages } = this.state;
-    const { lastGallerySequence, onAddAssets } = this.props;
-
+export default function AddGalleryAssetsModal ({
+  assetTypes = [],
+  isOpen = false,
+  lastGallerySequence = 0,
+  nodeRef,
+  onAssetsUploaded = noop,
+  onAddAssets,
+  onCloseModal,
+}) {
+  
+  const [ selectedImages, setSelectedImages ] = useState([]);
+  const [ isUploaderOpen, setIsUploaderOpen ] = useState(false);
+  
+  const handleAddAssets = async () => {
     const assetMap = selectedImages.reduce((obj, assetId, currentIndex) => {
       const assets = Object.assign(obj);
-      assets[assetId.get('_id').toString()] = lastGallerySequence + (selectedImages.length - currentIndex) * incrementValues.ADD_GALLERY_ASSET_INCREMENT;
+      assets[`${assetId.get('_id')}`] = lastGallerySequence + (selectedImages.length - currentIndex) * incrementValues.ADD_GALLERY_ASSET_INCREMENT;
       return assets;
     }, {});
 
     try {
       await onAddAssets(assetMap);
-      this.handleCloseModal();
+      handleCloseModal();
     } catch (e) {
       // continue regardless of error
     }
   }
 
-  handleChangeQ() {
-    this.handleResetSelectedImages();
+  const handleChangeQ = () => {
+    handleResetSelectedImages();
   }
 
-  handleResetSelectedImages() {
-    this.setState({ selectedImages: [] });
+  const handleResetSelectedImages = () => {
+    setSelectedImages([]);
   }
 
-  handleCloseModal() {
-    const { onToggleModal } = this.props;
-    this.setState({ selectedImages: [] });
-    onToggleModal();
+  const handleCloseModal = () => {
+    setSelectedImages([]);
+    onCloseModal();
   }
 
-  handleSelectImage(image) {
-    const imageId = image.get('_id').toString();
-    const { selectedImages } = this.state;
+  const handleSelectImage = (image) => {
+    const imageId = `${image.get('_id')}`;
     const newSelectedImages = [...selectedImages];
-    if (newSelectedImages.map((i) => i.get('_id').toString()).includes(imageId)) {
-      newSelectedImages.splice(newSelectedImages.map((i) => i.get('_id').toString()).indexOf(imageId), 1);
+    if (newSelectedImages.map((i) => `${i.get('_id')}`).includes(imageId)) {
+      newSelectedImages.splice(newSelectedImages.map((i) => `${i.get('_id')}`).indexOf(imageId), 1);
     } else {
       newSelectedImages.push(image);
     }
-    this.setState({ selectedImages: newSelectedImages });
+    setSelectedImages(newSelectedImages);
   }
 
-  handleUploaderToggle() {
-    this.setState(({ isUploaderOpen }) => ({
-      isUploaderOpen: !isUploaderOpen,
-    }), () => {
-      const { isUploaderOpen } = this.state;
-      if (!isUploaderOpen) {
-        const { onAssetsUploaded } = this.props;
-        // close previous linker modal
-        this.handleCloseModal();
-        onAssetsUploaded();
-      }
-    });
+  const handleUploaderToggle = () => {
+    onAssetsUploaded();
+    handleCloseModal();
+    setIsUploaderOpen(!isUploaderOpen);
   }
-
-  render() {
-    const { assetTypes, lastGallerySequence, isOpen, nodeRef } = this.props;
-    const { isUploaderOpen, selectedImages } = this.state;
-    return (
-      <div>
-        <Modal centered size="xxl" isOpen={isOpen} toggle={this.handleCloseModal}>
-          <ModalHeader toggle={this.handleCloseModal}>
-            <span className="nowrap">Select Images</span>
-          </ModalHeader>
-          <ModalBody className="p-0">
-            <ImageSearch
-              assetTypes={assetTypes}
-              excludeAllWithRefType="gallery_ref"
-              onChangeQ={this.handleChangeQ}
-              onToggleUploader={this.handleUploaderToggle}
-              onSelectImage={this.handleSelectImage}
-              selectedImages={selectedImages}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              className="mr-auto"
-              color="primary"
-              onClick={this.handleUploaderToggle}
-            >
-              Upload
-            </Button>
-            <Button
-              onClick={this.handleAddAssetsClick}
-              disabled={!selectedImages.length}
-            >
-              Add Image{selectedImages.length > 1 ? 's' : ''}
-              {selectedImages.length > 0 ? <span className="badge badge-danger badge-alert">{selectedImages.length}</span> : null}
-            </Button>
-            <Button
-              disabled={!!selectedImages.length}
-              onClick={this.handleCloseModal}
-            >
-              Close
-            </Button>
-            <Button onClick={this.handleCloseModal}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-        {isUploaderOpen && (
-        <Uploader
-          allowedMimeTypes={['image/jpeg', 'image/png']}
-          galleryRef={nodeRef}
-          isOpen={isUploaderOpen}
-          key="uploader"
-          lastGallerySequence={lastGallerySequence}
-          mimeTypeErrorMessage="Invalid Action: attempt to upload non-image asset. Please upload only JPEGs or PNGs."
-          onToggleUploader={this.handleUploaderToggle}
-        />
-        )}
-      </div>
-    );
-  }
+  
+  return (
+    <div>
+      <Modal centered size="xxl" isOpen={isOpen} toggle={handleCloseModal}>
+        <ModalHeader toggle={handleCloseModal}>
+          <span className="nowrap">Select Images</span>
+        </ModalHeader>
+        <ModalBody className="p-0">
+          <ImageSearch
+            nodeRef={nodeRef}
+            assetTypes={assetTypes}
+            excludeAllWithRefType="gallery_ref"
+            onChangeQ={handleChangeQ}
+            onToggleUploader={handleUploaderToggle}
+            onSelectImage={handleSelectImage}
+            selectedImages={selectedImages}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            className="me-auto"
+            color="primary"
+            onClick={handleUploaderToggle}
+          >
+            Upload
+          </Button>
+          <Button
+            onClick={handleAddAssets}
+            disabled={!selectedImages.length}
+          >
+            Add Image{selectedImages.length > 1 ? 's' : ''}
+            {selectedImages.length > 0 ? <span className="badge badge-danger badge-alert">{selectedImages.length}</span> : null}
+          </Button>
+          <Button
+            disabled={!!selectedImages.length}
+            onClick={handleCloseModal}
+          >
+            Close
+          </Button>
+          <Button onClick={handleCloseModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+      {isUploaderOpen && (
+      <Uploader
+        allowedMimeTypes={['image/jpeg', 'image/png']}
+        galleryRef={nodeRef}
+        isOpen={isUploaderOpen}
+        key="uploader"
+        lastGallerySequence={lastGallerySequence}
+        mimeTypeErrorMessage="Invalid Action: attempt to upload non-image asset. Please upload only JPEGs or PNGs."
+        onToggleUploader={handleUploaderToggle}
+      />
+      )}
+    </div>
+  );
 }

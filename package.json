@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.2.0",
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/sortable": "^7.0.2",
     "@draft-js-plugins/buttons": "^4.1.1",
     "@draft-js-plugins/editor": "^4.1.0",
     "@draft-js-plugins/inline-toolbar": "^4.1.2",

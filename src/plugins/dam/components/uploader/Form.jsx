@@ -129,8 +129,6 @@ const UploaderForm = props => {
     setIsFormDirty,
   } = props;
 
-  window.f = form;
-
   // const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const dirty = false;
   const FieldsComponent = resolveComponent(label);

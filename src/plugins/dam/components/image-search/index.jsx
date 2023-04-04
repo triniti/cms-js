@@ -1,89 +1,97 @@
-import Message from '@gdbots/pbj/Message';
-import noop from 'lodash/noop';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-// import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { Icon } from 'components';
+import noop from 'lodash-es/noop';
+import React, { useState, useEffect } from 'react';
+import useRequest from 'plugins/pbjx/components/useRequest';
+import useResolver from 'plugins/pbjx/components/with-request/useResolver';
+import { Icon, Loading } from 'components';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import { ScrollableContainer } from 'components';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import {
   Button,
   Container,
   Form,
   Input,
   InputGroup,
-  Spinner,
 } from 'reactstrap';
-
-// import delegateFactory from './delegate';
 import ImageGrid from '../image-grid';
-// import selector from './selector';
+import { debounce } from 'lodash-es';
 
-class ImageSearch extends React.Component {
-  static propTypes = {
-    assetTypes: PropTypes.arrayOf(PropTypes.string),
-    delegate: PropTypes.shape({
-      handleSearch: PropTypes.func.isRequired,
-    }).isRequired,
-    excludeRef: PropTypes.instanceOf(NodeRef),
-    excludeAllWithRefType: PropTypes.string,
-    heightOffset: PropTypes.string,
-    images: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
-    innerRef: PropTypes.func,
-    isFulfilled: PropTypes.bool.isRequired,
-    onChangeQ: PropTypes.func,
-    onSelectImage: PropTypes.func.isRequired,
-    onToggleUploader: PropTypes.func.isRequired,
-    q: PropTypes.string,
-    refreshSearch: PropTypes.number,
-    searchImagesRequestState: PropTypes.shape({
-      request: PropTypes.instanceOf(Message),
-      response: PropTypes.instanceOf(Message),
-      status: PropTypes.string,
-    }).isRequired,
-    selectedImages: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
-    statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
-  };
+const ImageSearch = ({
+  assetTypes = ['image-asset'],
+  excludeRef = null,
+  excludeAllWithRefType = '',
+  heightOffset = '212',
+  innerRef = noop,
+  onChangeQ = noop,
+  refreshSearch = 0,
+  selectedImages = [],
+  onToggleUploader: handleToggleUploader,
+  onSelectImage: handleSelectImage,
+  nodeRef,
+}) => {
+  // static propTypes = {
+  //   assetTypes: PropTypes.arrayOf(PropTypes.string),
+  //   // delegate: PropTypes.shape({
+  //   //   handleSearch: PropTypes.func.isRequired,
+  //   // )}.isRequired,
+  //   excludeRef: PropTypes.instanceOf(NodeRef),
+  //   excludeAllWithRefType: PropTypes.string,
+  //   heightOffset: PropTypes.string,
+  //   images: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+  //   innerRef: PropTypes.func,
+  //   // isFulfilled: PropTypes.bool.isRequired,
+  //   onChangeQ: PropTypes.func,
+  //   onSelectImage: PropTypes.func.isRequired,
+  //   onToggleUploader: PropTypes.func.isRequired,
+  //   q: PropTypes.string,
+  //   refreshSearch: PropTypes.number,
+  //   // searchImagesRequestState: PropTypes.shape({
+  //   //   request: PropTypes.instanceOf(Message),
+  //   //   response: PropTypes.instanceOf(Message),
+  //   //   status: PropTypes.string,
+  //   // }).isRequired,
+  //   selectedImages: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
+  //   // statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // };
 
-  static defaultProps = {
-    assetTypes: ['image-asset'],
-    excludeRef: null,
-    excludeAllWithRefType: '',
-    heightOffset: '212',
-    images: [],
-    innerRef: noop,
-    onChangeQ: noop,
-    q: '',
-    refreshSearch: 0,
-    selectedImages: [],
-  };
-
-  constructor(props) {
-    super(props);
-    let excludeRefType = '';
-
-    if (props.excludeRef) {
-      if (props.excludeRef.getQName().getMessage() === 'gallery') {
-        excludeRefType = 'gallery_ref';
-      } else {
-        excludeRefType = 'linked_refs';
-      }
-    }
-
-    this.state = {
-      excludeRefType,
-      q: '',
-    };
-
-    this.handleChangeQ = this.handleChangeQ.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
+  const [ excludeRefType, setExcludeRefType ] = useState();
+  const [ q, setQ ] = useState('');
+  const [ page, setPage ] = useState(1);
+  const [ requestCount, setRequestCount ] = useState(0);
+  
+  let queryAddon = '';
+  if (excludeRef) {
+    queryAddon += ` -${excludeRefType}:${excludeRef}`;
+  }
+  if (excludeAllWithRefType) {
+    queryAddon += ` _missing_:${excludeAllWithRefType}`;
   }
 
-  componentDidMount() {
-    const { assetTypes, delegate, excludeAllWithRefType, excludeRef, statuses } = this.props;
-    const { excludeRefType } = this.state;
+  const request = useResolver('*:dam:request:search-assets-request', {
+    initialData: {
+      statuses: [NodeStatus.PUBLISHED, NodeStatus.SCHEDULED],
+      count: 150,
+      sort: SearchAssetsSort.CREATED_AT_DESC.getValue(),
+      types: assetTypes,
+      excludeRef,
+      page,
+      q: queryAddon,
+    }
+  });
 
+  const { response, isRunning, pbjxError, pbjxStatus, run } = useRequest(request, false);
+
+  useEffect(() => {
+    if (excludeRef) {
+      if (excludeRef.getQName().getMessage() === 'gallery') {
+        setExcludeRefType('gallery_ref');
+      } else {
+        setExcludeRefType('linked_refs');
+      }
+    }
+  });
+
+  useEffect(() => {
     let q = '';
     if (excludeRef) {
       q += `-${excludeRefType}:${excludeRef.toString()} `;
@@ -91,71 +99,35 @@ class ImageSearch extends React.Component {
     if (excludeAllWithRefType !== '') {
       q += `_missing_:${excludeAllWithRefType} `;
     }
-    delegate.handleSearch({ q, statuses, types: assetTypes }, 1);
-  }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      assetTypes,
-      delegate,
-      excludeRef,
-      q,
-      refreshSearch: nextRefreshSearch,
-      searchImagesRequestState: { status },
-      statuses,
-    } = nextProps;
+    handleSearch({ q });
+  }, [ nodeRef ]);
 
-    if (status === 'none') {
-      delegate.handleSearch({ q, excludeRef, statuses, types: assetTypes });
-      return;
-    }
-
-    const { refreshSearch: currentRefreshSearch } = this.props;
-    if (nextRefreshSearch !== currentRefreshSearch) {
-      this.handleSearch();
-    }
-  }
-
-  componentWillUnmount() {
-    const { delegate } = this.props;
-  }
-
-  handleSearch() {
-    const { assetTypes, delegate, excludeAllWithRefType, excludeRef } = this.props;
-    const { excludeRefType } = this.state;
-    let { q } = this.state;
-
+  const handleSearch = ({ q }) => {
+    let queryAddon = '';
     if (excludeRef) {
-      q += ` -${excludeRefType}:${excludeRef}`;
+      queryAddon += ` -${excludeRefType}:${excludeRef}`;
     }
     if (excludeAllWithRefType) {
-      q += ` _missing_:${excludeAllWithRefType}`;
+      queryAddon += ` _missing_:${excludeAllWithRefType}`;
     }
-    delegate.handleSearch({ q, types: assetTypes }, 1);
-  }
 
-  handleChangeQ({ target: { value: q } }) {
-    const { onChangeQ } = this.props;
+    if (request) {
+      request.set('q', `${q}${queryAddon}`);
+      request.set('page', page);
+    }
+    
+    run();
+  };
 
-    this.setState({ q }, () => {
-      this.handleSearch();
-    });
+  const handleChangeQ = ({ target: { value: q } }) => {
+    setQ(q);
+    handleSearch({ q });
     onChangeQ(q);
-  }
+  };
 
-  render() {
-    const {
-      heightOffset,
-      images,
-      innerRef,
-      isFulfilled,
-      onSelectImage,
-      onToggleUploader: handleToggleUploader,
-      selectedImages,
-    } = this.props;
-    const { q } = this.state;
-
-    return [
+  return (
+    <>
       <Container fluid className="sticky-top px-4 py-2 shadow-depth-2 bg-white" key="container">
         <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
           <InputGroup size="sm">
@@ -163,55 +135,49 @@ class ImageSearch extends React.Component {
               className="form-control"
               innerRef={innerRef}
               name="q"
-              onChange={this.handleChangeQ}
+              onChange={debounce(handleChangeQ, 700)}
               placeholder="Search images..."
               type="search"
-              value={q}
+              // value={q}
             />
-            <Button color="secondary" onClick={() => this.handleSearch()}>
+            <Button color="secondary" onClick={() => handleSearch()}>
               <Icon imgSrc="search" className="mr-0" />
             </Button>
           </InputGroup>
         </Form>
-      </Container>,
+      </Container>
       <ScrollableContainer
         className="bg-gray-400"
         style={{ height: `calc(100vh - ${heightOffset}px)` }}
         key="scrollable_container"
       >
         {
-          isFulfilled && (
-            images.length ? (
-              <ImageGrid
-                images={images}
-                onSelectImage={onSelectImage}
-                selectedImages={selectedImages}
-              />
-            ) : (
-              <div className="not-found-message">
-                <p>No images found that match your search. You can
-                  <Button
-                    className="ml-1 mr-1"
-                    onClick={handleToggleUploader}
-                    size="sm"
-                    style={{ marginBottom: '3px' }}
-                    outlineText
-                    color="primary"
-                  ><Icon imgSrc="upload" size="xs" className="mr-1" /> upload
-                  </Button> new images.
-                </p>
-              </div>
-            )
+          response && response.get('nodes') &&
+          response.get('nodes').length ? (
+            <ImageGrid
+              images={response.get('nodes')}
+              onSelectImage={handleSelectImage}
+              selectedImages={selectedImages}
+            />
+          ) : (
+            <div className="not-found-message">
+              <p>No images found that match your search. You can
+                <Button
+                  className="ml-1 mr-1"
+                  onClick={handleToggleUploader}
+                  size="sm"
+                  style={{ marginBottom: '3px' }}
+                  color="primary"
+                ><Icon imgSrc="upload" size="xs" className="mr-1" /> upload
+                </Button> new images.
+              </p>
+            </div>
           )
         }
-        {
-          !isFulfilled
-          && <Spinner className="p-4" />
-        }
-      </ScrollableContainer>,
-    ];
-  }
+        {(!response || pbjxError) && <Loading error={pbjxError} />}
+      </ScrollableContainer>
+    </>
+  );
 }
 
-// export default connect(selector, createDelegateFactory(delegateFactory))(ImageSearch);
 export default ImageSearch;

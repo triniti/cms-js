@@ -70,7 +70,6 @@ const updateFileInfo = (files, hashName, info = {}) => {
 };
 
 
-
 const processFiles = (files, galleryRef, lastGallerySequence, variant) => {
   const variantWithDefaults = { ...variant, version: get(variant, 'version', 'o') };
   return files.reduce((accumulator, file, index) => {
@@ -154,19 +153,18 @@ const reducer = (prevFiles, action) => {
   }
 }
 
-export default (props) => {
-  const {
-    allowedMimeTypes = [],
-    allowMultiUpload = true,
-    hasFilesProcessing = false,
-    isOpen = false,
-    lastGallerySequence = 0,
-    onToggleUploader,
-    linkedRefs,
-    galleryRef,
-    gallerySequence,
-    variant = {},
-  } = props;
+const Uploader = ({
+  allowedMimeTypes = [],
+  allowMultiUpload = true,
+  hasFilesProcessing = false,
+  isOpen = false,
+  lastGallerySequence = 0,
+  onToggleUploader,
+  linkedRefs,
+  galleryRef,
+  gallerySequence,
+  variant = {},
+}) => {
 
   const appDispatch = useDispatch();
   const [ files, dispatch ] = useReducer(reducer, {});
@@ -191,7 +189,7 @@ export default (props) => {
   const enableSaveChanges = isFormDirty && formStateRef.current.valid;
   
   const handleFileDrop = async (droppedFiles) => {
-    const newFormattedFiles = processFiles(droppedFiles); // formats list with hash
+    const newFormattedFiles = processFiles(droppedFiles, galleryRef, lastGallerySequence); // formats list with hash
 
     // Set first item to active if we are starting a fresh list
     if (!Object.keys(files).length) {
@@ -225,7 +223,7 @@ export default (props) => {
     for (let i = 0; i < proccessedFilesKeys.length; i++) {
       let hashName = proccessedFilesKeys[i];
       try {
-        const { file } = processedFiles[hashName];
+        const { file, gallerySequence } = processedFiles[hashName];
         const postUrl = s3PresignedUrls[hashName];
         dispatch({ type: 'uploadFileStarted', hashName });
         await uploadFile(file, postUrl, myController);
@@ -242,7 +240,7 @@ export default (props) => {
           asset.addToSet('linked_refs', linkedRefs);
         }
         if (galleryRef) {
-          asset.set('gallery_ref', galleryRef);
+          asset.set('gallery_ref', NodeRef.fromString(galleryRef));
         }
         if (gallerySequence) {
           asset.set('gallery_seq', gallerySequence);
@@ -455,7 +453,7 @@ export default (props) => {
                     && (
                       <>
                         <Form
-                          id={activeAsset.get('_id').toString()}
+                          id={`${activeAsset.get('_id')}`}
                           label={`${activeAsset.get('_id').getType()}-asset`}
                           editMode={true}
                           currentFormRef={currentFormRef}
@@ -522,3 +520,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default Uploader;

@@ -3,7 +3,20 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const fs = require('fs');
 
+// SSL Cert and Key
+const https = (() => {
+  const cert = resolve(__dirname, 'localhost.crt');
+  const key = resolve(__dirname, 'localhost.key');
+  if (fs.existsSync(cert) && fs.existsSync(key)) {
+    return {
+      key: fs.readFileSync(key),
+      cert: fs.readFileSync(cert),
+    }
+  }
+  return {};
+})();
 
 /**
  * @link https://webpack.js.org/configuration/
@@ -50,6 +63,7 @@ module.exports = (webpackEnv = {}) => {
       server: {
         type: 'https',
       },
+      https,
     },
     stats: 'normal',
     output: {

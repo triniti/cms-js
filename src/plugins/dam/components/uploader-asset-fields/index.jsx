@@ -97,7 +97,7 @@ export default class UploaderAssetFields extends React.Component {
               <Col>
                 <FormGroup>
                   <PicklistField 
-                    isEditMode
+                    editMode
                     label="Credit"
                     name="credit"
                     picklist={getPicklistId(activeHashName, asset)}
@@ -111,7 +111,7 @@ export default class UploaderAssetFields extends React.Component {
               <Col md="9" key="a">
                 <FormGroup className="mb-3">
                   <PicklistField 
-                    isEditMode
+                    editMode
                     label="Credit"
                     name="credit"
                     picklist={getPicklistId(activeHashName, asset)}

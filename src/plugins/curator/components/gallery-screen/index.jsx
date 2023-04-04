@@ -9,6 +9,7 @@ import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import DetailsTab from 'plugins/curator/components/gallery-screen/DetailsTab';
+import MediaTab from 'plugins/curator/components/gallery-screen/MediaTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
 import Collaborators from 'plugins/raven/components/collaborators';
 
@@ -48,6 +49,7 @@ function GalleryScreen(props) {
         { text: 'Code', to: urls.tab('code') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         { text: 'SEO', to: urls.tab('seo') },
+        { text: 'Media', to: urls.tab('media') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -121,6 +123,9 @@ function GalleryScreen(props) {
           </TabPane>
           <TabPane tabId="seo">
             <SeoTab {...props} />
+          </TabPane>
+          <TabPane tabId="media">
+            <MediaTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />
