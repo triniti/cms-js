@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
-// import BatchEditModal from 'plugins/dam/components/batch-edit-modal';
+import BatchEditModal from 'plugins/dam/components/batch-edit-modal';
+import noop from 'lodash-es/noop';
 
 export default ({
   assetIds = [],
   children = 'Batch Edit',
   editMode = false,
   nodeRef,
+  onAfterBatchEdit = noop,
   ...btnProps
 }) => {
   const [ isBatchEditOpen, setIsBatchEditOpen ] = useState(false);
@@ -14,7 +16,7 @@ export default ({
   const handleToggleBatchEdit = () => {
     setIsBatchEditOpen(!isBatchEditOpen);
   }
-  
+
   return (
     <>
       <Button
@@ -31,6 +33,7 @@ export default ({
         isOpen={isBatchEditOpen}
         nodeRef={nodeRef}
         onToggleBatchEdit={handleToggleBatchEdit}
+        onAfterBatchEdit={onAfterBatchEdit}
       />
       )}
     </>

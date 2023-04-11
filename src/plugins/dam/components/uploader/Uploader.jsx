@@ -419,7 +419,7 @@ const Uploader = ({
 
   return (
     <div>
-      <Modal isOpen={isOpen} toggle={() => handleToggleUploader(false)} size="lg">
+      <Modal isOpen={isOpen} toggle={() => handleToggleUploader(false)} size="lg" className='modal-dialog-centered'>
         <ModalHeader toggle={() => handleToggleUploader(false)}>
           Upload Assets
         </ModalHeader>

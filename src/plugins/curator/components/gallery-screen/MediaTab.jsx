@@ -22,7 +22,7 @@ import Exception from '@gdbots/pbj/Exception';
 import Message from '@gdbots/pbj/Message';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import SortableGrid from 'plugins/curator/components/sortable-grid';
-import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button';
+import BatchEditButton from 'plugins/dam/components/batch-edit-button';
 import usePolicy from 'plugins/iam/components/usePolicy';
 
 import getUpdatedNodeSequenceNumbers from './utils/getUpdatedNodeSequenceNumbers';
@@ -461,6 +461,11 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   }
 
   const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleAfterBatchEdit = async () => {
+    await delay(2000);
+    reloadMedia();
+  }
   
   const { nodesToUpdate } = reorder;
   const nodesPreview = reorder.nodes.length ? reorder.nodes : nodes;
@@ -505,6 +510,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
             nodeRef={nodeRef}
             outline
             color="light"
+            onAfterBatchEdit={handleAfterBatchEdit}
           />
           <Button
             disabled={!editMode}
