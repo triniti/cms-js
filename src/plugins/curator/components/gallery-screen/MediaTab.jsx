@@ -39,11 +39,6 @@ const MAX_IMAGES_PER_ROW = 11;
 const MIN_IMAGES_PER_ROW = 1;
 const MAX_NODES_COUNT_TO_UPDATE = 30;
 
-const MAX_REFRESHES = 3;
-
-const STRATEGY_REFRESH = 'refresh';
-const STRATEGY_REFRESH_SEQUENCE = 'refresh-sequence';
-
 const cloneNodes = async (reOrderedNodes, originalNodes) => {
   if (reOrderedNodes.length) {
     return reOrderedNodes.slice();
@@ -55,10 +50,10 @@ const cloneNodes = async (reOrderedNodes, originalNodes) => {
   return clonedNodes;
 }
 
-const areNodeListsEqual = (list1, list2, orderMatters = false) => {
-  const nodeIds1 = list1.map(node => `${node.get('_id')}`);
-  const nodeIds2 = list2.map(node => `${node.get('_id')}`);
-  return orderMatters ? isEqual(nodeIds1, nodeIds2) : isEqual(nodeIds1.sort(), nodeIds2.sort());
+const areNodeListsEqual = (list1, list2) => {
+  const nodeIds1 = list1.map(node => `${node.get('_id')}-${node.get('gallery_seq')}-${node.get('title')}`);
+  const nodeIds2 = list2.map(node => `${node.get('_id')}-${node.get('gallery_seq')}-${node.get('title')}`);
+  return isEqual(nodeIds1.sort(), nodeIds2.sort());
 }
 
 export default function GalleryMedia ({ editMode, nodeRef }) {
@@ -73,7 +68,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   const policy = usePolicy();
   const isReorderGranted = policy.isGranted('*:dam:command:reorder-gallery-assets');
   const navigate = useNavigate();
-  const refreshStrategy = useRef(STRATEGY_REFRESH);
 
   // TODO Need a strategy to warn users before they leave the page if they have unsaved changes.
   // const [ unblock, setUnblock ] = useRef(noop);
@@ -107,13 +101,12 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   if (
     pbjxStatus === STATUS_FULFILLED &&
     response &&
-    !areNodeListsEqual(response.get('nodes'), nodes, refreshStrategy.current !== STRATEGY_REFRESH)
+    !areNodeListsEqual(response.get('nodes'), nodes)
   ) {
     setNodes(response.get('nodes') || []);
   }
 
-  const reloadMedia = (strategy = STRATEGY_REFRESH) => {
-    refreshStrategy.current = strategy;
+  const reloadMedia = () => {
     run();
     // setNodes([]);
     setReorder({ nodes: [], nodesToUpdate: null });
@@ -416,7 +409,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
       // did not reordered
     }
     await delay(1000);
-    reloadMedia(STRATEGY_REFRESH_SEQUENCE);
+    reloadMedia();
   };
 
   const handleDecreaseImagesPerRow = () => {
@@ -441,10 +434,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
 
     delete newRequest.request_id;
     delegate.handleSearchGalleryAssets(newRequest);
-  }
-
-  const handleClearSelectedAssets = () => {
-    setSelected([]);
   }
 
   const handleSelect = (node) => {
