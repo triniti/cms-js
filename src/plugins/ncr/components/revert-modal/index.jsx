@@ -52,7 +52,7 @@ const RevertModal = ({
     <Modal centered isOpen={isOpen} toggle={handleToggleRevertModal} size="xl">
       <ModalHeader toggle={handleToggleRevertModal}>Revert Fields</ModalHeader>
       <ModalBody className="p-0 modal-body-break">
-        <div className="bg-gray-400" style={{ height: 'calc(100vh - 200px)' }}>
+        <div className="bg-gray-400" style={{ height: 'calc(100vh - 200px)', overflow: 'auto' }}>
           <RevertDetails
             event={event}
             isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}

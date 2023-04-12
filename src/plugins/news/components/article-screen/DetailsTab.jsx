@@ -20,12 +20,26 @@ export default function DetailsTab(props) {
           <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           <hr />
           <PicklistField picklist="article-swipes" name="swipe" label="Swipe" />
-          <SwitchField name="is_homepage_news" label="Homepage News" />
-          <SwitchField name="allow_comments" label="Allow Comments" />
-          <SwitchField name="apple_news_enabled" label="Apple News" />
-          <SwitchField name="amp_enabled" label="Google AMP" />
-          <SwitchField name="smartnews_enabled" label="SmartNews" />
-          <SwitchField name="facebook_instant_articles_enabled" label="Facebook Instant Articles" />
+          <div className="row p-3">
+            <div className='col-md-4'>
+              <SwitchField name="is_homepage_news" label="Homepage News" />
+            </div>
+            <div className='col-md-4'>
+              <SwitchField name="allow_comments" label="Allow Comments" />
+            </div>
+            <div className='col-md-4'>
+              <SwitchField name="apple_news_enabled" label="Apple News" />
+            </div>
+            <div className='col-md-4'>
+              <SwitchField name="amp_enabled" label="Google AMP" />
+            </div>
+            <div className='col-md-4'>
+              <SwitchField name="smartnews_enabled" label="SmartNews" />
+            </div>
+            <div className='col-md-4'>
+              <SwitchField name="facebook_instant_articles_enabled" label="Facebook Instant Articles" />
+            </div>
+          </div>
           <SponsorPickerField  name="sponsor_ref" label="Sponsor" />
           <PicklistField picklist="article-themes" name="theme" label="Theme" />
         </CardBody>

@@ -12,7 +12,7 @@ const RevertPropertiesTable = ({
   onSelectField: handleSelectField,
   node,
 }) => (
-  <Card>
+  <Card className='m-0'>
     <Table striped responsive>
       <thead>
         <tr>
