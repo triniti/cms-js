@@ -3,6 +3,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, Spinner, Table } from 'reac
 import { ActionButton, Icon } from 'components';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useDelegate from 'plugins/ncr/components/batch-operation-modal/useDelegate';
+import { noop } from 'lodash-es';
 
 export { useDelegate };
 
@@ -13,12 +14,13 @@ export default function BatchOperationModal(props) {
     runningText = 'Running',
     completedText = 'Completed',
     operation,
-    size = 'xl'
+    size = 'xl',
+    onComplete = noop,
   } = props;
   const delegate = useDelegate(nodes, operation);
 
   return (
-    <Modal isOpen size={size} backdrop="static">
+    <Modal isOpen size={size} backdrop="static" className="modal-dialog-centered">
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="modal-scrollable p-0">
         <Table hover className="sticky-thead mb-0">
@@ -44,7 +46,7 @@ export default function BatchOperationModal(props) {
                   {results.status === 'running' && (
                     <>
                       <Spinner color="secondary" size="sm" className="mt-0 me-2" />
-                      <span>{runningText}...</span>
+                      <span>{runningText}</span>
                     </>
                   )}
 
@@ -72,7 +74,7 @@ export default function BatchOperationModal(props) {
       <ModalFooter>
         <ActionButton
           text={delegate.isCompleted ? 'Close' : 'Cancel'}
-          onClick={props.toggle}
+          onClick={() => { if (delegate.isCompleted) { onComplete(); } props.toggle()}}
           color="light"
           tabIndex="-1"
         />
