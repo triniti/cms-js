@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchRedirectsSort from '@triniti/schemas/triniti/sys/enums/SearchRedirectsSort';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
@@ -12,6 +12,8 @@ import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/sys/components/search-redirects-screen/SearchForm';
 import Collaborators from 'plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
+import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
 
 const CreateRedirectModal = lazy(() => import('plugins/sys/components/create-redirect-modal'));
 
@@ -21,6 +23,9 @@ function SearchRedirectsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:redirect:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:redirect:update`);
+  const canDelete = policy.isGranted(`${APP_VENDOR}:redirect:delete`);
+  const nodes = response ? response.get('nodes', []) : [];
+  const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
 
   delegate.handleChangePage = page => {
     request.set('page', page);
@@ -41,6 +46,18 @@ function SearchRedirectsScreen(props) {
       }
     >
       <SearchForm {...props} isRunning={isRunning} run={run} />
+
+      <BatchOperationsCard
+        run={run}
+        selected={selected}
+        setSelected={setSelected}
+        setAllSelected={setAllSelected}
+        nodes={nodes}
+        canDelete={canDelete}
+        canDraft={false}
+        canPublish={false}
+      />
+
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && (
@@ -54,6 +71,7 @@ function SearchRedirectsScreen(props) {
             <Table hover responsive>
               <thead>
               <tr>
+                <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
                 <th>Request URI</th>
                 <th>Redirect URI</th>
                 <th>Created At</th>
@@ -64,6 +82,7 @@ function SearchRedirectsScreen(props) {
               <tbody>
               {response.get('nodes', []).map(node => (
                 <tr key={`${node.get('_id')}`}>
+                  <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
                   <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                   <td>{node.get('redirect_to')}</td>
                   <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>

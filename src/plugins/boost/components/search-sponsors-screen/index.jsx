@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchSponsorsSort from '@triniti/schemas/triniti/boost/enums/SearchSponsorsSort';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
@@ -12,6 +12,8 @@ import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/boost/components/search-sponsors-screen/SearchForm';
 import Collaborators from 'plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
+import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
 
 const CreateSponsorModal = lazy(() => import('plugins/boost/components/create-sponsor-modal'));
 
@@ -21,6 +23,9 @@ function SearchSponsorsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:sponsor:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:sponsor:update`);
+  const canDelete = policy.isGranted(`${APP_VENDOR}:sponsor:delete`);
+  const nodes = response ? response.get('nodes', []) : [];
+  const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
 
   delegate.handleChangePage = page => {
     request.set('page', page);
@@ -41,6 +46,18 @@ function SearchSponsorsScreen(props) {
       }
     >
       <SearchForm {...props} isRunning={isRunning} run={run} />
+
+      <BatchOperationsCard
+        run={run}
+        selected={selected}
+        setSelected={setSelected}
+        setAllSelected={setAllSelected}
+        nodes={nodes}
+        canDelete={canDelete}
+        canDraft={canUpdate}
+        canPublish={canUpdate}
+      />
+
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && (
@@ -54,6 +71,7 @@ function SearchSponsorsScreen(props) {
             <Table hover responsive>
               <thead>
                 <tr>
+                  <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
                   <th>Title</th>
                   <th>Created At</th>
                   <th>Published At</th>
@@ -64,6 +82,7 @@ function SearchSponsorsScreen(props) {
                 {response.get('nodes', []).map(node => {
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                      <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
                       <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>

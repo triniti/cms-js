@@ -71,7 +71,7 @@ function SearchArticlesScreen(props) {
             <Table hover responsive>
               <thead>
               <tr>
-                <td><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></td>
+                <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
                 <th>Title</th>
                 <th>Created At</th>
                 <th>Updated At</th>

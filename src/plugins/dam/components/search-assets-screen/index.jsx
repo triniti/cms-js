@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
-import { Badge, Button, Card, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import { CreateModalButton, ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from 'components';
@@ -16,7 +16,8 @@ import SearchForm from 'plugins/dam/components/search-assets-screen/SearchForm';
 import UploaderButton from 'plugins/dam/components/uploader-button';
 import Collaborators from 'plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-
+import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
+import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
 
 //const CreateAssetModal = lazy(() => import('plugins/dam/components/create-asset-modal'));
 
@@ -24,7 +25,9 @@ function SearchAssetsScreen(props) {
   const { request, delegate } = props;
   const { response, run, isRunning, pbjxError } = useRequest(request, true);
   const policy = usePolicy();
-  const canCreate = policy.isGranted(`${APP_VENDOR}:asset:create`);
+  const canDelete = policy.isGranted(`${APP_VENDOR}:asset:delete`);
+  const nodes = response ? response.get('nodes', []) : [];
+  const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
 
   const assetCuries = useCuries('triniti:dam:mixin:asset:v1');
   if (!assetCuries) {
@@ -61,6 +64,18 @@ function SearchAssetsScreen(props) {
       }
     >
       <SearchForm {...props} isRunning={isRunning} run={run} assetCuries={assetCuries} />
+
+      <BatchOperationsCard
+        run={run}
+        selected={selected}
+        setSelected={setSelected}
+        setAllSelected={setAllSelected}
+        nodes={nodes}
+        canDelete={canDelete}
+        canDraft={false}
+        canPublish={false}
+      />
+
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && (
@@ -73,6 +88,7 @@ function SearchAssetsScreen(props) {
             <Table hover responsive>
               <thead>
                 <tr>
+                  <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
                   <th></th>  
                   <th>Title</th>
                   <th>Mime type</th>
@@ -90,6 +106,7 @@ function SearchAssetsScreen(props) {
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                      <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
                       <td>
                        {hasAssetIcon && (
                         <Suspense fallback={<Loading />}>
