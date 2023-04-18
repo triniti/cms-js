@@ -54,18 +54,19 @@ function NodeHistoryCard(props) {
     run();
   };
 
-  const handleRevert = (selected) => {
+  const handleRevert = async (selected) => {
     const { node, form, formName, setBlocks } = props;
     const { push, pop } = form.mutators;
-
-    selected.forEach((item) => {
+    
+    for (const item of selected) {
       const { id, value } = item;
       const isKeyValueField = node.schema().fields.get(id).getRule().getName() === 'A_MAP';
       if (id === 'blocks') {
         return form.change(id, value.map(x => x.toJSON()));
       } else if (isKeyValueField) {
         // remove current values
-        while(pop(id) !== undefined) {}
+        while(await pop(id) !== undefined) {}
+
         // insert new values
         for (const key in value) {
           push(id, { key, value: value[key] });
@@ -73,23 +74,22 @@ function NodeHistoryCard(props) {
         return;
       }
       form.change(id, value);
-      
-      // if (field.isASingleValue()) {
-      //   updatedNode.set(id, value);
-      // }
-      // if (field.isASet()) {
-      //   updatedNode.addToSet(id, value);
-      // }
-      // if (field.isAList()) {
-      //   updatedNode.addToList(id, value ? Array.from(value) : []);
-      // }
-      // if (field.isAMap()) {
-      //   /* eslint-disable no-restricted-syntax */
-      //   for (const [k, v] of Object.entries(value)) {
-      //     updatedNode.addToMap(id, k, v);
-      //   }
-      // }
-    });
+    }
+    // if (field.isASingleValue()) {
+    //   updatedNode.set(id, value);
+    // }
+    // if (field.isASet()) {
+    //   updatedNode.addToSet(id, value);
+    // }
+    // if (field.isAList()) {
+    //   updatedNode.addToList(id, value ? Array.from(value) : []);
+    // }
+    // if (field.isAMap()) {
+    //   /* eslint-disable no-restricted-syntax */
+    //   for (const [k, v] of Object.entries(value)) {
+    //     updatedNode.addToMap(id, k, v);
+    //   }
+    // }
   }
   
   /**
