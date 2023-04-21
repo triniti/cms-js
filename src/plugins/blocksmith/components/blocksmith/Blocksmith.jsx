@@ -614,7 +614,9 @@ class Blocksmith extends React.Component {
     let newContentState;
     let newBlockKey;
     const activeBlock = getBlockForKey(contentState, activeBlockKey);
+    
     if (isBlockEmpty(activeBlock)) {
+
       // active block is empty - just replace it with new block
       newContentState = replaceBlockAtKey(
         contentState,
@@ -622,6 +624,7 @@ class Blocksmith extends React.Component {
         activeBlockKey,
       );
     } else {
+
       // active block is not empty, add an empty and replace that with new block
       newBlockKey = genKey();
       newContentState = insertEmptyBlock(
@@ -653,6 +656,7 @@ class Blocksmith extends React.Component {
       }
       /* eslint-enable react/destructuring-assignment */
       if (shouldSelectAndStyle) {
+        
         this.selectAndStyleBlock(newBlockKey || activeBlockKey);
       }
     });
@@ -868,6 +872,7 @@ class Blocksmith extends React.Component {
    * is moved over it.
    */
   handleEdit() {
+    
     const { activeBlockKey, editorState } = this.state;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const blockData = draftJsBlock.getData();
@@ -1155,7 +1160,10 @@ class Blocksmith extends React.Component {
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleMouseMove(e) {
-    const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
+    // debugger;
+
+    const { activeBlockKey, editorState, isSidebarOpen, readOnly, isHoverInsertMode } = this.state;
+
     if (readOnly || isSidebarOpen) {
       return;
     }
@@ -1167,17 +1175,65 @@ class Blocksmith extends React.Component {
       this.positionComponents(editorState, activeBlockKey);
     } else {
       const isOverSidebar = sidebar.isSidebar(target);
-      this.setState(({ isHoverInsertMode }) => ({
+
+      const isHoverInsertMOde =  isHoverInsertMode && isOverSidebar;
+
+      // if(isHoverInsertMOde){
+          // Get the container element and all the text blocks inside it
+          const container = document.querySelector('[data-contents=true]');
+          const textBlocks = container.querySelectorAll('.text-block');
+
+          // Get the mouse pointer's X and Y coordinates
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+
+          // Calculate the distance between the mouse pointer and each text block
+          const distances = Array.from(textBlocks).map((textBlock) => {
+            const textBlockRect = textBlock.getBoundingClientRect();
+
+            const textBlockX = textBlockRect.left + textBlockRect.width / 2;
+            const textBlockY = textBlockRect.top + textBlockRect.height / 2;
+
+            const distance = Math.sqrt((textBlockX - mouseX) ** 2 + (textBlockY - mouseY) ** 2);
+
+            return { textBlock, distance };
+          });
+
+          // Remove the "active" class from all the text blocks
+          textBlocks.forEach((textBlock) => {
+            textBlock.classList.remove('block-active');
+          });
+
+          // Find the text block that is closest to the mouse pointer
+          const closestTextBlock = distances.reduce((prev, current) => {
+            return prev.distance < current.distance ? prev : current;
+          }).textBlock;
+
+          // set activeBlockKey
+
+
+          // Add the "active" class to the closest text block
+          // closestTextBlock.classList.add('block-active');
+          
+      // }
+
+      if (blockParentNode.contains(target)) {
+        while (!blockParentNode.is(target.parentNode)) {
+          target = target.parentNode;
+        }
+        // debugger;
+        
+        this.positionComponents(editorState, target.getAttribute('data-offset-key'));
+      }
+
+      // debugger;
+
+      this.setState(() => ({
         // eslint-disable-next-line max-len
         // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
-        isHoverInsertMode: isHoverInsertMode && isOverSidebar,
+        isHoverInsertMode,
       }), () => {
-        if (blockParentNode.contains(target)) {
-          while (!blockParentNode.is(target.parentNode)) {
-            target = target.parentNode;
-          }
-          this.positionComponents(editorState, target.getAttribute('data-offset-key'));
-        }
+       
       });
     }
   }
@@ -1259,6 +1315,7 @@ class Blocksmith extends React.Component {
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
   handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
+    
     const { editorState, modalComponent } = this.state;
 
     if (modalComponent) {
@@ -1445,6 +1502,7 @@ class Blocksmith extends React.Component {
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleToggleSidebar(e) {
+
     const isDocumentClick = typeof e === 'undefined';
     this.setState(({ isSidebarOpen, sidebarHolderStyle }) => ({
       isSidebarOpen: !isSidebarOpen,
@@ -1573,6 +1631,8 @@ class Blocksmith extends React.Component {
       editorBounds,
     );
 
+    // debugger;
+
     this.setState(() => ({
       activeBlockKey: normalizeKey(blockKey),
       blockButtonsStyle,
@@ -1637,6 +1697,7 @@ class Blocksmith extends React.Component {
    * @param {(object|number|string)} id - a block, a block index, or a block key
    */
   selectAndStyleBlock(id) {
+    
     const { editorState } = this.state;
     const block = findBlock(editorState.getCurrentContent(), id);
     this.setState(() => ({
@@ -1644,6 +1705,7 @@ class Blocksmith extends React.Component {
     }), () => {
       this.styleActiveBlock(block);
       // eslint-disable-next-line react/destructuring-assignment
+      debugger;
       this.positionComponents(this.state.editorState, block.getKey());
     });
   }
@@ -1655,6 +1717,7 @@ class Blocksmith extends React.Component {
    * @param {ContentBlock} activeBlock  - the active block
    */
   styleActiveBlock(activeBlock) {
+    
     const { editorState } = this.state;
     const { isEditMode } = this.props;
     const contentState = editorState.getCurrentContent();
@@ -1678,8 +1741,11 @@ class Blocksmith extends React.Component {
   styleActiveBlockNode(activeBlockNode = null) {
     const { isHoverInsertMode } = this.state;
     document.querySelectorAll('.block-active').forEach((node) => node.classList.remove('block-active'));
+    
 
     if (activeBlockNode && !isHoverInsertMode) {
+
+
       this.setState(() => ({
         activeBlockKey: activeBlockNode.getAttribute('data-offset-key'),
       }), () => activeBlockNode.classList.add('block-active'));
