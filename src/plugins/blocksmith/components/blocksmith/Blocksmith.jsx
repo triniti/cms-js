@@ -1,7 +1,20 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
 /* eslint-disable import/no-named-as-default */
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
+import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
+import Editor from 'draft-js-plugins-editor';
+import moment from 'moment';
+import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
+import noop from 'lodash/noop';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
+import PropTypes from 'prop-types';
+import React from 'react';
+import swal from 'sweetalert2';
+import { connect } from 'react-redux';
+import { getSelectionEntity } from 'draftjs-utils';
+import { Map } from 'immutable';
 import {
   BlockMapBuilder,
   CompositeDecorator,
@@ -12,21 +25,33 @@ import {
   Modifier,
   RichUtils,
 } from 'draft-js';
-import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
-import Editor from 'draft-js-plugins-editor';
-import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
-import { getSelectionEntity } from 'draftjs-utils';
-import { Map } from 'immutable';
-import noop from 'lodash/noop';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-import swal from 'sweetalert2';
 
+import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
+import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
+import createDelegateFactory from '@triniti/app/createDelegateFactory';
+import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
+import HighlightButton
+  from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
+import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
+import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
+import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
+import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
+import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
 import Message from '@gdbots/pbj/Message';
+import ModalErrorBoundary from '@triniti/cms/plugins/blocksmith/components/modal-error-boundary';
+import OrderedListButton
+  from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
+import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
+import SpecialCharacterModal from '@triniti/cms/plugins/common/components/special-character-modal';
+import StrikethroughButton
+  from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
+import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import UnderlineButton
+  from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
+import UnorderedListButton
+  from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
 import {
   Badge,
   Button,
@@ -36,34 +61,21 @@ import {
   FormText,
   Icon,
 } from '@triniti/admin-ui-plugin/components';
-import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
-import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
-import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
-import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
-import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
-import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
-import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
-import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
-import ModalErrorBoundary from '@triniti/cms/plugins/blocksmith/components/modal-error-boundary';
-import OrderedListButton from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
-import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
-import StrikethroughButton from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
-import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
-import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
-import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
-import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
-import SpecialCharacterModal from '@triniti/cms/plugins/common/components/special-character-modal';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 
+import './styles.scss';
+import constants from './constants';
+import customStyleMap from './customStyleMap';
+import decorators from './decorators';
+import delegateFactory from './delegate';
+import InnerErrorBoundary from './inner-error-boundary';
+import selector from './selector';
 import { blockTypes, COPIED_BLOCK_KEY, tokens } from '../../constants';
+import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
 import {
   addEmoji,
   areKeysSame,
   blockParentNode,
-  collapseSelection,
   convertToEditorState,
   createLinkAtSelection,
   deleteBlock,
@@ -97,14 +109,6 @@ import {
   updateBlocks,
   validateBlocks,
 } from '../../utils';
-import { clearDragCache } from '../../utils/styleDragTarget';
-import constants from './constants';
-import customStyleMap from './customStyleMap';
-import decorators from './decorators';
-import delegateFactory from './delegate';
-import InnerErrorBoundary from './inner-error-boundary';
-import selector from './selector';
-import './styles.scss';
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -1155,7 +1159,7 @@ class Blocksmith extends React.Component {
    */
   handleMouseMove(e) {
     const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
-    if (readOnly || isSidebarOpen || activeBlockKey === null) {
+    if (readOnly || isSidebarOpen || null === activeBlockKey) {
       return;
     }
     const { pageX, pageY } = e;
@@ -1258,29 +1262,25 @@ class Blocksmith extends React.Component {
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
   handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
-    const { editorState, modalComponent } = this.state;
+    const { modalComponent } = this.state;
 
     if (modalComponent) {
       this.handleCloseModal();
     } else {
       const { node } = this.props;
-      this.setState(() => ({
-        editorState: collapseSelection(editorState), // this way inline toolbar thinks that nothing is selected and will remain invisible in open/close Modal events.
-      }), () => {
-        const message = canvasBlock.schema().getCurie().getMessage();
-        const ModalComponent = getModalComponent(message);
-        this.handleOpenModal(() => (
-          <ModalComponent
-            block={canvasBlock}
-            isFreshBlock={isFreshBlock}
-            isOpen
-            node={node}
-            onAddBlock={this.handleAddCanvasBlock}
-            onEditBlock={this.handleEditCanvasBlock}
-            toggle={this.handleCloseModal}
-          />
-        ));
-      });
+      const message = canvasBlock.schema().getCurie().getMessage();
+      const ModalComponent = getModalComponent(message);
+      this.handleOpenModal(() => (
+        <ModalComponent
+          block={canvasBlock}
+          isFreshBlock={isFreshBlock}
+          isOpen
+          node={node}
+          onAddBlock={this.handleAddCanvasBlock}
+          onEditBlock={this.handleEditCanvasBlock}
+          toggle={this.handleCloseModal}
+        />
+      ));
     }
   }
 
@@ -1400,7 +1400,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map((block) => ObjectSerializer.deserialize(block));
+        .map(function(block) { return ObjectSerializer.deserialize(block); });
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
