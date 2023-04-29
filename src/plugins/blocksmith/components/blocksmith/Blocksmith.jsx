@@ -77,6 +77,7 @@ import {
   areKeysSame,
   blockParentNode,
   convertToEditorState,
+  collapseSelection,
   createLinkAtSelection,
   deleteBlock,
   deleteSelectedBlocks,
