@@ -1262,25 +1262,29 @@ class Blocksmith extends React.Component {
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
   handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
-    const { modalComponent } = this.state;
+    const { editorState, modalComponent } = this.state;
 
     if (modalComponent) {
       this.handleCloseModal();
     } else {
       const { node } = this.props;
-      const message = canvasBlock.schema().getCurie().getMessage();
-      const ModalComponent = getModalComponent(message);
-      this.handleOpenModal(() => (
-        <ModalComponent
-          block={canvasBlock}
-          isFreshBlock={isFreshBlock}
-          isOpen
-          node={node}
-          onAddBlock={this.handleAddCanvasBlock}
-          onEditBlock={this.handleEditCanvasBlock}
-          toggle={this.handleCloseModal}
-        />
-      ));
+      this.setState(() => ({
+        editorState: collapseSelection(editorState), // this way inline toolbar thinks that nothing is selected and will remain invisible in open/close Modal events.
+      }), () => {
+        const message = canvasBlock.schema().getCurie().getMessage();
+        const ModalComponent = getModalComponent(message);
+        this.handleOpenModal(() => (
+          <ModalComponent
+            block={canvasBlock}
+            isFreshBlock={isFreshBlock}
+            isOpen
+            node={node}
+            onAddBlock={this.handleAddCanvasBlock}
+            onEditBlock={this.handleEditCanvasBlock}
+            toggle={this.handleCloseModal}
+          />
+        ));
+      });
     }
   }
 
