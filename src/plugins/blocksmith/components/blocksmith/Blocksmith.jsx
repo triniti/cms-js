@@ -1,20 +1,7 @@
 // fixme: refactor this thing so it doesn't need so many eslint-disables. super smelly
 // todo: wrap text blocks and position the buttons in the normal react way
 /* eslint-disable import/no-named-as-default */
-import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
-import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
-import Editor from 'draft-js-plugins-editor';
-import moment from 'moment';
-import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import noop from 'lodash/noop';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import PropTypes from 'prop-types';
-import React from 'react';
-import swal from 'sweetalert2';
-import { connect } from 'react-redux';
-import { getSelectionEntity } from 'draftjs-utils';
-import { Map } from 'immutable';
 import {
   BlockMapBuilder,
   CompositeDecorator,
@@ -25,33 +12,21 @@ import {
   Modifier,
   RichUtils,
 } from 'draft-js';
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
+import Editor from 'draft-js-plugins-editor';
+import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
+import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
+import { getSelectionEntity } from 'draftjs-utils';
+import { Map } from 'immutable';
+import noop from 'lodash/noop';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import swal from 'sweetalert2';
 
-import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
-import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
-import createDelegateFactory from '@triniti/app/createDelegateFactory';
-import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
-import HighlightButton
-  from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
-import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
-import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
-import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
-import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
-import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
-import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
 import Message from '@gdbots/pbj/Message';
-import ModalErrorBoundary from '@triniti/cms/plugins/blocksmith/components/modal-error-boundary';
-import OrderedListButton
-  from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
-import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
-import SpecialCharacterModal from '@triniti/cms/plugins/common/components/special-character-modal';
-import StrikethroughButton
-  from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
-import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
-import UnderlineButton
-  from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
-import UnorderedListButton
-  from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
 import {
   Badge,
   Button,
@@ -61,16 +36,28 @@ import {
   FormText,
   Icon,
 } from '@triniti/admin-ui-plugin/components';
+import createDelegateFactory from '@triniti/app/createDelegateFactory';
+import BlockButtons from '@triniti/cms/plugins/blocksmith/components/block-buttons';
+import BoldButton from '@triniti/cms/plugins/blocksmith/components/bold-inline-toolbar-button';
+import DraggableTextBlock from '@triniti/cms/plugins/blocksmith/components/draggable-text-block';
+import HighlightButton from '@triniti/cms/plugins/blocksmith/components/highlight-inline-toolbar-button';
+import ItalicButton from '@triniti/cms/plugins/blocksmith/components/italic-inline-toolbar-button';
+import LinkButton from '@triniti/cms/plugins/blocksmith/components/link-inline-toolbar-button';
+import LinkModal from '@triniti/cms/plugins/blocksmith/components/link-modal';
+import ListBlockWrapper from '@triniti/cms/plugins/blocksmith/components/list-block-wrapper';
+import ModalErrorBoundary from '@triniti/cms/plugins/blocksmith/components/modal-error-boundary';
+import OrderedListButton from '@triniti/cms/plugins/blocksmith/components/ordered-list-inline-toolbar-button';
+import Sidebar from '@triniti/cms/plugins/blocksmith/components/sidebar';
+import StrikethroughButton from '@triniti/cms/plugins/blocksmith/components/strikethrough-inline-toolbar-button';
+import UnderlineButton from '@triniti/cms/plugins/blocksmith/components/underline-inline-toolbar-button';
+import UnorderedListButton from '@triniti/cms/plugins/blocksmith/components/unordered-list-inline-toolbar-button';
+import isOnFirstLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnFirstLineOfBlock';
+import isOnLastLineOfBlock from '@triniti/cms/plugins/blocksmith/utils/isOnLastLineOfBlock';
+import SpecialCharacterModal from '@triniti/cms/plugins/common/components/special-character-modal';
+import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
+import TextBlockV1Mixin from '@triniti/schemas/triniti/canvas/mixin/text-block/TextBlockV1Mixin';
 
-import './styles.scss';
-import constants from './constants';
-import customStyleMap from './customStyleMap';
-import decorators from './decorators';
-import delegateFactory from './delegate';
-import InnerErrorBoundary from './inner-error-boundary';
-import selector from './selector';
 import { blockTypes, COPIED_BLOCK_KEY, tokens } from '../../constants';
-import { clearDragCache } from '../../utils/styleDragTarget';
 import { getModalComponent, getPlaceholder } from '../../resolver';
 import {
   addEmoji,
@@ -110,6 +97,14 @@ import {
   updateBlocks,
   validateBlocks,
 } from '../../utils';
+import { clearDragCache } from '../../utils/styleDragTarget';
+import constants from './constants';
+import customStyleMap from './customStyleMap';
+import decorators from './decorators';
+import delegateFactory from './delegate';
+import InnerErrorBoundary from './inner-error-boundary';
+import selector from './selector';
+import './styles.scss';
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -289,6 +284,7 @@ class Blocksmith extends React.Component {
     this.positionComponents = this.positionComponents.bind(this);
     this.removeActiveStyling = this.removeActiveStyling.bind(this);
     this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
+    this.setActiveBlockKey = this.setActiveBlockKey.bind(this);
     this.setHoverInsertMode = this.setHoverInsertMode.bind(this);
     this.styleActiveBlock = this.styleActiveBlock.bind(this);
     this.styleActiveBlockNode = this.styleActiveBlockNode.bind(this);
@@ -540,6 +536,7 @@ class Blocksmith extends React.Component {
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
+            setActiveBlockKey: this.setActiveBlockKey,
           },
         };
       }
@@ -549,6 +546,7 @@ class Blocksmith extends React.Component {
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
+            setActiveBlockKey: this.setActiveBlockKey,
           },
         };
       case blockTypes.ORDERED_LIST_ITEM:
@@ -560,6 +558,7 @@ class Blocksmith extends React.Component {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
             getReadOnly: this.getReadOnly,
+            setActiveBlockKey: this.setActiveBlockKey,
           },
         };
       default:
@@ -614,9 +613,7 @@ class Blocksmith extends React.Component {
     let newContentState;
     let newBlockKey;
     const activeBlock = getBlockForKey(contentState, activeBlockKey);
-    
     if (isBlockEmpty(activeBlock)) {
-
       // active block is empty - just replace it with new block
       newContentState = replaceBlockAtKey(
         contentState,
@@ -624,7 +621,6 @@ class Blocksmith extends React.Component {
         activeBlockKey,
       );
     } else {
-
       // active block is not empty, add an empty and replace that with new block
       newBlockKey = genKey();
       newContentState = insertEmptyBlock(
@@ -656,7 +652,6 @@ class Blocksmith extends React.Component {
       }
       /* eslint-enable react/destructuring-assignment */
       if (shouldSelectAndStyle) {
-        
         this.selectAndStyleBlock(newBlockKey || activeBlockKey);
       }
     });
@@ -872,7 +867,6 @@ class Blocksmith extends React.Component {
    * is moved over it.
    */
   handleEdit() {
-    
     const { activeBlockKey, editorState } = this.state;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const blockData = draftJsBlock.getData();
@@ -1151,7 +1145,7 @@ class Blocksmith extends React.Component {
    * Remove any styling associated with an "active" editor
    */
   handleMouseLeave() {
-    this.removeActiveStyling();
+    this.setState(() => ({ activeBlockKey: null }), this.removeActiveStyling);
   }
 
   /**
@@ -1160,11 +1154,8 @@ class Blocksmith extends React.Component {
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleMouseMove(e) {
-    // debugger;
-
-    const { activeBlockKey, editorState, isSidebarOpen, readOnly, isHoverInsertMode } = this.state;
-
-    if (readOnly || isSidebarOpen) {
+    const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
+    if (readOnly || isSidebarOpen || activeBlockKey === null) {
       return;
     }
     const { pageX, pageY } = e;
@@ -1175,65 +1166,17 @@ class Blocksmith extends React.Component {
       this.positionComponents(editorState, activeBlockKey);
     } else {
       const isOverSidebar = sidebar.isSidebar(target);
-
-      const isHoverInsertMOde =  isHoverInsertMode && isOverSidebar;
-
-      // if(isHoverInsertMOde){
-          // Get the container element and all the text blocks inside it
-          const container = document.querySelector('[data-contents=true]');
-          const textBlocks = container.querySelectorAll('.text-block');
-
-          // Get the mouse pointer's X and Y coordinates
-          const mouseX = e.clientX;
-          const mouseY = e.clientY;
-
-          // Calculate the distance between the mouse pointer and each text block
-          const distances = Array.from(textBlocks).map((textBlock) => {
-            const textBlockRect = textBlock.getBoundingClientRect();
-
-            const textBlockX = textBlockRect.left + textBlockRect.width / 2;
-            const textBlockY = textBlockRect.top + textBlockRect.height / 2;
-
-            const distance = Math.sqrt((textBlockX - mouseX) ** 2 + (textBlockY - mouseY) ** 2);
-
-            return { textBlock, distance };
-          });
-
-          // Remove the "active" class from all the text blocks
-          textBlocks.forEach((textBlock) => {
-            textBlock.classList.remove('block-active');
-          });
-
-          // Find the text block that is closest to the mouse pointer
-          const closestTextBlock = distances.reduce((prev, current) => {
-            return prev.distance < current.distance ? prev : current;
-          }).textBlock;
-
-          // set activeBlockKey
-
-
-          // Add the "active" class to the closest text block
-          // closestTextBlock.classList.add('block-active');
-          
-      // }
-
-      if (blockParentNode.contains(target)) {
-        while (!blockParentNode.is(target.parentNode)) {
-          target = target.parentNode;
-        }
-        // debugger;
-        
-        this.positionComponents(editorState, target.getAttribute('data-offset-key'));
-      }
-
-      // debugger;
-
-      this.setState(() => ({
+      this.setState(({ isHoverInsertMode }) => ({
         // eslint-disable-next-line max-len
         // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
-        isHoverInsertMode,
+        isHoverInsertMode: isHoverInsertMode && isOverSidebar,
       }), () => {
-       
+        if (blockParentNode.contains(target)) {
+          while (!blockParentNode.is(target.parentNode)) {
+            target = target.parentNode;
+          }
+          this.positionComponents(editorState, target.getAttribute('data-offset-key'));
+        }
       });
     }
   }
@@ -1315,7 +1258,6 @@ class Blocksmith extends React.Component {
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
   handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
-    
     const { editorState, modalComponent } = this.state;
 
     if (modalComponent) {
@@ -1458,7 +1400,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(function (block) { return ObjectSerializer.deserialize(block); });
+        .map((block) => ObjectSerializer.deserialize(block));
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
@@ -1502,7 +1444,6 @@ class Blocksmith extends React.Component {
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
   handleToggleSidebar(e) {
-
     const isDocumentClick = typeof e === 'undefined';
     this.setState(({ isSidebarOpen, sidebarHolderStyle }) => ({
       isSidebarOpen: !isSidebarOpen,
@@ -1631,8 +1572,6 @@ class Blocksmith extends React.Component {
       editorBounds,
     );
 
-    // debugger;
-
     this.setState(() => ({
       activeBlockKey: normalizeKey(blockKey),
       blockButtonsStyle,
@@ -1697,7 +1636,6 @@ class Blocksmith extends React.Component {
    * @param {(object|number|string)} id - a block, a block index, or a block key
    */
   selectAndStyleBlock(id) {
-    
     const { editorState } = this.state;
     const block = findBlock(editorState.getCurrentContent(), id);
     this.setState(() => ({
@@ -1705,9 +1643,12 @@ class Blocksmith extends React.Component {
     }), () => {
       this.styleActiveBlock(block);
       // eslint-disable-next-line react/destructuring-assignment
-      debugger;
       this.positionComponents(this.state.editorState, block.getKey());
     });
+  }
+
+  setActiveBlockKey(key) {
+    this.setState(() => ({ activeBlockKey: key }));
   }
 
   /**
@@ -1717,7 +1658,6 @@ class Blocksmith extends React.Component {
    * @param {ContentBlock} activeBlock  - the active block
    */
   styleActiveBlock(activeBlock) {
-    
     const { editorState } = this.state;
     const { isEditMode } = this.props;
     const contentState = editorState.getCurrentContent();
@@ -1741,11 +1681,8 @@ class Blocksmith extends React.Component {
   styleActiveBlockNode(activeBlockNode = null) {
     const { isHoverInsertMode } = this.state;
     document.querySelectorAll('.block-active').forEach((node) => node.classList.remove('block-active'));
-    
 
     if (activeBlockNode && !isHoverInsertMode) {
-
-
       this.setState(() => ({
         activeBlockKey: activeBlockNode.getAttribute('data-offset-key'),
       }), () => activeBlockNode.classList.add('block-active'));
