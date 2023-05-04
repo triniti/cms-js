@@ -6,11 +6,6 @@ import React from 'react';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
-const handleSetKey = () => {
-  debugger;
-  blockProps.setActiveBlockKey(block.getKey())
-};
-
 export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, activeBlockKey, ...rest }) => (
   <PlaceholderErrorBoundary block={block}>
     {draggable && blockProps.isFirst && (
