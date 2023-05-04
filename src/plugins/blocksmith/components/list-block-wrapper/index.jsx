@@ -6,19 +6,26 @@ import React from 'react';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
-export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => (
+const handleSetKey = () => {
+  debugger;
+  blockProps.setActiveBlockKey(block.getKey())
+};
+
+export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, activeBlockKey, ...rest }) => (
   <PlaceholderErrorBoundary block={block}>
     {draggable && blockProps.isFirst && (
       <div
         className="drag-area draggable-top"
         contentEditable={false}
         draggable
+        onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart(block.getKey())}
       />
     )}
     <span
       data-offset-key={offsetKey}
+      onMouseEnter={handleSetKey}
       style={{ cursor: 'text' }}
     >
       <EditorBlock
@@ -30,10 +37,10 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...r
     {draggable && blockProps.isLast && (
       <div
         className="drag-area draggable-bottom"
+        onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
         contentEditable={false}
         draggable
         onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart(block.getKey())}
       />
     )}
   </PlaceholderErrorBoundary>
