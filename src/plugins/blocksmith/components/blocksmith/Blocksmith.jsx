@@ -414,6 +414,7 @@ class Blocksmith extends React.Component {
    */
   getSidebarHolderStyle(activeBlock, blockBounds, contentState, editorBounds) {
     const {
+      activeBlockKey,
       editorState,
       hoverBlockNode,
       isHoverInsertMode,
