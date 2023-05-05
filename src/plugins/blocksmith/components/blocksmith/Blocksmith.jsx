@@ -414,7 +414,6 @@ class Blocksmith extends React.Component {
    */
   getSidebarHolderStyle(activeBlock, blockBounds, contentState, editorBounds) {
     const {
-      activeBlockKey,
       editorState,
       hoverBlockNode,
       isHoverInsertMode,
@@ -423,7 +422,9 @@ class Blocksmith extends React.Component {
     } = this.state;
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
-    const isSidebarVisible = !!activeBlockKey && isHoverInsertMode
+    debugger;
+
+    const isSidebarVisible = !!activeBlock.getKey() && isHoverInsertMode
       || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock))
       || !editorState.getCurrentContent().hasText();
 
