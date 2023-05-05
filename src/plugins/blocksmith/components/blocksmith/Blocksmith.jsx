@@ -409,10 +409,11 @@ class Blocksmith extends React.Component {
    * @param {DOMRect}      blockBounds  - the block node's boundingClientRect
    * @param {ContentState} contentState - a ContentState instance of a DraftJs editor
    * @param {DOMRect}      editorBounds - the editor node's boundingClientRect
+   * @param {String}       activeBlockKey  - the active ContentBlock key
    *
    * @returns {object} - an object to be set as the sidebarHolderStyle state
    */
-  getSidebarHolderStyle(activeBlock, blockBounds, contentState, editorBounds) {
+  getSidebarHolderStyle(activeBlock,blockBounds, contentState, editorBounds, activeBlockKey) {
     const {
       editorState,
       hoverBlockNode,
@@ -422,10 +423,11 @@ class Blocksmith extends React.Component {
     } = this.state;
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
-    debugger;
 
-    const isSidebarVisible = !!activeBlock.getKey() && isHoverInsertMode
-      || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock))
+    // debugger;
+
+    const isSidebarVisible = !!activeBlockKey && (isHoverInsertMode
+      || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock)))
       || !editorState.getCurrentContent().hasText();
 
     sidebarHolderStyle.top = (blockBounds.top - editorBounds.top) + 6;
@@ -1579,6 +1581,7 @@ class Blocksmith extends React.Component {
       blockBounds,
       contentState,
       editorBounds,
+      activeBlockKey
     );
 
     this.setState(() => ({
