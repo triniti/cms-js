@@ -6,7 +6,8 @@ import React from 'react';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
-export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, activeBlockKey, ...rest }) => (
+export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => {
+  return (
   <PlaceholderErrorBoundary block={block}>
     {draggable && blockProps.isFirst && (
       <div
@@ -20,7 +21,7 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, acti
     )}
     <span
       data-offset-key={offsetKey}
-      onMouseEnter={handleSetKey}
+      onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
       style={{ cursor: 'text' }}
     >
       <EditorBlock
@@ -32,14 +33,15 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, acti
     {draggable && blockProps.isLast && (
       <div
         className="drag-area draggable-bottom"
-        onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
         contentEditable={false}
         draggable
+        onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
         onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart(block.getKey())}
       />
     )}
   </PlaceholderErrorBoundary>
-);
+)};
 
 ListBlockWrapper.propTypes = {
   block: PropTypes.instanceOf(ContentBlock).isRequired,
@@ -47,6 +49,7 @@ ListBlockWrapper.propTypes = {
     isFirst: PropTypes.bool.isRequired,
     isLast: PropTypes.bool.isRequired,
     getReadOnly: PropTypes.func.isRequired,
+    setActiveBlockKey: PropTypes.func.isRequired,
   }).isRequired,
   draggable: PropTypes.bool,
   offsetKey: PropTypes.string.isRequired,

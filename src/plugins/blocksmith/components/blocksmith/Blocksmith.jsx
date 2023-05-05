@@ -617,7 +617,9 @@ class Blocksmith extends React.Component {
     const contentState = editorState.getCurrentContent();
     let newContentState;
     let newBlockKey;
+
     const activeBlock = getBlockForKey(contentState, activeBlockKey);
+
     if (isBlockEmpty(activeBlock)) {
       // active block is empty - just replace it with new block
       newContentState = replaceBlockAtKey(
