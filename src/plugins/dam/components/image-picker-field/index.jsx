@@ -1,15 +1,27 @@
 import React, { lazy } from 'react';
 import classNames from 'classnames';
-import { Button, Label, Media } from 'reactstrap';
+import { Button, Label, Media, Card, CardImgOverlay, CardTitle } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import { CreateModalButton, Icon } from 'components';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
 import { useField, useFormContext } from 'components';
+import noop from 'lodash-es/noop';
 
 // fixme: add uploader.
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
+
+const damAspectRatio = (aspectRatio) => {
+  let damAspectRatio = null;
+  if (`${aspectRatio}` === 'auto' || `${aspectRatio}` === 'original') {
+    damAspectRatio = 'o';
+  }
+  if (!aspectRatio) {
+    damAspectRatio = '4by3';
+  }
+  return damAspectRatio || `${aspectRatio}`;
+}
 
 export default function ImagePickerField(props) {
   const {
@@ -19,7 +31,10 @@ export default function ImagePickerField(props) {
     nodeRef,
     readOnly = false,
     selectedImageRef,
-    onSelectImage
+    onSelectImage,
+    aspectRatio = null,
+    launchText = null,
+    onUploadedImageComplete: handleUploadedImageComplete = noop,
   } = props;
 
   const { node } = useNode(nodeRef, false);
@@ -57,18 +72,26 @@ export default function ImagePickerField(props) {
               <Icon imgSrc="external" alt="open" />
             </div>
           </a>
-          <Media
-            src={damUrl(imageRef, '4by3', 'sm')}
-            alt={imageRef.toString()}
-            className="d-flex mb-0 mw-100"
-          />
+          <Card>
+            <Media
+              src={damUrl(imageRef, damAspectRatio(aspectRatio), 'sm')}
+              alt={imageRef.toString()}
+              className="d-flex mb-0 mw-100"
+              aspectRatio={aspectRatio}
+            />
+            {launchText && (
+            <CardImgOverlay>
+              <CardTitle className="h5 mb-0 text-white">{launchText}</CardTitle>
+            </CardImgOverlay>
+            )}
+          </Card>
           {(editMode && !readOnly) && (
             <>
               <CreateModalButton
                 className="mt-2 mb-0"
                 text="Select a New Image"
                 modal={ImagePickerModal}
-                modalProps={{imageRef, nodeRef, selectImage}}
+                modalProps={{imageRef, nodeRef, selectImage, onUploadedImageComplete: handleUploadedImageComplete}}
                 outline
               />
               <Button className="mt-2 mb-0" color="light" outline name="clear_image" onClick={clearImage}>Clear Image</Button>

@@ -13,10 +13,17 @@ import { ActionButton } from 'components';
 import GalleryImages from 'plugins/dam/components/image-picker-field/GalleryImages';
 import LinkedImages from 'plugins/dam/components/image-picker-field/LinkedImages';
 import SearchImages from 'plugins/dam/components/image-picker-field/SearchImages';
+import UploaderButton from 'plugins/dam/components/uploader-button';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import noop from 'lodash-es/noop';
 
-export default function ImagePickerModal(props) {
-  const { imageRef, nodeRef, selectImage } = props;
-
+export default function ImagePickerModal({
+  imageRef,
+  nodeRef,
+  selectImage,
+  toggle,
+  onUploadedImageComplete = noop,
+}) {
   const isGallery = nodeRef && nodeRef.includes('gallery');
   const allowLinked = (imageRef && nodeRef.includes('article')) || isGallery;
   const tab = allowLinked ? 'linked-images' : 'search-images'
@@ -26,14 +33,19 @@ export default function ImagePickerModal(props) {
     setActiveTab(tab);
   }
 
+  const handleUploadedImageComplete = (assets) => {
+    onUploadedImageComplete(assets);
+    toggle();
+  };
+
   return (
     <Modal isOpen backdrop="static" size="xxl">
-      <ModalHeader toggle={props.toggle}>Select Primary Image</ModalHeader>
+      <ModalHeader toggle={toggle}>Select Primary Image</ModalHeader>
       <ModalBody className="p-0">
         {allowLinked && (
           <Nav className="nav-underline">
             {imageRef && (
-              <NavItem active={'linked-images' === activeTab}>
+              <NavItem active={'linked-images' === activeTab}>  
                 <div
                   className={'linked-images' === activeTab ? 'nav-link active' : 'nav-link'}
                   onClick={() => selectActiveTab('linked-images')}
@@ -68,7 +80,7 @@ export default function ImagePickerModal(props) {
             <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
               <SearchImages
                 selectImage={selectImage}
-                toggle={props.toggle}
+                toggle={toggle}
               />
             </div>
           </TabPane>
@@ -78,7 +90,8 @@ export default function ImagePickerModal(props) {
                 nodeRef={nodeRef}
                 selectActiveTab={selectActiveTab}
                 selectImage={selectImage}
-                toggle={props.toggle}
+                toggle={toggle}
+                onUploadedImageComplete={handleUploadedImageComplete}
               />
             </div>
           </TabPane>
@@ -87,19 +100,32 @@ export default function ImagePickerModal(props) {
               <GalleryImages
                 nodeRef={nodeRef}
                 selectImage={selectImage}
-                toggle={props.toggle}
+                toggle={toggle}
               />
             </div>
           </TabPane>
         </TabContent>
       </ModalBody>
       <ModalFooter>
-        <ActionButton
-          text="Cancel"
-          onClick={props.toggle}
-          color="secondary"
-          tabIndex="-1"
-        />
+      <div class="d-flex justify-content-between container-fluid">
+        <div class="me-auto p-2">
+          <UploaderButton
+            linkedRefs={nodeRef ? [NodeRef.fromString(nodeRef)] : []}
+            allowMultiUpload={false}
+            onClose={handleUploadedImageComplete}
+            >
+            Upload
+          </UploaderButton>
+        </div>
+        <div class="p-2">
+          <ActionButton
+            text="Cancel"
+            onClick={toggle}
+            color="secondary"
+            tabIndex="-1"
+          />
+        </div>
+      </div>
       </ModalFooter>
     </Modal>
   );

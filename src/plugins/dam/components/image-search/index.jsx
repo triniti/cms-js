@@ -155,7 +155,7 @@ const ImageSearch = ({
           response && response.get('nodes') &&
           response.get('nodes').length ? (
             <ImageGrid
-              images={response.get('nodes')}
+              nodes={response.get('nodes')}
               onSelectImage={handleSelectImage}
               selectedImages={selectedImages}
             />

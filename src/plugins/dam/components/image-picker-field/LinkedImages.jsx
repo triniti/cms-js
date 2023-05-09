@@ -6,9 +6,13 @@ import damUrl from 'plugins/dam/damUrl';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
+import ImageGrid from 'plugins/dam/components/image-grid';
+import UploaderButton from 'plugins/dam/components/uploader-button';
+import Icon from 'components/icon';
+import noop from 'lodash-es/noop';
 
 function LinkedImages(props) {
-  const { request, nodeRef, selectActiveTab, selectImage, toggle } = props;
+  const { request, nodeRef, selectActiveTab, selectImage, toggle, onUploadedImageComplete: handleUploadedImageComplete = noop } = props;
   const { response, pbjxError } = useRequest(request, true);
 
   useEffect(() => {
@@ -23,45 +27,28 @@ function LinkedImages(props) {
     <>
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && response.has('nodes') && (
-        <div className="image-grid-container">
-          <Row className="gx-3">
-            {response.get('nodes').map(node => (
-                <Col key={node.get('_id')} xs={12} sm={6} md={4} lg={3} className="col-xl-2p">
-                  <Card
-                    className="p-2 card-hover-border card-shadow text-white"
-                    onClick={() => {
-                      selectImage(node.generateNodeRef());
-                      toggle();
-                    }}
-                  >
-                    <Media className="aspect-ratio aspect-ratio-1by1">
-                      <Media
-                        object
-                        src={damUrl(node, '1by1', 'sm')}
-                        alt="thumbnail"
-                        width="200"
-                        height="200"
-                      />
-                      <CardImgOverlay>
-                        <CardTitle className="h5 mb-0">{node.get('title')}</CardTitle>
-                      </CardImgOverlay>
-                    </Media>
-                  </Card>
-                </Col>
-            ))}
-          </Row>
-        </div>
+        <ImageGrid
+        nodes={response.get('nodes')}
+        onSelectImage={(node) => {
+          selectImage(node.generateNodeRef());
+          toggle();
+        }}
+        />
       )}
       {response && !response.has('nodes') && (
         <div className="not-found-message">
           No linked images found. You can
-          <ActionButton
-            text="upload"
-            icon="upload"
+          <UploaderButton
+            linkedRefs={[NodeRef.fromString(nodeRef)]}
             style={{ margin: "0 5px" }}
             color="light"
             outline
-          /> upload new images or
+            allowMultiUpload={false}
+            onClose={handleUploadedImageComplete}
+            >
+            <Icon imgSrc="upload" alt="upload" style={{ marginRight: "0.5rem" }} />
+            upload
+          </UploaderButton>
           <ActionButton
             text="search"
             icon="search"

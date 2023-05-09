@@ -10,6 +10,7 @@ const UploaderButton = (props) => {
     children = null,
     linkedRefs = null,
     onClose = noop,
+    allowMultiUpload = true,
     ...btnProps
   } = props;
   const [ isUploaderOpen, setIsUploaderOpen ] = useState(false);
@@ -22,6 +23,7 @@ const UploaderButton = (props) => {
       <Button key="a" style={{ margin: 0 }} color="primary" onClick={handleToggleUploader} {...btnProps}>{children || 'Upload files'}</Button>
       {isUploaderOpen && (
         <Uploader
+          allowMultiUpload={allowMultiUpload}
           isOpen={isUploaderOpen}
           linkedRefs={linkedRefs}
           onToggleUploader={handleToggleUploader}

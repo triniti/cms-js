@@ -123,6 +123,9 @@ const configs = {
       imgSrc: 'camera',
     },
     label: 'Image Block',
+    preview: {
+      component: GenericBlockPreviewComponent,
+    },
   },
   'imgur-post-block': {
     icon: {

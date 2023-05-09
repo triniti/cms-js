@@ -58,6 +58,18 @@ const confirmDone = async (text) => {
   });
 }
 
+const extractAssetsFromFiles = (files) => {
+  const assets = [];
+  Object.keys(files).forEach((hashName) => {
+    const fileInfo = files[hashName];
+    if (fileInfo.uploaded) {
+      assets.push(fileInfo.asset);
+    }
+  });
+
+  return assets;
+}
+
 /**
  * @param {Object} prevState
  * @param {String} hashName
@@ -164,6 +176,7 @@ const Uploader = ({
   galleryRef,
   gallerySequence,
   variant = {},
+  onClose: handleClose = noop,
 }) => {
 
   const appDispatch = useDispatch();
@@ -395,6 +408,7 @@ const Uploader = ({
     // If no files exist
     if (!activeHashName) {
       onToggleUploader();
+      handleClose(extractAssetsFromFiles(files));
       return;
     }
 
@@ -408,12 +422,14 @@ const Uploader = ({
             // delegate.flushProcessedFilesChannels();
           }
           onToggleUploader(activeAsset || null, toggleAllModals);
+          handleClose(extractAssetsFromFiles(files));
         } else {
           // do nothing, user declined
         }
       });
     } else {
       onToggleUploader(activeAsset || null, toggleAllModals);
+      handleClose(extractAssetsFromFiles(files));
     }
   }
 

@@ -39,6 +39,7 @@ export default function Sidebar({
     'facebook-post-block',
     'facebook-video-block',
     'google-map-block',
+    'gallery-block',
     'heading-block',
     'iframe-block',
     'imgur-post-block',
