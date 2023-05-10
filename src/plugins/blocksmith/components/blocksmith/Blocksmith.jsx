@@ -468,7 +468,6 @@ class Blocksmith extends React.Component {
    * @param {object}        coords      - mouse position coordinates
    */
   setHoverInsertMode(editorState, coords) {
-
     // eslint-disable-next-line max-len
     // fixme: this could take contentState only (if positionComponents takes contentState only, which it can)
     const { hoverBlockNode } = this.state;
