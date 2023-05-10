@@ -239,11 +239,11 @@ class Blocksmith extends React.Component {
       },
       [blockTypes.ORDERED_LIST_ITEM]: {
         element: 'li',
-        wrapper: <ol />,
+        wrapper: <ol className="list-block" />,
       },
       [blockTypes.UNORDERED_LIST_ITEM]: {
         element: 'li',
-        wrapper: <ul />,
+        wrapper: <ul className="list-block" />,
       },
       [blockTypes.UNSTYLED]: {
         element: 'p',
@@ -409,7 +409,7 @@ class Blocksmith extends React.Component {
    * @param {DOMRect}      blockBounds  - the block node's boundingClientRect
    * @param {ContentState} contentState - a ContentState instance of a DraftJs editor
    * @param {DOMRect}      editorBounds - the editor node's boundingClientRect
-   * @param {String}       activeBlockKey  - the active ContentBlock key
+   * @param {String}       activeBlockKey - the active block key value set on mouseEnter
    *
    * @returns {object} - an object to be set as the sidebarHolderStyle state
    */
@@ -419,13 +419,11 @@ class Blocksmith extends React.Component {
       hoverBlockNode,
       isHoverInsertMode,
       isHoverInsertModeBottom,
-      readOnly,
+      readOnly
     } = this.state;
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
-
-    // debugger;
-
+    
     const isSidebarVisible = !!activeBlockKey && (isHoverInsertMode
       || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock)))
       || !editorState.getCurrentContent().hasText();
@@ -470,6 +468,7 @@ class Blocksmith extends React.Component {
    * @param {object}        coords      - mouse position coordinates
    */
   setHoverInsertMode(editorState, coords) {
+
     // eslint-disable-next-line max-len
     // fixme: this could take contentState only (if positionComponents takes contentState only, which it can)
     const { hoverBlockNode } = this.state;
@@ -487,6 +486,7 @@ class Blocksmith extends React.Component {
       }
       isHoverInsertModeBottom = false;
     }
+
     const blockKey = target.getAttribute('data-offset-key');
 
     const contentState = editorState.getCurrentContent();

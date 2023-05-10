@@ -6,8 +6,7 @@ import React from 'react';
 import { handleDragEnd, handleDragStart } from '../../utils';
 import selector from './selector';
 
-export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => {
-  return (
+export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...rest }) => (
   <PlaceholderErrorBoundary block={block}>
     {draggable && blockProps.isFirst && (
       <div
@@ -41,7 +40,7 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...r
       />
     )}
   </PlaceholderErrorBoundary>
-)};
+);
 
 ListBlockWrapper.propTypes = {
   block: PropTypes.instanceOf(ContentBlock).isRequired,
