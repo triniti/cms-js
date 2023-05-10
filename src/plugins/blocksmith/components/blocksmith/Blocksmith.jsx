@@ -239,11 +239,11 @@ class Blocksmith extends React.Component {
       },
       [blockTypes.ORDERED_LIST_ITEM]: {
         element: 'li',
-        wrapper: <ol className="list-block" />,
+        wrapper: <ol />,
       },
       [blockTypes.UNORDERED_LIST_ITEM]: {
         element: 'li',
-        wrapper: <ul className="list-block" />,
+        wrapper: <ul />,
       },
       [blockTypes.UNSTYLED]: {
         element: 'p',
@@ -409,17 +409,17 @@ class Blocksmith extends React.Component {
    * @param {DOMRect}      blockBounds  - the block node's boundingClientRect
    * @param {ContentState} contentState - a ContentState instance of a DraftJs editor
    * @param {DOMRect}      editorBounds - the editor node's boundingClientRect
-   * @param {String}       activeBlockKey - the active block key value set on mouseEnter
    *
    * @returns {object} - an object to be set as the sidebarHolderStyle state
    */
-  getSidebarHolderStyle(activeBlock,blockBounds, contentState, editorBounds, activeBlockKey) {
+  getSidebarHolderStyle(activeBlock,blockBounds, contentState, editorBounds) {
     const {
       editorState,
       hoverBlockNode,
       isHoverInsertMode,
       isHoverInsertModeBottom,
-      readOnly
+      readOnly,
+      activeBlockKey
     } = this.state;
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
