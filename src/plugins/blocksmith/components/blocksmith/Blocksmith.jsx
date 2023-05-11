@@ -1659,7 +1659,7 @@ class Blocksmith extends React.Component {
 
   /**
    * Sets activeBlockKey. Useful for forcefully setting activeBlockKey on 
-   * specific elements when mouse enters and leave.
+   * specific elements when mouse enters.
    *
    * @param {string} key - The key of the active block
    */
