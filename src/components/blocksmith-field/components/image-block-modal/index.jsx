@@ -1,4 +1,4 @@
-import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import isValidUrl from '@gdbots/pbj/utils/isValidUrl';
 import prependHttp from 'prepend-http';
 import React, { useState } from 'react';
@@ -10,24 +10,22 @@ import {
   ModalHeader,
 } from 'reactstrap';
 import { ScrollableContainer } from 'components';
-import changedDate from 'components/blocksmith-field/utils/changedDate';
-import changedTime from 'components/blocksmith-field/utils/changedTime';
 import CustomizeOptions from './CustomizeOptions';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const ImageBlockModal = ({
   image = null,
   block,
   isFreshBlock,
+  isOpen,
   onAddBlock,
-  node,
-  toggle
+  toggle,
 }) => {
   const [ aside, setAside ] = useState(block.get('aside'));
-  const [ aspectRatio, setAspectRatio ] = useState(block.get('aspect_ratio', AspectRatioEnum.AUTO));
+  const [ aspectRatio, setAspectRatio ] = useState(block.get('aspect_ratio', AspectRatio.AUTO));
   const [ caption, setCaption ] = useState(block.get('caption', ''));
   const [ hasCaption, setHasCaption ] = useState(block.has('caption'));
   const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
-  const [ isImageAssetPickerModalOpen, setIsImageAssetPickerModalOpen ] = useState(isFreshBlock);
   const [ isLink, setIsLink ] = useState(block.has('url'));
   const [ isNsfw, setIsNsfw ] = useState(block.get('is_nsfw'));
   const [ isValid, setIsValid ] = useState(true);
@@ -37,22 +35,32 @@ const ImageBlockModal = ({
   const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
   const [ url, setUrl ] = useState(block.get('url', ''));
   
+  const imageRef = `${block.get('node_ref')}`;
+
+  const handleUploadedImage = (nodes) => {
+    if (!nodes.length) {
+      return;
+    } 
+    
+    setSelectedImage(NodeRef.fromNode(nodes[0]));
+  }
+
   const setBlock = () => {
-    block.schema().createMessage()
+    block
       .set('aside', aside)
       .set('aspect_ratio', aspectRatio)
       .set('caption', hasCaption && caption ? caption : null)
       .set('is_nsfw', isNsfw)
       .set('launch_text', launchText || null)
-      .set('node_ref', selectedImage ? selectedImage.get('_id').toNodeRef() : null)
+      .set('node_ref', selectedImage ? NodeRef.fromString(`${selectedImage}`) : null)
       .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
 
-    if (setBlock.schema().hasMixin('triniti:common:mixin:themeable')) {
-      setBlock.set('theme', theme);
+    if (block.schema().hasMixin('triniti:common:mixin:themeable')) {
+      block.set('theme', theme);
     }
 
-    return setBlock;
+    return block;
   }
 
   const handleAddBlock = () => {
@@ -60,38 +68,8 @@ const ImageBlockModal = ({
     toggle();
   }
 
-  const handleChangeTheme = (selectedOption) => {
-    setTheme(selectedOption ? selectedOption.value : null);
-  }
-
-  const handleChangeAspectRatio = (option) => {
-    setAspectRatio(AspectRatioEnum.create(option.value));
-  }
-
-  const handleChangeLaunchText = ({ target: { value: launchText } }) => {
-    setLaunchText(launchText);
-  }
-
   const handleChangeCaption = ({ target: { value: caption } }) => {
     setCaption(caption);
-  }
-
-  const handleChangeCheckbox = ({ target: { id, checked } }) => {
-    // this.setState(({ isValid, url }) => ({
-    //   [id]: checked,
-    //   url: (id === 'isLink' && !checked) ? '' : url,
-    //   isValid: (id === 'isLink' && !checked) ? true : isValid,
-    // }));
-    setUrl((id === 'isLink' && !checked) ? '' : url);
-    setIsValid((id === 'isLink' && !checked) ? true : isValid);
-  }
-
-  const handleChangeDate = (date) => {
-    setUpdatedDate(changedDate(date)['updatedDate']);
-  }
-
-  const handleChangeTime = ({ target: { value: time } }) => {
-    setUpdatedDate(changedTime(time)['updatedDate']);
   }
 
   const handleChangeUrl = ({ target: { value: url } }) => {
@@ -105,26 +83,9 @@ const ImageBlockModal = ({
   }
 
   const handleEditBlock = () => {
-    onEditBlock(setBlock());
+    // onEditBlock(setBlock());
+    setBlock();
     toggle();
-  }
-
-  const handleSelectImage = (selectedImage) => {
-    setSelectedImage(selectedImage);
-  }
-
-  const handleToggleImageAssetPickerModal = () => {
-    this.setState(({ isImageAssetPickerModalOpen }) => ({
-      isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
-    }), () => {
-      const { isImageAssetPickerModalOpen, selectedImage } = this.state;
-      if (!isImageAssetPickerModalOpen) {
-        this.refocusModal();
-        if (!selectedImage) {
-          toggle();
-        }
-      }
-    });
   }
 
   /**
@@ -141,7 +102,6 @@ const ImageBlockModal = ({
       isOpen={isOpen}
       toggle={toggle}
       size="xxl"
-      keyboard={!isImageAssetPickerModalOpen}
     >
       <ModalHeader toggle={toggle}>
         <span className="nowrap">{`${isFreshBlock ? 'Add' : 'Update'} Image Block`}</span>
@@ -151,29 +111,31 @@ const ImageBlockModal = ({
           style={{ height: 'calc(100vh - 168px)' }}
         >
           <CustomizeOptions
+            block={block}
             aside={aside}
             aspectRatio={aspectRatio}
-            block={this.setBlock()}
             caption={caption}
             hasCaption={hasCaption}
             hasUpdatedDate={hasUpdatedDate}
-            isImageAssetPickerModalOpen={isImageAssetPickerModalOpen}
             isLink={isLink}
             isNsfw={isNsfw}
             isValid={isValid}
             launchText={launchText}
-            node={node}
-            onChangeAspectRatio={handleChangeAspectRatio}
-            onChangeCaption={handleChangeCaption}
-            onChangeCheckBox={handleChangeCheckbox}
-            onChangeDate={handleChangeDate}
-            onChangeLaunchText={handleChangeLaunchText}
-            onChangeTheme={handleChangeTheme}
-            onChangeTime={handleChangeTime}
+            imageRef={imageRef}
             onChangeUrl={handleChangeUrl}
             onClearImage={handleClearImage}
-            onSelectImage={handleSelectImage}
-            onToggleImageAssetPickerModal={handleToggleImageAssetPickerModal}
+            onUploadedImage={handleUploadedImage}
+            setCaption={setCaption}
+            setHasCaption={setHasCaption}
+            setHasUpdatedDate={setHasUpdatedDate}
+            setIsLink={setIsLink}
+            setIsNsfw={setIsNsfw}
+            setLaunchText={setLaunchText}
+            setSelectedImage={setSelectedImage}
+            setAside={setAside}
+            setAspectRatio={setAspectRatio}
+            setTheme={setTheme}
+            setUpdatedDate={setUpdatedDate}
             selectedImage={selectedImage}
             theme={theme}
             updatedDate={updatedDate}
@@ -182,7 +144,7 @@ const ImageBlockModal = ({
         </ScrollableContainer>
       </ModalBody>
       <ModalFooter>
-        <Button onClick={toggle} innerRef={(el) => { button = el; }}>Cancel</Button>
+        <Button onClick={toggle} innerRef={(el) => { /*button = el;*/ }}>Cancel</Button>
         <Button
           disabled={!isValid || !selectedImage}
           onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
