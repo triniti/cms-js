@@ -1579,8 +1579,7 @@ class Blocksmith extends React.Component {
       activeBlock,
       blockBounds,
       contentState,
-      editorBounds,
-      activeBlockKey
+      editorBounds
     );
 
     this.setState(() => ({
@@ -1658,6 +1657,12 @@ class Blocksmith extends React.Component {
     });
   }
 
+  /**
+   * Sets activeBlockKey. Useful for forcefully setting activeBlockKey on 
+   * specific elements when mouse enters and leave.
+   *
+   * @param {string} key - The key of the active block
+   */
   setActiveBlockKey(key) {
     this.setState(() => ({ activeBlockKey: key }));
   }
