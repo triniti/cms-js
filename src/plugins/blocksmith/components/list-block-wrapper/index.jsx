@@ -13,12 +13,14 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...r
         className="drag-area draggable-top"
         contentEditable={false}
         draggable
+        onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart(block.getKey())}
       />
     )}
     <span
       data-offset-key={offsetKey}
+      onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
       style={{ cursor: 'text' }}
     >
       <EditorBlock
@@ -32,6 +34,7 @@ export const ListBlockWrapper = ({ block, blockProps, draggable, offsetKey, ...r
         className="drag-area draggable-bottom"
         contentEditable={false}
         draggable
+        onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart(block.getKey())}
       />
@@ -45,6 +48,7 @@ ListBlockWrapper.propTypes = {
     isFirst: PropTypes.bool.isRequired,
     isLast: PropTypes.bool.isRequired,
     getReadOnly: PropTypes.func.isRequired,
+    setActiveBlockKey: PropTypes.func.isRequired,
   }).isRequired,
   draggable: PropTypes.bool,
   offsetKey: PropTypes.string.isRequired,

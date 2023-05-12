@@ -289,6 +289,7 @@ class Blocksmith extends React.Component {
     this.positionComponents = this.positionComponents.bind(this);
     this.removeActiveStyling = this.removeActiveStyling.bind(this);
     this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
+    this.setActiveBlockKey = this.setActiveBlockKey.bind(this);
     this.setHoverInsertMode = this.setHoverInsertMode.bind(this);
     this.styleActiveBlock = this.styleActiveBlock.bind(this);
     this.styleActiveBlockNode = this.styleActiveBlockNode.bind(this);
@@ -418,12 +419,16 @@ class Blocksmith extends React.Component {
       isHoverInsertMode,
       isHoverInsertModeBottom,
       readOnly,
+      activeBlockKey
     } = this.state;
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
-    const isSidebarVisible = isHoverInsertMode
+    
+    const isSidebarVisible = !!activeBlockKey && (
+      isHoverInsertMode
       || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock))
-      || !editorState.getCurrentContent().hasText();
+      || !editorState.getCurrentContent().hasText()
+    );
 
     sidebarHolderStyle.top = (blockBounds.top - editorBounds.top) + 6;
     if (isHoverInsertMode) {
@@ -482,6 +487,7 @@ class Blocksmith extends React.Component {
       }
       isHoverInsertModeBottom = false;
     }
+
     const blockKey = target.getAttribute('data-offset-key');
 
     const contentState = editorState.getCurrentContent();
@@ -540,6 +546,7 @@ class Blocksmith extends React.Component {
           editable: false,
           props: {
             getReadOnly: this.getReadOnly,
+            setActiveBlockKey: this.setActiveBlockKey,
           },
         };
       }
@@ -549,6 +556,7 @@ class Blocksmith extends React.Component {
           contentEditable: !readOnly,
           props: {
             getReadOnly: this.getReadOnly,
+            setActiveBlockKey: this.setActiveBlockKey,
           },
         };
       case blockTypes.ORDERED_LIST_ITEM:
@@ -560,6 +568,7 @@ class Blocksmith extends React.Component {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
             getReadOnly: this.getReadOnly,
+            setActiveBlockKey: this.setActiveBlockKey,
           },
         };
       default:
@@ -613,7 +622,9 @@ class Blocksmith extends React.Component {
     const contentState = editorState.getCurrentContent();
     let newContentState;
     let newBlockKey;
+
     const activeBlock = getBlockForKey(contentState, activeBlockKey);
+
     if (isBlockEmpty(activeBlock)) {
       // active block is empty - just replace it with new block
       newContentState = replaceBlockAtKey(
@@ -1146,7 +1157,7 @@ class Blocksmith extends React.Component {
    * Remove any styling associated with an "active" editor
    */
   handleMouseLeave() {
-    this.removeActiveStyling();
+    this.setState(() => ({ activeBlockKey: null }), this.removeActiveStyling);
   }
 
   /**
@@ -1156,7 +1167,7 @@ class Blocksmith extends React.Component {
    */
   handleMouseMove(e) {
     const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
-    if (readOnly || isSidebarOpen) {
+    if (readOnly || isSidebarOpen || null === activeBlockKey) {
       return;
     }
     const { pageX, pageY } = e;
@@ -1646,6 +1657,15 @@ class Blocksmith extends React.Component {
       // eslint-disable-next-line react/destructuring-assignment
       this.positionComponents(this.state.editorState, block.getKey());
     });
+  }
+
+  /**
+   * Sets the provided key as the activeBlockKey
+   *
+   * @param {string} key - a DraftJs block key
+   */
+  setActiveBlockKey(key) {
+    this.setState(() => ({ activeBlockKey: normalizeKey(key) }));
   }
 
   /**

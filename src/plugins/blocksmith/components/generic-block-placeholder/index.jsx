@@ -1,15 +1,15 @@
-import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
-import { connect } from 'react-redux';
-import { ContentBlock } from 'draft-js';
-import classNames from 'classnames';
-import get from 'lodash/get';
 import Message from '@gdbots/pbj/Message';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
+import { Badge, Icon, IconGroup } from '@triniti/admin-ui-plugin/components';
 import PlaceholderErrorBoundary from '@triniti/cms/plugins/blocksmith/components/placeholder-error-boundary';
+import classNames from 'classnames';
+import { ContentBlock } from 'draft-js';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImagePreview from './ImagePreview';
+import { connect } from 'react-redux';
 import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '../../utils';
+import ImagePreview from './ImagePreview';
 import selector from './selector';
 import './styles.scss';
 
@@ -80,6 +80,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
       block,
       showTitle,
       targetNode,
+      blockProps,
       ...rest
     } = this.props;
     const { imagePreviewSrc } = this.state;
@@ -98,6 +99,7 @@ class GenericBlockPlaceholder extends React.PureComponent {
     return (
       <PlaceholderErrorBoundary block={block}>
         <div
+          onMouseEnter={() => blockProps.setActiveBlockKey(block.getKey())}
           className={classNames({ draggable }, { 'block-preview': config.preview })}
           draggable={draggable}
           onDragStart={handleDragStart(block.getKey())}
