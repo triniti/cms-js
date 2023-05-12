@@ -76,8 +76,8 @@ import {
   addEmoji,
   areKeysSame,
   blockParentNode,
-  convertToEditorState,
   collapseSelection,
+  convertToEditorState,
   createLinkAtSelection,
   deleteBlock,
   deleteSelectedBlocks,
@@ -412,7 +412,7 @@ class Blocksmith extends React.Component {
    *
    * @returns {object} - an object to be set as the sidebarHolderStyle state
    */
-  getSidebarHolderStyle(activeBlock,blockBounds, contentState, editorBounds) {
+  getSidebarHolderStyle(activeBlock, blockBounds, contentState, editorBounds) {
     const {
       editorState,
       hoverBlockNode,
@@ -424,9 +424,11 @@ class Blocksmith extends React.Component {
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
     
-    const isSidebarVisible = !!activeBlockKey && (isHoverInsertMode
-      || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock)))
-      || !editorState.getCurrentContent().hasText();
+    const isSidebarVisible = !!activeBlockKey && (
+      isHoverInsertMode
+      || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock))
+      || !editorState.getCurrentContent().hasText()
+    );
 
     sidebarHolderStyle.top = (blockBounds.top - editorBounds.top) + 6;
     if (isHoverInsertMode) {
@@ -1410,7 +1412,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(function(block) { return ObjectSerializer.deserialize(block); });
+        .map(function (block) { return ObjectSerializer.deserialize(block); });
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
@@ -1579,7 +1581,7 @@ class Blocksmith extends React.Component {
       activeBlock,
       blockBounds,
       contentState,
-      editorBounds
+      editorBounds,
     );
 
     this.setState(() => ({
@@ -1658,13 +1660,12 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Sets activeBlockKey. Useful for forcefully setting activeBlockKey on 
-   * specific elements when mouse enters.
+   * Sets the provided key as the activeBlockKey
    *
-   * @param {string} key - The key of the active block
+   * @param {string} key - a DraftJs block key
    */
   setActiveBlockKey(key) {
-    this.setState(() => ({ activeBlockKey: key }));
+    this.setState(() => ({ activeBlockKey: normalizeKey(key) }));
   }
 
   /**
