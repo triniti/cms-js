@@ -1,39 +1,38 @@
 import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import isValidUrl from '@gdbots/pbj/utils/isValidUrl';
-import prependHttp from 'prepend-http';
 import React, { useState } from 'react';
 import {
-  Button,
-  Modal,
+  FormGroup,
   ModalBody,
-  ModalFooter,
-  ModalHeader,
+  UncontrolledTooltip
 } from 'reactstrap';
-import { ScrollableContainer } from 'components';
-import CustomizeOptions from './CustomizeOptions';
+import { Icon, TextField, ScrollableContainer, SelectField, SwitchField } from 'components';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import changedDate from '../../utils/changedDate';
+import changedTime from '../../utils/changedTime';
+import humanizeEnums from 'components/blocksmith-field/utils/humanizeEnums';
+import PicklistField from 'plugins/sys/components/picklist-field';
+import DateTimePicker from 'components/blocksmith-field/components/date-time-picker';
+
+const aspectRatioOptions = humanizeEnums(AspectRatio, {
+  format: 'map',
+  shouldStartCase: false,
+  except: [AspectRatio.UNKNOWN],
+}).map(({ label, value }) => ({
+  label,
+  value,
+}));
 
 const ImageBlockModal = ({
-  image = null,
   block,
-  isFreshBlock,
-  isOpen,
-  onAddBlock,
-  toggle,
+  form,
+  formState,
 }) => {
-  const [ aside, setAside ] = useState(block.get('aside'));
-  const [ aspectRatio, setAspectRatio ] = useState(block.get('aspect_ratio', AspectRatio.AUTO));
-  const [ caption, setCaption ] = useState(block.get('caption', ''));
   const [ hasCaption, setHasCaption ] = useState(block.has('caption'));
   const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
   const [ isLink, setIsLink ] = useState(block.has('url'));
-  const [ isNsfw, setIsNsfw ] = useState(block.get('is_nsfw'));
-  const [ isValid, setIsValid ] = useState(true);
-  const [ launchText, setLaunchText ] = useState(block.get('launch_text', null));
-  const [ selectedImage, setSelectedImage ] = useState(image || null);
-  const [ theme, setTheme ] = useState(block.get('theme', null));
   const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
-  const [ url, setUrl ] = useState(block.get('url', ''));
   
   const imageRef = `${block.get('node_ref')}`;
 
@@ -42,117 +41,135 @@ const ImageBlockModal = ({
       return;
     } 
     
-    setSelectedImage(NodeRef.fromNode(nodes[0]));
+    form.change('node_ref', NodeRef.fromNode(nodes[0]));
   }
 
-  const setBlock = () => {
-    block
-      .set('aside', aside)
-      .set('aspect_ratio', aspectRatio)
-      .set('caption', hasCaption && caption ? caption : null)
-      .set('is_nsfw', isNsfw)
-      .set('launch_text', launchText || null)
-      .set('node_ref', selectedImage ? NodeRef.fromString(`${selectedImage}`) : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
-      .set('url', (isLink && url && isValid) ? prependHttp(url, { https: true }) : null);
-
-    if (block.schema().hasMixin('triniti:common:mixin:themeable')) {
-      block.set('theme', theme);
+  const handleIsLinkToggle = (e) => {
+    if (e.target.checked) {
+      setIsLink(true);
+    } else {
+      form.change('url', '');
+      setIsLink(false);
     }
-
-    return block;
   }
 
-  const handleAddBlock = () => {
-    onAddBlock(setBlock());
-    toggle();
-  }
-
-  const handleChangeCaption = ({ target: { value: caption } }) => {
-    setCaption(caption);
-  }
-
-  const handleChangeUrl = ({ target: { value: url } }) => {
-    setUrl(url);
-    setIsValid(isValidUrl(prependHttp(url, { https: true })));
-  }
-
-  const handleClearImage = () => {
-    setSelectedImage(null);
-    refocusModal();
-  }
-
-  const handleEditBlock = () => {
-    // onEditBlock(setBlock());
-    setBlock();
-    toggle();
-  }
-
-  /**
-   * Needs to return the focus to an element else pressing "ESC" to close the modal won't work
-   */
-  const refocusModal = () => {
-    this.button.focus();
+  const handleCaptionToggle = (e) => {
+    if (e.target.checked) {
+      setHasCaption(true);
+    } else {
+      form.change('caption', '');
+      setHasCaption(false);
+    }
   }
 
   return (
-    <Modal
-      autoFocus={false}
-      centered
-      isOpen={isOpen}
-      toggle={toggle}
-      size="xxl"
-    >
-      <ModalHeader toggle={toggle}>
-        <span className="nowrap">{`${isFreshBlock ? 'Add' : 'Update'} Image Block`}</span>
-      </ModalHeader>
-      <ModalBody className="p-0 bg-gray-400">
-        <ScrollableContainer
-          style={{ height: 'calc(100vh - 168px)' }}
-        >
-          <CustomizeOptions
-            block={block}
-            aside={aside}
-            aspectRatio={aspectRatio}
-            caption={caption}
-            hasCaption={hasCaption}
-            hasUpdatedDate={hasUpdatedDate}
-            isLink={isLink}
-            isNsfw={isNsfw}
-            isValid={isValid}
-            launchText={launchText}
-            imageRef={imageRef}
-            onChangeUrl={handleChangeUrl}
-            onClearImage={handleClearImage}
-            onUploadedImage={handleUploadedImage}
-            setCaption={setCaption}
-            setHasCaption={setHasCaption}
-            setHasUpdatedDate={setHasUpdatedDate}
-            setIsLink={setIsLink}
-            setIsNsfw={setIsNsfw}
-            setLaunchText={setLaunchText}
-            setSelectedImage={setSelectedImage}
-            setAside={setAside}
-            setAspectRatio={setAspectRatio}
-            setTheme={setTheme}
-            setUpdatedDate={setUpdatedDate}
-            selectedImage={selectedImage}
-            theme={theme}
-            updatedDate={updatedDate}
-            url={url}
-          />
-        </ScrollableContainer>
-      </ModalBody>
-      <ModalFooter>
-        <Button onClick={toggle} innerRef={(el) => { /*button = el;*/ }}>Cancel</Button>
-        <Button
-          disabled={!isValid || !selectedImage}
-          onClick={isFreshBlock ? handleAddBlock : handleEditBlock}
-        >
-          {isFreshBlock ? 'Add' : 'Update'}
-        </Button>
-      </ModalFooter>
-    </Modal>
+  <div className="modal-scrollable">
+    <ModalBody className="p-0 bg-gray-400">
+      <ScrollableContainer
+        style={{ height: 'calc(100vh - 168px)' }}
+      >
+        <div className="modal-body-blocksmith">
+          <div style={{ maxWidth: '350px', margin: '0 auto' }}>
+            <ImagePickerField
+              label="Image"
+              name="node_ref"
+              nodeRef={imageRef}
+              setSelectedImage={(nodeRef) => form.change('node_ref', nodeRef)}
+              selectedImageRef={imageRef}
+              aspectRatio={formState?.values?.aspect_ratio}
+              caption={hasCaption ? formState?.values?.caption : null}
+              launchText={formState?.values?.launch_text}
+              onUploadedImageComplete={handleUploadedImage}
+              required
+              />
+
+            <SelectField
+              name="aspect_ratio"
+              label="Aspect Ratio"
+              options={aspectRatioOptions}
+              />
+
+            {block.schema().hasMixin('triniti:common:mixin:themeable')
+            && (
+              <PicklistField
+                name="theme"
+                label="Theme"
+                picklist="image-block-themes"
+              />
+            )}
+            <TextField
+              name="launch_text"
+              label="Launch Text"
+            />
+            <SwitchField
+              name="is_nsfw"
+              label="Is NSFW"
+              />
+            <FormGroup className="d-flex align-items-start mb-2">
+              <SwitchField
+                name="hasCaption"
+                label="Caption"
+                checked={hasCaption}
+                onChange={handleCaptionToggle}
+                />
+              {hasCaption && (
+                <TextField
+                  name="caption"
+                  placeholder="Enter a caption..."
+                  />
+              )}
+            </FormGroup>
+            <FormGroup className="d-flex align-items-start mb-2">
+              <SwitchField
+                name="isLink"
+                label="Is Link"
+                checked={isLink}
+                onChange={handleIsLinkToggle}
+                />
+              {isLink && (
+                <FormGroup className="mb-0">
+                  <TextField
+                    name="url"
+                    placeholder="https://example.com"
+                    />
+                </FormGroup>
+              )}
+            </FormGroup>
+            <FormGroup className="mb-4">
+              <SwitchField
+                name="hasUpdatedDate"
+                label="Is Update"
+                checked={hasUpdatedDate}
+                onChange={(e) => setHasUpdatedDate(e.target.checked)}
+                />
+              {hasUpdatedDate
+                && (
+                  <DateTimePicker
+                    onChangeDate={date => setUpdatedDate(changedDate(date).updatedDate)}
+                    onChangeTime={({ target: { value: time } }) => setUpdatedDate(changedTime(time).updatedDate)}
+                    updatedDate={updatedDate}
+                  />
+                )}
+            </FormGroup>
+            <div className="form-group d-flex align-items-center mb-0">
+              <SwitchField
+                name="aside"
+                label="Aside"
+                style={{display: 'flex', justifyContent: 'space-between'}}
+                />
+              <Icon imgSrc="info-outline" id="aside-tooltip" className="ms-1 align-self-start" />
+              <UncontrolledTooltip target="aside-tooltip" placement="right">Is only indirectly related to the main content.</UncontrolledTooltip>
+            </div>
+          </div>
+        </div>
+      </ScrollableContainer>
+    </ModalBody>
+  </div>
   );
 }
-export default ImageBlockModal;
+
+export default withBlockModal(ImageBlockModal, {
+  modalProps: {
+    size: 'xxl',
+  }
+});

@@ -33,6 +33,7 @@ export default function ImagePickerField(props) {
     selectedImageRef,
     onSelectImage,
     aspectRatio = null,
+    caption = null,
     launchText = null,
     onUploadedImageComplete: handleUploadedImageComplete = noop,
   } = props;
@@ -85,6 +86,9 @@ export default function ImagePickerField(props) {
             </CardImgOverlay>
             )}
           </Card>
+          {caption && (<p>
+            Caption: {caption}
+          </p>)}
           {(editMode && !readOnly) && (
             <>
               <CreateModalButton

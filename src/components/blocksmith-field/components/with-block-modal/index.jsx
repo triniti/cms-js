@@ -1,19 +1,20 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
-import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Form, Modal, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, FormErrors, withForm } from 'components';
 import useDelegate from 'components/blocksmith-field/components/with-block-modal/useDelegate';
 
-export default function withBlockModal(ModalBody) {
+export default function withBlockModal(ModalBody, blockModalConfig = {}) {
   return withForm(function BlockModal(props) {
     const delegate = useDelegate(props);
+    const { modalProps = {} } = blockModalConfig;
     const { formState, isFreshBlock, pbj } = props;
     const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
     const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
     const label = startCase(pbj.schema().getQName().getMessage());
 
     return (
-      <Modal isOpen backdrop="static">
+      <Modal isOpen backdrop="static" {...modalProps}>
         <ModalHeader toggle={props.toggle}>{`${isFreshBlock ? 'Add' : 'Update'} ${label}`}</ModalHeader>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={delegate.handleSubmit} autoComplete="off">
