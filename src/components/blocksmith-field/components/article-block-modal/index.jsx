@@ -3,8 +3,9 @@ import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import Footer from 'components/blocksmith-field/components/article-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/article-block-modal/Header';
-import CustomizeOptions from 'components/blocksmith-field/components/article-block-modal/CustomizeOptions';
 import SelectArticle from 'components/blocksmith-field/components/article-block-modal/SelectArticle';
+import { SwitchField, TextField } from 'components';
+import ImagePickerField from 'plugins/dam/components/image-picker-field';
 
 export default function ArticleBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
@@ -28,6 +29,12 @@ export default function ArticleBlockModal(props) {
       .set('image_ref', selectedImageRef);
   }
 
+  let nodeRef = null;
+  if (activeStep === 1) {
+    nodeRef = selectedArticleNodeRef ? selectedArticleNodeRef.toString() : NodeRef.fromNode(selectedArticleNode).toString();
+  }
+  
+
   return (
     <Modal
       autoFocus={false}
@@ -35,7 +42,6 @@ export default function ArticleBlockModal(props) {
       isOpen={isOpen}
       toggle={toggle}
       size="xxl"
-      // keyboard={!isImageAssetPickerModalOpen}
     >
       <Header
         activeStep={activeStep}
@@ -51,27 +57,45 @@ export default function ArticleBlockModal(props) {
             />
           )}
           {activeStep === 1 && (
-            <CustomizeOptions
-              aside={aside}
-              setAside={setAside}
-              ctaText={ctaText}
-              setCtaText={setCtaText}
-              linkText={linkText}
-              selectedArticleNode={selectedArticleNode}
-              selectedArticleNodeRef={selectedArticleNodeRef}
-              selectedImageRef={selectedImageRef}
-              setImageRef={setSelectedImageRef}
-              setLinkText={setLinkText}
-              showImage={showImage}
-              setShowImage={setShowImage}
-            />
+            <div className="container-lg p-5">
+              <ImagePickerField
+                label="Image"
+                name="image_ref"
+                nodeRef={nodeRef}
+                onSelectImage={setSelectedImageRef}
+                selectedImageRef={selectedImageRef}
+              />
+              <TextField
+                name="link_text"
+                label="Link Text"
+                value={linkText}
+                onChange={(e) => setLinkText(e.target.value)}
+              />
+              <SwitchField
+                name="show_image"
+                label="Show Image"
+                checked={showImage}
+                onChange={(e) => setShowImage(e.target.checked)}
+              />
+              <SwitchField
+                name="aside"
+                label="Aside"
+                checked={aside}
+                onChange={(e) => setAside(e.target.checked)}
+              />
+              <TextField
+                name="cta_text"
+                label="Call to action"
+                value={ctaText}
+                onChange={(e) => setCtaText(e.target.value)}
+              />
+            </div>
           )}
         </ModalBody>
       </div>
       <Footer
         activeStep={activeStep}
         node={node}
-        // onCloseUploader={this.handleCloseUploader}
         toggle={toggle}
         onDecrementStep={() => setActiveStep(activeStep - 1)}
         onIncrementStep={() => setActiveStep(activeStep + 1)}
