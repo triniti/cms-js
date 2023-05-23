@@ -1160,7 +1160,7 @@ class Blocksmith extends React.Component {
   handleMouseLeave() {
     const { modalComponent } = this.state
     
-    if(modalComponent){
+    if (modalComponent) {
       return
     }
 
