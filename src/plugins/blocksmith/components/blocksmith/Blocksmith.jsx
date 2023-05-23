@@ -374,8 +374,9 @@ class Blocksmith extends React.Component {
       editorState,
       isDirty,
     }), () => {
-      this.positionComponents(editorState, selectionState.getAnchorKey());
-      if (!selectionState.getHasFocus()) {
+      if (selectionState.getHasFocus()) {
+        this.positionComponents(editorState, selectionState.getAnchorKey());
+      } else {
         this.removeActiveStyling();
       }
       callback();
@@ -1157,6 +1158,12 @@ class Blocksmith extends React.Component {
    * Remove any styling associated with an "active" editor
    */
   handleMouseLeave() {
+    const { modalComponent } = this.state
+    
+    if(modalComponent){
+      return
+    }
+
     this.setState(() => ({ activeBlockKey: null }), this.removeActiveStyling);
   }
 
@@ -1170,6 +1177,7 @@ class Blocksmith extends React.Component {
     if (readOnly || isSidebarOpen || null === activeBlockKey) {
       return;
     }
+
     const { pageX, pageY } = e;
     let target = document.elementFromPoint(pageX, pageY);
 
@@ -1178,10 +1186,13 @@ class Blocksmith extends React.Component {
       this.positionComponents(editorState, activeBlockKey);
     } else {
       const isOverSidebar = sidebar.isSidebar(target);
+   
       this.setState(({ isHoverInsertMode }) => ({
+
+   
         // eslint-disable-next-line max-len
         // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
-        isHoverInsertMode: isHoverInsertMode && isOverSidebar,
+        isHoverInsertMode: isHoverInsertMode && isOverSidebar && !!activeBlockKey,
       }), () => {
         if (blockParentNode.contains(target)) {
           while (!blockParentNode.is(target.parentNode)) {
