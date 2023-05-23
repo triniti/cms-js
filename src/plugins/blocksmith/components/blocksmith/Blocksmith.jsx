@@ -1188,8 +1188,6 @@ class Blocksmith extends React.Component {
       const isOverSidebar = sidebar.isSidebar(target);
    
       this.setState(({ isHoverInsertMode }) => ({
-
-   
         // eslint-disable-next-line max-len
         // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
         isHoverInsertMode: isHoverInsertMode && isOverSidebar && !!activeBlockKey,
