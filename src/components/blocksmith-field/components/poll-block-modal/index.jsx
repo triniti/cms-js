@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { FormGroup, Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { SwitchField } from 'components';
+import { DatePickerField, SwitchField } from 'components';
 import Footer from 'components/blocksmith-field/components/poll-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/poll-block-modal/Header';
 import SelectPoll from 'components/blocksmith-field/components/poll-block-modal/SelectPoll';
-import DateTimePicker from 'components/blocksmith-field/components/date-time-picker';
 import PollBlockPreview from './PollBlockPreview';
 
 export default function PollBlockModal(props) {
@@ -16,7 +15,6 @@ export default function PollBlockModal(props) {
   const [ selectedPollNode, setSelectedPollNode ] = useState(null);
   const [ selectedPollNodeRef, setSelectedPollNodeRef ] = useState(block.get('node_ref', null));
   const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
-  const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
 
   const handleSelectPoll = (pollNode) => {
     setSelectedPollNode(pollNode);
@@ -63,10 +61,9 @@ export default function PollBlockModal(props) {
                   />
                 {hasUpdatedDate
                   && (
-                    <DateTimePicker
-                      onChangeDate={date => setUpdatedDate(changedDate(date).updatedDate)}
-                      onChangeTime={({ target: { value: time } }) => setUpdatedDate(changedTime(time).updatedDate)}
-                      updatedDate={updatedDate}
+                    <DatePickerField
+                      label="Updated date"
+                      name="updated_date"
                     />
                   )}
               </FormGroup>

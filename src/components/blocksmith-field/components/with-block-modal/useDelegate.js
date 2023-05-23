@@ -12,6 +12,9 @@ export default (props) => {
       if (path === 'aspect_ratio') {
         return pbj.set(path, AspectRatio.create(values[path]));
       }
+      if (path.endsWith('_date')) {
+        return pbj.set(path, new Date(values[path]));
+      }
       pbj.set(path, values[path]);
     });
 

@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import { FormGroup, ModalBody } from 'reactstrap';
-import { TextField, SwitchField, TextareaField } from 'components';
+import { DatePickerField, TextField, SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 import getTwitterTweetFields from 'components/blocksmith-field/components/twitter-tweet-block-modal/getTwitterTweetFields';
 import TwitterTweetPreview from 'components/blocksmith-field/components/twitter-tweet-block-modal/TwitterTweetPreview';
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
-import DateTimePicker from 'components/blocksmith-field/components/date-time-picker';
 
 
 function TwitterTweetEmbedBlockModal({ block, form, formState }) {
   const { valid } = formState;
   const [ url, setUrl ] = useState( block.has('tweet_id') && block.has('screen_name') ? `https://twitter.com/${block.get('screen_name')}/status/${block.get('tweet_id')}` : '');
   const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
-  const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
 
   const handleChangeTextarea = (event) => {
     const { screenName, tweetId } = getTwitterTweetFields(event.target.value);
@@ -47,12 +43,10 @@ function TwitterTweetEmbedBlockModal({ block, form, formState }) {
             />
           {hasUpdatedDate
             && (
-              <DateTimePicker
+              <DatePickerField
+                label="Updated date"
                 name="updated_date"
-                onChangeDate={date => setUpdatedDate(changedDate(date).updatedDate)}
-                onChangeTime={({ target: { value: time } }) => setUpdatedDate(changedTime(time).updatedDate)}
-                updatedDate={updatedDate}
-              />
+                />
             )}
         </FormGroup>
         <SwitchField name="aside" label="Aside" />
