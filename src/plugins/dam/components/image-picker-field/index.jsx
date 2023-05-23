@@ -78,7 +78,6 @@ export default function ImagePickerField(props) {
               src={damUrl(imageRef, damAspectRatio(aspectRatio), 'sm')}
               alt={imageRef.toString()}
               className="d-flex mb-0 mw-100"
-              aspectRatio={aspectRatio}
             />
             {launchText && (
             <CardImgOverlay>
