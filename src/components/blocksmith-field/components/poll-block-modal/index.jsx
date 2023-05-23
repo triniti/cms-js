@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
-import { Modal, ModalBody } from 'reactstrap';
+import { FormGroup, Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import CustomizeOptions from 'components/blocksmith-field/components/poll-block-modal/CustomizeOptions';
+import { SwitchField } from 'components';
 import Footer from 'components/blocksmith-field/components/poll-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/poll-block-modal/Header';
 import SelectPoll from 'components/blocksmith-field/components/poll-block-modal/SelectPoll';
+import DateTimePicker from 'components/blocksmith-field/components/date-time-picker';
+import PollBlockPreview from './PollBlockPreview';
 
 export default function PollBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
 
-  const [activeStep, setActiveStep] = useState(block.has('node_ref') ? 1 : 0);
-  const [aside, setAside] = useState(block.get('aside', false));
-  const [selectedPollNode, setSelectedPollNode] = useState(null);
-  const [selectedPollNodeRef, setSelectedPollNodeRef] = useState(block.get('node_ref', null));
+  const [ activeStep, setActiveStep ] = useState(block.has('node_ref') ? 1 : 0);
+  const [ aside, setAside] = useState(block.get('aside', false));
+  const [ selectedPollNode, setSelectedPollNode ] = useState(null);
+  const [ selectedPollNodeRef, setSelectedPollNodeRef ] = useState(block.get('node_ref', null));
+  const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
+  const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
+
+  const handleSelectPoll = (pollNode) => {
+    setSelectedPollNode(pollNode);
+    setSelectedPollNodeRef(NodeRef.fromNode(pollNode));
+    setActiveStep(1);
+  }
 
   const setBlock = () => {
     return block
@@ -27,7 +37,6 @@ export default function PollBlockModal(props) {
       isOpen={isOpen}
       toggle={toggle}
       size="xxl"
-      // keyboard={!isImageAssetPickerModalOpen}
     >
       <Header
         activeStep={activeStep}
@@ -39,23 +48,43 @@ export default function PollBlockModal(props) {
           {activeStep === 0 && (
             <SelectPoll
               selectedPollNode={selectedPollNode}
-              setSelectedPollNode={setSelectedPollNode}
+              setSelectedPollNode={handleSelectPoll}
             />
           )}
           {activeStep === 1 && (
-            <CustomizeOptions
-              aside={aside}
-              setAside={setAside}
-              selectedPollNode={selectedPollNode}
-              selectedPollNodeRef={selectedPollNodeRef}
-            />
+            <div className="container-lg py-5">
+              <PollBlockPreview nodeRef={`${selectedPollNodeRef}`} />
+              <FormGroup className="mb-4">
+                <SwitchField
+                  name="hasUpdatedDate"
+                  label="Is Update"
+                  checked={hasUpdatedDate}
+                  onChange={(e) => setHasUpdatedDate(e.target.checked)}
+                  />
+                {hasUpdatedDate
+                  && (
+                    <DateTimePicker
+                      onChangeDate={date => setUpdatedDate(changedDate(date).updatedDate)}
+                      onChangeTime={({ target: { value: time } }) => setUpdatedDate(changedTime(time).updatedDate)}
+                      updatedDate={updatedDate}
+                    />
+                  )}
+              </FormGroup>
+              <FormGroup className="mb-4">
+                <SwitchField
+                  name="aside"
+                  label="Aside"
+                  checked={aside}
+                  onChange={(e) => setAside(e.target.checked)}
+                />
+              </FormGroup>
+            </div>
           )}
         </ModalBody>
       </div>
       <Footer
         activeStep={activeStep}
         node={node}
-        // onCloseUploader={this.handleCloseUploader}
         toggle={toggle}
         onDecrementStep={() => setActiveStep(activeStep - 1)}
         onIncrementStep={() => setActiveStep(activeStep + 1)}
