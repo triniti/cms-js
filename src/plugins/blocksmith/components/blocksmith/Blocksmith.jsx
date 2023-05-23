@@ -1190,7 +1190,7 @@ class Blocksmith extends React.Component {
       this.setState(({ isHoverInsertMode }) => ({
         // eslint-disable-next-line max-len
         // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
-        isHoverInsertMode: isHoverInsertMode && isOverSidebar && !!activeBlockKey,
+        isHoverInsertMode: isHoverInsertMode && isOverSidebar,
       }), () => {
         if (blockParentNode.contains(target)) {
           while (!blockParentNode.is(target.parentNode)) {
