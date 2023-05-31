@@ -44,15 +44,12 @@ const SortableMultiValueLabel = sortableHandle((props) => <MultiValueLabel {...p
 const SortableSelect = SortableContainer(AsyncPaginate);
 
 function MultiSelectSort(props) {
-  const { setSelectedPollRefs } = props;
-  const [selected, setSelected] = React.useState([]);
-
-  const onChange = (selectedOptions) => setSelected(selectedOptions);
+  const [ selected, setSelected ] = useState(props.value);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     const newValue = arrayMove(selected, oldIndex, newIndex);
     setSelected(newValue);
-    setSelectedPollRefs(newValue.map((i) => i.value));
+    props.onChange(newValue);
   };
 
   return (
@@ -60,16 +57,14 @@ function MultiSelectSort(props) {
       {...props}
       useDragHandle
       // react-sortable-hoc props:
-      axis="xy"
+      axis="y"
       onSortEnd={onSortEnd}
       distance={4}
+
       // small fix for https://github.com/clauderic/react-sortable-hoc/pull/352:
       getHelperDimensions={({ node }) => node.getBoundingClientRect()}
       
       // react-select props:
-      isMulti
-      value={selected}
-      onChange={onChange}
       components={{
         MultiValue: SortableMultiValue,
         MultiValueLabel: SortableMultiValueLabel
@@ -120,7 +115,12 @@ export default function MultiSelectField(props) {
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
-      {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
+      {label &&
+        <Label htmlFor={name} className="position-relative">
+          {label}
+          {required && <Badge className="ms-1" color="light" pill>required</Badge>}
+          {sortable && <Badge className="ms-1 position-absolute end-0" color="light">sortable</Badge>}
+        </Label>}
       <Select
         {...input}
         {...rest}

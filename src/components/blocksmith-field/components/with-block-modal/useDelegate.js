@@ -1,6 +1,7 @@
 import React from 'react';
 import getRootFields from 'utils/getRootFields';
 import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 export default (props) => {
   const { delegate, form, formState, isFreshBlock, onAddBlock, onEditBlock, pbj } = props;
@@ -14,6 +15,10 @@ export default (props) => {
       }
       if (path.endsWith('_date')) {
         return pbj.set(path, new Date(values[path]));
+      }
+      if (path.endsWith('_refs') && values[path].length > 0) {
+        pbj.clear(path);
+        return pbj.addToList(path, values[path].map((nodeRef) => NodeRef.fromString(nodeRef)));
       }
       pbj.set(path, values[path]);
     });

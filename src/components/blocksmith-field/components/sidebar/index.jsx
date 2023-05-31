@@ -50,6 +50,7 @@ export default function Sidebar({
     'page-break-block',
     'pinterest-pin-block',
     'poll-block',
+    'poll-grid-block',
     'soundcloud-audio-block',
     'spotify-embed-block',
     'spotify-track-block',
