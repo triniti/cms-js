@@ -27,7 +27,7 @@ export default function DetailsTab(props) {
           <TextField name="launch_text" label="Launch Text" />
           <SelectField name="layout" label="Layout" />
           <SwitchField name="allow_comments" label="Allow Comments" />
-          <GalleryPickerField name="related_gallery_refs" label="Related Galleries" isMulti />
+          <GalleryPickerField name="related_gallery_refs" label="Related Galleries" isMulti sortable />
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
           )}

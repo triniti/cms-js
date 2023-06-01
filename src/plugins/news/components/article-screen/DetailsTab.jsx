@@ -49,7 +49,7 @@ export default function DetailsTab(props) {
         <CardBody>
           <SwitchField name="show_related_articles" label="Show Related Articles" />
           <TextField name="related_articles_heading" label="Related Articles Heading" />
-          <ArticlePickerField name="related_article_refs" label="Related Articles" isMulti />
+          <ArticlePickerField name="related_article_refs" label="Related Articles" isMulti sortable />
         </CardBody>
       </Card>
       {schema.hasMixin('triniti:curator:mixin:has-related-teasers') && (
