@@ -23,7 +23,7 @@ function InstagramMediaBlockModal() {
           required
         />
         <SwitchField name="hidecaption" label="Hide Caption" />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

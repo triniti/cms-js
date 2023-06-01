@@ -28,7 +28,7 @@ function SoundcloudAudioBlockModal() {
         <SwitchField name="visual" label="Visual Overlay" />
         <SwitchField name="hide_related" label="Hide Related" />
         <SwitchField name="show_comments" label="Show Comments" />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

@@ -37,6 +37,7 @@ export default function CustomizeOptions(props) {
         label="Aside"
         checked={aside}
         onChange={(e) => setAside(e.target.checked)}
+        tooltip="Is only indirectly related to the main content."
       />
     </div>
   );

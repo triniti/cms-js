@@ -151,15 +151,11 @@ const ImageBlockModal = ({
                   />
                 )}
             </FormGroup>
-            <div className="form-group d-flex align-items-center mb-0">
-              <SwitchField
-                name="aside"
-                label="Aside"
-                style={{display: 'flex', justifyContent: 'space-between'}}
-                />
-              <Icon imgSrc="info-outline" id="aside-tooltip" className="ms-1 align-self-start" />
-              <UncontrolledTooltip target="aside-tooltip" placement="right">Is only indirectly related to the main content.</UncontrolledTooltip>
-            </div>
+            <SwitchField
+              name="aside"
+              label="Aside"
+              tooltip="Is only indirectly related to the main content."
+              />
           </div>
         </div>
       </ScrollableContainer>

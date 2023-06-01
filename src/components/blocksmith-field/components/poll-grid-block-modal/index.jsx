@@ -4,8 +4,8 @@ import {
   FormGroup,
   ModalBody,
 } from 'reactstrap';
-import { CheckboxField, DatePickerField, SwitchField, UncontrolledTooltip } from 'components';
-import { Icon, ScrollableContainer } from 'components';
+import { DatePickerField, SwitchField } from 'components';
+import { ScrollableContainer } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 
 const PollGridBlockModal = ({ block }) => {
@@ -46,12 +46,11 @@ const PollGridBlockModal = ({ block }) => {
                         name="updated_date"
                         />
                     )}
-                  <CheckboxField
+                  <SwitchField
                     name="aside"
                     label="Aside"
+                    tooltip="Is only indirectly related to the main content."
                     />
-                  <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
-                  <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
                 </FormGroup>
               </FormGroup>
             </div>

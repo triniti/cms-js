@@ -11,7 +11,7 @@ function FacebookVideoBlockModal() {
         <SwitchField name="autoplay" label="Autoplay" />
         <SwitchField name="show_captions" label="Show Captions" />
         <SwitchField name="show_text" label="Show Text" />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

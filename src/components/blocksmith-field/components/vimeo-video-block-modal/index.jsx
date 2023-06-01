@@ -13,7 +13,7 @@ function VimeoVideoBlockModal() {
         <SwitchField name="show_byline" label="Show Byline in Overlay" />
         <SwitchField name="show_portrait" label="Show Portrait in Overlay" />
         <SwitchField name="show_title" label="Show Title in Overlay" />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

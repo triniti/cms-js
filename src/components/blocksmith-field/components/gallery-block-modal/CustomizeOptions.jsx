@@ -85,17 +85,13 @@ const CustomizeOptions = ({
         checked={hasUpdatedDate}
         onChange={(e) => setHasUpdatedDate(e.target.checked)}
         />
-      <div className="form-group d-flex align-items-center mb-0">
-        <SwitchField
-          name="aside"
-          label="Aside"
-          checked={aside}
-          onChange={(e) => setAside(e.target.checked)}
-          style={{display: 'flex', justifyContent: 'space-between'}}
-          />
-        <Icon imgSrc="info-outline" id="aside-tooltip" className="ms-1 align-self-start" />
-        <UncontrolledTooltip target="aside-tooltip" placement="right">Is only indirectly related to the main content.</UncontrolledTooltip>
-      </div>
+      <SwitchField
+        name="aside"
+        label="Aside"
+        checked={aside}
+        onChange={(e) => setAside(e.target.checked)}
+        tooltip="Is only indirectly related to the main content."
+        />
       <SwitchField
         name="start_at_poster"
         label="Start At Poster Image"

@@ -16,7 +16,7 @@ function YoutubePlaylistBlockModal() {
           required
         />
         {/* fixme: add image picker when it's ready */}
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

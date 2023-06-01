@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormText } from 'reactstrap';
+import { FormText, UncontrolledTooltip } from 'reactstrap';
 import classNames from 'classnames';
-import { useField, useFormContext } from 'components/index';
+import { Icon, useField, useFormContext } from 'components/index';
 
 export default function SwitchField(props) {
   const {
@@ -17,6 +17,8 @@ export default function SwitchField(props) {
     size,
     title,
     readOnly = false,
+    tooltip,
+    tooltipIconProps = {},
     ...rest
   } = props;
   const formContext = useFormContext();
@@ -61,6 +63,10 @@ export default function SwitchField(props) {
         <label className="text-label" htmlFor={domId}>{label}</label>
         {description && <FormText color="dark" style={{ flexBasis: '100%' }}>{description}</FormText>}
       </div>
+      {tooltip && <>
+        <Icon imgSrc="info-outline" id={`${name}-tooltip`} className="ms-1 align-self-start mb-2" {...tooltipIconProps} />
+        <UncontrolledTooltip target={`${name}-tooltip`} placement="right" className="mb-2">{tooltip}</UncontrolledTooltip>
+      </>}
     </div>
   );
 }

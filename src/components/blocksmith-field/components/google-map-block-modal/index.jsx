@@ -16,7 +16,7 @@ function GoogleMapBlockModal() {
         <SwitchField name="is_auto_zoom" label="Auto Zoom" />
         <NumberField name="zoom" label="Zoom" />
         <SelectField name="maptype" label="Map Type" options={mapTypeOptions} />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

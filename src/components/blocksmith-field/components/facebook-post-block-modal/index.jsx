@@ -9,7 +9,7 @@ function FacebookPostBlockModal() {
       <ModalBody>
         <TextareaField name="href" label="URL" placeholder="enter url or embed code" />
         <SwitchField name="show_text" label="Show Text" />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );

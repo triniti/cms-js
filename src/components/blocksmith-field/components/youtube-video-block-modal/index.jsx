@@ -12,7 +12,7 @@ function YoutubeVideoBlockModal() {
         <TextField name="start_at" label="Start At ( In Seconds )" value="0" />
         {/* fixme: add image picker when it's ready */}
         <SwitchField name="autoplay" label="Autoplay" />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>
   );
