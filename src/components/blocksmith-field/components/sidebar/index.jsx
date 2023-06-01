@@ -42,6 +42,7 @@ export default function Sidebar({
     'gallery-block',
     'heading-block',
     'iframe-block',
+    'image-block',
     'imgur-post-block',
     'instagram-media-block',
     'quote-block',

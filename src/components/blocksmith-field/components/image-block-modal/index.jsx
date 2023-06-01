@@ -34,7 +34,7 @@ const ImageBlockModal = ({
   const [ isLink, setIsLink ] = useState(block.has('url'));
   const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
   
-  const imageRef = `${block.get('node_ref')}`;
+  const imageRef = block.has('node_ref') ? `${block.get('node_ref')}` : null;
 
   const handleUploadedImage = (nodes) => {
     if (!nodes.length) {

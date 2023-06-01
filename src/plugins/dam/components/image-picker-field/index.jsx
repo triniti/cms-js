@@ -41,9 +41,15 @@ export default function ImagePickerField(props) {
   const { node } = useNode(nodeRef, false);
   const formContext = useFormContext();
   const { editMode } = formContext;
+
+  let initialValue = selectedImageRef;
+  if (!selectedImageRef && node) {
+    initialValue = node.get(name, null);
+  }
+
   const { input } = useField({
     ...props,
-    initialValue: selectedImageRef || node.get(name, null),
+    initialValue,
     format: v => (typeof v === 'string' && v.length) ? NodeRef.fromString(v) : v, // NodeRef required for value or empty string
   }, formContext);
   const imageRef = input.value;
