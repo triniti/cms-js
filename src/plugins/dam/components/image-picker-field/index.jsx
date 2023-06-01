@@ -2,13 +2,10 @@ import React, { lazy } from 'react';
 import classNames from 'classnames';
 import { Button, Label, Media, Card, CardImgOverlay, CardTitle } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { CreateModalButton, Icon } from 'components';
+import { CreateModalButton, Icon, useField, useFormContext } from 'components';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
-import { useField, useFormContext } from 'components';
 import noop from 'lodash-es/noop';
-
-// fixme: add uploader.
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
 
@@ -41,6 +38,7 @@ export default function ImagePickerField(props) {
   const { node } = useNode(nodeRef, false);
   const formContext = useFormContext();
   const { editMode } = formContext;
+  const nodeLabel = nodeRef ? NodeRef.fromString(nodeRef).getLabel() : null;
 
   let initialValue = selectedImageRef;
   if (!selectedImageRef && node) {
@@ -87,7 +85,10 @@ export default function ImagePickerField(props) {
             />
             {launchText && (
             <CardImgOverlay>
-              <CardTitle className="h5 mb-0 text-white">{launchText}</CardTitle>
+              <CardTitle className="h5 mb-0 text-white">
+                {launchText}
+                {nodeLabel === 'video' && <Icon imgSrc="video" alt="Video" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
+              </CardTitle>
             </CardImgOverlay>
             )}
           </Card>

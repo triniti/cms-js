@@ -33,7 +33,8 @@ export default function CustomizeOptions(props) {
         label="Poster Image"
         nodeRef={nodeRef}
         onSelectImage={setImageRef}
-        selectedImageRef={selectedImageRef}
+        selectedImageRef={selectedImageRef || `${selectedVideoNode.get('image_ref')}`}
+        launchText={launchText || selectedVideoNode.get('launch_text')}
       />
       <SwitchField
         name="autoplay"
