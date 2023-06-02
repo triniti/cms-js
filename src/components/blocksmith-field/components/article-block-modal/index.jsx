@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import Footer from 'components/blocksmith-field/components/article-block-modal/Footer';
@@ -6,10 +6,12 @@ import Header from 'components/blocksmith-field/components/article-block-modal/H
 import SelectArticle from 'components/blocksmith-field/components/article-block-modal/SelectArticle';
 import { SwitchField, TextField } from 'components';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import useNode from 'plugins/ncr/components/useNode';
 
 export default function ArticleBlockModal(props) {
-  const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
+  const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
 
+  const { node } = useNode(selectedArticleNodeRef, false);
   const [activeStep, setActiveStep] = useState(block.has('node_ref') ? 1 : 0);
   const [aside, setAside] = useState(block.get('aside', false));
   const [ctaText, setCtaText] = useState(block.get('cta_text', ''));
@@ -29,11 +31,30 @@ export default function ArticleBlockModal(props) {
       .set('image_ref', selectedImageRef);
   }
 
-  let nodeRef = null;
-  if (activeStep === 1) {
-    nodeRef = selectedArticleNodeRef ? selectedArticleNodeRef.toString() : NodeRef.fromNode(selectedArticleNode).toString();
+  useEffect(() => {
+    if (!node || selectedArticleNode) {
+      return;
+    }
+    setSelectedArticleNode(node);
+  }, [`${selectedArticleNodeRef}`]);
+
+  const handleSelectArticle = (node) => {
+    setSelectedArticleNode(node);
+    setSelectedArticleNodeRef(NodeRef.fromNode(node));
   }
-  
+
+  const handleUploadedImage = (nodes) => {
+    if (!nodes.length) {
+      return;
+    } 
+    
+    setSelectedImageRef(NodeRef.fromNode(nodes[0]));
+  }
+
+  let launchText = linkText;
+  if (!launchText && selectedArticleNode) {
+    launchText = selectedArticleNode.get('title');
+  }
 
   return (
     <Modal
@@ -53,7 +74,7 @@ export default function ArticleBlockModal(props) {
           {activeStep === 0 && (
             <SelectArticle
               selectedArticleNode={selectedArticleNode}
-              setSelectedArticleNode={setSelectedArticleNode}
+              setSelectedArticleNode={handleSelectArticle}
             />
           )}
           {activeStep === 1 && (
@@ -61,9 +82,11 @@ export default function ArticleBlockModal(props) {
               <ImagePickerField
                 label="Image"
                 name="image_ref"
-                nodeRef={nodeRef}
+                nodeRef={`${selectedArticleNodeRef}`}
                 onSelectImage={setSelectedImageRef}
                 selectedImageRef={selectedImageRef}
+                launchText={launchText}
+                onUploadedImageComplete={handleUploadedImage}
               />
               <TextField
                 name="link_text"
@@ -96,7 +119,6 @@ export default function ArticleBlockModal(props) {
       </div>
       <Footer
         activeStep={activeStep}
-        node={node}
         toggle={toggle}
         onDecrementStep={() => setActiveStep(activeStep - 1)}
         onIncrementStep={() => setActiveStep(activeStep + 1)}

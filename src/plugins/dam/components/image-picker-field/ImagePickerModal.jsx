@@ -107,8 +107,8 @@ export default function ImagePickerModal({
         </TabContent>
       </ModalBody>
       <ModalFooter>
-      <div class="d-flex justify-content-between container-fluid">
-        <div class="me-auto p-2">
+      <div className="d-flex justify-content-between container-fluid">
+        <div className="me-auto p-2">
           <UploaderButton
             linkedRefs={nodeRef ? [NodeRef.fromString(nodeRef)] : []}
             allowMultiUpload={false}
@@ -117,7 +117,7 @@ export default function ImagePickerModal({
             Upload
           </UploaderButton>
         </div>
-        <div class="p-2">
+        <div className="p-2">
           <ActionButton
             text="Cancel"
             onClick={toggle}

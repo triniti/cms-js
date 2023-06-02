@@ -88,6 +88,7 @@ export default function ImagePickerField(props) {
               <CardTitle className="h5 mb-0 text-white">
                 {launchText}
                 {nodeLabel === 'video' && <Icon imgSrc="video" alt="Video" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
+                {nodeLabel === 'article' && <Icon imgSrc="book-open" alt="Article" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
               </CardTitle>
             </CardImgOverlay>
             )}
