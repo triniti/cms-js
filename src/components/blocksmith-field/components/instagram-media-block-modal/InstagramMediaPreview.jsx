@@ -11,9 +11,10 @@ const loadInstagramSDK = (embedParentRef) => {
 }
 
 export default function InstagramMediaBlockPreview({ formState }) {
+  
   const { hidecaption, id } = formState.values;
-
   const embedParentRef = useRef();
+
   useEffect(() => {
     loadInstagramSDK(embedParentRef);
     embed();
