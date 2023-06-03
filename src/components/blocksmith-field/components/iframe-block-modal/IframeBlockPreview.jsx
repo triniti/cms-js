@@ -1,9 +1,11 @@
 import React from 'react';
 
-export default function IframeBlockPreview({ block }) {
+export default function IframeBlockPreview(props) {
+  const { formState } = props;
+  const { height, width, align, src } = formState.values;
   const divStyle = {};
   const iframeStyle = {};
-  if (!block.has('height') && !block.has('width')) {
+  if (!height && !width) {
     divStyle.position = 'relative';
     divStyle.paddingTop = '56.25%';
     iframeStyle.position = 'absolute';
@@ -12,17 +14,17 @@ export default function IframeBlockPreview({ block }) {
     iframeStyle.width = '100%';
     iframeStyle.height = '100%';
   } else {
-    iframeStyle.width = block.get('width');
-    iframeStyle.height = block.get('height');
+    iframeStyle.width = width;
+    iframeStyle.height = height;
   }
 
   return (
-    <div style={divStyle}>
+    <div style={divStyle} className="mb-4">
       <iframe
-        align={block.get('align') || 'center'}
+        align={align || 'center'}
         allowFullScreen
         frameBorder="0"
-        src={block.get('src')}
+        src={src}
         title="iframe-block-preview"
         style={iframeStyle}
       />

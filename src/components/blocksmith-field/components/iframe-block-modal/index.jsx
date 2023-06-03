@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ModalBody } from 'reactstrap';
 import { SelectField, SwitchField, TextareaField, TextField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import IframeBlockPreview from './IframeBlockPreview';
 
 const alignOptions = [
   { label: 'left', value: 'left' },
@@ -10,7 +11,8 @@ const alignOptions = [
 ];
 
 function IframeBlockModal(props) {
-  const { block, form } = props;
+  const { block, form, formState } = props;
+  const { valid } = formState;
   const [hasManualDimensions, setHasManualDimensions] = useState(block.has('height') || block.has('width'));
 
   const handleDimensionsCheckbox = (checked) => {
@@ -33,6 +35,7 @@ function IframeBlockModal(props) {
     <div className="modal-scrollable">
       <ModalBody>
         <TextareaField name="src" label="iFrame Source URL" placeholder="Enter iframe source or embed code" error="iFrame source or embed code is invalid" />
+        {valid && <IframeBlockPreview {...props} />}
         <SelectField name="align" label="Align" options={alignOptions} />
         <SwitchField
           name="has_manual_dimensions"
