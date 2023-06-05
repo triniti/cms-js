@@ -32,6 +32,7 @@ export default function ImagePickerField(props) {
     aspectRatio = null,
     caption = null,
     launchText = null,
+    previewImage = true,
     onUploadedImageComplete: handleUploadedImageComplete = noop,
   } = props;
 
@@ -69,30 +70,34 @@ export default function ImagePickerField(props) {
 
   return (
     <div className={rootClassName} id={`form-group-${name}`}>
-      <Label htmlFor={name} className="d-inline-block w-auto">{label}</Label>
+      {label && <Label htmlFor={name} className="d-inline-block w-auto">{label}</Label>}
       {imageRef && (
         <>
-          <a href={damUrl(imageRef)} target="_blank" rel="noopener noreferrer">
-            <div className="btn btn-hover btn-sm mb-1">
-              <Icon imgSrc="external" alt="open" />
-            </div>
-          </a>
-          <Card>
-            <Media
-              src={damUrl(imageRef, damAspectRatio(aspectRatio), 'sm')}
-              alt={imageRef.toString()}
-              className="d-flex mb-0 mw-100"
-            />
-            {launchText && (
-            <CardImgOverlay>
-              <CardTitle className="h5 mb-0 text-white">
-                {launchText}
-                {nodeLabel === 'video' && <Icon imgSrc="video" alt="Video" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
-                {nodeLabel === 'article' && <Icon imgSrc="book-open" alt="Article" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
-              </CardTitle>
-            </CardImgOverlay>
-            )}
-          </Card>
+          {previewImage && (
+            <>
+              <a href={damUrl(imageRef)} target="_blank" rel="noopener noreferrer">
+                <div className="btn btn-hover btn-sm mb-1">
+                  <Icon imgSrc="external" alt="open" />
+                </div>
+              </a>
+              <Card>
+                <Media
+                  src={damUrl(imageRef, damAspectRatio(aspectRatio), 'sm')}
+                  alt={imageRef.toString()}
+                  className="d-flex mb-0 mw-100"
+                />
+                {launchText && (
+                <CardImgOverlay>
+                  <CardTitle className="h5 mb-0 text-white">
+                    {launchText}
+                    {nodeLabel === 'video' && <Icon imgSrc="video" alt="Video" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
+                    {nodeLabel === 'article' && <Icon imgSrc="book-open" alt="Article" className="icon-alert icon-alert-xs m-1 position-absolute end-0 top-0" style={{ display: 'block' }} />}
+                  </CardTitle>
+                </CardImgOverlay>
+                )}
+              </Card>
+            </>
+          )}
           {caption && (<p>
             Caption: {caption}
           </p>)}

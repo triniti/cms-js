@@ -2,8 +2,7 @@ import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import React, { useState } from 'react';
 import {
   FormGroup,
-  ModalBody,
-  UncontrolledTooltip
+  ModalBody
 } from 'reactstrap';
 import { Icon, TextField, ScrollableContainer, SelectField, SwitchField } from 'components';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';

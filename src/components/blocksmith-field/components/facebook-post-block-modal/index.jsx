@@ -3,7 +3,8 @@ import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
 import isValidUrl from '@gdbots/pbj/utils/isValidUrl';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import FacebookPostBlockPreview from 'components/blocksmith-field/components/facebook-post-block-modal/FacebookPostPreview';
+import Preview from 'components/blocksmith-field/components/facebook-post-block-modal/Preview';
+import MoreInfo from 'components/blocksmith-field/components/more-info';
 
 // supports list of valid Post Urls - https://developers.facebook.com/docs/plugins/oembed
 const getFacebookPostUrl = (str) => {
@@ -28,7 +29,10 @@ function FacebookPostBlockModal(props) {
         <TextareaField name="href" label="URL" placeholder="enter url or embed code" parse={getFacebookPostUrl} />
         <SwitchField name="show_text" label="Show Text" />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
-        {valid && <FacebookPostBlockPreview {...props} width="526" />}
+        {valid && <Preview {...props} />}
+        <MoreInfo>
+          See the <a href="https://developers.facebook.com/docs/plugins/embedded-posts/" target="_blank">Facebook embed post docs.</a>
+        </MoreInfo>
       </ModalBody>
     </div>
   );

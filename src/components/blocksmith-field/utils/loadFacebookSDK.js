@@ -1,6 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-
-const loadFacebookSDK = () => {
+export default function loadFacebookSDK() {
   if (!document.getElementById('fb-root')) {
     const body = document.body.firstChild;
     const fbRoot = document.createElement('div');
@@ -18,29 +16,3 @@ const loadFacebookSDK = () => {
   }(document, 'script', 'facebook-jssdk'));
   /* eslint-enable */
 };
-
-export default function FacebookPostBlockPreview ({ formState }) {
-  
-  const { href, show_text: showText, width } = formState.values;
-  const fbPost = useRef();
-
-  useEffect(() => {
-    loadFacebookSDK();
-  }, [href]);
-
-  setTimeout(() => {
-    if (window.FB) {
-      window.FB.XFBML.parse(fbPost.current.parentNode);
-    }
-  }, 0);
-
-  return (
-    <div
-      className="fb-post"
-      data-href={href}
-      data-show-text={showText || true}
-      data-width={width}
-      ref={fbPost}
-    />
-  );
-}

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { BackgroundImage, Media } from 'reactstrap';
+import { Media } from 'reactstrap';
+import { BackgroundImage } from 'components';
 import damUrl from 'dam/utils/damUrl';
 // import delegate from './delegate';
 // import selector from './selector';
