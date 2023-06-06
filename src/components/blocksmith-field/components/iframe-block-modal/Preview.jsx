@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function IframeBlockPreview(props) {
+export default function Preview(props) {
   const { formState } = props;
   const { height, width, align, src } = formState.values;
   const divStyle = {};
