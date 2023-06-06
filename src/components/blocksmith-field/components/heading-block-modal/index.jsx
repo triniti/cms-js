@@ -2,7 +2,7 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { TextareaField, SelectField, UrlField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import HeadingBlockPreview from 'components/blocksmith-field/components/heading-block-modal/HeadingBlockPreview';
+import Preview from 'components/blocksmith-field/components/heading-block-modal/Preview';
 
 const sizeOptions = [
   { label: 'h1', value: 1 },
@@ -20,7 +20,7 @@ function HeadingBlockModal(props) {
         <TextareaField name="text" label="Text"/>
         <SelectField name="size" label="Size" options={sizeOptions} ignoreUnknownOptions required />
         <UrlField name="url" label="URL" />
-        <HeadingBlockPreview {...props} />
+        <Preview {...props} />
       </ModalBody>
     </div>
   );

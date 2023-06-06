@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default function HeadingBlockPreview(/*{ className, block }*/ props) {
+export default function Preview(/*{ className, block }*/ props) {
   const { formState } = props;
   const { size, text, url } = formState.values;
   const CustomTag = `h${size || 1}`;
