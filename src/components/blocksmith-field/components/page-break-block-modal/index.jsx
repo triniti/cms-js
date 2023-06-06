@@ -7,7 +7,7 @@ function PageBreakBlockModal() {
   return (
     <div className="modal-scrollable">
       <ModalBody>
-        <TextField name="text" label="Read More Text" placeholder="Enter the read more text here" />
+        <TextField name="read_more_text" label="Read More Text" placeholder="Enter the read more text here" />
       </ModalBody>
     </div>
   );

@@ -26,13 +26,11 @@ const GalleryBlockModal = ({
   const [ activeStep, setActiveStep ] = useState(0);
   const [ aside, setAside ] = useState(block.get('aside'));
   const [ aspectRatio, setAspectRatio ] = useState(block.get('aspect_ratio', AspectRatioEnum.AUTO));
-  const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
   const [ launchText, setLaunchText ] = useState(block.get('launch_text', ''));
   const [ selectedGallery, setSelectedGallery ] = useState(gallery || null);
   const [ selectedImageRef, setSelectedImageRef ] = useState(image || null);
   const [ startsAtPoster, setStartsAtPoster ] = useState(block.get('start_at_poster'));
   const [ title, setTitle ] = useState(block.get('title', ''));
-  const [ updatedDate, setUpdatedDate ] = useState(block.get('updated_date', new Date()));
 
   const setBlock = () => {
     return block
@@ -43,7 +41,6 @@ const GalleryBlockModal = ({
       .set('poster_image_ref', selectedImageRef ? selectedImageRef : null)
       .set('start_at_poster', startsAtPoster)
       .set('title', title || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   const handleAddBlock = () => {
@@ -97,21 +94,17 @@ const GalleryBlockModal = ({
             <CustomizeOptions
               aside={aside}
               aspectRatio={aspectRatio}
-              hasUpdatedDate={hasUpdatedDate}
               launchText={launchText}
               setLaunchText={setLaunchText}
               onChangeStartAtPoster={handleChangeStartAtPoster}
               onClearImage={() => setSelectedImageRef(null)}
               onSelectImage={setSelectedImageRef}
-              setUpdatedDate={setUpdatedDate}
               setAspectRatio={setAspectRatio}
               selectedGallery={selectedGallery}
               selectedImageRef={selectedImageRef}
               startsAtPoster={startsAtPoster}
               title={title}
               setTitle={setTitle}
-              updatedDate={updatedDate}
-              setHasUpdatedDate={setHasUpdatedDate}
               setAside={setAside}
             />
           )}

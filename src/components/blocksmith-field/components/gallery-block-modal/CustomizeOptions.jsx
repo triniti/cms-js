@@ -1,15 +1,11 @@
 import React from 'react';
-import DateTimePicker from 'components/blocksmith-field/components/date-time-picker';
 import humanizeEnums from 'components/blocksmith-field/utils/humanizeEnums';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import UncontrolledTooltip from 'components/uncontrolled-tooltip';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import ReactSelect from 'react-select';
 import { Label } from 'reactstrap';
 import { SwitchField, Icon, TextField } from 'components';
 import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 const aspectRatioOptions = humanizeEnums(AspectRatio, {
   format: 'map',
@@ -23,20 +19,16 @@ const aspectRatioOptions = humanizeEnums(AspectRatio, {
 const CustomizeOptions = ({
   aside,
   aspectRatio,
-  hasUpdatedDate,
   launchText,
   setLaunchText,
   onChangeStartAtPoster: handleChangeStartAtPoster,
   onSelectImage: handleSelectImage,
-  setUpdatedDate,
   setAspectRatio,
   selectedGallery,
   selectedImageRef = null,
   startsAtPoster,
   title,
   setTitle,
-  updatedDate,
-  setHasUpdatedDate,
   setAside,
 }) => {
   const nodeRef = `${NodeRef.fromNode(selectedGallery)}`;
@@ -80,12 +72,6 @@ const CustomizeOptions = ({
         onChange={(e) => setLaunchText(e.target.value)}
       />
       <SwitchField
-        name="hasUpdatedDate"
-        label="Is Update"
-        checked={hasUpdatedDate}
-        onChange={(e) => setHasUpdatedDate(e.target.checked)}
-        />
-      <SwitchField
         name="aside"
         label="Aside"
         checked={aside}
@@ -104,14 +90,6 @@ const CustomizeOptions = ({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      {hasUpdatedDate
-      && (
-        <DateTimePicker
-          onChangeDate={date => setUpdatedDate(changedDate(date).updatedDate)}
-          onChangeTime={({ target: { value: time } }) => setUpdatedDate(changedTime(time).updatedDate)}
-          updatedDate={updatedDate}
-        />
-      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormGroup, Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { DatePickerField, SwitchField } from 'components';
+import { SwitchField } from 'components';
 import Footer from 'components/blocksmith-field/components/poll-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/poll-block-modal/Header';
 import SelectPoll from 'components/blocksmith-field/components/poll-block-modal/SelectPoll';
@@ -14,7 +14,6 @@ export default function PollBlockModal(props) {
   const [ aside, setAside] = useState(block.get('aside', false));
   const [ selectedPollNode, setSelectedPollNode ] = useState(null);
   const [ selectedPollNodeRef, setSelectedPollNodeRef ] = useState(block.get('node_ref', null));
-  const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
 
   const handleSelectPoll = (pollNode) => {
     setSelectedPollNode(pollNode);
@@ -52,21 +51,6 @@ export default function PollBlockModal(props) {
           {activeStep === 1 && (
             <div className="container-lg py-5">
               <PollBlockPreview nodeRef={`${selectedPollNodeRef}`} />
-              <FormGroup className="mb-4">
-                <SwitchField
-                  name="hasUpdatedDate"
-                  label="Is Update"
-                  checked={hasUpdatedDate}
-                  onChange={(e) => setHasUpdatedDate(e.target.checked)}
-                  />
-                {hasUpdatedDate
-                  && (
-                    <DatePickerField
-                      label="Updated date"
-                      name="updated_date"
-                    />
-                  )}
-              </FormGroup>
               <FormGroup className="mb-4">
                 <SwitchField
                   name="aside"

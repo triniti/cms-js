@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PollPickerField from 'plugins/apollo/components/poll-picker-field';
 import {
   FormGroup,
   ModalBody,
 } from 'reactstrap';
-import { DatePickerField, SwitchField } from 'components';
+import { SwitchField } from 'components';
 import { ScrollableContainer } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 
 const PollGridBlockModal = ({ block }) => {
-
-  const [ hasUpdatedDate, setHasUpdatedDate ] = useState(block.has('updated_date'));
 
   return (
       <ModalBody className="p-0">
@@ -33,19 +31,6 @@ const PollGridBlockModal = ({ block }) => {
               </FormGroup>
               <FormGroup inline className="d-flex form-group-mobile px-3 mb-2">
                 <FormGroup className="mr-4">
-                  <SwitchField
-                    name="hasUpdatedDate"
-                    label="Is Update"
-                    checked={hasUpdatedDate}
-                    onChange={(e) => setHasUpdatedDate(e.target.checked)}
-                    />
-                    {hasUpdatedDate
-                    && (
-                      <DatePickerField
-                        label="Updated Date"
-                        name="updated_date"
-                        />
-                    )}
                   <SwitchField
                     name="aside"
                     label="Aside"
