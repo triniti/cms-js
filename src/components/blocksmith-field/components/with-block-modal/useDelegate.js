@@ -20,6 +20,10 @@ export default (props) => {
         pbj.clear(path);
         return pbj.addToList(path, values[path].map((nodeRef) => NodeRef.fromString(nodeRef)));
       }
+      if (pbj.schema().getField(path).getType().getTypeValue() === 'tiny-int') {
+        pbj.set(path, parseInt(values[path]));
+        return;
+      }
       pbj.set(path, values[path]);
     });
 
