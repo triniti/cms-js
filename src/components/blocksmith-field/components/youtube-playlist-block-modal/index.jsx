@@ -1,10 +1,16 @@
-import React from 'react';
-import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import React from "react";
+import { ModalBody } from "reactstrap";
+import { SwitchField, TextareaField } from "components";
+import withBlockModal from "components/blocksmith-field/components/with-block-modal";
 import getYoutubePlaylistId from "components/blocksmith-field/components/youtube-playlist-block-modal/getYoutubePlaylistId";
+import Preview from "./Preview";
+import ImagePickerField from 'plugins/dam/components/image-picker-field';
 
-function YoutubePlaylistBlockModal() {
+function YoutubePlaylistBlockModal(props) {
+  const { formState } = props;
+  const { valid } = formState;
+  const { playlist_id: playlistId, } = formState.values;
+
   return (
     <div className="modal-scrollable">
       <ModalBody>
@@ -15,7 +21,9 @@ function YoutubePlaylistBlockModal() {
           parse={getYoutubePlaylistId}
           required
         />
-        {/* fixme: add image picker when it's ready */}
+        {valid && (<Preview {...props} />)}
+        {playlistId && <ImagePickerField name="poster_image_ref" previewImage={false} />}
+        <SwitchField name="autoplay" label="Autoplay" />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
     </div>

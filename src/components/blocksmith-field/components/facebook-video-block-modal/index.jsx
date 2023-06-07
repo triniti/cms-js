@@ -15,7 +15,6 @@ const FB_VIDEO_SHOW_TEXT_QUERY_STRING_REGEX = new RegExp('show_text=.');
 // maybe they follow the same pattern, i dunno.
 
 function FacebookVideoBlockModal(props) {
-  window.props = props;
   const { form, formState } = props;
   const { valid } = formState;
 
