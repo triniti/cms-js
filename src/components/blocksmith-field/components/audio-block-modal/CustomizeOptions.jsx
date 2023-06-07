@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactPlayer from 'react-player';
 import { SwitchField, TextField } from 'components';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import NodeRef from "@gdbots/pbj/well-known/NodeRef";
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import damUrl from 'plugins/dam/damUrl';
 
 export default function CustomizeOptions(props) {
   const {
@@ -20,10 +22,19 @@ export default function CustomizeOptions(props) {
 
   return (
     <div className="container-lg p-5">
+      <ReactPlayer
+        className="react-player"
+        controls
+        height="calc(4em + 2px)"
+        url={`${damUrl(selectedAudioNode)}`}
+        width="100%"
+      />
       <ImagePickerField
         label="Image"
+        name="node_ref"
         nodeRef={nodeRef}
         onSelectImage={setImageRef}
+        launchText={launchText}
         selectedImageRef={selectedImageRef}
       />
       <TextField
