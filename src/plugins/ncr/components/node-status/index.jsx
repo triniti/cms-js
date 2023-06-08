@@ -22,7 +22,7 @@ const NodeStatus = ({ node, updatedAgo, user }) => (
             {convertReadableTime(node.get('published_at'))}
           </ListGroupItem>
         )}
-        <ListGroupItem data-updated-at>
+        <ListGroupItem>
           <strong>Updated At: </strong>
           {convertReadableTime(node.get('updated_at', node.get('created_at')))}
           <br />
