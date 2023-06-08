@@ -46,7 +46,7 @@ function FacebookVideoBlockModal(props) {
       <ModalBody>
         <TextareaField name="href" label="URL" placeholder="enter url or embed code" parse={handleHref} />
         {valid && (<Preview {...props} width="526" />)}
-        <ImagePickerField name="poster_image_ref" previewImage={false} width={526} />
+        <ImagePickerField name="poster_image_ref" previewImage={false} />
         <SwitchField name="autoplay" label="Autoplay" />
         <SwitchField name="show_captions" label="Show Captions" />
         <SwitchField name="show_text" label="Show Text" />

@@ -28,6 +28,7 @@
     "filesize": "^10.0.6",
     "final-form": "^4.20.4",
     "final-form-arrays": "^3.0.2",
+    "he": "^1.2.0",
     "history": "^5.0.0",
     "immutable": "^3.8.2",
     "jwt-decode": "^3.1.2",
