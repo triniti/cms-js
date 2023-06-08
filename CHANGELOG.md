@@ -2,7 +2,7 @@
 
 
 ## v0.18.8
-* Added selector to hide updated date 
+* Added selector to hide date picker field
 
 
 ## v0.18.7
