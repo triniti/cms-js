@@ -3,8 +3,11 @@ import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 import getTikTokId from 'components/blocksmith-field/components/tiktok-embed-block-modal/getTikTokId';
+import Preview from './Preview';
 
-function TiktokEmbedBlockModal() {
+function TiktokEmbedBlockModal(props) {
+  const { formState } = props;
+  const { valid } = formState;
   return (
     <div className="modal-scrollable">
       <ModalBody>
@@ -16,6 +19,7 @@ function TiktokEmbedBlockModal() {
           required
         />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
+        { valid && <Preview {...props} /> }
       </ModalBody>
     </div>
   );
