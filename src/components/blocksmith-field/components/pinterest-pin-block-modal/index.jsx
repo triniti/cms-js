@@ -3,6 +3,7 @@ import { ModalBody } from 'reactstrap';
 import { SelectField, SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 import getPinterestPinUrl from 'components/blocksmith-field/components/pinterest-pin-block-modal/getPinterestPinUrl';
+import Preview from './Preview';
 
 const sizeOptions = [
   { label: 'small', value: 'small' },
@@ -10,7 +11,10 @@ const sizeOptions = [
   { label: 'large', value: 'large' },
 ];
 
-function PinterestPinBlockModal() {
+function PinterestPinBlockModal(props) {
+  const { formState } = props;
+  const { valid } = formState;
+
   return (
     <div className="modal-scrollable">
       <ModalBody>
@@ -23,7 +27,9 @@ function PinterestPinBlockModal() {
           required
         />
         <SelectField name="size" label="Size" options={sizeOptions} />
+        <SwitchField name="terse" label="Hide description" />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
+        {valid && <Preview {...props} />}
       </ModalBody>
     </div>
   );
