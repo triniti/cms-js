@@ -1,10 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef } from 'react';
 
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export default function Preview (props) {
   const { formState } = props;
   const { href, size, terse } = formState.values;
@@ -15,6 +11,10 @@ export default function Preview (props) {
   });
 
   useEffect(() => {
+    if (!href) {
+      return;
+    }
+    
     embed();
   }, [href, size, terse]);
 
@@ -24,7 +24,7 @@ export default function Preview (props) {
     });
   }
 
-  const embed = async () => {
+  const embed = () => {
     clean();
 
     const embedHtml = document.createElement('a');
@@ -36,12 +36,10 @@ export default function Preview (props) {
     }
     embedParentRef.current.appendChild(embedHtml);
 
-    await timeout(1000); // need some delay before loading script
-
     const embedScript = document.createElement('script');
     embedScript.defer = true;
     embedScript.async = true;
-    embedScript.setAttribute('data-pin-build', 'embedPin');
+    embedScript.setAttribute('data-pin-build', 'parsePinBtns');
     embedScript.src = 'https://assets.pinterest.com/js/pinit.js';
     embedParentRef.current.appendChild(embedScript);
 
