@@ -144,8 +144,6 @@ class DividerBlockModal extends React.Component {
               strokeColor={strokeColor}
               components={{ Option: CustomOption }}
             />
-            <FormGroup>
-            </FormGroup>
           </FormGroup>
           <DividerBlockPreview block={this.setBlock()} />
         </ModalBody>
