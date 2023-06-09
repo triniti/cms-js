@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -17,8 +16,6 @@ import {
   Icon,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 import getSpotifyMediaId from './getSpotifyMediaId';
 
@@ -62,18 +59,16 @@ export default class SpotifyEmbedBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate,
+    const { 
       spotifyId,
       spotifyType,
-      updatedDate,
       aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('aside', aside)
       .set('spotify_id', spotifyId || null)
-      .set('spotify_type', spotifyType || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('spotify_type', spotifyType || null);
   }
 
   handleAddBlock() {
@@ -88,13 +83,6 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
-  }
 
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
@@ -130,12 +118,10 @@ export default class SpotifyEmbedBlockModal extends React.Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       isValid,
       touched,
       spotifyId,
       spotifyType,
-      updatedDate,
     } = this.state;
 
     const { isFreshBlock, isOpen, toggle } = this.props;
@@ -159,27 +145,12 @@ export default class SpotifyEmbedBlockModal extends React.Component {
             && <p className="text-danger">{errorMsg}</p>
           }
           <FormGroup>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {
             isValid
             && (

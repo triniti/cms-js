@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -17,8 +16,6 @@ import {
   Icon,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 const SPOTIFY_EMBED_REGEX = /^<iframe.+?spotify\.com\/embed\/track\/[0-9A-Za-z]{22}.*?<\/iframe>$/;
 const SPOTIFY_SONG_LINK_REGEX = /^https?:\/\/open\.spotify\.com\/track\/[0-9A-Za-z]{22}.*$/;
@@ -53,9 +50,7 @@ export default class SpotifyTrackBlockModal extends React.Component {
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -64,16 +59,14 @@ export default class SpotifyTrackBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate,
+    const { 
       trackId,
-      updatedDate,
       aside,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('aside', aside)
-      .set('track_id', trackId || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('track_id', trackId || null);
   }
 
   handleAddBlock() {
@@ -86,14 +79,6 @@ export default class SpotifyTrackBlockModal extends React.Component {
     const { onEditBlock, toggle } = this.props;
     onEditBlock(this.setBlock());
     toggle();
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {
@@ -134,11 +119,9 @@ export default class SpotifyTrackBlockModal extends React.Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       isValid,
       touched,
       trackId,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -161,27 +144,12 @@ export default class SpotifyTrackBlockModal extends React.Component {
             && <p className="text-danger">{errorMsg}</p>
           }
           <FormGroup>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {
             isValid
             && <SpotifyTrackBlockPreview block={this.setBlock()} />

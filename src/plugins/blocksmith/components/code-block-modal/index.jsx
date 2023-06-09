@@ -1,11 +1,9 @@
 import CodeBlockPreview from '@triniti/cms/plugins/blocksmith/components/code-block-preview';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Button,
-  Checkbox,
   FormGroup,
   Input,
   Label,
@@ -15,8 +13,6 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 export default class CodeBlockModal extends React.Component {
   static propTypes = {
@@ -37,14 +33,10 @@ export default class CodeBlockModal extends React.Component {
     const { block } = props;
     this.state = {
       code: block.get('code'),
-      hasUpdatedDate: block.has('updated_date'),
-      updatedDate: block.get('updated_date', new Date()),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -55,11 +47,10 @@ export default class CodeBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { code, hasUpdatedDate, updatedDate } = this.state;
+    const { code } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('code', code || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -78,20 +69,8 @@ export default class CodeBlockModal extends React.Component {
     this.setState({ code });
   }
 
-  handleChangeCheckbox({ target: { id, checked } }) {
-    this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
-  }
-
   render() {
-    const { code, hasUpdatedDate, updatedDate } = this.state;
+    const { code } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
 
     return (
@@ -107,19 +86,6 @@ export default class CodeBlockModal extends React.Component {
               value={code || ''}
             />
           </FormGroup>
-          <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          {hasUpdatedDate
-          && (
-            <DateTimePicker
-              onChangeDate={this.handleChangeDate}
-              onChangeTime={this.handleChangeTime}
-              updatedDate={updatedDate}
-            />
-          )}
           {code && <CodeBlockPreview block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>

@@ -1,6 +1,5 @@
 import { Checkbox, FormGroup, Icon, Input, Label, Select } from '@triniti/admin-ui-plugin/components';
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import ImageBlockPreview from '@triniti/cms/plugins/blocksmith/components/image-block-preview';
@@ -25,7 +24,6 @@ const CustomizeOptions = ({
   block,
   caption,
   hasCaption,
-  hasUpdatedDate,
   isImageAssetPickerModalOpen,
   isLink,
   isNsfw,
@@ -35,17 +33,14 @@ const CustomizeOptions = ({
   onChangeAspectRatio: handleChangeAspectRatio,
   onChangeCaption: handleChangeCaption,
   onChangeCheckBox: handleChangeCheckbox,
-  onChangeDate: handleChangeDate,
   onChangeLaunchText: handleChangeLaunchText,
   onChangeTheme: handleChangeTheme,
-  onChangeTime: handleChangeTime,
   onChangeUrl: handleChangeUrl,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
   selectedImage,
   theme,
-  updatedDate,
   url,
 }) => (
   <div className="modal-body-blocksmith">
@@ -146,22 +141,6 @@ const CustomizeOptions = ({
       <FormGroup className="mb-4">
         <FormGroup check className="d-flex align-items-center mr-2">
           <Label check>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox} />
-            Is update
-          </Label>
-        </FormGroup>
-        {hasUpdatedDate
-          && (
-            <DateTimePicker
-              onChangeDate={handleChangeDate}
-              onChangeTime={handleChangeTime}
-              updatedDate={updatedDate}
-            />
-          )}
-      </FormGroup>
-      <FormGroup className="mb-4">
-        <FormGroup check className="d-flex align-items-center mr-2">
-          <Label check>
             <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} />
             Aside
           </Label>
@@ -189,17 +168,14 @@ CustomizeOptions.propTypes = {
   onChangeAspectRatio: PropTypes.func.isRequired,
   onChangeCaption: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
-  onChangeDate: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
   onChangeTheme: PropTypes.func.isRequired,
-  onChangeTime: PropTypes.func.isRequired,
   onChangeUrl: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleImageAssetPickerModal: PropTypes.func.isRequired,
   selectedImage: PropTypes.instanceOf(Message),
   theme: PropTypes.string,
-  updatedDate: PropTypes.instanceOf(Date).isRequired,
   url: PropTypes.string.isRequired,
 };
 

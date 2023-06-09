@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/schemas/gdbots/ncr/NodeRef';
@@ -20,8 +19,6 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 import getYoutubePlaylistIds from './getYoutubePlaylistIds';
 import selector from './selector';
 
@@ -56,15 +53,12 @@ class YoutubePlaylistBlockModal extends React.Component {
       playlistId: block.get('playlist_id'),
       selectedImageNode: imageNode || null,
       touched: false,
-      updatedDate: block.get('updated_date', new Date()),
       videoId: block.get('video_id', null),
     };
     this.buttonRef = React.createRef();
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
@@ -81,15 +75,13 @@ class YoutubePlaylistBlockModal extends React.Component {
     const {
       aside,
       autoplay,
-      hasUpdatedDate,
-      selectedImageNode, playlistId, updatedDate, videoId } = this.state;
+      selectedImageNode, playlistId, videoId } = this.state;
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
       .set('aside', aside)
       .set('autoplay', autoplay)
       .set('playlist_id', playlistId)
-      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null);
     if (videoId) {
       setBlock.set('video_id', videoId);
     }
@@ -110,14 +102,6 @@ class YoutubePlaylistBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { checked, id } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeTextarea(event) {
@@ -166,12 +150,10 @@ class YoutubePlaylistBlockModal extends React.Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       playlistId,
       autoplay,
       isValid,
       touched,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, node, toggle } = this.props;
     const { isImageAssetPickerModalOpen, selectedImageNode } = this.state;
@@ -194,16 +176,6 @@ class YoutubePlaylistBlockModal extends React.Component {
             !isValid && touched
             && <p className="text-danger">{errorMsg}</p>
           }
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {isValid && <YoutubePlaylistBlockPreview block={this.setBlock()} width={526} />}
           <FormGroup className="mt-3">
             <ImageAssetPicker
@@ -221,11 +193,6 @@ class YoutubePlaylistBlockModal extends React.Component {
           <FormGroup check>
             <Checkbox size="sd" id="autoplay" checked={autoplay} disabled={!!selectedImageNode} onChange={this.handleChangeCheckbox}>
               Autoplay
-            </Checkbox>
-          </FormGroup>
-          <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
             </Checkbox>
           </FormGroup>
           <FormGroup className="mr-4">

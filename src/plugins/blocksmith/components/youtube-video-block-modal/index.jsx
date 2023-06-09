@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
 import moment from 'moment';
@@ -21,8 +20,6 @@ import {
   ModalFooter,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 import selector from './selector';
 
 const YOUTUBE_VIDEO_REGEX = /https?:\/\/(www\.)?youtu\.?be(.com)?\/(embed\/|watch\?v=)?[\w\s-]+/;
@@ -64,16 +61,13 @@ class YouTubeVideoBlockModal extends React.Component {
       selectedImageNode: imageNode || null,
       startAt: block.get('start_at'),
       touched: false,
-      updatedDate: block.get('updated_date', new Date()),
       url: id ? `https://www.youtube.com/watch?v=${id}` : '',
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeId = this.handleChangeId.bind(this);
     this.handleChangeStartAt = this.handleChangeStartAt.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -85,11 +79,9 @@ class YouTubeVideoBlockModal extends React.Component {
     const {
       aside,
       autoplay,
-      hasUpdatedDate,
       id,
       selectedImageNode,
       startAt,
-      updatedDate,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -97,8 +89,7 @@ class YouTubeVideoBlockModal extends React.Component {
       .set('autoplay', autoplay)
       .set('id', id || null)
       .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
-      .set('start_at', startAt || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('start_at', startAt || null);
   }
 
   handleAddBlock() {
@@ -115,14 +106,6 @@ class YouTubeVideoBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeStartAt(event) {
@@ -217,14 +200,12 @@ class YouTubeVideoBlockModal extends React.Component {
       aside,
       autoplay,
       errorMsg,
-      hasUpdatedDate,
       id,
       isImageAssetPickerModalOpen,
       isValid,
       selectedImageNode,
       startAt,
       touched,
-      updatedDate,
       url,
     } = this.state;
 
@@ -292,27 +273,12 @@ class YouTubeVideoBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           <FormGroup>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>

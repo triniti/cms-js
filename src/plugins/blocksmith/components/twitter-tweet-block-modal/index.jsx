@@ -1,12 +1,9 @@
 import { Button, Checkbox, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter, Icon, UncontrolledTooltip } from '@triniti/admin-ui-plugin/components';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TwitterTweetBlockPreview from '@triniti/cms/plugins/blocksmith/components/twitter-tweet-block-preview';
 import getTwitterTweetFields from './getTwitterTweetFields';
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 export default class TwitterTweetBlockModal extends React.Component {
   static propTypes = {
@@ -38,14 +35,11 @@ export default class TwitterTweetBlockModal extends React.Component {
       touched: false,
       tweetId,
       tweetText: block.get('tweet_text'),
-      updatedDate: block.get('updated_date', new Date()),
       url: tweetId && screenName ? `https://twitter.com/${screenName}/status/${tweetId}` : '',
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -56,13 +50,11 @@ export default class TwitterTweetBlockModal extends React.Component {
   setBlock() {
     const {
       aside,
-      hasUpdatedDate,
       hideMedia,
       hideThread,
       screenName,
       tweetId,
       tweetText,
-      updatedDate,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -71,8 +63,7 @@ export default class TwitterTweetBlockModal extends React.Component {
       .set('hide_thread', hideThread)
       .set('screen_name', screenName || null)
       .set('tweet_id', tweetId || null)
-      .set('tweet_text', tweetText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('tweet_text', tweetText || null);
   }
 
   handleAddBlock() {
@@ -89,14 +80,6 @@ export default class TwitterTweetBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeTextarea(event) {
@@ -119,14 +102,12 @@ export default class TwitterTweetBlockModal extends React.Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       hideMedia,
       hideThread,
       isValid,
       screenName,
       touched,
       tweetId,
-      updatedDate,
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
@@ -160,11 +141,6 @@ export default class TwitterTweetBlockModal extends React.Component {
               Hide Thread
             </Checkbox>
           </FormGroup>
-          <FormGroup check>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
           <FormGroup>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
@@ -172,16 +148,6 @@ export default class TwitterTweetBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {
             isValid && <TwitterTweetBlockPreview block={this.setBlock()} />
           }

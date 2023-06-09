@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
@@ -19,19 +18,15 @@ const CustomizeOptions = ({
   block,
   handleChangeLaunchText,
   hasLaunchText,
-  hasUpdatedDate,
   isImageAssetPickerModalOpen,
   isImageSelected,
   isMuted,
   launchText,
   node,
   onChangeCheckbox: handleChangeCheckbox,
-  onChangeDate: handleChangeDate,
-  onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
-  updatedDate,
   willShowMoreVideos,
 }) => (
   <div className="modal-body-blocksmith video-block-preview-wrapper">
@@ -92,23 +87,6 @@ const CustomizeOptions = ({
       </FormGroup>
       <FormGroup className="d-flex mb-2">
         <FormGroup check>
-          <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
-            Is update
-          </Checkbox>
-        </FormGroup>
-      </FormGroup>
-      {hasUpdatedDate
-        && (
-          <div className="modal-body-blocksmith">
-            <DateTimePicker
-              onChangeDate={handleChangeDate}
-              onChangeTime={handleChangeTime}
-              updatedDate={updatedDate}
-            />
-          </div>
-        )}
-      <FormGroup className="d-flex mb-2">
-        <FormGroup check>
           <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox}>
             Aside
           </Checkbox>
@@ -133,8 +111,6 @@ CustomizeOptions.propTypes = {
   launchText: PropTypes.string,
   node: PropTypes.instanceOf(Message).isRequired,
   onChangeCheckbox: PropTypes.func.isRequired,
-  onChangeDate: PropTypes.func.isRequired,
-  onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleImageAssetPickerModal: PropTypes.func.isRequired,

@@ -1,13 +1,9 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
 import React from 'react';
-import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import {
   Button,
-  Checkbox,
   FormGroup,
-  Icon,
   Input,
   Label,
   Modal,
@@ -15,8 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 class PageBreakBlockModal extends React.Component {
   static propTypes = {
@@ -39,14 +33,11 @@ class PageBreakBlockModal extends React.Component {
     this.state = {
       hasUpdatedDate: block.has('updated_date'),
       readMoreText: block.get('read_more_text') || '',
-      updatedDate: block.has('updated_date') ? block.get('updated_date') : new Date(),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -57,11 +48,10 @@ class PageBreakBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const { readMoreText } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('read_more_text', readMoreText || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
   }
 
   handleAddBlock() {
@@ -72,14 +62,6 @@ class PageBreakBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { checked, id } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeInput({ target: { value: readMoreText } }) {
@@ -93,7 +75,7 @@ class PageBreakBlockModal extends React.Component {
   }
 
   render() {
-    const { hasUpdatedDate, readMoreText, updatedDate } = this.state;
+    const {  readMoreText } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
     return (
@@ -114,21 +96,6 @@ class PageBreakBlockModal extends React.Component {
               value={readMoreText}
             />
           </FormGroup>
-          <FormGroup>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          {hasUpdatedDate
-          && (
-            <div className="modal-body-blocksmith">
-              <DateTimePicker
-                onChangeDate={this.handleChangeDate}
-                onChangeTime={this.handleChangeTime}
-                updatedDate={updatedDate}
-              />
-            </div>
-          )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>

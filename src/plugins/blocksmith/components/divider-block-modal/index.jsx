@@ -43,19 +43,14 @@ class DividerBlockModal extends React.Component {
       hasUpdatedDate: block.has('updated_date'),
       text: block.get('text') || '',
       strokeColor: block.get('stroke_color', 'primary'),
-      strokeStyle: block.get('stroke_style', 'solid'),
-      updatedDate: block.get('updated_date', new Date()),
+      strokeStyle: block.get('stroke_style', 'solid')
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
-    this.handleChangeHasUpdatedDate = this.handleChangeHasUpdatedDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeStrokeColor = this.handleChangeStrokeColor.bind(this);
     this.handleChangeStrokeStyle = this.handleChangeStrokeStyle.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
-    this.handleChangeStrokeColor = this.handleChangeStrokeColor.bind(this);
   }
 
   componentDidMount() {
@@ -63,12 +58,11 @@ class DividerBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, text, strokeColor, strokeStyle, updatedDate } = this.state;
+    const {  text, strokeColor, strokeStyle } = this.state;
     const { block } = this.props;
     const setBlock = block.schema().createMessage()
       .set('text', text)
       .set('stroke_style', strokeStyle)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
 
     if (strokeColor) {
       setBlock.set('stroke_color', strokeColor.replace(/\s/g, '-').replace(/[A-Z]/g, (m) => m.toLowerCase()));
@@ -89,17 +83,6 @@ class DividerBlockModal extends React.Component {
     toggle();
   }
 
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
-  }
-
-  handleChangeHasUpdatedDate() {
-    this.setState(({ hasUpdatedDate }) => ({ hasUpdatedDate: !hasUpdatedDate }));
-  }
 
   handleChangeInput({ target: { id, value } }) {
     this.setState({ [id]: value });
@@ -115,11 +98,9 @@ class DividerBlockModal extends React.Component {
 
   render() {
     const {
-      hasUpdatedDate,
       text,
       strokeColor,
       strokeStyle,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -164,22 +145,7 @@ class DividerBlockModal extends React.Component {
               components={{ Option: CustomOption }}
             />
             <FormGroup>
-              <Checkbox size="sd" checked={hasUpdatedDate} onChange={this.handleChangeHasUpdatedDate}>
-                Is update
-              </Checkbox>
             </FormGroup>
-            {
-              hasUpdatedDate
-              && (
-                <div className="modal-body-blocksmith">
-                  <DateTimePicker
-                    onChangeDate={this.handleChangeDate}
-                    onChangeTime={this.handleChangeTime}
-                    updatedDate={updatedDate}
-                  />
-                </div>
-              )
-            }
           </FormGroup>
           <DividerBlockPreview block={this.setBlock()} />
         </ModalBody>

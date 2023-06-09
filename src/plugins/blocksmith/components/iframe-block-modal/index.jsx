@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import IframeBlockPreview from '@triniti/cms/plugins/blocksmith/components/iframe-block-preview';
 import isEmpty from 'lodash/isEmpty';
 import isValidUrl from '@gdbots/common/isValidUrl';
@@ -21,8 +20,6 @@ import {
   Select,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 import determineIfExistingBlocksCanBeUsed from '../../utils/determineIfExistingBlocksCanBeUsed';
 
 const useSSl = document.location.protocol === 'https:';
@@ -71,17 +68,14 @@ export default class IframeBlockModal extends React.Component {
       height: block.has('height') ? Number(block.get('height').replace('px', '')) : null,
       scrollingEnabled: block.get('scrolling_enabled'),
       src: block.get('src'),
-      updatedDate: block.get('updated_date', new Date()),
       width: block.has('width') ? Number(block.get('width').replace('px', '')) : null,
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDataAttribute = this.handleChangeDataAttribute.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleRemoveDataAttribute = this.handleRemoveDataAttribute.bind(this);
   }
@@ -98,10 +92,8 @@ export default class IframeBlockModal extends React.Component {
       data,
       hasManualDimensions,
       scrollingEnabled,
-      hasUpdatedDate,
       height,
       src,
-      updatedDate,
       width,
     } = this.state;
     const { block } = this.props;
@@ -110,7 +102,6 @@ export default class IframeBlockModal extends React.Component {
       .set('height', hasManualDimensions && height ? `${height}px` : null)
       .set('scrolling_enabled', scrollingEnabled)
       .set('src', src || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('width', hasManualDimensions && width ? `${width}px` : null);
 
     setBlock.clear('data');
@@ -198,14 +189,6 @@ export default class IframeBlockModal extends React.Component {
     });
   }
 
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
-  }
-
   handleChangeInput({ target: { id, value } }) {
     this.setState({ [id]: value });
   }
@@ -236,11 +219,9 @@ export default class IframeBlockModal extends React.Component {
       align,
       data,
       hasManualDimensions,
-      hasUpdatedDate,
       height,
       scrollingEnabled,
       src,
-      updatedDate,
       width,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
@@ -332,21 +313,6 @@ export default class IframeBlockModal extends React.Component {
                 Scrolling
               </Checkbox>
             </FormGroup>
-            <FormGroup className="mr-4">
-              <Checkbox id="hasUpdatedDate" size="sd" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-                Is update
-              </Checkbox>
-            </FormGroup>
-            {hasUpdatedDate
-              && (
-                <div className="modal-body-blocksmith">
-                  <DateTimePicker
-                    onChangeDate={this.handleChangeDate}
-                    onChangeTime={this.handleChangeTime}
-                    updatedDate={updatedDate}
-                  />
-                </div>
-              )}
           </ModalBody>
           <ModalFooter>
             <Button onClick={toggle}>Cancel</Button>

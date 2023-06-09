@@ -1,5 +1,4 @@
 import AudioBlockPreview from '@triniti/cms/plugins/blocksmith/components/audio-block-preview';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
@@ -16,19 +15,15 @@ import {
 const CustomizeOptions = ({
   aside,
   block,
-  hasUpdatedDate,
   isImageAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
   onChangeCheckBox: handleChangeCheckbox,
-  onChangeDate: handleChangeDate,
   onChangeLaunchText: handleChangeLaunchText,
-  onChangeTime: handleChangeTime,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
   onToggleImageAssetPickerModal: handleToggleImageAssetPickerModal,
-  updatedDate,
 }) => (
   <div className="modal-body-blocksmith">
     <AudioBlockPreview
@@ -56,9 +51,6 @@ const CustomizeOptions = ({
         </Label>
       </FormGroup>
       <FormGroup className="ml-4">
-        <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
-          Is Update
-        </Checkbox>
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
           Aside
         </Checkbox>
@@ -66,14 +58,6 @@ const CustomizeOptions = ({
         <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
       </FormGroup>
     </FormGroup>
-    {hasUpdatedDate
-    && (
-      <DateTimePicker
-        onChangeDate={handleChangeDate}
-        onChangeTime={handleChangeTime}
-        updatedDate={updatedDate}
-      />
-    )}
   </div>
 );
 
@@ -86,13 +70,10 @@ CustomizeOptions.propTypes = {
   launchText: PropTypes.string.isRequired,
   node: PropTypes.instanceOf(Message).isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
-  onChangeDate: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
-  onChangeTime: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,
   onToggleImageAssetPickerModal: PropTypes.func.isRequired,
-  updatedDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default CustomizeOptions;

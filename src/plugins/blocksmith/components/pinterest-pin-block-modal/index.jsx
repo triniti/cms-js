@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import PinterestPinBlockPreview from '@triniti/cms/plugins/blocksmith/components/pinterest-pin-block-preview';
 import Message from '@gdbots/pbj/Message';
 import PropTypes from 'prop-types';
@@ -19,8 +18,6 @@ import {
 } from '@triniti/admin-ui-plugin/components';
 import isValidUrl from '@gdbots/common/isValidUrl';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 import getPinterestPinUrl from './getPinterestPinUrl';
 
@@ -51,14 +48,12 @@ export default class PinterestPinBlockModal extends Component {
       size: block.get('size'),
       terse: block.get('terse'),
       touched: false,
-      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
@@ -76,8 +71,7 @@ export default class PinterestPinBlockModal extends Component {
       .set('aside', aside)
       .set('href', href)
       .set('size', size)
-      .set('terse', terse)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('terse', terse);
   }
 
   handleAddBlock() {
@@ -94,14 +88,6 @@ export default class PinterestPinBlockModal extends Component {
 
   handleChangeCheckbox({ target: { checked, id } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeTextarea(event) {
@@ -143,13 +129,11 @@ export default class PinterestPinBlockModal extends Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       isValid,
       href,
       terse,
       touched,
       size,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
     const displayUrl = isValid ? href : '';
@@ -196,27 +180,12 @@ export default class PinterestPinBlockModal extends Component {
             </Checkbox>
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup className="mr-4">
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {
             isValid
             && <PinterestPinBlockPreview block={this.setBlock()} />

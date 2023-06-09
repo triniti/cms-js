@@ -17,9 +17,6 @@ import {
   Icon,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
-
 import getImgurPostBlockId from './getImgurPostBlockId';
 
 export default class ImgurPostBlockModal extends React.Component {
@@ -49,14 +46,11 @@ export default class ImgurPostBlockModal extends React.Component {
       isValid: block.has('id'),
       imgurId: block.get('id'),
       showContext: block.get('show_context'),
-      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -66,10 +60,8 @@ export default class ImgurPostBlockModal extends React.Component {
 
   setBlock() {
     const {
-      hasUpdatedDate,
       imgurId,
       showContext,
-      updatedDate,
       aside,
     } = this.state;
 
@@ -78,8 +70,7 @@ export default class ImgurPostBlockModal extends React.Component {
     return block.schema().createMessage()
       .set('aside', aside)
       .set('id', imgurId || null)
-      .set('show_context', showContext)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('show_context', showContext);
   }
 
   handleAddBlock() {
@@ -92,14 +83,6 @@ export default class ImgurPostBlockModal extends React.Component {
     const { onEditBlock, toggle } = this.props;
     onEditBlock(this.setBlock());
     toggle();
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {
@@ -132,12 +115,10 @@ export default class ImgurPostBlockModal extends React.Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       showContext,
       isValid,
       touched,
       imgurId,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -161,12 +142,6 @@ export default class ImgurPostBlockModal extends React.Component {
           }
 
           <FormGroup>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-
-          <FormGroup>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
@@ -179,16 +154,6 @@ export default class ImgurPostBlockModal extends React.Component {
             Show title
             </Checkbox>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {imgurId && <ImgurPostBlockPreview block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>

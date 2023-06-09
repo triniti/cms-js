@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import GeoPoint from '@gdbots/pbj/well-known/GeoPoint';
 import GoogleMapBlockPreview from '@triniti/cms/plugins/blocksmith/components/google-map-block-preview';
 import Message from '@gdbots/pbj/Message';
@@ -58,16 +57,13 @@ export default class GoogleMapBlockModal extends React.Component {
       q: block.get('q') || '',
       status: STATUS_NONE,
       touched: false,
-      updatedDate: block.get('updated_date', new Date()),
       zoom: block.get('zoom'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAutoZoom = this.handleChangeAutoZoom.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeLocation = this.handleChangeLocation.bind(this);
     this.handleChangeMapType = this.handleChangeMapType.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleChangeZoom = this.handleChangeZoom.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleToggleDropDown = this.handleToggleDropDown.bind(this);
@@ -80,7 +76,7 @@ export default class GoogleMapBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { aside, center, hasUpdatedDate, mapType, q, updatedDate, zoom } = this.state;
+    const { aside, center, mapType, q, zoom } = this.state;
     const { block } = this.props;
 
     return block.schema().createMessage()
@@ -88,7 +84,6 @@ export default class GoogleMapBlockModal extends React.Component {
       .set('center', center ? GeoPoint.fromString(center) : null)
       .set('maptype', mapType || null)
       .set('q', q || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('zoom', zoom || null);
   }
 
@@ -181,7 +176,6 @@ export default class GoogleMapBlockModal extends React.Component {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       isAutoZoom,
       isDropdownOpen,
       isValid,
@@ -189,7 +183,6 @@ export default class GoogleMapBlockModal extends React.Component {
       q,
       status,
       touched,
-      updatedDate,
       zoom,
     } = this.state;
     const { isOpen, isFreshBlock, toggle } = this.props;
@@ -248,25 +241,12 @@ export default class GoogleMapBlockModal extends React.Component {
             </Dropdown>
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox} className="ml-3">
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {
             !isValid && touched
             && <p className="text-danger">{errorMsg}</p>

@@ -1,6 +1,5 @@
 import { Button, Checkbox, FormGroup, Icon, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter } from '@triniti/admin-ui-plugin/components';
 import { connect } from 'react-redux';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import he from 'he';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
@@ -10,8 +9,6 @@ import React from 'react';
 import UncontrolledTooltip from '@triniti/cms/plugins/common/components/uncontrolled-tooltip';
 import VimeoVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/vimeo-video-block-preview';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 import selector from './selector';
 
 const EMBED_REGEX = /https?:\/\/player\.vimeo\.com\/video\/\d+/;
@@ -69,7 +66,6 @@ class VimeoVideoBlockModal extends React.Component {
       selectedImageNode: imageNode || null,
       title: block.get('title'),
       touched: false,
-      updatedDate: block.get('updated_date', new Date()),
       userId: block.get('user_id'),
       userName: block.get('user_name'),
       willLoop: block.get('loop'),
@@ -79,9 +75,7 @@ class VimeoVideoBlockModal extends React.Component {
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
@@ -117,7 +111,6 @@ class VimeoVideoBlockModal extends React.Component {
       .set('show_portrait', willShowPortrait)
       .set('show_title', willShowTitle)
       .set('title', title || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('user_id', userId || null)
       .set('user_name', userName || null);
   }
@@ -136,14 +129,6 @@ class VimeoVideoBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeTextArea(event) {
@@ -376,16 +361,6 @@ class VimeoVideoBlockModal extends React.Component {
           </FormGroup>
           <FormGroup>
             <Checkbox
-              checked={hasUpdatedDate}
-              id="hasUpdatedDate"
-              onChange={this.handleChangeCheckbox}
-              size="sd"
-            >
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup>
-            <Checkbox
               checked={aside}
               id="aside"
               onChange={this.handleChangeCheckbox}
@@ -396,16 +371,6 @@ class VimeoVideoBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>

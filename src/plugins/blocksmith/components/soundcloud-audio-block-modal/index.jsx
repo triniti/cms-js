@@ -20,8 +20,6 @@ import {
   Icon,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 import selector from './selector';
 
 const TRACK_ID_REGEX = /api\.soundcloud\.com\/tracks\/\d+/;
@@ -55,21 +53,17 @@ class SoundcloudAudioBlockModal extends React.Component {
       aside: block.get('aside'),
       autoplay: block.get('auto_play'),
       errorMsg: '',
-      hasUpdatedDate: block.has('updated_date'),
       isValid: block.has('track_id'),
       isVisual: block.get('visual'),
       selectedImageNode: imageNode || null,
       touched: false,
       trackId: block.get('track_id'),
-      updatedDate: block.get('updated_date', new Date()),
       willHideRelated: block.get('hide_related'),
       willShowComments: block.get('show_comments'),
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
@@ -84,11 +78,9 @@ class SoundcloudAudioBlockModal extends React.Component {
     const {
       aside,
       autoplay,
-      hasUpdatedDate,
       isVisual,
       selectedImageNode,
       trackId,
-      updatedDate,
       willHideRelated,
       willShowComments,
     } = this.state;
@@ -100,7 +92,6 @@ class SoundcloudAudioBlockModal extends React.Component {
       .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('show_comments', willShowComments)
       .set('track_id', trackId || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('visual', isVisual);
   }
 
@@ -118,14 +109,6 @@ class SoundcloudAudioBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { id, checked } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeTextArea(event) {
@@ -210,14 +193,12 @@ class SoundcloudAudioBlockModal extends React.Component {
       aside,
       autoplay,
       errorMsg,
-      hasUpdatedDate,
       isImageAssetPickerModalOpen,
       isValid,
       isVisual,
       selectedImageNode,
       touched,
       trackId,
-      updatedDate,
       willHideRelated,
       willShowComments,
     } = this.state;
@@ -302,16 +283,6 @@ class SoundcloudAudioBlockModal extends React.Component {
           <FormGroup>
             <Checkbox
               size="sd"
-              checked={hasUpdatedDate}
-              id="hasUpdatedDate"
-              onChange={this.handleChangeCheckbox}
-            >
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup>
-            <Checkbox
-              size="sd"
               checked={aside}
               id="aside"
               onChange={this.handleChangeCheckbox}
@@ -321,16 +292,6 @@ class SoundcloudAudioBlockModal extends React.Component {
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>

@@ -1,5 +1,4 @@
 import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import GalleryBlockPreview from '@triniti/cms/plugins/blocksmith/components/gallery-block-preview';
 import humanizeEnums from '@triniti/cms/utils/humanizeEnums';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
@@ -26,17 +25,14 @@ const CustomizeOptions = ({
   aside,
   aspectRatio,
   block,
-  hasUpdatedDate,
   isImageAssetPickerModalOpen,
   isImageSelected,
   launchText,
   node,
   onChangeAspectRatio: handleChangeAspectRatio,
   onChangeCheckBox: handleChangeCheckbox,
-  onChangeDate: handleChangeDate,
   onChangeLaunchText: handleChangeLaunchText,
   onChangeStartAtPoster: handleChangeStartAtPoster,
-  onChangeTime: handleChangeTime,
   onChangeTitle: handleChangeTitle,
   onClearImage: handleClearImage,
   onSelectImage: handleSelectImage,
@@ -45,7 +41,6 @@ const CustomizeOptions = ({
   selectedImage,
   startsAtPoster,
   title,
-  updatedDate,
 }) => (
   <div className="modal-body-blocksmith">
     <GalleryBlockPreview className="mb-3" block={block} />
@@ -91,9 +86,6 @@ const CustomizeOptions = ({
         </Label>
       </FormGroup>
       <FormGroup className="mr-4">
-        <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={handleChangeCheckbox}>
-          Is Update
-        </Checkbox>
         <Checkbox size="sd" id="aside" checked={aside} onChange={handleChangeCheckbox} className="ml-3">
           Aside
         </Checkbox>
@@ -117,14 +109,6 @@ const CustomizeOptions = ({
         </Label>
       </FormGroup>
     </FormGroup>
-    {hasUpdatedDate
-    && (
-      <DateTimePicker
-        onChangeDate={handleChangeDate}
-        onChangeTime={handleChangeTime}
-        updatedDate={updatedDate}
-      />
-    )}
   </div>
 );
 
@@ -139,10 +123,8 @@ CustomizeOptions.propTypes = {
   node: PropTypes.instanceOf(Message).isRequired,
   onChangeAspectRatio: PropTypes.func.isRequired,
   onChangeCheckBox: PropTypes.func.isRequired,
-  onChangeDate: PropTypes.func.isRequired,
   onChangeLaunchText: PropTypes.func.isRequired,
   onChangeStartAtPoster: PropTypes.func.isRequired,
-  onChangeTime: PropTypes.func.isRequired,
   onChangeTitle: PropTypes.func.isRequired,
   onClearImage: PropTypes.func.isRequired,
   onSelectImage: PropTypes.func.isRequired,

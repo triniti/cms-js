@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import FacebookVideoBlockPreview from '@triniti/cms/plugins/blocksmith/components/facebook-video-block-preview';
 import ImageAssetPicker from '@triniti/cms/plugins/dam/components/image-asset-picker';
 import Message from '@gdbots/pbj/Message';
@@ -20,8 +19,6 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 import selector from './selector';
 
 const FB_VIDEO_REGEX = new RegExp('(?:(?:https?:)?\\/\\/)?(?:www\\.)?facebook\\.com\\/[a-zA-Z0-9\\.]+\\/videos\\/(?:[a-z0-9\\.]+\\/)?([0-9]+)\\/?(?:\\?.*)?');
@@ -68,9 +65,7 @@ class FacebookVideoBlockModal extends React.Component {
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeAside = this.handleChangeAside.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClearImage = this.handleClearImage.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
@@ -81,12 +76,10 @@ class FacebookVideoBlockModal extends React.Component {
     const {
       autoplay,
       aside,
-      hasUpdatedDate,
       href,
       selectedImageNode,
       showCaptions,
       showText,
-      updatedDate,
     } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
@@ -95,8 +88,7 @@ class FacebookVideoBlockModal extends React.Component {
       .set('href', href)
       .set('poster_image_ref', selectedImageNode ? NodeRef.fromNode(selectedImageNode) : null)
       .set('show_captions', showCaptions)
-      .set('show_text', showText)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('show_text', showText);
   }
 
   handleAddBlock() {
@@ -145,14 +137,6 @@ class FacebookVideoBlockModal extends React.Component {
     this.setState({ [id]: checked });
   }
 
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
-  }
-
   handleToggleImageAssetPickerModal() {
     this.setState(({ isImageAssetPickerModalOpen }) => ({
       isImageAssetPickerModalOpen: !isImageAssetPickerModalOpen,
@@ -190,14 +174,12 @@ class FacebookVideoBlockModal extends React.Component {
     const {
       aside,
       autoplay,
-      hasUpdatedDate,
       href,
       isImageAssetPickerModalOpen,
       isValid,
       selectedImageNode,
       showCaptions,
       showText,
-      updatedDate,
     } = this.state;
 
     const { isOpen, isFreshBlock, node, toggle } = this.props;
@@ -249,21 +231,10 @@ class FacebookVideoBlockModal extends React.Component {
             <Checkbox size="sd" id="showText" checked={showText} onChange={this.handleChangeCheckbox}>Show Text</Checkbox>
           </FormGroup>
           <FormGroup check>
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>Is update</Checkbox>
-          </FormGroup>
-          <FormGroup check>
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>Aside</Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <DateTimePicker
-                onChangeDate={this.handleChangeDate}
-                onChangeTime={this.handleChangeTime}
-                updatedDate={updatedDate}
-              />
-            )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle} innerRef={(el) => { this.button = el; }}>Cancel</Button>

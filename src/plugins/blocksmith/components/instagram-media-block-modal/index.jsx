@@ -17,9 +17,6 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
-
 import getInstagramMediaId from './getInstagramMediaId';
 
 export default class InstagramMediaBlockModal extends React.Component {
@@ -53,9 +50,7 @@ export default class InstagramMediaBlockModal extends React.Component {
     };
     this.handleAddBlock = this.handleAddBlock.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeTextarea = this.handleChangeTextarea.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
   }
 
@@ -79,14 +74,6 @@ export default class InstagramMediaBlockModal extends React.Component {
 
   handleChangeCheckbox({ target: { checked, id } }) {
     this.setState({ [id]: checked });
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeTextarea(event) {
@@ -115,25 +102,22 @@ export default class InstagramMediaBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, hideCaption, id, updatedDate, aside } = this.state;
+    const { hideCaption, id, aside } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('aside', aside)
       .set('hidecaption', hideCaption)
-      .set('id', id)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('id', id);
   }
 
   render() {
     const {
       aside,
       errorMsg,
-      hasUpdatedDate,
       hideCaption,
       id,
       isValid,
       touched,
-      updatedDate,
       url,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
@@ -163,27 +147,12 @@ export default class InstagramMediaBlockModal extends React.Component {
             </Checkbox>
           </FormGroup>
           <FormGroup className="mr-4">
-            <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-              Is update
-            </Checkbox>
-          </FormGroup>
-          <FormGroup className="mr-4">
             <Checkbox size="sd" id="aside" checked={aside} onChange={this.handleChangeCheckbox}>
               Aside
             </Checkbox>
             <Icon imgSrc="info-outline" id="aside-tooltip" size="xs" className="ml-1" />
             <UncontrolledTooltip target="aside-tooltip">Is only indirectly related to the main content.</UncontrolledTooltip>
           </FormGroup>
-          {hasUpdatedDate
-            && (
-              <div className="modal-body-blocksmith">
-                <DateTimePicker
-                  onChangeDate={this.handleChangeDate}
-                  onChangeTime={this.handleChangeTime}
-                  updatedDate={updatedDate}
-                />
-              </div>
-            )}
           {isValid && <InstagramMediaBlockPreview block={this.setBlock()} />}
         </ModalBody>
         <ModalFooter>

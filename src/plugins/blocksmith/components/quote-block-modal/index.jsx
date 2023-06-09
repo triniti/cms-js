@@ -17,8 +17,6 @@ import {
   ModalHeader,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 class QuoteBlockModal extends React.Component {
   static propTypes = {
@@ -39,13 +37,11 @@ class QuoteBlockModal extends React.Component {
     const { block } = props;
 
     this.state = {
-      hasUpdatedDate: block.has('updated_date'),
       isPullQuote: block.get('is_pull_quote'),
       isValid: true,
       source: block.get('source'),
       sourceUrl: block.get('source_url'),
       text: block.get('text') || '',
-      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -62,14 +58,13 @@ class QuoteBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, isPullQuote, source, sourceUrl, text, updatedDate } = this.state;
+    const { isPullQuote, source, sourceUrl, text } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('is_pull_quote', isPullQuote)
       .set('source_url', sourceUrl ? prependHttp(sourceUrl, { https: true }) : null)
       .set('source', source || null)
-      .set('text', text || null)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null);
+      .set('text', text || null);
   }
 
   handleAddBlock() {
@@ -82,14 +77,6 @@ class QuoteBlockModal extends React.Component {
     const { onEditBlock, toggle } = this.props;
     onEditBlock(this.setBlock());
     toggle();
-  }
-
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
   handleChangeCheckbox({ target: { id, checked } }) {
@@ -109,13 +96,11 @@ class QuoteBlockModal extends React.Component {
 
   render() {
     const {
-      hasUpdatedDate,
       isPullQuote,
       isValid,
       source,
       sourceUrl,
       text,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -167,21 +152,6 @@ class QuoteBlockModal extends React.Component {
                 Pull Quote
               </Checkbox>
             </FormGroup>
-            <FormGroup>
-              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-                Is update
-              </Checkbox>
-            </FormGroup>
-            {hasUpdatedDate
-              && (
-                <div className="modal-body-blocksmith">
-                  <DateTimePicker
-                    onChangeDate={this.handleChangeDate}
-                    onChangeTime={this.handleChangeTime}
-                    updatedDate={updatedDate}
-                  />
-                </div>
-              )}
           </FormGroup>
           {
             isValid

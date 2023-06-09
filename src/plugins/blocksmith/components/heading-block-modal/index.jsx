@@ -1,4 +1,3 @@
-import DateTimePicker from '@triniti/cms/plugins/blocksmith/components/date-time-picker';
 import HeadingBlockPreview from '@triniti/cms/plugins/blocksmith/components/heading-block-preview';
 import isValidUrl from '@gdbots/common/isValidUrl';
 import Message from '@gdbots/pbj/Message';
@@ -7,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Button,
-  Checkbox,
   FormGroup,
   Input,
   Label,
@@ -18,8 +16,6 @@ import {
   Select,
 } from '@triniti/admin-ui-plugin/components';
 
-import changedDate from '../../utils/changedDate';
-import changedTime from '../../utils/changedTime';
 
 class HeadingBlockModal extends React.Component {
   static propTypes = {
@@ -45,7 +41,6 @@ class HeadingBlockModal extends React.Component {
       text: block.get('text') || '',
       size: block.get('size'),
       url: block.get('url'),
-      updatedDate: block.get('updated_date', new Date()),
     };
 
     this.handleAddBlock = this.handleAddBlock.bind(this);
@@ -53,9 +48,7 @@ class HeadingBlockModal extends React.Component {
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeUrl = this.handleChangeUrl.bind(this);
     this.handleEditBlock = this.handleEditBlock.bind(this);
-    this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
-    this.handleChangeTime = this.handleChangeTime.bind(this);
   }
 
   componentDidMount() {
@@ -63,12 +56,11 @@ class HeadingBlockModal extends React.Component {
   }
 
   setBlock() {
-    const { hasUpdatedDate, text, size, url, updatedDate } = this.state;
+    const { text, size, url } = this.state;
     const { block } = this.props;
     return block.schema().createMessage()
       .set('size', parseInt(size, 10))
       .set('text', text)
-      .set('updated_date', hasUpdatedDate ? updatedDate : null)
       .set('url', url ? prependHttp(url, { https: true }) : null);
   }
 
@@ -82,16 +74,9 @@ class HeadingBlockModal extends React.Component {
     this.setState({ [id]: checked });
   }
 
-  handleChangeDate(date) {
-    this.setState(changedDate(date));
-  }
 
   handleChangeSelect(option) {
     this.setState({ size: option ? option.value : 0 });
-  }
-
-  handleChangeTime({ target: { value: time } }) {
-    this.setState(changedTime(time));
   }
 
 
@@ -114,12 +99,10 @@ class HeadingBlockModal extends React.Component {
 
   render() {
     const {
-      hasUpdatedDate,
       isValid,
       text,
       size,
       url,
-      updatedDate,
     } = this.state;
     const { isFreshBlock, isOpen, toggle } = this.props;
 
@@ -170,21 +153,6 @@ class HeadingBlockModal extends React.Component {
               value={url || ''}
             />
             {!isValid && <p className="text-danger">please enter a valid URL</p>}
-            <FormGroup>
-              <Checkbox size="sd" id="hasUpdatedDate" checked={hasUpdatedDate} onChange={this.handleChangeCheckbox}>
-                Is update
-              </Checkbox>
-            </FormGroup>
-            {hasUpdatedDate
-              && (
-                <div className="modal-body-blocksmith">
-                  <DateTimePicker
-                    onChangeDate={this.handleChangeDate}
-                    onChangeTime={this.handleChangeTime}
-                    updatedDate={updatedDate}
-                  />
-                </div>
-              )}
           </FormGroup>
           {
             (text && isValid)
