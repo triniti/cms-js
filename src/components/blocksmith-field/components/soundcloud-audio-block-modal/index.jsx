@@ -2,6 +2,7 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import Preview from './Preview';
 
 const TRACK_ID_REGEX = /api\.soundcloud\.com\/tracks\/\d+/;
@@ -13,6 +14,7 @@ const VISUAL_QUERY_STRING_REGEX = /(\?|&)visual=(true|false)/;
 function SoundcloudAudioBlockModal(props) {
   const { form, formState } = props;
   const { valid, values } = formState;
+  const { poster_image_ref: posterImageRef } = values;
 
   const parseTrackId = (input) => {
     if (TRACK_ID_REGEX.test(input)) {
@@ -44,12 +46,13 @@ function SoundcloudAudioBlockModal(props) {
           parse={parseTrackId}
           required
         />
-        <SwitchField name="auto_play" label="Autoplay" />
+        {valid && <Preview {...props} />}
+        <ImagePickerField name="poster_image_ref" previewImage={false} />
+        <SwitchField name="auto_play" label="Autoplay" disabled={!!posterImageRef} />
         <SwitchField name="visual" label="Visual Overlay" />
         <SwitchField name="hide_related" label="Hide Related" />
         <SwitchField name="show_comments" label="Show Comments" />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
-        {valid && <Preview {...props} />}
       </ModalBody>
     </div>
   );
