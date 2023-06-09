@@ -2,7 +2,7 @@
 
 
 ## v0.18.8
-* Added selector to hide date picker field
+* remove ability to add updated_date to blocks
 
 
 ## v0.18.7

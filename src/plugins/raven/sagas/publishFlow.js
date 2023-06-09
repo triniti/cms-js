@@ -2,7 +2,6 @@ import { buffers } from 'redux-saga';
 import { actionChannel, call, delay, select, take } from 'redux-saga/effects';
 import getAuthenticatedUserRef from '@triniti/cms/plugins/iam/selectors/getAuthenticatedUserRef';
 import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated';
-import isConnected from '../selectors/isConnected';
 import { actionTypes } from '../constants';
 
 /**

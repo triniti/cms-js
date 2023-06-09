@@ -1,6 +1,5 @@
 import EventSubscriber from '@gdbots/pbjx/EventSubscriber';
 import camelCase from 'lodash/camelCase';
-import startCase from 'lodash/startCase';
 import getTextAreaFieldError from '@triniti/cms/components/textarea-field/getTextAreaFieldError';
 import getTextFieldError from '@triniti/cms/components/text-field/getTextFieldError';
 import get from 'lodash/get';
