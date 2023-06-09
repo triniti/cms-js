@@ -22,8 +22,6 @@ export default (state, { formName }) => {
 
   return {
     copiedBlock,
-    editorState: blocksmithState && blocksmithState.editorState ? 
-    blocksmithState.editorState : 
-    null,
+    editorState: blocksmithState && blocksmithState.editorState ? blocksmithState.editorState : null,
   };
 };
