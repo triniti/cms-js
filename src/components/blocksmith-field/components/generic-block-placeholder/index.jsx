@@ -23,9 +23,6 @@ const GenericBlockPlaceholder = ({
 
   const handleToggleImagePreviewSrc = (src = null) => {
     setImagePreviewSrc(imagePreviewSrc ? null : src);
-    // this.setState(({ imagePreviewSrc }) => ({
-    //   imagePreviewSrc: imagePreviewSrc ? null : src,
-    // }));
   }
 
   const PreviewComponent = get(config, 'preview.component', null);
