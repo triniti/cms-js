@@ -42,6 +42,7 @@ export default function CustomizeOptions(props) {
   return (
     <div className="container-lg p-5">
       <ImagePickerField
+        name="node_ref"
         label="Image"
         nodeRef={nodeRef}
         onSelectImage={setImageRef}

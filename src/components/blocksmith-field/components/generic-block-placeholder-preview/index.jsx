@@ -17,7 +17,7 @@ export default function GenericBlockPreviewComponent(props) {
     image = useNode(block.get('image_ref').toString()).node;
   } else if (node && node.has('image_ref')) {
     image = useNode(node.get('image_ref').toString()).node;
-  } else if (node.schema().getId().message === 'image-asset') {
+  } else if (node && node.schema().getId().message === 'image-asset') {
     image = node;
   } else {
     return null;
