@@ -75,6 +75,7 @@ import decorators from 'components/blocksmith-field/decorators';
 import constants, { blockTypes, COPIED_BLOCK_KEY } from 'components/blocksmith-field/constants';
 import DraggableTextBlock from 'components/blocksmith-field/components/draggable-text-block';
 import { normalizeKey } from 'components/blocksmith-field/utils';
+import noop from 'lodash/noop';
 // import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
 import 'components/blocksmith-field/styles.scss';
 
@@ -1067,6 +1068,12 @@ class Blocksmith extends React.Component {
    * Remove any styling associated with an "active" editor
    */
   handleMouseLeave() {
+    const { modalComponent } = this.state
+
+    if (modalComponent) {
+      return
+    }
+
     this.removeActiveStyling();
   }
 
@@ -1419,25 +1426,25 @@ class Blocksmith extends React.Component {
    onChange(editorState) {
     // todo: this method name and the onChange from redux form may be confusing
 
-    // let { isDirty } = this.state;
-    // const { delegate } = this.props;
-    // const lastChangeType = editorState.getLastChangeType();
+    let { isDirty } = this.state;
+    const { delegate } = this.props;
+    const lastChangeType = editorState.getLastChangeType();
     const selectionState = editorState.getSelection();
-    // let callback = noop;
+    let callback = noop;
 
-    // /**
-    //  * just clicking around the editor counts as a change (of type null),
-    //  * but is not enough to dirty the state, so check the change type.
-    //  */
-    // if (!isDirty && lastChangeType !== null) {
-    //   isDirty = true;
-    //   callback = delegate.handleDirtyEditor;
-    // }
+    /**
+     * just clicking around the editor counts as a change (of type null),
+     * but is not enough to dirty the state, so check the change type.
+     */
+    if (!isDirty && lastChangeType !== null) {
+      isDirty = true;
+      callback = delegate.handleDirtyEditor;
+    }
 
-    // if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {
-    //   isDirty = false;
-    //   callback = delegate.handleCleanEditor;
-    // }
+    if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {
+      isDirty = false;
+      callback = delegate.handleCleanEditor;
+    }
     this.setState(() => ({
       editorState,
       readOnly: false, // todo: update
@@ -1445,16 +1452,18 @@ class Blocksmith extends React.Component {
       this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
     });
 
-    // this.setState(() => ({
-    //   editorState,
-    //   isDirty,
-    // }), () => {
-    //   this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
-    //   if (!selectionState.getHasFocus()) {
-    //     this.removeActiveStyling();
-    //   }
-    //   callback();
-    // });
+    this.setState(() => ({
+      editorState,
+      isDirty,
+    }), () => {
+      if (selectionState.getHasFocus()) {
+        this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
+      } else {
+        this.removeActiveStyling();
+      }
+      callback();
+    });
+    
   }
 
   /**
