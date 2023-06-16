@@ -217,13 +217,14 @@ div[data-contents="true"] {
   flex-wrap: wrap;
   position: absolute;
   left: 50%;
-  transform: translate(-50%) scale(0);
+  // transform: translate(-50%) scale(0);
   border-radius: 4px;
   padding: 2px;
   background: $gray-900;
   box-shadow: $shadow-depth-4;
   z-index: 2;
   max-width: 132px;
+  margin-top: 600px;
 
   &:after {
     content: " ";

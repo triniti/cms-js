@@ -74,8 +74,9 @@ import customStyleMap from 'components/blocksmith-field/customStyleMap';
 import decorators from 'components/blocksmith-field/decorators';
 import constants, { blockTypes, COPIED_BLOCK_KEY } from 'components/blocksmith-field/constants';
 import DraggableTextBlock from 'components/blocksmith-field/components/draggable-text-block';
-import 'components/blocksmith-field/styles.scss';
 import { normalizeKey } from 'components/blocksmith-field/utils';
+// import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
+import 'components/blocksmith-field/styles.scss';
 
 let TextBlockV1;
 const GenericBlockPlaceholder = lazy(() => import('components/blocksmith-field/components/generic-block-placeholder'));
