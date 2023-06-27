@@ -1158,9 +1158,9 @@ class Blocksmith extends React.Component {
    * Remove any styling associated with an "active" editor
    */
   handleMouseLeave() {
-    const { modalComponent } = this.state
+    const { modalComponent, isSidebarOpen } = this.state
     
-    if (modalComponent) {
+    if (modalComponent || isSidebarOpen) {
       return
     }
 
