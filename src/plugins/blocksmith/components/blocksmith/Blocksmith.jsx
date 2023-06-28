@@ -420,11 +420,11 @@ class Blocksmith extends React.Component {
       isHoverInsertMode,
       isHoverInsertModeBottom,
       readOnly,
-      activeBlockKey
+      activeBlockKey,
     } = this.state;
     // eslint-disable-next-line react/destructuring-assignment
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
-    
+
     const isSidebarVisible = !!activeBlockKey && (
       isHoverInsertMode
       || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock))
@@ -624,9 +624,22 @@ class Blocksmith extends React.Component {
     let newContentState;
     let newBlockKey;
 
-    const activeBlock = getBlockForKey(contentState, activeBlockKey);
-
-    if (isBlockEmpty(activeBlock)) {
+    if (activeBlockKey === null) {
+      // something went wrong and we don't know where to put the new block so
+      // as a last resort put it at the end, it can then be reordered manually
+      newBlockKey = genKey();
+      newContentState = insertEmptyBlock(
+        contentState,
+        contentState.getLastBlock().getKey(),
+        constants.POSITION_AFTER,
+        newBlockKey,
+      );
+      newContentState = replaceBlockAtKey(
+        newContentState,
+        canvasBlock,
+        newBlockKey,
+      );
+    } else if (isBlockEmpty(getBlockForKey(contentState, activeBlockKey))) {
       // active block is empty - just replace it with new block
       newContentState = replaceBlockAtKey(
         contentState,
@@ -648,6 +661,7 @@ class Blocksmith extends React.Component {
         newBlockKey,
       );
     }
+
     const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
     this.setState(() => ({
       editorState: newEditorState.editorState,
@@ -1155,13 +1169,13 @@ class Blocksmith extends React.Component {
   }
 
   /**
-   * Remove any styling associated with an "active" editor
+   * Clear activeBlockKey that may later become stale and unstyle "active" editor.
    */
   handleMouseLeave() {
-    const { modalComponent, isSidebarOpen } = this.state
-    
+    const { modalComponent, isSidebarOpen } = this.state;
+
     if (modalComponent || isSidebarOpen) {
-      return
+      return;
     }
 
     this.setState(() => ({ activeBlockKey: null }), this.removeActiveStyling);
@@ -1174,7 +1188,7 @@ class Blocksmith extends React.Component {
    */
   handleMouseMove(e) {
     const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
-    if (readOnly || isSidebarOpen || null === activeBlockKey) {
+    if (readOnly || isSidebarOpen || activeBlockKey === null) {
       return;
     }
 
@@ -1186,7 +1200,7 @@ class Blocksmith extends React.Component {
       this.positionComponents(editorState, activeBlockKey);
     } else {
       const isOverSidebar = sidebar.isSidebar(target);
-   
+
       this.setState(({ isHoverInsertMode }) => ({
         // eslint-disable-next-line max-len
         // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
@@ -1421,7 +1435,7 @@ class Blocksmith extends React.Component {
       }
     } else if (text && text.startsWith(tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN)) {
       const blocks = JSON.parse(text.replace(new RegExp(`^${tokens.BLOCKSMITH_COPIED_CONTENT_TOKEN}`), ''))
-        .map(function (block) { return ObjectSerializer.deserialize(block); });
+        .map(function (block) { return ObjectSerializer.deserialize(block); }); // eslint-disable-line prefer-arrow-callback
 
       const selectionState = editorState.getSelection();
       const insertionKey = selectionState.getIsBackward()
