@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { useState, useRef, lazy, useEffect } from 'react';
 import Editor from '@draft-js-plugins/editor';
 // import MultiDecorator from '@draft-js-plugins/editor/lib/Editor/MultiDecorator';
 import {
@@ -78,145 +78,114 @@ import { normalizeKey } from 'components/blocksmith-field/utils';
 import noop from 'lodash/noop';
 // import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
 import 'components/blocksmith-field/styles.scss';
+import { insert } from 'final-form-arrays';
 
 let TextBlockV1;
 const GenericBlockPlaceholder = lazy(() => import('components/blocksmith-field/components/generic-block-placeholder'));
 
-class Blocksmith extends React.Component {
-  static async confirmDelete() {
-    return Swal.fire({
-      title: 'Are you sure?',
-      text: 'This block will be deleted',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete!',
-      confirmButtonClass: 'btn btn-danger',
-      cancelButtonClass: 'btn btn-secondary',
-      reverseButtons: true,
+const confirmDelete = async () => {
+  return Swal.fire({
+    title: 'Are you sure?',
+    text: 'This block will be deleted',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete!',
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-secondary',
+    reverseButtons: true,
+  });
+}
+
+export default function Blocksmith(props) {
+  const {
+    blocks,
+    editMode,
+    // node,
+    onChange: ffOnChange, // (final form api) onChange
+  } = props;
+
+  let origEditorState = EditorState.createEmpty(new CompositeDecorator(decorators));
+  if (blocks && blocks.length) {
+    convertToCanvasBlocks(origEditorState).then((canvasBlocks) => {
+      origEditorState = convertToEditorState(canvasBlocks);
     });
   }
 
-  constructor(props) {
-    super(props);
-    const { blocks, editMode } = this.props;
+  const [ blockButtonsStyle, setBlockButtonsStyle ] = useState({ transform: 'scale(0)' });
+  const [ editorState, setEditorStateX ] = useState(origEditorState);
+  const [ isHoverInsertMode, setIsHoverInsertMode ] = useState(false);
+  const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
+  const [ errors, setErrors ] = useState({});
+  const [ readOnly, setReadOnly ] = useState(!editMode);
+  const [ isDirty, setIsDirty ] = useState(false);
+  const [ sidebarResetFlag, setSidebarResetFlag ] = useState(0);
+  const [ activeBlockKey, setActiveBlockKey ] = useState();
+  const [ modalComponent, setModalComponent ] = useState();
+  const [ hoverBlockNode, setHoverBlockNode ] = useState();
+  const [ isHoverInsertModeBottom, setIsHoverInsertModeBottom ] = useState();
+  const [ sidebarHolderStyle, setSidebarHolderStyle ] = useState({
+    transform: 'scale(1)',
+    top: 14,
+  });
+  const [ copiedBlock, setCopiedBlock ] = useState();
+  const popoverRef = useRef();
+  const editorRef = useRef();
 
-    let editorState = EditorState.createEmpty(new CompositeDecorator(decorators));
-    if (blocks && blocks.length) {
-      convertToCanvasBlocks(editorState).then((canvasBlocks) => {
-        editorState = convertToEditorState(canvasBlocks);
-      });
+  const setEditorState = (...props) => {
+    try {
+      console.log('Set Editor State', props);
+      setEditorStateX(...props);
+      throw new Error('setEditorState Debug!');
+    } catch (e) {
+      console.log(e);
     }
-
-    this.state = {
-      blockButtonsStyle: {
-        transform: 'scale(0)',
-      },
-      editorState,
-      errors: {}, // todo: update
-      isHoverInsertMode: false,
-      isSidebarOpen: false,
-      readOnly: !editMode,
-      sidebarResetFlag: 0,
-      sidebarHolderStyle: {
-        transform: 'scale(1)',
-        top: 14,
-      },
-    };
-
-    this.popoverRef = React.createRef();
-
-    /**
-     * allows to overwrite the default block render map, this will ensure the pasted text will
-     * only convert to Draft block types if the element is listed in the map below.
-     *
-     * e.g., when a h3 element is pasted into blocksmith, it will be converted to <p> tags
-     *
-     * @link https://draftjs.org/docs/advanced-topics-custom-block-render-map
-     */
-     this.blockRenderMap = Map({
-      [blockTypes.ATOMIC]: {
-        element: 'figure',
-      },
-      [blockTypes.ORDERED_LIST_ITEM]: {
-        element: 'li',
-        wrapper: <ol />,
-      },
-      [blockTypes.UNORDERED_LIST_ITEM]: {
-        element: 'li',
-        wrapper: <ul />,
-      },
-      [blockTypes.UNSTYLED]: {
-        element: 'div',
-        aliasedElements: ['div'],
-      },
-    });
-
-    this.inlineToolbarPlugin = createInlineToolbarPlugin({
-      theme: {
-        toolbarStyles: {
-          toolbar: 'inline-toolbar',
-        },
-        buttonStyles: {
-          button: 'inline-toolbar-button',
-          buttonWrapper: 'inline-toolbar-button-wrapper',
-          active: 'inline-toolbar-button-active',
-        },
-      },
-    });
-
-    this.plugins = [
-      this.inlineToolbarPlugin,
-    ];
-
-    this.blockRendererFn = this.blockRendererFn.bind(this);
-    this.blockStyleFn = this.blockStyleFn.bind(this);
-    this.getEditorState = this.getEditorState.bind(this);
-    this.getReadOnly = this.getReadOnly.bind(this);
-    this.getSidebarHolderStyle = this.getSidebarHolderStyle.bind(this);
-    this.handleAddCanvasBlock = this.handleAddCanvasBlock.bind(this);
-    this.handleAddEmptyBlockAtEnd = this.handleAddEmptyBlockAtEnd.bind(this);
-    this.handleAddLink = this.handleAddLink.bind(this);
-    this.handleBlockMouseEnter = this.handleBlockMouseEnter.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleCopyBlock = this.handleCopyBlock.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleDrop = this.handleDrop.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleEditCanvasBlock = this.handleEditCanvasBlock.bind(this);
-    this.handleHoverInsert = this.handleHoverInsert.bind(this);
-    this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleMouseCopy = this.handleMouseCopy.bind(this);
-    this.handleMouseCut = this.handleMouseCut.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handlePasteBlock = this.handlePasteBlock.bind(this);
-    this.handlePastedText = this.handlePastedText.bind(this);
-    this.handlePopoverClick = this.handlePopoverClick.bind(this);
-    this.handleRemoveLink = this.handleRemoveLink.bind(this);
-    this.handleSelectSpecialCharacter = this.handleSelectSpecialCharacter.bind(this);
-    this.handleShiftBlock = this.handleShiftBlock.bind(this);
-    this.handleToggleBlockModal = this.handleToggleBlockModal.bind(this);
-    this.handleToggleLinkModal = this.handleToggleLinkModal.bind(this);
-    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
-    this.handleToggleSpecialCharacterModal = this.handleToggleSpecialCharacterModal.bind(this);
-    this.keyBindingFn = this.keyBindingFn.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.positionComponents = this.positionComponents.bind(this);
-    this.removeActiveStyling = this.removeActiveStyling.bind(this);
-    this.selectAndStyleBlock = this.selectAndStyleBlock.bind(this);
-    this.setCopiedBlockFromStorage = this.setCopiedBlockFromStorage.bind(this);
-    this.setHoverInsertMode = this.setHoverInsertMode.bind(this);
-    this.styleActiveBlock = this.styleActiveBlock.bind(this);
-    this.styleActiveBlockNode = this.styleActiveBlockNode.bind(this);
-
-    visibilityWatcher.init(this.setCopiedBlockFromStorage);
   }
 
-  async componentDidMount() {
-    const { blocks } = this.props;
+  /**
+   * allows to overwrite the default block render map, this will ensure the pasted text will
+   * only convert to Draft block types if the element is listed in the map below.
+   *
+   * e.g., when a h3 element is pasted into blocksmith, it will be converted to <p> tags
+   *
+   * @link https://draftjs.org/docs/advanced-topics-custom-block-render-map
+   */
+  const blockRenderMap = Map({
+    [blockTypes.ATOMIC]: {
+      element: 'figure',
+    },
+    [blockTypes.ORDERED_LIST_ITEM]: {
+      element: 'li',
+      wrapper: <ol />,
+    },
+    [blockTypes.UNORDERED_LIST_ITEM]: {
+      element: 'li',
+      wrapper: <ul />,
+    },
+    [blockTypes.UNSTYLED]: {
+      element: 'div',
+      aliasedElements: ['div'],
+    },
+  });
+
+  const inlineToolbarPlugin = createInlineToolbarPlugin({
+    theme: {
+      toolbarStyles: {
+        toolbar: 'inline-toolbar',
+      },
+      buttonStyles: {
+        button: 'inline-toolbar-button',
+        buttonWrapper: 'inline-toolbar-button-wrapper',
+        active: 'inline-toolbar-button-active',
+      },
+    },
+  });
+
+  const plugins = [ inlineToolbarPlugin ];
+
+  visibilityWatcher.init(setCopiedBlockFromStorage);
+
+
+  useEffect(async () => {
     if (!blocks || !blocks.length) {
       return;
     }
@@ -224,15 +193,19 @@ class Blocksmith extends React.Component {
     const copiedBlockJson = localStorage.getItem(COPIED_BLOCK_KEY);
     if (copiedBlockJson) {
       const copiedBlock = await JsonSerializer.deserialize(copiedBlockJson);
-      this.setState(() => ({ copiedBlock }));
+      setCopiedBlock(copiedBlock);
     }
 
     TextBlockV1 = await MessageResolver.resolveCurie('*:canvas:block:text-block:v1');
     const decodedBlocks = await Promise.all(blocks.map((block) => ObjectSerializer.decodeMessage(block)));
     // todo: simplify decorators
     const editorState = convertToEditorState(decodedBlocks, new CompositeDecorator(decorators));
-    this.onChange(editorState);
-  }
+    onChange(editorState);
+  }, [ blocks ]);
+
+  useEffect(() => {
+    setReadOnly(!editMode);
+  }, [ editMode ]);
 
   /**
    * If you try to get clever and do something with incoming editorState here, be very careful.
@@ -241,53 +214,73 @@ class Blocksmith extends React.Component {
    *
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
-  async componentDidUpdate({blocks: prevBlocks, editorState: prevPropsEditorState, editMode: prevEditMode}) {
-    const { editorState: currentPropsEditorState, editMode, blocks } = this.props;
-    const { editorState } = this.state;
+  useEffect(async () => {
+    const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
+    const convertedEditorState = convertToEditorState(blocksToMixins);
+    const newEditorState = await pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary');
 
-    if (prevEditMode !== editMode) {
-      this.setState(() => ({ readOnly: !editMode }));
-      return;
-    }
+    setEditorState(newEditorState.editorState);
+    setErrors(newEditorState.errors);
+    setActiveBlockKey(normalizeKey(newEditorState.editorState.getCurrentContent().getFirstBlock().getKey()));
+  }, [ blocks ]);
+
+  // useEffect(async () => {
+  //   console.log('Wtf is editor state?', editorState);
+  //   window.editorState = editorState;
+  //   const newEditorState = await pushEditorState(editorState, editorState.getCurrentContent());
+  //   window.newEditorState = newEditorState;
+  //   /**
+  //    * Force editor to re-render when new editorState comes in via props. Required because the
+  //    * error boundary can "restore" the editor after an error.
+  //    */
+  //   setEditorState(newEditorState.editorState);
+  //   setErrors(newEditorState.errors);
+  // }, [ editorState ]);
+
+  // useEffect(async () => {
+    // async componentDidUpdate({blocks: prevBlocks, editorState: prevPropsEditorState, editMode: prevEditMode}) {
+    // const { editorState: currentPropsEditorState, editMode, blocks } = this.props;
+    // const { editorState } = this.state;
+
+    // if (prevEditMode !== editMode) {
+    //   setReadOnly(!editMode);
+    //   return;
+    // }
 
     // This is for revert support
-    if (prevBlocks !==  blocks) {
-      const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
-      const convertedEditorState = convertToEditorState(blocksToMixins);
-      pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary').then(newEditorState => {
-        this.setState(() => ({
-          editorState: newEditorState.editorState, // Updates editorState with new content
-          errors: newEditorState.errors,
-          activeBlockKey: normalizeKey(newEditorState.editorState.getCurrentContent().getFirstBlock().getKey()), // Resets the activeBlockKey to a valid one
-        }));
-      });
-      return;
-    }
+    // if (prevBlocks !==  blocks) {
+    //   const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
+    //   const convertedEditorState = convertToEditorState(blocksToMixins);
+    //   pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary').then(newEditorState => {
+    //     setEditorState(newEditorState.editorState);
+    //     setErrors(newEditorState.errors);
+    //     setActiveBlockKey(normalizeKey(newEditorState.editorState.getCurrentContent().getFirstBlock().getKey()));
+    //   });
+    //   return;
+    // }
 
-    if (
-      currentPropsEditorState
-      && prevPropsEditorState
-      && prevPropsEditorState !== currentPropsEditorState
-    ) {
-      const newEditorState = pushEditorState(editorState, currentPropsEditorState.getCurrentContent());
-      /**
-       * Force editor to re-render when new editorState comes in via props. Required because the
-       * error boundary can "restore" the editor after an error.
-       */
-      this.setState(() => ({
-        editorState: newEditorState.editorState,
-        errors: newEditorState.errors,
-      }));
-    }
-  }
+    // if (
+    //   currentPropsEditorState
+    //   && prevPropsEditorState
+    //   && prevPropsEditorState !== currentPropsEditorState
+    // ) {
+    //   const newEditorState = pushEditorState(editorState, currentPropsEditorState.getCurrentContent());
+    //   /**
+    //    * Force editor to re-render when new editorState comes in via props. Required because the
+    //    * error boundary can "restore" the editor after an error.
+    //    */
+    //   setEditorState(newEditorState.editorState);
+    //   setErrors(newEditorState.errors);
+    // }
+  // }, [ blocks, editMode, editorState ]);
 
-  componentWillUnmount() {
-    blockParentNode.clearCache();
-    selection.clearCache();
-    sidebar.clearCache();
-    updateBlocks.clearCache();
-    visibilityWatcher.cleanup();
-  }
+  // componentWillUnmount() {
+  //   blockParentNode.clearCache();
+  //   selection.clearCache();
+  //   sidebar.clearCache();
+  //   updateBlocks.clearCache();
+  //   visibilityWatcher.cleanup();
+  // }
 
   /**
    * Tells the DraftJs editor how to render custom atomic blocks.
@@ -299,8 +292,7 @@ class Blocksmith extends React.Component {
    *
    * @returns {?Object} a React component and config, or null if borked
    */
-  blockRendererFn(block) {
-    const {editorState, readOnly} = this.state;
+  const blockRendererFn = (block) => {
     switch (block.getType()) {
       case blockTypes.ATOMIC: {
         const blockData = block.getData();
@@ -316,7 +308,7 @@ class Blocksmith extends React.Component {
           component: () => <GenericBlockPlaceholder
             block={block}
             config={placeholderConfig}
-            blockProps={{getReadOnly: this.getReadOnly}}
+            blockProps={{ getReadOnly }}
           />,
           editable: false,
         };
@@ -326,8 +318,8 @@ class Blocksmith extends React.Component {
           component: DraggableTextBlock,
           contentEditable: !readOnly,
           props: {
-            getReadOnly: this.getReadOnly,
-            onMouseEnter: this.handleBlockMouseEnter,
+            getReadOnly,
+            onMouseEnter: handleBlockMouseEnter,
           },
         };
       case blockTypes.ORDERED_LIST_ITEM:
@@ -338,7 +330,7 @@ class Blocksmith extends React.Component {
           props: {
             isFirst: isFirstListBlock(editorState.getCurrentContent(), block),
             isLast: isLastListBlock(editorState.getCurrentContent(), block),
-            getReadOnly: this.getReadOnly,
+            getReadOnly,
           },
         };
       default:
@@ -346,7 +338,7 @@ class Blocksmith extends React.Component {
           component: () => <GenericBlockPlaceholder
             block={block}
             config={{}}
-            blockProps={{getReadOnly: this.getReadOnly}}
+            blockProps={{ getReadOnly }}
           />,
         };
     }
@@ -364,8 +356,7 @@ class Blocksmith extends React.Component {
    *
    * @returns {string|null}
    */
-  blockStyleFn(block) {
-    const {errors} = this.state;
+  const blockStyleFn = (block) => {
     const hasError = block.getKey() in errors;
     switch (block.getType()) {
       case blockTypes.UNSTYLED:
@@ -379,20 +370,14 @@ class Blocksmith extends React.Component {
   }
 
   // for components inside the editor that do not receive props in the normal way
-  getEditorState() {
-    const { editorState } = this.state;
-    return editorState;
-  }
+  const getEditorState = () => editorState;
 
   /**
    * for components returned by blockRendererFn that do not receive props in the normal way.
    * need to have this closure because blockRendererFn does not get called when changing view/edit
    * mode or other external events, so the blocks rendered there won't get an updated readOnly value
    */
-  getReadOnly() {
-    const { readOnly } = this.state;
-    return readOnly;
-  }
+  const getReadOnly = () => readOnly;
 
   /**
    * Calculates how the sidebar should be styled
@@ -408,15 +393,8 @@ class Blocksmith extends React.Component {
    *
    * @returns {object} - an object to be set as the sidebarHolderStyle state
    */
-  getSidebarHolderStyle(activeBlock, blockBounds, contentState, editorBounds) {
-    const {
-      editorState,
-      hoverBlockNode,
-      isHoverInsertMode,
-      isHoverInsertModeBottom,
-      readOnly,
-    } = this.state;
-    const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
+  const getSidebarHolderStyle = (activeBlock, blockBounds, contentState, editorBounds) => {
+    const sidebarHolderStyle = { ...sidebarHolderStyle };
     const isSidebarVisible = isHoverInsertMode
       || (!readOnly && isBlockEmpty(activeBlock) && !isBlockAList(activeBlock))
       || !editorState.getCurrentContent().hasText();
@@ -456,18 +434,16 @@ class Blocksmith extends React.Component {
   /**
    * Updates form value.
    */
-  updateCanvasBlocks(editorState) {
-    const { onChange } = this.props;
-    convertToCanvasBlocks(editorState).then((canvasBlocks) => {
-      onChange(canvasBlocks.map((canvasBlock) => canvasBlock.toJSON()));
-    });
+  const updateCanvasBlocks = async (editorState) => {
+    const canvasBlocks = await convertToCanvasBlocks(editorState);
+    console.log('Updated canvas blocks:', canvasBlocks.map((canvasBlock) => canvasBlock.toJSON()));
+    ffOnChange(canvasBlocks.map((canvasBlock) => canvasBlock.toJSON()));
   }
 
   /**
    * Adds a new empty block at the end.
    */
-  handleAddEmptyBlockAtEnd() {
-    const { editorState } = this.state;
+  const handleAddEmptyBlockAtEnd = () => {
     const contentState = editorState.getCurrentContent();
     const newBlockKey = genKey();
     const newContentState = insertEmptyBlock(
@@ -477,12 +453,17 @@ class Blocksmith extends React.Component {
       newBlockKey,
     );
     pushEditorState(editorState, newContentState, 'arbitrary').then((newEditorState) => {
-      this.setState(() => ({
-        isHoverInsertMode: false,
-        isHoverInsertModeBottom: null,
-        editorState: selectBlock(newEditorState.editorState, newBlockKey),
-        errors: newEditorState.errors,
-      }), () => this.positionComponents(newEditorState.editorState.getCurrentContent(), newBlockKey));
+      // this.setState(() => ({
+      //   isHoverInsertMode: false,
+      //   isHoverInsertModeBottom: null,
+      //   editorState: selectBlock(newEditorState.editorState, newBlockKey),
+      //   errors: newEditorState.errors,
+      // }));
+      setIsHoverInsertMode(false);
+      setIsHoverInsertModeBottom(null);
+      setEditorState(selectBlock(newEditorState.editorState, newBlockKey));
+      setErrors(newEditorState.errors);
+      positionComponents(newEditorState.editorState.getCurrentContent(), newBlockKey)
     });
   }
 
@@ -492,15 +473,7 @@ class Blocksmith extends React.Component {
    * @param {*} canvasBlock                - a triniti canvas block
    * @param {boolean} shouldSelectAndStyle - whether or not to select and style the new block
    */
-  handleAddCanvasBlock(canvasBlock, shouldSelectAndStyle = false) {
-    const {
-      activeBlockKey,
-      editorState,
-      isDirty,
-      isHoverInsertModeBottom,
-      sidebarResetFlag,
-    } = this.state;
-    // const { delegate } = this.props;
+  const handleAddCanvasBlock = (canvasBlock, shouldSelectAndStyle = false) => {
     const contentState = editorState.getCurrentContent();
     let newContentState;
     let newBlockKey;
@@ -528,74 +501,79 @@ class Blocksmith extends React.Component {
       );
     }
     pushEditorState(editorState, newContentState, 'insert-characters').then((newEditorState) => {
-      this.setState(() => ({
-        editorState: newEditorState.editorState,
-        errors: newEditorState.errors,
-        isDirty: true,
-        sidebarResetFlag: +!sidebarResetFlag,
-      }), () => {
-        this.removeActiveStyling();
-        this.handleToggleSidebar();
-        // if (!isDirty) {
-        //   delegate.handleDirtyEditor();
-        // }
-        // /* eslint-disable react/destructuring-assignment */
-        // if (!this.state.editorState.getSelection().getHasFocus()) {
-        //   delegate.handleStoreEditor(this.state.editorState);
-        // }
-        // /* eslint-enable react/destructuring-assignment */
-        if (shouldSelectAndStyle) {
-          this.selectAndStyleBlock(newBlockKey || activeBlockKey);
-        }
-        this.updateCanvasBlocks(this.state.editorState);
-      });
+      // this.setState(() => ({
+      //   editorState: newEditorState.editorState,
+      //   errors: newEditorState.errors,
+      //   isDirty: true,
+      //   sidebarResetFlag: +!sidebarResetFlag,
+      // }), () => {
+      //   removeActiveStyling();
+      //   handleToggleSidebar();
+      //   // if (!isDirty) {
+      //   //   delegate.handleDirtyEditor();
+      //   // }
+      //   // /* eslint-disable react/destructuring-assignment */
+      //   // if (!this.state.editorState.getSelection().getHasFocus()) {
+      //   //   delegate.handleStoreEditor(this.state.editorState);
+      //   // }
+      //   // /* eslint-enable react/destructuring-assignment */
+      //   if (shouldSelectAndStyle) {
+      //     selectAndStyleBlock(newBlockKey || activeBlockKey);
+      //   }
+      //   updateCanvasBlocks(editorState);
+      // });
+      setEditorState(newEditorState.editorState);
+      setErrors(newEditorState.errors);
+      setIsDirty(true);
+      setSidebarResetFlag(+!sidebarResetFlag);
+
+      removeActiveStyling();
+      handleToggleSidebar();
+
+      if (shouldSelectAndStyle) {
+        selectAndStyleBlock(newBlockKey || activeBlockKey);
+      }
+      updateCanvasBlocks(editorState);
     });
+
   }
 
   /**
    * Turns the currently selected text into a link. This is passed as a prop into the link
    * modal so it can have a super sweet button to add a link.
    */
-  handleAddLink(target, url) {
-    const { editorState } = this.state;
-    this.setState(() => ({
-      editorState: createLinkAtSelection(editorState, target, url),
-      isDirty: true,
-    }), () => {
-      this.updateCanvasBlocks(this.state.editorState);
-    });
+  const handleAddLink = (target, url) => {
+    // this.setState(() => ({
+    //   editorState: createLinkAtSelection(editorState, target, url),
+    //   isDirty: true,
+    // }), () => {
+    //   this.updateCanvasBlocks(this.state.editorState);
+    // });
+    setEditorState(createLinkAtSelection(editorState, target, url));
+    setIsDirty(true);
+    updateCanvasBlocks(editorState);
   }
 
-  handleBlockMouseEnter(blockKey) {
-    this.setState(() => ({
-      activeBlockKey: normalizeKey(blockKey),
-    }));
-  }
+  const handleBlockMouseEnter = (blockKey) => setActiveBlockKey(normalizeKey(blockKey));
 
   /**
    * Updates form value on blur.
    */
-  handleBlur(syntheticEvent, pluginFunctions) {
-    const { onChange } = this.props;
-    this.updateCanvasBlocks(pluginFunctions.getEditorState());
-  }
+  const handleBlur = (syntheticEvent, pluginFunctions) => updateCanvasBlocks(pluginFunctions.getEditorState());
 
   /**
    * Closes any currently open modal.
    */
-  handleCloseModal() {
-    this.setState(() => ({
-      readOnly: false,
-      modalComponent: null,
-    }));
+  const handleCloseModal = () => {
+    setReadOnly(false);
+    setModalComponent(null);
   }
 
   /**
    * Stores the triniti block payload in redux so that it is available for later pasting
    */
-  handleCopyBlock() {
+  const handleCopyBlock = () => {
     // todo: maybe update this to use actual clipboard and object de/serialization
-    const { activeBlockKey, copiedBlock, editorState } = this.state;
     // const { delegate } = this.props;
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const blockData = draftJsBlock.getData();
@@ -608,7 +586,7 @@ class Blocksmith extends React.Component {
       return;
     }
 
-    this.setState(() => ({ copiedBlock: canvasBlock }));
+    setCopiedBlock(canvasBlock);
     localStorage.setItem(COPIED_BLOCK_KEY, `${canvasBlock}`);
     // delegate.handleStoreEditor(editorState);
   }
@@ -617,32 +595,29 @@ class Blocksmith extends React.Component {
    * Deletes the active block. A block's key is set as the active key (in positionComponents) when
    * the text indicator is moved into it or when the mouse is moved over it.
    */
-  handleDelete() {
-    const { activeBlockKey, editorState, isDirty } = this.state;
-    const { delegate } = this.props;
-
-    this.setState(() => ({ readOnly: true }), () => {
-      Blocksmith.confirmDelete().then((result) => {
-        this.setState(() => ({ readOnly: false }), () => {
-          if (!result.value) {
-            return; // do nothing, user declined to delete
-          }
-          pushEditorState(
-            editorState,
-            deleteBlock(editorState.getCurrentContent(), activeBlockKey),
-            'remove-range',
-          ).then((newEditorState) => {
-            this.setState(() => ({
-              editorState: newEditorState.editorState,
-              errors: newEditorState.errors,
-              isDirty: isDirty,
-            }), () => {
-              this.updateCanvasBlocks(this.state.editorState);
-            });
+  const handleDelete = () => {
+    Blocksmith.confirmDelete().then((result) => {
+      this.setState(() => ({ readOnly: false }), () => {
+        if (!result.value) {
+          return; // do nothing, user declined to delete
+        }
+        pushEditorState(
+          editorState,
+          deleteBlock(editorState.getCurrentContent(), activeBlockKey),
+          'remove-range',
+        ).then((newEditorState) => {
+          this.setState(() => ({
+            editorState: newEditorState.editorState,
+            errors: newEditorState.errors,
+            isDirty: isDirty,
+          }), () => {
+            updateCanvasBlocks(this.state.editorState);
           });
         });
       });
     });
+
+    setReadOnly(false);
   }
 
   /**
@@ -653,7 +628,7 @@ class Blocksmith extends React.Component {
    *
    * @param {event} e - a drop event
    */
-  handleDrop(e) {
+  const handleDrop = (e) => {
     clearDragCache();
     const raw = e.dataTransfer.getData('block');
     const data = raw ? raw.split(':') : [];
@@ -702,7 +677,6 @@ class Blocksmith extends React.Component {
     }
     draggedBlock.classList.remove('hidden-block');
 
-    const { editorState, isDirty } = this.state;
     const contentState = editorState.getCurrentContent();
     const newContentState = dropBlock(
       contentState,
@@ -723,18 +697,17 @@ class Blocksmith extends React.Component {
           errors: newEditorState.errors,
         };
       }
-      this.setState(() => ({
-        editorState: newEditorState.editorState,
-        errors: newEditorState.errors,
-        isDirty: true,
-      }), () => {
-        this.updateCanvasBlocks(this.state.editorState);
-        // const { delegate } = this.props;
-        // delegate.handleStoreEditor(newEditorState.editorState);
-        // if (!isDirty) {
-        //   delegate.handleDirtyEditor();
-        // }
-      });
+
+      setEditorState(newEditorState.editorState);
+      setErrors(newEditorState.errors);
+      setIsDirty(true);
+      
+      updateCanvasBlocks(editorState);
+      // const { delegate } = this.props;
+      // delegate.handleStoreEditor(newEditorState.editorState);
+      // if (!isDirty) {
+      //   delegate.handleDirtyEditor();
+      // }
     });
     return 'handled';
   }
@@ -744,8 +717,7 @@ class Blocksmith extends React.Component {
    * (in positionComponents) when the text indicator is moved into it or when the mouse
    * is moved over it.
    */
-  handleEdit() {
-    const { activeBlockKey, editorState } = this.state;
+  const handleEdit = () => {
     const draftJsBlock = editorState.getCurrentContent().getBlockForKey(activeBlockKey);
     const blockData = draftJsBlock.getData();
 
@@ -761,7 +733,7 @@ class Blocksmith extends React.Component {
         canvasBlock.set('updated_date', moment().toDate());
       }
     }
-    this.handleToggleBlockModal(canvasBlock);
+    handleToggleBlockModal(canvasBlock);
   }
 
   /**
@@ -771,10 +743,7 @@ class Blocksmith extends React.Component {
    *
    * @param {*}      canvasBlock - a triniti canvas block
    */
-  handleEditCanvasBlock(canvasBlock) {
-    const { activeBlockKey, isDirty, editorState } = this.state;
-    const { onChange } = this.props;
-
+  const handleEditCanvasBlock = (canvasBlock) => {
     let newEditorState = editorState;
     const activeBlockPosition = newEditorState // used later to re-position
       .getCurrentContent()
@@ -792,11 +761,11 @@ class Blocksmith extends React.Component {
         errors: newEditorState.errors,
         isDirty: true,
       }), () => {
-        this.positionComponents(
-          this.state.editorState.getCurrentContent(),
-          findBlock(this.state.editorState.getCurrentContent(), activeBlockPosition).getKey(),
+        positionComponents(
+          editorState.getCurrentContent(),
+          findBlock(editorState.getCurrentContent(), activeBlockPosition).getKey(),
         );
-        this.updateCanvasBlocks(this.state.editorState);
+        updateCanvasBlocks(editorState);
         // if (!isDirty) {
         //   delegate.handleDirtyEditor();
         // }
@@ -819,7 +788,7 @@ class Blocksmith extends React.Component {
    * @returns {string} 'handled' (meaning we did something special) or 'not-handled' (meaning we
    *                   want to allow the editor to take over and resume default behavior).
    */
-   handleKeyCommand(command, editorState) {
+   const handleKeyCommand = (command, editorState) => {
     switch (command) {
       case constants.DOUBLE_ENTER_ON_LIST: {
         const selectionState = editorState.getSelection();
@@ -830,24 +799,17 @@ class Blocksmith extends React.Component {
           blockTypes.UNSTYLED,
         );
         pushEditorState(editorState, newContentState, 'remove-range').then((newEditorState) => {
-          this.setState(() => ({
-            editorState: newEditorState.editorState,
-            errors: newEditorState.errors,
-          }), () => {
-            this.positionComponents(newEditorState.editorState.getCurrentContent(), selectionState.getAnchorKey());
-          });
+          setEditorState(newEditorState.editorState);
+          setErrors(newEditorState.errors);
+          positionComponents(newEditorState.editorState.getCurrentContent(), selectionState.getAnchorKey());
         });
         return 'handled';
       }
       case constants.SOFT_NEWLINE:
-        this.setState(() => ({
-          editorState: RichUtils.insertSoftNewline(editorState),
-        }));
+        setEditorState(RichUtils.insertSoftNewline(editorState));
         return 'handled';
       case constants.ATOMIC_BLOCKS_CUT:
-        this.setState(() => ({
-          editorState: deleteSelectedBlocks(editorState),
-        }));
+        setEditorState(deleteSelectedBlocks(editorState));
         return 'handled';
       default:
         return 'not-handled';
@@ -862,11 +824,8 @@ class Blocksmith extends React.Component {
    *
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
-  handleKeyDown(e) {
-    const { editorState } = this.state;
-    this.setState(() => ({
-      isHoverInsertMode: false,
-    }));
+  const handleKeyDown = (e) => {
+    setIsHoverInsertMode(false);
 
     const { isOptionKeyCommand, hasCommandModifier } = KeyBindingUtil;
     if (!editorState.getSelection().getHasFocus() || isOptionKeyCommand(e)) {
@@ -876,19 +835,13 @@ class Blocksmith extends React.Component {
     if (hasCommandModifier(e)) {
       switch (getDefaultKeyBinding(e)) {
         case 'bold':
-          this.setState(() => ({
-            editorState: RichUtils.toggleInlineStyle(editorState, 'BOLD'),
-          }));
+          setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
           return;
         case 'italic':
-          this.setState(() => ({
-            editorState: RichUtils.toggleInlineStyle(editorState, 'ITALIC'),
-          }));
+          setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
           return;
         case 'underline':
-          this.setState(() => ({
-            editorState: RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'),
-          }));
+          setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
           return;
         default:
           if (e.key === 'k') {
@@ -931,9 +884,7 @@ class Blocksmith extends React.Component {
           ) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
-            this.setState(() => ({
-              editorState: selectBlock(editorState, previousBlock, selectBlockSelectionTypes.END),
-            }));
+            setEditorState(selectBlock(editorState, previousBlock, selectBlockSelectionTypes.END));
           }
         }
 
@@ -952,9 +903,7 @@ class Blocksmith extends React.Component {
           } else if (nextBlock.getType() === blockTypes.UNSTYLED || isBlockAList(nextBlock)) {
             e.preventDefault();
             // native draft keyboard nav is often wonky, do it manually to avoid bugs
-            this.setState(() => ({
-              editorState: selectBlock(editorState, nextBlock, selectBlockSelectionTypes.START),
-            }));
+            setEditorState(selectBlock(editorState, nextBlock, selectBlockSelectionTypes.START));
           }
         }
 
@@ -970,9 +919,7 @@ class Blocksmith extends React.Component {
           (!nextBlock || areRestOfBlocksAtomic)
           && isOnLastLineOfBlock(editorState)
         ) {
-          this.setState(() => ({
-            editorState: selectBlock(editorState, currentBlock.getKey(), selectBlockSelectionTypes.END),
-          }));
+          setEditorState(selectBlock(editorState, currentBlock.getKey(), selectBlockSelectionTypes.END));
           e.preventDefault(); // would be going "into" an atomic block
         }
         break;
@@ -995,13 +942,7 @@ class Blocksmith extends React.Component {
   /**
    * Inserts an empty block when the hover insert mode indicator is clicked.
    */
-  handleHoverInsert() {
-    const {
-      activeBlockKey,
-      editorState,
-      isHoverInsertModeBottom,
-      sidebarResetFlag,
-    } = this.state;
+  const handleHoverInsert = () => {
     const newBlockKey = genKey();
     const newContentState = insertEmptyBlock(
       editorState.getCurrentContent(),
@@ -1010,13 +951,12 @@ class Blocksmith extends React.Component {
       newBlockKey,
     );
     pushEditorState(editorState, newContentState, 'arbitrary').then((newEditorState) => {
-      this.setState(() => ({
-        isHoverInsertMode: false,
-        isHoverInsertModeBottom: null,
-        editorState: selectBlock(newEditorState.editorState, newBlockKey),
-        errors: newEditorState.errors,
-        sidebarResetFlag: +!sidebarResetFlag,
-      }), () => this.positionComponents(newEditorState.editorState.getCurrentContent(), newBlockKey));
+      setIsHoverInsertMode(false);
+      setIsHoverInsertModeBottom(null);
+      setEditorState(selectBlock(newEditorState.editorState, newBlockKey));
+      setErrors(newEditorState.errors);
+      setSidebarResetFlag(+!sidebarResetFlag);
+      positionComponents(newEditorState.editorState.getCurrentContent(), newBlockKey)
     });
   }
 
@@ -1025,11 +965,9 @@ class Blocksmith extends React.Component {
    *
    * @param {Component} modalComponent - a react modal component.
    */
-  handleOpenModal(modalComponent) {
-    this.setState(() => ({
-      readOnly: true,
-      modalComponent,
-    }));
+  const handleOpenModal = (modalComponent) => {
+    setReadOnly(true);
+    setModalComponent(modalComponent);
   }
 
   /**
@@ -1037,8 +975,7 @@ class Blocksmith extends React.Component {
    *
    * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
    */
-  handleMouseCopy(e) {
-    const { editorState } = this.state;
+  const handleMouseCopy = (e) => {
     if (!isAtomicBlockSelected(editorState)) {
       return;
     }
@@ -1054,8 +991,7 @@ class Blocksmith extends React.Component {
    *
    * @param {SyntheticClipboardEvent} e - a synthetic clipboard event
    */
-  handleMouseCut(e) {
-    const { editorState } = this.statthis.handleMouseCut = this.handleMouseCut.bind(this);e;
+  const handleMouseCut = (e) => {
     if (!isAtomicBlockSelected(editorState)) {
       return;
     }
@@ -1067,14 +1003,11 @@ class Blocksmith extends React.Component {
   /**
    * Remove any styling associated with an "active" editor
    */
-  handleMouseLeave() {
-    const { modalComponent } = this.state
-
+  const handleMouseLeave = () => {
     if (modalComponent) {
       return
     }
-
-    this.removeActiveStyling();
+    removeActiveStyling();
   }
 
   /**
@@ -1082,8 +1015,7 @@ class Blocksmith extends React.Component {
    *
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
-  handleMouseMove(e) {
-    const { activeBlockKey, editorState, isSidebarOpen, readOnly } = this.state;
+  const handleMouseMove = (e) => {
     if (readOnly || isSidebarOpen) {
       return;
     }
@@ -1091,21 +1023,17 @@ class Blocksmith extends React.Component {
     let target = document.elementFromPoint(pageX, pageY);
 
     if (blockParentNode.is(target)) {
-      this.setHoverInsertMode(editorState.getCurrentContent(), { pageX, pageY });
-      this.positionComponents(editorState.getCurrentContent(), activeBlockKey);
+      setHoverInsertMode(editorState.getCurrentContent(), { pageX, pageY });
+      positionComponents(editorState.getCurrentContent(), activeBlockKey);
     } else {
       const isOverSidebar = sidebar.isSidebar(target);
-      this.setState(({ isHoverInsertMode }) => ({
-        // fixme: this could be problematic - isHoverInsertMode is set outside of setHoverInsertMode. seems smelly
-        isHoverInsertMode: isHoverInsertMode && isOverSidebar,
-      }), () => {
-        if (blockParentNode.contains(target)) {
-          while (!blockParentNode.is(target.parentNode)) {
-            target = target.parentNode;
-          }
-          this.positionComponents(editorState.getCurrentContent(), target.getAttribute('data-offset-key'));
+      setIsHoverInsertMode(isHoverInsertMode && isOverSidebar)
+      if (blockParentNode.contains(target)) {
+        while (!blockParentNode.is(target.parentNode)) {
+          target = target.parentNode;
         }
-      });
+        positionComponents(editorState.getCurrentContent(), target.getAttribute('data-offset-key'));
+      }
     }
   }
 
@@ -1113,14 +1041,11 @@ class Blocksmith extends React.Component {
    * If there is a copied block available, use it to
    * create a draft block with it as the data payload.
    */
-  handlePasteBlock() {
-    const { copiedBlock } = this.state;
-
+  const handlePasteBlock = () => {
     if (!copiedBlock) {
       return;
     }
-
-    this.handleAddCanvasBlock(copiedBlock, true);
+    handleAddCanvasBlock(copiedBlock, true);
   }
 
   /**
@@ -1139,11 +1064,11 @@ class Blocksmith extends React.Component {
    *
    * @returns {string}
    */
-   handlePastedText(text, html, editorState) {
+   const handlePastedText = (text, html, editorState) => {
     if (html) {
       const { contentBlocks } = DraftPasteProcessor.processHTML(
         html,
-        this.blockRenderMap.delete(blockTypes.ATOMIC),
+        blockRenderMap.delete(blockTypes.ATOMIC),
       );
       if (contentBlocks) {
         const fragment = BlockMapBuilder
@@ -1157,10 +1082,8 @@ class Blocksmith extends React.Component {
 
         const newEditorState = pushEditorState(editorState, newContentState, 'insert-characters');
 
-        this.setState(() => ({
-          editorState: newEditorState.editorState,
-          errors: newEditorState.errors,
-        }));
+        setEditorState(newEditorState.editorState);
+        setErrors(newEditorState.errors);
 
         return 'handled';
       }
@@ -1173,14 +1096,13 @@ class Blocksmith extends React.Component {
         ? selectionState.getAnchorKey()
         : selectionState.getFocusKey();
 
-      this.setState(() => ({
-        editorState: insertCanvasBlocks(
-          editorState,
-          insertionKey,
-          constants.POSITION_AFTER,
-          blocks,
-        ),
-      }), this.removeActiveStyling);
+      setEditorState(insertCanvasBlocks(
+        editorState,
+        insertionKey,
+        constants.POSITION_AFTER,
+        blocks,
+      ));
+      removeActiveStyling();
       return 'handled';
     }
     return 'not-handled';
@@ -1192,30 +1114,18 @@ class Blocksmith extends React.Component {
    *
    * @param {event} e
    */
-  handlePopoverClick(e) {
-    if (this.popoverRef && this.popoverRef.current) {
-      if (this.popoverRef.current.contains(e.target)) {
-        return;
-      }
+  const handlePopoverClick = (e) => {
+    if (popoverRef.current && popoverRef.current.contains(e.target)) {
+      return;
     }
-    this.handleToggleSidebar(e);
+    handleToggleSidebar(e);
   }
 
   /**
    * Removes the currently selected link. This is passed as a prop into the link modal so it
    * can have a super sweet button to remove the link.
    */
-  handleRemoveLink() {
-    this.setState(({ editorState }) => ({
-      editorState: removeLinkAtSelection(editorState),
-    }), () => {
-      // const { delegate } = this.props;
-      // const { isDirty } = this.state;
-      // if (!isDirty) {
-      //   delegate.handleDirtyEditor();
-      // }
-    });
-  }
+  const handleRemoveLink = () => setEditorState(removeLinkAtSelection(editorState));
 
   /**
    * Inserts a special character, either at the position of the text indicator, or at the end of
@@ -1223,18 +1133,15 @@ class Blocksmith extends React.Component {
    *
    * @param {string} specialCharacter
    */
-  handleSelectSpecialCharacter(specialCharacter) {
-    const { activeBlockKey, editorState } = this.state;
+  const handleSelectSpecialCharacter = (specialCharacter) => {
     const selectionState = editorState.getSelection();
     const insertingIntoNonActiveBlock = selectionState.getAnchorKey() !== activeBlockKey
       || selectionState.getFocusKey() !== activeBlockKey;
-    this.setState(() => ({
-      editorState: addEmoji(
-        editorState,
-        specialCharacter,
-        insertingIntoNonActiveBlock ? activeBlockKey : null,
-      ),
-    }));
+    setEditorState(addEmoji(
+      editorState,
+      specialCharacter,
+      insertingIntoNonActiveBlock ? activeBlockKey : null,
+    ));
   }
 
   /**
@@ -1243,8 +1150,7 @@ class Blocksmith extends React.Component {
    * @param {ContentBlock} block    - a DraftJs ContentBlock
    * @param {number}       position - a position (array index) to move the block to
    */
-  handleShiftBlock(block, position) {
-    const { editorState } = this.state;
+  const handleShiftBlock = (block, position) => {
     pushEditorState(
       editorState,
       shiftBlock(
@@ -1254,19 +1160,9 @@ class Blocksmith extends React.Component {
       ),
       'arbitrary',
     ).then((newEditorState) => {
-      this.setState(() => ({
-        editorState: newEditorState.editorState,
-        errors: newEditorState.errors,
-      }), () => {
-        this.removeActiveStyling();
-        // const { delegate } = this.props;
-        // const { isDirty } = this.state;
-        // if (!isDirty) {
-        //   delegate.handleDirtyEditor();
-        // }
-        // // eslint-disable-next-line react/destructuring-assignment
-        // delegate.handleStoreEditor(this.state.editorState);
-      });
+      setEditorState(newEditorState.editorState);
+      setErrors(newEditorState.errors);
+      removeActiveStyling();
     });
   }
 
@@ -1276,26 +1172,24 @@ class Blocksmith extends React.Component {
    * @param {?*}      canvasBlock  - a triniti canvas block (freshly created, when creating new)
    * @param {boolean} isFreshBlock - whether or not a new block is being created.
    */
-  handleToggleBlockModal(canvasBlock, isFreshBlock = false) {
-    const { modalComponent } = this.state;
-
+  const handleToggleBlockModal = (canvasBlock, isFreshBlock = false) => {
     if (modalComponent) {
-      this.handleCloseModal();
+      handleCloseModal();
     } else {
       const curie = canvasBlock.schema().getCurie();
       const message = curie.getMessage();
       const canvasBlockObject = isFreshBlock ? {} : canvasBlock.toObject();
       const ComponentWithPbj = curie && withPbj(getModalComponent(message), curie.toString(), canvasBlockObject);
 
-      this.handleOpenModal(() => (
+      handleOpenModal(() => (
         <ComponentWithPbj
           isOpen
           isFreshBlock={isFreshBlock}
           pbj={canvasBlock}
           block={canvasBlock}
-          onAddBlock={this.handleAddCanvasBlock}
-          onEditBlock={this.handleEditCanvasBlock}
-          toggle={this.handleCloseModal}
+          onAddBlock={handleAddCanvasBlock}
+          onEditBlock={handleEditCanvasBlock}
+          toggle={handleCloseModal}
         />
       ));
     }
@@ -1306,22 +1200,20 @@ class Blocksmith extends React.Component {
    * are given, if any. If none are given, it is assumed that we are creating a new link.
    * If some are given, it is assumed that we are editing an existing link.
    */
-  handleToggleLinkModal() {
-    const { modalComponent } = this.state;
+  const handleToggleLinkModal = () => {
     if (modalComponent) {
-      this.handleCloseModal();
+      handleCloseModal();
     } else {
-      const { editorState } = this.state;
       const contentState = editorState.getCurrentContent();
       const entityKey = getSelectionEntity(editorState);
       const entity = entityKey ? contentState.getEntity(entityKey) : null;
-      this.handleOpenModal(() => (
+      handleOpenModal(() => (
         <LinkModal
           isOpen
-          onAddLink={this.handleAddLink}
-          onRemoveLink={this.handleRemoveLink}
+          onAddLink={handleAddLink}
+          onRemoveLink={handleRemoveLink}
           openInNewTab={entity ? entity.getData().target === '_blank' : false}
-          toggle={this.handleCloseModal}
+          toggle={handleCloseModal}
           url={entity ? entity.getData().url : null}
         />
       ));
@@ -1335,39 +1227,32 @@ class Blocksmith extends React.Component {
    *
    * @param {SyntheticKeyboardEvent} e - a synthetic keyboard event
    */
-  handleToggleSidebar(e) {
+  const handleToggleSidebar = (e) => {
     const isDocumentClick = typeof e === 'undefined';
-    this.setState(({ isSidebarOpen, sidebarHolderStyle }) => ({
-      isSidebarOpen: !isSidebarOpen,
-      sidebarHolderStyle: {
-        ...sidebarHolderStyle,
-        transform: `scale(${isDocumentClick ? 0 : 1})`,
-      },
-    }), () => {
-      const { isSidebarOpen } = this.state;
-
-      if (isSidebarOpen) {
-        document.addEventListener('click', this.handlePopoverClick);
-      } else {
-        document.removeEventListener('click', this.handlePopoverClick);
-      }
+    setIsSidebarOpen(!isSidebarOpen);
+    setSidebarHolderStyle({
+      ...sidebarHolderStyle,
+      transform: `scale(${isDocumentClick ? 0 : 1})`,
     });
+    if (isSidebarOpen) {
+      document.addEventListener('click', handlePopoverClick);
+    } else {
+      document.removeEventListener('click', handlePopoverClick);
+    }
   }
 
   /**
    * Toggles the special character modal.
    */
-  handleToggleSpecialCharacterModal() {
-    const { modalComponent } = this.state;
-
+  const handleToggleSpecialCharacterModal = () => {
     if (modalComponent) {
-      this.handleCloseModal();
+      handleCloseModal();
     } else {
-      this.handleOpenModal(() => (
+      handleOpenModal(() => (
         <SpecialCharacterModal
           isOpen
-          onSelectSpecialCharacter={this.handleSelectSpecialCharacter}
-          toggle={this.handleCloseModal}
+          onSelectSpecialCharacter={handleSelectSpecialCharacter}
+          toggle={handleCloseModal}
         />
       ));
     }
@@ -1382,8 +1267,7 @@ class Blocksmith extends React.Component {
    *
    * @returns {string} a command type
    */
-   keyBindingFn(e) {
-    const { editorState } = this.state;
+   const keyBindingFn = (e) => {
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
     // if nothing is selected
@@ -1423,11 +1307,9 @@ class Blocksmith extends React.Component {
    *
    * @param {EditorState} editorState - a state instance of a DraftJs Editor
    */
-   onChange(editorState) {
-    // todo: this method name and the onChange from redux form may be confusing
-
-    let { isDirty } = this.state;
-    const { delegate } = this.props;
+   const onChange = (editorState) => {
+    console.log('onChange Called with', editorState);
+    window.editorState = editorState;
     const lastChangeType = editorState.getLastChangeType();
     const selectionState = editorState.getSelection();
     let callback = noop;
@@ -1437,33 +1319,28 @@ class Blocksmith extends React.Component {
      * but is not enough to dirty the state, so check the change type.
      */
     if (!isDirty && lastChangeType !== null) {
-      isDirty = true;
+      setIsDirty(true);
       callback = delegate.handleDirtyEditor;
     }
 
     if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {
-      isDirty = false;
+      setIsDirty(true);
       callback = delegate.handleCleanEditor;
     }
-    this.setState(() => ({
-      editorState,
-      readOnly: false, // todo: update
-    }), () => {
-      this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
-    });
 
-    this.setState(() => ({
-      editorState,
-      isDirty,
-    }), () => {
-      if (selectionState.getHasFocus()) {
-        this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
-      } else {
-        this.removeActiveStyling();
-      }
-      callback();
-    });
+    setEditorState(editorState);
+    setReadOnly(false);
+    positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
+
+    setEditorState(editorState);
+    setIsDirty(isDirty);
     
+    if (selectionState.getHasFocus()) {
+      positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
+    } else {
+      removeActiveStyling();
+    }
+    callback();
   }
 
   /**
@@ -1478,10 +1355,8 @@ class Blocksmith extends React.Component {
    * @param {string} key - a block key
    * @param {?ContentBlock} block - a block
    */
-  positionComponents(contentState, key, block = null) {
+  const positionComponents = (contentState, key, block = null) => {
     // fixme: this could take contentState only
-    const { activeBlockKey, isHoverInsertMode, readOnly } = this.state;
-
     let activeBlock;
     let blockKey;
     if (!block) {
@@ -1492,11 +1367,19 @@ class Blocksmith extends React.Component {
       blockKey = activeBlock.getKey();
     }
 
-    if (!this.editor || !this.editor.editor) {
+    // if (!this.editor || !this.editor.editor) {
+    //   return; // component is unmounting, let's get outta here
+    // }
+    if (!editorRef.current) {
       return; // component is unmounting, let's get outta here
     }
 
-    const { editor } = this.editor.editor;
+    // const { editor } = this.editor.editor;
+    const { editor } = editorRef.current.editor;
+    console.log('What is editor???', {
+      editorRef,
+    });
+    window.editorRef = editorRef;
     const editorBounds = editor.getBoundingClientRect();
     let selectedBlockNode = getBlockNode(contentState, blockKey);
     if (!selectedBlockNode) {
@@ -1513,7 +1396,7 @@ class Blocksmith extends React.Component {
 
     const blockBounds = selectedBlockNode.getBoundingClientRect();
 
-    const blockButtonsStyle = { ...this.state.blockButtonsStyle }; // eslint-disable-line
+    const blockButtonsStyle = { ...blockButtonsStyle }; // eslint-disable-line
     blockButtonsStyle.top = (blockBounds.top - editorBounds.top) - 10;
     blockButtonsStyle.transform = `scale(${readOnly || isHoverInsertMode ? 0 : 1})`;
 
@@ -1525,35 +1408,32 @@ class Blocksmith extends React.Component {
       || (!readOnly && !isBlockAList(activeBlock));
 
     if (activeBlockKey && contentState.getBlockForKey(activeBlockKey)) {
-      this.styleActiveBlock(activeBlock);
+      styleActiveBlock(activeBlock);
     }
 
-    const sidebarHolderStyle = this.getSidebarHolderStyle(
+    const sidebarHolderStyle = getSidebarHolderStyle(
       activeBlock,
       blockBounds,
       contentState,
       editorBounds,
     );
 
-    this.setState(() => ({
-      activeBlockKey: normalizeKey(blockKey),
-      blockButtonsStyle,
-      isSidebarOpen: this.state.isSidebarOpen && isSidebarVisible,
-      sidebarHolderStyle,
-    }));
+    setActiveBlockKey(normalizeKey(blockKey));
+    setBlockButtonsStyle(blockButtonsStyle);
+    setIsSidebarOpen(isSidebarOpen && isSidebarVisible);
+    setSidebarHolderStyle(sidebarHolderStyle);
   }
 
   /**
    * Removes active styling, some based on focus state.
    */
-  removeActiveStyling() {
-    const { editorState, isSidebarOpen } = this.state;
+  const removeActiveStyling = () => {
     // eslint-disable-next-line
-    const blockButtonsStyle = { ...this.state.blockButtonsStyle };
+    const blockButtonsStyle = { ...blockButtonsStyle };
     blockButtonsStyle.transform = 'scale(0)';
 
     // eslint-disable-next-line
-    const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
+    const sidebarHolderStyle = { ...sidebarHolderStyle };
     if (editorState.getCurrentContent().hasText()) {
       if (!isSidebarOpen) {
         sidebarHolderStyle.transform = 'scale(0)';
@@ -1584,11 +1464,9 @@ class Blocksmith extends React.Component {
       styledBlock.classList.remove('block-active');
     }
 
-    this.setState(() => ({
-      blockButtonsStyle,
-      isHoverInsertMode: false,
-      sidebarHolderStyle,
-    }));
+    setBlockButtonsStyle(blockButtonsStyle);
+    setIsHoverInsertMode(false);
+    setSidebarHolderStyle(sidebarHolderStyle);
   }
 
   /**
@@ -1597,31 +1475,24 @@ class Blocksmith extends React.Component {
    *
    * @param {(object|number|string)} id - a block, a block index, or a block key
    */
-  selectAndStyleBlock(id) {
-    const { editorState } = this.state;
+  const selectAndStyleBlock = (id) => {
     const block = findBlock(editorState.getCurrentContent(), id);
-    this.setState(() => ({
-      editorState: selectBlock(editorState, block),
-    }), () => {
-      this.styleActiveBlock(block);
-      this.positionComponents(editorState.getCurrentContent(), block.getKey());
-    });
+    setEditorState(selectBlock(editorState, block));    
+    styleActiveBlock(block);
+    positionComponents(editorState.getCurrentContent(), block.getKey());
   }
 
-  setCopiedBlockFromStorage() {
+  const setCopiedBlockFromStorage = () => {
     const copiedBlockJson = localStorage.getItem(COPIED_BLOCK_KEY);
     if (!copiedBlockJson) {
       return;
     }
 
-    const { copiedBlock } = this.state;
     if (copiedBlock && `${copiedBlock}` === copiedBlockJson) {
       return;
     }
 
-    JsonSerializer.deserialize(copiedBlockJson).then((block) => {
-      this.setState(() => ({ copiedBlock: block }));
-    });
+    JsonSerializer.deserialize(copiedBlockJson).then((block) => setCopiedBlock(block));
   }
 
   /**
@@ -1631,8 +1502,7 @@ class Blocksmith extends React.Component {
    * @param {ContentState} contentState - a state instance of a DraftJs Editor
    * @param {object} coords - mouse position coordinates
    */
-  setHoverInsertMode(contentState, coords) {
-    const { hoverBlockNode } = this.state;
+  const setHoverInsertMode = (contentState, coords) => {
     const { pageX, pageY } = coords;
     // we are probably not around the first block, so check for the block above us
     let target = document.elementFromPoint(pageX, (pageY - 40));
@@ -1659,24 +1529,22 @@ class Blocksmith extends React.Component {
     const isHoverInsertMode = contentState.hasText()
       && (!hoverBlockNode || coords.pageX < (blockBounds.right - 50));
 
-    this.setState(() => ({
-      hoverBlockNode: selectedBlockNode,
-      isHoverInsertMode,
-      isHoverInsertModeBottom,
-    }), () => {
-      // oftentimes after clicking to insert a new empty text block, the button components
-      // will be activated on the previous block. this check prevents that.
-      if (isHoverInsertMode) {
-        this.styleActiveBlockNode(); // remove active block styling
-        this.positionComponents(contentState, 'ignore', activeBlock);
-      } else {
-        this.styleActiveBlock(activeBlock);
-        const blockAfter = contentState.getBlockAfter(activeBlock.getKey());
-        if (blockAfter) {
-          this.positionComponents(contentState, 'ignore', blockAfter);
-        }
+    setHoverBlockNode(selectedBlockNode);
+    setIsHoverInsertMode(isHoverInsertMode);
+    setIsHoverInsertModeBottom(isHoverInsertModeBottom);
+    
+    // oftentimes after clicking to insert a new empty text block, the button components
+    // will be activated on the previous block. this check prevents that.
+    if (isHoverInsertMode) {
+      styleActiveBlockNode(); // remove active block styling
+      positionComponents(contentState, 'ignore', activeBlock);
+    } else {
+      styleActiveBlock(activeBlock);
+      const blockAfter = contentState.getBlockAfter(activeBlock.getKey());
+      if (blockAfter) {
+        positionComponents(contentState, 'ignore', blockAfter);
       }
-    });
+    }
   }
 
   /**
@@ -1685,18 +1553,15 @@ class Blocksmith extends React.Component {
    *
    * @param {ContentBlock} activeBlock  - the active block
    */
-  styleActiveBlock(activeBlock) {
-    const { editorState } = this.state;
-    const { editMode } = this.props;
+  const styleActiveBlock = (activeBlock) => {
     const contentState = editorState.getCurrentContent();
-
     let activeBlockNode = getBlockNode(contentState, activeBlock);
     if (activeBlockNode.tagName === 'LI') {
       activeBlockNode = activeBlockNode.parentNode;
     }
 
     if (editMode && !activeBlockNode.classList.contains('block-active')) {
-      this.styleActiveBlockNode(activeBlockNode);
+      styleActiveBlockNode(activeBlockNode);
     }
   }
 
@@ -1705,130 +1570,114 @@ class Blocksmith extends React.Component {
    *
    * @param {Node} [activeBlockNode=null] - a dom node for an active block
    */
-  styleActiveBlockNode(activeBlockNode = null) {
-    const { isHoverInsertMode } = this.state;
+  const styleActiveBlockNode = (activeBlockNode = null) => {
     document.querySelectorAll('.block-active').forEach((node) => node.classList.remove('block-active'));
 
     if (activeBlockNode && !isHoverInsertMode) {
-      this.setState(() => ({
-        activeBlockKey: activeBlockNode.getAttribute('data-offset-key'),
-      }), () => activeBlockNode.classList.add('block-active'));
+      setActiveBlockKey(activeBlockNode.getAttribute('data-offset-key'));
+      activeBlockNode.classList.add('block-active');
     }
   }
 
-  render() {
-    const {
-      activeBlockKey,
-      blockButtonsStyle,
-      copiedBlock,
-      editorState,
-      isHoverInsertMode,
-      isSidebarOpen,
-      modalComponent: Modal,
-      readOnly,
-      sidebarHolderStyle,
-      sidebarResetFlag
-    } = this.state;
+  
+  const Modal = modalComponent;
+  let className = readOnly ? 'view-mode' : 'edit-mode';
+  className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
+  console.log('what is modal?', modalComponent);
 
-    let className = readOnly ? 'view-mode' : 'edit-mode';
-    className = `${className}${!editorState.getCurrentContent().hasText() ? ' empty' : ''}`;
+  const InlineToolbar = inlineToolbarPlugin.InlineToolbar;
 
-    const InlineToolbar = this.inlineToolbarPlugin.InlineToolbar;
-
-    return (
-      <>
-        <div
-          onCopy={this.handleMouseCopy}
-          onCut={this.handleMouseCut}
-          onDrop={this.handleDrop}
-          onMouseLeave={this.handleMouseLeave}
-          onMouseMove={this.handleMouseMove}
-          onKeyDown={this.handleKeyDown}
-          id="block-editor"
-          className={className}
-          role="presentation"
-        >
-          <Editor
-            blockRendererFn={this.blockRendererFn}
-            blockRenderMap={this.blockRenderMap}
-            blockStyleFn={this.blockStyleFn}
-            customStyleMap={customStyleMap}
-            // decorators={decorators}
-            defaultBlockRenderMap={false}
+  return (
+    <>
+      <div
+        onCopy={handleMouseCopy}
+        onCut={handleMouseCut}
+        onDrop={handleDrop}
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
+        onKeyDown={handleKeyDown}
+        id="block-editor"
+        className={className}
+        role="presentation"
+      >
+        <Editor
+          blockRendererFn={blockRendererFn}
+          blockRenderMap={blockRenderMap}
+          blockStyleFn={blockStyleFn}
+          customStyleMap={customStyleMap}
+          // decorators={decorators}
+          defaultBlockRenderMap={false}
+          editorState={editorState}
+          handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
+          handleKeyCommand={handleKeyCommand}
+          handlePastedText={handlePastedText}
+          keyBindingFn={keyBindingFn}
+          onBlur={handleBlur}
+          onChange={onChange}
+          plugins={plugins}
+          readOnly={readOnly}
+          ref={editorRef}
+          spellCheck
+        />
+        <div style={blockButtonsStyle} className="block-buttons-holder">
+          <BlockButtons
+            activeBlockKey={activeBlockKey}
+            copiedBlock={copiedBlock}
             editorState={editorState}
-            handleDrop={() => 'handled'} // tell DraftJs that we want to handle our own onDrop event
-            handleKeyCommand={this.handleKeyCommand}
-            handlePastedText={this.handlePastedText}
-            keyBindingFn={this.keyBindingFn}
-            onBlur={this.handleBlur}
-            onChange={this.onChange}
-            plugins={this.plugins}
-            readOnly={readOnly}
-            ref={(ref) => { this.editor = ref; }}
-            spellCheck
+            onCopyBlock={handleCopyBlock}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onPasteBlock={handlePasteBlock}
+            onShiftBlock={handleShiftBlock}
+            onToggleSpecialCharacterModal={handleToggleSpecialCharacterModal}
+            resetFlag={blockButtonsStyle.top}
           />
-          <div style={blockButtonsStyle} className="block-buttons-holder">
-            <BlockButtons
-              activeBlockKey={activeBlockKey}
-              copiedBlock={copiedBlock}
-              editorState={editorState}
-              onCopyBlock={this.handleCopyBlock}
-              onDelete={this.handleDelete}
-              onEdit={this.handleEdit}
-              onPasteBlock={this.handlePasteBlock}
-              onShiftBlock={this.handleShiftBlock}
-              onToggleSpecialCharacterModal={this.handleToggleSpecialCharacterModal}
-              resetFlag={blockButtonsStyle.top}
-            />
-          </div>
-          <div style={sidebarHolderStyle} className="sidebar-holder">
-            <Sidebar
-              isHoverInsertMode={isHoverInsertMode}
-              isOpen={isSidebarOpen}
-              onToggleSidebar={this.handleToggleSidebar}
-              onToggleBlockModal={this.handleToggleBlockModal}
-              onHoverInsert={this.handleHoverInsert}
-              resetFlag={sidebarResetFlag}
-              popoverRef={this.popoverRef}
-            />
-          </div>
-          <InlineToolbar>
-            {(props) => (
-              <>
-                <BoldInlineToolbarButton {...props} />
-                <ItalicInlineToolbarButton {...props} />
-                <UnderlineInlineToolbarButton {...props} />
-                <LinkInlineToolbarButton
-                  {...props}
-                  onToggleLinkModal={this.handleToggleLinkModal}
-                  getEditorState={this.getEditorState}
-                />
-                <OrderedListInlineToolbarButton {...props} />
-                <UnorderedListInlineToolbarButton {...props} />
-                <StrikethroughInlineToolbarButton {...props} />
-                <HighlightInlineToolbarButton {...props} />
-              </>
-            )}
-          </InlineToolbar>
-          {Modal && (
-            <ErrorBoundary>
-              <Modal />
-            </ErrorBoundary>
-          )}
         </div>
-        {!readOnly && (
-          <div className="text-center mt-2">
-            <span className="btn-hover">
-              <Button id="add-block-button" className="rounded-circle" color="success" size="sm" onClick={this.handleAddEmptyBlockAtEnd}>
-                <Icon imgSrc="plus" size="md" />
-              </Button>
-            </span>
-            <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
-          </div>
+        <div style={sidebarHolderStyle} className="sidebar-holder">
+          <Sidebar
+            isHoverInsertMode={isHoverInsertMode}
+            isOpen={isSidebarOpen}
+            onToggleSidebar={handleToggleSidebar}
+            onToggleBlockModal={handleToggleBlockModal}
+            onHoverInsert={handleHoverInsert}
+            resetFlag={sidebarResetFlag}
+            popoverRef={popoverRef}
+          />
+        </div>
+        {/* <InlineToolbar>
+          {(props) => (
+            <>
+              <BoldInlineToolbarButton {...props} />
+              <ItalicInlineToolbarButton {...props} />
+              <UnderlineInlineToolbarButton {...props} />
+              <LinkInlineToolbarButton
+                {...props}
+                onToggleLinkModal={handleToggleLinkModal}
+                getEditorState={getEditorState}
+              />
+              <OrderedListInlineToolbarButton {...props} />
+              <UnorderedListInlineToolbarButton {...props} />
+              <StrikethroughInlineToolbarButton {...props} />
+              <HighlightInlineToolbarButton {...props} />
+            </>
+          )}
+        </InlineToolbar> */}
+        {Modal && (
+          <ErrorBoundary>
+            {Modal}
+          </ErrorBoundary>
         )}
-      </>
-    );
-  }
+      </div>
+      {!readOnly && (
+        <div className="text-center mt-2">
+          <span className="btn-hover">
+            <Button id="add-block-button" className="rounded-circle" color="success" size="sm" onClick={handleAddEmptyBlockAtEnd}>
+              <Icon imgSrc="plus" size="md" />
+            </Button>
+          </span>
+          <UncontrolledTooltip key="tooltip" placement="bottom" target="add-block-button">Add empty block at end</UncontrolledTooltip>
+        </div>
+      )}
+    </>
+  );
 }
-
-export default Blocksmith;
