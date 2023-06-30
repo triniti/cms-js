@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { Button } from 'reactstrap';
 import Loading from 'components/loading';
 import acceptLogin from 'plugins/iam/actions/acceptLogin';
 import { serviceIds } from 'plugins/iam/constants';
@@ -32,7 +33,7 @@ const cache = {
 };
 
 const onRedirectCallback = (navigate, appState) => {
-  const returnTo = appState && appState.returnTo ? appState.returnTo : window.location.pathname;
+  const returnTo = appState?.returnTo || window.location.pathname;
   const to = returnTo.startsWith('/log') ? '/' : returnTo;
   navigate(to, { replace: true });
 };
@@ -61,27 +62,30 @@ function Login() {
   }
 
   return (
-    <>
+    <div className="text-center p-5">
       {(isLoading || errorMsg) && <Loading error={errorMsg} />}
-      {!isLoading && <button onClick={loginWithRedirect}>Login</button>}
-    </>
+      {!isLoading && <Button color="primary" size="lg" onClick={loginWithRedirect}>Login</Button>}
+    </div>
   );
 }
+
+const authorizationParams = {
+  redirect_uri: SITE_BASE_URL + 'login/',
+  audience: AUTH0_AUDIENCE,
+  scope: 'openid profile email',
+};
 
 export default function LoginScreen() {
   const navigate = useNavigate();
   return (
     <Auth0Provider
       onRedirectCallback={(appState) => onRedirectCallback(navigate, appState)}
-      audience={AUTH0_AUDIENCE}
       domain={AUTH0_DOMAIN}
       clientId={AUTH0_CLIENT_ID}
-      //redirectUri={APP_BASE_URL + 'login'}
-      redirectUri={'https://localhost:3000/login'}
+      authorizationParams={authorizationParams}
       cache={cache}
     >
       <Login />
     </Auth0Provider>
   );
 }
-

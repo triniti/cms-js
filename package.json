@@ -8,7 +8,7 @@
     "test": "BABEL_ENV=cjs tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^1.2.0",
+    "@auth0/auth0-react": "^2.1.1",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "@draft-js-plugins/buttons": "^4.1.1",
