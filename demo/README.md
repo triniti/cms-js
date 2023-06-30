@@ -46,6 +46,7 @@ APP_DEV_BRANCH=master
 CLIENT_PUBLIC_PATH=/
 DAM_BASE_URL=https://dam.dev.acme.com/
 IMAGE_BASE_URL=https://imagez-dev.acme.com/
+SITE_BASE_URL=https://localhost:3000/
 VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
 
 AUTH0_AUDIENCE=https://api.dev.acme.com/

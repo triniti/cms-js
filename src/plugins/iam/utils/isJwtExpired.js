@@ -24,7 +24,6 @@ const getExpirationDate = (jwt) => {
  * @returns {boolean}
  */
 export default (jwt) => {
-  return false;
   if (typeof jwt !== 'string' || !jwt.length) {
     return true;
   }

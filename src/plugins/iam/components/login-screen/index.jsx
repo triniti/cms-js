@@ -70,7 +70,7 @@ function Login() {
 }
 
 const authorizationParams = {
-  redirect_uri: SITE_BASE_URL + 'login/',
+  redirect_uri: SITE_BASE_URL + 'login',
   audience: AUTH0_AUDIENCE,
   scope: 'openid profile email',
 };
