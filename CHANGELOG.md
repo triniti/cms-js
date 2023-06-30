@@ -1,5 +1,10 @@
 # CHANGELOG
 
+
+## v0.18.8
+* Most Content Blocks are not being added in the correct places - Version 3
+
+
 ## v0.18.7
 * Most Content Blocks are not being added in the correct places - Version 2
 
