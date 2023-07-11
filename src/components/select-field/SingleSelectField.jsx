@@ -4,6 +4,7 @@ import ReactSelectCreatable from 'react-select/creatable';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import { useField, useFormContext } from 'components/index';
+import noop from 'lodash/noop';
 
 export default function SingleSelectField(props) {
   const {
@@ -29,11 +30,11 @@ export default function SingleSelectField(props) {
 
   useEffect(() => {
     if (ignoreUnknownOptions || !`${input.value}`.length) {
-      return;
+      return noop;
     }
 
     if (options.map(o => `${o.value}`).includes(`${input.value}`)) {
-      return;
+      return noop;
     }
 
     setAllOptions([...options, { value: input.value, label: input.value }]);

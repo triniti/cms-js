@@ -6,6 +6,7 @@ import Header from 'components/blocksmith-field/components/audio-block-modal/Hea
 import CustomizeOptions from 'components/blocksmith-field/components/audio-block-modal/CustomizeOptions';
 import SelectAudio from 'components/blocksmith-field/components/audio-block-modal/SelectAudio';
 import useNode from 'plugins/ncr/components/useNode';
+import noop from 'lodash/noop';
 
 export default function AudioBlockModal(props) {
   const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
@@ -20,7 +21,7 @@ export default function AudioBlockModal(props) {
 
   useEffect(() => {
     if (!node || selectedAudioNode) {
-      return;
+      return noop;
     }
     setSelectedAudioNode(node);
   }, [`${selectedAudioRef}`]);

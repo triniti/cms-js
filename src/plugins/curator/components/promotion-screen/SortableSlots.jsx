@@ -6,6 +6,7 @@ import Sortable from 'sortablejs';
 import { CreateModalButton, withPbj } from 'components';
 import SlotPlaceholder from 'plugins/curator/components/promotion-screen/SlotPlaceholder';
 import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
+import noop from 'lodash/noop';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b))
 
@@ -18,7 +19,7 @@ export default function SortableSlots(props) {
 
   useEffect(() => {
     if (!editMode) {
-      return;
+      return noop;
     }
 
     Sortable.create(sortableRef.current, {

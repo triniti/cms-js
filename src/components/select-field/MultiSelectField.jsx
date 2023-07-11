@@ -6,6 +6,7 @@ import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6';
 import isEmpty from 'lodash-es/isEmpty';
 import { useField, useFormContext } from 'components/index';
+import noop from 'lodash/noop';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 const noopNormalize = value => value;
@@ -35,7 +36,7 @@ export default function MultiSelectField(props) {
 
   useEffect(() => {
     if (!input.value.length) {
-      return;
+      return noop;
     }
 
     const initialOptions = options.map(o => normalize(o.value));

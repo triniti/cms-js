@@ -17,7 +17,7 @@ function LinkedImages(props) {
 
   useEffect(() => {
     if (!request || !nodeRef) {
-      return;
+      return noop;
     }
 
     request.set('linked_ref', NodeRef.fromString(nodeRef));

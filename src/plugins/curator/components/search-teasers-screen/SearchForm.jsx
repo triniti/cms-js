@@ -12,6 +12,7 @@ import CategoryPickerField from 'plugins/taxonomy/components/category-picker-fie
 import ChannelPickerField from 'plugins/taxonomy/components/channel-picker-field';
 import PersonPickerField from 'plugins/people/components/person-picker-field';
 import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
+import noop from 'lodash/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run, teaserCuries } = props;
@@ -49,7 +50,7 @@ export default function SearchForm(props) {
 
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -58,7 +59,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -67,7 +68,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const types = formState.values.types || [];
     if (!request || `${request.get('types', [])}` === types) {
-      return;
+      return noop;
     }
 
     form.submit();

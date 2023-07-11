@@ -22,6 +22,7 @@ import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
 import markNodeAsPending from 'plugins/ncr/actions/markNodeAsPending';
 import publishNode from 'plugins/ncr/actions/publishNode';
 import unpublishNode from 'plugins/ncr/actions/unpublishNode';
+import noop from 'lodash/noop';
 
 const actions = {
   'mark-as-draft': markNodeAsDraft,
@@ -73,7 +74,7 @@ export default function PublishForm(props) {
 
   useEffect(() => {
     if (!action) {
-      return;
+      return noop;
     }
 
     setPublishAt(node.get('published_at') || new Date());

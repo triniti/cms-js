@@ -8,6 +8,7 @@ import { scrollToTop } from 'components/screen';
 import AppPickerField from 'plugins/iam/components/app-picker-field';
 import SortField from 'plugins/ncr/components/sort-field';
 import NotificationSendStatusField from 'plugins/notify/components/notification-send-status-field';
+import noop from 'lodash/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
@@ -44,7 +45,7 @@ export default function SearchForm(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -53,7 +54,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const sendStatus = formState.values.send_status || '';
     if (!request || `${request.get('send_status', '')}` === sendStatus) {
-      return;
+      return noop;
     }
 
     form.submit();

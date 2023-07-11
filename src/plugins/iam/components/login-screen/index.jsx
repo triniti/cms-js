@@ -45,7 +45,7 @@ function Login() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      return;
+      return noop;
     }
 
     const getAccessToken = async () => {

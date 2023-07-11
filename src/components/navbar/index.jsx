@@ -12,6 +12,7 @@ import {
 import usePolicy from 'plugins/iam/components/usePolicy';
 import { Backdrop, RouterLink } from 'components/index';
 import UserNav from 'components/navbar/UserNav';
+import noop from 'lodash/noop';
 
 export default function () {
   const policy = usePolicy();
@@ -21,7 +22,7 @@ export default function () {
   useEffect(() => {
     const lastActive = localStorage.getItem('activeNavGroup');
     if (!lastActive) {
-      return;
+      return noop;
     }
 
     setActiveGroup(lastActive);

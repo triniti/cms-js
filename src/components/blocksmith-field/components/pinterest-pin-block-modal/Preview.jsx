@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef } from 'react';
+import noop from 'lodash/noop';
 
 export default function Preview (props) {
   const { formState } = props;
@@ -12,7 +13,7 @@ export default function Preview (props) {
 
   useEffect(() => {
     if (!href) {
-      return;
+      return noop;
     }
     
     embed();

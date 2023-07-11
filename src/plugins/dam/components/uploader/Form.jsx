@@ -9,10 +9,10 @@ import { FormSpy } from 'react-final-form';
 import { FormContextProvider } from 'components/useFormContext';
 import FormMarshaler from 'utils/FormMarshaler';
 import arrayMutators from 'final-form-arrays';
+import noop from 'lodash/noop';
 
 
 export { useParams };
-const noop = () => {};
 
 const components = {};
 const resolveComponent = (label) => {

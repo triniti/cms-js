@@ -6,6 +6,7 @@ import { CreateModalButton, withPbj } from 'components';
 import Sortable from 'sortablejs';
 import AnswerPlaceholder from 'plugins/apollo/components/poll-screen/AnswerPlaceholder';
 import AnswerModal from 'plugins/apollo/components/poll-screen/AnswerModal';
+import noop from 'lodash/noop';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
@@ -16,7 +17,7 @@ export default function SortableAnswers(props) {
 
   useEffect(() => {
     if (!editMode) {
-      return;
+      return noop;
     }
 
     Sortable.create(sortableRef.current, {

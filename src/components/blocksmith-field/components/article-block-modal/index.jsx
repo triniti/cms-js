@@ -7,6 +7,7 @@ import SelectArticle from 'components/blocksmith-field/components/article-block-
 import { SwitchField, TextField } from 'components';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import useNode from 'plugins/ncr/components/useNode';
+import noop from 'lodash/noop';
 
 export default function ArticleBlockModal(props) {
   const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
@@ -33,7 +34,7 @@ export default function ArticleBlockModal(props) {
 
   useEffect(() => {
     if (!node || selectedArticleNode) {
-      return;
+      return noop;
     }
     setSelectedArticleNode(node);
   }, [`${selectedArticleNodeRef}`]);

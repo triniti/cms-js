@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getInstance } from '@app/main';
 import * as constants from 'constants';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
+import noop from 'lodash/noop';
 
 const makeRequest = async (request) => {
   const app = getInstance();
@@ -24,11 +25,11 @@ export default (request, runImmediately = false) => {
 
   useEffect(() => {
     if (!runImmediately && requestCount === 0) {
-      return;
+      return noop;
     }
 
     if (!request) {
-      return;
+      return noop;
     }
 
     let cancelled = false;

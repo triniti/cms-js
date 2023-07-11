@@ -9,6 +9,7 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort';
+import noop from 'lodash/noop';
 
 function SelectVideo(props) {
   const {
@@ -38,7 +39,7 @@ function SelectVideo(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
