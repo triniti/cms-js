@@ -14,7 +14,7 @@ const LoggedIn = () => {
   }
 
   return (
-    <div id="wrapper" data-slidedirection="">
+    <div id="wrapper" data-slidedirection>
       <Navbar />
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
