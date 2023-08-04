@@ -239,19 +239,17 @@ function DemoScreen() {
   ];
 
   const options = [ // React Select Content
-    { value: 'Christopher Murray', label: 'Christopher Murray' },
+    { value: 'Armond Sarkisian', label: 'Armond Sarkisian' },
+    { value: 'Brian Hsiao', label: 'Brian Hsiao' },
+    { value: 'Chris Clifton', label: 'Chris Clifton' },
+    { value: 'Daniel Shneyder', label: 'Daniel Shneyder' },
+    { value: 'Eric Jacobson', label: 'Eric Jacobson' },
     { value: 'Greg Brown', label: 'Greg Brown' },
     { value: 'Jim Murphy', label: 'Jim Murphy' },
     { value: 'Joel Capillo', label: 'Joel Capillo' },
     { value: 'Mariam Gevorkyan', label: 'Mariam Gevorkyan' },
-    { value: 'Vagram Kayfejian', label: 'Vagram Kayfejian' },
-    { value: 'Brian Hsiao', label: 'Brian Hsiao' },
-    { value: 'Chris Clifton', label: 'Chris Clifton' },
-    { value: 'Daniel Shneyder', label: 'Daniel Shneyder' },
     { value: 'Richard Sumilang', label: 'Richard Sumilang' },
-    { value: 'Alon Cohen', label: 'Alon Cohen' },
-    { value: 'Armond Sarkisian', label: 'Armond Sarkisian' },
-    { value: 'Eric Jacobson', label: 'Eric Jacobson' }
+    { value: 'Vagram Kayfejian', label: 'Vagram Kayfejian' },
   ];
 
   return (
