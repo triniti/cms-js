@@ -22,7 +22,7 @@ const derivePath = fn => {
   return `${WORKER_PATH}${path}`;
 };
 
-export default async (app) => {
+export default (app) => {
   const workers = {
     hello: derivePath(HelloWorker),
     raven: derivePath(RavenWorker),
