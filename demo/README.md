@@ -26,8 +26,10 @@ root
 └───demo
 │   │   node_modules
 │   │   .env
-│   │   schemas.js
 │   │   ...rest
+|   └───src
+|       |   schemas.js
+|       |   ...rest
 ```
 
 
