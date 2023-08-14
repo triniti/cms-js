@@ -61,7 +61,7 @@ export const ActiveEditsTable = ({
           />
         </Button>
       </CardHeader>
-      <CardBody className="pl-0 pr-0 pt-0 pb-0">
+      <CardBody className="p-0">
         {status === STATUS_PENDING && <StatusMessage status={status} />}
         <Table className="table-stretch table-sm" borderless hover responsive>
           <thead>

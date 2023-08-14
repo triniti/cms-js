@@ -12,7 +12,7 @@ let raven = null;
  * @param {*} msg 
  */
 async function postMessage (msg) {
-  console.log('Raven Worker Mesage', msg);
+  console.log('Raven Worker Message', msg);
   self.postMessage(msg);
 }
 
