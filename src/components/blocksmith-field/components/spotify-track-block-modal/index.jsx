@@ -15,7 +15,6 @@ const parseTrackId = (input) => {
     || SPOTIFY_TRACK_ID_REGEX.test(input)
     || SPOTIFY_URI_REGEX.test(input))
   ) {
-    isValid = false;
     return input;
   } else {
     if (SPOTIFY_EMBED_REGEX.test(input) || SPOTIFY_SONG_LINK_REGEX.test(input)) {

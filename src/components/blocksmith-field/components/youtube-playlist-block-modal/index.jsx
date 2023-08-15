@@ -1,9 +1,9 @@
-import React from "react";
-import { ModalBody } from "reactstrap";
-import { SwitchField, TextareaField } from "components";
-import withBlockModal from "components/blocksmith-field/components/with-block-modal";
-import getYoutubePlaylistId from "components/blocksmith-field/components/youtube-playlist-block-modal/getYoutubePlaylistId";
-import Preview from "./Preview";
+import React from 'react';
+import { ModalBody } from 'reactstrap';
+import { SwitchField, TextareaField } from 'components';
+import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import getYoutubePlaylistId from 'components/blocksmith-field/components/youtube-playlist-block-modal/getYoutubePlaylistId';
+import Preview from './Preview';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 
 function YoutubePlaylistBlockModal(props) {

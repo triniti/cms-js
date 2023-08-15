@@ -29,7 +29,6 @@ function SpotifyEmbedBlockModal(props) {
   const [ textareaValue, setTextareaValue ] = useState();
 
   const parseSpotifyId = (input) => {
-    console.log('what the', input);
     const data = getSpotifyMediaId(input.target.value);
     if (data === undefined) {
       return;

@@ -26,7 +26,7 @@ export default function Preview(props) {
     if (shouldAutoPlay) {
       player.seekTo(startAt);
       // check if player is in "PAUSED" state ( https://developers.google.com/youtube/iframe_api_reference )
-      if (player.getPlayerState() === 2) {
+      if (player.getPlayerState() === YT.PlayerState.PAUSED) {
         player.playVideo();
       }
     } else {

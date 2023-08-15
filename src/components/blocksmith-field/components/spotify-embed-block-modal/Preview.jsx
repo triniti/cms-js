@@ -2,7 +2,6 @@ import React from 'react';
 
 export default function Preview (props) {
   const { formState } = props;
-  const { valid } = formState;
   const { spotify_id: spotifyId, spotify_type: spotifyType } = formState.values;
 
   const defaultEmbed = (

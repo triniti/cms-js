@@ -7,7 +7,7 @@ export default function Preview (props) {
 
   useEffect(() => {
     embed();
-  }, tiktokId);
+  }, [ tiktokId ]);
 
   const clean = () => {
     Array.from(embedParentRef.current.children).forEach((child) => {

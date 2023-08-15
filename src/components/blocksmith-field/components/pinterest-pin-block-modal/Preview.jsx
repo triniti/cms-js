@@ -7,10 +7,6 @@ export default function Preview (props) {
   const { href, size, terse } = formState.values;
   const embedParentRef = useRef();
 
-  console.log('Debug everything', {
-    href, size, terse
-  });
-
   useEffect(() => {
     if (!href) {
       return noop;

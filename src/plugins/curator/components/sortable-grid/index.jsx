@@ -11,7 +11,6 @@ const gridStyles = {
   gap: '10px',
   backgroundColor: 'lightgray',
   padding: '10px',
-  height: '400px',
   overflow: 'hidden auto',
   height: 'calc(100vh - 30rem)',
 };
