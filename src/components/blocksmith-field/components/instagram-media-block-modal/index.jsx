@@ -2,7 +2,7 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import InstagramMediaPreview from 'components/blocksmith-field/components/instagram-media-block-modal/InstagramMediaPreview';
+import Preview from 'components/blocksmith-field/components/instagram-media-block-modal/Preview';
 
 const getInstagramMediaId = (str) => {
   const regex = RegExp('https://www.instagram.com/(p|tv|reel)/[a-zA-Z0-9-_]+', 'g');
@@ -27,7 +27,7 @@ function InstagramMediaBlockModal(props) {
         />
         <SwitchField name="hidecaption" label="Hide Caption" />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
-        {valid && <InstagramMediaPreview {...props} />}
+        {valid && <Preview {...props} />}
       </ModalBody>
     </div>
   );

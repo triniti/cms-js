@@ -24,11 +24,6 @@ export default function Preview (props) {
     embedHtml.setAttribute('lang', 'en');
     embedHtml.setAttribute('data-context', showContext ? `${showContext}` : '');
     embedParentRef.current.appendChild(embedHtml);
-    console.log('Show context',
-    {
-      showContext: showContext ? `${showContext}` : '',
-    }
-    );
 
     const embedScript = document.createElement('script');
     embedScript.async = true;
