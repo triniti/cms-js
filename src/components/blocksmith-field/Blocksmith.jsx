@@ -1438,7 +1438,7 @@ class Blocksmith extends React.Component {
      */
     if (!isDirty && lastChangeType !== null) {
       isDirty = true;
-      callback = delegate.handleDirtyEditor;
+      // callback = delegate.handleDirtyEditor;
     }
 
     if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {

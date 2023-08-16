@@ -8,7 +8,7 @@ const loadTwitterSDK = () => {
     if (d.getElementById(id)) return t;
     js = d.createElement(s);
     js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
+    js.src = 'https://platform.twitter.com/widgets.js';
     fjs.parentNode.insertBefore(js, fjs);
 
     t._e = [];
@@ -17,13 +17,13 @@ const loadTwitterSDK = () => {
     };
 
     return t;
-  }(document, "script", "twitter-wjs"));
+  }(document, 'script', 'twitter-wjs'));
   /* eslint-enable */
 };
 
 export default function TwitterTweetPreview ({ hideMedia, hideThread, tweetId }) {
   
-  useEffect(() => loadTwitterSDK());
+  useEffect(() => loadTwitterSDK(), [tweetId]);
   const twitterPreview = useRef();
 
   setTimeout(() => {

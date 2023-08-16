@@ -3,7 +3,7 @@ import { ModalBody } from 'reactstrap';
 import { TextField, SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 import getTwitterTweetFields from 'components/blocksmith-field/components/twitter-tweet-block-modal/getTwitterTweetFields';
-import TwitterTweetPreview from 'components/blocksmith-field/components/twitter-tweet-block-modal/TwitterTweetPreview';
+import Preview from 'components/blocksmith-field/components/twitter-tweet-block-modal/Preview';
 
 function TwitterTweetEmbedBlockModal({ block, form, formState }) {
   const { valid } = formState;
@@ -34,7 +34,7 @@ function TwitterTweetEmbedBlockModal({ block, form, formState }) {
         <SwitchField name="hide_thread" label="Hide Thread" />
         <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
       </ModalBody>
-      { valid && <TwitterTweetPreview tweetId={tweetId} hideMedia={hideMedia} hideThread={hideThread} /> }
+      { valid && <Preview tweetId={tweetId} hideMedia={hideMedia} hideThread={hideThread} /> }
     </div>
   );
 }

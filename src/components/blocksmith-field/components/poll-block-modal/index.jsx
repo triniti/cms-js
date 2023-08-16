@@ -5,7 +5,7 @@ import { SwitchField } from 'components';
 import Footer from 'components/blocksmith-field/components/poll-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/poll-block-modal/Header';
 import SelectPoll from 'components/blocksmith-field/components/poll-block-modal/SelectPoll';
-import PollBlockPreview from './PollBlockPreview';
+import Preview from './Preview';
 
 export default function PollBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
@@ -50,7 +50,7 @@ export default function PollBlockModal(props) {
           )}
           {activeStep === 1 && (
             <div className="container-lg py-5">
-              <PollBlockPreview nodeRef={`${selectedPollNodeRef}`} />
+              <Preview nodeRef={`${selectedPollNodeRef}`} />
               <FormGroup className="mb-4">
                 <SwitchField
                   name="aside"
