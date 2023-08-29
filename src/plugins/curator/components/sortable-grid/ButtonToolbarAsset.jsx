@@ -16,10 +16,7 @@ const Asset = ({
   cssStyleImg.opacity = (isHovering ? 0.4 : 1);
   return (
     <Media className="mt-0 aspect-ratio aspect-ratio-1by1 media" style={cssStyleImg}>
-      <BackgroundImage
-        imgSrc={damUrl(asset, 'o', 'sm')}
-        alt=""
-      />
+      <BackgroundImage imgSrc={damUrl(asset, 'o', 'sm')} />
       {
         (!isOverlayOnlyVisibleOnHover
         || (isOverlayOnlyVisibleOnHover && isHovering)
@@ -47,7 +44,7 @@ export default function ButtonToolbarAsset ({
   onRemoveAsset,
   showEditSequence = false,
 }) {
-  const [ isHovering, setIsHovering ] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseLeave = () => {
     setIsHovering(false);

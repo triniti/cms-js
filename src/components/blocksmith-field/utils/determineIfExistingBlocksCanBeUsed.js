@@ -10,13 +10,12 @@ const FB_POST_REGEX = new RegExp('(?:(?:https?:)?\\/\\/)?(?:www\\.)?facebook\\.c
  * @todo this method needs to be extended with other block checks
  */
 export default (input) => {
-  let match = '';
   if (YOUTUBE_REGEX.test(input)) {
-    match = 'YouTube';
+    return 'YouTube';
   }
 
   if (FB_POST_REGEX.test(input)) {
-    match = 'Facebook Post';
+    return 'Facebook Post';
   }
-  return match;
+  return '';
 };

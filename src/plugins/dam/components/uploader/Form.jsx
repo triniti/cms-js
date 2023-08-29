@@ -48,7 +48,7 @@ const withForm = Component => {
       <FormContextProvider value={{ delegate: delegateRef, formProps: propsRef, pbj }}>
         <Form
           initialValues={initialValues}
-          onSubmit={(values, form) => { console.log('Richard onSubmit props?', { props, propsRef }); /*props.onSubmit(values, props.node);*/}}
+          onSubmit={noop}
           mutators={{ ...arrayMutators }}
           delegate={delegateRef.current}
           autoComplete="off"
