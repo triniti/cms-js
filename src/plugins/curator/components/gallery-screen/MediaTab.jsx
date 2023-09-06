@@ -319,85 +319,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     reloadMedia();
   };
 
-  const handleReorderGalleryAssets = ({ oldIndex, newIndex }) => {
-    if (oldIndex === newIndex) {
-      return;
-    }
-    const nodesToUpdate = reorder.nodesToUpdate || {};
-    const clonedNodes = reorder.nodes.length ? reorder.nodes.slice()
-      : nodes.map((node) => node.clone());
-    const updatedNodeSequenceNumbers = getUpdatedNodeSequenceNumbers(
-      oldIndex,
-      newIndex,
-      clonedNodes,
-    );
-    console.log('RICHARD HERE!!!', {
-      oldIndex,
-      newIndex,
-      clonedNodes,
-    });
-    return;
-    const reorderedNodes = moveNodeByIndex(oldIndex, newIndex, clonedNodes);
-
-    Object.keys(updatedNodeSequenceNumbers)
-      .forEach((id) => reorderedNodes.find((node) => node.get('_id').toString() === id)
-        .set('gallery_seq', updatedNodeSequenceNumbers[id]));
-
-    const newNodesToUpdate = pickBy(
-      { ...nodesToUpdate, ...updatedNodeSequenceNumbers },
-      (sequence, id) => nodes.find((node) => node.get('_id').toString() === id).get('gallery_seq')
-      !== reorderedNodes.find((node) => node.get('_id').toString() === id).get('gallery_seq'),
-    );
-    const nodesToUpdateCount = Object.keys(newNodesToUpdate).length;
-    setReorder({
-      nodes: reorderedNodes,
-      nodesToUpdate: nodesToUpdateCount ? newNodesToUpdate : null,
-    });
-    
-    if (nodesToUpdateCount > MAX_NODES_COUNT_TO_UPDATE) {
-      handleSubmitReorder();
-    }
-  }
-
-  /**
-   * This will preserve and rebuild the gallery based from
-   * the unsaved gallery reorder changes that the user has made.
-   * One such use case here is when a user edit a whole bunch of
-   * sequences, reorder multiple images, and adds/delete an image.
-   */
-  const handleReorderOnGalleryChanged = () => {
-    const { reorder: { nodesToUpdate } } = state;
-
-    const clonedNodes = nodes.map((node) => node.clone());
-    let reorderedNodes = [];
-
-    Object.keys(nodesToUpdate).forEach((id) => {
-      const gallerySeq = nodesToUpdate[id];
-      const clonedNode = clonedNodes.find((item) => item.get('_id').toString() === id);
-      if (!clonedNode) {
-        delete nodesToUpdate[id];
-        return;
-      }
-      reorderedNodes = moveNodeByGallerySequence(
-        gallerySeq,
-        clonedNode,
-        !reorderedNodes.length ? clonedNodes : reorderedNodes,
-      );
-      clonedNode.set('gallery_seq', gallerySeq);
-    });
-
-    const newNodesToUpdate = pickBy(
-      nodesToUpdate,
-      (sequence, id) => nodes.find((node) => node.get('_id').toString() === id).get('gallery_seq')
-      !== reorderedNodes.find((node) => node.get('_id').toString() === id).get('gallery_seq'),
-    );
-    const nodesToUpdateCount = Object.keys(newNodesToUpdate).length;
-    setReorder({
-      nodes: nodesToUpdateCount ? reorderedNodes : [],
-      nodesToUpdate: nodesToUpdateCount ? newNodesToUpdate : null,
-    });
-  }
-
   const handleSubmitReorder = async () => {
     if (!reorder.nodesToUpdate) {
       return;
@@ -541,7 +462,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
                 invalidSeqSet={invalidSeqSet}
                 editMode={editMode}
                 multiSelect
-                onReorderGalleryAssets={handleReorderGalleryAssets}
                 onEditAsset={handleEditAsset}
                 onRemoveAsset={handleRemoveAsset}
                 onSelect={handleSelect}

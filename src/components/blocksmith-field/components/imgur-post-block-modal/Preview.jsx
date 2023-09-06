@@ -9,11 +9,7 @@ export default function Preview (props) {
     embed();
   }, [id, showContext]);
 
-  const clean = () => {
-    Array.from(embedParentRef.current.children).forEach((child) => {
-      embedParentRef.current.removeChild(child);
-    });
-  }
+  const clean = () => embedParentRef.current.replaceChilden();
 
   const embed = () => {
     clean();
