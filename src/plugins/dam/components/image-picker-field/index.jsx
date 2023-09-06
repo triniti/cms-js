@@ -9,15 +9,11 @@ import noop from 'lodash-es/noop';
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
 
-const damAspectRatio = (aspectRatio) => {
-  let damAspectRatio = null;
+const defaultAspectRatio = (aspectRatio) => {
   if (`${aspectRatio}` === 'auto' || `${aspectRatio}` === 'original') {
-    damAspectRatio = 'o';
+    return 'o';
   }
-  if (!aspectRatio) {
-    damAspectRatio = '4by3';
-  }
-  return damAspectRatio || `${aspectRatio}`;
+  return aspectRatio ?? '4by3';
 }
 
 export default function ImagePickerField(props) {
@@ -82,7 +78,7 @@ export default function ImagePickerField(props) {
               </a>
               <Card>
                 <Media
-                  src={damUrl(imageRef, damAspectRatio(aspectRatio), 'sm')}
+                  src={damUrl(imageRef, defaultAspectRatio(aspectRatio), 'sm')}
                   alt={imageRef.toString()}
                   className="d-flex mb-0 mw-100"
                 />
