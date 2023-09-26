@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
-import { components } from 'react-select';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  useSortable,
+  sortableKeyboardCoordinates
+} from '@dnd-kit/sortable';
+import {
+  components,
+} from 'react-select';
+import { CSS } from "@dnd-kit/utilities";
 import { AsyncPaginate } from 'react-select-async-paginate';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
@@ -9,15 +25,8 @@ import { useField, useFormContext } from 'components';
 import defaultLoadOptions from 'plugins/ncr/components/node-picker-field/loadOptions';
 import MultiValueLabel from 'plugins/ncr/components/node-picker-field/MultiValueLabel';
 import Option from 'plugins/ncr/components/node-picker-field/Option';
-import {
-  SortableContainer,
-  SortableElement,
-  sortableHandle,
-} from 'react-sortable-hoc';
-
 import './MultiSelectField.scss';
 
-const defaultComponents = { MultiValueLabel, Option };
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
 function arrayMove(array, from, to) {
@@ -26,53 +35,28 @@ function arrayMove(array, from, to) {
   return array;
 }
 
-const SortableMultiValue = SortableElement((props) => {
-  // this prevents the menu from being opened/closed when the user clicks
-  // on a value to begin dragging it. ideally, detecting a click (instead of
-  // a drag) would still focus the control and toggle the menu, but that
-  // requires some magic with refs that are out of scope for this example
-  const onMouseDown = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  const innerProps = { ...props.innerProps, onMouseDown };
-  return <components.MultiValue {...props} innerProps={innerProps} className="multi-select-sortable" />;
-});
-
-const SortableMultiValueLabel = sortableHandle((props) => <MultiValueLabel {...props} />);
-
-const SortableSelect = SortableContainer(AsyncPaginate);
-
-function MultiSelectSort(props) {
-  const [ selected, setSelected ] = useState(props.value);
-
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    const newValue = arrayMove(selected, oldIndex, newIndex);
-    setSelected(newValue);
-    props.onChange(newValue);
-  };
-
+const SortableMultiValueLabel = (props) => {  
+  const disabled = typeof props.selectProps?.sortable === undefined ? true : !props.selectProps?.sortable;
+  const { attributes, listeners } = useSortable({ id: props.data.value, disabled });
   return (
-    <SortableSelect
-      {...props}
-      useDragHandle
-      // react-sortable-hoc props:
-      axis="y"
-      onSortEnd={onSortEnd}
-      distance={4}
-
-      // small fix for https://github.com/clauderic/react-sortable-hoc/pull/352:
-      getHelperDimensions={({ node }) => node.getBoundingClientRect()}
-      
-      // react-select props:
-      components={{
-        MultiValue: SortableMultiValue,
-        MultiValueLabel: SortableMultiValueLabel
-      }}
-      closeMenuOnSelect={false}
-    />
+    <div {...attributes} {...listeners}>
+      <MultiValueLabel {...props} />
+    </div>
   );
-}
+};
+
+const SortableMultiValue = (props) => {
+  const { setNodeRef, transform, transition } = useSortable({ id: props.data.value });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+  return (
+    <div ref={setNodeRef} style={style}>
+      <components.MultiValue {...props} className="multi-select-sortable" />
+    </div>
+  );
+};
 
 export default function MultiSelectField(props) {
   const {
@@ -88,7 +72,11 @@ export default function MultiSelectField(props) {
     required = false,
     showImage = true,
     sortable = false,
-    components = defaultComponents,
+    components = {
+      MultiValue: SortableMultiValue,
+      MultiValueLabel: SortableMultiValueLabel,
+      Option,
+    },
     loadOptions = defaultLoadOptions,
     request,
     ...rest
@@ -96,7 +84,7 @@ export default function MultiSelectField(props) {
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props, isEqual }, formContext);
-  const [q, setQ] = useState(request.get('q'));
+  const [ q, setQ ] = useState(request.get('q'));
 
   const rootClassName = classNames(
     groupClassName,
@@ -110,8 +98,24 @@ export default function MultiSelectField(props) {
     meta.touched && meta.valid && 'is-valid',
   );
 
-  const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: v })) : null;
-  const Select = sortable ? MultiSelectSort : AsyncPaginate;
+  const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: v })) : [];
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      const items = input.value;
+      const oldIndex = items.findIndex((i) => i === active.id);
+      const newIndex = items.findIndex((i) => i === over.id);
+      input.onChange(arrayMove(items, oldIndex, newIndex));
+    }
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  );
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
@@ -121,41 +125,50 @@ export default function MultiSelectField(props) {
           {required && <Badge className="ms-1" color="light" pill>required</Badge>}
           {sortable && <Badge className="ms-1 position-absolute end-0" color="light">sortable</Badge>}
         </Label>}
-      <Select
-        {...input}
-        {...rest}
-        id={name}
-        name={name}
-        className={className}
-        classNamePrefix="select"
-        isDisabled={!editMode || readOnly}
-        isClearable={isClearable}
-        closeMenuOnSelect={closeMenuOnSelect}
-        isMulti
-        inputValue={q}
-        onInputChange={(value, action) => {
-          if (action.action === 'input-change') {
-            request.set('q', value);
-            setQ(value);
-            return;
-          }
-
-          if (action.action === 'menu-close') {
-            request.clear('q');
-            setQ('');
-          }
-        }}
-        cachedUniqs={[q]}
-        hideSelectedOptions={false}
-        value={currentOptions}
-        debounceTimeout={debounceTimeout}
-        showImage={showImage}
-        components={components}
-        loadOptions={loadOptions}
-        additional={{ page: 1, request }}
-        onChange={selected => input.onChange(selected ? selected.map(o => o.value) : undefined)}
-      />
-      {description && <FormText color="dark">{description}</FormText>}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={currentOptions.map((o) => o.value)}>
+          <AsyncPaginate
+            {...input}
+            {...rest}
+            id={name}
+            name={name}
+            className={className}
+            classNamePrefix='select'
+            isDisabled={!editMode || readOnly}
+            isClearable={isClearable}
+            closeMenuOnSelect={true}
+            isMulti
+            value={currentOptions}
+            inputValue={q}
+            onInputChange={(value, action) => {
+              if (action.action === 'input-change') {
+                request.set('q', value);
+                setQ(value);
+                return;
+              }
+    
+              if (action.action === 'menu-close') {
+                request.clear('q');
+                setQ('');
+              }
+            }}
+            cachedUniqs={[q]}
+            hideSelectedOptions={false}
+            onChange={selected => input.onChange(selected ? selected.map(o => o.value) : undefined)}
+            debounceTimeout={debounceTimeout}
+            showImage={showImage}
+            components={components}
+            loadOptions={loadOptions}
+            additional={{ page: 1, request }}
+            sortable={sortable}
+          />
+        </SortableContext>
+      </DndContext>
+    {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
     </div>
   );

@@ -254,6 +254,10 @@ $status-height:         320px;
     background-color: $white;
     border: 1px solid $gray-600;
 
+    [role="button"][tabindex="0"] {
+      order: 2;
+    }
+
     > a,
     .select__multi-value__label {
       order: 2;
