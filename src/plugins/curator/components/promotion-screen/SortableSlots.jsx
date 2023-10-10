@@ -10,8 +10,6 @@ import noop from 'lodash/noop';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b))
 
-// fixme: figure out how the list of slots should group and sort.
-
 export default function SortableSlots(props) {
   const { editMode, form } = props;
   const { move, push } = form.mutators;
@@ -30,23 +28,29 @@ export default function SortableSlots(props) {
     });
   }, [editMode]);
 
+  const getAdjacentIndex = (name, fields) => {
+    if (!fields) {
+      return 1;
+    }
+    for (let i = fields.length - 1; i >= 0; i--) {
+      if (fields.value[i]['name'] === name) {
+        return i + 1;
+      }
+    }
+  };
+  const fieldsRef = useRef([]);
+  
+
   return (
     <div id="sortable-slots" ref={sortableRef} className="card bg-gray-100 border rounded">
       <FieldArray name="slots" isEqual={isEqual}>
         {({ fields }) => {
+          fieldsRef.current = fields;
           if (!editMode && fields.length === 0) {
             return <input className="form-control" readOnly value="No slots" />;
           }
 
           return fields.map((fname, index) => {
-            const getAdjacentIndex = (name, index = fields.length - 1) => {
-              for (let i = fields.length - 1; i >= 0; i--) {
-                if (fields.value[i]['name'] === name) {
-                  return i + 1;
-                }
-              }
-            };
-
             const getPreviousSibling = function (elem, selector) {
               let sibling = elem.previousElementSibling;
               if (!selector) return sibling;
@@ -74,7 +78,7 @@ export default function SortableSlots(props) {
             const handleUpdate = pbj => {
               fields.update(index, pbj.toObject());
               if (pbj.toObject().name !== fields.value[index - 1]['name']) {
-                const newIndex = getAdjacentIndex(pbj.toObject().name, index);
+                const newIndex = getAdjacentIndex(pbj.toObject().name, fields);
                 if (newIndex) {
                   fields.move(index, newIndex);
                 } else {
@@ -135,33 +139,33 @@ export default function SortableSlots(props) {
                     isLast={index === fields.length - 1}
                   />
                 )}
-                {index === fields.length - 1 && editMode && (
-                  <div className="card-footer mt-1">
-                    <CreateModalButton
-                      className="mb-0"
-                      text="Add Slot"
-                      icon={'plus-outline'}
-                      modal={withPbj(SlotModal, 'triniti:curator::slot')}
-                      modalProps={{
-                        editMode,
-                        curie: 'triniti:curator::slot',
-                        onSubmit: (pbj) => {
-                          const adjacentIndex = getAdjacentIndex(pbj.get('name'));
-                          if (adjacentIndex && adjacentIndex !== (fields.length)) {
-                            fields.insert(adjacentIndex, pbj.toObject());
-                          } else {
-                            push('slots', pbj.toObject());
-                          }
-                        },
-                      }}
-                    />
-                  </div>
-                )}
               </Fragment>
             );
           });
         }}
       </FieldArray>
+      {editMode && (
+        <div className="card-footer mt-1">
+          <CreateModalButton
+            className="mb-0"
+            text="Add Slot"
+            icon={'plus-outline'}
+            modal={withPbj(SlotModal, 'triniti:curator::slot')}
+            modalProps={{
+              editMode,
+              curie: 'triniti:curator::slot',
+              onSubmit: (pbj) => {
+                const adjacentIndex = getAdjacentIndex(pbj.get('name'));
+                if (adjacentIndex && adjacentIndex !== (fieldsRef.current.length)) {
+                  fieldsRef.current.insert(adjacentIndex, pbj.toObject());
+                } else {
+                  push('slots', pbj.toObject());
+                }
+              },
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
