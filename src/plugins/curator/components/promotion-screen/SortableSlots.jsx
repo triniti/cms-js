@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useMemo, useRef, useState, createContext }
 import { FieldArray } from 'react-final-form-arrays';
 import isEmpty from 'lodash-es/isEmpty';
 import fastDeepEqual from 'fast-deep-equal/es6';
-import { CreateModalButton, withPbj } from 'components';
+import { CreateModalButton, Icon, withPbj } from 'components';
 import SlotPlaceholder from 'plugins/curator/components/promotion-screen/SlotPlaceholder';
 import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
 import {
@@ -21,9 +21,6 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  Icon,
-} from '@triniti/cms/components';
 
 import './SortableSlots.scss';
 
@@ -154,37 +151,13 @@ const renderItem = ({ item, index, onRemove, onUpdate }) => {
 const SortableSlots = (props) => {
   const { editMode, form } = props;
   const { push } = form.mutators;
-
-  const getAdjacentIndex = (name, fields) => {
-    if (!fields) {
-      return 1;
-    }
-    for (let i = fields.length - 1; i >= 0; i--) {
-      if (fields.value[i]['name'] === name) {
-        return i + 1;
-      }
-    }
-  };
-  const fieldsRef = useRef([]);
-
   const onChange = (slots) => form.change('slots', slots);
 
   return (
     <div id="sortable-slots">
       <FieldArray name="slots" isEqual={isEqual}>
         {({ fields }) => {
-          fieldsRef.current = fields;
-          const handleUpdate = index => pbj => {
-            fields.update(index, pbj.toObject());
-            if (pbj.toObject().name !== fields.value[index - 1]['name']) {
-              const newIndex = getAdjacentIndex(pbj.toObject().name, fields);
-              if (newIndex) {
-                fields.move(index, newIndex);
-              } else {
-                fields.move(index, (fields.length));
-              }
-            }
-          }
+          const handleUpdate = index => pbj => fields.update(index, pbj.toObject());
 
           return <SortableList
             items={fields}
@@ -204,14 +177,7 @@ const SortableSlots = (props) => {
             modalProps={{
               editMode,
               curie: 'triniti:curator::slot',
-              onSubmit: (pbj) => {
-                const adjacentIndex = getAdjacentIndex(pbj.get('name'));
-                if (adjacentIndex && adjacentIndex !== (fieldsRef.current.length)) {
-                  fieldsRef.current.insert(adjacentIndex, pbj.toObject());
-                } else {
-                  push('slots', pbj.toObject());
-                }
-              },
+              onSubmit: (pbj) => push('slots', pbj.toObject()),
             }}
           />
         </div>
