@@ -24,6 +24,7 @@ export RouterLink from 'components/router-link';
 export Screen from 'components/screen';
 export ScrollableContainer from 'components/scrollable-container';
 export SelectField from 'components/select-field';
+export SortableList from 'components/sortable-list';
 export SwitchField from 'components/switch-field';
 export TextField from 'components/text-field';
 export TextareaField from 'components/textarea-field';
