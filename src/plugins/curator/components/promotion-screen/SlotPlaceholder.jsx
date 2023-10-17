@@ -8,7 +8,7 @@ import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
 
 export default function SlotPlaceholder(props) {
   const { editMode } = useFormContext();
-  const { index, onDrop, onRemove, onUpdate, name: fieldName, componentDragHandle } = props;
+  const { onRemove, onUpdate, name: fieldName, componentDragHandle } = props;
   const { input } = useField(fieldName);
 
   const slotValues = input.value;
@@ -31,10 +31,7 @@ export default function SlotPlaceholder(props) {
     <div
       key={key}
       data-id={key}
-      data-index={index}
       className={rowClassnames}
-      id={`btn-sort-${index}`}
-      onDrop={e => onDrop(e)}
     >
       <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
         {componentDragHandle || <Icon imgSrc="insert" size="lg" className="text-black-50" />}

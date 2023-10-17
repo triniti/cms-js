@@ -17,6 +17,10 @@ const SortableSlots = (props) => {
     <div id="sortable-slots">
       <FieldArray name="slots" isEqual={isEqual}>
         {({ fields }) => {
+          if (!editMode && fields.length === 0) {
+            return <input className="form-control" readOnly value="No slots" />;
+          }
+
           const handleUpdate = index => pbj => fields.update(index, pbj.toObject());
 
           return (
@@ -27,7 +31,6 @@ const SortableSlots = (props) => {
                 <SortableList.Item id={item.name}>  
                   <SlotPlaceholder
                     name={`slots[${index}]`}
-                    index={item.name}
                     pbjName="slots"
                     fieldName="slots"
                     onRemove={() => fields.remove(index)}

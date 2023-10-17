@@ -26,7 +26,7 @@ const SortableList = ({
   const [ active, setActive ] = useState(null);
   const activeItem = useMemo(
     () => items.find((item) => item[keyField] === active?.id),
-    [active, items]
+    [active, items],
   );
   const sensors = useSensors(
     useSensor(PointerSensor),
