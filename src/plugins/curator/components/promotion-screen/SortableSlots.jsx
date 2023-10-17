@@ -1,32 +1,158 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { Fragment, useContext, useMemo, useRef, useState, createContext } from 'react';
 import { FieldArray } from 'react-final-form-arrays';
 import isEmpty from 'lodash-es/isEmpty';
 import fastDeepEqual from 'fast-deep-equal/es6';
-import Sortable from 'sortablejs';
 import { CreateModalButton, withPbj } from 'components';
 import SlotPlaceholder from 'plugins/curator/components/promotion-screen/SlotPlaceholder';
 import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
-import noop from 'lodash/noop';
+import {
+  DragOverlay,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  defaultDropAnimationSideEffects,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+import './SortableSlots.scss';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b))
 
+function DragHandle() {
+  const { attributes, listeners, ref } = useContext(SortableItemContext);
+
+  return (
+    <button className="DragHandle" {...attributes} {...listeners} ref={ref}>
+      <svg viewBox="0 0 20 20" width="12">
+        <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
+      </svg>
+    </button>
+  );
+}
+
+const SortableItemContext = createContext({
+  attributes: {},
+  listeners: undefined,
+  ref() {}
+});
+
+export function SortableItem({ children, id }) {
+  const {
+    attributes,
+    isDragging,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition
+  } = useSortable({ id });
+  const context = useMemo(
+    () => ({
+      attributes,
+      listeners,
+      ref: setActivatorNodeRef
+    }),
+    [attributes, listeners, setActivatorNodeRef]
+  );
+  const style = {
+    opacity: isDragging ? 0.4 : undefined,
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
+  return (
+    <SortableItemContext.Provider value={context}>
+      <li className="SortableItem" ref={setNodeRef} style={style}>
+        {children}
+      </li>
+    </SortableItemContext.Provider>
+  );
+}
+
+export function SortableList({
+  items,
+  onChange,
+  onRemove,
+  onUpdate,
+}) {
+  const [ active, setActive ] = useState(null);
+  const activeItem = useMemo(
+    () => items.value.find((item) => item.name === active?.name),
+    [active, items]
+  );
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    }),
+  );
+
+  return (
+    <DndContext
+      sensors={sensors}
+      onDragStart={({ active }) => setActive(active.id) }
+      onDragEnd={({ active, over }) => {
+        if (over && active.id !== over?.id) {
+          const activeIndex = items.value.findIndex(({ name }) => name === active.id);
+          const overIndex = items.value.findIndex(({ name }) => name === over.id);
+          
+          onChange(arrayMove(items.value, activeIndex, overIndex));
+        }
+        setActive(null);
+      }}
+      onDragCancel={() => setActive(null) }
+    >
+      <SortableContext items={items.value}>
+        <ul className="SortableList" role="application">
+          {items.value.map((item, i) => {
+            return <Fragment key={item.name}>{renderItem({ item, index: i, onRemove, onUpdate })}</Fragment>;
+          })}
+        </ul>
+      </SortableContext>
+      <DragOverlay dropAnimation={
+        {
+          sideEffects: defaultDropAnimationSideEffects({
+            styles: {
+              active: {
+                opacity: "0.4"
+              }
+            }
+          })
+        }
+      }>
+        {activeItem && renderItem({ activeItem, index: i, onRemove, onUpdate })}
+      </DragOverlay>
+    </DndContext>
+  );
+}
+
+function renderItem({ item, index, onRemove, onUpdate }) {
+  return (
+    <SortableItem id={item.name}>
+      <SlotPlaceholder
+        name={`slots[${index}]`}
+        index={item.name}
+        pbjName="slots"
+        fieldName="slots"
+        onRemove={() => onRemove(index)}
+        onUpdate={onUpdate(index)}
+        componentDragHandle={<DragHandle />}
+        />
+    </SortableItem>
+  );
+}
+
 export default function SortableSlots(props) {
   const { editMode, form } = props;
-  const { move, push } = form.mutators;
-  const sortableRef = useRef();
-
-  useEffect(() => {
-    if (!editMode) {
-      return noop;
-    }
-
-    Sortable.create(sortableRef.current, {
-      draggable: '.sortable-field',
-      ghostClass: 'slot-group-divider',
-      handle: '.sortable-handle',
-      onEnd: evt => move('slots', evt.oldDraggableIndex, evt.newDraggableIndex),
-    });
-  }, [editMode]);
+  const { push } = form.mutators;
 
   const getAdjacentIndex = (name, fields) => {
     if (!fields) {
@@ -39,113 +165,36 @@ export default function SortableSlots(props) {
     }
   };
   const fieldsRef = useRef([]);
-  
+
+  const onChange = (slots) => form.change('slots', slots);
 
   return (
-    <div id="sortable-slots" ref={sortableRef} className="card bg-gray-100 border rounded">
+    <div id="sortable-slots">
       <FieldArray name="slots" isEqual={isEqual}>
         {({ fields }) => {
           fieldsRef.current = fields;
-          if (!editMode && fields.length === 0) {
-            return <input className="form-control" readOnly value="No slots" />;
+          const handleUpdate = index => pbj => {
+            fields.update(index, pbj.toObject());
+            if (pbj.toObject().name !== fields.value[index - 1]['name']) {
+              const newIndex = getAdjacentIndex(pbj.toObject().name, fields);
+              if (newIndex) {
+                fields.move(index, newIndex);
+              } else {
+                fields.move(index, (fields.length));
+              }
+            }
           }
 
-          return fields.map((fname, index) => {
-            const getPreviousSibling = function (elem, selector) {
-              let sibling = elem.previousElementSibling;
-              if (!selector) return sibling;
-
-              while (sibling) {
-                if (sibling.matches(selector)) return sibling;
-                sibling = sibling.previousElementSibling;
-              }
-            };
-
-            const handleDrop = (e) => {
-              let target = e.target;
-              if (!e.target.classList.contains('sortable-field')) {
-                target = e.target.closest('.sortable-field');
-              }
-
-              const closestHeader = getPreviousSibling(target, '.slot-group-divider');
-              const newValue = { ...fields.value[index] };
-              newValue['name'] = closestHeader.children[0].textContent;
-              fields.update(index, newValue);
-            };
-
-            const handleRemove = () => fields.remove(index);
-
-            const handleUpdate = pbj => {
-              fields.update(index, pbj.toObject());
-              if (pbj.toObject().name !== fields.value[index - 1]['name']) {
-                const newIndex = getAdjacentIndex(pbj.toObject().name, fields);
-                if (newIndex) {
-                  fields.move(index, newIndex);
-                } else {
-                  fields.move(index, (fields.length));
-                }
-              }
-            };
-
-            return (
-              <Fragment key={fname}>
-                {index === 0 && (
-                  <>
-                    <div className="card-header slot-group-divider mb-2">
-                      <h4 className="mb-0">
-                        {fields.value[index]['name']}
-                      </h4>
-                    </div>
-                    <SlotPlaceholder
-                      name={fname}
-                      index={index}
-                      pbjName="slots"
-                      onDrop={handleDrop}
-                      onRemove={handleRemove}
-                      onUpdate={handleUpdate}
-                      isFirst={index === 0}
-                      isLast={index === fields.length - 1}
-                    />
-                  </>
-                )}
-                {index > 0 && fields.value[index - 1]['name'] !== fields.value[index]['name'] && (
-                  <>
-                    <div className="card-header slot-group-divider mt-1 mb-2">
-                      <h4 className="mb-0">
-                        {fields.value[index]['name']}
-                      </h4>
-                    </div>
-                    <SlotPlaceholder
-                      name={fname}
-                      index={index}
-                      pbjName="slots"
-                      onDrop={handleDrop}
-                      onRemove={handleRemove}
-                      onUpdate={handleUpdate}
-                      isFirst={index === 0}
-                      isLast={index === fields.length - 1}
-                    />
-                  </>
-                )}
-                {index > 0 && fields.value[index - 1]['name'] === fields.value[index]['name'] && (
-                  <SlotPlaceholder
-                    name={fname}
-                    index={index}
-                    pbjName="slots"
-                    onDrop={handleDrop}
-                    onRemove={handleRemove}
-                    onUpdate={handleUpdate}
-                    isFirst={index === 0}
-                    isLast={index === fields.length - 1}
-                  />
-                )}
-              </Fragment>
-            );
-          });
+          return <SortableList
+            items={fields}
+            onChange={onChange}
+            onRemove={index => fields.remove(index)}
+            onUpdate={index => handleUpdate(index)}
+            />;
         }}
       </FieldArray>
       {editMode && (
-        <div className="card-footer mt-1">
+        <div className="mt-1">
           <CreateModalButton
             className="mb-0"
             text="Add Slot"
