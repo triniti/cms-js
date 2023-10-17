@@ -83,8 +83,9 @@ const SortableList = ({
   onUpdate,
 }) => {
   const [ active, setActive ] = useState(null);
+  const itemValues = items?.value || [];
   const activeItem = useMemo(
-    () => items.value.find((item) => item.name === active?.name),
+    () => itemValues.find((item) => item.name === active?.name),
     [active, items]
   );
   const sensors = useSensors(
@@ -109,9 +110,9 @@ const SortableList = ({
       }}
       onDragCancel={() => setActive(null) }
     >
-      <SortableContext items={items.value}>
+      <SortableContext items={itemValues.map(i => i.name)}>
         <ul className="SortableList" role="application">
-          {items.value.map((item, i) => {
+          {itemValues.map((item, i) => {
             return <Fragment key={item.name}>{renderItem({ item, index: i, onRemove, onUpdate })}</Fragment>;
           })}
         </ul>
