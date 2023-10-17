@@ -26,9 +26,8 @@ import './SortableSlots.scss';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b))
 
-function DragHandle() {
+const DragHandle = () =>  {
   const { attributes, listeners, ref } = useContext(SortableItemContext);
-
   return (
     <button className="DragHandle" {...attributes} {...listeners} ref={ref}>
       <svg viewBox="0 0 20 20" width="12">
@@ -44,7 +43,7 @@ const SortableItemContext = createContext({
   ref() {}
 });
 
-export function SortableItem({ children, id }) {
+const SortableItem = ({ children, id }) => {
   const {
     attributes,
     isDragging,
@@ -77,12 +76,12 @@ export function SortableItem({ children, id }) {
   );
 }
 
-export function SortableList({
+const SortableList = ({
   items,
   onChange,
   onRemove,
   onUpdate,
-}) {
+}) => {
   const [ active, setActive ] = useState(null);
   const activeItem = useMemo(
     () => items.value.find((item) => item.name === active?.name),
@@ -134,7 +133,7 @@ export function SortableList({
   );
 }
 
-function renderItem({ item, index, onRemove, onUpdate }) {
+const renderItem = ({ item, index, onRemove, onUpdate }) => {
   return (
     <SortableItem id={item.name}>
       <SlotPlaceholder
@@ -150,7 +149,7 @@ function renderItem({ item, index, onRemove, onUpdate }) {
   );
 }
 
-export default function SortableSlots(props) {
+const SortableSlots = (props) => {
   const { editMode, form } = props;
   const { push } = form.mutators;
 
@@ -218,3 +217,5 @@ export default function SortableSlots(props) {
     </div>
   );
 }
+
+export default SortableSlots;
