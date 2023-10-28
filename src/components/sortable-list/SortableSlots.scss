@@ -30,22 +30,30 @@
   appearance: none;
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
-}
 
-.DragHandle:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
+  &.disabled {
+    cursor: not-allowed;
 
-.DragHandle:focus-visible {
-  box-shadow: 0 0px 0px 2px #4c9ffe;
-}
+    &:hover {
+      background-color: white;
+    }
+  }
 
-.DragHandle svg {
-  flex: 0 0 auto;
-  margin: auto;
-  height: 100%;
-  overflow: visible;
-  color: #919eab;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0px 0px 2px #4c9ffe;
+  }
+
+  svg {
+    flex: 0 0 auto;
+    margin: auto;
+    height: 100%;
+    overflow: visible;
+    color: #919eab;
+  }
 }
 
 

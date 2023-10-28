@@ -2,11 +2,18 @@ import React, { createContext, useContext, useMemo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Icon } from 'components';
+import useFormContext from 'components/useFormContext';
+import classNames from 'classnames';
 
 export function DragHandle() {
+  const formContext = useFormContext();
+  const { editMode } = formContext;
   const { attributes, listeners, ref } = useContext(SortableItemContext);
+
+  const className = editMode ? 'DragHandle ' : 'DragHandle disabled';
+
   return (
-    <button className="DragHandle" {...attributes} {...listeners} ref={ref}>
+    <button className={className} {...attributes} {...listeners} ref={ref}>
       <Icon imgSrc="drag" />
     </button>
   );
@@ -19,6 +26,8 @@ const SortableItemContext = createContext({
 });
 
 export default function SortableItem({ children, id }) {
+  const formContext = useFormContext();
+  const { editMode } = formContext;
   const {
     attributes,
     isDragging,
@@ -27,7 +36,7 @@ export default function SortableItem({ children, id }) {
     setActivatorNodeRef,
     transform,
     transition
-  } = useSortable({ id });
+  } = useSortable({ id, disabled: !editMode });
   const context = useMemo(
     () => ({
       attributes,
