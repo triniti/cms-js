@@ -11,7 +11,7 @@ export default (props, config) => {
   let tab = defaultTab;
   const id = props.id || params.id;
   const parts = (params['*'] || '').split('/').filter(v => v);
-  const editMode = parts.includes('edit') || props.editMode;
+  const editMode = parts.includes('edit') || (props.editMode ?? false);
   if (parts.length >= 1) {
     tab = parts[0] !== 'edit' ? parts[0] : defaultTab;
   }
