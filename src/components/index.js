@@ -1,3 +1,5 @@
+import SortableListField from "./sortable-list-field";
+
 export ActionButton from 'components/action-button';
 export Backdrop from 'components/backdrop';
 export BackgroundImage from 'components/background-image';
@@ -25,6 +27,7 @@ export Screen from 'components/screen';
 export ScrollableContainer from 'components/scrollable-container';
 export SelectField from 'components/select-field';
 export SortableList from 'components/sortable-list';
+export SortableListField from 'components/sortable-list-field';
 export SwitchField from 'components/switch-field';
 export TextField from 'components/text-field';
 export TextareaField from 'components/textarea-field';

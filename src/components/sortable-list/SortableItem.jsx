@@ -3,7 +3,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Icon } from 'components';
 import useFormContext from 'components/useFormContext';
-import classNames from 'classnames';
 
 export function DragHandle() {
   const formContext = useFormContext();
