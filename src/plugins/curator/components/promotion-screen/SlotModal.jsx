@@ -53,7 +53,7 @@ function SlotModal(props) {
             filter={filter}
             format={format}
           />
-          <WidgetPickerField name="widget_ref" label="Widget" />
+          <WidgetPickerField name="widget_ref" label="Widget" required />
         </Form>
       </ModalBody>
       <ModalFooter>

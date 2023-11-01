@@ -36,7 +36,7 @@ export default function SortableListField(props) {
               items={fields.value}
               onChange={onChange}
               renderItem={({item, index}) => (
-                <SortableList.Item id={item[keyField]}>
+                <SortableList.Item id={item[keyField]} editMode={editMode}>
                   <components.Placeholder
                     name={`${name}[${index}]`}
                     pbjName={name}
