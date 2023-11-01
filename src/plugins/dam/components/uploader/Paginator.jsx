@@ -4,7 +4,6 @@ import {
   PaginationItem,
   PaginationLink,
 } from 'reactstrap';
-import PropTypes from 'prop-types';
 import PaginatorItem from 'plugins/dam/components/uploader/PaginatorItem';
 import PaginatorNoFiles from 'plugins/dam/components/uploader/PaginatorNoFiles';
 

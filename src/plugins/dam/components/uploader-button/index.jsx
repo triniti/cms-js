@@ -1,8 +1,6 @@
-import React, { lazy, useState } from 'react';
+import React, { useState } from 'react';
 import noop from 'lodash-es/noop';
-import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import Uploader from 'plugins/dam/components/uploader';
 
 const UploaderButton = (props) => {
@@ -13,6 +11,7 @@ const UploaderButton = (props) => {
     allowMultiUpload = true,
     ...btnProps
   } = props;
+
   const [ isUploaderOpen, setIsUploaderOpen ] = useState(false);
   const handleToggleUploader = () => {
     setIsUploaderOpen(!isUploaderOpen);
@@ -33,11 +32,5 @@ const UploaderButton = (props) => {
     </>
   );
 }
-
-UploaderButton.propTypes = {
-  children: PropTypes.node,
-  linkedRefs: PropTypes.arrayOf(PropTypes.instanceOf(NodeRef)),
-  onClose: PropTypes.func,
-};
 
 export default UploaderButton;
