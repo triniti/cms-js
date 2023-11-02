@@ -36,7 +36,6 @@ import { fileUploadStatuses } from 'plugins/dam/constants';
 import uploadFile, { getUploadUrls } from 'plugins/dam/utils/uploadFile';
 import { fromAssetId } from 'plugins/dam/utils/assetFactory';
 import imageUrlDimensions from 'plugins/dam/utils/imageUrlDimensions';
-import UploaderContext, { CurrentNodeContext } from 'plugins/dam/components/uploader/UploaderContext';
 import DropArea from 'plugins/dam/components/uploader/DropArea';
 import FileList from 'plugins/dam/components/uploader/FileList';
 import Form from 'plugins/dam/components/uploader/Form';
@@ -186,7 +185,6 @@ const Uploader = ({
   const formStateRef = useRef();
   const currentFormRef = useRef();
   const currentNodeRef = useRef();
-  const [ currentNode, setCurrentNode ] = useState(null);
   const delegateRef = useRef({
     onAfterReinitialize: noop,
     shouldReinitialize: true,
@@ -382,11 +380,12 @@ const Uploader = ({
 
   const handleFormSubmit = async (/*values, node*/) => {
     const { current: form } = currentFormRef;
+    const { current: node } = currentNodeRef;
     const { values } = formStateRef.current;
     try {
       const ref = NodeRef.fromNode(activeAsset);
-      await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`); 
-      await appDispatch(updateNode(values, form, currentNode));
+      await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
+      await appDispatch(updateNode(values, form, node));
 
       await progressIndicator.close();
       toast({ title: `${startCase(ref.getLabel())} saved.` });
