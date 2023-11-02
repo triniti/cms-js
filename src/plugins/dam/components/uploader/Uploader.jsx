@@ -36,6 +36,7 @@ import { fileUploadStatuses } from 'plugins/dam/constants';
 import uploadFile, { getUploadUrls } from 'plugins/dam/utils/uploadFile';
 import { fromAssetId } from 'plugins/dam/utils/assetFactory';
 import imageUrlDimensions from 'plugins/dam/utils/imageUrlDimensions';
+import UploaderContext, { CurrentNodeContext } from 'plugins/dam/components/uploader/UploaderContext';
 import DropArea from 'plugins/dam/components/uploader/DropArea';
 import FileList from 'plugins/dam/components/uploader/FileList';
 import Form from 'plugins/dam/components/uploader/Form';
@@ -185,6 +186,7 @@ const Uploader = ({
   const formStateRef = useRef();
   const currentFormRef = useRef();
   const currentNodeRef = useRef();
+  const [ currentNode, setCurrentNode ] = useState(null);
   const delegateRef = useRef({
     onAfterReinitialize: noop,
     shouldReinitialize: true,
@@ -380,12 +382,11 @@ const Uploader = ({
 
   const handleFormSubmit = async (/*values, node*/) => {
     const { current: form } = currentFormRef;
-    const { current: node } = currentNodeRef;
     const { values } = formStateRef.current;
     try {
       const ref = NodeRef.fromNode(activeAsset);
       await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`); 
-      await appDispatch(updateNode(values, form, node));
+      await appDispatch(updateNode(values, form, currentNode));
 
       await progressIndicator.close();
       toast({ title: `${startCase(ref.getLabel())} saved.` });
@@ -467,24 +468,22 @@ const Uploader = ({
                 <Card className="pt-3 px-3 pb-1 mb-0">
                   {activeHashName && activeAsset && activeAssetStatus === fileUploadStatuses.COMPLETED
                     && (
-                      <>
-                        <Form
-                          id={`${activeAsset.get('_id')}`}
-                          label={`${activeAsset.get('_id').getType()}-asset`}
-                          currentFormRef={currentFormRef}
-                          currentNodeRef={currentNodeRef}
-                          formStateRef={formStateRef}
-                          refreshNodeRef={refreshNodeRef}
-                          commonFieldsComponent={CommonFields}
-                          allowMultiUpload={allowMultiUpload}
-                          hasMultipleFiles={hasMultipleFiles}
-                          setIsFormDirty={setIsFormDirty}
-                          onSubmit={handleFormSubmit}
-                          delegateRef={delegateRef}
-                          onApplyAllCredit={() => handleApplyAll('credit')}
-                          onApplyAllExpiresAt={() => handleApplyAll('expires_at')}
-                        />
-                      </>
+                      <Form
+                        id={`${activeAsset.get('_id')}`}
+                        label={`${activeAsset.get('_id').getType()}-asset`}
+                        currentFormRef={currentFormRef}
+                        currentNodeRef={currentNodeRef}
+                        formStateRef={formStateRef}
+                        refreshNodeRef={refreshNodeRef}
+                        commonFieldsComponent={CommonFields}
+                        allowMultiUpload={allowMultiUpload}
+                        hasMultipleFiles={hasMultipleFiles}
+                        setIsFormDirty={setIsFormDirty}
+                        onSubmit={handleFormSubmit}
+                        delegateRef={delegateRef}
+                        onApplyAllCredit={() => handleApplyAll('credit')}
+                        onApplyAllExpiresAt={() => handleApplyAll('expires_at')}
+                      />
                     )}
                   {activeHashName && [fileUploadStatuses.COMPLETED, fileUploadStatuses.ERROR].indexOf(activeAssetStatus) == -1 && <h3>Processing...</h3>}
                   {activeHashName && activeAssetStatus === fileUploadStatuses.ERROR && (
