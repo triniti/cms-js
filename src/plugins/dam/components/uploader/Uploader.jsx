@@ -471,7 +471,6 @@ const Uploader = ({
                         <Form
                           id={`${activeAsset.get('_id')}`}
                           label={`${activeAsset.get('_id').getType()}-asset`}
-                          editMode={true}
                           currentFormRef={currentFormRef}
                           currentNodeRef={currentNodeRef}
                           formStateRef={formStateRef}
@@ -519,12 +518,14 @@ const Uploader = ({
                     <Button
                       onClick={handleFormSubmit}
                       disabled={!enableSaveChanges}
+                      className="btn-light"
                     >
                       Save Changes
                     </Button>
                     <Button
                       onClick={() => handleToggleUploader(true)}
                       disabled={hasFilesProcessing}
+                      className="btn-light"
                     >
                       Done
                     </Button>

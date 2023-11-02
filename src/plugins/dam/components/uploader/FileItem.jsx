@@ -48,7 +48,7 @@ export default (props) => {
         >
           <span className="ms-auto mr-auto w-100 text-truncate">{file.file.name}</span>
         </DropdownToggle>
-        <DropdownMenu right>
+        <DropdownMenu end>
           <DropdownItem onClick={() => onRetry(hashName)}>Retry</DropdownItem>
           <DropdownItem divider />
           <DropdownItem onClick={() => onDelete(hashName)}>Delete</DropdownItem>

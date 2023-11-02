@@ -90,7 +90,7 @@ const withNode = Component => {
   const ComponentWithForm = withForm(Component);
   return props => {
     const config = {};
-    const { editMode, nodeRef, qname, label } = useParams(props, config);
+    const { nodeRef, qname, label } = useParams(props, config);
     const { refreshNodeRef } = props;
     const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef);
     refreshNodeRef.current = refreshNode;
@@ -109,7 +109,6 @@ const withNode = Component => {
       isRefreshing={isRefreshing}
       refreshNode={refreshNode}
       replaceNode={setNode}
-      editMode={editMode}
       />
   }
 }
