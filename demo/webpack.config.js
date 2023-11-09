@@ -62,8 +62,8 @@ module.exports = (webpackEnv = {}) => {
       port: 3000,
       server: {
         type: 'https',
+        options: https,
       },
-      https,
     },
     stats: 'normal',
     output: {
