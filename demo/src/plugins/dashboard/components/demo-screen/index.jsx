@@ -89,7 +89,7 @@ function sweetAlert2(e) {
   Swal.fire({
     title: 'Error!',
     text: 'Do you want to continue',
-    type: 'error',
+    icon: 'error',
     confirmButtonText: 'Cool',
   });
 }
@@ -99,7 +99,7 @@ function sweetAlert3(e) {
   Swal.fire({
     title: 'Most Basic',
     text: 'Here are the two standard button styles',
-    type: 'success',
+    icon: 'success',
     showCancelButton: true,
     confirmButtonText: 'Confirm Button',
     cancelButtonText: 'Cancel Button',
@@ -111,7 +111,7 @@ function sweetAlert4(e) {
   Swal.fire({
     title: 'Are you sure?',
     text: 'You will not be able to recover this imaginary file!',
-    type: 'warning',
+    icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Yes, delete it!',
     cancelButtonText: 'No, keep it',
@@ -160,7 +160,7 @@ function sweetAlert5(e) {
   }).then((result) => {
     if (result.value) {
       Swal.fire({
-        type: 'success',
+        icon: 'success',
         title: 'Ajax request finished!',
         html: `Submitted email: ${result.value}`,
       });

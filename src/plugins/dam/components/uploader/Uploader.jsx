@@ -53,7 +53,7 @@ const confirmDone = async (text) => {
     showCancelButton: true,
     text,
     title: 'Are you sure?',
-    type: 'warning',
+    icon: 'warning',
     reverseButtons: true,
   });
 }

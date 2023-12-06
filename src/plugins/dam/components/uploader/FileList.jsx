@@ -14,7 +14,7 @@ const confirmSelect = async () => {
     showCancelButton: true,
     text: 'Do you want to select another asset without saving? The unsaved changes will be lost.',
     title: 'Are you sure?',
-    type: 'warning',
+    icon: 'warning',
     reverseButtons: true,
   });
 }

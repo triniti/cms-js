@@ -24,7 +24,7 @@ const confirmBlock = async (type) => {
   return Swal.fire({
     title: `This looks like a ${type} block`,
     text: 'Would you like to use that block instead?',
-    type: 'warning',
+    icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Yes',
     confirmButtonClass: 'btn btn-danger',

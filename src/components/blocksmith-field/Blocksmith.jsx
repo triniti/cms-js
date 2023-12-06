@@ -87,7 +87,7 @@ class Blocksmith extends React.Component {
     return Swal.fire({
       title: 'Are you sure?',
       text: 'This block will be deleted',
-      type: 'warning',
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete!',
       confirmButtonClass: 'btn btn-danger',
