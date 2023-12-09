@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop';
 import throttle from 'lodash-es/throttle'
-import computeScrollIntoView from 'compute-scroll-into-view';
+import { compute as computeScrollIntoView } from 'compute-scroll-into-view';
 import Swal from 'sweetalert2';
 
 import FileItem from './FileItem';

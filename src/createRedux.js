@@ -1,6 +1,6 @@
 import camelCase from 'lodash-es/camelCase';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
+import { withExtraArgument } from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 import ActionEvent from 'events/ActionEvent';
@@ -44,7 +44,7 @@ export default async (app, preloadedState) => {
     }
   });
 
-  const middlewares = [thunk.withExtraArgument(app)];
+  const middlewares = [withExtraArgument(app)];
   let sagaMiddleware;
   if (sagas) {
     sagaMiddleware = createSagaMiddleware();
