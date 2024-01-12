@@ -64,6 +64,7 @@ module.exports = (webpackEnv = {}) => {
         type: 'https',
         options: https,
       },
+      hot: true,
     },
     stats: 'normal',
     output: {

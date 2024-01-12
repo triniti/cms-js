@@ -2,7 +2,6 @@ import './config/webpackPublicPath';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'whatwg-fetch';
-import 'react-hot-loader';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';

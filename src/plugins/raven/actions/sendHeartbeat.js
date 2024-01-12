@@ -55,7 +55,7 @@ export default (topic, etag = null) => async (dispatch, getState) => {
           showConfirmButton: false,
           titleText: 'STALE DATA',
           toast: true,
-          type: 'warning',
+          icon: 'warning',
         });
       }
 

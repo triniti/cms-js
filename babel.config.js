@@ -72,10 +72,6 @@ switch (env) {
       },
     ]);
 
-    if (process.env.NODE_ENV !== 'production') {
-      plugins.push('react-hot-loader/babel');
-    }
-
     break;
 }
 
