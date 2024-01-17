@@ -35,7 +35,7 @@ export default function ImagePickerModal({
 
   const handleUploadedImageComplete = (assets) => {
     onUploadedImageComplete(assets);
-    toggle();
+    //toggle();
   };
 
   return (
@@ -45,7 +45,7 @@ export default function ImagePickerModal({
         {allowLinked && (
           <Nav className="nav-underline">
             {imageRef && (
-              <NavItem active={'linked-images' === activeTab}>  
+              <NavItem active={'linked-images' === activeTab}>
                 <div
                   className={'linked-images' === activeTab ? 'nav-link active' : 'nav-link'}
                   onClick={() => selectActiveTab('linked-images')}
