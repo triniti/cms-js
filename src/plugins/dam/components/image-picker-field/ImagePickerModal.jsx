@@ -29,6 +29,11 @@ export default function ImagePickerModal({
   const tab = allowLinked ? 'linked-images' : 'search-images'
   const [activeTab, setActiveTab] = useState(tab);
 
+  const [ isUploaderOpen, setIsUploaderOpen ] = useState(false);
+  const handleToggleUploader = () => {
+    setIsUploaderOpen(!isUploaderOpen);
+  }
+
   const selectActiveTab = (tab) => {
     setActiveTab(tab);
   }
@@ -112,6 +117,8 @@ export default function ImagePickerModal({
           <UploaderButton
             linkedRefs={nodeRef ? [NodeRef.fromString(nodeRef)] : []}
             allowMultiUpload={false}
+            isUploaderOpen={isUploaderOpen}
+            onToggleUploader={handleToggleUploader}
             onClose={handleUploadedImageComplete}
             >
             Upload
