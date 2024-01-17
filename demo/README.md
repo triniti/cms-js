@@ -19,11 +19,11 @@ the directory structure should look like this
 
 ```
 root
-│   node_modules (includes vendor shemas)
+│   node_modules (includes vendor schemas)
 │   ...rest
 │
 └───demo
-│   │   node_modules
+│   │   node_modules (built when app started)
 │   │   .env
 │   │   ...rest
 |   └───src
