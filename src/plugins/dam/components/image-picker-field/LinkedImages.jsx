@@ -12,7 +12,8 @@ import Icon from 'components/icon';
 import noop from 'lodash-es/noop';
 
 function LinkedImages(props) {
-  const { request, nodeRef, selectActiveTab, selectImage, toggle, onUploadedImageComplete: handleUploadedImageComplete = noop } = props;
+  const { request, nodeRef, selectActiveTab, selectImage, toggle, onUploadedImageComplete: handleUploadedImageComplete = noop,
+  isUploaderOpen, onToggleUploader} = props;
   const { response, pbjxError } = useRequest(request, true);
 
   useEffect(() => {
@@ -44,6 +45,8 @@ function LinkedImages(props) {
             color="light"
             outline
             allowMultiUpload={false}
+            isUploaderOpen={isUploaderOpen}
+            onToggleUploader={onToggleUploader}
             onClose={handleUploadedImageComplete}
             >
             <Icon imgSrc="upload" alt="upload" style={{ marginRight: "0.5rem" }} />

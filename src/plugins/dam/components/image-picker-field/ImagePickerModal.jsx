@@ -96,6 +96,8 @@ export default function ImagePickerModal({
                 selectActiveTab={selectActiveTab}
                 selectImage={selectImage}
                 toggle={toggle}
+                isUploaderOpen={isUploaderOpen}
+                onToggleUploader={handleToggleUploader}
                 onUploadedImageComplete={handleUploadedImageComplete}
               />
             </div>
