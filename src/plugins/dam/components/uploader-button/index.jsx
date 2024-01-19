@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import noop from 'lodash-es/noop';
 import { Button } from 'reactstrap';
 import Uploader from 'plugins/dam/components/uploader';
@@ -9,20 +9,33 @@ const UploaderButton = (props) => {
     linkedRefs = null,
     onClose = noop,
     allowMultiUpload = true,
-    isUploaderOpen,
-    onToggleUploader,
     ...btnProps
   } = props;
 
+  const [ isUploaderOpen, setIsUploaderOpen ] = useState(false);
+  const [ shouldRenderUploader, setShouldRenderUploader] = useState(false);
+
+  useEffect(()=>{
+    if(isUploaderOpen){
+      setShouldRenderUploader(true);
+    }else {
+      setShouldRenderUploader(false);
+    }
+  },[isUploaderOpen]);
+
+  const handleToggleUploader = () => {
+    setIsUploaderOpen(prevState => !prevState);
+  }
+
   return (
     <>
-      <Button key="a" style={{ margin: 0 }} color="primary" onClick={onToggleUploader} {...btnProps}>{children || 'Upload files'}</Button>
-      {isUploaderOpen && (
+      <Button key="a" style={{ margin: 0 }} color="primary" onClick={handleToggleUploader} {...btnProps}>{children || 'Upload files'}</Button>
+      {shouldRenderUploader && (
         <Uploader
           allowMultiUpload={allowMultiUpload}
           isOpen={isUploaderOpen}
           linkedRefs={linkedRefs}
-          onToggleUploader={onToggleUploader}
+          onToggleUploader={handleToggleUploader}
           onClose={onClose}
           />
       )}
