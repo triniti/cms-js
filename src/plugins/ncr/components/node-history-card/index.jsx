@@ -24,7 +24,7 @@ const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
 function NodeHistoryCard(props) {
   const dispatch = useDispatch();
   const policy = usePolicy();
-  const { isFormDirty, nodeRef: nodeRefStr, request } = props;
+  const { editMode, isFormDirty, nodeRef: nodeRefStr, request } = props;
   const nodeRef = NodeRef.fromString(nodeRefStr);
   request
     .set('node_ref', nodeRef)
@@ -57,7 +57,7 @@ function NodeHistoryCard(props) {
   const handleRevert = async (selected) => {
     const { node, form, formName, setBlocks } = props;
     const { push, pop } = form.mutators;
-    
+
     for (const item of selected) {
       const { id, value } = item;
       const isKeyValueField = node.schema().fields.get(id).getRule().getName() === 'A_MAP';
@@ -91,7 +91,7 @@ function NodeHistoryCard(props) {
     //   }
     // }
   }
-  
+
   /**
    * Is Db Value Same As Node Value
    *
@@ -173,7 +173,7 @@ function NodeHistoryCard(props) {
                         && pathsLength > 0
                         && (
                           <RevertButton
-                            disabled={!index || !hasDifferentDbValues(event)}
+                            disabled={!index || !hasDifferentDbValues(event) || !editMode}
                             event={event}
                             isDbValueSameAsNodeValue={isDbValueSameAsNodeValue}
                             isFormDirty={isFormDirty}
