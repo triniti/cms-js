@@ -12,6 +12,8 @@ import StoryTab from 'plugins/news/components/article-screen/StoryTab';
 import NotificationsTab from 'plugins/news/components/article-screen/NotificationsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
 import Collaborators from 'plugins/raven/components/collaborators';
+import LinkedImagesTab from 'plugins/dam/components/linked-images-tab';
+
 
 function ArticleScreen(props) {
   const {
@@ -52,6 +54,7 @@ function ArticleScreen(props) {
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         (hasSeo && { text: 'Seo', to: urls.tab('seo') }),
         (hasNotifications && { text: 'Notifications', to: urls.tab('notifications') }),
+        { text: 'Media', to: urls.tab('media') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ].filter(Boolean)}
@@ -133,6 +136,9 @@ function ArticleScreen(props) {
               <NotificationsTab {...props} />
             </TabPane>
           )}
+          <TabPane tabId="media">
+            <LinkedImagesTab nodeRef={nodeRef}   />
+          </TabPane>
           <TabPane tabId="history">
             <HistoryTab isFormDirty={dirty} {...props} />
           </TabPane>
