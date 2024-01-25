@@ -14,6 +14,7 @@ const Asset = ({
   const assetTitle = asset.get('title');
   const cssStyleImg = {};
   cssStyleImg.opacity = (isHovering ? 0.4 : 1);
+  cssStyleImg.backgroundColor = '#29292B';
   return (
     <Media className="mt-0 aspect-ratio aspect-ratio-1by1 media" style={cssStyleImg}>
       <BackgroundImage imgSrc={damUrl(asset, 'o', 'sm')} />
