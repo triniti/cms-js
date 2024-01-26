@@ -6,6 +6,9 @@ import { CreateModalButton, Icon, useField, useFormContext } from 'components';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
 import noop from 'lodash-es/noop';
+import { Link } from 'react-router-dom';
+import nodeUrl from '../../../ncr/nodeUrl';
+import usePolicy from '../../../iam/components/usePolicy';
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
 
@@ -59,6 +62,9 @@ export default function ImagePickerField(props) {
     onSelectImage && onSelectImage(ref);
   };
 
+  const policy = usePolicy();
+  const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
+
   const rootClassName = classNames(
     groupClassName,
     'form-group',
@@ -71,6 +77,18 @@ export default function ImagePickerField(props) {
         <>
           {previewImage && (
             <>
+              <Link to={nodeUrl(node,'view')}>
+                <Button color="hover">
+                  <Icon imgSrc="eye" alt="view" />
+                </Button>
+              </Link>
+              {canUpdate && (
+                <Link to={nodeUrl(node,'edit')}>
+                  <Button color="hover">
+                    <Icon imgSrc="pencil" alt="edit" />
+                  </Button>
+                </Link>
+              )}
               <a href={damUrl(imageRef)} target="_blank" rel="noopener noreferrer">
                 <div className="btn btn-hover btn-sm mb-1">
                   <Icon imgSrc="external" alt="open" />
@@ -112,7 +130,7 @@ export default function ImagePickerField(props) {
           )}
         </>
       )}
-      {!imageRef && (editMode || !readOnly) && (
+      {!imageRef && (editMode && !readOnly) && (
         <div className="d-block">
           <CreateModalButton text="Select an Image" modal={ImagePickerModal} modalProps={{selectImage}} />
         </div>
