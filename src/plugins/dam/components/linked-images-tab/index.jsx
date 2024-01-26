@@ -89,7 +89,7 @@ function LinkedImagesTab(props) {
             onToggleModal={this.handleToggleModal}
           />
           */}
-          {nodes.length
+          {nodes.length > 0
           && (
             // <Row gutter="sm">
             //   {nodes.map((asset) => (
