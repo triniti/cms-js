@@ -39,6 +39,7 @@ const confirmUnlink = async (node) => {
 function LinkedImagesTab(props) {
 
   const app = getInstance();
+  const dispatch = useDispatch();
   const { request, nodeRef } = props;
   request.set('linked_ref', NodeRef.fromString(nodeRef));
 
