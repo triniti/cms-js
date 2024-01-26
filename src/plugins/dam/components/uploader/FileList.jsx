@@ -8,14 +8,16 @@ import FileItem from './FileItem';
 
 const confirmSelect = async () => {
   return Swal.fire({
-    cancelButtonClass: 'btn btn-secondary',
-    confirmButtonClass: 'btn btn-danger',
     confirmButtonText: 'Yes',
     showCancelButton: true,
     text: 'Do you want to select another asset without saving? The unsaved changes will be lost.',
     title: 'Are you sure?',
     icon: 'warning',
     reverseButtons: true,
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
   });
 }
 

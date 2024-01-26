@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
-import { Icon, Loading } from 'components';
+import { Icon, Loading, UncontrolledTooltip } from 'components';
 import { Link } from 'react-router-dom';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
@@ -10,16 +10,65 @@ import ImageGrid from '../../../../plugins/dam/components/image-grid';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import usePolicy from 'plugins/iam/components/usePolicy';
+import Swal from 'sweetalert2';
+import damUrl from 'plugins/dam/damUrl';
+import { getInstance } from '@app/main';
+import MessageResolver from '@gdbots/pbj/MessageResolver';
+import sendAlert from 'actions/sendAlert';
+import { useDispatch } from 'react-redux';
+
+const delay = (time = 500) => new Promise((resolve) => setTimeout(resolve, time));
+
+const confirmUnlink = async (node) => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: `Do you want to unlink ${node.get('title') || 'this image'}?`,
+    icon: 'warning',
+    imageUrl: damUrl(node),
+    showCancelButton: true,
+    confirmButtonText: 'Yes, unlink!',
+    reverseButtons: true,
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
+  });
+  return result.value;
+}
 
 function LinkedImagesTab(props) {
 
+  const app = getInstance();
   const { request, nodeRef } = props;
   request.set('linked_ref', NodeRef.fromString(nodeRef));
-  
+
   const { response, pbjxError } = useRequest(request, true);
   const nodes = response ? response.get('nodes', []) : [];
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:asset:update`);
+
+  const handleUnlink = node => async () => {
+    if (!await confirmUnlink(node)) {
+      return;
+    }
+    
+    const UnlinkAssetsV1 = await MessageResolver.resolveCurie(`${APP_VENDOR}:dam:command:unlink-assets:v1`);
+    const command = UnlinkAssetsV1.create();
+    window.command = command;
+    command
+      .set('node_ref', NodeRef.fromString(nodeRef))
+      .addToSet('asset_refs', [NodeRef.fromNode(node)]);
+    
+    const pbjx = await app.getPbjx();
+    await pbjx.send(command);
+    await delay(1000);
+    dispatch(sendAlert({
+      type: 'success',
+      isDismissible: true,
+      delay: 2000,
+      message: 'Asset Removed!',
+    }));
+  }
 
   return (
     <Card>
@@ -55,14 +104,21 @@ function LinkedImagesTab(props) {
             // </Row>
             <ImageGrid
               nodes={nodes}
-              cardProps={{ className: 'mb-3' }}
+              colProps={{ xs: '12', sm: '6', md: '4' }}
+              cardProps={{ className: 'mb-3 image-grid-card' }}
               toolBarButtonRender={(node) => <>
                 {canUpdate && (
-                  <Link to={nodeUrl(node, 'edit')}>
-                    <Button className="rounded-circle" outline size="sm">
-                      <Icon imgSrc="pencil" alt="edit" />
+                  <>
+                    <Link to={nodeUrl(node, 'edit')}>
+                      <Button id="media-edit-button" className="rounded-circle" outline size="sm">
+                        <Icon imgSrc="pencil" alt="edit" />
+                      </Button>
+                      <UncontrolledTooltip placement="top" target="media-edit-button">Edit</UncontrolledTooltip>
+                    </Link>
+                    <Button id="media-link-button" className="rounded-circle" outline size="sm" onClick={handleUnlink(node)}>
+                      <Icon imgSrc="unlink" alt="Unlink" />
                     </Button>
-                  </Link>
+                  </>
                 )}
               </>}
               />

@@ -90,9 +90,11 @@ class Blocksmith extends React.Component {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete!',
-      confirmButtonClass: 'btn btn-danger',
-      cancelButtonClass: 'btn btn-secondary',
       reverseButtons: true,
+      customClass: {
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-secondary',
+      },
     });
   }
 

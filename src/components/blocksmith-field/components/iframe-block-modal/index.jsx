@@ -27,9 +27,11 @@ const confirmBlock = async (type) => {
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Yes',
-    confirmButtonClass: 'btn btn-danger',
-    cancelButtonClass: 'btn btn-secondary',
     reverseButtons: true,
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
   });
 }
 

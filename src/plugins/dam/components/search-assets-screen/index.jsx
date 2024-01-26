@@ -3,7 +3,7 @@ import startCase from 'lodash-es/startCase';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import { CreateModalButton, ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from 'components';
+import { ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from 'components';
 import { scrollToTop } from 'components/screen';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useCuries from 'plugins/pbjx/components/useCuries';

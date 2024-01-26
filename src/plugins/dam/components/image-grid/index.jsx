@@ -21,6 +21,13 @@ const Image = (props) => {
     node,
     onSelectImage = noop,
     selectedImages = [],
+    colProps = {
+      xs: '12',
+      sm: '6',
+      md: '4',
+      lg: '3',
+      xl: '2p',
+    },
     cardProps = {},
     toolBarButtonRender,
   } = props;
@@ -28,7 +35,7 @@ const Image = (props) => {
   const [ isHovering, setIsHovering ] = useState(false);
 
   return (
-    <Col xs="12" sm="6" md="4" lg="3" xl="2p" key={node.get('_id')} className="col-xl-2p">
+    <Col key={node.get('_id')} {...colProps}>
       <Card
         onClick={() => onSelectImage(node)}
         inverse

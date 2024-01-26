@@ -47,14 +47,16 @@ import 'plugins/dam/components/uploader/styles.scss';
 
 const confirmDone = async (text) => {
   return swal.fire({
-    cancelButtonClass: 'btn btn-secondary',
-    confirmButtonClass: 'btn btn-danger',
     confirmButtonText: 'Yes',
     showCancelButton: true,
     text,
     title: 'Are you sure?',
     icon: 'warning',
     reverseButtons: true,
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
   });
 }
 

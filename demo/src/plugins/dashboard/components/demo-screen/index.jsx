@@ -115,8 +115,10 @@ function sweetAlert4(e) {
     showCancelButton: true,
     confirmButtonText: 'Yes, delete it!',
     cancelButtonText: 'No, keep it',
-    confirmButtonClass: 'btn btn-danger',
-    cancelButtonClass: 'btn btn-secondary',
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
   }).then((result) => {
     if (result.value) {
       Swal.fire(
@@ -146,8 +148,10 @@ function sweetAlert5(e) {
     showCancelButton: true,
     confirmButtonText: 'Submit',
     showLoaderOnConfirm: true,
-    confirmButtonClass: 'btn btn-danger',
-    cancelButtonClass: 'btn btn-secondary',
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
     preConfirm: email => new Promise((resolve) => {
       setTimeout(() => {
         if (email === 'taken@example.com') {
@@ -189,8 +193,10 @@ function sweetAlert7(e) {
     customClass: 'swal2-horizontal',
     showCancelButton: true,
     confirmButtonText: 'Submit',
-    confirmButtonClass: 'btn btn-sm btn-link-bg text-body',
-    cancelButtonClass: 'btn btn-sm btn-link-bg text-body',
+    customClass: {
+      confirmButton: 'btn btn-sm btn-link-bg text-body',
+      cancelButton: 'btn btn-sm btn-link-bg text-body',
+    },
     position: 'top-right',
   });
 }

@@ -1,6 +1,6 @@
 import pull from 'lodash/pull';
 import pickBy from 'lodash/pickBy';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import swal from 'sweetalert2';
 import { unstable_useBlocker } from 'react-router';
 import { getInstance } from '@app/main';
