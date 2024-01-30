@@ -9,6 +9,9 @@ import noop from 'lodash-es/noop';
 import { Link } from 'react-router-dom';
 import nodeUrl from '../../../ncr/nodeUrl';
 import usePolicy from '../../../iam/components/usePolicy';
+import getNode from '../../../ncr/selectors/getNode';
+import { getInstance } from '@triniti/demo/src/main';
+import pbj from '@gdbots/pbj';
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
 
@@ -51,6 +54,7 @@ export default function ImagePickerField(props) {
     format: v => (typeof v === 'string' && v.length) ? NodeRef.fromString(v) : v, // NodeRef required for value or empty string
   }, formContext);
   const imageRef = input.value;
+  const imageNode = getNode(getInstance().getRedux().getState(), imageRef);
 
   const clearImage = () => {
     input.onChange('');
@@ -77,18 +81,22 @@ export default function ImagePickerField(props) {
         <>
           {previewImage && (
             <>
-              <Link to={nodeUrl(node,'view')}>
-                <Button color="hover">
-                  <Icon imgSrc="eye" alt="view" />
-                </Button>
-              </Link>
-              {canUpdate && (
-                <Link to={nodeUrl(node,'edit')}>
-                  <Button color="hover">
-                    <Icon imgSrc="pencil" alt="edit" />
-                  </Button>
-                </Link>
-              )}
+              {imageNode && (
+                <>
+                  <Link to={nodeUrl(node,'view')}>
+                    <Button color="hover">
+                      <Icon imgSrc="eye" alt="view" />
+                    </Button>
+                  </Link>
+                  {canUpdate && (
+                    <Link to={nodeUrl(imageNode,'edit')}>
+                      <Button color="hover">
+                        <Icon imgSrc="pencil" alt="edit" />
+                      </Button>
+                    </Link>
+                  )}
+                </>
+                )}
               <a href={damUrl(imageRef)} target="_blank" rel="noopener noreferrer">
                 <div className="btn btn-hover btn-sm mb-1">
                   <Icon imgSrc="external" alt="open" />
