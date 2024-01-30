@@ -11,7 +11,6 @@ import nodeUrl from '../../../ncr/nodeUrl';
 import usePolicy from '../../../iam/components/usePolicy';
 import getNode from '../../../ncr/selectors/getNode';
 import { getInstance } from '@triniti/demo/src/main';
-import pbj from '@gdbots/pbj';
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
 
