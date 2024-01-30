@@ -13,6 +13,7 @@ import {
   Row,
 } from 'reactstrap';
 import damUrl from 'plugins/dam/damUrl';
+import useFormContext from 'components/useFormContext';
 
 const isGallery = (schema) => schema.indexOf('gallery') > -1;
 
@@ -27,12 +28,17 @@ const Image = (props) => {
       md: '4',
       lg: '3',
       xl: '2p',
+      // style: {
+      //   cursor: 'pointer',
+      // }
     },
     cardProps = {},
     toolBarButtonRender,
   } = props;
 
   const [ isHovering, setIsHovering ] = useState(false);
+  const formContext = useFormContext();
+  const { editMode } = formContext;
 
   return (
     <Col key={node.get('_id')} {...colProps}>
@@ -42,7 +48,6 @@ const Image = (props) => {
         role="presentation"
         color={ selectedImages.some((i) => `${i.get('_id')}` === `${node.get('_id')}`) ? 'success' : '' }
         className={classNames('shadow', 'p-2', 'image-grid-card')}
-        style={{ cursor: 'pointer' }}
         onMouseOver={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false) }
         {...cardProps}
@@ -52,7 +57,7 @@ const Image = (props) => {
             imgSrc={damUrl(isGallery(`${node.schema()}`) ? node.get('image_ref') : node, '1by1', 'sm')}
             alt="thumbnail"
           />
-          {!!toolBarButtonRender && isHovering
+          {!!toolBarButtonRender && editMode && isHovering
             && (
               <ButtonToolbar style={{ position: 'absolute', right: '.5rem', top: '.5rem' }}>
                 {toolBarButtonRender(node)}
@@ -68,9 +73,7 @@ const Image = (props) => {
 };
 
 const ImageGrid = (props) => {
-  const {
-    nodes,
-  } = props;
+  const { nodes } = props;
 
   return (
     <Container fluid className="gallery-grid-container h-100">

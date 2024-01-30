@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button, Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
-import { Icon, Loading, UncontrolledTooltip } from 'components';
+import React, { lazy, useState } from 'react';
+import { Button, Card, CardHeader, CardBody } from 'reactstrap';
+import { CreateModalButton, Icon, Loading, UncontrolledTooltip } from 'components';
 import { Link } from 'react-router-dom';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
@@ -16,6 +16,9 @@ import { getInstance } from '@app/main';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
+import useFormContext from 'components/useFormContext';
+
+const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
 
 const delay = (time = 500) => new Promise((resolve) => setTimeout(resolve, time));
 
@@ -38,15 +41,47 @@ const confirmUnlink = async (node) => {
 
 function LinkedImagesTab(props) {
 
+  const formContext = useFormContext();
+  const { editMode } = formContext;
+  const [ isModalOpen, setIsModalOpen ] = useState(false);
+
   const app = getInstance();
   const dispatch = useDispatch();
   const { request, nodeRef } = props;
   request.set('linked_ref', NodeRef.fromString(nodeRef));
 
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, run, pbjxError } = useRequest(request, true);
   const nodes = response ? response.get('nodes', []) : [];
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:asset:update`);
+
+  const handleAddAssets = async (assets) => {
+    try {
+      const LinkAssetsV1 = await MessageResolver.resolveCurie(`${APP_VENDOR}:dam:command:link-assets:v1`);
+      const command = LinkAssetsV1.create()
+        .set('node_ref', NodeRef.fromString(nodeRef))
+        .addToSet('asset_refs', assets.map((asset) => NodeRef.fromNode(asset)));
+      
+      const pbjx = await app.getPbjx();
+      await pbjx.send(command);
+
+      await delay(1000);
+      dispatch(sendAlert({
+        type: 'success',
+        isDismissible: true,
+        delay: 2000,
+        message: 'Assets Added!',
+      }));
+
+      setIsModalOpen(false);
+      reloadMedia();
+    } catch (e) {
+      console.debug('Issue adding assets', e);
+      // did not update, should restore tab
+    }
+  }
+
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const handleUnlink = node => async () => {
     if (!await confirmUnlink(node)) {
@@ -54,9 +89,7 @@ function LinkedImagesTab(props) {
     }
     
     const UnlinkAssetsV1 = await MessageResolver.resolveCurie(`${APP_VENDOR}:dam:command:unlink-assets:v1`);
-    const command = UnlinkAssetsV1.create();
-    window.command = command;
-    command
+    const command = UnlinkAssetsV1.create()
       .set('node_ref', NodeRef.fromString(nodeRef))
       .addToSet('asset_refs', [NodeRef.fromNode(node)]);
     
@@ -71,38 +104,30 @@ function LinkedImagesTab(props) {
     }));
   }
 
+  const reloadMedia = () => {
+    run();
+    // setNodes([]);
+    setSelected([]);
+  }
+
   return (
     <Card>
-        <CardHeader>
+        <CardHeader className="pe-3">
           Linked Images
-          {/* <Button onClick={this.handleToggleModal} className="mr-0 mt-2 mb-2">Link Images</Button> */}
+          <CreateModalButton
+            disabled={!editMode}
+            className="mt-2 mb-2"
+            text="Link Images"
+            modal={LinkAssetsModal}
+            modalProps={{ isOpen: isModalOpen, nodeRef, onAddAssets: handleAddAssets, onAssetsUploaded: reloadMedia, onCloseModal: handleCloseModal}}
+            outline
+          />
         </CardHeader>
         <CardBody>
           {(!response || pbjxError) && <Loading error={pbjxError} />}
           {response && !nodes.length && <div className="not-found-message"><p>No linked images found.</p></div>}
-          {/* <AssetLinkerModal
-            assetTypes={[imageType]}
-            isOpen={isModalOpen}
-            nodeRef={nodeRef}
-            onAssetUploaded={this.handleAssetsUploaded}
-            onLinkAssets={this.handleLinkAssets}
-            onToggleModal={this.handleToggleModal}
-          />
-          */}
           {nodes.length > 0
           && (
-            // <Row gutter="sm">
-            //   {nodes.map((asset) => (
-            //     <Col key={`asset-node.${asset.get('_id')}`} xs="12" sm="6" md="4">
-            //       {console.log('adasdasd', asset)}
-            //       {/* <Card className="mb-3">
-            //         <CardBody>
-            //           <img src={asset.get('image_ref').get('url')} alt={asset.get('title')} />
-            //         </CardBody>
-            //       </Card> */}
-            //     </Col>
-            //   ))}
-            // </Row>
             <ImageGrid
               nodes={nodes}
               colProps={{ xs: '12', sm: '6', md: '4' }}

@@ -28,12 +28,12 @@ function LinkedImages(props) {
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && response.has('nodes') && (
         <ImageGrid
-        nodes={response.get('nodes')}
-        onSelectImage={(node) => {
-          selectImage(node.generateNodeRef());
-          toggle();
-        }}
-        />
+          nodes={response.get('nodes')}
+          onSelectImage={(node) => {
+            selectImage(node.generateNodeRef());
+            toggle();
+          }}
+          />
       )}
       {response && !response.has('nodes') && (
         <div className="not-found-message">
