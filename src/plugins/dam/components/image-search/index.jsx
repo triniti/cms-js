@@ -16,19 +16,20 @@ import {
 import ImageGrid from '../image-grid';
 import { debounce } from 'lodash-es';
 
-const ImageSearch = ({
-  assetTypes = ['image-asset'],
-  excludeRef = null,
-  excludeAllWithRefType = '',
-  heightOffset = '212',
-  innerRef = noop,
-  onChangeQ = noop,
-  refreshSearch = 0,
-  selectedImages = [],
-  onToggleUploader: handleToggleUploader,
-  onSelectImage: handleSelectImage,
-  nodeRef,
-}) => {
+const ImageSearch = (props) => {
+  const {
+    assetTypes = ['image-asset'],
+    excludedRef = null,
+    excludeAllWithRefType = '',
+    heightOffset = '212',
+    innerRef = noop,
+    onChangeQ = noop,
+    refreshSearch = 0,
+    selectedImages = [],
+    onToggleUploader: handleToggleUploader,
+    onSelectImage: handleSelectImage,
+    nodeRef,
+  } = props;
   // static propTypes = {
   //   assetTypes: PropTypes.arrayOf(PropTypes.string),
   //   // delegate: PropTypes.shape({
@@ -54,14 +55,22 @@ const ImageSearch = ({
   //   // statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
   // };
 
-  const [ excludeRefType, setExcludeRefType ] = useState();
+  let excludedRefType = '';
+  if (excludedRef) {
+    if (excludedRef.getQName().getMessage() === 'gallery') {
+      excludedRefType = 'gallery_ref';
+    } else {
+      excludedRefType = 'linked_refs';
+    }
+  }
+
   const [ q, setQ ] = useState('');
   const [ page, setPage ] = useState(1);
   const [ requestCount, setRequestCount ] = useState(0);
   
   let queryAddon = '';
-  if (excludeRef) {
-    queryAddon += ` -${excludeRefType}:${excludeRef}`;
+  if (excludedRef) {
+    queryAddon += ` -${excludedRefType}:${excludedRef}`;
   }
   if (excludeAllWithRefType) {
     queryAddon += ` _missing_:${excludeAllWithRefType}`;
@@ -73,28 +82,18 @@ const ImageSearch = ({
       count: 150,
       sort: SearchAssetsSort.CREATED_AT_DESC.getValue(),
       types: assetTypes,
-      excludeRef,
+      excludedRef,
       page,
       q: queryAddon,
     }
   });
 
-  const { response, isRunning, pbjxError, pbjxStatus, run } = useRequest(request, false);
-
-  useEffect(() => {
-    if (excludeRef) {
-      if (excludeRef.getQName().getMessage() === 'gallery') {
-        setExcludeRefType('gallery_ref');
-      } else {
-        setExcludeRefType('linked_refs');
-      }
-    }
-  });
+  const { response, pbjxError, run } = useRequest(request, false);
 
   useEffect(() => {
     let q = '';
-    if (excludeRef) {
-      q += `-${excludeRefType}:${excludeRef.toString()} `;
+    if (excludedRef) {
+      q += `-${excludedRefType}:${excludedRef.toString()} `;
     }
     if (excludeAllWithRefType !== '') {
       q += `_missing_:${excludeAllWithRefType} `;
@@ -105,12 +104,17 @@ const ImageSearch = ({
 
   const handleSearch = ({ q }) => {
     let queryAddon = '';
-    if (excludeRef) {
-      queryAddon += ` -${excludeRefType}:${excludeRef}`;
+    if (excludedRef) {
+      queryAddon += ` -${excludedRefType}:${excludedRef}`;
     }
     if (excludeAllWithRefType) {
       queryAddon += ` _missing_:${excludeAllWithRefType}`;
     }
+
+    console.log('Debug search', {
+      q,
+      queryAddon,
+    });
 
     if (request) {
       request.set('q', `${q}${queryAddon}`);

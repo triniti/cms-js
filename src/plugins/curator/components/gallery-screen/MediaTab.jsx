@@ -1,12 +1,14 @@
+import React, { lazy, useState } from 'react';
 import pull from 'lodash/pull';
 import pickBy from 'lodash/pickBy';
-import React, { useState } from 'react';
+import noop from 'lodash-es/noop';
+import isEqual from 'lodash-es/isEqual';
 import swal from 'sweetalert2';
 import { unstable_useBlocker } from 'react-router';
 import { getInstance } from '@app/main';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import useResolver from 'plugins/pbjx/components/with-request/useResolver';
-import { Loading } from 'components';
+import { CreateModalButton, Loading } from 'components';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import { useNavigate } from 'react-router-dom';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
@@ -15,8 +17,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
 
-import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row, Pagination, Badge } from 'reactstrap';
-import AddGalleryAssetsModal from 'plugins/dam/components/add-gallery-assets-modal';
+import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import Exception from '@gdbots/pbj/Exception';
 import Message from '@gdbots/pbj/Message';
@@ -31,13 +32,15 @@ import moveNodeByIndex from './utils/moveNodeByIndex';
 import ResizeGallerySlider from './ResizeGallerySlider';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import { STATUS_FULFILLED } from 'constants';
-import { isEqual } from 'lodash-es';
+
+const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
 
 const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
 const MAX_IMAGES_PER_ROW = 11;
 const MIN_IMAGES_PER_ROW = 1;
 const MAX_NODES_COUNT_TO_UPDATE = 30;
+const ADD_GALLERY_ASSET_INCREMENT = 500;
 
 const cloneNodes = async (reOrderedNodes, originalNodes) => {
   if (reOrderedNodes.length) {
@@ -62,7 +65,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   const [imagesPerRow, setImagesPerRow] = useState(6);
   const [selected, setSelected] = useState([]);
   const [showGallerySequence, setShowGallerySequence] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [reorder, setReorder] = useState({ nodes: [], nodesToUpdate: null });
   const [nodes, setNodes] = useState([]);
   const policy = usePolicy();
@@ -97,7 +99,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     }
   });
 
-  const { response, isRunning, pbjxError, pbjxStatus, run } = useRequest(request, true);
+  const { response, pbjxError, pbjxStatus, run } = useRequest(request, true);
   if (
     pbjxStatus === STATUS_FULFILLED &&
     response &&
@@ -137,7 +139,19 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     }
   };
 
-  const handleAddAssets = async (assetMap) => {
+  const handleAddAssets = async (selectedAssets) => {
+    const assetMap = selectedAssets.reduce((obj, assetId, currentIndex) => {
+      const assets = Object.assign(obj);
+      assets[`${assetId.get('_id')}`] = lastGallerySequence + (selectedAssets.length - currentIndex) * ADD_GALLERY_ASSET_INCREMENT;
+      return assets;
+    }, {});
+
+    try {
+      await onAddAssets(assetMap);
+    } catch (e) {
+      // continue regardless of error
+    }
+
     try {
       await reorderGalleryAssets(assetMap);
     } catch (e) {
@@ -366,12 +380,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     }
   }
 
-  const handleToggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  }
-
-  const handleCloseModal = () => setIsModalOpen(false);
-
   const handleAfterBatchEdit = async () => {
     await delay(2000);
     reloadMedia();
@@ -422,15 +430,27 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
             color="light"
             onAfterBatchEdit={handleAfterBatchEdit}
           />
-          <Button
+          <CreateModalButton
             disabled={!editMode}
-            onClick={handleToggleModal}
             className="mt-2 mb-2"
+            text="Add Images"
+            modal={LinkAssetsModal}
+            modalProps={{
+              nodeRef,
+              actionBtnText: 'Add Image',
+              onAddAssets: handleAddAssets,
+              onAssetsUploaded: reloadMedia,
+              onCloseModal: noop,
+              imageSearchProps: {
+                excludeAllWithRefType: 'gallery_ref',
+              },
+              uploaderProps: {
+                galleryRef: nodeRef,
+                lastGallerySequence,
+              },
+            }}
             outline
-            color="light"
-          >
-            Add Images
-          </Button>
+          />
           <Button
             onClick={handleSubmitReorder}
             disabled={!movedNodesCount}
@@ -444,15 +464,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
         </div>
       </CardHeader>
       <CardBody>
-        <AddGalleryAssetsModal
-          assetTypes={['image-asset']}
-          isOpen={isModalOpen}
-          nodeRef={nodeRef}
-          lastGallerySequence={lastGallerySequence}
-          onAddAssets={handleAddAssets}
-          onAssetsUploaded={reloadMedia}
-          onCloseModal={handleCloseModal}
-        />
         <Row gutter="sm">
           <Card>
             {(!response || pbjxError) && <Loading error={pbjxError} />}

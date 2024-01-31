@@ -18,6 +18,9 @@ export default function LinkAssetModel (props) {
     onAssetsUploaded = noop,
     onAddAssets,
     onCloseModal,
+    actionBtnText = 'Link Image',
+    imageSearchProps = {},
+    uploaderProps = {},
   } = props;
   
   const [ selectedImages, setSelectedImages ] = useState([]);
@@ -77,13 +80,14 @@ export default function LinkAssetModel (props) {
             onToggleUploader={handleUploaderToggle}
             onSelectImage={handleSelectImage}
             selectedImages={selectedImages}
+            {...imageSearchProps}
           />
         </ModalBody>
         <ModalFooter>
           <Button
             className="me-auto"
             color="primary"
-            onClick={handleUploaderToggle}
+            onClick={() => setIsUploaderOpen(true)}
           >
             Upload
           </Button>
@@ -92,7 +96,7 @@ export default function LinkAssetModel (props) {
             disabled={!selectedImages.length}
             color="success"
           >
-            Link Image{selectedImages.length > 1 ? 's' : ''}
+            {actionBtnText}{selectedImages.length > 1 ? 's' : ''}
             {selectedImages.length > 0 ? <span className="badge badge-danger badge-alert">{selectedImages.length}</span> : null}
           </Button>
           <Button onClick={handleCloseModal}>
@@ -103,12 +107,11 @@ export default function LinkAssetModel (props) {
       {isUploaderOpen && (
       <Uploader
         allowedMimeTypes={['image/jpeg', 'image/png']}
-        galleryRef={nodeRef}
         isOpen={isUploaderOpen}
         key="uploader"
-        lastGallerySequence={lastGallerySequence}
         mimeTypeErrorMessage="Invalid Action: attempt to upload non-image asset. Please upload only JPEGs or PNGs."
         onToggleUploader={handleUploaderToggle}
+        {...uploaderProps}
       />
       )}
     </>

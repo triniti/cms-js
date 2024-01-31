@@ -17,6 +17,7 @@ import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
 import useFormContext from 'components/useFormContext';
+import noop from 'lodash/noop';
 
 const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
 
@@ -50,7 +51,7 @@ function LinkedImagesTab(props) {
   const { request, nodeRef } = props;
   request.set('linked_ref', NodeRef.fromString(nodeRef));
 
-  const { response, run, pbjxError } = useRequest(request, true);
+  const { response, run: reloadMedia, pbjxError } = useRequest(request, true);
   const nodes = response ? response.get('nodes', []) : [];
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:asset:update`);
@@ -81,8 +82,6 @@ function LinkedImagesTab(props) {
     }
   }
 
-  const handleCloseModal = () => setIsModalOpen(false);
-
   const handleUnlink = node => async () => {
     if (!await confirmUnlink(node)) {
       return;
@@ -104,12 +103,6 @@ function LinkedImagesTab(props) {
     }));
   }
 
-  const reloadMedia = () => {
-    run();
-    // setNodes([]);
-    setSelected([]);
-  }
-
   return (
     <Card>
         <CardHeader className="pe-3">
@@ -119,7 +112,18 @@ function LinkedImagesTab(props) {
             className="mt-2 mb-2"
             text="Link Images"
             modal={LinkAssetsModal}
-            modalProps={{ isOpen: isModalOpen, nodeRef, onAddAssets: handleAddAssets, onAssetsUploaded: reloadMedia, onCloseModal: handleCloseModal}}
+            modalProps={{
+              nodeRef,
+              onAddAssets: handleAddAssets,
+              onAssetsUploaded: () => reloadMedia,
+              onCloseModal: noop,
+              uploaderProps: {
+                linkedRefs: [NodeRef.fromString(nodeRef)],
+              },
+              imageSearchProps: {
+                excludedRef: NodeRef.fromString(nodeRef),
+              },
+            }}
             outline
           />
         </CardHeader>

@@ -31,7 +31,6 @@ import updateNode from 'plugins/ncr/actions/updateNode';
 
 // dam
 import damUrl from 'plugins/dam/damUrl';
-import { incrementValues } from 'plugins/dam/components/add-gallery-assets-modal';
 import { fileUploadStatuses } from 'plugins/dam/constants';
 import uploadFile, { getUploadUrls } from 'plugins/dam/utils/uploadFile';
 import { fromAssetId } from 'plugins/dam/utils/assetFactory';
@@ -44,6 +43,8 @@ import CommonFields from 'plugins/dam/components/uploader/CommonFields';
 import fileToUuidName from 'plugins/dam/utils/fileToUuidName';
 
 import 'plugins/dam/components/uploader/styles.scss';
+
+const ADD_GALLERY_ASSET_INCREMENT = 500;
 
 const confirmDone = async (text) => {
   return swal.fire({
