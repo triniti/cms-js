@@ -1,4 +1,4 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy } from 'react';
 import { Button, Card, CardHeader, CardBody } from 'reactstrap';
 import { CreateModalButton, Icon, Loading, UncontrolledTooltip } from 'components';
 import { Link } from 'react-router-dom';
@@ -44,7 +44,6 @@ function LinkedImagesTab(props) {
 
   const formContext = useFormContext();
   const { editMode } = formContext;
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
 
   const app = getInstance();
   const dispatch = useDispatch();
@@ -74,7 +73,6 @@ function LinkedImagesTab(props) {
         message: 'Assets Added!',
       }));
 
-      setIsModalOpen(false);
       reloadMedia();
     } catch (e) {
       console.debug('Issue adding assets', e);
@@ -140,7 +138,7 @@ function LinkedImagesTab(props) {
                 {canUpdate && (
                   <>
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button id="media-edit-button" className="rounded-circle" outline size="sm">
+                      <Button id="media-edit-button" className="rounded-circle me-2" outline size="sm">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                       <UncontrolledTooltip placement="top" target="media-edit-button">Edit</UncontrolledTooltip>
