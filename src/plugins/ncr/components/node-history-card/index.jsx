@@ -31,26 +31,23 @@ function NodeHistoryCard(props) {
     .set('count', 5);
 
   const { response, run, isRunning, pbjxError } = useRequest(request, true);
-  const [lastOccurredAts, setLastOccurredAts] = useState([null]);
+  const [events, setEvents] = useState([]);
 
-  useEffect(scrollToTop, [response]);
-
-  const handleNewer = () => {
-    request.set('since', lastOccurredAts[lastOccurredAts.length - 2]);
-    lastOccurredAts.pop();
-    setLastOccurredAts(lastOccurredAts);
-    run();
-  };
+  useEffect(() => {
+    if (response && response.has('events')) {
+      setEvents(response.get('events', []));
+    }
+  }, [response]);
 
   const handleOlder = () => {
-    setLastOccurredAts(prev => [...prev, response.get('last_occurred_at')]);
+    setEvents(prev => [...prev, ...response.get('events', [])]);
     request.set('since', response.get('last_occurred_at'));
     run();
   };
 
   const handleRefresh = () => {
     request.clear('since');
-    setLastOccurredAts([null]);
+    setEvents([]);
     run();
   };
 
@@ -111,7 +108,7 @@ function NodeHistoryCard(props) {
    * @param {*} event
    * @returns boolean
    */
-   const hasDifferentDbValues = (event) => {
+  const hasDifferentDbValues = (event) => {
     // find properties in node that were removed
     const newNode = event.get('new_node').toObject();
     const oldNode = event.get('old_node').toObject();
@@ -145,7 +142,7 @@ function NodeHistoryCard(props) {
         )}
         {response && response.has('events') && (
           <>
-            {response.get('events', []).map((event, index) => {
+            {events.map((event, index) => {
               const date = moment(event.get('occurred_at').toDate());
               const occurredAt = date.format('MMM DD, YYYY hh:mm:ss A');
               const occurredAtAgo = date.fromNow();
@@ -200,9 +197,6 @@ function NodeHistoryCard(props) {
         )}
         <div className="text-center">
           <ButtonGroup className="col-md-6">
-            {lastOccurredAts && lastOccurredAts.length > 1 && (
-              <Button onClick={handleNewer} outline disabled={isRunning}>Newer</Button>
-            )}
             {response && response.get('has_more') && (
               <Button onClick={handleOlder} outline disabled={isRunning}>Older</Button>
             )}
