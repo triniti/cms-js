@@ -82,7 +82,7 @@ export default function ImagePickerField(props) {
             <>
               {imageNode && (
                 <>
-                  <Link to={nodeUrl(node,'view')}>
+                  <Link to={nodeUrl(imageNode,'view')}>
                     <Button color="hover">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
