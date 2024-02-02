@@ -1,6 +1,5 @@
 import noop from 'lodash/noop';
 import React, { useState } from 'react';
-import Uploader from 'plugins/dam/components/uploader';
 import {
   Button,
   Modal,
@@ -10,6 +9,7 @@ import {
 } from 'reactstrap';
 
 import ImageSearch from '../image-search';
+import UploaderButton from '../uploader-button';
 
 export default function LinkAssetModel (props) {
   const {
@@ -24,7 +24,6 @@ export default function LinkAssetModel (props) {
   } = props;
   
   const [ selectedImages, setSelectedImages ] = useState([]);
-  const [ isUploaderOpen, setIsUploaderOpen ] = useState(false);
   
   const handleAddAssets = async () => {
     try {
@@ -63,7 +62,6 @@ export default function LinkAssetModel (props) {
   const handleUploaderToggle = () => {
     onAssetsUploaded();
     handleCloseModal();
-    setIsUploaderOpen(!isUploaderOpen);
   }
   
   return (
@@ -84,13 +82,18 @@ export default function LinkAssetModel (props) {
           />
         </ModalBody>
         <ModalFooter>
-          <Button
+          <UploaderButton
             className="me-auto"
             color="primary"
-            onClick={() => setIsUploaderOpen(true)}
-          >
-            Upload
-          </Button>
+            onClose={handleUploaderToggle}
+            uploaderProps = {{
+              allowedMimeTypes: ['image/jpeg', 'image/png'],
+              key: 'uploader',
+              mimeTypeErrorMessage: 'Invalid Action: attempt to upload non-image asset. Please upload only JPEGs or PNGs.',
+              onToggleUploader: handleUploaderToggle
+            }}
+            {...uploaderProps}
+            >Upload</UploaderButton>
           <Button
             onClick={handleAddAssets}
             disabled={!selectedImages.length}
@@ -104,16 +107,6 @@ export default function LinkAssetModel (props) {
           </Button>
         </ModalFooter>
       </Modal>
-      {isUploaderOpen && (
-      <Uploader
-        allowedMimeTypes={['image/jpeg', 'image/png']}
-        isOpen={isUploaderOpen}
-        key="uploader"
-        mimeTypeErrorMessage="Invalid Action: attempt to upload non-image asset. Please upload only JPEGs or PNGs."
-        onToggleUploader={handleUploaderToggle}
-        {...uploaderProps}
-      />
-      )}
     </>
   );
 }

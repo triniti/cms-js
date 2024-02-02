@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Field, useField, useFormState } from 'react-final-form';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
@@ -28,8 +28,11 @@ export default function ContentRefField(props) {
     defaultType = 'article',
     readOnly = false,
     required = false,
+    contentRef,
     ...rest
   } = props;
+
+  
 
   const formContext = useFormContext();
   const { editMode } = formContext;
@@ -41,13 +44,19 @@ export default function ContentRefField(props) {
   const selectName = `${name}-select`;
   const currentOption = options.find(o => o.value === type);
 
+  useEffect(() => {
+    if (contentRef) {
+      formContext.form.change(name, contentRef);
+    }
+  });
+
   const rootClassName = classNames(
     groupClassName,
     'form-group',
   );
 
   return (
-    <>
+    <div className={contentRef ? 'd-none' : ''}>
       <div className={rootClassName} id={`form-group-${selectName}`}>
         <Label htmlFor={selectName}>
           Content Type <Badge className="ms-1" color="light" pill>required</Badge>
@@ -81,6 +90,6 @@ export default function ContentRefField(props) {
           />
         </ErrorBoundary>
       </Suspense>
-    </>
+    </div>
   );
 }

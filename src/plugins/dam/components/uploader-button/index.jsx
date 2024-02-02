@@ -9,6 +9,7 @@ const UploaderButton = (props) => {
     linkedRefs = null,
     onClose = noop,
     allowMultiUpload = true,
+    uploaderProps = {},
     ...btnProps
   } = props;
 
@@ -37,6 +38,7 @@ const UploaderButton = (props) => {
           linkedRefs={linkedRefs}
           onToggleUploader={handleToggleUploader}
           onClose={onClose}
+          {...uploaderProps}
           />
       )}
     </>
