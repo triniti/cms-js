@@ -16,6 +16,7 @@ import ReorderGalleryAssetsV1 from '@triniti/schemas/triniti/dam/command/Reorder
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
+import progressIndicator from 'utils/progressIndicator';
 
 import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
@@ -116,6 +117,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   }
 
   const reorderGalleryAssets = async (assetsToUpdate) => {
+    await progressIndicator.show('Reordering images...');
     try {
       const command = ReorderGalleryAssetsV1.create().set('gallery_ref', NodeRef.fromString(nodeRef));
       Object.keys(assetsToUpdate).map(k => command.addToMap('gallery_seqs', k, assetsToUpdate[k]));
@@ -128,7 +130,9 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
         delay: 1000,
         message: 'Asset moved!',
       }));
+      await progressIndicator.close();
     } catch (error) {
+      await progressIndicator.close();
       await Swal.fire({
         icon: 'warning',
         titleText: 'Image Move Failed.',
