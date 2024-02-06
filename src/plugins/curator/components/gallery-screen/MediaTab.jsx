@@ -112,7 +112,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   const reloadMedia = () => {
     run();
     // setNodes([]);
-    setReorder({ nodes: [], nodesToUpdate: null });
+    // setReorder({ nodes: [], nodesToUpdate: null });
     setSelected([]);
   }
 
