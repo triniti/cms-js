@@ -1,12 +1,10 @@
 import React, { lazy, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import startCase from 'lodash-es/startCase';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import { Badge, Button, ButtonGroup, Card, CardBody, CardHeader, Spinner } from 'reactstrap';
 import { CreateModalButton, Icon, Loading } from 'components';
-import { scrollToTop } from 'components/screen';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
@@ -22,7 +20,6 @@ import UserLink from 'plugins/ncr/components/node-history-card/UserLink';
 const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
 
 function NodeHistoryCard(props) {
-  const dispatch = useDispatch();
   const policy = usePolicy();
   const { editMode, isFormDirty, nodeRef: nodeRefStr, request } = props;
   const nodeRef = NodeRef.fromString(nodeRefStr);
@@ -35,12 +32,17 @@ function NodeHistoryCard(props) {
 
   useEffect(() => {
     if (response && response.has('events')) {
-      setEvents(response.get('events', []));
+      setEvents(prev => {
+        if(prev.length === 0){
+          return response.get('events',[]);
+        }else{
+          return [...prev, ...response.get('events', [])];
+        }
+      });
     }
   }, [response]);
 
   const handleOlder = () => {
-    setEvents(prev => [...prev, ...response.get('events', [])]);
     request.set('since', response.get('last_occurred_at'));
     run();
   };
