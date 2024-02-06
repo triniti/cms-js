@@ -63,11 +63,11 @@ const areNodeListsEqual = (list1, list2) => {
 export default function GalleryMedia ({ editMode, nodeRef }) {
   const app = getInstance();
   const dispatch = useDispatch();
-  const [imagesPerRow, setImagesPerRow] = useState(6);
-  const [selected, setSelected] = useState([]);
-  const [showGallerySequence, setShowGallerySequence] = useState(false);
-  const [reorder, setReorder] = useState({ nodes: [], nodesToUpdate: null });
-  const [nodes, setNodes] = useState([]);
+  const [ imagesPerRow, setImagesPerRow ] = useState(6);
+  const [ selected, setSelected ] = useState([]);
+  const [ showGallerySequence, setShowGallerySequence ] = useState(false);
+  const [ reorder, setReorder ] = useState({ nodes: [], nodesToUpdate: null });
+  const [ nodes, setNodes ] = useState([]);
   const policy = usePolicy();
   const isReorderGranted = policy.isGranted('*:dam:command:reorder-gallery-assets');
   const navigate = useNavigate();
@@ -104,7 +104,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   if (
     pbjxStatus === STATUS_FULFILLED &&
     response &&
-    !areNodeListsEqual(response.get('nodes'), nodes)
+    !areNodeListsEqual(response.get('nodes', []), nodes)
   ) {
     setNodes(response.get('nodes') || []);
   }
