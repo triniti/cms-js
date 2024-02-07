@@ -90,6 +90,11 @@ export default function TopArticles(props) {
                         </Button>
                       </Link>
                     )}
+                    <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                      <Button color="hover">
+                        <Icon imgSrc="external" alt="open" />
+                      </Button>
+                    </a>
                   </td>
                 </tr>
               ))}
