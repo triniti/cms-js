@@ -58,7 +58,7 @@ function SelectPoll(props) {
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
         <>
-          <Table hover striped borderless className="shadow-depth-1">
+          <Table striped borderless className="shadow-depth-1">
             <thead>
             <tr>
               <th>Title</th>

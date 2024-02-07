@@ -57,14 +57,14 @@ export default function TopArticles(props) {
             />
           </CardHeader>
           <CardBody className="p-0">
-            <Table hover responsive>
+            <Table responsive>
               <thead>
-              <tr>
-                <th>Title</th>
-                <th>Slotting</th>
-                <th>Order Date</th>
-                <th></th>
-              </tr>
+                <tr>
+                  <th>Title</th>
+                  <th>Slotting</th>
+                  <th>Order Date</th>
+                  <th></th>
+                </tr>
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => (

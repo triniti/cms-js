@@ -33,7 +33,7 @@ function SearchFlagsetsScreen(props) {
 
       {response && response.has('nodes') && (
         <Card>
-          <Table hover responsive>
+          <Table responsive>
             <tbody>
             {response.get('nodes').map(node => (
               <tr key={`${node.get('_id')}`}>

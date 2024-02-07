@@ -50,7 +50,7 @@ function SearchNotificationsScreen(props) {
           </div>
 
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>Title</th>

@@ -23,7 +23,7 @@ export default function BatchOperationModal(props) {
     <Modal isOpen size={size} backdrop="static" className="modal-dialog-centered">
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="modal-scrollable p-0">
-        <Table hover className="sticky-thead mb-0">
+        <Table className="sticky-thead mb-0">
           <thead>
           <tr>
             <th className="ps-3">Title</th>

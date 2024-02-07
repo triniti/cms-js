@@ -35,7 +35,7 @@ function HasNotificationsCard(props) {
           {response && (
             <>
               <Card>
-                <Table hover responsive>
+                <Table responsive>
                   <thead>
                     <tr>
                       <th>Type</th>

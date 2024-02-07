@@ -75,7 +75,7 @@ function SearchTeasersScreen(props) {
             in <strong>{response.get('time_taken').toLocaleString()}</strong> milliseconds.
           </div>
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>

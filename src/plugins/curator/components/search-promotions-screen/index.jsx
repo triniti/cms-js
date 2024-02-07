@@ -68,7 +68,7 @@ function SearchPromotionsScreen(props) {
           </div>
 
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>

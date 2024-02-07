@@ -49,7 +49,7 @@ function SearchUsersScreen(props) {
           </div>
 
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
               <tr>
                 <th>Name</th>
