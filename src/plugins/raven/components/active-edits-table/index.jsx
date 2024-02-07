@@ -53,7 +53,7 @@ export const ActiveEditsTable = ({
     <Card>
       <CardHeader className="pr-2">
         {title}
-        <Button size="sm">
+        <Button size="sm" className="btn-light">
           <Icon
             imgSrc="refresh"
             onClick={handleRefresh}
