@@ -62,15 +62,16 @@ function CreateNotificationModal(props) {
                     const curie = `${vendor}:notify:node:${label}`;
 
                     return (
-                      <ListGroupItem key={ref}>
-                        <a
-                          className="text-info"
-                          data-curie={curie}
-                          data-app-ref={ref}
-                          onClick={handleAppClick}
-                        >{node.get('title')}</a>
-                        <Badge pill color="light" className="ms-2">{appCurie.getMessage()}</Badge>
-                      </ListGroupItem>
+                      <a
+                        key={ref}
+                        className="list-group-item list-group-item-action list-group-item-light d-flex justify-content-between align-items-center"
+                        data-curie={curie}
+                        data-app-ref={ref}
+                        onClick={handleAppClick}
+                      >
+                        {node.get('title')}
+                        <Badge pill color="primary" className="ms-2">{appCurie.getMessage()}</Badge>
+                      </a>
                     );
                   }
                 )}

@@ -6,10 +6,10 @@ import SendOptionsField from 'plugins/notify/components/send-options-field';
 import withNotificationModal from 'plugins/notify/components/create-notification-modal/withNotificationModal';
 
 function EmailNotificationModal(props) {
-  const { articleStatus } = props;
+  const { articleStatus, contentRef } = props;
   return (
     <ModalBody>
-      <ContentRefField />
+      <ContentRefField contentRef={contentRef} />
       <SendOptionsField name="send_option" label="Send Options" articleStatus={articleStatus} />
       <PicklistField picklist="email-notification-templates" name="template" label="Template" />
       <PicklistField picklist="email-notification-subjects" name="subject" label="Subject" />
