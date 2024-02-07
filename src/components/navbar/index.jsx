@@ -9,6 +9,7 @@ import {
   NavItem,
   UncontrolledDropdown
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import { Backdrop, RouterLink } from 'components/index';
 import UserNav from 'components/navbar/UserNav';
@@ -53,7 +54,7 @@ export default function () {
           </NavItem>
           {policy.isGranted('cms-view-content') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('content') ? 'is-current' : ''}>
-              <DropdownToggle nav>Content</DropdownToggle>
+              <DropdownToggle tag={Link} to="/news/articles" onClick={() => toggle('content')} nav>Content</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {policy.isGranted('cms-view-articles') && (
                   <RouterLink to="/news/articles" className="dropdown-item" onClick={() => toggle('content')}>Articles</RouterLink>
@@ -75,7 +76,7 @@ export default function () {
           )}
           {policy.isGranted('cms-view-taxonomy') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('taxonomy') ? 'is-current' : ''}>
-              <DropdownToggle nav>Taxonomy</DropdownToggle>
+              <DropdownToggle tag={Link} to="/taxonomy/categories" onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {policy.isGranted('cms-view-categories') && (
                   <RouterLink to="/taxonomy/categories" className="dropdown-item" onClick={() => toggle('taxonomy')}>Categories</RouterLink>
@@ -96,7 +97,7 @@ export default function () {
           )}
           {policy.isGranted('cms-view-structure') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
-              <DropdownToggle nav>Structure</DropdownToggle>
+              <DropdownToggle tag={Link} to="/curator/promotions" onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {policy.isGranted('cms-view-promotions') && (
                   <RouterLink to="/curator/promotions" className="dropdown-item" onClick={() => toggle('structure')}>Promotions</RouterLink>
@@ -123,7 +124,7 @@ export default function () {
           )}
           {policy.isGranted('cms-view-admin') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('admin') ? 'is-current' : ''}>
-              <DropdownToggle nav>Admin</DropdownToggle>
+              <DropdownToggle tag={Link} to="/iam/users" onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {policy.isGranted('cms-view-users') && (
                   <RouterLink to="/iam/users" className="dropdown-item" onClick={() => toggle('admin')}>Users</RouterLink>
