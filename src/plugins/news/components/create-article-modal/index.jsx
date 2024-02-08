@@ -49,7 +49,7 @@ function CreateArticleModal(props) {
   }
 
   const handleKeyDown = e =>{
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.target.value) {
       setSlug(addDateToSlug(createSlug(e.target.value, true)));
     }
   }
