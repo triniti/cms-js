@@ -15,6 +15,7 @@ import trimStart from 'lodash-es/trimStart';
 
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
+const validDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value)) ? true : false;
 
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
@@ -29,8 +30,13 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      values.slug = slug && isValidSlug(slug, true) && DATED_SLUG_PATTERN.test(trimStart(slug)) ?
-                    slug : addDateToSlug(createSlug(values.title, true));
+      if(slug && validDatedSlug(slug)){
+        values.slug = slug;
+      }else if(slug && !validDatedSlug(slug)){
+        values.slug = addDateToSlug(slug);
+      } else {
+        values.slug =  addDateToSlug(createSlug(values.title, true));
+      }
       await dispatch(createNode(values, form, pbj));
       props.toggle();
       await progressIndicator.close();
