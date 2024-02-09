@@ -37,6 +37,41 @@ export default function () {
     localStorage.setItem('activeNavGroup', group);
   };
 
+  const isGrantedContentLinks = [
+    { label: 'Articles', to: '/news/articles', policy: 'cms-view-articles' },
+    { label: 'Galleries', to: '/curator/galleries', policy: 'cms-view-galleries' },
+    { label: 'Pages', to: '/canvas/pages', policy: 'cms-view-pages' },
+    { label: 'Polls', to: '/apollo/polls', policy: 'cms-view-polls' },
+    { label: 'Videos', to: '/ovp/videos', policy: 'cms-view-videos' },
+  ];
+  const firstGrantedContentLink = isGrantedContentLinks.find(link => policy.isGranted(link.policy));
+
+  const isGrantedTaxonomyLinks = [
+    { label: 'Categories', to: '/taxonomy/categories', policy: 'cms-view-categories' },
+    { label: 'Channels', to: '/taxonomy/channels', policy: 'cms-view-channels' },
+    { label: 'People', to: '/people/people', policy: 'cms-view-people' },
+  ];
+  const firstGrantedTaxonomyLink = isGrantedTaxonomyLinks.find(link => policy.isGranted(link.policy));
+
+  const isGrantedStructureLinks = [
+    { label: 'Promotions', to: '/curator/promotions', policy: 'cms-view-promotions' },
+    { label: 'Teasers', to: '/curator/teasers', policy: 'cms-view-teasers' },
+    { label: 'Timelines', to: '/curator/timelines', policy: 'cms-view-timelines' },
+    { label: 'Sponsors', to: '/boost/sponsors', policy: 'cms-view-sponsors' },
+    { label: 'Widgets', to: '/curator/widgets', policy: 'cms-view-widgets' },
+  ];
+  const firstGrantedStructureLink = isGrantedStructureLinks.find(link => policy.isGranted(link.policy));
+
+  const isGrantedAdminLinks = [
+    { label: 'Users', to: '/iam/users', policy: 'cms-view-users' },
+    { label: 'Roles', to: '/iam/roles', policy: 'cms-view-roles' },
+    { label: 'Apps', to: '/iam/apps', policy: 'cms-view-apps' },
+    { label: 'Flagsets', to: '/sys/flagsets', policy: 'cms-view-flagsets' },
+    { label: 'Picklists', to: '/sys/picklists', policy: 'cms-view-picklists' },
+    { label: 'Redirects', to: '/sys/redirects', policy: 'cms-view-redirects' },
+  ];
+  const firstGrantedAdminLink = isGrantedAdminLinks.find(link => policy.isGranted(link.policy));
+
   return (
     <Navbar className="navbar-main">
       <NavbarToggler onClick={toggle} className={isActive ? 'is-open' : ''}>
@@ -54,39 +89,29 @@ export default function () {
           </NavItem>
           {policy.isGranted('cms-view-content') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('content') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to="/news/articles" onClick={() => toggle('content')} nav>Content</DropdownToggle>
+              <DropdownToggle tag={Link} to={firstGrantedContentLink ? firstGrantedContentLink.to : '/news/articles'}  onClick={() => toggle('content')} nav>Content</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {policy.isGranted('cms-view-articles') && (
-                  <RouterLink to="/news/articles" className="dropdown-item" onClick={() => toggle('content')}>Articles</RouterLink>
-                )}
-                {policy.isGranted('cms-view-galleries') && (
-                  <RouterLink to="/curator/galleries" className="dropdown-item" onClick={() => toggle('content')}>Galleries</RouterLink>
-                )}
-                {policy.isGranted('cms-view-pages') && (
-                  <RouterLink to="/canvas/pages" className="dropdown-item" onClick={() => toggle('content')}>Pages</RouterLink>
-                )}
-                {policy.isGranted('cms-view-polls') && (
-                  <RouterLink to="/apollo/polls" className="dropdown-item" onClick={() => toggle('content')}>Polls</RouterLink>
-                )}
-                {policy.isGranted('cms-view-videos') && (
-                  <RouterLink to="/ovp/videos" className="dropdown-item" onClick={() => toggle('content')}>Videos</RouterLink>
-                )}
+                {isGrantedContentLinks.map(link => (
+                  policy.isGranted(link.policy) && (
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('content')}>
+                      {link.label}
+                    </RouterLink>
+                  )
+                ))}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
           {policy.isGranted('cms-view-taxonomy') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('taxonomy') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to="/taxonomy/categories" onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
+              <DropdownToggle tag={Link} to={firstGrantedTaxonomyLink ? firstGrantedTaxonomyLink.to : '/taxonomy/categories'} onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {policy.isGranted('cms-view-categories') && (
-                  <RouterLink to="/taxonomy/categories" className="dropdown-item" onClick={() => toggle('taxonomy')}>Categories</RouterLink>
-                )}
-                {policy.isGranted('cms-view-channels') && (
-                  <RouterLink to="/taxonomy/channels" className="dropdown-item" onClick={() => toggle('taxonomy')}>Channels</RouterLink>
-                )}
-                {policy.isGranted('cms-view-people') && (
-                  <RouterLink to="/people/people" className="dropdown-item" onClick={() => toggle('taxonomy')}>People</RouterLink>
-                )}
+                {isGrantedTaxonomyLinks.map(link => (
+                  policy.isGranted(link.policy) && (
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('taxonomy')}>
+                      {link.label}
+                    </RouterLink>
+                  )
+                ))}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
@@ -97,23 +122,15 @@ export default function () {
           )}
           {policy.isGranted('cms-view-structure') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to="/curator/promotions" onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
+              <DropdownToggle tag={Link} to={firstGrantedStructureLink ? firstGrantedStructureLink.to : '/curator/promotions'} onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {policy.isGranted('cms-view-promotions') && (
-                  <RouterLink to="/curator/promotions" className="dropdown-item" onClick={() => toggle('structure')}>Promotions</RouterLink>
-                )}
-                {policy.isGranted('cms-view-teasers') && (
-                  <RouterLink to="/curator/teasers" className="dropdown-item" onClick={() => toggle('structure')}>Teasers</RouterLink>
-                )}
-                {policy.isGranted('cms-view-timelines') && (
-                  <RouterLink to="/curator/timelines" className="dropdown-item" onClick={() => toggle('structure')}>Timelines</RouterLink>
-                )}
-                {policy.isGranted('cms-view-sponsors') && (
-                  <RouterLink to="/boost/sponsors" className="dropdown-item" onClick={() => toggle('structure')}>Sponsors</RouterLink>
-                )}
-                {policy.isGranted('cms-view-widgets') && (
-                  <RouterLink to="/curator/widgets" className="dropdown-item" onClick={() => toggle('structure')}>Widgets</RouterLink>
-                )}
+                {isGrantedStructureLinks.map(link => (
+                  policy.isGranted(link.policy) && (
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('structure')}>
+                      {link.label}
+                    </RouterLink>
+                  )
+                ))}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
@@ -124,26 +141,15 @@ export default function () {
           )}
           {policy.isGranted('cms-view-admin') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('admin') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to="/iam/users" onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
+              <DropdownToggle tag={Link} to={firstGrantedAdminLink ? firstGrantedAdminLink.to : '/iam/users'} onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {policy.isGranted('cms-view-users') && (
-                  <RouterLink to="/iam/users" className="dropdown-item" onClick={() => toggle('admin')}>Users</RouterLink>
-                )}
-                {policy.isGranted('cms-view-roles') && (
-                  <RouterLink to="/iam/roles" className="dropdown-item" onClick={() => toggle('admin')}>Roles</RouterLink>
-                )}
-                {policy.isGranted('cms-view-apps') && (
-                  <RouterLink to="/iam/apps" className="dropdown-item" onClick={() => toggle('admin')}>Apps</RouterLink>
-                )}
-                {policy.isGranted('cms-view-flagsets') && (
-                  <RouterLink to="/sys/flagsets" className="dropdown-item" onClick={() => toggle('admin')}>Flagsets</RouterLink>
-                )}
-                {policy.isGranted('cms-view-picklists') && (
-                  <RouterLink to="/sys/picklists" className="dropdown-item" onClick={() => toggle('admin')}>Picklists</RouterLink>
-                )}
-                {policy.isGranted('cms-view-redirects') && (
-                  <RouterLink to="/sys/redirects" className="dropdown-item" onClick={() => toggle('admin')}>Redirects</RouterLink>
-                )}
+                {isGrantedAdminLinks.map(link => (
+                  policy.isGranted(link.policy) && (
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('admin')}>
+                      {link.label}
+                    </RouterLink>
+                  )
+                ))}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
