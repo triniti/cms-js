@@ -37,40 +37,36 @@ export default function () {
     localStorage.setItem('activeNavGroup', group);
   };
 
-  const contentLinks = [
-    { label: 'Articles', to: '/news/articles', policy: 'cms-view-articles' },
-    { label: 'Galleries', to: '/curator/galleries', policy: 'cms-view-galleries' },
-    { label: 'Pages', to: '/canvas/pages', policy: 'cms-view-pages' },
-    { label: 'Polls', to: '/apollo/polls', policy: 'cms-view-polls' },
-    { label: 'Videos', to: '/ovp/videos', policy: 'cms-view-videos' },
-  ];
-  const firstGrantedContentLink = contentLinks.find(link => policy.isGranted(link.policy));
+  const firstGrantedContentLink =  [
+    (policy.isGranted('cms-view-articles') && { label: 'Articles', to: '/news/articles' }),
+    (policy.isGranted('cms-view-galleries') && { label: 'Galleries', to: '/curator/galleries' }),
+    (policy.isGranted('cms-view-pages') && { label: 'Pages', to: '/canvas/pages' }),
+    (policy.isGranted('cms-view-polls') && { label: 'Polls', to: '/apollo/polls' }),
+    (policy.isGranted('cms-view-videos') && { label: 'Videos', to: '/ovp/videos' }),
+  ].filter(Boolean)[0];
 
-  const taxonomyLinks = [
-    { label: 'Categories', to: '/taxonomy/categories', policy: 'cms-view-categories' },
-    { label: 'Channels', to: '/taxonomy/channels', policy: 'cms-view-channels' },
-    { label: 'People', to: '/people/people', policy: 'cms-view-people' },
-  ];
-  const firstGrantedTaxonomyLink = taxonomyLinks.find(link => policy.isGranted(link.policy));
+  const firstGrantedTaxonomyLink =  [
+    (policy.isGranted('cms-view-categories') && { label: 'Categories', to: '/taxonomy/categories' }),
+    (policy.isGranted('cms-view-channels') && { label: 'Channels', to: '/taxonomy/channels' }),
+    (policy.isGranted('cms-view-people') && { label: 'People', to: '/people/people' }),
+  ].filter(Boolean)[0];
 
-  const structureLinks = [
-    { label: 'Promotions', to: '/curator/promotions', policy: 'cms-view-promotions' },
-    { label: 'Teasers', to: '/curator/teasers', policy: 'cms-view-teasers' },
-    { label: 'Timelines', to: '/curator/timelines', policy: 'cms-view-timelines' },
-    { label: 'Sponsors', to: '/boost/sponsors', policy: 'cms-view-sponsors' },
-    { label: 'Widgets', to: '/curator/widgets', policy: 'cms-view-widgets' },
-  ];
-  const firstGrantedStructureLink = structureLinks.find(link => policy.isGranted(link.policy));
+  const firstGrantedStructureLink =  [
+    (policy.isGranted('cms-view-promotions') && { label: 'Promotions', to: '/curator/promotions' }),
+    (policy.isGranted('cms-view-teasers') && { label: 'Teasers', to: '/curator/teasers' }),
+    (policy.isGranted('cms-view-timelines') && { label: 'Timelines', to: '/curator/timelines'}),
+    (policy.isGranted('cms-view-sponsors') && { label: 'Sponsors', to: '/boost/sponsors' }),
+    (policy.isGranted('cms-view-widgets') &&  { label: 'Widgets', to: '/curator/widgets' }),
+  ].filter(Boolean)[0];
 
-  const adminLinks = [
-    { label: 'Users', to: '/iam/users', policy: 'cms-view-users' },
-    { label: 'Roles', to: '/iam/roles', policy: 'cms-view-roles' },
-    { label: 'Apps', to: '/iam/apps', policy: 'cms-view-apps' },
-    { label: 'Flagsets', to: '/sys/flagsets', policy: 'cms-view-flagsets' },
-    { label: 'Picklists', to: '/sys/picklists', policy: 'cms-view-picklists' },
-    { label: 'Redirects', to: '/sys/redirects', policy: 'cms-view-redirects' },
-  ];
-  const firstGrantedAdminLink = adminLinks.find(link => policy.isGranted(link.policy));
+  const firstGrantedAdminLink =  [
+    (policy.isGranted('cms-view-users') && { label: 'Users', to: '/iam/users' }),
+    (policy.isGranted('cms-view-roles') && { label: 'Roles', to: '/iam/roles' }),
+    (policy.isGranted('cms-view-apps') && { label: 'Apps', to: '/iam/apps' }),
+    (policy.isGranted('cms-view-flagsets') && { label: 'Flagsets', to: '/sys/flagsets' }),
+    (policy.isGranted('cms-view-picklists') &&  { label: 'Picklists', to: '/sys/picklists' }),
+    (policy.isGranted('cms-view-redirects') &&  { label: 'Redirects', to: '/sys/redirects' }),
+  ].filter(Boolean)[0];
 
   return (
     <Navbar className="navbar-main">
@@ -91,13 +87,21 @@ export default function () {
             <UncontrolledDropdown inNavbar nav className={isGroupActive('content') ? 'is-current' : ''}>
               <DropdownToggle tag={Link} to={firstGrantedContentLink ? firstGrantedContentLink.to : '/news/articles'}  onClick={() => toggle('content')} nav>Content</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {contentLinks.map(link => (
-                  policy.isGranted(link.policy) && (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('content')}>
-                      {link.label}
-                    </RouterLink>
-                  )
-                ))}
+                {policy.isGranted('cms-view-articles') && (
+                  <RouterLink to="/news/articles" className="dropdown-item" onClick={() => toggle('content')}>Articles</RouterLink>
+                )}
+                {policy.isGranted('cms-view-galleries') && (
+                  <RouterLink to="/curator/galleries" className="dropdown-item" onClick={() => toggle('content')}>Galleries</RouterLink>
+                )}
+                {policy.isGranted('cms-view-pages') && (
+                  <RouterLink to="/canvas/pages" className="dropdown-item" onClick={() => toggle('content')}>Pages</RouterLink>
+                )}
+                {policy.isGranted('cms-view-polls') && (
+                  <RouterLink to="/apollo/polls" className="dropdown-item" onClick={() => toggle('content')}>Polls</RouterLink>
+                )}
+                {policy.isGranted('cms-view-videos') && (
+                  <RouterLink to="/ovp/videos" className="dropdown-item" onClick={() => toggle('content')}>Videos</RouterLink>
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
@@ -105,13 +109,15 @@ export default function () {
             <UncontrolledDropdown inNavbar nav className={isGroupActive('taxonomy') ? 'is-current' : ''}>
               <DropdownToggle tag={Link} to={firstGrantedTaxonomyLink ? firstGrantedTaxonomyLink.to : '/taxonomy/categories'} onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {taxonomyLinks.map(link => (
-                  policy.isGranted(link.policy) && (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('taxonomy')}>
-                      {link.label}
-                    </RouterLink>
-                  )
-                ))}
+                {policy.isGranted('cms-view-categories') && (
+                  <RouterLink to="/taxonomy/categories" className="dropdown-item" onClick={() => toggle('taxonomy')}>Categories</RouterLink>
+                )}
+                {policy.isGranted('cms-view-channels') && (
+                  <RouterLink to="/taxonomy/channels" className="dropdown-item" onClick={() => toggle('taxonomy')}>Channels</RouterLink>
+                )}
+                {policy.isGranted('cms-view-people') && (
+                  <RouterLink to="/people/people" className="dropdown-item" onClick={() => toggle('taxonomy')}>People</RouterLink>
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
@@ -124,13 +130,21 @@ export default function () {
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
               <DropdownToggle tag={Link} to={firstGrantedStructureLink ? firstGrantedStructureLink.to : '/curator/promotions'} onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {structureLinks.map(link => (
-                  policy.isGranted(link.policy) && (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('structure')}>
-                      {link.label}
-                    </RouterLink>
-                  )
-                ))}
+                {policy.isGranted('cms-view-promotions') && (
+                  <RouterLink to="/curator/promotions" className="dropdown-item" onClick={() => toggle('structure')}>Promotions</RouterLink>
+                )}
+                {policy.isGranted('cms-view-teasers') && (
+                  <RouterLink to="/curator/teasers" className="dropdown-item" onClick={() => toggle('structure')}>Teasers</RouterLink>
+                )}
+                {policy.isGranted('cms-view-timelines') && (
+                  <RouterLink to="/curator/timelines" className="dropdown-item" onClick={() => toggle('structure')}>Timelines</RouterLink>
+                )}
+                {policy.isGranted('cms-view-sponsors') && (
+                  <RouterLink to="/boost/sponsors" className="dropdown-item" onClick={() => toggle('structure')}>Sponsors</RouterLink>
+                )}
+                {policy.isGranted('cms-view-widgets') && (
+                  <RouterLink to="/curator/widgets" className="dropdown-item" onClick={() => toggle('structure')}>Widgets</RouterLink>
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
@@ -143,13 +157,24 @@ export default function () {
             <UncontrolledDropdown inNavbar nav className={isGroupActive('admin') ? 'is-current' : ''}>
               <DropdownToggle tag={Link} to={firstGrantedAdminLink ? firstGrantedAdminLink.to : '/iam/users'} onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
-                {adminLinks.map(link => (
-                  policy.isGranted(link.policy) && (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('admin')}>
-                      {link.label}
-                    </RouterLink>
-                  )
-                ))}
+                {policy.isGranted('cms-view-users') && (
+                  <RouterLink to="/iam/users" className="dropdown-item" onClick={() => toggle('admin')}>Users</RouterLink>
+                )}
+                {policy.isGranted('cms-view-roles') && (
+                  <RouterLink to="/iam/roles" className="dropdown-item" onClick={() => toggle('admin')}>Roles</RouterLink>
+                )}
+                {policy.isGranted('cms-view-apps') && (
+                  <RouterLink to="/iam/apps" className="dropdown-item" onClick={() => toggle('admin')}>Apps</RouterLink>
+                )}
+                {policy.isGranted('cms-view-flagsets') && (
+                  <RouterLink to="/sys/flagsets" className="dropdown-item" onClick={() => toggle('admin')}>Flagsets</RouterLink>
+                )}
+                {policy.isGranted('cms-view-picklists') && (
+                  <RouterLink to="/sys/picklists" className="dropdown-item" onClick={() => toggle('admin')}>Picklists</RouterLink>
+                )}
+                {policy.isGranted('cms-view-redirects') && (
+                  <RouterLink to="/sys/redirects" className="dropdown-item" onClick={() => toggle('admin')}>Redirects</RouterLink>
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
