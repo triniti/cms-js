@@ -29,8 +29,8 @@ self.onmessage = async function ({ data }) {
       self.postMessage('Raven Worker: Configured.');
       break;
     case 'connect':
-      const { accessToken, userId, currHref } = payload;
-      await raven.connect(accessToken, userId, currHref);
+      const { accessToken, userRef, currHref } = payload;
+      await raven.connect(accessToken, userRef, currHref);
       self.postMessage('Raven Worker: Connected.');
       break;
     case 'disconnect':

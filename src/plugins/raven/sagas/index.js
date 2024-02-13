@@ -71,7 +71,7 @@ function* watchUserLoaded() {
   yield takeLatest(
     iamActionTypes.USER_LOADED,
     function* connectFlow ({ user }) {
-      const userId = `${NodeRef.fromNode(user)}`;
+      const userRef = `${NodeRef.fromNode(user)}`;
       const accessToken = getAccessToken();
       const { href: currHref } = window.location;
     
@@ -79,7 +79,7 @@ function* watchUserLoaded() {
         event: 'connect',
         payload: {
           accessToken,
-          userId,
+          userRef,
           currHref,
         }
       });
