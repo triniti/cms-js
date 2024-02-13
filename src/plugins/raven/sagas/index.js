@@ -12,6 +12,7 @@ import isConnected from 'plugins/raven/selectors/isConnected';
 import getUserRef from 'plugins/iam/selectors/getUserRef';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import processEvent from 'plugins/raven/actions/processEvent';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 // This will hold worker instance
 let worker = null;
@@ -70,7 +71,7 @@ function* watchUserLoaded() {
   yield takeLatest(
     iamActionTypes.USER_LOADED,
     function* connectFlow ({ user }) {
-      const userId = user.get('_id').toString();
+      const userId = `${NodeRef.fromNode(user)}`;
       const accessToken = getAccessToken();
       const { href: currHref } = window.location;
     
