@@ -21,24 +21,10 @@ import createInlineToolbarPlugin from '@draft-js-plugins/inline-toolbar';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import JsonSerializer from '@gdbots/pbj/serializers/JsonSerializer';
-import { ErrorBoundary, Icon, withPbj } from 'components';
-import UncontrolledTooltip from 'components/uncontrolled-tooltip';
-import BlockButtons from 'components/blocksmith-field/components/block-buttons';
-import BoldInlineToolbarButton from 'components/blocksmith-field/components/bold-inline-toolbar-button';
-import ItalicInlineToolbarButton from 'components/blocksmith-field/components/italic-inline-toolbar-button';
-import LinkInlineToolbarButton from 'components/blocksmith-field/components/link-inline-toolbar-button';
-import UnderlineInlineToolbarButton from 'components/blocksmith-field/components/underline-inline-toolbar-button';
-import OrderedListInlineToolbarButton from 'components/blocksmith-field/components/ordered-list-inline-toolbar-button';
-import UnorderedListInlineToolbarButton from 'components/blocksmith-field/components/unordered-list-inline-toolbar-button';
-import StrikethroughInlineToolbarButton from 'components/blocksmith-field/components/strikethrough-inline-toolbar-button';
-import HighlightInlineToolbarButton from 'components/blocksmith-field/components/highlight-inline-toolbar-button';
-import SpecialCharacterModal from 'components/blocksmith-field/components/special-character-modal';
-import Sidebar from 'components/blocksmith-field/components/sidebar';
+import { ErrorBoundary, Icon, withPbj, UncontrolledTooltip } from 'components';
+import BlocksmithFieldComponents from 'components/blocksmith-field/components';
 import convertToEditorState from 'components/blocksmith-field/utils/convertToEditorState';
-import ListBlockWrapper from 'components/blocksmith-field/components/list-block-wrapper';
-import LinkModal from 'components/blocksmith-field/components/link-modal';
 import { getPlaceholderConfig } from 'components/blocksmith-field/placeholderConfig';
-import { getModalComponent } from 'components/blocksmith-field/resolver';
 import addEmoji from 'components/blocksmith-field/utils/addEmoji';
 import areKeysSame from 'components/blocksmith-field/utils/areKeysSame';
 import blockParentNode from 'components/blocksmith-field/utils/blockParentNode';
@@ -78,9 +64,27 @@ import { normalizeKey } from 'components/blocksmith-field/utils';
 import noop from 'lodash/noop';
 // import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
 import 'components/blocksmith-field/styles.scss';
+import startCase from 'lodash-es/startCase';
+
+const {
+  BlockButtons,
+  BoldInlineToolbarButton,
+  GenericBlockPlaceholder,
+  ItalicInlineToolbarButton,
+  HighlightInlineToolbarButton,
+  LinkInlineToolbarButton,
+  ListBlockWrapper,
+  LinkModal,
+  StrikethroughInlineToolbarButton,
+  SpecialCharacterModal,
+  Sidebar,
+  OrderedListInlineToolbarButton,
+  UnderlineInlineToolbarButton,
+  UnorderedListInlineToolbarButton,
+} = BlocksmithFieldComponents;
 
 let TextBlockV1;
-const GenericBlockPlaceholder = lazy(() => import('components/blocksmith-field/components/generic-block-placeholder'));
+const getModalComponent = (message) => BlocksmithFieldComponents[`${startCase(message).replace(' ', '')}Modal`];
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
@@ -1289,7 +1293,7 @@ class Blocksmith extends React.Component {
       const canvasBlockObject = isFreshBlock ? {} : canvasBlock.toObject();
       const ComponentWithPbj = curie && withPbj(getModalComponent(message), curie.toString(), canvasBlockObject);
 
-      this.handleOpenModal(() => (
+      this.handleOpenModal(() => 
         <ComponentWithPbj
           isOpen
           isFreshBlock={isFreshBlock}
@@ -1299,7 +1303,7 @@ class Blocksmith extends React.Component {
           onEditBlock={this.handleEditCanvasBlock}
           toggle={this.handleCloseModal}
         />
-      ));
+      );
     }
   }
 

@@ -25,7 +25,6 @@ import { useField, useFormContext } from 'components';
 import defaultLoadOptions from 'plugins/ncr/components/node-picker-field/loadOptions';
 import MultiValueLabel from 'plugins/ncr/components/node-picker-field/MultiValueLabel';
 import Option from 'plugins/ncr/components/node-picker-field/Option';
-import './MultiSelectField.scss';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
@@ -40,7 +39,7 @@ const SortableMultiValueLabel = (props) => {
   const { attributes, listeners } = useSortable({ id: props.data.value, disabled });
   return (
     <div {...attributes} {...listeners}>
-      <MultiValueLabel {...props} />
+      <MultiValueLabel {...props} className="w-100" />
     </div>
   );
 };
