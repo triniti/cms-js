@@ -37,13 +37,13 @@ function CreatePageModal(props) {
   };
 
   const handleBlur = e => {
-    if(e.target.value) {
+    if(e.target.value && !slug) {
       setSlug(createSlug(e.target.value));
     }
   }
 
-  const handleKeyDown = e =>{
-    if (e.key === 'Enter' && e.target.value) {
+  const handleKeyDown = e => {
+    if (e.key === 'Enter' && e.target.value && !slug) {
       setSlug(createSlug(e.target.value));
     }
   }

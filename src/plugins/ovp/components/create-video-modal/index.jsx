@@ -50,13 +50,13 @@ function CreateVideoModal(props) {
   };
 
   const handleBlur = e => {
-    if(e.target.value) {
+    if(e.target.value && !slug) {
       setSlug(addDateToSlug(createSlug(e.target.value, true)));
     }
   }
 
-  const handleKeyDown = e =>{
-    if (e.key === 'Enter' && e.target.value) {
+  const handleKeyDown = e => {
+    if (e.key === 'Enter' && e.target.value && !slug) {
       setSlug(addDateToSlug(createSlug(e.target.value, true)));
     }
   }
