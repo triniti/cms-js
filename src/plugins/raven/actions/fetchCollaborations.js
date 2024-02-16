@@ -31,6 +31,8 @@ export default (accessToken) => async (dispatch) => {
     }
   } catch (error) {
     console.error('raven::fetchCollaborations failed', error);
-    window.onerror(error);
+    if (window.onerror instanceof Function) {
+      window.onerror(error);
+    }
   }
 };

@@ -43,7 +43,7 @@ function SearchTeasersScreen(props) {
     <Screen
       title="Teasers"
       header="Teasers"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}

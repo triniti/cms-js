@@ -30,7 +30,7 @@ function SearchUsersScreen(props) {
     <Screen
       title="Users"
       header="Users"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}

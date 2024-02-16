@@ -37,7 +37,7 @@ function SearchArticlesScreen(props) {
     <Screen
       title="Articles"
       header="Articles"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
@@ -73,6 +73,7 @@ function SearchArticlesScreen(props) {
               <tr>
                 <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
                 <th>Title</th>
+                <th>Slotting</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th></th>
@@ -84,6 +85,13 @@ function SearchArticlesScreen(props) {
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                     <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
                     <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                    <td>
+                      {node.has('slotting')
+                        ? Object.entries(node.get('slotting')).map(([key, slot]) => (
+                          <span key={`${key}:${slot}`}>{key}:{slot} </span>
+                        ))
+                        : null}
+                    </td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                     <td className="td-icons">

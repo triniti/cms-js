@@ -37,7 +37,7 @@ function SearchGalleriesScreen(props) {
     <Screen
       title="Galleries"
       header="Galleries"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
