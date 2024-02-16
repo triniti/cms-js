@@ -35,7 +35,7 @@ export default function Pager(props) {
 
   return (
     <div className="pager d-flex align-items-center">
-      <ButtonGroup size="sm" className="me-2">
+      <ButtonGroup className="me-2">
         <Button outline onClick={handleClickPrev} disabled={disabled || !prevPage}>Prev</Button>
         <Button outline onClick={handleClickNext} disabled={disabled || !hasMore || nextPage > MAX_PAGE}>Next</Button>
       </ButtonGroup>
