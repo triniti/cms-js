@@ -43,6 +43,7 @@ export default function () {
     (policy.isGranted('cms-view-pages') && { label: 'Pages', to: '/canvas/pages' }),
     (policy.isGranted('cms-view-polls') && { label: 'Polls', to: '/apollo/polls' }),
     (policy.isGranted('cms-view-videos') && { label: 'Videos', to: '/ovp/videos' }),
+    (policy.isGranted('cms-view-livestreams') && { label: 'LiveStreams', to: '/ovp/livestreams' }),
   ].filter(Boolean);
 
   const taxonomyLinks =  [
