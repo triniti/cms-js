@@ -19,7 +19,7 @@ function LivestreamsScreen(props) {
 
   return (
     <Screen
-      title="Livestremas"
+      title="Livestreams"
       header="Livestreams"
       contentWidth="800px"
     >
