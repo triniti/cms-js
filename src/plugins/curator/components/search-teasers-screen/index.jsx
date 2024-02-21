@@ -15,6 +15,7 @@ import Collaborators from 'plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
 import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
+import CloneButton from 'plugins/ncr/components/clone-button';
 
 const CreateTeaserModal = lazy(() => import('plugins/curator/components/create-teaser-modal'));
 
@@ -125,6 +126,9 @@ function SearchTeasersScreen(props) {
                             <Icon imgSrc="external" alt="open" />
                           </Button>
                         </a>
+                        {canCreate && (
+                          <CloneButton node={node} />
+                        )}
                       </td>
                     </tr>
                   );

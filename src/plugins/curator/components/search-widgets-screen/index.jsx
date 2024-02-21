@@ -13,6 +13,7 @@ import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/curator/components/search-widgets-screen/SearchForm';
 import Collaborators from 'plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import CloneButton from 'plugins/ncr/components/clone-button';
 
 const CreateWidgetModal = lazy(() => import('plugins/curator/components/create-widget-modal'));
 
@@ -99,6 +100,9 @@ function SearchWidgetsScreen(props) {
                             <Icon imgSrc="external" alt="open" />
                           </Button>
                         </a>
+                        {canCreate && (
+                          <CloneButton node={node} />
+                        )}
                       </td>
                     </tr>
                   );

@@ -14,6 +14,7 @@ import Collaborators from 'plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
 import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
+import CloneButton from 'plugins/ncr/components/clone-button';
 
 const CreatePromotionModal = lazy(() => import('plugins/curator/components/create-promotion-modal'));
 
@@ -98,6 +99,9 @@ function SearchPromotionsScreen(props) {
                               <Icon imgSrc="pencil" alt="edit" />
                             </Button>
                           </Link>
+                        )}
+                        {canCreate && (
+                          <CloneButton node={node} />
                         )}
                       </td>
                     </tr>
