@@ -7,8 +7,6 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import LivestreamsCard from './LivestreamsCard';
 
-const CreateVideoModal = lazy(() => import('plugins/ovp/components/create-video-modal'));
-
 function LivestreamsScreen(props) {
   const { request, delegate } = props;
   const { response, run, isRunning, pbjxError } = useRequest(request, true);
@@ -18,11 +16,6 @@ function LivestreamsScreen(props) {
   const canDelete = policy.isGranted(`${APP_VENDOR}:video:delete`);
   const nodes = response ? response.get('nodes', []) : [];
 
-  delegate.handleChangePage = page => {
-    request.set('page', page);
-    run();
-    scrollToTop();
-  };
 
   return (
     <Screen
@@ -30,21 +23,17 @@ function LivestreamsScreen(props) {
       header="Livestreams"
       contentWidth="800px"
     >
-
       {(!response || pbjxError) && <Loading error={pbjxError} />}
-
       {response && (
-        <>
-          <LivestreamsCard nodes={nodes} />
-         </>
+        <LivestreamsCard nodes={nodes} />
       )}
     </Screen>
   );
 }
 
-export default withRequest(withForm(LivestreamsScreen), 'triniti:ovp:request:search-videos-request', {
-  persist: true,
+export default withRequest(LivestreamsScreen, 'triniti:ovp:request:search-videos-request', {
   initialData: {
+    q: '_exists_:medialive_channel_arn',
     sort: SearchVideosSort.ORDER_DATE_DESC.getValue(),
   }
 });
