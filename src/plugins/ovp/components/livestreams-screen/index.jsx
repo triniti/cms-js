@@ -33,6 +33,7 @@ function LivestreamsScreen(props) {
 
 export default withRequest(LivestreamsScreen, 'triniti:ovp:request:search-videos-request', {
   initialData: {
+    derefs: ['medialive_channel_state'],
     q: '_exists_:medialive_channel_arn',
     sort: SearchVideosSort.ORDER_DATE_DESC.getValue(),
   }
