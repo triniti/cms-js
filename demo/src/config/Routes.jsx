@@ -10,6 +10,7 @@ const DashboardScreen = lazy(() => import('../plugins/dashboard/components/dashb
 const DemoScreen = lazy(() => import('../plugins/dashboard/components/demo-screen'));
 const FlagsetScreen = lazy(() => import('@triniti/cms/plugins/sys/components/flagset-screen'));
 const GalleryScreen = lazy(() => import('@triniti/cms/plugins/curator/components/gallery-screen'));
+const LivestreamsScreen = lazy(() => import('@triniti/cms/plugins/ovp/components/livestreams-screen'));
 const LoginScreen = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen'));
 const LogoutScreen = lazy(() => import('@triniti/cms/plugins/iam/components/logout-screen'));
 const NotificationScreen = lazy(() => import('@triniti/cms/plugins/notify/components/notification-screen'));
@@ -137,6 +138,7 @@ export default () => (
     <Route path="/ncr/youtube-video-teaser/:id/*" element={<TeaserScreen label="youtube-video-teaser" />} />
     <Route path="/news/articles" element={<SearchArticlesScreen />} />
     <Route path="/notify/notifications" element={<SearchNotificationsScreen />} />
+    <Route path="/ovp/livestreams" element={<LivestreamsScreen />} />
     <Route path="/ovp/videos" element={<SearchVideosScreen />} />
     <Route path="/people/people" element={<SearchPeopleScreen />} />
     <Route path="/sys/flagsets" element={<SearchFlagsetsScreen />} />
