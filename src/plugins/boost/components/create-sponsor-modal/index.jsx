@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
@@ -14,7 +14,6 @@ import nodeUrl from 'plugins/ncr/nodeUrl';
 function CreateSponsorModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [slug, setSlug] = useState('');
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -24,7 +23,7 @@ function CreateSponsorModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Sponsor...');
-      values.slug = slug ?? createSlug(values.title);
+      values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
       props.toggle();
       await progressIndicator.close();
@@ -36,30 +35,13 @@ function CreateSponsorModal(props) {
     }
   };
 
-  const handleBlur = e => {
-    if(e.target.value && !slug) {
-      setSlug(createSlug(e.target.value));
-    }
-  }
-
-  const handleKeyDown = e => {
-    if (e.key === 'Enter' && e.target.value && !slug) {
-      setSlug(createSlug(e.target.value));
-    }
-  }
-
-  const handleChange = e => {
-    setSlug(e.target.value);
-  }
-
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Sponsor</ModalHeader>
       {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <TextField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
-          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} />
+          <TextField name="title" label="Title" required />
         </Form>
       </ModalBody>
       <ModalFooter>
