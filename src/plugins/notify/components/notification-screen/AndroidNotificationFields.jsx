@@ -11,7 +11,7 @@ export default function AndroidNotificationFields() {
         <CardHeader>Details</CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
-          <ContentRefField />
+          <ContentRefField readOnly />
           <TextareaField name="body" label="Body" />
         </CardBody>
       </Card>
