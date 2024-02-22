@@ -10,7 +10,7 @@ export default function SeoTab(props) {
       <CardHeader>Seo</CardHeader>
       <CardBody>
         <TextField name="seo_title" label="SEO Title Tag" />
-        <TextareaField name="meta_description" label="Meta Description" />
+        <TextareaField name="meta_description" label="Meta Description" maxCharsConfig={{charsMax: 500}} />
         <SelectField name="meta_keywords" label="Meta Keywords" allowOther isMulti={true} />
         <ImagePickerField name="seo_image_ref" label="Seo Image" nodeRef={nodeRef} />
         <DatePickerField name="seo_published_at" label="SEO Published At" />
