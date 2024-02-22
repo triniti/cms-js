@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Button, Card, CardBody, CardHeader } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
@@ -15,15 +15,19 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
 
 
 const LivestreamsCard = ({ nodes }) => nodes.map(node => {
-    const status = node.get('status')
-      .toString();
+    const status = node.get('status').toString();
     const kalturaEntryId = node.get('kaltura_entry_id');
     const channelArn = node.get('medialive_channel_arn');
-   // const mediaLiveData = getInstance().getRedux().getState().ovp.mediaLive[`${NodeRef.fro}`];
-
     const title = node.isInMap('tags', 'livestream_label')
       ? `${node.getFromMap('tags', 'livestream_label')} | ${node.get('title')}`
       : node.get('title');
+
+    const MEDIA_REGEX = /\.media(live|package).+$/;
+    const MEDIALIVE_CHANNEL_REGEX = /\.medialive_channel_state$/;
+    const MEDIALIVE_INPUT_REGEX = /\.medialive_input_\d+$/;
+    const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
+    const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
+
     return (
       <Card>
         <CardHeader> <span >
@@ -47,7 +51,22 @@ const LivestreamsCard = ({ nodes }) => nodes.map(node => {
           </a>
             </span>
         </CardHeader>
-        <CardBody className="d-flex flex-row">
+        <CardBody>
+          <Table striped responsive>
+          <tbody>
+          {kalturaEntryId && (
+            <tr>
+              <th>Kaltura Entry ID:</th>
+              <td>{kalturaEntryId}</td>
+            </tr>
+            )}
+            <tr>
+            <th>MediaLive Channel ARN:</th>
+            <td>{channelArn}</td>
+          </tr>
+
+          </tbody>
+          </Table>
         </CardBody>
       </Card>
     );
