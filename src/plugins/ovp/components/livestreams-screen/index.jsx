@@ -15,17 +15,17 @@ function LivestreamsScreen(props) {
   const canUpdate = policy.isGranted(`${APP_VENDOR}:video:update`);
   const canDelete = policy.isGranted(`${APP_VENDOR}:video:delete`);
   const nodes = response ? response.get('nodes', []) : [];
-
+  const metas = response ? response.get('metas', {}) : {};
 
   return (
     <Screen
       title="Livestreams"
       header="Livestreams"
-      contentWidth="800px"
+      contentWidth="1200px"
     >
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
-        <LivestreamsCard nodes={nodes} />
+        <LivestreamsCard nodes={nodes} metas={metas}/>
       )}
     </Screen>
   );

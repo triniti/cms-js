@@ -14,7 +14,7 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
 }, {});
 
 
-const LivestreamsCard = ({ nodes }) => nodes.map(node => {
+const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
     const status = node.get('status').toString();
     const kalturaEntryId = node.get('kaltura_entry_id');
     const channelArn = node.get('medialive_channel_arn');
@@ -28,8 +28,54 @@ const LivestreamsCard = ({ nodes }) => nodes.map(node => {
     const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
     const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
 
+  const nodeRef = NodeRef.fromNode(node).toString();
+  const mediaLiveData = {};
+
+
+  Object.entries(metas).forEach(([key, value]) => {
+    if (!MEDIA_REGEX.test(key)) {
+      return;
+    }
+
+    if (MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX.test(key)) {
+      const nodeRef = key.replace(MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX, '');
+      if(!mediaLiveData[nodeRef]) {
+        mediaLiveData[nodeRef] = {};
+      }
+      if(!mediaLiveData[nodeRef].originEndpoints) {
+        mediaLiveData[nodeRef].originEndpoints = [];
+      }
+      if (!mediaLiveData[nodeRef].originEndpoints.includes(value)) {
+        mediaLiveData[nodeRef].originEndpoints.push(value);
+      }
+    } else if (MEDIAPACKAGE_CDN_ENDPOINT_REGEX.test(key)) {
+      const nodeRef = key.replace(MEDIAPACKAGE_CDN_ENDPOINT_REGEX, '');
+      if(!mediaLiveData[nodeRef]) {
+        mediaLiveData[nodeRef] = {};
+      }
+      if(!mediaLiveData[nodeRef].cdnEndpoints) {
+        mediaLiveData[nodeRef].cdnEndpoints = [];
+      }
+      if (!mediaLiveData[nodeRef].cdnEndpoints.includes(value)) {
+        mediaLiveData[nodeRef].cdnEndpoints.push(value);
+      }
+    }else if (MEDIALIVE_INPUT_REGEX.test(key)) {
+      const nodeRef = key.replace(MEDIALIVE_INPUT_REGEX, '');
+      if(!mediaLiveData[nodeRef]) {
+        mediaLiveData[nodeRef] = {};
+      }
+      if(!mediaLiveData[nodeRef].inputs) {
+        mediaLiveData[nodeRef].inputs = [];
+      }
+      if (!mediaLiveData[nodeRef].inputs.includes(value)) {
+        mediaLiveData[nodeRef].inputs.push(value);
+      }
+    }
+
+  });
+
     return (
-      <Card>
+      <Card key={id}>
         <CardHeader> <span >
           <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>{status}</small>{title}
         </span>
@@ -64,6 +110,34 @@ const LivestreamsCard = ({ nodes }) => nodes.map(node => {
             <th>MediaLive Channel ARN:</th>
             <td>{channelArn}</td>
           </tr>
+          {!mediaLiveData[nodeRef].originEndpoints.length && (
+            <p>no origin endpoints found - is the channel arn correct?</p>
+          )}
+          {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
+            <tr>
+              <th>{`Origin Endpoint #${index + 1}: `}</th>
+              <td>{originEndpoint}</td>
+            </tr>
+          ))}
+          {!mediaLiveData[nodeRef].cdnEndpoints.length && (
+            <p>no cdn endpoints found - is the channel arn correct?</p>
+          )}
+          {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
+            <tr>
+              <th>{`CDN Endpoint #${index + 1}: `}</th>
+              <td>{cdnEndpoint}</td>
+            </tr>
+          ))}
+
+          {!mediaLiveData[nodeRef].inputs.length && (
+            <p>no inputs found - is the channel arn correct?</p>
+          )}
+          {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((cdnEndpoint, index) => (
+            <tr>
+              <th>{`Ingest Endpoint #${index + 1}: `}</th>
+              <td>{cdnEndpoint}</td>
+            </tr>
+          ))}
 
           </tbody>
           </Table>
