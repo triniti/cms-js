@@ -1,12 +1,18 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { getInstance } from '@triniti/demo/src/main';
 import { Link } from 'react-router-dom';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import { Icon } from 'components';
+import swal from 'sweetalert2';
+import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1';
+import { getInstance } from '@triniti/demo/src/main';
+import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
+import progressIndicator from 'utils/progressIndicator';
+import MedialiveChannelStateButton from './MedialiveChannelStateButton';
+
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
@@ -15,29 +21,33 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
 
 
 const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
-    const status = node.get('status').toString();
-    const kalturaEntryId = node.get('kaltura_entry_id');
-    const channelArn = node.get('medialive_channel_arn');
-    const title = node.isInMap('tags', 'livestream_label')
-      ? `${node.getFromMap('tags', 'livestream_label')} | ${node.get('title')}`
-      : node.get('title');
+  const app = getInstance();
+  const status = node.get('status').toString();
+  const kalturaEntryId = node.get('kaltura_entry_id');
+  const channelArn = node.get('medialive_channel_arn');
+  const title = node.isInMap('tags', 'livestream_label')
+    ? `${node.getFromMap('tags', 'livestream_label')} | ${node.get('title')}`
+    : node.get('title');
 
-    const MEDIA_REGEX = /\.media(live|package).+$/;
-    const MEDIALIVE_CHANNEL_REGEX = /\.medialive_channel_state$/;
-    const MEDIALIVE_INPUT_REGEX = /\.medialive_input_\d+$/;
-    const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
-    const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
+  const MEDIA_REGEX = /\.media(live|package).+$/;
+  const MEDIALIVE_CHANNEL_REGEX = /\.medialive_channel_state$/;
+  const MEDIALIVE_INPUT_REGEX = /\.medialive_input_\d+$/;
+  const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
+  const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
 
   const nodeRef = NodeRef.fromNode(node).toString();
   const mediaLiveData = {};
-
 
   Object.entries(metas).forEach(([key, value]) => {
     if (!MEDIA_REGEX.test(key)) {
       return;
     }
 
-    if (MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX.test(key)) {
+    if (MEDIALIVE_CHANNEL_REGEX.test(key)) {
+      const nodeRef = key.replace(MEDIALIVE_CHANNEL_REGEX, '');
+      mediaLiveData[nodeRef] = mediaLiveData[nodeRef] ? { ...mediaLiveData[nodeRef] } : {};
+      mediaLiveData[nodeRef].state = value;
+    }else if (MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX.test(key)) {
       const nodeRef = key.replace(MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX, '');
       if(!mediaLiveData[nodeRef]) {
         mediaLiveData[nodeRef] = {};
@@ -71,15 +81,57 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
         mediaLiveData[nodeRef].inputs.push(value);
       }
     }
-
   });
 
-    return (
-      <Card key={id}>
-        <CardHeader> <span >
+  const copyToClipboard = (str) => {
+    const el = document.createElement('textarea');
+    el.value = str;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  }
+
+  const handleStartChannels = async (nodeRef) => {
+    await progressIndicator.show('Starting Channel...');
+    try {
+      const command = StartChannelV1.create()
+        .set('node_ref', nodeRef);
+      const pbjx = await app.getPbjx();
+      await pbjx.send(command);
+    }catch(error){
+      await progressIndicator.close();
+      console.error(error);
+    }
+  }
+
+  const handleStopChannels = async (nodeRef) => {
+    await swal.fire({
+      icon: 'warning',
+      titleText: 'Are you sure you want to stop the channel?',
+      text: 'To stream again, you will have to stop the encoders, restart the channel, and then restart the encoders.',
+      confirmButtonText: 'Continue',
+      showCancelButton: true,
+    }).then(async (result) => {
+      if (result.value) {
+        await progressIndicator.show('Stopping Channel...');
+        const command = StopChannelV1.create()
+          .set('node_ref', nodeRef);
+        const pbjx = await app.getPbjx();
+        await pbjx.send(command);
+      }
+    });
+  }
+
+  return (
+    <Card key={id}>
+      <CardHeader> <span >
           <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>{status}</small>{title}
         </span>
-          <span>
+        <span>
           <Link to={nodeUrl(node, 'view')}>
             <Button color="hover">
               <Icon imgSrc="eye" alt="view" />
@@ -96,26 +148,63 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
             </Button>
           </a>
             </span>
-        </CardHeader>
-        <CardBody>
-          <Table striped responsive>
+      </CardHeader>
+      <CardBody>
+        <p><MedialiveChannelStateButton
+          channelState={mediaLiveData[nodeRef].state} handleStartChannels={()=>handleStartChannels(NodeRef.fromNode(node))}
+          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))} /></p>
+        <Table responsive>
           <tbody>
           {kalturaEntryId && (
             <tr>
-              <th>Kaltura Entry ID:</th>
+              <th>
+                <Button
+                  className="mb-1"
+                  color="hover"
+                  id={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}
+                  onClick={() => copyToClipboard(kalturaEntryId)}
+                  radius="circle"
+                  size="xs"
+                >
+                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
+                </Button>
+                Kaltura Entry ID:
+              </th>
               <td>{kalturaEntryId}</td>
             </tr>
-            )}
-            <tr>
-            <th>MediaLive Channel ARN:</th>
+          )}
+          <tr>
+            <th>
+              <Button
+                className="mb-1"
+                color="hover"
+                id={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}
+                onClick={() => copyToClipboard(channelArn)}
+                radius="circle"
+                size="xs"
+              >
+                <Icon imgSrc="clipboard" alt="copy to clipboard" />
+              </Button>
+              MediaLive Channel ARN:</th>
             <td>{channelArn}</td>
           </tr>
           {!mediaLiveData[nodeRef].originEndpoints.length && (
             <p>no origin endpoints found - is the channel arn correct?</p>
           )}
           {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
-            <tr>
-              <th>{`Origin Endpoint #${index + 1}: `}</th>
+            <tr key={originEndpoint}>
+              <th>
+                <Button
+                  className="mb-1"
+                  color="hover"
+                  id={`copy-to-clipboard-${node.get('_id')}-origin-endpoint-${index}`}
+                  onClick={() => copyToClipboard(originEndpoint)}
+                  radius="circle"
+                  size="xs"
+                >
+                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
+                </Button>
+                {`Origin Endpoint #${index + 1}: `}</th>
               <td>{originEndpoint}</td>
             </tr>
           ))}
@@ -124,26 +213,48 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           )}
           {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
             <tr>
-              <th>{`CDN Endpoint #${index + 1}: `}</th>
+              <th>
+                <Button
+                  className="mb-1"
+                  color="hover"
+                  id={`copy-to-clipboard-${node.get('_id')}-cdn-endpoint-${index}`}
+                  onClick={() => copyToClipboard(cdnEndpoint)}
+                  radius="circle"
+                  size="xs"
+                >
+                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
+                </Button>
+                {`CDN Endpoint #${index + 1}: `}</th>
               <td>{cdnEndpoint}</td>
             </tr>
           ))}
-
           {!mediaLiveData[nodeRef].inputs.length && (
             <p>no inputs found - is the channel arn correct?</p>
           )}
-          {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((cdnEndpoint, index) => (
+          {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
             <tr>
-              <th>{`Ingest Endpoint #${index + 1}: `}</th>
-              <td>{cdnEndpoint}</td>
+              <th>
+                <Button
+                  className="mb-1"
+                  color="hover"
+                  id={`copy-to-clipboard-${node.get('_id')}-ingest-${index}`}
+                  onClick={() => copyToClipboard(input)}
+                  radius="circle"
+                  size="xs"
+                >
+                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
+                </Button>
+                {`Ingest Endpoint #${index + 1}: `}</th>
+              <td>{input}</td>
             </tr>
           ))}
-
           </tbody>
-          </Table>
-        </CardBody>
-      </Card>
-    );
-  });
+        </Table>
+        <p><a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer"><strong>Demo Player</strong></a></p>
+
+      </CardBody>
+    </Card>
+  );
+});
 
 export default LivestreamsCard;
