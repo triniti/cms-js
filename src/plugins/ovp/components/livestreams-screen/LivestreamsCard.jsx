@@ -36,6 +36,8 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
   const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
   const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
 
+  const policy = usePolicy();
+  const canViewIngests = policy.isGranted(`${APP_VENDOR}:ovp.medialive:command:stop-channel`);
   const nodeRef = NodeRef.fromNode(node).toString();
   const mediaLiveData = {};
 
@@ -225,7 +227,7 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
               <td>{cdnEndpoint}</td>
             </tr>
           ))}
-          {!mediaLiveData[nodeRef].inputs.length && (
+          {canViewIngests && !mediaLiveData[nodeRef].inputs.length && (
             <p>no inputs found - is the channel arn correct?</p>
           )}
           {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
