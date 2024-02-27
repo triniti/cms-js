@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
+import { ActionButton } from 'components/index';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
@@ -158,16 +159,15 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           {kalturaEntryId && (
             <tr>
               <th>
-                <Button
+                <ActionButton
                   className="mb-1"
                   color="hover"
                   id={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}
                   onClick={() => copyToClipboard(kalturaEntryId)}
-                  radius="circle"
+                  icon="clipboard"
                   size="xs"
-                >
-                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
-                </Button>
+                  text=""
+                />
                 Kaltura Entry ID:
               </th>
               <td>{kalturaEntryId}</td>
@@ -175,16 +175,15 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           )}
           <tr>
             <th>
-              <Button
+              <ActionButton
                 className="mb-1"
                 color="hover"
-                id={`copy-to-clipboard-${node.get('_id')}-kaltura-entry-id`}
+                id={`copy-to-clipboard-${node.get('_id')}-medialive-channel-rn`}
                 onClick={() => copyToClipboard(channelArn)}
-                radius="circle"
+                icon="clipboard"
                 size="xs"
-              >
-                <Icon imgSrc="clipboard" alt="copy to clipboard" />
-              </Button>
+                text=""
+              />
               MediaLive Channel ARN:</th>
             <td>{channelArn}</td>
           </tr>
@@ -194,16 +193,15 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
             <tr key={originEndpoint}>
               <th>
-                <Button
+                <ActionButton
                   className="mb-1"
                   color="hover"
                   id={`copy-to-clipboard-${node.get('_id')}-origin-endpoint-${index}`}
                   onClick={() => copyToClipboard(originEndpoint)}
-                  radius="circle"
+                  icon="clipboard"
                   size="xs"
-                >
-                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
-                </Button>
+                  text=""
+                />
                 {`Origin Endpoint #${index + 1}: `}</th>
               <td>{originEndpoint}</td>
             </tr>
@@ -214,16 +212,15 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
             <tr>
               <th>
-                <Button
+                <ActionButton
                   className="mb-1"
                   color="hover"
                   id={`copy-to-clipboard-${node.get('_id')}-cdn-endpoint-${index}`}
                   onClick={() => copyToClipboard(cdnEndpoint)}
-                  radius="circle"
+                  icon="clipboard"
                   size="xs"
-                >
-                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
-                </Button>
+                  text=""
+                />
                 {`CDN Endpoint #${index + 1}: `}</th>
               <td>{cdnEndpoint}</td>
             </tr>
@@ -234,16 +231,15 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
             <tr>
               <th>
-                <Button
+                <ActionButton
                   className="mb-1"
                   color="hover"
                   id={`copy-to-clipboard-${node.get('_id')}-ingest-${index}`}
                   onClick={() => copyToClipboard(input)}
-                  radius="circle"
+                  icon="clipboard"
                   size="xs"
-                >
-                  <Icon imgSrc="clipboard" alt="copy to clipboard" />
-                </Button>
+                  text=""
+                />
                 {`Ingest Endpoint #${index + 1}: `}</th>
               <td>{input}</td>
             </tr>
@@ -251,7 +247,6 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           </tbody>
         </Table>
         <p><a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer"><strong>Demo Player</strong></a></p>
-
       </CardBody>
     </Card>
   );
