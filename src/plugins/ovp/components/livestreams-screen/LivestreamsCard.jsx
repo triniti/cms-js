@@ -193,8 +193,8 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
             <p>no origin endpoints found - is the channel arn correct?</p>
           )}
           {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
-            <tr key={originEndpoint}>
-              <th>
+            <tr key={index}>
+              <th className="pl-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -212,8 +212,8 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
             <p>no cdn endpoints found - is the channel arn correct?</p>
           )}
           {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
-            <tr>
-              <th>
+            <tr key={index}>
+              <th className="pl-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -231,8 +231,8 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
             <p>no inputs found - is the channel arn correct?</p>
           )}
           {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
-            <tr>
-              <th>
+            <tr key={index}>
+              <th className="pl-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
