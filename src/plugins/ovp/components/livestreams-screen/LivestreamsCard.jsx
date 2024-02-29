@@ -23,7 +23,7 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
 
 const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
-const LivestreamsCard = ({ nodes, metas, reloadMedia }) => nodes.map((node, id) => {
+const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((node, id) => {
   const app = getInstance();
   const status = node.get('status').toString();
   const kalturaEntryId = node.get('kaltura_entry_id');
@@ -108,7 +108,8 @@ const LivestreamsCard = ({ nodes, metas, reloadMedia }) => nodes.map((node, id) 
         .set('node_ref', nodeRef);
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
-      reloadMedia();
+      await delay(5000);
+      reloadChannelState();
       await progressIndicator.close();
       await delay(2000);
       dispatch(sendAlert({
@@ -137,7 +138,8 @@ const LivestreamsCard = ({ nodes, metas, reloadMedia }) => nodes.map((node, id) 
           .set('node_ref', nodeRef);
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
-        reloadMedia();
+        await delay(5000);
+        reloadChannelState();
         await progressIndicator.close();
         await delay(2000);
         dispatch(sendAlert({

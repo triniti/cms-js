@@ -13,7 +13,7 @@ function LivestreamsScreen(props) {
   const nodes = response ? response.get('nodes', []) : [];
   const metas = response ? response.get('metas', {}) : {};
 
-  const reloadMedia = () => {
+  const reloadChannelState = () => {
     run();
   }
 
@@ -25,7 +25,7 @@ function LivestreamsScreen(props) {
     >
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
-        <LivestreamsCard nodes={nodes} metas={metas} reloadMedia={reloadMedia}/>
+        <LivestreamsCard nodes={nodes} metas={metas} reloadChannelState={reloadChannelState}/>
       )}
     </Screen>
   );
