@@ -8,14 +8,14 @@ import usePolicy from 'plugins/iam/components/usePolicy';
 import LivestreamsCard from './LivestreamsCard';
 
 function LivestreamsScreen(props) {
-  const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
-  const policy = usePolicy();
-  const canCreate = policy.isGranted(`${APP_VENDOR}:video:create`);
-  const canUpdate = policy.isGranted(`${APP_VENDOR}:video:update`);
-  const canDelete = policy.isGranted(`${APP_VENDOR}:video:delete`);
+  const { request } = props;
+  const { response, pbjxError, run } = useRequest(request, true);
   const nodes = response ? response.get('nodes', []) : [];
   const metas = response ? response.get('metas', {}) : {};
+
+  const reloadMedia = () => {
+    run();
+  }
 
   return (
     <Screen
@@ -25,7 +25,7 @@ function LivestreamsScreen(props) {
     >
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
-        <LivestreamsCard nodes={nodes} metas={metas}/>
+        <LivestreamsCard nodes={nodes} metas={metas} reloadMedia={reloadMedia}/>
       )}
     </Screen>
   );

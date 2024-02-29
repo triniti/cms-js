@@ -13,15 +13,17 @@ import { getInstance } from '@triniti/demo/src/main';
 import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
 import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
-
+import sendAlert from 'actions/sendAlert';
+import { useDispatch } from 'react-redux';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
   return acc;
 }, {});
 
+const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
-const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
+const LivestreamsCard = ({ nodes, metas, reloadMedia }) => nodes.map((node, id) => {
   const app = getInstance();
   const status = node.get('status').toString();
   const kalturaEntryId = node.get('kaltura_entry_id');
@@ -36,6 +38,7 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
   const MEDIAPACKAGE_ORIGIN_ENDPOINT_REGEX = /\.mediapackage_origin_endpoint_\d+$/;
   const MEDIAPACKAGE_CDN_ENDPOINT_REGEX = /\.mediapackage_cdn_endpoint_\d+$/;
 
+  const dispatch = useDispatch();
   const policy = usePolicy();
   const canViewIngests = policy.isGranted(`${APP_VENDOR}:ovp.medialive:command:stop-channel`);
   const nodeRef = NodeRef.fromNode(node).toString();
@@ -105,13 +108,22 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
         .set('node_ref', nodeRef);
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
+      reloadMedia();
+      await progressIndicator.close();
+      await delay(2000);
+      dispatch(sendAlert({
+       type: 'success',
+       isDismissible: true,
+       delay: 3000,
+       message: 'Success! The MediaLive Channel was started.',
+      }));
     }catch(error){
       await progressIndicator.close();
       console.error(error);
     }
   }
 
-  const handleStopChannels = async (nodeRef) => {
+  const handleStopChannels = async (nodeRef, channelState) => {
     await swal.fire({
       icon: 'warning',
       titleText: 'Are you sure you want to stop the channel?',
@@ -125,6 +137,15 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
           .set('node_ref', nodeRef);
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
+        reloadMedia();
+        await progressIndicator.close();
+        await delay(2000);
+        dispatch(sendAlert({
+          type: 'success',
+          isDismissible: true,
+          delay: 3000,
+          message: 'Success! The MediaLive Channel was stopped.',
+        }));
       }
     });
   }
@@ -153,9 +174,12 @@ const LivestreamsCard = ({ nodes, metas }) => nodes.map((node, id) => {
             </span>
       </CardHeader>
       <CardBody>
-        <p><MedialiveChannelStateButton
-          channelState={mediaLiveData[nodeRef].state} handleStartChannels={()=>handleStartChannels(NodeRef.fromNode(node))}
-          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))} /></p>
+        <p>
+          <MedialiveChannelStateButton
+          channelState={mediaLiveData[nodeRef].state}
+          handleStartChannels={()=>handleStartChannels(NodeRef.fromNode(node))}
+          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))} />
+        </p>
         <Table responsive>
           <tbody>
           {kalturaEntryId && (
