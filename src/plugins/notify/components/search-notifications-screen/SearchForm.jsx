@@ -3,18 +3,68 @@ import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Ro
 import { Field } from 'react-final-form';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort';
 import FormMarshaler from 'utils/FormMarshaler';
-import { ActionButton, DatePickerField, Icon, NumberField, useDebounce } from 'components';
+import { ActionButton, CheckboxField, DatePickerField, Icon, Loading, NumberField, useDebounce } from 'components';
 import { scrollToTop } from 'components/screen';
 import AppPickerField from 'plugins/iam/components/app-picker-field';
 import SortField from 'plugins/ncr/components/sort-field';
 import NotificationSendStatusField from 'plugins/notify/components/notification-send-status-field';
 import noop from 'lodash/noop';
+import withRequest from 'plugins/pbjx/components/with-request';
+import useRequest from 'plugins/pbjx/components/useRequest';
+import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+
+const AppList = withRequest(props => {
+  const { request, onClick = noop } = props;
+  const { response, pbjxError } = useRequest(request, true);
+
+  return (
+    <>
+      {(!response || pbjxError) && <Loading error={pbjxError} />}
+
+      {response && response.has('nodes') && 
+        response.get('nodes').map(node => (
+          <CheckboxField
+            id={`${node.get('_id')}`}
+            key={`${node.get('_id')}`}
+            inline
+            name="app_ref"
+            label={node.get('title')}
+            value={`${NodeRef.fromNode(node)}`}
+            onClick={() => onClick(`${NodeRef.fromNode(node)}`)}
+            className="form-check--button"
+            />
+        ))
+      }
+    </>
+  );
+}, 'gdbots:iam:request:search-apps-request', {
+  persist: true,
+  initialData: {
+    count: 50,
+    sort: SearchAppsSort.TITLE_ASC.getValue(),
+  }
+});
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
-  const [isOpen, setIsOpen] = useState(false);
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ checkedAppRef, setCheckedAppRef ] = useState('');
 
   const toggle = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    let appRef = checkedAppRef || '';
+    if (!formState.values.app_ref?.length) {
+      appRef = '';
+    }
+    if (!request || `${request.get('app_ref', '')}` === appRef) {
+      return noop;
+    }
+
+    form.change('app_ref', appRef ? [ appRef ] : undefined);
+    form.submit();
+  }, [formState.values.app_ref, checkedAppRef, request]);
 
   delegate.handleSubmit = async (values) => {
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
@@ -75,6 +125,11 @@ export default function SearchForm(props) {
               <Icon imgSrc="search" />
             </Button>
           </InputGroup>
+
+          <div className="mt-3">
+            <AppList onClick={setCheckedAppRef} />
+          </div>
+
         </CardBody>
 
         <Collapse isOpen={isOpen}>
