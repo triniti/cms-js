@@ -47,12 +47,13 @@ const Image = (props) => {
         inverse
         role="presentation"
         color={ selectedImages.some((i) => `${i.get('_id')}` === `${node.get('_id')}`) ? 'success' : '' }
-        className={classNames('shadow', 'p-2', 'image-grid-card')}
+        className={classNames('shadow', 'p-1', 'image-grid-card')}
         onMouseOver={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false) }
+        style={{cursor: "pointer"}}
         {...cardProps}
       >
-        <Media className="aspect-ratio aspect-ratio-1by1 mt-0">
+        <Media className="aspect-ratio aspect-ratio-1by1 mt-0 border border-4" style={{"--bs-border-color": "var(--bs-body-bg)"}}>
           <BackgroundImage
             imgSrc={damUrl(isGallery(`${node.schema()}`) ? node.get('image_ref') : node, '1by1', 'sm')}
             alt="thumbnail"
@@ -80,13 +81,6 @@ const ImageGrid = (props) => {
       <Row gutter="sm" className="m-0">
         {!!nodes.length && ( // hove effect of card
           <>
-            <style>
-            {`
-              .image-grid-card:hover {
-                background-color: #08a0e8;
-              }
-            `}
-            </style>
             {nodes.map((node) => (
               <Image
                 key={`asset-node.${node.get('_id')}`}

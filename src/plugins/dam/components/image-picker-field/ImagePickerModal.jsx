@@ -39,7 +39,7 @@ export default function ImagePickerModal({
   };
 
   return (
-    <Modal isOpen backdrop="static" size="xxl">
+    <Modal isOpen backdrop="static" size="xxl" centered>
       <ModalHeader toggle={toggle}>Select Primary Image</ModalHeader>
       <ModalBody className="p-0">
         {allowLinked && (
