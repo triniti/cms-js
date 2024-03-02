@@ -142,7 +142,7 @@ div[data-contents="true"] {
       border-radius: 2px;
       box-shadow: 0 0 0 1px $secondary, 0 0 2px 3px rgba($secondary, .3), $shadow-depth-5;
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         box-shadow: 0 0 0 1px $secondary, 0 0 2px 3px rgba($secondary, .5), $shadow-depth-3, $shadow-depth-6;
       }
     }

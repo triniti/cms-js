@@ -104,8 +104,8 @@
         background: $gray-300 !important;
         border: $input-btn-border-width solid $gray-700 !important;
 
-        body.theme-dark & {
-          color: var(--body-color);
+        [data-bs-theme=dark] & {
+          color: var(--#{$prefix}body-color);
           border-color: var(--button-border-color) !important;
           background: var(--button-bg) !important;
         }
@@ -116,7 +116,7 @@
           border: 1px solid darken($value, 14%) !important;
           border-bottom-color: darken($value, 18%) !important;
 
-          body.theme-dark & {
+          [data-bs-theme=dark] & {
             background: darken($value, 6%) !important;
             border: 1px solid darken($value, 14%) !important;
             border-bottom-color: darken($value, 18%) !important;
@@ -146,8 +146,8 @@
       background: $white !important;
       box-shadow: $shadow-depth-0;
 
-      body.theme-dark & {
-        color: var(--body-color) !important;
+      [data-bs-theme=dark] & {
+        color: var(--#{$prefix}body-color) !important;
         background-color: var(--modal-bg) !important;
       }
     }
@@ -158,7 +158,7 @@
       border-color: transparent !important;
       background: $gray-400 !important;
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         color: var(--button-color) !important;
         background-color: var(--modal-header-bg) !important;
       }
@@ -321,7 +321,7 @@
           margin-top: 1px;
         }
       }
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         border-color: var(--button-border-color);
         background-color: var(--button-border-color);
       }
@@ -349,8 +349,8 @@
   overflow: visible !important;
   transform: none !important;
 
-  body.theme-dark & {
-    color: var(--body-color) !important;
+  [data-bs-theme=dark] & {
+    color: var(--#{$prefix}body-color) !important;
     background: $gray-rgba-600;
   }
 }
@@ -385,7 +385,7 @@
   pointer-events: none;
   white-space: nowrap;
 
-  body.theme-dark & {
+  [data-bs-theme=dark] & {
     color: $gray-700 !important;
   }
 }
@@ -438,7 +438,7 @@
 
 // dark theme
 
-body.theme-dark {
+[data-bs-theme=dark] {
   .swal2-html-container {
     color: var(--text-light);
   }
@@ -447,6 +447,6 @@ body.theme-dark {
   .swal2-textarea {
     border: 1px solid var(--form-control-border-color);
     background-color: var(--form-control-bg);
-    color: var(--body-color);
+    color: var(--#{$prefix}body-color);
   }
 }

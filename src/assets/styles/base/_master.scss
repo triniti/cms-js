@@ -14,6 +14,7 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-feature-settings: 'kern' 1;
   -moz-font-feature-settings: 'kern' 1;
+  background-color: var(--bs-dark-bg-subtle); //  $dark-bg-subtle
 }
 
 
@@ -182,7 +183,6 @@ a:not([href]):not([tabindex]),
 }
 
 .sticky-top {
-  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -556,3 +556,14 @@ nav + div:not(.screen) {
 @media (min-width: 576px) {
   .container-sm {
     max-width: 540px; } }
+
+
+// image grid
+
+.image-grid-card,
+[data-bs-theme=dark] .image-grid-card {
+
+  &:hover {
+    background-color: $secondary;
+  }
+}

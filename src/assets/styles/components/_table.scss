@@ -4,15 +4,19 @@
 .table {
   margin-bottom: .25rem;
   color: inherit;
-  background-color: null;
-  --bs-table-bg: none;
 
   td,
   th {
     font-size: .8rem;
   }
+  &:not(.table-striped) {
+    td,
+    th {
+      background-color: transparent !important;
+    }
+  }
   thead th {
-    border-bottom: 1px solid rgba(#030305, .08); // .02 darker than $table-border-color
+    border-bottom: 1px solid rgba(#000, .14);
     border-top: none;
     white-space: nowrap;
     font-size: .9em;
@@ -41,31 +45,35 @@
   cursor: pointer;
 }
 
+.table-striped > tbody > tr:nth-of-type(odd) > *,
+.table-striped > tbody > tr:nth-of-type(2n+1) > * {
+  background-color: var(--bs-table-striped-bg);
+  --bs-table-bg-state: 0;
+}
+
 .table-hover > tbody > tr:hover > * {
-  background-color: $table-hover-bg;
-  --bs-table-accent-bg: transparent;
-  color: inherit;
+  background-color: var(--bs-table-hover-bg);
+  --bs-table-bg-state: 0;
+}
+
+.table .table > :not(caption) > * > * {
+  background-color: transparent; // nested table bg
 }
 
 .table-dark {
-  color: #e3e3e8; // var(--body-color)
+  color: #e3e3e8; // var(--#{$prefix}body-color)
 
   thead th {
-    color: $white; // var(--body-color)
-  }
-}
-
-tr {
-
-  &.bg-selected,
-  .bg-selected & {
-    color: $white !important;
-    background-color: $success !important;
+    color: $white; // var(--#{$prefix}body-color)
   }
 }
 
 td {
 
+  .bg-selected & {
+    color: $white !important;
+    background-color: $success !important;
+  }
   &.td-icons {
     padding-top: .25rem;
     padding-bottom: .25rem;
@@ -122,18 +130,6 @@ tr:first-child td {
 
 .table-sm thead th {
   padding: .625rem .375rem;
-}
-
-.table-striped {
-  --bs-table-accent-bg: $table-hover-bg;
-
-  & > tbody > tr:nth-of-type(odd) > * {
-    background-color: $table-hover-bg;
-    color: inherit;
-  }
-  &.table-hover tbody tr:hover {
-    background-color: rgba(#030305, .04);
-  }
 }
 
 .table .table th:first-child {
@@ -230,7 +226,6 @@ tr > td:first-child {
     width: 100%;
   }
   & thead {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;

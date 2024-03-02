@@ -9,7 +9,7 @@
       color: $white;
       background-color: $gray-rgba-200;
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         background-color: $white-rgba-200;
       }
       strong {
@@ -49,7 +49,7 @@
     &:focus {
       opacity: .75;
     }
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       color: $white;
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     }

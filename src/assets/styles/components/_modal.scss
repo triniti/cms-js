@@ -94,17 +94,12 @@
 // Where all modal content resides (sibling of .modal-header and .modal-footer)
 .modal-body {
   padding: 1.5rem;
-  background-color: $gray-100;
 
   & > p:last-child {
     margin-bottom: .5rem;
   }
   .sticky-top {
-    background-color: $white;
-
-    body.theme-dark & {
-      background-color: var(--modal-bg);
-    }
+    background-color: var(--#{$prefix}body-bg);
   }
   .pager {
     padding: .75rem 1rem 1.25rem 1rem;
@@ -139,13 +134,12 @@
   max-height: none;
 
   .nav-underline + .tab-content & {
-    height: calc(100vh - 210px); // subtract modal-header modal-footer and search field
+    height: calc(100vh - 230px); // subtract modal-header modal-footer and search field
     max-height: none;
   }
 }
 
 .modal-footer {
-  background-color: $gray-100;
 
   @media(max-width: 575px) {
     padding: .5rem !important;

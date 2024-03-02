@@ -101,8 +101,8 @@
       background-color: $gray-300;
       box-shadow: inset 3px 0 0 $primary;
     }
-    body.theme-dark & {
-      color: var(--body-color);
+    [data-bs-theme=dark] & {
+      color: var(--#{$prefix}body-color);
       background-color: transparent;
     }
   }
