@@ -4,18 +4,19 @@
   margin-right: .5rem;
   text-transform: capitalize;
   transition: margin $transition;
+  --bs-breadcrumb-divider-color: #e0e0e2;
 }
 
 // Breadcrumb Item
 
 .breadcrumb-item {
-  color: $breadcrumb-active-color;
+  color: var(--bs-body-color);
 
   & a {
-    color: $breadcrumb-active-color;
+    color: var(--bs-body-color);
   }
   &:hover,
   & a:hover {
-    color: darken($breadcrumb-active-color, 15%);
+    color: var(--bs-emphasis-color);
   }
 }

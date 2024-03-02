@@ -13,12 +13,12 @@
     user-select: none; // selecting this text opens the inline toolbar
     text-transform: none;
     font-size: 14px;
-    color: var(--body-color);
+    color: var(--#{$prefix}body-color);
     letter-spacing: 0;;
   }
 }
 
-// todo check to see if this can be removed or dark theme support added
+// todo check to see if this can be removed
 // adds popup preview of the image used in site specific blocks
 .blocksmith-image-preview {
   #dismiss-preview {
@@ -27,8 +27,9 @@
     top: 5px;
     right: 5px;
     box-shadow: none;
-    color: $gray-400;
+    color: $gray-600;
     z-index: 1;
+    background-color: $gray-rgba-700;
 
     &:hover {
       color: $white;
@@ -48,6 +49,11 @@
     background: $gray-400;
     box-shadow: inset 0 0 0 5px $white;
 
+    [data-bs-theme=dark] & {
+      background: var(--dropdown-bg);
+      box-shadow: inset 0 0 0 5px var(--dropdown-bg);
+      border-color: var(--dropdown-bg-highlight);
+    }
     &:after,
     &:before {
       top: 100%;
@@ -64,12 +70,20 @@
       border-top-color: $white;
       border-width: 10px;
       margin-left: -10px;
+
+      [data-bs-theme=dark] & {
+        border-top-color: var(--dropdown-bg);
+      }
     }
     &:before {
       border-color: transparent;
       border-top-color: $gray-700;
       border-width: 11px;
       margin-left: -11px;
+
+      [data-bs-theme=dark] & {
+        border-top-color: var(--dropdown-bg-highlight);
+      }
     }
     img {
       display: block;

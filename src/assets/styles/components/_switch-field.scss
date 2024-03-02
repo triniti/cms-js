@@ -34,7 +34,6 @@
   position: relative;
   display: inline-block;
   margin-bottom: 0;
-  cursor: pointer;
   transition: $transition;
   vertical-align: middle;
   text-indent: -5000px;
@@ -45,7 +44,7 @@
   input[disabled] + & {
     opacity: .5;
     cursor: not-allowed;
-    color: $gray-800;
+    color: var(--#{$prefix}tertiary-color); // add dark mode color
   }
   &::before,
   &::after {
@@ -68,8 +67,8 @@
       transform: translateX(-100%) scale(.76);
     }
   }
-  .custom-control-input:focus + & {
-    box-shadow: 0 0 3px $secondary;
+  .custom-control-input:focus-visible + & {
+    box-shadow: $focus-ring-box-shadow;
   }
   input:checked + &::before {
     width: 100%;
@@ -116,7 +115,7 @@ $form-check-height-md:   1.75rem; // $custom-control-indicator-size + .25rem !de
 $form-check-height-lg:   2.5rem; // $custom-control-indicator-size + 1rem !default
 $form-check-width-ratio: 1.75;
 
-@mixin switch-sizes($switchWidth: $form-check-height, $switchLabelSize : .75rem) {
+@mixin switch-sizes($switchWidth: $form-check-height-sm, $switchLabelSize : .75rem) {
   .switch-input-label {
     height: $switchWidth;
     min-width: $switchWidth * $form-check-width-ratio;

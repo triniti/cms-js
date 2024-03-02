@@ -16,6 +16,6 @@
     line-height: 1;
     font-weight: bold;
     text-transform: uppercase;
-    background-color: white;
+    background-color: var(--#{$prefix}body-bg);
   }
 }

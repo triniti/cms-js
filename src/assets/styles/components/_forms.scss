@@ -29,14 +29,17 @@ form {
   // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
   background-image: none;
 
-  &:hover {
+  &:not(:focus):hover {
     box-shadow: $hover-shadow;
   }
   &:focus {
     border-color: $secondary;
-    color: $body-color;
+    color: var(--#{$prefix}body-color);
     background-color: $white !important;
-    box-shadow: $input-focus-box-shadow; // 0 0 0 1px rgba(8,160,232,0.25)
+  }
+  &:focus-visible,
+  &:focus-visible:hover {
+    box-shadow: $focus-ring-box-shadow;
   }
   .input-group-prepend & {
     border-top-right-radius: 0;
@@ -235,14 +238,14 @@ input[type='text']:focus,
 .form-control:focus,
 .was-validated .form-control:valid,
 .was-validated .custom-select:valid {
-  background-color: $body-bg;
+  background-color: var(--#{$prefix}body-bg);
 }
 
 .form-label-strong {
   font-size: .9em;
   font-weight: 600;
   text-transform: uppercase;
-  color: $body-color;
+  color: var(--#{$prefix}body-color);
 }
 
 input[type="radio"],
@@ -374,8 +377,8 @@ input[type="checkbox"] {
   background-color: transparent;
   border: 2px solid rgba(0, 0, 0, 0.1);
   margin-top: 0;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   transition: background-color $transition;
 
   &[type="radio"] {
@@ -386,8 +389,12 @@ input[type="checkbox"] {
     background-size: 88%;
   }
   &[type="checkbox"] {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%23e5e5e5%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%230000001a%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
     background-size: 76%;
+
+    [data-bs-theme=dark] & {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%23e3e3e8%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
+    }
   }
   &:checked[type="checkbox"] {
     background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%23fff%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
@@ -400,8 +407,8 @@ input[type="checkbox"] {
   .form-switch &:checked[type="checkbox"] {
     background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
   }
-  body.theme-dark & {
-    border-color: var(--body-color);
+  [data-bs-theme=dark] & {
+    border-color: var(--#{$prefix}body-color);
 
     &:checked {
       border-color: $secondary;
@@ -556,7 +563,7 @@ input[type="checkbox"] {
   text-transform: none;
   letter-spacing: 0;
   font-weight: $font-weight-normal;
-  color: $body-color;
+  color: var(--#{$prefix}body-color);
   text-align: left;
 
   &::after {
@@ -613,7 +620,7 @@ input[type="checkbox"] {
   }
   &:focus ~ .custom-file-label {
     border-color: $secondary;
-    box-shadow: none;
+    // box-shadow: none;
 
     &::after {
       border-color: $secondary;
@@ -625,7 +632,7 @@ input[type="checkbox"] {
 .custom-select {
 
   &:disabled {
-    color: $body-color;
+    color: var(--#{$prefix}body-color);
     box-shadow: none;
     opacity: 0.5;
     cursor: not-allowed;
@@ -681,7 +688,7 @@ input::-webkit-calendar-picker-indicator {
     background-color: $gray-300;
     font-size: .75rem;
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       border: 1px solid var(--form-control-bg);
       background-color: var(--form-control-bg); // --content-bg-hover
     }
@@ -694,7 +701,7 @@ input::-webkit-calendar-picker-indicator {
       border-color: $gray-500;
       background-color: $gray-500;
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         border-color: var(--button-border-color);
         background-color: var(--content-bg-active);
       }
@@ -705,8 +712,8 @@ input::-webkit-calendar-picker-indicator {
     border-color: $secondary;
     background-color: $secondary;
 
-    body.theme-dark & {
-      color: var(--body-color);
+    [data-bs-theme=dark] & {
+      color: var(--#{$prefix}body-color);
       border-color: $secondary;
       background-color: $secondary;
     }

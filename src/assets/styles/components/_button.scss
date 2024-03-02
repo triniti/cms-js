@@ -8,7 +8,7 @@ $button-gradient: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255
 $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0)) repeat-x;
 
 .btn {
-  z-index: 1; // required for gradient hover transition
+  // z-index: 1; // required for gradient hover transition
   position: relative;
   display: inline-flex;
   flex-shrink: 0;
@@ -20,38 +20,12 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out, color 0.1s ease-in-out;
   font-size: 0.825rem;
 
-  @media (pointer: fine) { // add gradient hover transition
-    &::before {
-      content: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 2px;
-      background: transparent;
-      z-index: -1;
-    }
-    .btn-group &:not(:first-child):not(:last-child)::before,
-    .btn-group-vertical &:not(:first-child):not(:last-child)::before {
-      border-radius: 0;
-    }
-    .btn-group &:first-child::before {
-      border-radius: 2px 0 0 2px;
-    }
-    .btn-group &:last-child::before {
-      border-radius: 0 2px 2px 0;
-    }
-    .btn-group-vertical &:first-child::before {
-      border-radius: 2px 2px 0 0;
-    }
-    .btn-group-vertical &:last-child::before {
-      border-radius: 0 0 2px 2px;
-    }
-  }
   &:hover,
   &:focus {
     cursor: pointer;
+  }
+  &:focus-visible {
+    box-shadow: $focus-ring-box-shadow; // $secondary
   }
   &:last-child,
   &.d-block {
@@ -91,13 +65,65 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
       margin-bottom: 0;
     }
   }
+  &:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
 }
 
+
+// btn-hover style
+
+.btn-hover {
+  opacity: .625;
+  box-shadow: none !important;
+  border: none;
+  color: var(--#{$prefix}body-color) !important;
+
+  &:hover,
+  &.active {
+    opacity: 1;
+  }
+  .td-icons & {
+    margin-right: .25rem;
+    padding: 0;
+    width: 2.125rem;
+    height: 2.125rem;
+  }
+  tr.bg-selected & {
+    color: $white;
+  }
+}
+
+
+// btn-hover-bg style
+
+.btn-hover-bg,
+.btn-icon-hover-bg {
+  opacity: .625;
+  border: none;
+
+  &:hover,
+  &.active {
+    opacity: 1;
+    background-color: rgba(#000, .05); // #f2f2f4 $gray-300
+  }
+  .form-group &,
+  [id^="form-group-"] & {
+    box-shadow: none !important;
+  }
+}
+
+
+// scss-docs-start btn-variant-loops
 @each $color, $value in $theme-colors {
   .btn-#{$color} {
-    color: $white;
-    border-color: darken($value, 9%);
-    border-bottom-color: darken($value, 13%);
+    --bs-btn-color: #fff;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-color: #fff;
+    --bs-btn-disabled-color: #fff;
+    border-color: darken($value, 4%);
+    border-bottom-color: darken($value, 8%);
+    background-image: var(--#{$prefix}gradient);
 
     &:hover,
     &:focus:not(:hover),
@@ -105,14 +131,12 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     .show > &.dropdown-toggle {
-      color: $white;
-      background-color: darken($value, 6%);
-      border-color: darken($value, 14%);
-      border-bottom-color: darken($value, 18%);
+      background-color: darken($value, 5%);
+      border-color: darken($value, 9%);
+      border-bottom-color: darken($value, 13%);
 
-      body.theme-dark & {
-        color: $white;
-        background-color: darken($value, 6%);
+      [data-bs-theme=dark] & {
+        background-color: darken($value, 5%);
         border-color: darken($value, 14%);
         border-bottom-color: darken($value, 18%);
       }
@@ -121,28 +145,24 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     &:disabled {
       color: $white;
     }
-    &::before {
-      content: "";
-      background: $button-gradient;
-
-      body.theme-dark & {
-        background: $button-gradient-dark;
-      }
-    }
   }
   .btn-outline-#{$color} {
-    color: $body-color;
+    --bs-btn-color: var(--#{$prefix}body-color);
+    --bs-btn-disabled-border-color: var(--#{$prefix}border-color);
     background-color: $gray-300;
     border: $input-btn-border-width solid $gray-700;
+    --#{$prefix}gradient: #{$gradient};
+    background-image: var(--#{$prefix}gradient);
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       border-color: var(--button-border-color);
       background-color: var(--button-bg);
+      --#{$prefix}gradient: #{$gradient-dark};
     }
     .modal-footer-buttons &:not(:hover):not(:active):not(.active):not(:disabled) {
       background-color: $white;
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         background-color: var(--modal-bg);
       }
     }
@@ -155,7 +175,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
       border-color: darken($value, 14%);
       border-bottom-color: darken($value, 18%);
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         color: $white;
         background-color: darken($value, 6%);
         border-color: darken($value, 14%);
@@ -167,17 +187,9 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
       color: $body-color;
       background-color: $gray-300;
 
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         border-color: var(--button-border-color);
         background-color: var(--button-bg);
-      }
-    }
-    &::before {
-      content: "";
-      background: $button-gradient;
-
-      body.theme-dark & {
-        background: $button-gradient-dark;
       }
     }
   }
@@ -187,28 +199,25 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 // btn-light, btn-outline-light overrides
 
 .btn-light {
-  background-color: $white;
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-hover-color: var(--bs-body-color);
+  --bs-btn-active-color: var(--bs-body-color);
+  --bs-btn-disabled-color: var(--bs-body-color);
+  border-color: $input-border-color;
 
+  &:hover,
+  &:focus {
+    background-color: #efeff1;
+  }
   &.disabled,
   &:disabled {
     background-color: $white;
   }
-  body.theme-dark & {
-    color: var(--body-color);
+  [data-bs-theme=dark] & {
+    color: var(--#{$prefix}body-color);
     border-color: var(--button-border-color);
     background-color: var(--button-bg);
-
-    &::before {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)) repeat-x;
-    }
-    &.btn-sm::before {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)) repeat-x;
-    }
   }
-}
-
-.btn-outline-light {
-  background-color: $gray-300;
 }
 
 .btn-light,
@@ -216,13 +225,13 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   color: $body-color;
   border-color: $gray-700;
 
-  body.theme-dark & {
-    color: var(--body-color);
+  [data-bs-theme=dark] & {
+    color: var(--#{$prefix}body-color);
     border-color: var(--button-border-color);
     background-color: var(--button-bg);
   }
   .input-group & {
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       border-color: var(--form-control-border-color);
     }
   }
@@ -234,22 +243,26 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   .show > &.dropdown-toggle:focus {
     color: $body-color;
     background-color: $gray-300;
-    box-shadow: 0 0 0 3px rgba(212, 212, 212, 0.5);
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       color: $white;
       background-color: var(--button-bg);
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, .15);
+      border-color: var(--button-border-color);
     }
   }
+  &:focus-visible {
+    border-color: $gray-700;
+    background-color: darken($gray-400, 2.25%);
+  }
   &:hover,
-  &:focus:hover {
+  &:focus:hover,
+  &:focus-visible:hover {
     color: $body-color;
     background-color: darken($gray-400, 2.25%);
     border-color: darken($gray-700, 4%);
     border-bottom-color: darken($gray-700, 8%);
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       color: $white;
       background-color: var(--button-bg);
       border-color: var(--button-border-color-hover);
@@ -261,8 +274,8 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     background-color: $gray-200 !important;
     border-color: $gray-700;
 
-    body.theme-dark & {
-      color: var(--body-color) !important;
+    [data-bs-theme=dark] & {
+      color: var(--#{$prefix}body-color) !important;
       background-color: var(--button-bg) !important;
       border-color: var(--button-border-color);
     }
@@ -273,21 +286,9 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     color: $body-color !important;
     background-color: darken($gray-400, 2%) !important;
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       color: $white !important;
       background-color: var(--button-bg) !important;
-    }
-  }
-}
-
-.btn-light {
-
-  &.disabled,
-  &:disabled {
-    background-color: $white;
-
-    body.theme-dark & {
-      background-color: var(--button-bg);
     }
   }
 }
@@ -297,8 +298,8 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   background-color: $white;
   border-color: $gray-700;
 
-  body.theme-dark & {
-    color: var(--body-color);
+  [data-bs-theme=dark] & {
+    color: var(--#{$prefix}body-color);
     background-color: var(--button-bg);
     border-color: var(--button-border-color);
   }
@@ -307,7 +308,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     background-color: $gray-400;
     border-color: $gray-700;
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       background-color: var(--button-bg);
       border-color: var(--button-border-color-hover);
     }
@@ -316,7 +317,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     background-color: $white;
     border-color: $gray-700;
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       background-color: var(--button-bg);
       border-color: var(--button-border-color-hover);
     }
@@ -428,46 +429,6 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 }
 
 
-// btn-hover style
-
-.btn-hover {
-  opacity: .625;
-  box-shadow: none !important;
-
-  &:hover,
-  &.active {
-    opacity: 1;
-  }
-  .td-icons & {
-    margin-right: .25rem;
-    padding: 0;
-    width: 2.125rem;
-    height: 2.125rem;
-  }
-  tr.bg-selected & {
-    color: $white;
-  }
-}
-
-
-// btn-hover-bg style
-
-.btn-hover-bg,
-.btn-icon-hover-bg {
-  opacity: .625;
-
-  &:hover,
-  &.active {
-    opacity: 1;
-    background-color: rgba(#000, .05); // #f2f2f4 $gray-300
-  }
-  .form-group &,
-  [id^="form-group-"] & {
-    box-shadow: none !important;
-  }
-}
-
-
 // Footer Buttons
 //
 // Most often useed with small modals and asides so that the buttons touch the edges
@@ -568,9 +529,6 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 
 .rounded-pill {
 
-  &.btn::before {
-    border-radius: 50rem !important;
-  }
   &.btn {
     border-radius: $round;
     padding-left: $input-btn-padding-x + .25rem;
@@ -596,9 +554,6 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 
 .rounded-circle {
 
-  &.btn::before {
-    border-radius: 50% !important;
-  }
   &.btn {
     width: $button-round-height;
     height: $button-round-height;
@@ -609,6 +564,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
+    --bs-btn-active-border-color: none;
   }
   &.btn-xxs {
     width: $button-round-height-xxs;
@@ -636,13 +592,6 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   }
 }
 
-.rounded-0 {
-
-  &.btn::before {
-    border-radius: 0 !important;
-  }
-}
-
 
 // Close Button
 
@@ -653,7 +602,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   min-height: 0;
 
   .alert &,
-  body.theme-dark .alert & {
+  [data-bs-theme=dark] .alert & {
     background: none;
 
     &:before {
@@ -668,12 +617,12 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   .alert-inverse & {
 
     &:before,
-    body.theme-dark &:before {
+    [data-bs-theme=dark] &:before {
       color: $body-color;
       text-shadow: none;
     }
     &.alert-link,
-    body.theme-dark &.alert-link { // add to btn-close for theme colored buttons
+    [data-bs-theme=dark] &.alert-link { // add to btn-close for theme colored buttons
       text-decoration: none !important;
 
       &:before,

@@ -19,7 +19,6 @@
   }
   &:not(.alert-inverse) {
     font-weight: 600;
-    color: $white;
     text-shadow: 0 1px 0 $gray-rgba-600;
   }
   .screen-body-content > & {
@@ -91,29 +90,17 @@
   }
 }
 
-@each $color, $value in $theme-colors {
-  body.theme-dark {
-    .alert-#{$color}.alert-inverse {
-      background: shift-color($value, -67);
-    }
-  }
-}
+.alert {
 
-@each $color, $value in $theme-colors {
-  .alert-#{$color}:not(.alert-inverse) {
-    background: shift-color($value, 2);
+  .alert-link {
+    font-weight: 700;
+    border-bottom: 1px dotted rgba(255,255,255,0.7);
+    text-decoration: none;
 
-    .alert-link {
-      font-weight: 700;
-      color: $white;
-      border-bottom: 1px dotted rgba(255,255,255,0.7);
+    &:hover,
+    &:focus {
+      border-bottom: 1px solid rgba(255, 255, 255, .9);
       text-decoration: none;
-
-      &:hover,
-      &:focus {
-        border-bottom: 1px solid rgba(255, 255, 255, .9);
-        text-decoration: none;
-      }
     }
   }
 }

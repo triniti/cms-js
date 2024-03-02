@@ -27,20 +27,34 @@
       padding-right: .5rem;
       background: $white;
 
+      [data-bs-theme=dark] & {
+        background: var(--#{$prefix}body-bg);
+      }
       .modal-header & {
         background: $gray-100;
+
+        [data-bs-theme=dark] & {
+          background: var(--modal-header-bg);
+        }
       }
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         background-color: var(--modal-header-bg);
-        color: var(--body-color) !important;
+        color: var(--bs-body-color) !important;
       }
       &:first-child {
         box-shadow: 0 0 0 5px $white;
 
+        [data-bs-theme=dark] & {
+          box-shadow: 0 0 0 5px var(--#{$prefix}body-bg);
+        }
         .modal-header & {
           box-shadow: 0 0 0 5px $gray-100;
+
+          [data-bs-theme=dark] & {
+            box-shadow: 0 0 0 5px var(--modal-header-bg);
+          }
         }
-        body.theme-dark & {
+        [data-bs-theme=dark] & {
           box-shadow: 0 0 0 5px var(--modal-header-bg);
         }
       }
@@ -61,13 +75,21 @@
       padding-left: .5rem;
       padding-right: .5rem;
       background: $white;
+      color: var(--#{$prefix}body-color) !important;
 
+      [data-bs-theme=dark] & {
+        background: var(--#{$prefix}body-bg);
+      }
       .modal-header & {
         background: $gray-100;
+
+        [data-bs-theme=dark] & {
+          background: var(--modal-header-bg);
+        }
       }
-      body.theme-dark & {
+      [data-bs-theme=dark] & {
         background-color: var(--modal-header-bg);
-        color: var(--body-color) !important;
+        color: var(--#{$prefix}body-color) !important;
       }
       & + div {
         z-index: 1;
@@ -102,142 +124,12 @@
   }
 }
 
-// handle border color of bg-gray-100 - 400
-
-.bg-gray-100 > .stepper-horizontal,
-.stepper-horizontal.bg-gray-100 {
-
-  & > div > div > div {
-
-    & > div {
-      background: $gray-100;
-
-      &:first-child {
-        box-shadow: 0 0 0 5px $gray-100;
-
-        .modal-header & {
-          box-shadow: 0 0 0 5px $gray-100;
-        }
-        body.theme-dark & {
-          box-shadow: 0 0 0 5px var(--modal-header-bg);
-        }
-      }
-
-      &:last-child {
-        background: transparent;
-      }
-    }
-
-    & > a {
-      background: $gray-100;
-    }
-  }
-}
-
-.bg-gray-200 > .stepper-horizontal,
-.stepper-horizontal.bg-gray-200 {
-
-  & > div > div > div {
-
-    & > div {
-      background: $gray-200;
-
-      &:first-child {
-        box-shadow: 0 0 0 5px $gray-200;
-
-        .modal-header & {
-          box-shadow: 0 0 0 5px $gray-100;
-        }
-        body.theme-dark & {
-          box-shadow: 0 0 0 5px var(--modal-header-bg);
-        }
-      }
-
-      &:last-child {
-        background: transparent;
-      }
-    }
-
-    & > a {
-      background: $gray-200;
-    }
-  }
-}
-
-.bg-gray-300 > .stepper-horizontal,
-.stepper-horizontal.bg-gray-300 {
-
-  & > div > div > div {
-
-    & > div {
-      background: $gray-300;
-
-      &:first-child {
-        box-shadow: 0 0 0 5px $gray-300;
-
-        .modal-header & {
-          box-shadow: 0 0 0 5px $gray-100;
-        }
-        body.theme-dark & {
-          box-shadow: 0 0 0 5px var(--modal-header-bg);
-        }
-      }
-
-      &:last-child {
-        background: transparent;
-      }
-    }
-
-    & > a {
-      background: $gray-300;
-    }
-  }
-}
-
-.bg-gray-400 > .stepper-horizontal,
-.stepper-horizontal.bg-gray-400 {
-
-  & > div > div > div {
-
-    & > div {
-      background: $gray-400;
-
-      &:first-child {
-        box-shadow: 0 0 0 5px $gray-400;
-
-        .modal-header & {
-          box-shadow: 0 0 0 5px $gray-100;
-        }
-        body.theme-dark & {
-          box-shadow: 0 0 0 5px var(--modal-header-bg);
-        }
-      }
-
-      &:last-child {
-        background: transparent;
-      }
-    }
-
-    & > a {
-      background: $gray-400;
-    }
-  }
-}
-
-
 // fix for line over number and text
 
 .stepper-horizontal > div > div > div > a,
 .stepper-horizontal > div > div > div > div:nth-child(-n+2) {
   position: relative;
   z-index: 3;
-  // font-size: 12px;
-
-  a {
-    // width: 27px;
-    // display: block;
-    // line-height: 27px !important;
-  }
 }
 
 @media (max-width: 840px){

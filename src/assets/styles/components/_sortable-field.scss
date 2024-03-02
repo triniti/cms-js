@@ -10,7 +10,7 @@
   border-radius: $border-radius;
   background-color: $white;
 
-  body.theme-dark & {
+  [data-bs-theme=dark] & {
     background-color: var(--form-control-bg);
     border-color: var(--form-control-bg);
   }
@@ -22,7 +22,7 @@
   &:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .12); // $shadow-depth-4
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       border-color: var(--button-border-color);
     }
   }
@@ -30,7 +30,7 @@
     border-color: $secondary;
     box-shadow: 0 0 0 2px rgba($secondary, .3), $shadow-depth-5;
 
-    body.theme-dark & {
+    [data-bs-theme=dark] & {
       border-color: $secondary;
       box-shadow: 0 0 2px 3px rgba($secondary, .5), $shadow-depth-3, $shadow-depth-6;
     }

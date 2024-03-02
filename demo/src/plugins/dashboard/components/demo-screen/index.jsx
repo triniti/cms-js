@@ -64,7 +64,6 @@ import {
 import classnames from 'classnames';
 import ReactDatePicker from 'react-datepicker';
 import Select from 'react-select';
-import Swal from 'sweetalert2';
 import {
   ActionButton,
   CheckboxField,
@@ -78,128 +77,6 @@ import {
 import ModalExample from './Modals';
 import './styles.scss';
 import toast from '@triniti/cms/utils/toast';
-
-function sweetAlert1(e) {
-  e.preventDefault();
-  Swal.fire('Hello world!');
-}
-
-function sweetAlert2(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Error!',
-    text: 'Do you want to continue',
-    icon: 'error',
-    confirmButtonText: 'Cool',
-  });
-}
-
-function sweetAlert3(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Most Basic',
-    text: 'Here are the two standard button styles',
-    icon: 'success',
-    showCancelButton: true,
-    confirmButtonText: 'Confirm Button',
-    cancelButtonText: 'Cancel Button',
-  });
-}
-
-function sweetAlert4(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this imaginary file!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it',
-    customClass: {
-      confirmButton: 'btn btn-danger',
-      cancelButton: 'btn btn-secondary',
-    },
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire(
-        'Deleted!',
-        'Your imaginary file has been deleted.',
-        'success',
-      );
-      // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire(
-        'Cancelled',
-        'Your imaginary file is safe :)',
-        'error',
-      );
-    }
-  });
-}
-
-function sweetAlert5(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Ajax Request',
-    text: 'Enter Email Address',
-    input: 'email',
-    inputClass: 'form-control',
-    showCancelButton: true,
-    confirmButtonText: 'Submit',
-    showLoaderOnConfirm: true,
-    customClass: {
-      confirmButton: 'btn btn-danger',
-      cancelButton: 'btn btn-secondary',
-    },
-    preConfirm: email => new Promise((resolve) => {
-      setTimeout(() => {
-        if (email === 'taken@example.com') {
-          Swal.showValidationError('This email is already taken.');
-        }
-        resolve();
-      }, 2000);
-    }),
-    allowOutsideClick: () => !Swal.isLoading(),
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Ajax request finished!',
-        html: `Submitted email: ${result.value}`,
-      });
-    }
-  });
-}
-
-function sweetAlert6(e) {
-  e.preventDefault();
-  Swal.fire({
-    customClass: 'swal-spinner',
-    didOpen: () => {
-      Swal.showLoading();
-    },
-    showConfirmButton: false,
-    target: '.screen-main',
-    title: 'loading and stuff',
-  });
-}
-
-function sweetAlert7(e) {
-  e.preventDefault();
-  Swal.fire({
-    html: '<h5>Dismissable Horizontal Alert Ellipsis</h5><p>Some alert that needs your attention. Must click here to close.</p> ',
-    allowOutsideClick: false,
-    customClass: 'swal2-horizontal',
-    showCancelButton: true,
-    confirmButtonText: 'Submit',
-    customClass: {
-      confirmButton: 'btn btn-sm btn-link-bg text-body',
-      cancelButton: 'btn btn-sm btn-link-bg text-body',
-    },
-    position: 'top-right',
-  });
-}
 
 function showMultipleToasts() {
   toast({ title: 'First one' });
@@ -2209,7 +2086,7 @@ function DemoScreen() {
           Icons: Social
         </CardHeader>
         <CardBody>
-          <Row className="gx-2" xs="3" sm="6" className="mt-5">
+          <Row className="gx-2 mt-5" xs="3" sm="6">
             <Col className="text-center">
               <Icon size="lg" imgSrc="facebook" />
               <h6 className="text-light mt-3 mb-5">facebook</h6>
@@ -3028,7 +2905,7 @@ function DemoScreen() {
                 <img className="rounded" src="//via.placeholder.com/150x150"
                      alt="Generic placeholder image" />
               </a>
-              <a left href="#" className="media-left media-hover-outline">
+              <a href="#" className="media-left media-hover-outline">
                 <img className="rounded" src="//via.placeholder.com/150x150"
                      alt="Generic placeholder image" />
               </a>
@@ -3653,25 +3530,25 @@ function DemoScreen() {
           Sweet Alert
         </CardHeader>
         <CardBody>
-          <Button outline onClick={sweetAlert1}>
+          <Button outline>
             Alert 1 - Basic
           </Button>
-          <Button outline onClick={sweetAlert2}>
+          <Button outline>
             Alert 2 - Error
           </Button>
-          <Button outline onClick={sweetAlert3}>
+          <Button outline>
             Alert 3 - Standard Buttons
           </Button>
-          <Button outline onClick={sweetAlert4}>
+          <Button outline>
             Alert 4 - EME Buttons
           </Button>
-          <Button outline onClick={sweetAlert5}>
+          <Button outline>
             Alert 5 - Form Field
           </Button>
-          <Button outline onClick={sweetAlert6}>
+          <Button outline>
             Alert 6 - Loading
           </Button>
-          <Button outline onClick={sweetAlert7}>
+          <Button outline>
             Alert 7 - Horizontal
           </Button>
           <Button outline onClick={showMultipleToasts}>
