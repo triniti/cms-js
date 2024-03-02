@@ -3,6 +3,7 @@ import { Button, Card, CardBody, Form, InputGroup } from 'reactstrap';
 import { Field } from 'react-final-form';
 import FormMarshaler from 'utils/FormMarshaler';
 import { Icon, useDebounce } from 'components';
+import noop from 'lodash/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
@@ -17,7 +18,7 @@ export default function SearchForm(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();

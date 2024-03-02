@@ -9,9 +9,9 @@ export default (props, config) => {
   const label = config.label || props.label;
 
   let tab = defaultTab;
-  const id = params.id;
+  const id = props.id || params.id;
   const parts = (params['*'] || '').split('/').filter(v => v);
-  const editMode = parts.includes('edit');
+  const editMode = parts.includes('edit') || (props.editMode ?? false);
   if (parts.length >= 1) {
     tab = parts[0] !== 'edit' ? parts[0] : defaultTab;
   }

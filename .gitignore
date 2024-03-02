@@ -12,6 +12,11 @@ demo/src/schemas.js
 demo/node_modules/
 yarn.lock
 
+# SSL Certificates #
+############
+localhost.key
+localhost.crt
+
 # Deployment/IDE Tools #
 ############
 .buildpath

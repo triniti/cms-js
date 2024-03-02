@@ -39,8 +39,10 @@ export default function Sidebar({
     'facebook-post-block',
     'facebook-video-block',
     'google-map-block',
+    'gallery-block',
     'heading-block',
     'iframe-block',
+    'image-block',
     'imgur-post-block',
     'instagram-media-block',
     'quote-block',
@@ -49,6 +51,7 @@ export default function Sidebar({
     'page-break-block',
     'pinterest-pin-block',
     'poll-block',
+    'poll-grid-block',
     'soundcloud-audio-block',
     'spotify-embed-block',
     'spotify-track-block',
@@ -70,27 +73,29 @@ export default function Sidebar({
     }
   };
 
-  useEffect(async () => {
-    const blocks = await Promise.all((blockCuries || []).map(MessageResolver.resolveCurie));
-    const schemas = blocks.map((block) => block.schema());
-    setButtons(schemas.reduce((acc, schema) => {
-      const message = schema.getCurie().getMessage();
-      if (!currentlySupported.includes(message)) {
+  useEffect(() => {
+    (async () => {
+      const blocks = await Promise.all((blockCuries || []).map(MessageResolver.resolveCurie));
+      const schemas = blocks.map((block) => block.schema());
+      setButtons(schemas.reduce((acc, schema) => {
+        const message = schema.getCurie().getMessage();
+        if (!currentlySupported.includes(message)) {
+          return acc;
+        }
+  
+        const buttonConfig = getButtonConfig(message);
+        acc.push({
+          Button: () => <GenericSidebarButton
+            config={buttonConfig}
+            message={message}
+            onClick={() => handleClick(schema)}
+            replaceRegEx={/block/}
+          />,
+          schema,
+        });
         return acc;
-      }
-
-      const buttonConfig = getButtonConfig(message);
-      acc.push({
-        Button: () => <GenericSidebarButton
-          config={buttonConfig}
-          message={message}
-          onClick={() => handleClick(schema)}
-          replaceRegEx={/block/}
-        />,
-        schema,
-      });
-      return acc;
-    }, []));
+      }, []));
+    })();
   }, [blockCuries]);
 
   if (!buttons.length) {

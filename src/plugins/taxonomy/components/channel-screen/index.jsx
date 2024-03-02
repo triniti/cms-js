@@ -8,6 +8,8 @@ import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/taxonomy/components/channel-screen/DetailsTab';
+import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 function ChannelScreen(props) {
   const {
@@ -49,6 +51,7 @@ function ChannelScreen(props) {
       ]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
@@ -101,6 +104,7 @@ function ChannelScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
+      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>

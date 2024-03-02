@@ -11,23 +11,24 @@ Do not actually use `acme` anywhere. Wherever it says `acme` below, you need to 
 + Install your vendor schemas (Note: install in the root directory and not in the demo to avoid package version conflicts) ex: `$ npm install @acme/schemas --no-save` (the `--no-save` flag prevents the package from being added to `package.json`)
 + Go to the demo directory `$ cd demo`
 + Create a `.env` file with the desired vendor env information (see example below)
-+ Create a `schemas.js` file that imports and exports your vendor schemas (see example below)
-+ Run `$ npm install`
-+ Run `$ npm start`
++ Create a `src/schemas.js` file that imports and exports your vendor schemas (see example below)
++ Run `$ npm start` (or `npm run start --workspace demo` from root)
 + Open <https://localhost:3000> in a browser.
 
 the directory structure should look like this
 
 ```
 root
-│   node_modules (includes vendor shemas)
+│   node_modules (includes vendor schemas)
 │   ...rest
 │
 └───demo
-│   │   node_modules
+│   │   node_modules (built when app started)
 │   │   .env
-│   │   schemas.js
 │   │   ...rest
+|   └───src
+|       |   schemas.js
+|       |   ...rest
 ```
 
 
@@ -46,6 +47,7 @@ APP_DEV_BRANCH=master
 CLIENT_PUBLIC_PATH=/
 DAM_BASE_URL=https://dam.dev.acme.com/
 IMAGE_BASE_URL=https://imagez-dev.acme.com/
+SITE_BASE_URL=https://localhost:3000/
 VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
 
 AUTH0_AUDIENCE=https://api.dev.acme.com/

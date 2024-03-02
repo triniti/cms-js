@@ -8,6 +8,7 @@ import pruneNodes from 'plugins/ncr/actions/pruneNodes';
 import useNode from 'plugins/ncr/components/useNode';
 import useDelegate from 'plugins/ncr/components/with-node-screen/useDelegate';
 import useParams from 'plugins/ncr/components/with-node-screen/useParams';
+import useRaven from 'plugins/raven/components/useRaven';
 
 
 export { useDelegate, useParams };
@@ -33,6 +34,8 @@ export default function withNodeScreen(Screen, config) {
     }, [editMode, policy]);
 
     useEffect(() => () => dispatch(pruneNodes()), []);
+
+    useRaven({ editMode, node, nodeRef });
 
     if (!node) {
       return <Loading error={pbjxError}>Loading {startCase(label)}...</Loading>;

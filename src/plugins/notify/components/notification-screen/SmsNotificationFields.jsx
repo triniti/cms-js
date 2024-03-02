@@ -9,7 +9,7 @@ export default function SmsNotificationFields() {
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
-          <ContentRefField />
+          <ContentRefField readOnly />
           <TextareaField name="body" label="Body" />
         </CardBody>
       </Card>

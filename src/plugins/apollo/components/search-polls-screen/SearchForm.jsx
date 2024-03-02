@@ -10,6 +10,7 @@ import SortField from 'plugins/ncr/components/sort-field';
 import CategoryPickerField from 'plugins/taxonomy/components/category-picker-field';
 import ChannelPickerField from 'plugins/taxonomy/components/channel-picker-field';
 import PersonPickerField from 'plugins/people/components/person-picker-field';
+import noop from 'lodash/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
@@ -46,7 +47,7 @@ export default function SearchForm(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -55,7 +56,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return;
+      return noop;
     }
 
     form.submit();

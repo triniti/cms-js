@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import Footer from 'components/blocksmith-field/components/audio-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/audio-block-modal/Header';
 import CustomizeOptions from 'components/blocksmith-field/components/audio-block-modal/CustomizeOptions';
 import SelectAudio from 'components/blocksmith-field/components/audio-block-modal/SelectAudio';
+import useNode from 'plugins/ncr/components/useNode';
+import noop from 'lodash/noop';
 
 export default function AudioBlockModal(props) {
-  const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
+  const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
 
   const [activeStep, setActiveStep] = useState(block.has('node_ref') ? 1 : 0);
   const [aside, setAside] = useState(block.get('aside', false));
@@ -15,6 +17,14 @@ export default function AudioBlockModal(props) {
   const [selectedAudioNode, setSelectedAudioNode] = useState(null);
   const [selectedAudioRef, setSelectedAudioRef] = useState(block.get('node_ref', null));
   const [selectedImageRef, setSelectedImageRef] = useState(block.get('image_ref', null));
+  const { node } = useNode(selectedAudioRef, false);
+
+  useEffect(() => {
+    if (!node || selectedAudioNode) {
+      return noop;
+    }
+    setSelectedAudioNode(node);
+  }, [`${selectedAudioRef}`]);
 
   const setBlock = () => {
     return block
@@ -30,8 +40,7 @@ export default function AudioBlockModal(props) {
       centered
       isOpen={isOpen}
       toggle={toggle}
-      size="xxl"
-      // keyboard={!isImageAssetPickerModalOpen}
+      size="xl"
     >
       <Header
         activeStep={activeStep}
@@ -63,7 +72,6 @@ export default function AudioBlockModal(props) {
       <Footer
         activeStep={activeStep}
         node={node}
-        // onCloseUploader={this.handleCloseUploader}
         toggle={toggle}
         onDecrementStep={() => setActiveStep(activeStep - 1)}
         onIncrementStep={() => setActiveStep(activeStep + 1)}

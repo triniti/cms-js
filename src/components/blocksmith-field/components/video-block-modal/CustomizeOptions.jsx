@@ -2,6 +2,7 @@ import React from 'react';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import { NumberField, SwitchField, TextField } from 'components';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import useNode from 'plugins/ncr/components/useNode';
 
 export default function CustomizeOptions(props) {
   const {
@@ -25,6 +26,8 @@ export default function CustomizeOptions(props) {
 
   const nodeRef = selectedVideoNodeRef ?
     selectedVideoNodeRef.toString() : NodeRef.fromNode(selectedVideoNode).toString();
+  const { node } = useNode(selectedVideoNodeRef, false);
+  const cachedVideoNode = selectedVideoNode || node;
 
   return (
     <div className="container-lg p-5">
@@ -33,7 +36,8 @@ export default function CustomizeOptions(props) {
         label="Poster Image"
         nodeRef={nodeRef}
         onSelectImage={setImageRef}
-        selectedImageRef={selectedImageRef}
+        selectedImageRef={selectedImageRef || cachedVideoNode.get('image_ref')}
+        launchText={launchText || cachedVideoNode.get('launch_text')}
       />
       <SwitchField
         name="autoplay"
@@ -74,6 +78,7 @@ export default function CustomizeOptions(props) {
         disabled={false}
         checked={aside}
         onChange={(e) => setAside(e.target.checked)}
+        tooltip="Is only indirectly related to the main content."
       />
     </div>
   );

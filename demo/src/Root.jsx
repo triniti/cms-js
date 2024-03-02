@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React, { lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -15,7 +14,7 @@ const LoggedIn = () => {
   }
 
   return (
-    <div id="wrapper">
+    <div id="wrapper" data-slidedirection>
       <Navbar />
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
@@ -49,6 +48,4 @@ function Root() {
   );
 }
 
-//export default hot(module)(Root);
-// fixme: the hmr broke react router or whatever
 export default Root;

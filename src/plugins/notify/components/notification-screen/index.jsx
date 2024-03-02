@@ -6,6 +6,8 @@ import RawTab from 'plugins/ncr/components/raw-tab';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/notify/components/notification-screen/DetailsTab';
 import SendStatusCard from 'plugins/notify/components/notification-screen/SendStatusCard';
+import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 function NotificationScreen(props) {
   const {
@@ -43,6 +45,7 @@ function NotificationScreen(props) {
       ]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
@@ -95,6 +98,7 @@ function NotificationScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
+      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>

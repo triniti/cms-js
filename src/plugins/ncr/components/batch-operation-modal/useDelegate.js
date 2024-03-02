@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
+import noop from 'lodash/noop';
 
 const STATUS_NONE = 'none';
 const STATUS_RUNNING = 'running';
@@ -96,7 +97,7 @@ export default (nodes, operation) => {
 
   useEffect(() => {
     if (!node || !mountedRef.current) {
-      return;
+      return noop;
     }
 
     let cancelled = false;

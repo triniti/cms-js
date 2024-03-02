@@ -8,7 +8,7 @@ import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
 
 export default function SlotPlaceholder(props) {
   const { editMode } = useFormContext();
-  const { index, onDrop, onRemove, onUpdate, name: fieldName } = props;
+  const { onRemove, onUpdate, name: fieldName, componentDragHandle } = props;
   const { input } = useField(fieldName);
 
   const slotValues = input.value;
@@ -24,20 +24,17 @@ export default function SlotPlaceholder(props) {
   const widgetType = node.schema().getCurie().getMessage();
 
   const rowClassnames = editMode
-    ? 'sortable-field sortable-handle d-flex flex-nowrap align-items-center mt-1 mx-2 mx-sm-4'
-    : 'sortable-field d-flex flex-nowrap align-items-center mt-1 mx-2 mx-sm-4'
+    ? 'd-flex flex-nowrap align-items-center'
+    : 'd-flex flex-nowrap align-items-center'
 
   return (
     <div
       key={key}
       data-id={key}
-      data-index={index}
       className={rowClassnames}
-      id={`btn-sort-${index}`}
-      onDrop={e => onDrop(e)}
     >
       <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-        <Icon imgSrc="insert" size="lg" className="text-black-50" />
+        {componentDragHandle || <Icon imgSrc="insert" size="lg" className="text-black-50" />}
       </div>
       <div className="d-flex px-2">
         <CardText className="ms-1 mb-1">

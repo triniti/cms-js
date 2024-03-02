@@ -9,7 +9,7 @@ export default function TwitterNotificationFields() {
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
-          <ContentRefField />
+          <ContentRefField readOnly />
           <TextareaField name="body" label="Tweet Text" />
         </CardBody>
       </Card>

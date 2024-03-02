@@ -7,6 +7,8 @@ import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import DetailsTab from 'plugins/apollo/components/poll-screen/DetailsTab';
+import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 function PollScreen(props) {
   const {
@@ -47,6 +49,7 @@ function PollScreen(props) {
       ]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
@@ -99,6 +102,7 @@ function PollScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
+      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>

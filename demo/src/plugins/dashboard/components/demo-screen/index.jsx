@@ -72,7 +72,8 @@ import {
   Loading,
   Screen,
   SwitchField,
-  withForm
+  withForm,
+  withPbj
 } from '@triniti/cms/components';
 import ModalExample from './Modals';
 import './styles.scss';
@@ -88,7 +89,7 @@ function sweetAlert2(e) {
   Swal.fire({
     title: 'Error!',
     text: 'Do you want to continue',
-    type: 'error',
+    icon: 'error',
     confirmButtonText: 'Cool',
   });
 }
@@ -98,7 +99,7 @@ function sweetAlert3(e) {
   Swal.fire({
     title: 'Most Basic',
     text: 'Here are the two standard button styles',
-    type: 'success',
+    icon: 'success',
     showCancelButton: true,
     confirmButtonText: 'Confirm Button',
     cancelButtonText: 'Cancel Button',
@@ -110,12 +111,14 @@ function sweetAlert4(e) {
   Swal.fire({
     title: 'Are you sure?',
     text: 'You will not be able to recover this imaginary file!',
-    type: 'warning',
+    icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Yes, delete it!',
     cancelButtonText: 'No, keep it',
-    confirmButtonClass: 'btn btn-danger',
-    cancelButtonClass: 'btn btn-secondary',
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
   }).then((result) => {
     if (result.value) {
       Swal.fire(
@@ -145,8 +148,10 @@ function sweetAlert5(e) {
     showCancelButton: true,
     confirmButtonText: 'Submit',
     showLoaderOnConfirm: true,
-    confirmButtonClass: 'btn btn-danger',
-    cancelButtonClass: 'btn btn-secondary',
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
     preConfirm: email => new Promise((resolve) => {
       setTimeout(() => {
         if (email === 'taken@example.com') {
@@ -159,7 +164,7 @@ function sweetAlert5(e) {
   }).then((result) => {
     if (result.value) {
       Swal.fire({
-        type: 'success',
+        icon: 'success',
         title: 'Ajax request finished!',
         html: `Submitted email: ${result.value}`,
       });
@@ -188,8 +193,10 @@ function sweetAlert7(e) {
     customClass: 'swal2-horizontal',
     showCancelButton: true,
     confirmButtonText: 'Submit',
-    confirmButtonClass: 'btn btn-sm btn-link-bg text-body',
-    cancelButtonClass: 'btn btn-sm btn-link-bg text-body',
+    customClass: {
+      confirmButton: 'btn btn-sm btn-link-bg text-body',
+      cancelButton: 'btn btn-sm btn-link-bg text-body',
+    },
     position: 'top-right',
   });
 }
@@ -238,22 +245,17 @@ function DemoScreen() {
   ];
 
   const options = [ // React Select Content
-    { value: 'Albert Gutierrez', label: 'Albert Gutierrez' },
-    { value: 'Arun Karnati', label: 'Arun Karnati' },
-    { value: 'Christopher Murray', label: 'Christopher Murray' },
+    { value: 'Armond Sarkisian', label: 'Armond Sarkisian' },
+    { value: 'Brian Hsiao', label: 'Brian Hsiao' },
+    { value: 'Chris Clifton', label: 'Chris Clifton' },
+    { value: 'Daniel Shneyder', label: 'Daniel Shneyder' },
+    { value: 'Eric Jacobson', label: 'Eric Jacobson' },
     { value: 'Greg Brown', label: 'Greg Brown' },
     { value: 'Jim Murphy', label: 'Jim Murphy' },
     { value: 'Joel Capillo', label: 'Joel Capillo' },
     { value: 'Mariam Gevorkyan', label: 'Mariam Gevorkyan' },
-    { value: 'Vagram Kayfejian', label: 'Vagram Kayfejian' },
-    { value: 'Samuel White', label: 'Samuel White' },
-    { value: 'Brian Hsiao', label: 'Brian Hsiao' },
-    { value: 'Chris Clifton', label: 'Chris Clifton' },
-    { value: 'Daniel Shneyder', label: 'Daniel Shneyder' },
     { value: 'Richard Sumilang', label: 'Richard Sumilang' },
-    { value: 'Alon Cohen', label: 'Alon Cohen' },
-    { value: 'Armond Sarkisian', label: 'Armond Sarkisian' },
-    { value: 'Eric Jacobson', label: 'Eric Jacobson' }
+    { value: 'Vagram Kayfejian', label: 'Vagram Kayfejian' },
   ];
 
   return (
@@ -4730,7 +4732,7 @@ function DemoScreen() {
   );
 }
 
-function createScreen() {
+/*function createScreen() {
   const ScreenWithForm = withForm(DemoScreen, {
     name: 'demo',
     keepDirtyOnReinitialize: false,
@@ -4742,6 +4744,6 @@ function createScreen() {
     const pbj = {};
     return <ScreenWithForm pbj={pbj} {...props} />;
   };
-}
+}*/
 
-export default createScreen();
+export default withPbj(withForm(DemoScreen),'*:ovp:node:video:v1');

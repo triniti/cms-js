@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
@@ -10,10 +10,17 @@ import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 import nodeUrl from 'plugins/ncr/nodeUrl';
+import isValidSlug from '@gdbots/pbj/utils/isValidSlug';
+import trimStart from 'lodash-es/trimStart';
+
+// more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
+const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
+const validDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value)) ? true : false;
 
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [slug, setSlug] = useState('');
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -23,7 +30,13 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      values.slug = addDateToSlug(createSlug(values.title, true));
+      if(slug && validDatedSlug(slug)){
+        values.slug = slug;
+      }else if(slug && !validDatedSlug(slug)){
+        values.slug = addDateToSlug(slug);
+      } else {
+        values.slug =  addDateToSlug(createSlug(values.title, true));
+      }
       await dispatch(createNode(values, form, pbj));
       props.toggle();
       await progressIndicator.close();
@@ -35,13 +48,30 @@ function CreateArticleModal(props) {
     }
   };
 
+  const handleBlur = e => {
+    if(e.target.value && !slug) {
+      setSlug(addDateToSlug(createSlug(e.target.value, true)));
+    }
+  }
+
+  const handleKeyDown = e => {
+    if (e.key === 'Enter' && e.target.value && !slug) {
+      setSlug(addDateToSlug(createSlug(e.target.value, true)));
+    }
+  }
+
+  const handleChange = e => {
+    setSlug(e.target.value);
+  }
+
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Article</ModalHeader>
       {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <TextField name="title" label="Title" required />
+          <TextField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
+          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} />
         </Form>
       </ModalBody>
       <ModalFooter>

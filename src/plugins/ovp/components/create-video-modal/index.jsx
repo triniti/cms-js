@@ -9,6 +9,8 @@ import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 import nodeUrl from 'plugins/ncr/nodeUrl';
+import createSlug from '@gdbots/pbj/utils/createSlug';
+import { addDateToSlug } from '@gdbots/pbj/utils';
 
 function CreateVideoModal(props) {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ function CreateVideoModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Video...');
+      values.slug =  addDateToSlug(createSlug(values.title, true));
       await dispatch(createNode(values, form, pbj));
       props.toggle();
       await progressIndicator.close();

@@ -1,0 +1,15 @@
+.block-preview-facebook-video {
+  width: 100%;
+  position: relative;
+
+  .fb-video {
+    overflow: hidden;
+  }
+
+  .poster {
+    position: absolute;
+    z-index: 1000;
+    cursor: pointer;
+    background-color: white;
+  }
+}

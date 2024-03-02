@@ -9,6 +9,7 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import SearchPollsSort from '@triniti/schemas/triniti/apollo/enums/SearchPollsSort';
+import noop from 'lodash/noop';
 
 function SelectPoll(props) {
   const {
@@ -38,7 +39,7 @@ function SelectPoll(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -57,7 +58,7 @@ function SelectPoll(props) {
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
         <>
-          <Table hover striped borderless className="shadow-depth-1">
+          <Table striped borderless className="shadow-depth-1">
             <thead>
             <tr>
               <th>Title</th>

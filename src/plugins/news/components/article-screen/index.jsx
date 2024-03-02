@@ -9,6 +9,11 @@ import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
 import DetailsTab from 'plugins/news/components/article-screen/DetailsTab';
 import StoryTab from 'plugins/news/components/article-screen/StoryTab';
+import NotificationsTab from 'plugins/news/components/article-screen/NotificationsTab';
+import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
+import Collaborators from 'plugins/raven/components/collaborators';
+import LinkedImagesTab from 'plugins/dam/components/linked-images-tab';
+
 
 function ArticleScreen(props) {
   const {
@@ -31,6 +36,8 @@ function ArticleScreen(props) {
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+  const hasSeo = node.schema().hasMixin('triniti:common:mixin:seo');
+  const hasNotifications = node.schema().hasMixin('triniti:notify:mixin:has-notifications');
 
   return (
     <Screen
@@ -45,12 +52,15 @@ function ArticleScreen(props) {
         { text: 'Story', to: urls.tab('story') },
         { text: 'Details', to: urls.tab('details') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
-        { text: 'Seo', to: urls.tab('seo') },
+        (hasSeo && { text: 'Seo', to: urls.tab('seo') }),
+        (hasNotifications && { text: 'Notifications', to: urls.tab('notifications') }),
+        { text: 'Media', to: urls.tab('media') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
-      ]}
+      ].filter(Boolean)}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
@@ -103,6 +113,7 @@ function ArticleScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
+      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
@@ -115,11 +126,21 @@ function ArticleScreen(props) {
           <TabPane tabId="taxonomy">
             <TaxonomyTab {...props} />
           </TabPane>
-          <TabPane tabId="seo">
-            <SeoTab {...props} />
+          {hasSeo && (
+            <TabPane tabId="seo">
+              <SeoTab {...props} />
+            </TabPane>
+          )}
+          {hasNotifications && (
+            <TabPane tabId="notifications">
+              <NotificationsTab {...props} />
+            </TabPane>
+          )}
+          <TabPane tabId="media">
+            <LinkedImagesTab nodeRef={nodeRef}   />
           </TabPane>
           <TabPane tabId="history">
-            <HistoryTab {...props} />
+            <HistoryTab isFormDirty={dirty} {...props} />
           </TabPane>
           <TabPane tabId="raw">
             <RawTab {...props} />

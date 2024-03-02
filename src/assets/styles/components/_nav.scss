@@ -87,6 +87,7 @@
   flex-wrap: nowrap;
   padding-left: .5rem;
   width: 100%;
+  --bs-nav-underline-border-width: 0;
 
   @media (max-width: 767px) {
     overflow: hidden;

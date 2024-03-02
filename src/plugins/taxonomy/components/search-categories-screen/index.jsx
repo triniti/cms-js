@@ -10,6 +10,8 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/taxonomy/components/search-categories-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const CreateCategoryModal = lazy(() => import('plugins/taxonomy/components/create-category-modal'));
 
@@ -30,7 +32,7 @@ function SearchCategoriesScreen(props) {
     <Screen
       title="Categories"
       header="Categories"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
@@ -49,7 +51,7 @@ function SearchCategoriesScreen(props) {
           </div>
 
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>Title</th>
@@ -62,7 +64,7 @@ function SearchCategoriesScreen(props) {
                 {response.get('nodes', []).map(node => {
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                      <td>{node.get('title')}</td>
+                      <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                       <td className="td-icons">

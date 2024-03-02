@@ -42,6 +42,7 @@ export default function CustomizeOptions(props) {
   return (
     <div className="container-lg p-5">
       <ImagePickerField
+        name="node_ref"
         label="Image"
         nodeRef={nodeRef}
         onSelectImage={setImageRef}
@@ -73,6 +74,7 @@ export default function CustomizeOptions(props) {
         label="Aside"
         checked={aside}
         onChange={(e) => setAside(e.target.checked)}
+        tooltip="Is only indirectly related to the main content."
       />
     </div>
   );

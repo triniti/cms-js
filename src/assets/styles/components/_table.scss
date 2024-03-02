@@ -4,6 +4,8 @@
 .table {
   margin-bottom: .25rem;
   color: inherit;
+  background-color: null;
+  --bs-table-bg: none;
 
   td,
   th {

@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
@@ -11,6 +11,11 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/curator/components/search-teasers-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
+import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
+import CloneButton from 'plugins/ncr/components/clone-button';
 
 const CreateTeaserModal = lazy(() => import('plugins/curator/components/create-teaser-modal'));
 
@@ -19,6 +24,10 @@ function SearchTeasersScreen(props) {
   const { response, run, isRunning, pbjxError } = useRequest(request, true);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:teaser:create`);
+  const canUpdate = policy.isGranted(`${APP_VENDOR}:teaser:update`);
+  const canDelete = policy.isGranted(`${APP_VENDOR}:teaser:delete`);
+  const nodes = response ? response.get('nodes', []) : [];
+  const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
 
   const teaserCuries = useCuries('triniti:curator:mixin:teaser:v1');
   if (!teaserCuries) {
@@ -35,7 +44,7 @@ function SearchTeasersScreen(props) {
     <Screen
       title="Teasers"
       header="Teasers"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
@@ -46,6 +55,18 @@ function SearchTeasersScreen(props) {
       }
     >
       <SearchForm {...props} isRunning={isRunning} run={run} teaserCuries={teaserCuries} />
+
+      <BatchOperationsCard
+        run={run}
+        selected={selected}
+        setSelected={setSelected}
+        setAllSelected={setAllSelected}
+        nodes={nodes}
+        canDelete={canDelete}
+        canDraft={canUpdate}
+        canPublish={canUpdate}
+      />
+
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && (
@@ -55,9 +76,10 @@ function SearchTeasersScreen(props) {
             in <strong>{response.get('time_taken').toLocaleString()}</strong> milliseconds.
           </div>
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
+                  <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
                   <th>Title</th>
                   <th>Slotting</th>
                   <th>Created At</th>
@@ -71,8 +93,10 @@ function SearchTeasersScreen(props) {
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                      <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
                       <td>
                         {node.get('title')}
+                        <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-teaser', '')}
                         </Badge>
@@ -102,6 +126,9 @@ function SearchTeasersScreen(props) {
                             <Icon imgSrc="external" alt="open" />
                           </Button>
                         </a>
+                        {canCreate && (
+                          <CloneButton node={node} />
+                        )}
                       </td>
                     </tr>
                   );

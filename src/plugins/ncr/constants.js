@@ -5,4 +5,5 @@ export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
 
   PRUNE_NODES: t('PRUNE_NODES'),
+  NODES_RECEIVED: t('NODES_RECEIVED'),
 };

@@ -3,8 +3,12 @@ import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
 import getImgurPostBlockId from 'components/blocksmith-field/components/imgur-post-block-modal/getImgurPostBlockId';
+import Preview from './Preview';
 
-function ImgurPostBlockModal() {
+function ImgurPostBlockModal(props) {
+  const { formState } = props;
+  const { valid } = formState;
+
   return (
     <div className="modal-scrollable">
       <ModalBody>
@@ -15,7 +19,9 @@ function ImgurPostBlockModal() {
           parse={getImgurPostBlockId}
           required
         />
-        <SwitchField name="aside" label="Aside" />
+        <SwitchField name="show_context" label="Show Title" />
+        <SwitchField name="aside" label="Aside" tooltip="Is only indirectly related to the main content." />
+        {valid && <Preview {...props} />}
       </ModalBody>
     </div>
   );

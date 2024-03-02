@@ -11,17 +11,6 @@ export const actionTypes = {
   EDITOR_STORED: t('EDITOR_STORED'),
 };
 
-export const pbjxChannelNames = {
-  ARTICLE_SEARCH: t('articleSearch'),
-  AUDIO_ASSET_SEARCH: t('audioAssetSearch'),
-  GALLERY_SEARCH: t('gallerySearch'),
-  IMAGE_ASSET_SEARCH: t('imageAssetSearch'),
-  LINKED_IMAGE_ASSET_SEARCH: t('linkedImageAssetSearch'),
-  POLL_SEARCH: t('pollSearch'),
-  VIDEO_SEARCH: t('videoSearch'),
-  NODE_REQUEST: t('nodeRequest'),
-};
-
 export const blockTypes = {
   ATOMIC: 'atomic',
   ORDERED_LIST_ITEM: 'ordered-list-item',

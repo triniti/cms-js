@@ -1,3 +1,4 @@
+import startWorkers from 'actions/startWorkers';
 import HelloWorker from './hello';
 import RavenWorker from './raven';
 
@@ -27,8 +28,9 @@ export default (app) => {
     raven: derivePath(RavenWorker),
   };
 
-  app.setParameter('hello.worker', workers.hello);
-  app.setParameter('raven.worker', workers.raven);
+  app.setParameter('hello.worker', new Worker(workers.hello));
+  app.setParameter('raven.worker', new Worker(workers.raven));
+  app.getRedux().dispatch(startWorkers(app));
 
   return workers;
 };

@@ -8,8 +8,8 @@ import unregisterForm from 'actions/unregisterForm';
 import FormMarshaler from 'utils/FormMarshaler';
 import { FormContextProvider } from 'components/useFormContext';
 import Loading from 'components/loading';
+import noop from 'lodash/noop';
 
-const noop = () => {};
 const defaultHandleSubmit = values => console.info('defaultHandleSubmit', values);
 
 export default function withForm(Component, config = {}) {
@@ -72,7 +72,7 @@ export default function withForm(Component, config = {}) {
 
             useEffect(() => {
               if (!config.restorable) {
-                return;
+                return noop;
               }
 
               dispatch(registerForm({

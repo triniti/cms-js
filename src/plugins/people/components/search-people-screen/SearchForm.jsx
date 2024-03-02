@@ -7,6 +7,7 @@ import { ActionButton, DatePickerField, Icon, NumberField,TrinaryField, useDebou
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';
+import noop from 'lodash/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
@@ -43,7 +44,7 @@ export default function SearchForm(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -52,7 +53,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return;
+      return noop;
     }
 
     form.submit();

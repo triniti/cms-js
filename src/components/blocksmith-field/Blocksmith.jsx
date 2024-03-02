@@ -21,24 +21,10 @@ import createInlineToolbarPlugin from '@draft-js-plugins/inline-toolbar';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
 import JsonSerializer from '@gdbots/pbj/serializers/JsonSerializer';
-import { ErrorBoundary, Icon, withPbj } from 'components';
-import UncontrolledTooltip from 'components/uncontrolled-tooltip';
-import BlockButtons from 'components/blocksmith-field/components/block-buttons';
-import BoldInlineToolbarButton from 'components/blocksmith-field/components/bold-inline-toolbar-button';
-import ItalicInlineToolbarButton from 'components/blocksmith-field/components/italic-inline-toolbar-button';
-import LinkInlineToolbarButton from 'components/blocksmith-field/components/link-inline-toolbar-button';
-import UnderlineInlineToolbarButton from 'components/blocksmith-field/components/underline-inline-toolbar-button';
-import OrderedListInlineToolbarButton from 'components/blocksmith-field/components/ordered-list-inline-toolbar-button';
-import UnorderedListInlineToolbarButton from 'components/blocksmith-field/components/unordered-list-inline-toolbar-button';
-import StrikethroughInlineToolbarButton from 'components/blocksmith-field/components/strikethrough-inline-toolbar-button';
-import HighlightInlineToolbarButton from 'components/blocksmith-field/components/highlight-inline-toolbar-button';
-import SpecialCharacterModal from 'components/blocksmith-field/components/special-character-modal';
-import Sidebar from 'components/blocksmith-field/components/sidebar';
+import { ErrorBoundary, Icon, withPbj, UncontrolledTooltip } from 'components';
+import BlocksmithFieldComponents from 'components/blocksmith-field/components';
 import convertToEditorState from 'components/blocksmith-field/utils/convertToEditorState';
-import ListBlockWrapper from 'components/blocksmith-field/components/list-block-wrapper';
-import LinkModal from 'components/blocksmith-field/components/link-modal';
 import { getPlaceholderConfig } from 'components/blocksmith-field/placeholderConfig';
-import { getModalComponent } from 'components/blocksmith-field/resolver';
 import addEmoji from 'components/blocksmith-field/utils/addEmoji';
 import areKeysSame from 'components/blocksmith-field/utils/areKeysSame';
 import blockParentNode from 'components/blocksmith-field/utils/blockParentNode';
@@ -74,23 +60,45 @@ import customStyleMap from 'components/blocksmith-field/customStyleMap';
 import decorators from 'components/blocksmith-field/decorators';
 import constants, { blockTypes, COPIED_BLOCK_KEY } from 'components/blocksmith-field/constants';
 import DraggableTextBlock from 'components/blocksmith-field/components/draggable-text-block';
-import 'components/blocksmith-field/styles.scss';
 import { normalizeKey } from 'components/blocksmith-field/utils';
+import noop from 'lodash/noop';
+// import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
+import 'components/blocksmith-field/styles.scss';
+import startCase from 'lodash-es/startCase';
+
+const {
+  BlockButtons,
+  BoldInlineToolbarButton,
+  GenericBlockPlaceholder,
+  ItalicInlineToolbarButton,
+  HighlightInlineToolbarButton,
+  LinkInlineToolbarButton,
+  ListBlockWrapper,
+  LinkModal,
+  StrikethroughInlineToolbarButton,
+  SpecialCharacterModal,
+  Sidebar,
+  OrderedListInlineToolbarButton,
+  UnderlineInlineToolbarButton,
+  UnorderedListInlineToolbarButton,
+} = BlocksmithFieldComponents;
 
 let TextBlockV1;
-const GenericBlockPlaceholder = lazy(() => import('components/blocksmith-field/components/generic-block-placeholder'));
+const getModalComponent = (message) => BlocksmithFieldComponents[`${startCase(message).replace(' ', '')}Modal`];
 
 class Blocksmith extends React.Component {
   static async confirmDelete() {
     return Swal.fire({
       title: 'Are you sure?',
       text: 'This block will be deleted',
-      type: 'warning',
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete!',
-      confirmButtonClass: 'btn btn-danger',
-      cancelButtonClass: 'btn btn-secondary',
       reverseButtons: true,
+      customClass: {
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-secondary',
+      },
     });
   }
 
@@ -239,12 +247,26 @@ class Blocksmith extends React.Component {
    *
    * @link https://github.com/draft-js-plugins/draft-js-plugins/issues/210
    */
-  componentDidUpdate({editorState: prevPropsEditorState, editMode: prevEditMode}) {
-    const { editorState: currentPropsEditorState, editMode } = this.props;
+  async componentDidUpdate({blocks: prevBlocks, editorState: prevPropsEditorState, editMode: prevEditMode}) {
+    const { editorState: currentPropsEditorState, editMode, blocks } = this.props;
     const { editorState } = this.state;
 
     if (prevEditMode !== editMode) {
       this.setState(() => ({ readOnly: !editMode }));
+      return;
+    }
+
+    // This is for revert support
+    if (prevBlocks !==  blocks) {
+      const blocksToMixins = await Promise.all(blocks.map(block => ObjectSerializer.decodeMessage(block)));
+      const convertedEditorState = convertToEditorState(blocksToMixins);
+      pushEditorState(editorState, convertedEditorState.getCurrentContent(), 'arbitrary').then(newEditorState => {
+        this.setState(() => ({
+          editorState: newEditorState.editorState, // Updates editorState with new content
+          errors: newEditorState.errors,
+          activeBlockKey: normalizeKey(newEditorState.editorState.getCurrentContent().getFirstBlock().getKey()), // Resets the activeBlockKey to a valid one
+        }));
+      });
       return;
     }
 
@@ -466,7 +488,7 @@ class Blocksmith extends React.Component {
         isHoverInsertModeBottom: null,
         editorState: selectBlock(newEditorState.editorState, newBlockKey),
         errors: newEditorState.errors,
-      }), () => this.positionComponents(newEditorState.getCurrentContent(), newBlockKey));
+      }), () => this.positionComponents(newEditorState.editorState.getCurrentContent(), newBlockKey));
     });
   }
 
@@ -1052,6 +1074,12 @@ class Blocksmith extends React.Component {
    * Remove any styling associated with an "active" editor
    */
   handleMouseLeave() {
+    const { modalComponent } = this.state
+
+    if (modalComponent) {
+      return
+    }
+
     this.removeActiveStyling();
   }
 
@@ -1265,7 +1293,7 @@ class Blocksmith extends React.Component {
       const canvasBlockObject = isFreshBlock ? {} : canvasBlock.toObject();
       const ComponentWithPbj = curie && withPbj(getModalComponent(message), curie.toString(), canvasBlockObject);
 
-      this.handleOpenModal(() => (
+      this.handleOpenModal(() => 
         <ComponentWithPbj
           isOpen
           isFreshBlock={isFreshBlock}
@@ -1275,7 +1303,7 @@ class Blocksmith extends React.Component {
           onEditBlock={this.handleEditCanvasBlock}
           toggle={this.handleCloseModal}
         />
-      ));
+      );
     }
   }
 
@@ -1404,26 +1432,25 @@ class Blocksmith extends React.Component {
    onChange(editorState) {
     // todo: this method name and the onChange from redux form may be confusing
 
-    // let { isDirty } = this.state;
-    // const { delegate } = this.props;
-    // const lastChangeType = editorState.getLastChangeType();
+    let { isDirty } = this.state;
+    const { delegate } = this.props;
+    const lastChangeType = editorState.getLastChangeType();
     const selectionState = editorState.getSelection();
-    // let callback = noop;
+    let callback = noop;
 
-    // /**
-    //  * just clicking around the editor counts as a change (of type null),
-    //  * but is not enough to dirty the state, so check the change type.
-    //  */
-    // if (!isDirty && lastChangeType !== null) {
-    //   isDirty = true;
-    //   callback = delegate.handleDirtyEditor;
-    // }
+    /**
+     * just clicking around the editor counts as a change (of type null),
+     * but is not enough to dirty the state, so check the change type.
+     */
+    if (!isDirty && lastChangeType !== null) {
+      isDirty = true;
+      // callback = delegate.handleDirtyEditor;
+    }
 
-    // if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {
-    //   isDirty = false;
-    //   callback = delegate.handleCleanEditor;
-    // }
-
+    if (lastChangeType === 'undo' && editorState.getUndoStack().size === 0 && isDirty) {
+      isDirty = false;
+      callback = delegate.handleCleanEditor;
+    }
     this.setState(() => ({
       editorState,
       readOnly: false, // todo: update
@@ -1431,16 +1458,18 @@ class Blocksmith extends React.Component {
       this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
     });
 
-    // this.setState(() => ({
-    //   editorState,
-    //   isDirty,
-    // }), () => {
-    //   this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
-    //   if (!selectionState.getHasFocus()) {
-    //     this.removeActiveStyling();
-    //   }
-    //   callback();
-    // });
+    this.setState(() => ({
+      editorState,
+      isDirty,
+    }), () => {
+      if (selectionState.getHasFocus()) {
+        this.positionComponents(editorState.getCurrentContent(), selectionState.getAnchorKey());
+      } else {
+        this.removeActiveStyling();
+      }
+      callback();
+    });
+    
   }
 
   /**

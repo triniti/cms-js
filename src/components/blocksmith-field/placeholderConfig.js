@@ -83,6 +83,9 @@ const configs = {
       imgSrc: 'facebook',
     },
     label: 'Facebook Video Block',
+    preview: {
+      component: GenericBlockPreviewComponent,
+    },
   },
   'gallery-block': {
     label: `${vendor} Gallery Block`,
@@ -123,6 +126,9 @@ const configs = {
       imgSrc: 'camera',
     },
     label: 'Image Block',
+    preview: {
+      component: GenericBlockPreviewComponent,
+    },
   },
   'imgur-post-block': {
     icon: {
@@ -130,7 +136,7 @@ const configs = {
     },
     label: 'Imgur Post Block',
   },
-  'instagram': {
+  'instagram-media-block': {
     icon: {
       imgSrc: 'instagram',
     },
@@ -191,6 +197,9 @@ const configs = {
       imgSrc: 'soundcloud',
     },
     label: 'Soundcloud Audio Block',
+    preview: {
+      component: GenericBlockPreviewComponent,
+    },
   },
   'spotify-embed-block': {
     icon: {
@@ -237,12 +246,18 @@ const configs = {
       imgSrc: 'vimeo',
     },
     label: 'Vimeo Video Block',
+    preview: {
+      component: GenericBlockPreviewComponent,
+    },
   },
   'youtube-playlist-block': {
     icon: {
       imgSrc: 'youtube',
     },
     label: 'Youtube Playlist Block',
+    preview: {
+      component: GenericBlockPreviewComponent,
+    },
   },
   'youtube-video-block': {
     icon: {

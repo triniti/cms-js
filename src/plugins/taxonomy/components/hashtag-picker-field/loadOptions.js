@@ -34,7 +34,7 @@ export default async (q, lastOptions, additional) => {
       options: response.get('hashtags', []).map(hashtag => {
         return { value: hashtag, label: `#${hashtag}` };
       }),
-      hasMore: response.get('has_more'),
+      hasMore: response.get('has_more', false),
       additional: {
         request,
       },

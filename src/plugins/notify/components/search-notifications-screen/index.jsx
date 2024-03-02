@@ -10,6 +10,8 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/notify/components/search-notifications-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const CreateNotificationModal = lazy(() => import('plugins/notify/components/create-notification-modal'));
 
@@ -29,7 +31,7 @@ function SearchNotificationsScreen(props) {
     <Screen
       title="Notifications"
       header="Notifications"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
@@ -48,7 +50,7 @@ function SearchNotificationsScreen(props) {
           </div>
 
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>Title</th>
@@ -65,7 +67,7 @@ function SearchNotificationsScreen(props) {
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('send_status')}`}>
-                      <td>{node.get('title')}</td>
+                      <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                       <td>{schema.getCurie().getMessage()}</td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>

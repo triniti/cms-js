@@ -1,0 +1,14 @@
+.gallery-preview-holder .gallery-preview-selected {
+  border: 1px solid #d9d9de;
+  margin: 1rem auto;
+}
+
+.scrollable-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.gallery-block-modal-header > h4 {
+  display: flex;
+}

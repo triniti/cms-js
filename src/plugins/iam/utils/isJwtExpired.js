@@ -1,4 +1,4 @@
-import decode from 'jwt-decode';
+import { jwtDecode as decode } from "jwt-decode"
 
 /**
  * @param {string} jwt

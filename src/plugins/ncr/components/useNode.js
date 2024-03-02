@@ -6,6 +6,7 @@ import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage'
 import * as constants from 'constants';
 import getNode from 'plugins/ncr/selectors/getNode';
 import { getInstance } from '@app/main';
+import noop from 'lodash/noop';
 
 const fetchNode = async (nodeRef) => {
   const app = getInstance();
@@ -26,7 +27,7 @@ export default (nodeRef, consistent = true) => {
 
   useEffect(() => {
     if (!nodeRef || consistent || !cachedNode) {
-      return;
+      return noop;
     }
 
     setNode(cachedNode.freeze());
@@ -36,7 +37,7 @@ export default (nodeRef, consistent = true) => {
 
   useEffect(() => {
     if (!nodeRef || !node || !consistent) {
-      return;
+      return noop;
     }
 
     setNode(null);
@@ -46,11 +47,11 @@ export default (nodeRef, consistent = true) => {
 
   useEffect(() => {
     if (!nodeRef) {
-      return;
+      return noop;
     }
 
     if (!consistent && cachedNode && refreshCount === 0) {
-      return;
+      return noop;
     }
 
     let cancelled = false;

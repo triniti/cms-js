@@ -1,18 +1,16 @@
-/*!
- * Bootstrap v5.1.3 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
 
 // Configuration
+// ~ == ../../node_modules/
 @import "~bootstrap/scss/functions";
 @import "variables";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/variables-dark";
+@import "~bootstrap/scss/maps";
 @import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/utilities";
 
 // Layout & components
 @import "~bootstrap/scss/root";
+@import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";

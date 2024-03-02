@@ -50,12 +50,18 @@ function HashtagPickerField(props) {
     return hashtag;
   };
 
-  const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: `#${v}` })) : null;
+  const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: `#${v}` })) : [];
 
   const rootClassName = classNames(
     groupClassName,
     'form-group',
   );
+
+  const onCreateOption = (inputValue) => {
+    currentOptions.push({ value: inputValue, label: `#${inputValue}`});
+    input.onChange(currentOptions.map(o => o.value));
+    setQ('');
+  };
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
@@ -93,6 +99,7 @@ function HashtagPickerField(props) {
         additional={{ request }}
         loadOptions={loadOptions}
         onChange={selected => input.onChange(selected ? selected.map(o => o.value) : undefined)}
+        onCreateOption={onCreateOption}
       />
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}

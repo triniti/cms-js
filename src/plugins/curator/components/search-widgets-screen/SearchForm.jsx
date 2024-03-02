@@ -8,6 +8,7 @@ import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';
 import FormMarshaler from 'utils/FormMarshaler';
 import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort';
+import noop from 'lodash/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run, widgetCuries } = props;
@@ -45,7 +46,7 @@ export default function SearchForm(props) {
 
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -54,7 +55,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return;
+      return noop;
     }
 
     form.submit();
@@ -63,7 +64,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const types = formState.values.types || [];
     if (!request || `${request.get('types', [])}` === types) {
-      return;
+      return noop;
     }
 
     form.submit();

@@ -2,6 +2,21 @@ const dotenv = require('dotenv');
 const { resolve } = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const fs = require('fs');
+
+// SSL Cert and Key
+const https = (() => {
+  const cert = resolve(__dirname, 'localhost.crt');
+  const key = resolve(__dirname, 'localhost.key');
+  if (fs.existsSync(cert) && fs.existsSync(key)) {
+    return {
+      key: fs.readFileSync(key),
+      cert: fs.readFileSync(cert),
+    }
+  }
+  return {};
+})();
 
 /**
  * @link https://webpack.js.org/configuration/
@@ -47,7 +62,9 @@ module.exports = (webpackEnv = {}) => {
       port: 3000,
       server: {
         type: 'https',
+        options: https,
       },
+      hot: true,
     },
     stats: 'normal',
     output: {
@@ -62,6 +79,7 @@ module.exports = (webpackEnv = {}) => {
       alias: {},
       extensions: ['*', '.js', '.jsx', '.json'],
       fallback: {
+        // path: false,
         buffer: require.resolve('buffer/'),
         crypto: require.resolve('crypto-browserify'),
         fs: false,
@@ -168,6 +186,17 @@ module.exports = (webpackEnv = {}) => {
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
       }),
+
+      new NodePolyfillPlugin({
+        includeAliases: [
+          'path',
+          'process', // mqtt needs this explicitly defined
+        ]
+      }),
+
+      // new webpack.DefinePlugin({
+      //   'process': undefined, // mqtt needs this explicitly defined
+      // }),
     ]
   };
 };

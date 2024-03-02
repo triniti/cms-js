@@ -1,11 +1,13 @@
 import React, { lazy } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardHeader, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { CreateModalButton, Icon, Loading } from '@triniti/cms/components';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
 import formatDate from '@triniti/cms/utils/formatDate';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -39,7 +41,7 @@ export default function TopArticles(props) {
     <>
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
-        <Card>
+        <Card className="card-shadow">
           <CardHeader className="pe-3">
             {title}
             <CreateModalButton
@@ -54,44 +56,51 @@ export default function TopArticles(props) {
               }}
             />
           </CardHeader>
-          <Table hover responsive>
-            <thead>
-            <tr>
-              <th>Title</th>
-              <th>Slotting</th>
-              <th>Order Date</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {response.get('nodes', []).map(node => (
-              <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                <td>{node.get('title')}</td>
-                <td>
-                  {node.has('slotting')
-                    ? Object.entries(node.get('slotting')).map(([key, slot]) => (
-                      <span key={`${key}:${slot}`}>{key}:{slot}</span>
-                    )) : null}
-                </td>
-                <td>{formatDate(node.get('order_date'))}</td>
-                <td className="td-icons">
-                  <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover" className="rounded-circle">
-                      <Icon imgSrc="eye" alt="view" />
-                    </Button>
-                  </Link>
-                  {canUpdate && (
-                    <Link to={nodeUrl(node, 'edit')}>
+          <CardBody className="p-0">
+            <Table responsive>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Slotting</th>
+                  <th>Order Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {response.get('nodes', []).map(node => (
+                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                  <td>{node.get('title')}  <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                  <td>
+                    {node.has('slotting')
+                      ? Object.entries(node.get('slotting')).map(([key, slot]) => (
+                        <span key={`${key}:${slot}`}>{key}:{slot}</span>
+                      )) : null}
+                  </td>
+                  <td>{formatDate(node.get('order_date'))}</td>
+                  <td className="td-icons">
+                    <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" className="rounded-circle">
-                        <Icon imgSrc="pencil" alt="edit" />
+                        <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
-                  )}
-                </td>
-              </tr>
-            ))}
-            </tbody>
-          </Table>
+                    {canUpdate && (
+                      <Link to={nodeUrl(node, 'edit')}>
+                        <Button color="hover" className="rounded-circle">
+                          <Icon imgSrc="pencil" alt="edit" />
+                        </Button>
+                      </Link>
+                    )}
+                    <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                      <Button color="hover">
+                        <Icon imgSrc="external" alt="open" />
+                      </Button>
+                    </a>
+                  </td>
+                </tr>
+              ))}
+              </tbody>
+            </Table>
+          </CardBody>
         </Card>
       )}
     </>

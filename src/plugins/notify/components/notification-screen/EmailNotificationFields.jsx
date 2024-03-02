@@ -30,7 +30,7 @@ export default function EmailNotificationFields(props) {
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
-          <ContentRefField name="content_ref" label="Content" />
+          <ContentRefField name="content_ref" label="Content" readOnly />
           <TextareaField name="body" label="Body" />
         </CardBody>
       </Card>

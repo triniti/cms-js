@@ -7,9 +7,9 @@ import { CreateModalButton, Icon, useFormContext, withPbj } from 'components';
 import schemaToCurie from 'utils/schemaToCurie';
 import AnswerModal from 'plugins/apollo/components/poll-screen/AnswerModal';
 
-export default function SlotPlaceholder(props) {
+export default function AnswerPlaceholder(props) {
   const { editMode } = useFormContext();
-  const { index, onRemove, onUpdate, name: fieldName } = props;
+  const { componentDragHandle, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
 
   const { title, initial_votes, _schema } = input.value;
@@ -17,19 +17,17 @@ export default function SlotPlaceholder(props) {
   const key = `${kebabCase(lowerCase(title))}-${initial_votes}`;
 
   const rowClassnames = editMode
-    ? 'sortable-field sortable-handle d-flex flex-nowrap align-items-center'
-    : 'sortable-field d-flex flex-nowrap align-items-center'
+    ? 'd-flex flex-nowrap align-items-center'
+    : 'd-flex flex-nowrap align-items-center'
 
   return (
     <div
       key={key}
       data-id={key}
-      data-index={index}
       className={rowClassnames}
-      id={`btn-sort-${index}`}
     >
       <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-        <Icon imgSrc="insert" size="lg" className="text-black-50" />
+        {componentDragHandle || <Icon imgSrc="insert" size="lg" className="text-black-50" />}
       </div>
       <div className="d-flex px-2">
         <CardText className="ms-1 mb-1">{title}</CardText>
@@ -45,7 +43,6 @@ export default function SlotPlaceholder(props) {
             editMode,
             curie,
             onSubmit: onUpdate,
-
           }}
         />
         {editMode && (

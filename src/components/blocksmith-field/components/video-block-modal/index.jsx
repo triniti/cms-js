@@ -39,7 +39,6 @@ export default function VideoBlockModal(props) {
       isOpen={isOpen}
       toggle={toggle}
       size="xxl"
-      // keyboard={!isImageAssetPickerModalOpen}
     >
       <Header
         activeStep={activeStep}
@@ -79,7 +78,6 @@ export default function VideoBlockModal(props) {
       <Footer
         activeStep={activeStep}
         node={node}
-        // onCloseUploader={this.handleCloseUploader}
         toggle={toggle}
         onDecrementStep={() => setActiveStep(activeStep - 1)}
         onIncrementStep={() => setActiveStep(activeStep + 1)}

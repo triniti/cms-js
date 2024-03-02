@@ -23,10 +23,8 @@ function CreateChannelModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Channel...');
-
       values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
-
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));

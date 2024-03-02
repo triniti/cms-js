@@ -11,6 +11,9 @@ import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import SearchForm from 'plugins/curator/components/search-widgets-screen/SearchForm';
+import Collaborators from 'plugins/raven/components/collaborators';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import CloneButton from 'plugins/ncr/components/clone-button';
 
 const CreateWidgetModal = lazy(() => import('plugins/curator/components/create-widget-modal'));
 
@@ -35,7 +38,7 @@ function SearchWidgetsScreen(props) {
     <Screen
       title="Widgets"
       header="Widgets"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
@@ -55,7 +58,7 @@ function SearchWidgetsScreen(props) {
             in <strong>{response.get('time_taken').toLocaleString()}</strong> milliseconds.
           </div>
           <Card>
-            <Table hover responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>Title</th>
@@ -72,6 +75,7 @@ function SearchWidgetsScreen(props) {
                     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                       <td>
                         {node.get('title')}
+                        <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-widget', '')}
                         </Badge>
@@ -96,6 +100,9 @@ function SearchWidgetsScreen(props) {
                             <Icon imgSrc="external" alt="open" />
                           </Button>
                         </a>
+                        {canCreate && (
+                          <CloneButton node={node} />
+                        )}
                       </td>
                     </tr>
                   );

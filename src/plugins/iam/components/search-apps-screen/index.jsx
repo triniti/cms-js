@@ -30,7 +30,7 @@ function SearchAppsScreen(props) {
 
       {response && response.has('nodes') && (
         <Card>
-          <Table hover responsive>
+          <Table responsive>
             <tbody>
             {response.get('nodes').map(node => {
               const schema = node.schema();

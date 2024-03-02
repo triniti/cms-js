@@ -2,6 +2,7 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { TextareaField, SelectField, UrlField } from 'components';
 import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import Preview from 'components/blocksmith-field/components/heading-block-modal/Preview';
 
 const sizeOptions = [
   { label: 'h1', value: 1 },
@@ -12,13 +13,14 @@ const sizeOptions = [
   { label: 'h6', value: 6 },
 ];
 
-function HeadingBlockModal() {
+function HeadingBlockModal(props) {
   return (
     <div className="modal-scrollable">
       <ModalBody className="modal-scrollable">
         <TextareaField name="text" label="Text"/>
-        <SelectField name="size" label="Size" options={sizeOptions} ignoreUnknownOptions />
+        <SelectField name="size" label="Size" options={sizeOptions} ignoreUnknownOptions required />
         <UrlField name="url" label="URL" />
+        <Preview {...props} />
       </ModalBody>
     </div>
   );

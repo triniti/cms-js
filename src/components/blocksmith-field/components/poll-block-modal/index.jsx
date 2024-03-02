@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
-import { Modal, ModalBody } from 'reactstrap';
+import { FormGroup, Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import CustomizeOptions from 'components/blocksmith-field/components/poll-block-modal/CustomizeOptions';
+import { SwitchField } from 'components';
 import Footer from 'components/blocksmith-field/components/poll-block-modal/Footer';
 import Header from 'components/blocksmith-field/components/poll-block-modal/Header';
 import SelectPoll from 'components/blocksmith-field/components/poll-block-modal/SelectPoll';
+import Preview from './Preview';
 
 export default function PollBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;
 
-  const [activeStep, setActiveStep] = useState(block.has('node_ref') ? 1 : 0);
-  const [aside, setAside] = useState(block.get('aside', false));
-  const [selectedPollNode, setSelectedPollNode] = useState(null);
-  const [selectedPollNodeRef, setSelectedPollNodeRef] = useState(block.get('node_ref', null));
+  const [ activeStep, setActiveStep ] = useState(block.has('node_ref') ? 1 : 0);
+  const [ aside, setAside] = useState(block.get('aside', false));
+  const [ selectedPollNode, setSelectedPollNode ] = useState(null);
+  const [ selectedPollNodeRef, setSelectedPollNodeRef ] = useState(block.get('node_ref', null));
+
+  const handleSelectPoll = (pollNode) => {
+    setSelectedPollNode(pollNode);
+    setSelectedPollNodeRef(NodeRef.fromNode(pollNode));
+    setActiveStep(1);
+  }
 
   const setBlock = () => {
     return block
@@ -27,7 +34,6 @@ export default function PollBlockModal(props) {
       isOpen={isOpen}
       toggle={toggle}
       size="xxl"
-      // keyboard={!isImageAssetPickerModalOpen}
     >
       <Header
         activeStep={activeStep}
@@ -39,23 +45,28 @@ export default function PollBlockModal(props) {
           {activeStep === 0 && (
             <SelectPoll
               selectedPollNode={selectedPollNode}
-              setSelectedPollNode={setSelectedPollNode}
+              setSelectedPollNode={handleSelectPoll}
             />
           )}
           {activeStep === 1 && (
-            <CustomizeOptions
-              aside={aside}
-              setAside={setAside}
-              selectedPollNode={selectedPollNode}
-              selectedPollNodeRef={selectedPollNodeRef}
-            />
+            <div className="container-lg py-5">
+              <Preview nodeRef={`${selectedPollNodeRef}`} />
+              <FormGroup className="mb-4">
+                <SwitchField
+                  name="aside"
+                  label="Aside"
+                  checked={aside}
+                  onChange={(e) => setAside(e.target.checked)}
+                  tooltip="Is only indirectly related to the main content."
+                />
+              </FormGroup>
+            </div>
           )}
         </ModalBody>
       </div>
       <Footer
         activeStep={activeStep}
         node={node}
-        // onCloseUploader={this.handleCloseUploader}
         toggle={toggle}
         onDecrementStep={() => setActiveStep(activeStep - 1)}
         onIncrementStep={() => setActiveStep(activeStep + 1)}

@@ -94,6 +94,7 @@
 // Where all modal content resides (sibling of .modal-header and .modal-footer)
 .modal-body {
   padding: 1.5rem;
+  background-color: $gray-100;
 
   & > p:last-child {
     margin-bottom: .5rem;
@@ -144,6 +145,7 @@
 }
 
 .modal-footer {
+  background-color: $gray-100;
 
   @media(max-width: 575px) {
     padding: .5rem !important;

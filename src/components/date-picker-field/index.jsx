@@ -15,7 +15,9 @@ export default function DatePickerField(props) {
     pbjName,
     isClearable = true,
     readOnly = false,
-    required = false
+    required = false,
+    showTimeSelect = true,
+    dateFormat = 'MM/dd/yyyy h:mm a',
   } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
@@ -49,10 +51,10 @@ export default function DatePickerField(props) {
             readOnly={!editMode}
             selected={currentDate}
             isClearable={isClearable}
-            showTimeSelect
+            showTimeSelect={showTimeSelect}
             timeFormat="h:mm a"
             timeCaption="Time"
-            dateFormat="MM/dd/yyyy h:mm a"
+            dateFormat={dateFormat}
             {...input}
             value={currentDate}
             onChange={date => {
