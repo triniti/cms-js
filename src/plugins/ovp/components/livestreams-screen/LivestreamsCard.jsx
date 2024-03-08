@@ -15,6 +15,9 @@ import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
+import raven from '@triniti/demo/src/workers/raven';
+import ChannelStartedV1 from '@triniti/schemas/triniti/ovp.medialive/event/ChannelStartedV1';
+import ChannelStoppedV1 from '@triniti/schemas/triniti/ovp.medialive/event/ChannelStoppedV1';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
@@ -109,7 +112,19 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
       await delay(5000);
-      reloadChannelState();
+      const worker = app.getParameter('raven.worker');
+      const event = await ChannelStartedV1;
+      //const eventChannel = event.schema().getCurie().toString();
+      const waitForRavenMessage = new Promise((resolve) => {
+        const handleMessage = (message) => {
+          if (message.data.message?._schema && message.data.message?._schema === 'pbj:triniti:ovp.medialive:event:channel-started:1-0-0') {
+             resolve();
+           }
+         };
+         worker.addEventListener('message', handleMessage);
+       });
+       await waitForRavenMessage;
+       reloadChannelState();
       await progressIndicator.close();
       await delay(2000);
       dispatch(sendAlert({
@@ -139,6 +154,18 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
         await delay(5000);
+        const worker = app.getParameter('raven.worker');
+        const event = await ChannelStoppedV1;
+        const waitForRavenMessage = new Promise((resolve) => {
+          const handleMessage = (message) => {
+            if (message.data.message?._schema && message.data.message?._schema === 'pbj:triniti:ovp.medialive:event:channel-stopped:1-0-0') {
+              resolve();
+            }
+          };
+          worker.addEventListener('message', handleMessage);
+        });
+        await waitForRavenMessage;
+        reloadChannelState();
         reloadChannelState();
         await progressIndicator.close();
         await delay(2000);
