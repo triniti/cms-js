@@ -20,7 +20,8 @@ function MedialiveChannelStateButton(props) {
         />
         <Label style={{'display':'inline'}} >{`State: ${channelState}`}</Label>
         {channelState &&
-          <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'}/>}
+          <Icon imgSrc="circle" style={{'marginLeft':'5px'}} color={isRunning ? 'danger' : 'dark'}/>
+        }
       </>
     );
   }
