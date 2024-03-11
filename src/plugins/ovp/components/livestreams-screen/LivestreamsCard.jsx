@@ -163,7 +163,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         }
 
         const onMessage = (message) => {
-          if (message.data.message?._schema && message.data.message?._schema === 'pbj:triniti:ovp.medialive:event:channel-stopped:1-0-0' && message.data.message?.node_ref == nodeRef) {
+          if (message.data.message?._schema && message.data.message?._schema === 'pbj:triniti:ovp.medialive:event:channel-stopped:1-0-0' && message.data.message?.node_ref == nodeRef.toString()) {
             cleanup();
             reloadChannelState();
           }
