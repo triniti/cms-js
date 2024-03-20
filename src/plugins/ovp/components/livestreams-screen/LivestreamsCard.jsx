@@ -14,6 +14,8 @@ import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopCh
 import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
 import sendAlert from 'actions/sendAlert';
+import useRaven from 'plugins/raven/components/useRaven';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
@@ -42,6 +44,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
   const canViewIngests = policy.isGranted(`${APP_VENDOR}:ovp.medialive:command:stop-channel`);
   const nodeRef = NodeRef.fromNode(node).toString();
   const mediaLiveData = {};
+  useRaven({ node, nodeRef });
 
   Object.entries(metas).forEach(([key, value]) => {
     if (!MEDIA_REGEX.test(key)) {
@@ -165,8 +168,10 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
 
   return (
     <Card key={id}>
-      <CardHeader> <span >
-          <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>{status}</small>{title}
+      <CardHeader>
+        <span>
+          <small className={`text-uppercase status-copy ms-0 me-2 status-${statusColorMap[status]}`}>{status}</small>
+          {title}
         </span>
         <span>
           <Link to={nodeUrl(node, 'view')}>
@@ -174,30 +179,31 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
               <Icon imgSrc="eye" alt="view" />
             </Button>
           </Link>
-            <Link to={nodeUrl(node, 'edit')}>
-              <Button color="hover">
-                <Icon imgSrc="pencil" alt="edit" />
-              </Button>
-            </Link>
+          <Link to={nodeUrl(node, 'edit')}>
+            <Button color="hover">
+              <Icon imgSrc="pencil" alt="edit" />
+            </Button>
+          </Link>
           <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
             <Button color="hover">
               <Icon imgSrc="external" alt="open" />
             </Button>
           </a>
-            </span>
+          <Collaborators nodeRef={nodeRef} className="position-absolute top-0 start-100 translate-middle" />
+        </span>
       </CardHeader>
       <CardBody>
-        <p>
-          <MedialiveChannelStateButton
+        <MedialiveChannelStateButton
           channelState={mediaLiveData[nodeRef].state}
           handleStartChannels={()=>handleStartChannels(NodeRef.fromNode(node))}
-          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))} />
-        </p>
+          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))}
+          className="mb-3"
+          />
         <Table responsive>
           <tbody>
           {kalturaEntryId && (
             <tr>
-              <th>
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -213,7 +219,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
             </tr>
           )}
           <tr>
-            <th>
+            <th className="ps-0">
               <ActionButton
                 className="mb-1"
                 color="hover"
@@ -231,7 +237,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -250,7 +256,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -269,7 +275,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -285,7 +291,9 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           ))}
           </tbody>
         </Table>
-        <p><a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer"><strong>Demo Player</strong></a></p>
+        <a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer">
+          <strong>Demo Player</strong>
+        </a>
       </CardBody>
     </Card>
   );
