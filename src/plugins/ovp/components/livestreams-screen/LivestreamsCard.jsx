@@ -15,8 +15,6 @@ import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
-import SchemaId from '@gdbots/pbj/SchemaId';
-import PbjxEvent from '@gdbots/pbjx/events/PbjxEvent';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
@@ -111,14 +109,6 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
 
-      const worker = app.getParameter('raven.worker');
-      const onMessage = (message) => {
-        if (!message?.data?.message?._schema) {
-          return;
-        }
-        const schemaId = SchemaId.fromString(message.data.message._schema);
-        app.getDispatcher().dispatch(schemaId.getCurie().toString(), new PbjxEvent(message.data.message));
-      }
       const cleanup = () => {
         progressIndicator.close();
         delay(2000);
@@ -128,12 +118,9 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           delay: 3000,
           message: 'Success! The MediaLive Channel was started.',
         }));
-        worker.removeEventListener('message' , onMessage);
       }
 
-      worker.addEventListener('message', onMessage);
-      app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-started', (...args) => {
-        console.log('triniti:ovp.medialive:event:channel-started', args);
+      app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-started.raven', () => {
         cleanup();
         reloadChannelState();
       });
@@ -158,14 +145,6 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
 
-        const worker = app.getParameter('raven.worker');
-        const onMessage = (message) => {
-          if (!message?.data?.message?._schema) {
-            return;
-          }
-          const schemaId = SchemaId.fromString(message.data.message._schema);
-          app.getDispatcher().dispatch(schemaId.getCurie().toString(), new PbjxEvent(message.data.message));
-        }
         const cleanup = () => {
           progressIndicator.close();
           delay(2000);
@@ -178,9 +157,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           worker.removeEventListener('message' , onMessage);
         }
 
-        worker.addEventListener('message', onMessage);
-        app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-stopped', (...args) => {
-          console.log('triniti:ovp.medialive:event:channel-stopped', args);
+        app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-stopped.raven', () => {
           cleanup();
           reloadChannelState();
         });
