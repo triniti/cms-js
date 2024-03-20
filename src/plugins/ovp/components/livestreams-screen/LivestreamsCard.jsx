@@ -1,20 +1,19 @@
+import swal from 'sweetalert2';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
-import { ActionButton } from 'components/index';
+import { ActionButton, Icon } from 'components';
+import { getInstance } from '@app/main';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { Link } from 'react-router-dom';
 import nodeUrl from 'plugins/ncr/nodeUrl';
-import { Icon } from 'components';
-import swal from 'sweetalert2';
 import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1';
-import { getInstance } from '@app/main';
 import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
 import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
 import sendAlert from 'actions/sendAlert';
-import { useDispatch } from 'react-redux';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
