@@ -154,7 +154,6 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
             delay: 3000,
             message: 'Success! The MediaLive Channel was stopped.',
           }));
-          worker.removeEventListener('message' , onMessage);
         }
 
         app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-stopped.raven', () => {
