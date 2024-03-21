@@ -111,6 +111,8 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
 
+      const eventName = 'triniti:ovp.medialive:event:channel-started.raven';
+      const dispatcher = app.getDispatcher();
       const cleanup = () => {
         progressIndicator.close();
         delay(2000);
@@ -120,13 +122,13 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           delay: 3000,
           message: 'Success! The MediaLive Channel was started.',
         }));
+        dispatcher.removeListener(eventName, listener);
       }
-
-      app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-started.raven', () => {
+      const listener = () => {
         cleanup();
         reloadChannelState();
-      });
-
+      }
+      dispatcher.addListener(eventName, listener);
     }catch(error) {
       console.error(error);
     }
