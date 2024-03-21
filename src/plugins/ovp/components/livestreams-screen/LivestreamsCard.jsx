@@ -22,8 +22,6 @@ const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   return acc;
 }, {});
 
-const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
-
 const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((node, id) => {
   const app = getInstance();
   const status = node.get('status').toString();
@@ -115,7 +113,6 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
       const dispatcher = app.getDispatcher();
       const cleanup = () => {
         progressIndicator.close();
-        delay(2000);
         dispatch(sendAlert({
           type: 'success',
           isDismissible: true,
@@ -149,21 +146,23 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
 
+        const eventName = 'triniti:ovp.medialive:event:channel-stopped.raven';
+        const dispatcher = app.getDispatcher();
         const cleanup = () => {
           progressIndicator.close();
-          delay(2000);
           dispatch(sendAlert({
             type: 'success',
             isDismissible: true,
             delay: 3000,
             message: 'Success! The MediaLive Channel was stopped.',
           }));
+          dispatcher.removeListener(eventName, listener);
         }
-
-        app.getDispatcher().addListener('triniti:ovp.medialive:event:channel-stopped.raven', () => {
+        const listener = () => {
           cleanup();
           reloadChannelState();
-        });
+        }
+        dispatcher.addListener(eventName, listener);
       }
     });
   }
