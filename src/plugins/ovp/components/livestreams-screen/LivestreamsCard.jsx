@@ -14,7 +14,6 @@ import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopCh
 import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
 import sendAlert from 'actions/sendAlert';
-import useRaven from 'plugins/raven/components/useRaven';
 import Collaborators from 'plugins/raven/components/collaborators';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
@@ -42,7 +41,6 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
   const canViewIngests = policy.isGranted(`${APP_VENDOR}:ovp.medialive:command:stop-channel`);
   const nodeRef = NodeRef.fromNode(node).toString();
   const mediaLiveData = {};
-  useRaven({ node, nodeRef });
 
   Object.entries(metas).forEach(([key, value]) => {
     if (!MEDIA_REGEX.test(key)) {
