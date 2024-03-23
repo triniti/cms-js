@@ -16,7 +16,7 @@ export default async (app) => {
   app
     .setParameter(serviceIds.TRANSPORT_HTTP_ENDPOINT, endpoint)
     .setParameter(serviceIds.COMMAND_BUS_TRANSPORT, 'http')
-    .setParameter(serviceIds.EVENT_BUS_TRANSPORT, 'in_memory')
+//    .setParameter(serviceIds.EVENT_BUS_TRANSPORT, 'in_memory') // This is causing issues with Raven publishing events
     .setParameter(serviceIds.REQUEST_BUS_TRANSPORT, 'http')
     .set(serviceIds.LOCATOR, locator)
     .set(serviceIds.TRANSPORT_HTTP, new HttpTransport(locator, endpoint))

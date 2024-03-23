@@ -1,5 +1,4 @@
 import getCurrentNodeRef from 'plugins/raven/selectors/getCurrentNodeRef';
-import PbjxEvent from '@gdbots/pbjx/events/PbjxEvent';
 
 export default (pbj) => async (dispatch, getState, app) => {
   const state = getState();
@@ -13,7 +12,7 @@ export default (pbj) => async (dispatch, getState, app) => {
     return;
   }
 
-  app.getDispatcher().dispatch(`${pbj.schema().getCurie()}`, new PbjxEvent(pbj));
+  app.getPbjx().publish(pbj);
 
   return;
 };
