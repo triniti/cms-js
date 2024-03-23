@@ -18,8 +18,8 @@ export default class RavenPlugin extends Plugin {
       return new NodeChangeWatcher(app);
     });
 
-    app.subscribe('gdbots:ncr:mixin:node-updated.raven', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh');
-    app.subscribe('gdbots:ncr:event:node-updated.raven', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh'); // Future proof vodka
+    app.subscribe('gdbots:ncr:mixin:node-updated', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh');
+    app.subscribe('gdbots:ncr:event:node-updated', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh'); // Future proof vodka
   }
 
 }

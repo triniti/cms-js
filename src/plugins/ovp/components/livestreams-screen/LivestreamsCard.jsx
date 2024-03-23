@@ -107,7 +107,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
 
-      const eventName = 'triniti:ovp.medialive:event:channel-started.raven';
+      const eventName = 'triniti:ovp.medialive:event:channel-started';
       const dispatcher = app.getDispatcher();
       const cleanup = () => {
         progressIndicator.close();
@@ -144,7 +144,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
 
-        const eventName = 'triniti:ovp.medialive:event:channel-stopped.raven';
+        const eventName = 'triniti:ovp.medialive:event:channel-stopped';
         const dispatcher = app.getDispatcher();
         const cleanup = () => {
           progressIndicator.close();
