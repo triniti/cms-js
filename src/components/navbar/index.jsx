@@ -32,8 +32,16 @@ export default function () {
 
   const isGroupActive = (group) => activeGroup === group;
   const toggle = (group) => {
-    setActive(!isActive);
-    setActiveGroup(group);
+    if(isActive && activeGroup === group){
+      setActive(false);
+      setActiveGroup(null);
+    }else if(isActive && typeof group === 'object'){
+      setActive(false);
+      setActiveGroup(group);
+    }else{
+      setActive(true);
+      setActiveGroup(group);
+    }
     localStorage.setItem('activeNavGroup', group);
   };
 
