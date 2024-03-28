@@ -27,14 +27,14 @@ const ImageBlockModal = ({
 }) => {
   const [ hasCaption, setHasCaption ] = useState(block.has('caption'));
   const [ isLink, setIsLink ] = useState(block.has('url'));
-  
+
   const imageRef = block.has('node_ref') ? `${block.get('node_ref')}` : null;
 
   const handleUploadedImage = (nodes) => {
     if (!nodes.length) {
       return;
-    } 
-    
+    }
+
     form.change('node_ref', NodeRef.fromNode(nodes[0]));
   }
 
@@ -63,7 +63,7 @@ const ImageBlockModal = ({
         style={{ height: 'calc(100vh - 168px)' }}
       >
         <div className="modal-body-blocksmith">
-          <div style={{ maxWidth: '350px', margin: '0 auto' }}>
+          <div className="container-lg p-5">
             <ImagePickerField
               label="Image"
               name="node_ref"
