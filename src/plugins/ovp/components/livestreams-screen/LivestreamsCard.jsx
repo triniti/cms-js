@@ -1,27 +1,25 @@
+import swal from 'sweetalert2';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
-import { ActionButton } from 'components/index';
+import { ActionButton, Icon } from 'components';
+import { getInstance } from '@app/main';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { Link } from 'react-router-dom';
 import nodeUrl from 'plugins/ncr/nodeUrl';
-import { Icon } from 'components';
-import swal from 'sweetalert2';
 import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1';
-import { getInstance } from '@triniti/demo/src/main';
 import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
 import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
 import sendAlert from 'actions/sendAlert';
-import { useDispatch } from 'react-redux';
+import Collaborators from 'plugins/raven/components/collaborators';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
   return acc;
 }, {});
-
-const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
 const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((node, id) => {
   const app = getInstance();
@@ -108,23 +106,30 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         .set('node_ref', nodeRef);
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
-      await delay(5000);
-      reloadChannelState();
-      await progressIndicator.close();
-      await delay(2000);
-      dispatch(sendAlert({
-       type: 'success',
-       isDismissible: true,
-       delay: 3000,
-       message: 'Success! The MediaLive Channel was started.',
-      }));
-    }catch(error){
-      await progressIndicator.close();
+
+      const eventName = 'triniti:ovp.medialive:event:channel-started';
+      const dispatcher = app.getDispatcher();
+      const cleanup = () => {
+        progressIndicator.close();
+        dispatch(sendAlert({
+          type: 'success',
+          isDismissible: true,
+          delay: 3000,
+          message: 'Success! The MediaLive Channel was started.',
+        }));
+        dispatcher.removeListener(eventName, listener);
+      }
+      const listener = () => {
+        cleanup();
+        reloadChannelState();
+      }
+      dispatcher.addListener(eventName, listener);
+    }catch(error) {
       console.error(error);
     }
   }
 
-  const handleStopChannels = async (nodeRef, channelState) => {
+  const handleStopChannels = async (nodeRef) => {
     await swal.fire({
       icon: 'warning',
       titleText: 'Are you sure you want to stop the channel?',
@@ -138,24 +143,34 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           .set('node_ref', nodeRef);
         const pbjx = await app.getPbjx();
         await pbjx.send(command);
-        await delay(5000);
-        reloadChannelState();
-        await progressIndicator.close();
-        await delay(2000);
-        dispatch(sendAlert({
-          type: 'success',
-          isDismissible: true,
-          delay: 3000,
-          message: 'Success! The MediaLive Channel was stopped.',
-        }));
+
+        const eventName = 'triniti:ovp.medialive:event:channel-stopped';
+        const dispatcher = app.getDispatcher();
+        const cleanup = () => {
+          progressIndicator.close();
+          dispatch(sendAlert({
+            type: 'success',
+            isDismissible: true,
+            delay: 3000,
+            message: 'Success! The MediaLive Channel was stopped.',
+          }));
+          dispatcher.removeListener(eventName, listener);
+        }
+        const listener = () => {
+          cleanup();
+          reloadChannelState();
+        }
+        dispatcher.addListener(eventName, listener);
       }
     });
   }
 
   return (
     <Card key={id}>
-      <CardHeader> <span >
-          <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>{status}</small>{title}
+      <CardHeader>
+        <span>
+          <small className={`text-uppercase status-copy ms-0 me-2 status-${statusColorMap[status]}`}>{status}</small>
+          {title}
         </span>
         <span>
           <Link to={nodeUrl(node, 'view')}>
@@ -163,30 +178,31 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
               <Icon imgSrc="eye" alt="view" />
             </Button>
           </Link>
-            <Link to={nodeUrl(node, 'edit')}>
-              <Button color="hover">
-                <Icon imgSrc="pencil" alt="edit" />
-              </Button>
-            </Link>
+          <Link to={nodeUrl(node, 'edit')}>
+            <Button color="hover">
+              <Icon imgSrc="pencil" alt="edit" />
+            </Button>
+          </Link>
           <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
             <Button color="hover">
               <Icon imgSrc="external" alt="open" />
             </Button>
           </a>
-            </span>
+          <Collaborators nodeRef={nodeRef} className="position-absolute top-0 start-100 translate-middle" />
+        </span>
       </CardHeader>
       <CardBody>
-        <p>
-          <MedialiveChannelStateButton
+        <MedialiveChannelStateButton
           channelState={mediaLiveData[nodeRef].state}
           handleStartChannels={()=>handleStartChannels(NodeRef.fromNode(node))}
-          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))} />
-        </p>
+          handleStopChannels={()=>handleStopChannels(NodeRef.fromNode(node))}
+          className="mb-3"
+          />
         <Table responsive>
           <tbody>
           {kalturaEntryId && (
             <tr>
-              <th>
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -202,7 +218,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
             </tr>
           )}
           <tr>
-            <th>
+            <th className="ps-0">
               <ActionButton
                 className="mb-1"
                 color="hover"
@@ -220,7 +236,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -239,7 +255,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -258,7 +274,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -274,7 +290,9 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           ))}
           </tbody>
         </Table>
-        <p><a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer"><strong>Demo Player</strong></a></p>
+        <a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer">
+          <strong>Demo Player</strong>
+        </a>
       </CardBody>
     </Card>
   );

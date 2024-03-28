@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import nodeUrl from '../../../ncr/nodeUrl';
 import usePolicy from '../../../iam/components/usePolicy';
 import getNode from '../../../ncr/selectors/getNode';
-import { getInstance } from '@triniti/demo/src/main';
+import { getInstance } from '@app/main';
 
 const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
 

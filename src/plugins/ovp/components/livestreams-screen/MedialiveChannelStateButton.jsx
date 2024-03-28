@@ -1,17 +1,17 @@
 import React from 'react';
-import { Button, Card, CardBody, CardHeader, Label } from 'reactstrap';
-import { Icon } from 'components';
-import { ActionButton } from 'components/index';
+import { Label } from 'reactstrap';
+import { ActionButton, Icon } from 'components';
 import ChannelState from '@triniti/schemas/triniti/ovp.medialive/enums/ChannelState';
+import classNames from 'classnames';
 
 function MedialiveChannelStateButton(props) {
   {
-    const {channelState, handleStartChannels, handleStopChannels} = props;
+    const { channelState, className, handleStartChannels, handleStopChannels } = props;
     const isIdle = channelState === ChannelState.IDLE.getValue();
     const isRunning = channelState === ChannelState.RUNNING.getValue();
 
     return (
-      <>
+      <div className={className}>
         <ActionButton
           text={isRunning ? 'Stop Channel' : 'Start Channel'}
           onClick={isIdle ? handleStartChannels : handleStopChannels}
@@ -20,8 +20,9 @@ function MedialiveChannelStateButton(props) {
         />
         <Label style={{'display':'inline'}} >{`State: ${channelState}`}</Label>
         {channelState &&
-          <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'}/>}
-      </>
+          <Icon imgSrc="circle" style={{'marginLeft':'5px'}} color={isRunning ? 'danger' : 'dark'}/>
+        }
+      </div>
     );
   }
 }
