@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run clean && npm run build:babel && npm run build:prepub",
     "build:babel": "BABEL_ENV=build babel src --out-dir ./dist",
-    "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg}' ./dist",
+    "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg,jpg,png}' ./dist",
     "clean": "rm -rf ./dist",
     "pub": "npm run build && cd dist && npm publish --access public",
     "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@triniti/acme-schemas": "^3.0.2",
-    "cpx": "^1.5.0",
+    "cpx2": "^7.0.1",
     "faucet": "0.0.4",
     "ignore-styles": "^5.0.1",
     "tape": "^5.7.5",
