@@ -19,6 +19,7 @@ export default function () {
   const policy = usePolicy();
   const [isActive, setActive] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
+  const isSmallScreen = window.innerWidth < 1025;
 
   useEffect(() => {
     const lastActive = localStorage.getItem('activeNavGroup');
@@ -32,7 +33,9 @@ export default function () {
 
   const isGroupActive = (group) => activeGroup === group;
   const toggle = (group) => {
-    if(isActive && (activeGroup === group || typeof group === 'object')){
+    if(isSmallScreen && typeof group !== 'object') {
+      setActive(true)
+    }else if(isActive && (activeGroup === group || typeof group === 'object')){
       setActive(false);
     }else{
       setActive(true);
@@ -90,7 +93,7 @@ export default function () {
           </NavItem>
           {policy.isGranted('cms-view-content') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('content') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={contentLinks?.[0]?.to ?? '/news/articles'}  onClick={() => toggle('content')} nav>Content</DropdownToggle>
+              <DropdownToggle tag={isSmallScreen? 'span' : Link} to={ contentLinks?.[0]?.to ?? '/news/articles'}  onClick={() => toggle('content')} nav>Content</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {contentLinks.map(link => (
                   <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('content')}>
@@ -103,7 +106,7 @@ export default function () {
           )}
           {policy.isGranted('cms-view-taxonomy') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('taxonomy') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={taxonomyLinks?.[0]?.to ?? '/taxonomy/categories'} onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
+              <DropdownToggle tag={isSmallScreen ? 'span': Link} to={taxonomyLinks?.[0]?.to ?? '/taxonomy/categories'} onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {taxonomyLinks.map(link => (
                     <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('taxonomy')}>
@@ -121,7 +124,7 @@ export default function () {
           )}
           {policy.isGranted('cms-view-structure') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={structureLinks?.[0]?.to ?? '/curator/promotions'} onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
+              <DropdownToggle tag={isSmallScreen ? 'span': Link} to={structureLinks?.[0]?.to ?? '/curator/promotions'} onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {structureLinks.map(link => (
                     <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('structure')}>
@@ -139,7 +142,7 @@ export default function () {
           )}
           {policy.isGranted('cms-view-admin') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('admin') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={adminLinks?.[0]?.to ?? '/iam/users'} onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
+              <DropdownToggle tag={isSmallScreen ? 'span': Link} to={adminLinks?.[0]?.to ?? '/iam/users'} onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {adminLinks.map(link => (
                     <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('admin')}>
