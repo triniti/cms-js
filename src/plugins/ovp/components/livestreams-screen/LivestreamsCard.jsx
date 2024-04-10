@@ -9,7 +9,7 @@ import nodeUrl from 'plugins/ncr/nodeUrl';
 import { Icon } from 'components';
 import swal from 'sweetalert2';
 import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1';
-import { getInstance } from '@triniti/demo/src/main';
+import { getInstance } from '@app/main';
 import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
 import progressIndicator from 'utils/progressIndicator';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';

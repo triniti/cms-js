@@ -4,7 +4,7 @@ import pickBy from 'lodash/pickBy';
 import noop from 'lodash-es/noop';
 import isEqual from 'lodash-es/isEqual';
 import swal from 'sweetalert2';
-import { unstable_useBlocker } from 'react-router';
+// import { unstable_useBlocker } from 'react-router';
 import { getInstance } from '@app/main';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import useResolver from 'plugins/pbjx/components/with-request/useResolver';
