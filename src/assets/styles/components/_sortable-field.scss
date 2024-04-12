@@ -2,7 +2,7 @@
 
 .sortable-field {
   margin: .5rem 0;
-  border: 1px solid $gray-700;
+  border: 1px solid $gray-600;
   min-height: 40px;
   padding: 0.25rem 0;
   font-size: 0.825rem;
@@ -11,8 +11,8 @@
   background-color: $white;
 
   [data-bs-theme=dark] & {
-    background-color: var(--form-control-bg);
-    border-color: var(--form-control-bg);
+    background-color: var(--#{$prefix}secondary-bg);
+    border-color: var(--#{$prefix}secondary-bg);
   }
 }
 
@@ -23,7 +23,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, .12); // $shadow-depth-4
 
     [data-bs-theme=dark] & {
-      border-color: var(--button-border-color);
+      border-color: var(--#{$prefix}btn-border-color);
     }
   }
   &[draggable="true"] {

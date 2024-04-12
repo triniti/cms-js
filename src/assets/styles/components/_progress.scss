@@ -1,5 +1,13 @@
 // Progress
 
+.progress {
+  --#{$prefix}progress-bg: #{$gray-400};
+
+  [data-bs-theme=dark] & {
+    --#{$prefix}progress-bg: #{$progress-bg};
+  }
+}
+
 .progress-bar {
   font-weight: 700;
   text-shadow: $text-shadow;

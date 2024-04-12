@@ -5,7 +5,7 @@
   margin: 0 0 .5rem 0;
   width: 100%;
   border: none;
-  background-color: $white;
+  background-color: var(--#{$prefix}body-bg);
 
   @media (min-width: 421px) {
     margin-bottom: .75rem;
@@ -22,7 +22,7 @@
     margin-top: 0;
   }
   .card-group > & {
-    border-right: $card-border-width solid $card-border-color;
+    border-right: $card-border-width solid var(--#{$prefix}border-color-translucent);
 
     &:last-child {
       border-right: none;
@@ -40,6 +40,9 @@
   .tab-pane > & {
     box-shadow: $shadow-card;
 
+    [data-bs-theme=dark] & {
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .28);
+    }
     @media (min-width: 768px) {
       margin-bottom: 2rem;
     }
@@ -54,7 +57,7 @@
 }
 
 .card-border {
-  border: $card-border-width solid $card-border-color;
+  border: $card-border-width solid var(--#{$prefix}border-color-translucent);
 }
 
 .card-hover-border {
@@ -70,12 +73,12 @@
   }
   &:hover {
     &::after {
-      box-shadow: inset 0 0 0 4px map-get($theme-colors, "secondary");
+      box-shadow: inset 0 0 0 4px var(--#{$prefix}secondary);
     }
   }
   &.selected {
     &::after {
-      box-shadow: inset 0 0 0 4px map-get($theme-colors, "primary");
+      box-shadow: inset 0 0 0 4px var(--#{$prefix}primary);
     }
   }
   &.disabled {
@@ -84,7 +87,11 @@
 }
 
 .card-shadow {
-  box-shadow: $shadow-depth-2;
+  box-shadow: $shadow-depth-2; // todo: check if used
+
+  [data-bs-theme=dark] & {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .card-group {
@@ -118,7 +125,7 @@
     }
   }
   .card > .card-body + & {
-    box-shadow: inset 0 1px 0 0 rgba($black, .1); // add dividing line between 2 stacked card-body
+    box-shadow: inset 0 1px 0 0 var(--#{$prefix}border-color-translucent); // add dividing line between 2 stacked card-body
   }
 }
 
@@ -188,13 +195,13 @@ h3.card-title {
   min-height: auto;
   margin-bottom: 1.25rem;
   padding: 0;
-  border-bottom: $card-border-width solid $card-border-color;
+  border-bottom: $card-border-width solid var(--#{$prefix}border-color-translucent);
   white-space: nowrap;
   font-size: .9em;
   line-height: 2;
   letter-spacing: .03em;
   font-weight: 400;
-  color: $gray-rgba-800;
+  color: var(--#{$prefix}secondary-color);
   background-color: transparent;
   z-index: initial;
 }
@@ -227,9 +234,12 @@ h3.card-title {
   align-items: center;
   justify-content: space-between;
   min-height: $header-height + 2;
-  box-shadow: inset 0 0 0 1px $white;
-  border-top: 1px solid $gray-rgba-400;
+  box-shadow: inset 0 0 0 1px var(--#{$prefix}body-bg);
+  border-top: 1px solid var(--#{$prefix}border-color-translucent);
 
+  [data-bs-theme=dark] & {
+    box-shadow: none;
+  }
   .card > &:first-child {
     border-top: none;
   }
@@ -244,6 +254,10 @@ h3.card-title {
     min-height: 44px;
     z-index: 2;
 
+    [data-bs-theme=dark] & {
+      background-color: var(--#{$prefix}body-bg);
+      background: linear-gradient(180deg, var(--#{$prefix}body-bg) 0%, darken($body-bg-dark, 3.8%) 100%);
+    }
     & .btn-toggler {
       font-size: .875rem;
     }
@@ -255,6 +269,11 @@ h3.card-title {
     min-height: 57px;
     background-color: $gray-100;
     background: linear-gradient(180deg, $white 0%, $gray-100 100%);
+
+    [data-bs-theme=dark] & {
+      background-color: var(--#{$prefix}body-bg);
+      background: linear-gradient(180deg, var(--#{$prefix}body-bg) 0%, darken($body-bg-dark, 3.8%) 100%);
+    }
   }
   + .table {
     margin-top: -1px;

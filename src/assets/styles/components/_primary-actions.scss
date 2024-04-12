@@ -10,20 +10,18 @@
   }
   .btn {
     margin-bottom: 0;
+    --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
 
-    &:not(:focus) {
+    &:not(:focus-visible) {
       box-shadow: $shadow-depth-3;
     }
     &.disabled {
-      color: $gray-900;
-      background: $gray-200;
-      border-color: $gray-700;
+      background: $gray-300;
+      border-color: var(--#{$prefix}border-color);
 
-      &:hover,
-      &:focus {
-        color: $gray-900;
-        background: $gray-200;
-        border-color: $gray-700;
+      [data-bs-theme=dark] & {
+        background-color: var(--#{$prefix}secondary-bg);
+        border-color: var(--#{$prefix}form-control-border-color);
       }
     }
     img {
@@ -109,11 +107,12 @@
 }
 
 .screen-primary-actions {
+  background-color: transparent;
 
   @media (max-width: 767px) {
     display: block;
     position: fixed;
-    background-color: rgba(41, 41, 41, 0.9);
+    background-color: rgba($navbar-theme-dark, .98);
     top: 2.5rem;
     left: 0;
     right: 0;

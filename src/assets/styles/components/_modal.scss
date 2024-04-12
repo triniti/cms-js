@@ -64,12 +64,12 @@
 // Modal header
 // Top section of the modal w/ title and dismiss
 .modal-header {
-  background-color: $gray-100;
+  background-color: var(--#{$prefix}tertiary-bg);
   border-radius: $modal-content-border-radius $modal-content-border-radius 0 0;
   padding-right: 3rem;
 
   .btn-close {
-    float: none;
+    // float: none;
     padding: 1rem;
     margin: 1px 0 0 0;
   }
@@ -211,7 +211,7 @@
   max-width: 60px;
 
   & .modal-content {
-    background: rgba($navbar-theme-dark,.25);
+    background: rgba($navbar-theme-dark, .25); // todo test
   }
 }
 
@@ -244,7 +244,6 @@
   position: relative;
   width: 60px !important;
   height: 60px !important;
-  -webkit-transform: translate(-30px, -30px) scale(1) translate(30px, 30px);
   transform: translate(-30px, -30px) scale(1) translate(30px, 30px);
   flex-grow: 0 !important;
 }
@@ -254,7 +253,7 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 2px solid $gray-700;
+  border: 2px solid $gray-600; // todo test in dark mode
   border-top-color: transparent;
   border-radius: 50%;
 }
@@ -268,6 +267,26 @@
 }
 
 .modal-spinner > div:first-child:after {
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+
+[data-bs-theme=dark] {
+
+  .modal-backdrop {
+    --#{$prefix}backdrop-bg: var(--#{$prefix}dark-bg-subtle);
+    --#{$prefix}backdrop-opacity: 0.8;
+  }
+
+  .modal-footer-buttons .btn {
+    box-shadow: inset -1px 0 0 0 var(--#{$prefix}border-color-translucent);
+  }
+}
+
+// blocksmith
+
+.modal-body-blocksmith {
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+}
+

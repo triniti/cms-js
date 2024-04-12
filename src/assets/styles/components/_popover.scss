@@ -30,10 +30,26 @@
       overflow: hidden;
     }
   }
+  .form-control {
+    background-color: var(--#{$prefix}body-bg);
+
+    [data-bs-theme=dark] & {
+      background-color: var(--#{$prefix}secondary-bg);
+    }
+  }
+  [data-bs-theme=dark] & {
+    --#{$prefix}popover-bg: var(--#{$prefix}dropdown-bg);
+    box-shadow: 0 10px 8px -6px rgba(0, 0, 0, .1), 0 4px 12px rgba(0, 0, 0, .2);
+  }
 }
 
 .popover-header {
-  box-shadow: 0 -1px 0 0 $gray-rgba-300;
+  box-shadow: 0 -1px 0 0 var(--#{$prefix}border-color-translucent);
+
+  [data-bs-theme=dark] & {
+    background-color: var(--#{$prefix}popover-bg); // #364054
+    background: linear-gradient(180deg, shade-color($dropdown-bg-dark, 3%) 0%, shade-color($dropdown-bg-dark, 17%) 100%); // #30394b
+  }
 }
 
 .bs-popover-bottom .popover-header::before,
@@ -41,12 +57,13 @@
   border-bottom: none;
 }
 
+/* // use btn-blocksmith in buttons
 .btn-popover { // for use with icon-group and span of text
   display: inline-block;
   vertical-align: top;
   padding-top: 1rem;
   text-align: center;
-  background: $white;
+  // background: $white;
   width: 100px;
   overflow: hidden;
   border: 1px solid transparent;
@@ -58,7 +75,7 @@
   }
   &:hover,
   &:focus {
-    background: $white;
+    // background: $white;
     border-color: $secondary;
   }
   & > span:last-child {
@@ -72,3 +89,4 @@
     font-size: .75rem;
   }
 }
+*/

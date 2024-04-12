@@ -1,39 +1,6 @@
 // Nav
 
 
-// Nav Link styles
-
-.nav-link {
-  position: relative;
-  color: $gray-800;
-
-  &:hover,
-  &:focus {
-    color: $body-color;
-  }
-  &.disabled,
-  &.disabled:hover {
-    color: $nav-link-disabled-color;
-    cursor: no-drop;
-  }
-  .main-nav &,
-  .navbar-dark & {
-    color: $navbar-dark-color;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      color: $navbar-dark-active-color;
-    }
-    &.disabled,
-    &.disabled:hover {
-      color: $white-rgba-300;
-    }
-  }
-}
-
-
 // Nav Tabs
 
 .nav-tabs {
@@ -47,7 +14,7 @@
     border-color: $nav-tabs-link-hover-border-color $nav-tabs-link-hover-border-color $nav-tabs-border-color $nav-tabs-link-hover-border-color;
   }
   .nav-link.active {
-    border-color: $nav-tabs-link-active-border-color $nav-tabs-link-active-border-color $nav-tabs-link-active-bg;
+    border-color: $nav-tabs-link-active-border-color $nav-tabs-link-active-border-color $nav-tabs-link-active-bg $nav-tabs-link-active-border-color;
   }
 }
 
@@ -58,9 +25,18 @@
   .nav-link {
     margin: 0 .375rem .5rem 0;
     padding: 0.375rem 1rem;
-    background-color: $gray-400;
+    background-color: $gray-rgba-200;
     border-radius: 10rem;
+
+    [data-bs-theme=dark] & {
+      background-color: $gray-rgba-500;
+    }
   }
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: var(--#{$prefix}nav-pills-link-active-bg);
 }
 
 .nav-pills-sm {
@@ -83,11 +59,11 @@
 
 .nav-underline {
   flex: 0 0 auto;
-  box-shadow: inset 0 -1px 0 0 $nav-tabs-border-color;
+  box-shadow: inset 0 -1px 0 0 var(--#{$prefix}border-color);
   flex-wrap: nowrap;
   padding-left: .5rem;
   width: 100%;
-  --bs-nav-underline-border-width: 0;
+  --#{$prefix}nav-underline-border-width: 0;
 
   @media (max-width: 767px) {
     overflow: hidden;
@@ -110,16 +86,6 @@
   .nav-link {
     white-space: nowrap;
 
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      color: $body-color;
-    }
-    &.disabled,
-    &.disabled:hover {
-      color: $text-disabled;
-    }
     &::before {
       content: none !important;
     }
@@ -172,4 +138,16 @@
 
 .nav-item .dropdown-item {
   padding: .5rem 1rem;
+}
+
+
+// dark theme
+
+[data-bs-theme=dark] {
+  .nav-link,
+  .navbar-light .nav-link {
+    --#{$prefix}nav-link-color: #{$navbar-dark-color};
+    --#{$prefix}nav-link-hover-color: #{$navbar-dark-hover-color};
+    --#{$prefix}nav-link-disabled-color: #{$navbar-dark-disabled-color};
+  }
 }
