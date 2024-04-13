@@ -1,10 +1,10 @@
 /* globals API_ENDPOINT */
 import EnvelopeV1 from '@gdbots/schemas/gdbots/pbjx/EnvelopeV1';
-import receiveEnvelope from 'plugins/pbjx/actions/receiveEnvelope';
-import getAccessToken from 'plugins/iam/selectors/getAccessToken';
-import isJwtExpired from 'plugins/iam/utils/isJwtExpired';
-import { actionTypes, ravenTypes } from 'plugins/raven/constants';
-import publishMessage from 'plugins/raven/actions/publishMessage';
+import receiveEnvelope from '@triniti/cms/plugins/pbjx/actions/receiveEnvelope';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
+import { actionTypes, ravenTypes } from '@triniti/cms/plugins/raven/constants';
+import publishMessage from '@triniti/cms/plugins/raven/actions/publishMessage';
 
 export default (nodeRef) => async (dispatch, getState) => {
   const state = getState();

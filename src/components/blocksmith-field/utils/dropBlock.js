@@ -1,8 +1,8 @@
 import { ContentState } from 'draft-js';
-import constants from 'components/blocksmith-field/constants';
-import areKeysSame from 'components/blocksmith-field/utils/areKeysSame';
-import getBlockForKey from 'components/blocksmith-field/utils/getBlockForKey';
-import getBlockNode from 'components/blocksmith-field/utils/getBlockNode';
+import constants from '@triniti/cms/components/blocksmith-field/constants';
+import areKeysSame from '@triniti/cms/components/blocksmith-field/utils/areKeysSame';
+import getBlockForKey from '@triniti/cms/components/blocksmith-field/utils/getBlockForKey';
+import getBlockNode from '@triniti/cms/components/blocksmith-field/utils/getBlockNode';
 
 /**
  * Reorders blocks after a drag and drop

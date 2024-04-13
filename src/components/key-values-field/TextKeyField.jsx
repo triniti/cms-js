@@ -2,8 +2,8 @@ import React from 'react';
 import { FormText } from 'reactstrap';
 import { useField } from 'react-final-form';
 import classNames from 'classnames';
-import useFormContext from 'components/useFormContext';
-import validateKey from 'components/key-values-field/validateKey';
+import useFormContext from '@triniti/cms/components/useFormContext';
+import validateKey from '@triniti/cms/components/key-values-field/validateKey';
 
 export default function TextKeyField(props) {
   const { groupClassName = '', name, pbjName, ...rest } = props;

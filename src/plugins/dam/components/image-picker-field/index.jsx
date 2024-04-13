@@ -2,9 +2,9 @@ import React, { lazy } from 'react';
 import classNames from 'classnames';
 import { Button, Label, Media, Card, CardImgOverlay, CardTitle } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { CreateModalButton, Icon, useField, useFormContext } from 'components';
-import damUrl from 'plugins/dam/damUrl';
-import useNode from 'plugins/ncr/components/useNode';
+import { CreateModalButton, Icon, useField, useFormContext } from '@triniti/cms/components';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
 import noop from 'lodash-es/noop';
 import { Link } from 'react-router-dom';
 import nodeUrl from '../../../ncr/nodeUrl';
@@ -12,7 +12,7 @@ import usePolicy from '../../../iam/components/usePolicy';
 import getNode from '../../../ncr/selectors/getNode';
 import { getInstance } from '@app/main';
 
-const ImagePickerModal = lazy(() => import('plugins/dam/components/image-picker-field/ImagePickerModal'));
+const ImagePickerModal = lazy(() => import('@triniti/cms/plugins/dam/components/image-picker-field/ImagePickerModal'));
 
 const defaultAspectRatio = (aspectRatio) => {
   if (`${aspectRatio}` === 'auto' || `${aspectRatio}` === 'original') {

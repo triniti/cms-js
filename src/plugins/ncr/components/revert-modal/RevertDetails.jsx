@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@gdbots/pbj/Message';
 import RevertPropertiesTable from '../revert-properties-table';
-import filterRevertableData from 'plugins/ncr/components/node-history-card/filterData';
-import findNodeDiff from 'plugins/ncr/components/node-history-card/findNodeDiff';
-import fullMapsAndLists from 'plugins/ncr/components/node-history-card/fullMapsAndLists';
+import filterRevertableData from '@triniti/cms/plugins/ncr/components/node-history-card/filterData';
+import findNodeDiff from '@triniti/cms/plugins/ncr/components/node-history-card/findNodeDiff';
+import fullMapsAndLists from '@triniti/cms/plugins/ncr/components/node-history-card/fullMapsAndLists';
 
 const RevertDetails = ({ event, isDbValueSameAsNodeValue, onSelectField: handleSelectField }) => {
   // find properties in node that were removed

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
-import { TextField } from 'components';
-import humanizeBytes from 'utils/humanizeBytes';
-import artifactUrl from 'plugins/ovp/artifactUrl';
+import { TextField } from '@triniti/cms/components';
+import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl';
 import ReactPlayer from 'react-player';
 import CommonFields from './CommonFields';
 

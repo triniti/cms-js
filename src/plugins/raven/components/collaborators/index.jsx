@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { UncontrolledTooltip } from 'components';
+import { UncontrolledTooltip } from '@triniti/cms/components';
 import isString from 'lodash-es/isString';
 
 import selector from './selector';

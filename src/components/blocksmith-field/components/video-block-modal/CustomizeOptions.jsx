@@ -1,8 +1,8 @@
 import React from 'react';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { NumberField, SwitchField, TextField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import useNode from 'plugins/ncr/components/useNode';
+import { NumberField, SwitchField, TextField } from '@triniti/cms/components';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
 
 export default function CustomizeOptions(props) {
   const {

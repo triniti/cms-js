@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Media } from 'reactstrap';
-import { BackgroundImage } from 'components';
-import damUrl from 'plugins/dam/damUrl';
-import loadFacebookSDK from 'components/blocksmith-field/utils/loadFacebookSDK';
+import { BackgroundImage } from '@triniti/cms/components';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import loadFacebookSDK from '@triniti/cms/components/blocksmith-field/utils/loadFacebookSDK';
 import './Preview.scss';
 
 export default function Preview(props) {

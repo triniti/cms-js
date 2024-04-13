@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import ReactStepper from 'react-stepper-horizontal';
-import 'components/blocksmith-field/components/stepper/styles.scss';
+import '@triniti/cms/components/blocksmith-field/components/stepper/styles.scss';
 
 export default function Stepper({
   activeColor,

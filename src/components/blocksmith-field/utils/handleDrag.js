@@ -1,6 +1,6 @@
 /* eslint-disable import/no-useless-path-segments */
-import { styleDragTarget, getDraggedBlockNode, handleDocumentDragover, handleDocumentDrop } from 'components/blocksmith-field/utils/index';
-import constants from 'components/blocksmith-field/constants';
+import { styleDragTarget, getDraggedBlockNode, handleDocumentDragover, handleDocumentDrop } from '@triniti/cms/components/blocksmith-field/utils/index';
+import constants from '@triniti/cms/components/blocksmith-field/constants';
 
 let draggedBlockNode;
 

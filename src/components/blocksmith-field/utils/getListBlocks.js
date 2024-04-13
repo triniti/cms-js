@@ -1,5 +1,5 @@
-import findBlock from 'components/blocksmith-field/utils/findBlock';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList';
 
 /**
  * Given a list block or list block identifier, returns entire list

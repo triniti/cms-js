@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import Swal from 'sweetalert2';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import clearAlerts from 'actions/clearAlerts';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import deleteNode from 'plugins/ncr/actions/deleteNode';
-import updateNode from 'plugins/ncr/actions/updateNode';
-import publishNode from 'plugins/ncr/actions/publishNode';
+import clearAlerts from '@triniti/cms/actions/clearAlerts';
+import sendAlert from '@triniti/cms/actions/sendAlert';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode';
+import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode';
 
 const useBlocker = func => () => func();
 

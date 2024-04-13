@@ -1,5 +1,5 @@
 import React from 'react';
-import getRootFields from 'utils/getRootFields';
+import getRootFields from '@triniti/cms/utils/getRootFields';
 import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 

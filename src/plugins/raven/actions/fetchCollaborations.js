@@ -1,8 +1,8 @@
 /* globals API_ENDPOINT */
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import receiveNodes from 'plugins/ncr/actions/receiveNodes';
-import simplifyCollaborations from 'plugins/raven/utils/simplifyCollaborations';
-import updateCollaborations from 'plugins/raven/actions/updateCollaborations';
+import receiveNodes from '@triniti/cms/plugins/ncr/actions/receiveNodes';
+import simplifyCollaborations from '@triniti/cms/plugins/raven/utils/simplifyCollaborations';
+import updateCollaborations from '@triniti/cms/plugins/raven/actions/updateCollaborations';
 
 
 const deserializeNodes = async (derefs) => {

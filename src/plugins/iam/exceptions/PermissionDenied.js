@@ -1,4 +1,4 @@
-import TrinitiIamException from 'plugins/iam/exceptions/TrinitiIamException';
+import TrinitiIamException from '@triniti/cms/plugins/iam/exceptions/TrinitiIamException';
 
 export default class PermissionDenied extends TrinitiIamException {
   /**

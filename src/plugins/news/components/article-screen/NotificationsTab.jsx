@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, CardBody, Label, ListGroupItem } from 'reactstrap';
-import { CheckboxField, TextField } from 'components';
+import { CheckboxField, TextField } from '@triniti/cms/components';
 import formatDate from '@triniti/cms/utils/formatDate';
-import HasNotificationsCard from 'plugins/notify/components/has-notifications-card';
+import HasNotificationsCard from '@triniti/cms/plugins/notify/components/has-notifications-card';
 
 export default function NotificationsTab(props) {
   const { node, nodeRef } = props;

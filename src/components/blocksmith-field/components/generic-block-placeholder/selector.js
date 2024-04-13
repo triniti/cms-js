@@ -1,4 +1,4 @@
-import getNode from 'plugins/ncr/selectors/getNode';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 
 /**
  * @param {Object} state                     - The entire redux state.

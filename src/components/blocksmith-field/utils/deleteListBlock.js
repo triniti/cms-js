@@ -1,5 +1,5 @@
 import { ContentState, EditorState } from 'draft-js';
-import getListBlocks from 'components/blocksmith-field/utils/getListBlocks';
+import getListBlocks from '@triniti/cms/components/blocksmith-field/utils/getListBlocks';
 
 /**
  * Deletes a list block, which is to say deletes the set of adjacent ContentBlocks

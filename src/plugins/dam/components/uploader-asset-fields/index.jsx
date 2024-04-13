@@ -1,11 +1,11 @@
 import React from 'react';
-import memoize from 'lodash/memoize';
-import noop from 'lodash/noop';
+import memoize from 'lodash-es/memoize';
+import noop from 'lodash-es/noop';
 import { Field } from 'react-final-form';
 import { Button, Col, FormGroup, Row } from 'reactstrap';
-import AssetSnippet from 'plugins/dam/components/asset-snippet';
+import AssetSnippet from '@triniti/cms/plugins/dam/components/asset-snippet';
 import DatePickerField from '@triniti/cms/components/date-picker-field';
-import PicklistField from 'plugins/sys/components/picklist-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 import TextareaField from '@triniti/cms/components/textarea-field';
 import TextField from '@triniti/cms/components/text-field';
 import { DATE_FIELD_QUICK_SELECT_OPTIONS } from '@triniti/cms/plugins/dam/constants';

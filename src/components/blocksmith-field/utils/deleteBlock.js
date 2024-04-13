@@ -1,7 +1,7 @@
 import { ContentState, EditorState } from 'draft-js';
-import { blockTypes } from 'components/blocksmith-field/constants';
-import deleteListBlock from 'components/blocksmith-field/utils/deleteListBlock';
-import findBlock from 'components/blocksmith-field/utils/findBlock';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants';
+import deleteListBlock from '@triniti/cms/components/blocksmith-field/utils/deleteListBlock';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
 
 /**
  * Deletes a block

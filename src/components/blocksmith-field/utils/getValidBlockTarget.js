@@ -1,4 +1,4 @@
-import blockParentNode from 'components/blocksmith-field/utils/blockParentNode';
+import blockParentNode from '@triniti/cms/components/blocksmith-field/utils/blockParentNode';
 
 /**
  * Given a node (eg one provided by document.elementFromPoint), traverses

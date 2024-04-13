@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef } from 'react';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function Preview (props) {
   const { formState } = props;

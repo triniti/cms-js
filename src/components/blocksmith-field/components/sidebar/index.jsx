@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { localize } from 'plugins/utils/services/Localization';
-import useCuries from 'plugins/pbjx/components/useCuries';
+import { localize } from '@triniti/cms/plugins/utils/services/Localization';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import {
   Button,
@@ -11,12 +11,12 @@ import {
   PopoverHeader,
   UncontrolledTooltip,
 } from 'reactstrap';
-import Icon from 'components/icon';
-import { blockParentNode } from 'components/blocksmith-field/utils';
-import { getButtonConfig } from 'components/blocksmith-field/buttonConfig';
-import sidebarSections, { vendorButtonTypes } from 'components/blocksmith-field/components/sidebar/config';
+import Icon from '@triniti/cms/components/icon';
+import { blockParentNode } from '@triniti/cms/components/blocksmith-field/utils';
+import { getButtonConfig } from '@triniti/cms/components/blocksmith-field/buttonConfig';
+import sidebarSections, { vendorButtonTypes } from '@triniti/cms/components/blocksmith-field/components/sidebar/config';
 
-const GenericSidebarButton = lazy(() => import('components/blocksmith-field/components/generic-sidebar-button'));
+const GenericSidebarButton = lazy(() => import('@triniti/cms/components/blocksmith-field/components/generic-sidebar-button'));
 
 export default function Sidebar({
   onHoverInsert: handleHoverInsert,

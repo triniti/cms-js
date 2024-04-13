@@ -1,14 +1,14 @@
 import React from 'react';
 import { Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import artifactUrl from 'plugins/ovp/artifactUrl';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
-import camelCase from 'lodash/camelCase';
-import damUrl from 'plugins/dam/damUrl';
+import camelCase from 'lodash-es/camelCase';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import startCase from 'lodash/startCase';
-import withPbj from 'components/with-pbj';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import startCase from 'lodash-es/startCase';
+import withPbj from '@triniti/cms/components/with-pbj';
 
 function TranscribeableCard({ asset, pbj }) {
     const status = asset.has('transcription_status') ? asset.get('transcription_status').getValue() : 'unknown';

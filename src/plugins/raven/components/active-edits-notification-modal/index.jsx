@@ -3,11 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { Badge, Button, Modal, ModalBody } from 'reactstrap';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import joinCollaboration from 'plugins/raven/actions/joinCollaboration';
-import leaveCollaboration from 'plugins/raven/actions/leaveCollaboration';
-import selector from 'plugins/raven/components/active-edits-notification-modal/selector';
+import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration';
+import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration';
+import selector from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/selector';
 import 'plugins/raven/components/active-edits-notification-modal/styles.scss';
 
 const ActiveEditNotificationModal = ({

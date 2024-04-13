@@ -1,10 +1,10 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { DatePickerField, EnumField, TextareaField, TextField } from 'components';
-import SlugField from 'plugins/ncr/components/slug-field';
+import { DatePickerField, EnumField, TextareaField, TextField } from '@triniti/cms/components';
+import SlugField from '@triniti/cms/plugins/ncr/components/slug-field';
 import SponsorType from '@triniti/schemas/triniti/boost/enums/SponsorType';
-import TaggableFields from 'plugins/common/components/taggable-fields';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields';
 
 export default function DetailsTab(props) {
   const { nodeRef } = props;

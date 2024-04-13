@@ -9,7 +9,7 @@ import './assets/styles/main.scss';
 import './config/uriTemplates';
 import Root from './Root';
 import createApp from './createApp';
-import startWorkers from './workers';
+// import startWorkers from './workers';
 
 let app = null;
 export const getInstance = () => app;
@@ -18,8 +18,8 @@ export const getInstance = () => app;
   app = await createApp();
   window.cms = app;
   await app.start();
-  await startWorkers(app);
-  const container = document.getElementById('react-root');
+  // await startWorkers(app);
+  const container = document.getElementById('root');
 
   createRoot(container).render(
     <Provider store={app.getRedux()}>

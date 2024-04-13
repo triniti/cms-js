@@ -1,5 +1,5 @@
-import constants from 'components/blocksmith-field/constants';
-import normalizeKey from 'components/blocksmith-field/utils/normalizeKey';
+import constants from '@triniti/cms/components/blocksmith-field/constants';
+import normalizeKey from '@triniti/cms/components/blocksmith-field/utils/normalizeKey';
 
 /**
  * Gets the dragged block node

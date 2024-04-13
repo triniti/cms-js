@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, CardText } from 'reactstrap';
-import { EncryptedField, KeyValuesField, NumberField } from 'components';
+import { EncryptedField, KeyValuesField, NumberField } from '@triniti/cms/components';
 
 export default function EmailAppFields() {
   return (

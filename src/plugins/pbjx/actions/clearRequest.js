@@ -1,4 +1,4 @@
-import { actionTypes } from 'plugins/pbjx/constants';
+import { actionTypes } from '@triniti/cms/plugins/pbjx/constants';
 
 /**
  * @param {string} curie

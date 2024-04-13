@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone'; 
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components';
 
 
 export default ({

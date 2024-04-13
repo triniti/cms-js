@@ -1,4 +1,4 @@
-import normalizeKey from 'components/blocksmith-field/utils/normalizeKey';
+import normalizeKey from '@triniti/cms/components/blocksmith-field/utils/normalizeKey';
 
 /**
  * Gets a block by its key. Just like ContentState.getBlockForKey but this allows

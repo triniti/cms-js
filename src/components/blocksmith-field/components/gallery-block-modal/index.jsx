@@ -2,7 +2,7 @@ import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
 import GalleryGrid from './GalleryGrid';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import React, { useState } from 'react';
-import { ScrollableContainer } from 'components';
+import { ScrollableContainer } from '@triniti/cms/components';
 import {
   Modal,
   ModalBody,

@@ -1,6 +1,6 @@
-import Plugin from 'Plugin';
-import reducer from 'plugins/iam/reducers';
-import { serviceIds } from 'plugins/iam/constants';
+import Plugin from '@triniti/cms/Plugin';
+import reducer from '@triniti/cms/plugins/iam/reducers';
+import { serviceIds } from '@triniti/cms/plugins/iam/constants';
 
 export default class IamPlugin extends Plugin {
   constructor() {
@@ -11,7 +11,7 @@ export default class IamPlugin extends Plugin {
     this.reducer = reducer;
 
     app.register(serviceIds.AUTHORIZER, async () => {
-      const Authorizer = (await import('plugins/iam/Authorizer')).default;
+      const Authorizer = (await import('@triniti/cms/plugins/iam/Authorizer')).default;
       return new Authorizer(app);
     });
 

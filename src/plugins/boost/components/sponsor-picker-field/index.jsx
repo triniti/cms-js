@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchSponsorsSort from '@triniti/schemas/triniti/boost/enums/SearchSponsorsSort';
-import withRequest from 'plugins/pbjx/components/with-request';
-import NodePickerField from 'plugins/ncr/components/node-picker-field';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 
 function SponsorPickerField(props) {
   return <NodePickerField {...props} showImage={false} />;

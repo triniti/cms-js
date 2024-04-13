@@ -3,12 +3,12 @@ import { FORM_ERROR } from 'final-form';
 import startCase from 'lodash-es/startCase';
 import { getInstance } from '@app/main';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, EnumField, FormErrors, TextField, withForm } from 'components';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import FormMarshaler from 'utils/FormMarshaler';
-import getRootFields from 'utils/getRootFields';
+import { ActionButton, EnumField, FormErrors, TextField, withForm } from '@triniti/cms/components';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler';
+import getRootFields from '@triniti/cms/utils/getRootFields';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
-import WidgetPickerField from 'plugins/curator/components/widget-picker-field';
+import WidgetPickerField from '@triniti/cms/plugins/curator/components/widget-picker-field';
 
 const filter = option => option.value !== 'unknown';
 const format = label => startCase(label.toLowerCase());

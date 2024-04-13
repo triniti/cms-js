@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
-import { ErrorBoundary, Loading } from 'components';
+import { ErrorBoundary, Loading } from '@triniti/cms/components';
 
-const NodeHistoryCard = lazy(() => import('plugins/ncr/components/node-history-card'));
+const NodeHistoryCard = lazy(() => import('@triniti/cms/plugins/ncr/components/node-history-card'));
 
 export default function HistoryTab(props) {
   const { tab } = props;

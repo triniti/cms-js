@@ -1,17 +1,17 @@
 import { buffers } from 'redux-saga';
 import { actionChannel, all, fork, select, take, takeLatest } from 'redux-saga/effects';
-import { actionTypes } from 'plugins/raven/constants';
-import { actionTypes as appActionTypes } from 'constants';
-import { actionTypes as iamActionTypes } from 'plugins/iam/constants';
+import { actionTypes } from '@triniti/cms/plugins/raven/constants';
+import { actionTypes as appActionTypes } from '@triniti/cms/constants';
+import { actionTypes as iamActionTypes } from '@triniti/cms/plugins/iam/constants';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
-import updateCollaborations from 'plugins/raven/actions/updateCollaborations';
-import updateConnectionStatus from 'plugins/raven/actions/updateConnectionStatus';
-import loadUser from 'plugins/raven/actions/loadUser';
-import isAuthenticated from 'plugins/iam/selectors/isAuthenticated';
-import isConnected from 'plugins/raven/selectors/isConnected';
-import getUserRef from 'plugins/iam/selectors/getUserRef';
+import updateCollaborations from '@triniti/cms/plugins/raven/actions/updateCollaborations';
+import updateConnectionStatus from '@triniti/cms/plugins/raven/actions/updateConnectionStatus';
+import loadUser from '@triniti/cms/plugins/raven/actions/loadUser';
+import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated';
+import isConnected from '@triniti/cms/plugins/raven/selectors/isConnected';
+import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import processEvent from 'plugins/raven/actions/processEvent';
+import processEvent from '@triniti/cms/plugins/raven/actions/processEvent';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 
 // This will hold worker instance

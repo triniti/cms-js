@@ -1,4 +1,4 @@
-import InvalidArgumentException from 'exceptions/InvalidArgumentException';
+import InvalidArgumentException from '@triniti/cms/exceptions/InvalidArgumentException';
 
 const wildcard = '*';
 const delimiter = ':';

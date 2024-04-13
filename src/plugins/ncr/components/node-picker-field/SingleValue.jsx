@@ -1,10 +1,10 @@
 import React from 'react';
 import { components } from 'react-select';
 import { Badge, Media } from 'reactstrap';
-import nodeUrl from 'plugins/ncr/nodeUrl'
-import Loading from 'components/loading';
-import useNode from 'plugins/ncr/components/useNode';
-import damUrl from 'plugins/dam/damUrl';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl'
+import Loading from '@triniti/cms/components/loading';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import brokenImage from 'assets/img/broken-image--xxs.jpg';
 
 const noop = (event) => {

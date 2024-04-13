@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
-import { ActionButton, ErrorBoundary } from 'components/index';
+import { ActionButton, ErrorBoundary } from '@triniti/cms/components/index';
 
 export default function CreateModalButton(props) {
   const { color = 'light', modal: ModalComponent, modalProps = {}, ...rest } = props;

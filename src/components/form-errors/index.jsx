@@ -2,8 +2,8 @@ import React from 'react';
 import { Alert } from 'reactstrap';
 import isString from 'lodash-es/isString';
 import { FORM_ERROR } from 'final-form';
-import getRootFields from 'utils/getRootFields';
-import useFormContext from 'components/useFormContext';
+import getRootFields from '@triniti/cms/utils/getRootFields';
+import useFormContext from '@triniti/cms/components/useFormContext';
 
 // fixme: need to flatten nested errors or pretty this up
 export default function FormErrors({ errors }) {

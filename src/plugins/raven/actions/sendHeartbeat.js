@@ -2,9 +2,9 @@
 import swal from 'sweetalert2';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import getAccessToken from '/plugins/iam/selectors/getAccessToken';
-import getNode from 'plugins/ncr/selectors/getNode';
-import hasNode from 'plugins/ncr/selectors/hasNode';
-import isJwtExpired from 'plugins/iam/utils/isJwtExpired';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import { actionTypes, ravenTypes } from '../constants';
 import publishMessage from './publishMessage';
 

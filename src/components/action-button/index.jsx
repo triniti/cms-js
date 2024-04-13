@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import classNames from 'classnames';
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon';
 
 export default function ActionButton(props) {
   const { className = '', icon = '', iconUrl = '', text = 'Click', ...rest } = props;

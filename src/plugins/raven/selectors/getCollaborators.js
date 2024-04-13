@@ -1,6 +1,6 @@
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import getNode from 'plugins/ncr/selectors/getNode';
-import getUser from 'plugins/iam/selectors/getUser';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser';
 
 /**
  * @param {Object}         state

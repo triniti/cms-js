@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ModalBody } from 'reactstrap';
-import { SelectField, SwitchField, TextareaField, TextField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import IframeBlockPreview from 'components/blocksmith-field/components/iframe-block-modal/Preview';
-import determineIfExistingBlocksCanBeUsed from 'components/blocksmith-field/utils/determineIfExistingBlocksCanBeUsed';
+import { SelectField, SwitchField, TextareaField, TextField } from '@triniti/cms/components';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import IframeBlockPreview from '@triniti/cms/components/blocksmith-field/components/iframe-block-modal/Preview';
+import determineIfExistingBlocksCanBeUsed from '@triniti/cms/components/blocksmith-field/utils/determineIfExistingBlocksCanBeUsed';
 import Swal from 'sweetalert2';
 
 const alignOptions = [

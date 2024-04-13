@@ -1,9 +1,9 @@
 /* globals GOOGLE_MAPS_API_KEY */
 import React, { useState } from 'react';
 import { ModalBody } from 'reactstrap';
-import { NumberField, SelectField, SwitchField, TextField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import Preview from 'components/blocksmith-field/components/google-map-block-modal/Preview';
+import { NumberField, SelectField, SwitchField, TextField, TextareaField } from '@triniti/cms/components';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import Preview from '@triniti/cms/components/blocksmith-field/components/google-map-block-modal/Preview';
 import debounce from 'lodash-es/debounce';
 import GeoPoint from '@gdbots/pbj/well-known/GeoPoint';
 

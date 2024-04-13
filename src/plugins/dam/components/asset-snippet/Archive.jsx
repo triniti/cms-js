@@ -2,7 +2,7 @@ import { filesize } from 'filesize';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Message from '@gdbots/pbj/Message';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components';
 import {
   FormGroup,
   Label,

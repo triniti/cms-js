@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash-es/isPlainObject';
 
 /**
  * This will keep the whole object or list for a key. The reason is trying

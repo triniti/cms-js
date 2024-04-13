@@ -1,4 +1,4 @@
-import findBlock from 'components/blocksmith-field/utils/findBlock';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
 
 /**
  * Gets the DOM node for a block

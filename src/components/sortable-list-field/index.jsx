@@ -1,7 +1,7 @@
 import React from 'react';
 import isEmpty from 'lodash-es/isEmpty';
 import fastDeepEqual from 'fast-deep-equal/es6';
-import useFormContext from 'components/useFormContext';
+import useFormContext from '@triniti/cms/components/useFormContext';
 import { FieldArray } from 'react-final-form-arrays';
 import SortableList from '../sortable-list';
 

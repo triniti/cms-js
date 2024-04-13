@@ -1,11 +1,11 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import slottingConfig from '@config/slottingConfig';
-import { DatePickerField, NumberField, SelectField, TextField } from 'components';
-import GalleryPickerField from 'plugins/curator/components/gallery-picker-field';
-import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
-import useCuries from 'plugins/pbjx/components/useCuries';
-import SortField from 'plugins/ncr/components/sort-field';
+import { DatePickerField, NumberField, SelectField, TextField } from '@triniti/cms/components';
+import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
+import SortField from '@triniti/cms/plugins/ncr/components/sort-field';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort';
 
 export default function SearchTeasersRequestFields() {

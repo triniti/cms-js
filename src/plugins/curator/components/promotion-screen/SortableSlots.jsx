@@ -1,7 +1,7 @@
 import React from 'react';
-import { CreateModalButton, SortableListField, withPbj } from 'components';
-import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
-import SlotPlaceholder from 'plugins/curator/components/promotion-screen/SlotPlaceholder';
+import { CreateModalButton, SortableListField, withPbj } from '@triniti/cms/components';
+import SlotModal from '@triniti/cms/plugins/curator/components/promotion-screen/SlotModal';
+import SlotPlaceholder from '@triniti/cms/plugins/curator/components/promotion-screen/SlotPlaceholder';
 
 
 const SortableSlots = (props) => {

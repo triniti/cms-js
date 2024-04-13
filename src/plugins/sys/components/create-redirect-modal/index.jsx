@@ -5,12 +5,12 @@ import { FORM_ERROR } from 'final-form';
 import trim from 'lodash-es/trim';
 import RedirectId from '@triniti/schemas/triniti/sys/RedirectId';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, FormErrors, SwitchField, UriField, withForm, withPbj } from 'components';
-import createNode from 'plugins/ncr/actions/createNode';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import nodeUrl from 'plugins/ncr/nodeUrl';
+import { ActionButton, FormErrors, SwitchField, UriField, withForm, withPbj } from '@triniti/cms/components';
+import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
 
 function CreateRedirectModal(props) {
   const dispatch = useDispatch();

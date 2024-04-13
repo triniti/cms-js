@@ -1,4 +1,4 @@
-import { actionTypes, THEME_STORAGE_KEY } from 'constants';
+import { actionTypes, THEME_STORAGE_KEY } from '@triniti/cms/constants';
 
 export default app => {
   const theme = localStorage.getItem(THEME_STORAGE_KEY) || 'theme-light';

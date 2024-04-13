@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { DatePickerField, SwitchField, TextField, UrlField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
-import TaggableFields from 'plugins/common/components/taggable-fields';
+import { DatePickerField, SwitchField, TextField, UrlField } from '@triniti/cms/components';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields';
 import SortableAnswers from "plugins/apollo/components/poll-screen/SortableAnswers";
 
 export default function DetailsTab(props) {

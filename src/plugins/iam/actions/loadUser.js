@@ -4,11 +4,11 @@ import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code';
 import HttpCode from '@gdbots/schemas/gdbots/pbjx/enums/HttpCode';
 import Exception from '@gdbots/pbj/Exception';
 import { vendorToHttp } from '@gdbots/pbjx/utils/statusCodeConverter';
-import sendAlert from 'actions/sendAlert';
-import receiveEnvelope from 'plugins/pbjx/actions/receiveEnvelope';
-import getAccessToken from 'plugins/iam/selectors/getAccessToken';
-import Policy from 'plugins/iam/Policy';
-import { actionTypes } from 'plugins/iam/constants';
+import sendAlert from '@triniti/cms/actions/sendAlert';
+import receiveEnvelope from '@triniti/cms/plugins/pbjx/actions/receiveEnvelope';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
+import Policy from '@triniti/cms/plugins/iam/Policy';
+import { actionTypes } from '@triniti/cms/plugins/iam/constants';
 
 async function fetchUser(accessToken) {
   try {

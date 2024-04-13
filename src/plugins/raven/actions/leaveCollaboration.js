@@ -1,9 +1,9 @@
 /* globals API_ENDPOINT */
-import getAccessToken from 'plugins/iam/selectors/getAccessToken';
-import getUserRef from 'plugins/iam/selectors/getUserRef';
-import isJwtExpired from 'plugins/iam/utils/isJwtExpired';
-import { actionTypes, ravenTypes } from 'plugins/raven/constants';
-import publishMessage from 'plugins/raven/actions/publishMessage';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
+import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
+import { actionTypes, ravenTypes } from '@triniti/cms/plugins/raven/constants';
+import publishMessage from '@triniti/cms/plugins/raven/actions/publishMessage';
 
 export default (nodeRef) => async (dispatch, getState) => {
   const state = getState();

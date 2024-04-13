@@ -3,7 +3,7 @@
 /* eslint-disable no-empty */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import trim from 'lodash/trim';
+import trim from 'lodash-es/trim';
 import { Link } from 'react-router-dom';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import { expand } from '@gdbots/pbjx/pbjUrl';

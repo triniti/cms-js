@@ -1,7 +1,7 @@
 import React from 'react';
-import Blocksmith from 'components/blocksmith-field/Blocksmith';
-import useField from 'components/useField';
-import useFormContext from 'components/useFormContext';
+import Blocksmith from '@triniti/cms/components/blocksmith-field/Blocksmith';
+import useField from '@triniti/cms/components/useField';
+import useFormContext from '@triniti/cms/components/useFormContext';
 
 // todo: audit draft dependencies and decorate-component-with-props, prepend-http, etc
 // todo: make sure the tests get carried over

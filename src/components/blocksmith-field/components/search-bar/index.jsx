@@ -4,7 +4,7 @@ import {
   Input,
   InputGroup,
 } from 'reactstrap';
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon';
 
 export default function SearchBar({
   innerRef, onChangeQ: handleChangeQ, onClick: handleSearch, placeholder, value,

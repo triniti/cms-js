@@ -14,14 +14,14 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import getNode from 'plugins/ncr/selectors/getNode';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import updateNode from 'plugins/ncr/actions/updateNode';
-import noop from 'lodash/noop';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import sendAlert from '@triniti/cms/actions/sendAlert';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode';
+import noop from 'lodash-es/noop';
 
 export default function SendForm(props) {
   const { nodeRef, node, onStatusUpdated } = props;

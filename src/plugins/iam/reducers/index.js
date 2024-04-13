@@ -1,5 +1,5 @@
-import createReducer from 'utils/createReducer';
-import { actionTypes } from 'plugins/iam/constants';
+import createReducer from '@triniti/cms/utils/createReducer';
+import { actionTypes } from '@triniti/cms/plugins/iam/constants';
 
 export const initialState = {
   accessToken: null,

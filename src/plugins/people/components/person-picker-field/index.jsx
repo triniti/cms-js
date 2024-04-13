@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchPeopleSort from '@triniti/schemas/triniti/people/enums/SearchPeopleSort';
-import withRequest from 'plugins/pbjx/components/with-request';
-import NodePickerField from 'plugins/ncr/components/node-picker-field';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 
 function PersonPickerField(props) {
   return <NodePickerField {...props} showImage={false} urlTemplate="canonical" />;

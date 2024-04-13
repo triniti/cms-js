@@ -1,13 +1,13 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
-import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
-import HistoryTab from 'plugins/ncr/components/history-tab';
-import RawTab from 'plugins/ncr/components/raw-tab';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
-import DetailsTab from 'plugins/notify/components/notification-screen/DetailsTab';
-import SendStatusCard from 'plugins/notify/components/notification-screen/SendStatusCard';
-import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Collaborators from 'plugins/raven/components/collaborators';
+import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components';
+import DetailsTab from '@triniti/cms/plugins/notify/components/notification-screen/DetailsTab';
+import SendStatusCard from '@triniti/cms/plugins/notify/components/notification-screen/SendStatusCard';
+import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 
 function NotificationScreen(props) {
   const {

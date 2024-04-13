@@ -1,9 +1,9 @@
 import { TRANSPORT_HTTP_ENVELOPE_RECEIVED } from '@gdbots/pbjx/constants';
-import Plugin from 'Plugin';
-import reducer from 'plugins/pbjx/reducers';
-import saga from 'plugins/pbjx/sagas';
-import receiveEnvelope from 'plugins/pbjx/actions/receiveEnvelope';
-import { serviceIds } from 'plugins/pbjx/constants';
+import Plugin from '@triniti/cms/Plugin';
+import reducer from '@triniti/cms/plugins/pbjx/reducers';
+import saga from '@triniti/cms/plugins/pbjx/sagas';
+import receiveEnvelope from '@triniti/cms/plugins/pbjx/actions/receiveEnvelope';
+import { serviceIds } from '@triniti/cms/plugins/pbjx/constants';
 
 export default class PbjxPlugin extends Plugin {
   constructor() {
@@ -15,7 +15,7 @@ export default class PbjxPlugin extends Plugin {
     this.saga = saga;
 
     app.register(serviceIds.MESSAGE_BINDER, async () => {
-      const MessageBinder = (await import('plugins/pbjx/MessageBinder')).default;
+      const MessageBinder = (await import('@triniti/cms/plugins/pbjx/MessageBinder')).default;
       return new MessageBinder(app);
     });
 

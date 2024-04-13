@@ -1,6 +1,6 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
-import { EnumField, KeyValuesField, SwitchField, TextField, UrlField } from 'components';
+import { EnumField, KeyValuesField, SwitchField, TextField, UrlField } from '@triniti/cms/components';
 import AdSizeEnum from '@triniti/schemas/triniti/common/enums/AdSize';
 
 const filter = option => option.value !== 'unknown';

@@ -1,5 +1,5 @@
 import test from 'tape';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash-es/isEqual';
 import ImageAssetV1 from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
 

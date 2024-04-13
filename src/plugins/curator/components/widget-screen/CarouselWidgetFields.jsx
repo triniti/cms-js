@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
-import { SwitchField, TextField, UrlField } from 'components';
-import PicklistField from 'plugins/sys/components/picklist-field';
+import { SwitchField, TextField, UrlField } from '@triniti/cms/components';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 
 export default function CarouselWidgetFields() {
   return (

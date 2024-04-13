@@ -1,14 +1,14 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
-import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
-import HistoryTab from 'plugins/ncr/components/history-tab';
-import RawTab from 'plugins/ncr/components/raw-tab';
-import NodeStatusCard from 'plugins/ncr/components/node-status-card';
-import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
-import DetailsTab from 'plugins/apollo/components/poll-screen/DetailsTab';
-import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Collaborators from 'plugins/raven/components/collaborators';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components';
+import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab';
+import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card';
+import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab';
+import DetailsTab from '@triniti/cms/plugins/apollo/components/poll-screen/DetailsTab';
+import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 
 function PollScreen(props) {
   const {

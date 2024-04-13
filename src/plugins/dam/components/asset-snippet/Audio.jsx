@@ -7,7 +7,7 @@ import {
   Label,
 } from 'reactstrap';
 import Message from '@gdbots/pbj/Message';
-import damUrl from 'plugins/dam/damUrl';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 
 const Audio = ({ asset }) => (
   <div className="row">

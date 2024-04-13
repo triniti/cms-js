@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6';
 import isEmpty from 'lodash-es/isEmpty';
-import { useField, useFormContext } from 'components/index';
-import noop from 'lodash/noop';
+import { useField, useFormContext } from '@triniti/cms/components/index';
+import noop from 'lodash-es/noop';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 const noopNormalize = value => value;

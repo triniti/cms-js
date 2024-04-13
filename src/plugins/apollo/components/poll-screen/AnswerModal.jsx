@@ -2,10 +2,10 @@ import React from 'react';
 import { FORM_ERROR } from 'final-form';
 import { getInstance } from '@app/main';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, FormErrors, NumberField, TextField, UrlField, withForm } from 'components';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import FormMarshaler from 'utils/FormMarshaler';
-import getRootFields from 'utils/getRootFields';
+import { ActionButton, FormErrors, NumberField, TextField, UrlField, withForm } from '@triniti/cms/components';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler';
+import getRootFields from '@triniti/cms/utils/getRootFields';
 
 function AnswerModal(props) {
   const { delegate, editMode, form, formState, handleSubmit, pbj } = props;

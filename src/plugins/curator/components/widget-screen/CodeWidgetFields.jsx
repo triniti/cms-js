@@ -1,5 +1,5 @@
 import React from 'react';
-import { SwitchField, TextareaField, TextField, UrlField } from 'components';
+import { SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components';
 
 export default function CodeWidgetFields() {
   return (

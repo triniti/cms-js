@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { Loading, withForm } from 'components';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
+import { Loading, withForm } from '@triniti/cms/components';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import ImageGrid from '../../../../plugins/dam/components/image-grid';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 function GalleryImages(props) {
   const { request, nodeRef, selectImage, toggle } = props;

@@ -1,10 +1,10 @@
 import { EditorState, SelectionState } from 'draft-js';
-import { blockTypes } from 'components/blocksmith-field/constants';
-import findBlock from 'components/blocksmith-field/utils/findBlock';
-import getBlockForKey from 'components/blocksmith-field/utils/getBlockForKey';
-import getBlockNode from 'components/blocksmith-field/utils/getBlockNode';
-import getListBlocks from 'components/blocksmith-field/utils/getListBlocks';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
+import getBlockForKey from '@triniti/cms/components/blocksmith-field/utils/getBlockForKey';
+import getBlockNode from '@triniti/cms/components/blocksmith-field/utils/getBlockNode';
+import getListBlocks from '@triniti/cms/components/blocksmith-field/utils/getListBlocks';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList';
 
 export const selectionTypes = {
   ALL: 'ALL',

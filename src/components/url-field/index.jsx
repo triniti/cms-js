@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Badge, FormText, InputGroup, InputGroupText, Label } from 'reactstrap';
-import { Icon, useField, useFormContext } from 'components/index';
+import { Icon, useField, useFormContext } from '@triniti/cms/components/index';
 
 export default function UrlField(props) {
   const { groupClassName = '', name, label, description, validator, pbjName, required, ...rest } = props;

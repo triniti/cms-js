@@ -7,7 +7,7 @@ import {
   DropdownToggle,
   Spinner,
 } from 'reactstrap';
-import { fileUploadStatuses } from 'plugins/dam/constants';
+import { fileUploadStatuses } from '@triniti/cms/plugins/dam/constants';
 
 export default (props) => {
   const {

@@ -11,12 +11,12 @@ import {
   TextField,
   withForm,
   withPbj
-} from 'components';
-import createNode from 'plugins/ncr/actions/createNode';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import nodeUrl from 'plugins/ncr/nodeUrl';
+} from '@triniti/cms/components';
+import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
 
 
 function CreateUserModal(props) {

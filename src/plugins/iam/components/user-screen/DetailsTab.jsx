@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { EmailField, SwitchField, TextField } from 'components';
-import TaggableFields from 'plugins/common/components/taggable-fields';
+import { EmailField, SwitchField, TextField } from '@triniti/cms/components';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields';
 
 export default function DetailsTab() {
   return (

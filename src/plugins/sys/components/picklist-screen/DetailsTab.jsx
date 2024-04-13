@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { FlatArrayField, SwitchField, TextField } from 'components';
+import { FlatArrayField, SwitchField, TextField } from '@triniti/cms/components';
 
 export default function DetailsTab() {
   return (

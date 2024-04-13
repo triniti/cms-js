@@ -13,16 +13,16 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
-import markNodeAsPending from 'plugins/ncr/actions/markNodeAsPending';
-import publishNode from 'plugins/ncr/actions/publishNode';
-import unpublishNode from 'plugins/ncr/actions/unpublishNode';
-import noop from 'lodash/noop';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import sendAlert from '@triniti/cms/actions/sendAlert';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import markNodeAsDraft from '@triniti/cms/plugins/ncr/actions/markNodeAsDraft';
+import markNodeAsPending from '@triniti/cms/plugins/ncr/actions/markNodeAsPending';
+import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode';
+import unpublishNode from '@triniti/cms/plugins/ncr/actions/unpublishNode';
+import noop from 'lodash-es/noop';
 
 const actions = {
   'mark-as-draft': markNodeAsDraft,

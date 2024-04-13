@@ -1,9 +1,9 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
 import NotificationSendStatus from '@triniti/schemas/triniti/notify/enums/NotificationSendStatus';
-import { EnumField } from 'components';
-import Option from 'plugins/notify/components/notification-send-status-field/Option';
-import SingleValue from 'plugins/notify/components/notification-send-status-field/SingleValue';
+import { EnumField } from '@triniti/cms/components';
+import Option from '@triniti/cms/plugins/notify/components/notification-send-status-field/Option';
+import SingleValue from '@triniti/cms/plugins/notify/components/notification-send-status-field/SingleValue';
 
 const filter = option => option.value !== 'unknown';
 const format = label => startCase(label.toLowerCase());

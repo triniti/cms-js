@@ -1,13 +1,13 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
-import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
-import HistoryTab from 'plugins/ncr/components/history-tab';
-import RawTab from 'plugins/ncr/components/raw-tab';
-import NodeStatusCard from 'plugins/ncr/components/node-status-card';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
-import DetailsTab from 'plugins/iam/components/role-screen/DetailsTab';
-import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Collaborators from 'plugins/raven/components/collaborators';
+import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab';
+import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components';
+import DetailsTab from '@triniti/cms/plugins/iam/components/role-screen/DetailsTab';
+import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 
 function RoleScreen(props) {
   const {

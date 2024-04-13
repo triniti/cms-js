@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { TextareaField } from 'components';
-import ContentRefField from 'plugins/notify/components/content-ref-field';
+import { TextareaField } from '@triniti/cms/components';
+import ContentRefField from '@triniti/cms/plugins/notify/components/content-ref-field';
 
 export default function SmsNotificationFields() {
   return (

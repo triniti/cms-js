@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, CardText } from 'reactstrap';
-import { KeyValuesField, TextareaField } from 'components';
+import { KeyValuesField, TextareaField } from '@triniti/cms/components';
 
 export default function CodeTab() {
   return (

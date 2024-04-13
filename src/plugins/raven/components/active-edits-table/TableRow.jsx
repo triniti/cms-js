@@ -3,8 +3,8 @@ import React from 'react';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import { Icon, RouterLink, UncontrolledTooltip } from 'components';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import { Icon, RouterLink, UncontrolledTooltip } from '@triniti/cms/components';
 import { Button } from 'reactstrap';
 
 const TableRow = ({ idx, node }) => (

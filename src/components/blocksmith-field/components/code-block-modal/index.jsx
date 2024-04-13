@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import Preview from 'components/blocksmith-field/components/code-block-modal/Preview';
+import { TextareaField } from '@triniti/cms/components';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import Preview from '@triniti/cms/components/blocksmith-field/components/code-block-modal/Preview';
 
 function CodeBlockModal(props) {
   return (

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
-import Plugin from 'Plugin';
-import { serviceIds } from 'plugins/raven/constants';
-import reducer from 'plugins/raven/reducers';
-import saga from 'plugins/raven/sagas';
+import Plugin from '@triniti/cms/Plugin';
+import { serviceIds } from '@triniti/cms/plugins/raven/constants';
+import reducer from '@triniti/cms/plugins/raven/reducers';
+import saga from '@triniti/cms/plugins/raven/sagas';
 
 export default class RavenPlugin extends Plugin {
   constructor() {
@@ -14,7 +14,7 @@ export default class RavenPlugin extends Plugin {
     this.saga = saga;
     
     app.register(serviceIds.NODE_CHANGE_WATCHER, async () => {
-      const NodeChangeWatcher = (await import('plugins/raven/services/NodeChangeWatcher')).default;
+      const NodeChangeWatcher = (await import('@triniti/cms/plugins/raven/services/NodeChangeWatcher')).default;
       return new NodeChangeWatcher(app);
     });
 

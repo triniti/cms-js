@@ -1,4 +1,4 @@
-import blockParentNode from 'components/blocksmith-field/utils/blockParentNode';
+import blockParentNode from '@triniti/cms/components/blocksmith-field/utils/blockParentNode';
 
 // todo: is there a better way to do this?
 export default (block) => {

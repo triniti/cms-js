@@ -1,5 +1,5 @@
 import throttle from 'lodash-es/throttle';
-import blockParentNode from 'components/blocksmith-field/utils/blockParentNode';
+import blockParentNode from '@triniti/cms/components/blocksmith-field/utils/blockParentNode';
 
 const UPDATE_CLASS = 'block-update';
 let styledNodes = null;

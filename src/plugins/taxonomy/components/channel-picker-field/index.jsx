@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchChannelsSort from '@triniti/schemas/triniti/taxonomy/enums/SearchChannelsSort';
-import withRequest from 'plugins/pbjx/components/with-request';
-import NodePickerField from 'plugins/ncr/components/node-picker-field';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 
 function ChannelPickerField(props) {
   return <NodePickerField {...props} showImage={false} urlTemplate="canonical" />;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
-import { SwitchField } from 'components';
-import useCuries from 'plugins/pbjx/components/useCuries';
-import SearchRequestTypeField from 'plugins/curator/components/widget-screen/widget-has-search-request-fields/search-request-type-field'
+import { SwitchField } from '@triniti/cms/components';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
+import SearchRequestTypeField from '@triniti/cms/plugins/curator/components/widget-screen/widget-has-search-request-fields/search-request-type-field'
 
 export default function WidgetHasSearchRequestFields() {
   let searchRequestCuries = useCuries('triniti:curator:mixin:widget-search-request:v1');

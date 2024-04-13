@@ -1,6 +1,6 @@
 import React from 'react';
 import { Media } from 'reactstrap';
-import damUrl from 'plugins/dam/damUrl';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 
 export default function ImageAssetIcon({asset}) {
 

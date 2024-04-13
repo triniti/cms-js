@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { KeyValuesField, SwitchField, TextField } from 'components';
+import { KeyValuesField, SwitchField, TextField } from '@triniti/cms/components';
 
 export default function AdvertisingFields() {
   return (

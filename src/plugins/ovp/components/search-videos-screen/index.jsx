@@ -2,20 +2,20 @@ import React, { lazy } from 'react';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort';
-import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
-import { scrollToTop } from 'components/screen';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import SearchForm from 'plugins/ovp/components/search-videos-screen/SearchForm';
-import Collaborators from 'plugins/raven/components/collaborators';
+import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components';
+import { scrollToTop } from '@triniti/cms/components/screen';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import formatDate from '@triniti/cms/utils/formatDate';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import SearchForm from '@triniti/cms/plugins/ovp/components/search-videos-screen/SearchForm';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
-import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card';
+import useBatchSelection from '@triniti/cms/plugins/ncr/components/useBatchSelection';
 
-const CreateVideoModal = lazy(() => import('plugins/ovp/components/create-video-modal'));
+const CreateVideoModal = lazy(() => import('@triniti/cms/plugins/ovp/components/create-video-modal'));
 
 function SearchVideosScreen(props) {
   const { request, delegate } = props;

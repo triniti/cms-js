@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Form } from 'react-final-form';
-import { FormContextProvider } from 'components/useFormContext';
-import FormMarshaler from 'utils/FormMarshaler';
+import { FormContextProvider } from '@triniti/cms/components/useFormContext';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler';
 import arrayMutators from 'final-form-arrays';
-import noop from 'lodash/noop';
-import { Loading } from 'components';
+import noop from 'lodash-es/noop';
+import { Loading } from '@triniti/cms/components';
 
 export default function withForm(Component) {
   return props => {

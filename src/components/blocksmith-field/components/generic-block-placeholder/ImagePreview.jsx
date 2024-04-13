@@ -1,6 +1,6 @@
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon';
 import React from 'react';
-import 'components/blocksmith-field/components/generic-block-placeholder/styles.scss';
+import '@triniti/cms/components/blocksmith-field/components/generic-block-placeholder/styles.scss';
 
 export default function ImagePreview({ draggable, onDismissImagePreview: handleDismissImagePreview, src }) {
   return (

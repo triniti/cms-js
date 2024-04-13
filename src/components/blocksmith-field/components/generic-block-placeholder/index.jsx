@@ -4,12 +4,12 @@ import { Badge } from 'reactstrap';
 import classNames from 'classnames';
 import get from 'lodash-es/get';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import Icon from 'components/icon';
-import PlaceholderErrorBoundary from 'components/blocksmith-field/components/placeholder-error-boundary';
-import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from 'components/blocksmith-field/utils';
-import ImagePreview from 'components/blocksmith-field/components/generic-block-placeholder/ImagePreview';
-import selector from 'components/blocksmith-field/components/generic-block-placeholder/selector';
-import 'components/blocksmith-field/components/generic-block-placeholder/styles.scss';
+import Icon from '@triniti/cms/components/icon';
+import PlaceholderErrorBoundary from '@triniti/cms/components/blocksmith-field/components/placeholder-error-boundary';
+import { handleDragEnd, handleDragStart, styleBlockTargetNodeStatus } from '@triniti/cms/components/blocksmith-field/utils';
+import ImagePreview from '@triniti/cms/components/blocksmith-field/components/generic-block-placeholder/ImagePreview';
+import selector from '@triniti/cms/components/blocksmith-field/components/generic-block-placeholder/selector';
+import '@triniti/cms/components/blocksmith-field/components/generic-block-placeholder/styles.scss';
 
 const GenericBlockPlaceholder = ({
   config,

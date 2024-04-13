@@ -1,4 +1,4 @@
-import Plugin from 'Plugin';
+import Plugin from '@triniti/cms/Plugin';
 
 export default class CommonPlugin extends Plugin {
   constructor() {

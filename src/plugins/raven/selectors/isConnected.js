@@ -1,4 +1,4 @@
-import { connectionStatus } from 'plugins/raven/constants';
+import { connectionStatus } from '@triniti/cms/plugins/raven/constants';
 
 /**
  * @param {Object} state

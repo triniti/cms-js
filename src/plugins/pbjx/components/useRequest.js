@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getInstance } from '@app/main';
-import * as constants from 'constants';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import noop from 'lodash/noop';
+import * as constants from '@triniti/cms/constants';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import noop from 'lodash-es/noop';
 
 const makeRequest = async (request) => {
   const app = getInstance();

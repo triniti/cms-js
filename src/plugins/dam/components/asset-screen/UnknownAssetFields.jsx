@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
-import { TextField } from 'components';
-import humanizeBytes from 'utils/humanizeBytes';
+import { TextField } from '@triniti/cms/components';
+import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
 import CommonFields from './CommonFields';
 
 export default function UnknownAssetFields(props) {

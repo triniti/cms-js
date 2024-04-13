@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import 'components/blocksmith-field/components/quote-block-modal/Preview.scss';
+import '@triniti/cms/components/blocksmith-field/components/quote-block-modal/Preview.scss';
 
 export default function Preview(props) {
   const { formState, className = '' } = props;

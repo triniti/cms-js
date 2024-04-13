@@ -1,10 +1,10 @@
-import startWorkers from 'actions/startWorkers';
+import startWorkers from '@triniti/cms/actions/startWorkers';
 import HelloWorker from './hello';
 import RavenWorker from './raven';
 
 // todo: replace with CLOUD_PROVIDER var
 //const WORKER_PATH = CLOUD_PROVIDER === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
-const WORKER_PATH = 'private' === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
+// const WORKER_PATH = 'private' === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
 
 /**
  * Derives the path from the generated bundle code from webpack
@@ -23,14 +23,14 @@ const derivePath = fn => {
 };
 
 export default (app) => {
-  const workers = {
-    hello: derivePath(HelloWorker),
-    raven: derivePath(RavenWorker),
-  };
+  // const workers = {
+  //   hello: derivePath(HelloWorker),
+  //   raven: derivePath(RavenWorker),
+  // };
 
-  app.setParameter('hello.worker', new Worker(workers.hello));
-  app.setParameter('raven.worker', new Worker(workers.raven));
-  app.getRedux().dispatch(startWorkers(app));
+  // app.setParameter('hello.worker', new Worker(workers.hello));
+  // app.setParameter('raven.worker', new Worker(workers.raven));
+  // app.getRedux().dispatch(startWorkers(app));
 
-  return workers;
+  // return workers;
 };

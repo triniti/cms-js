@@ -4,12 +4,12 @@ import {
   FormGroup,
   ModalBody
 } from 'reactstrap';
-import { TextField, ScrollableContainer, SelectField, SwitchField } from 'components';
+import { TextField, ScrollableContainer, SelectField, SwitchField } from '@triniti/cms/components';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import humanizeEnums from 'components/blocksmith-field/utils/humanizeEnums';
-import PicklistField from 'plugins/sys/components/picklist-field';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import humanizeEnums from '@triniti/cms/components/blocksmith-field/utils/humanizeEnums';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 
 const aspectRatioOptions = humanizeEnums(AspectRatio, {
   format: 'map',

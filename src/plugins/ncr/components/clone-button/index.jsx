@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Icon, withPbj } from 'components';
+import { Icon, withPbj } from '@triniti/cms/components';
 import Swal from 'sweetalert2';
-import cloneNode from 'plugins/ncr/actions/cloneNode';
-import progressIndicator from 'utils/progressIndicator';
+import cloneNode from '@triniti/cms/plugins/ncr/actions/cloneNode';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
 import toast from '@triniti/cms/utils/toast';
 

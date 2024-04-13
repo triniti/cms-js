@@ -1,4 +1,4 @@
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList';
 
 /**
  * Since our "list" blocks are a single canvas block, but draft treats them as separate

@@ -2,8 +2,8 @@ import { stateToHTML } from 'draft-js-export-html';
 import isNumber from 'lodash-es/isNumber';
 import Message from '@gdbots/pbj/Message';
 import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import { blockTypes, inlineStyleTypes, tokens } from 'components/blocksmith-field/constants';
-import getIndexOffsets from 'components/blocksmith-field/utils/getIndexOffsets';
+import { blockTypes, inlineStyleTypes, tokens } from '@triniti/cms/components/blocksmith-field/constants';
+import getIndexOffsets from '@triniti/cms/components/blocksmith-field/utils/getIndexOffsets';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 
 const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { DatePickerField, SelectField, SwitchField, TextField, TextareaField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import { DatePickerField, SelectField, SwitchField, TextField, TextareaField } from '@triniti/cms/components';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
 
 export default function SeoTab(props) {
   const { nodeRef } = props;

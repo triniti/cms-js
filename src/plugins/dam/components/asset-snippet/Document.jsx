@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { filesize } from 'filesize';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components';
 import {
   FormGroup,
   Label,

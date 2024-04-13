@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, CardText } from 'reactstrap';
-import { EncryptedField, TextField } from 'components';
+import { EncryptedField, TextField } from '@triniti/cms/components';
 
 export default function TwitterAppFields() {
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import { SwitchField, TextareaField } from '@triniti/cms/components';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
 import Preview from './Preview';
 
 const TRACK_ID_REGEX = /api\.soundcloud\.com\/tracks\/\d+/;

@@ -2,10 +2,10 @@ import isEmpty from 'lodash-es/isEmpty';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
-import clearRequest from 'plugins/pbjx/actions/clearRequest';
-import persistRequest from 'plugins/pbjx/actions/persistRequest';
-import getRequest from 'plugins/pbjx/selectors/getRequest';
-import noop from 'lodash/noop';
+import clearRequest from '@triniti/cms/plugins/pbjx/actions/clearRequest';
+import persistRequest from '@triniti/cms/plugins/pbjx/actions/persistRequest';
+import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest';
+import noop from 'lodash-es/noop';
 
 const defaultConfig = {
   channel: '',

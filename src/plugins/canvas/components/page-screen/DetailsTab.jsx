@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { DatePickerField, SelectField, TextField } from 'components';
-import BlocksmithField from 'components/blocksmith-field';
-import AdvertisingFields from 'plugins/common/components/advertising-fields';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import PicklistField from 'plugins/sys/components/picklist-field';
-import SlugField from 'plugins/ncr/components/slug-field';
-import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
-import TaggableFields from 'plugins/common/components/taggable-fields';
-import RedirectPickerField from 'plugins/sys/components/redirect-picker-field';
+import { DatePickerField, SelectField, TextField } from '@triniti/cms/components';
+import BlocksmithField from '@triniti/cms/components/blocksmith-field';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import SlugField from '@triniti/cms/plugins/ncr/components/slug-field';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields';
+import RedirectPickerField from '@triniti/cms/plugins/sys/components/redirect-picker-field';
 
 const pageLayouts = [
   {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { EditorBlock } from 'draft-js';
-import PlaceholderErrorBoundary from 'components/blocksmith-field/components/placeholder-error-boundary';
-import { handleDragEnd, handleDragStart } from 'components/blocksmith-field/utils';
-import selector from 'components/blocksmith-field/components/list-block-wrapper/selector';
+import PlaceholderErrorBoundary from '@triniti/cms/components/blocksmith-field/components/placeholder-error-boundary';
+import { handleDragEnd, handleDragStart } from '@triniti/cms/components/blocksmith-field/utils';
+import selector from '@triniti/cms/components/blocksmith-field/components/list-block-wrapper/selector';
 
 function ListBlockWrapper({ block, blockProps, draggable, offsetKey, ...rest }) {
   return (

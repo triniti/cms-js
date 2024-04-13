@@ -1,7 +1,7 @@
 import React from 'react';
-import { CreateModalButton, SortableListField, withPbj } from 'components';
-import AnswerPlaceholder from 'plugins/apollo/components/poll-screen/AnswerPlaceholder';
-import AnswerModal from 'plugins/apollo/components/poll-screen/AnswerModal';
+import { CreateModalButton, SortableListField, withPbj } from '@triniti/cms/components';
+import AnswerPlaceholder from '@triniti/cms/plugins/apollo/components/poll-screen/AnswerPlaceholder';
+import AnswerModal from '@triniti/cms/plugins/apollo/components/poll-screen/AnswerModal';
 
 const SortableAnswers = (props) => {
   const { editMode, form } = props;

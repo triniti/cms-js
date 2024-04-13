@@ -1,6 +1,6 @@
 import React from 'react';
-import { DatePickerField, TextareaField, TextField, UrlField } from 'components';
-import PicklistField from 'plugins/sys/components/picklist-field';
+import { DatePickerField, TextareaField, TextField, UrlField } from '@triniti/cms/components';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 
 export default function CommonFields(props) {
   const { credit } = props;

@@ -1,5 +1,5 @@
-import getUser from 'plugins/iam/selectors/getUser';
-import getCollaborators from 'plugins/raven/selectors/getCollaborators';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser';
+import getCollaborators from '@triniti/cms/plugins/raven/selectors/getCollaborators';
 
 /**
  * @param {Object} state

@@ -1,8 +1,8 @@
 import swal from 'sweetalert2';
 import noop from 'lodash-es/noop';
 import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code';
-import clearAlerts from 'actions/clearAlerts';
-import { actionTypes } from 'plugins/pbjx/constants';
+import clearAlerts from '@triniti/cms/actions/clearAlerts';
+import { actionTypes } from '@triniti/cms/plugins/pbjx/constants';
 
 /**
  * Once the Pbjx HTTP operation completes it will dispatch

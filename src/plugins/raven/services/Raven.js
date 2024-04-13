@@ -2,11 +2,11 @@
 /* eslint-disable no-underscore-dangle */
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 import md5 from 'md5';
-import { actionTypes, ravenTypes, connectionStatus } from 'plugins/raven/constants';
+import { actionTypes, ravenTypes, connectionStatus } from '@triniti/cms/plugins/raven/constants';
 import isEmpty from 'lodash-es/isEmpty';
 import isEqual from 'lodash-es/isEqual';
-import publishMessage from 'plugins/raven/actions/publishMessage';
-import simplifyCollaborations from 'plugins/raven/utils/simplifyCollaborations';
+import publishMessage from '@triniti/cms/plugins/raven/actions/publishMessage';
+import simplifyCollaborations from '@triniti/cms/plugins/raven/utils/simplifyCollaborations';
 
 
 /**

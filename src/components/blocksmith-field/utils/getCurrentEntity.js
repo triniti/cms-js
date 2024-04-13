@@ -1,4 +1,4 @@
-import getCurrentEntityKey from 'components/blocksmith-field/utils/getCurrentEntityKey';
+import getCurrentEntityKey from '@triniti/cms/components/blocksmith-field/utils/getCurrentEntityKey';
 
 /**
  * Gets the entity for the current selection.

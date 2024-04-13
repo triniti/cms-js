@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
-import BatchEditModal from 'plugins/dam/components/batch-edit-modal';
+import BatchEditModal from '@triniti/cms/plugins/dam/components/batch-edit-modal';
 import noop from 'lodash-es/noop';
 
 export default ({

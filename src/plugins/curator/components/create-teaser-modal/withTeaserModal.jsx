@@ -5,13 +5,13 @@ import { FORM_ERROR } from 'final-form';
 import { Form, ModalFooter, ModalHeader } from 'reactstrap';
 import startCase from 'lodash-es/startCase';
 import { getInstance } from '@app/main';
-import { ActionButton, FormErrors, withForm } from 'components';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import createNode from 'plugins/ncr/actions/createNode';
-import getNode from 'plugins/ncr/selectors/getNode';
+import { ActionButton, FormErrors, withForm } from '@triniti/cms/components';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 
 const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
 

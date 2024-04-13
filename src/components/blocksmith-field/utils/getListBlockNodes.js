@@ -1,7 +1,7 @@
-import blockParentNode from 'components/blocksmith-field/utils/blockParentNode';
-import getBlockNode from 'components/blocksmith-field/utils/getBlockNode';
-import findBlock from 'components/blocksmith-field/utils/findBlock';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
+import blockParentNode from '@triniti/cms/components/blocksmith-field/utils/blockParentNode';
+import getBlockNode from '@triniti/cms/components/blocksmith-field/utils/getBlockNode';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList';
 
 /**
  * Gets all list block dom nodes for a given list block.

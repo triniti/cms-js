@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort';
-import withRequest from 'plugins/pbjx/components/with-request';
-import NodePickerField from 'plugins/ncr/components/node-picker-field';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field';
 
 function WidgetPickerField(props) {
   return <NodePickerField {...props} showImage={false} showType />;

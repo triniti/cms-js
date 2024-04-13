@@ -1,23 +1,23 @@
 import React, { lazy, useEffect, useState } from 'react';
 import startCase from 'lodash-es/startCase';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash-es/isEqual';
 import moment from 'moment';
 import { Badge, Button, ButtonGroup, Card, CardBody, CardHeader, Spinner } from 'reactstrap';
-import { CreateModalButton, Icon, Loading } from 'components';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import Event from 'plugins/ncr/components/node-history-card/Event';
-import RevertButton from 'plugins/ncr/components/revert-button';
-import filterRemoved from 'plugins/ncr/components/node-history-card/filterRemoved';
-import filterRevertableData from 'plugins/ncr/components/node-history-card/filterData';
-import fullMapsAndLists from 'plugins/ncr/components/node-history-card/fullMapsAndLists';
-import findNodeDiff from 'plugins/ncr/components/node-history-card/findNodeDiff';
-import UserLink from 'plugins/ncr/components/node-history-card/UserLink';
+import { CreateModalButton, Icon, Loading } from '@triniti/cms/components';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import Event from '@triniti/cms/plugins/ncr/components/node-history-card/Event';
+import RevertButton from '@triniti/cms/plugins/ncr/components/revert-button';
+import filterRemoved from '@triniti/cms/plugins/ncr/components/node-history-card/filterRemoved';
+import filterRevertableData from '@triniti/cms/plugins/ncr/components/node-history-card/filterData';
+import fullMapsAndLists from '@triniti/cms/plugins/ncr/components/node-history-card/fullMapsAndLists';
+import findNodeDiff from '@triniti/cms/plugins/ncr/components/node-history-card/findNodeDiff';
+import UserLink from '@triniti/cms/plugins/ncr/components/node-history-card/UserLink';
 
 
-const RawPbjModal = lazy(() => import('components/raw-pbj-modal'));
+const RawPbjModal = lazy(() => import('@triniti/cms/components/raw-pbj-modal'));
 
 function NodeHistoryCard(props) {
   const policy = usePolicy();

@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import startCase from 'lodash-es/startCase';
 import { Form, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, FormErrors, TextField, withForm } from 'components';
-import createNode from 'plugins/ncr/actions/createNode';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import nodeUrl from 'plugins/ncr/nodeUrl';
+import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components';
+import createNode from '@triniti/cms/plugins/ncr/actions/createNode';
+import progressIndicator from '@triniti/cms/utils/progressIndicator';
+import toast from '@triniti/cms/utils/toast';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
 
 function CreateAppForm(props) {
   const dispatch = useDispatch();

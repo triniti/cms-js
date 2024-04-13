@@ -1,6 +1,6 @@
 import React from 'react';
-import { Loading, SelectField } from 'components';
-import useNode from 'plugins/ncr/components/useNode';
+import { Loading, SelectField } from '@triniti/cms/components';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
 
 const defaults = new Map;
 const picklists = new Map;

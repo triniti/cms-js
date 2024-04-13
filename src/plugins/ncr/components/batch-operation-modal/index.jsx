@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Spinner, Table } from 'reactstrap';
-import { ActionButton, Icon } from 'components';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useDelegate from 'plugins/ncr/components/batch-operation-modal/useDelegate';
+import { ActionButton, Icon } from '@triniti/cms/components';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import useDelegate from '@triniti/cms/plugins/ncr/components/batch-operation-modal/useDelegate';
 import { noop } from 'lodash-es';
 
 export { useDelegate };

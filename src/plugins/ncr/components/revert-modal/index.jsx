@@ -10,7 +10,7 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import RevertDetails from './RevertDetails';
-import filterRemoved from 'plugins/ncr/components/node-history-card/filterRemoved';
+import filterRemoved from '@triniti/cms/plugins/ncr/components/node-history-card/filterRemoved';
 
 const revertComplete =  async () => {
   return swal.fire({

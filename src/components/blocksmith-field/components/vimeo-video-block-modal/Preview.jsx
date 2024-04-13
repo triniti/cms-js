@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Media } from 'reactstrap';
-import { BackgroundImage } from 'components';
-import damUrl from 'plugins/dam/damUrl';
+import { BackgroundImage } from '@triniti/cms/components';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import './Preview.scss';
 
 export default function VimeoVideoBlockPreview(props) {

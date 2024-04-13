@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Badge, FormText, Input, Label } from 'reactstrap';
-import { useField, useFormContext } from 'components/index';
+import { useField, useFormContext } from '@triniti/cms/components/index';
 
 export default function TimePickerField(props) {
   const {

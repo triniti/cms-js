@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Footer from 'components/blocksmith-field/components/video-block-modal/Footer';
-import Header from 'components/blocksmith-field/components/video-block-modal/Header';
-import CustomizeOptions from 'components/blocksmith-field/components/video-block-modal/CustomizeOptions';
-import SelectArticle from 'components/blocksmith-field/components/video-block-modal/SelectVideo';
+import Footer from '@triniti/cms/components/blocksmith-field/components/video-block-modal/Footer';
+import Header from '@triniti/cms/components/blocksmith-field/components/video-block-modal/Header';
+import CustomizeOptions from '@triniti/cms/components/blocksmith-field/components/video-block-modal/CustomizeOptions';
+import SelectArticle from '@triniti/cms/components/blocksmith-field/components/video-block-modal/SelectVideo';
 
 export default function VideoBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;

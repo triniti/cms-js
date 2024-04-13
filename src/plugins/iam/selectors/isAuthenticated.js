@@ -1,5 +1,5 @@
-import getAccessToken from 'plugins/iam/selectors/getAccessToken';
-import isJwtExpired from 'plugins/iam/utils/isJwtExpired';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
 
 export default (state) => {
   if (!state.iam.isAuthenticated) {

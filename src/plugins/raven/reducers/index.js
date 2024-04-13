@@ -1,8 +1,8 @@
-import createReducer from 'utils/createReducer';
-import isEmpty from 'lodash/isEmpty';
-import { actionTypes, ravenTypes, connectionStatus, } from 'plugins/raven/constants';
-import removeCollaborator from 'plugins/raven/utils/removeCollaborator';
-import addCollaborator from 'plugins/raven/utils/addCollaborator';
+import createReducer from '@triniti/cms/utils/createReducer';
+import isEmpty from 'lodash-es/isEmpty';
+import { actionTypes, ravenTypes, connectionStatus, } from '@triniti/cms/plugins/raven/constants';
+import removeCollaborator from '@triniti/cms/plugins/raven/utils/removeCollaborator';
+import addCollaborator from '@triniti/cms/plugins/raven/utils/addCollaborator';
 
 export const initialState = {
   collaborations: {},

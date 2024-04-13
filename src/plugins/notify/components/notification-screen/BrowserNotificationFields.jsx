@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { SwitchField, TextareaField, TextField } from 'components';
-import PicklistField from 'plugins/sys/components/picklist-field';
-import ContentRefField from 'plugins/notify/components/content-ref-field';
+import { SwitchField, TextareaField, TextField } from '@triniti/cms/components';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import ContentRefField from '@triniti/cms/plugins/notify/components/content-ref-field';
 
 export default function BrowserNotificationFields() {
   return (

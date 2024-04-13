@@ -1,6 +1,6 @@
 import { getInstance } from '@app/main';
 import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage';
 
 const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 

@@ -1,8 +1,8 @@
 // modified from https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-emoji-plugin/src/modifiers/attachImmutableEntitiesToEmojis.js
 
 import { Modifier, SelectionState } from 'draft-js';
-import { entityTypes, mutabilityTypes } from 'components/blocksmith-field/constants';
-import applyToBlockText from 'components/blocksmith-field/utils/applyToBlockText';
+import { entityTypes, mutabilityTypes } from '@triniti/cms/components/blocksmith-field/constants';
+import applyToBlockText from '@triniti/cms/components/blocksmith-field/utils/applyToBlockText';
 
 let emojiRegex = /$^/; // matches nothing (just so tests dont die)
 // tape does not understand the module resolver, regular import breaks all tests

@@ -2,8 +2,8 @@ import React from 'react';
 import { Label } from 'reactstrap';
 import ReactSelect from 'react-select';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { SwitchField, TextField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import { SwitchField, TextField } from '@triniti/cms/components';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
 import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
 
 const aspectRatios = [

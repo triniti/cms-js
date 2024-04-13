@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
-import RevertModal from 'plugins/ncr/components/revert-modal';
+import RevertModal from '@triniti/cms/plugins/ncr/components/revert-modal';
 import Message from '@gdbots/pbj/Message';
 
 const RevertButton = ({

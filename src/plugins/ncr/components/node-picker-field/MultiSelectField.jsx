@@ -21,10 +21,10 @@ import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6';
 import isEmpty from 'lodash-es/isEmpty';
-import { useField, useFormContext } from 'components';
-import defaultLoadOptions from 'plugins/ncr/components/node-picker-field/loadOptions';
-import MultiValueLabel from 'plugins/ncr/components/node-picker-field/MultiValueLabel';
-import Option from 'plugins/ncr/components/node-picker-field/Option';
+import { useField, useFormContext } from '@triniti/cms/components';
+import defaultLoadOptions from '@triniti/cms/plugins/ncr/components/node-picker-field/loadOptions';
+import MultiValueLabel from '@triniti/cms/plugins/ncr/components/node-picker-field/MultiValueLabel';
+import Option from '@triniti/cms/plugins/ncr/components/node-picker-field/Option';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 

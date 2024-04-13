@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
 import noop from 'lodash-es/noop';
-import AuthenticationRequired from 'plugins/iam/exceptions/AuthenticationRequired';
-import PermissionDenied from 'plugins/iam/exceptions/PermissionDenied';
-import getPolicy from 'plugins/iam/selectors/getPolicy';
-import isAuthenticated from 'plugins/iam/selectors/isAuthenticated';
+import AuthenticationRequired from '@triniti/cms/plugins/iam/exceptions/AuthenticationRequired';
+import PermissionDenied from '@triniti/cms/plugins/iam/exceptions/PermissionDenied';
+import getPolicy from '@triniti/cms/plugins/iam/selectors/getPolicy';
+import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated';
 
 const MIXINS_TO_ACTION = {
   'gdbots:ncr:mixin:create-node': 'create',

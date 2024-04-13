@@ -1,9 +1,9 @@
 import { ContentState } from 'draft-js';
-import areKeysSame from 'components/blocksmith-field/utils/areKeysSame';
-import findBlock from 'components/blocksmith-field/utils/findBlock';
-import getBlockForKey from 'components/blocksmith-field/utils/getBlockForKey';
-import getListBlockNodes from 'components/blocksmith-field/utils/getListBlockNodes';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
+import areKeysSame from '@triniti/cms/components/blocksmith-field/utils/areKeysSame';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
+import getBlockForKey from '@triniti/cms/components/blocksmith-field/utils/getBlockForKey';
+import getListBlockNodes from '@triniti/cms/components/blocksmith-field/utils/getListBlockNodes';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList';
 
 /**
  * Moves a block to a position.

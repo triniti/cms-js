@@ -1,10 +1,10 @@
 import React, { lazy } from 'react';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort';
-import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
-import { scrollToTop } from 'components/screen';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import usePolicy from 'plugins/iam/components/usePolicy';
+import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components';
+import { scrollToTop } from '@triniti/cms/components/screen';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
 import LivestreamsCard from './LivestreamsCard';
 
 function LivestreamsScreen(props) {

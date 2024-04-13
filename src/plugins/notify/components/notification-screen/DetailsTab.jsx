@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
-import { ErrorBoundary, Loading } from 'components';
+import { ErrorBoundary, Loading } from '@triniti/cms/components';
 
 const components = {};
 const resolveComponent = (label) => {

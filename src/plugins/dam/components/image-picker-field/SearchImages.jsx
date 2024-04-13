@@ -1,9 +1,9 @@
 import React from 'react';
-import { Loading, withForm } from 'components';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
+import { Loading, withForm } from '@triniti/cms/components';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import SearchForm from 'plugins/dam/components/image-picker-field/SearchForm';
+import SearchForm from '@triniti/cms/plugins/dam/components/image-picker-field/SearchForm';
 import ImageGrid from '../../../../plugins/dam/components/image-grid';
 
 function SearchImages(props) {

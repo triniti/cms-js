@@ -1,7 +1,7 @@
 import React from 'react';
 import { Media } from 'reactstrap';
-import damUrl from 'plugins/dam/damUrl';
-import useNode from 'plugins/ncr/components/useNode';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
 
 export default function GenericBlockPreviewComponent(props) {
   const { node: block, onToggleImagePreviewSrc: handleToggleImagePreviewSrc } = props;

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Loading } from 'components';
-import useNode from 'plugins/ncr/components/useNode';
+import { Loading } from '@triniti/cms/components';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
 import './preview.scss';
 
 

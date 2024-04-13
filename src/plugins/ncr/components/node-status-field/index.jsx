@@ -1,9 +1,9 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { EnumField } from 'components';
-import Option from 'plugins/ncr/components/node-status-field/Option';
-import SingleValue from 'plugins/ncr/components/node-status-field/SingleValue';
+import { EnumField } from '@triniti/cms/components';
+import Option from '@triniti/cms/plugins/ncr/components/node-status-field/Option';
+import SingleValue from '@triniti/cms/plugins/ncr/components/node-status-field/SingleValue';
 
 const expirableOptions = {
   published: true,

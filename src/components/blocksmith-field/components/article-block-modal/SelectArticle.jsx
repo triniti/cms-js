@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { Button, Form, InputGroup, Table } from 'reactstrap';
-import { Icon, Loading, Pager, useDebounce, withForm } from 'components';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
+import { Icon, Loading, Pager, useDebounce, withForm } from '@triniti/cms/components';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
+import formatDate from '@triniti/cms/utils/formatDate';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 function SelectArticle(props) {
   const {

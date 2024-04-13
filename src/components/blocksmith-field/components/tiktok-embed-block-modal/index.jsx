@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import getTikTokId from 'components/blocksmith-field/components/tiktok-embed-block-modal/getTikTokId';
+import { SwitchField, TextareaField } from '@triniti/cms/components';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import getTikTokId from '@triniti/cms/components/blocksmith-field/components/tiktok-embed-block-modal/getTikTokId';
 import Preview from './Preview';
 
 function TiktokEmbedBlockModal(props) {

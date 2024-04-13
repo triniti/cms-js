@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Footer from 'components/blocksmith-field/components/article-block-modal/Footer';
-import Header from 'components/blocksmith-field/components/article-block-modal/Header';
-import SelectArticle from 'components/blocksmith-field/components/article-block-modal/SelectArticle';
-import { SwitchField, TextField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import useNode from 'plugins/ncr/components/useNode';
-import noop from 'lodash/noop';
+import Footer from '@triniti/cms/components/blocksmith-field/components/article-block-modal/Footer';
+import Header from '@triniti/cms/components/blocksmith-field/components/article-block-modal/Header';
+import SelectArticle from '@triniti/cms/components/blocksmith-field/components/article-block-modal/SelectArticle';
+import { SwitchField, TextField } from '@triniti/cms/components';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
+import noop from 'lodash-es/noop';
 
 export default function ArticleBlockModal(props) {
   const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;

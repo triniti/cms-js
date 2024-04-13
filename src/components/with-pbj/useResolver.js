@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default (curie, initialData = {}) => {
   const pbjRef = useRef(null);

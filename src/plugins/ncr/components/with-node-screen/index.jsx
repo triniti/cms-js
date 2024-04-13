@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import startCase from 'lodash-es/startCase';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Loading, withForm } from 'components';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import pruneNodes from 'plugins/ncr/actions/pruneNodes';
-import useNode from 'plugins/ncr/components/useNode';
-import useDelegate from 'plugins/ncr/components/with-node-screen/useDelegate';
-import useParams from 'plugins/ncr/components/with-node-screen/useParams';
-import useRaven from 'plugins/raven/components/useRaven';
+import { Loading, withForm } from '@triniti/cms/components';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
+import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
+import useDelegate from '@triniti/cms/plugins/ncr/components/with-node-screen/useDelegate';
+import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams';
+import useRaven from '@triniti/cms/plugins/raven/components/useRaven';
 
 
 export { useDelegate, useParams };

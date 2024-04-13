@@ -1,11 +1,11 @@
 import { ContentBlock, ContentState, genKey } from 'draft-js';
 import { List } from 'immutable';
-import { blockTypes } from 'components/blocksmith-field/constants';
-import constants from 'components/blocksmith-field/constants';
-import findBlock from 'components/blocksmith-field/utils/findBlock';
-import getListBlocks from 'components/blocksmith-field/utils/getListBlocks';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
-import normalizeKey from 'components/blocksmith-field/utils/normalizeKey';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants';
+import constants from '@triniti/cms/components/blocksmith-field/constants';
+import findBlock from '@triniti/cms/components/blocksmith-field/utils/findBlock';
+import getListBlocks from '@triniti/cms/components/blocksmith-field/utils/getListBlocks';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList';
+import normalizeKey from '@triniti/cms/components/blocksmith-field/utils/normalizeKey';
 
 /**
  * Given a block's key, inserts an empty block before or after that block.

@@ -1,5 +1,5 @@
 import { EditorState, RichUtils } from 'draft-js';
-import { entityTypes, mutabilityTypes } from 'components/blocksmith-field/constants';
+import { entityTypes, mutabilityTypes } from '@triniti/cms/components/blocksmith-field/constants';
 
 /**
  * Turns selected text into a link

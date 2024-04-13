@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Message from '@gdbots/pbj/Message';
 import { FormGroup, Label, Spinner } from 'reactstrap';
-import damUrl from 'plugins/dam/damUrl';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 
 const Image = ({ asset, previewUrl }) => (
   <div className="row">
