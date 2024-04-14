@@ -64,5 +64,5 @@ GOOGLE_MAPS_API_KEY=blahblahblahblahblahblah
 ## example `schemas.js` file:
 
 ```
-export default from '@acme/schemas';
+export { default } from '@acme/schemas';
 ```
