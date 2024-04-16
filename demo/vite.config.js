@@ -17,6 +17,19 @@ const https = (() => {
   return false;
 })();
 
+// Undefined env vars are left in index as %EXAMPLE%. This removes them.
+const replaceUndefinedEnvVars = () => {
+  return {
+    name: 'html-transform',
+    transformIndexHtml(html) {
+      return html.replace(
+        /%[\w\d_]+%/g,
+        '',
+      )
+    },
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   envPrefix: 'CMS_',
@@ -38,6 +51,7 @@ export default defineConfig({
   plugins: [
     nodePolyfills(),
     react(),
+    replaceUndefinedEnvVars(),
   ],
   server: {
     root: `${resolve(__dirname, 'src/index.jsx')}`,
