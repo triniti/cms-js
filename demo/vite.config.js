@@ -1,8 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import { resolve } from 'path';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import fs from 'fs';
+import { defineConfig } from 'vite'
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import react from '@vitejs/plugin-react'
+
 
 // SSL Cert and Key
 const https = (() => {
@@ -16,6 +17,7 @@ const https = (() => {
   }
   return false;
 })();
+
 
 // Undefined env vars are left in index as %EXAMPLE%. This removes them.
 const replaceUndefinedEnvVars = () => {
@@ -78,9 +80,6 @@ export default defineConfig({
       '@config': `${resolve(__dirname, '../src/config')}`,
     },
   },
-  // define: {
-  //   'process.env': {}
-  // },
   optimizeDeps: {
     exclude: ['js-big-decimal']
   }
