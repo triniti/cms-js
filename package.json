@@ -7,13 +7,12 @@
     "dist"
   ],
   "scripts": {
-    "build-orig": "npm run clean && npm run build:babel && npm run build:prepub",
+    "build": "npm run clean && npm run build:babel && npm run build:prepub",
     "build:babel": "BABEL_ENV=build babel src --out-dir ./dist",
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg,jpg,png}' ./dist",
     "clean": "rm -rf ./dist",
     "pub": "npm run build && cd dist && npm publish --access public",
-    "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet",
-    "build": "vite build"
+    "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
   },
   "workspaces": [
     "demo"
@@ -33,7 +32,7 @@
     "bootstrap": "^5.3.3",
     "classnames": "^2.5.1",
     "compute-scroll-into-view": "^3.1.0",
-    "core-js": "^3.36.1",
+    "core-js": "^3.37.0",
     "draft-js": "^0.11.7",
     "draft-js-export-html": "^1.4.1",
     "draftjs-utils": "^0.10.2",
@@ -94,7 +93,6 @@
     "@triniti/acme-schemas": "^3.0.2",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
-    "@vitejs/plugin-react": "^4.2.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-module-resolver": "^5.0.0",
@@ -108,7 +106,6 @@
     "faucet": "0.0.4",
     "ignore-styles": "^5.0.1",
     "tape": "^5.7.5",
-    "util": "^0.12.5",
-    "vite": "^5.2.9"
+    "util": "^0.12.5"
   }
 }

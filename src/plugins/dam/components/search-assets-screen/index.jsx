@@ -47,7 +47,7 @@ function SearchAssetsScreen(props) {
     }
 
     const file = startCase(label).replace(/\s/g, '');
-    components[label] = lazy(() => import(`./${file}Icon`));
+    components[label] = lazy(() => import(`./${file}Icon.jsx`)); // needs the .jsx when dynamically importing
     return components[label];
     };
 

@@ -24,9 +24,9 @@ root
 │
 └───demo
 │   │   node_modules (built when app started)
-│   │   .env
 │   │   ...rest
 |   └───src
+|       |   .env[.environment]
 |       |   schemas.js
 |       |   ...rest
 ```
@@ -35,29 +35,29 @@ root
 ## example `.env` file:
 
 ```
-APP_BASE_URL=/
-APP_ENV=dev
-APP_ID=acme-cms
-APP_VENDOR=acme
-APP_NAME=cms
-APP_VERSION=v0.1.0
-APP_BUILD=20190925145136
-APP_DEPLOYMENT_ID=20190925145136
-APP_DEV_BRANCH=master
-CLIENT_PUBLIC_PATH=/
-DAM_BASE_URL=https://dam.dev.acme.com/
-IMAGE_BASE_URL=https://imagez-dev.acme.com/
-SITE_BASE_URL=https://localhost:3000/
-VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
+CMS_APP_BASE_URL=/
+CMS_APP_ENV=dev
+CMS_APP_ID=acme-cms
+CMS_APP_VENDOR=acme
+CMS_APP_NAME=cms
+CMS_APP_VERSION=v0.1.0
+CMS_APP_BUILD=20190925145136
+CMS_APP_DEPLOYMENT_ID=20190925145136
+CMS_APP_DEV_BRANCH=master
+CMS_CLIENT_PUBLIC_PATH=/
+CMS_DAM_BASE_URL=https://dam.dev.acme.com/
+CMS_IMAGE_BASE_URL=https://imagez-dev.acme.com/
+CMS_SITE_BASE_URL=https://localhost:3000/
+CMS_VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
 
-AUTH0_AUDIENCE=https://api.dev.acme.com/
-AUTH0_CLIENT_ID=blahblahblahblahblahblah
-AUTH0_DOMAIN=acme.auth0.com
+CMS_AUTH0_AUDIENCE=https://api.dev.acme.com/
+CMS_AUTH0_CLIENT_ID=blahblahblahblahblahblah
+CMS_AUTH0_DOMAIN=acme.auth0.com
 
-API_ENDPOINT=https://master.api.dev.acme.com
-PBJX_ENDPOINT=https://master.api.dev.acme.com/pbjx
+CMS_API_ENDPOINT=https://master.api.dev.acme.com
+CMS_PBJX_ENDPOINT=https://master.api.dev.acme.com/pbjx
 
-GOOGLE_MAPS_API_KEY=blahblahblahblahblahblah
+CMS_GOOGLE_MAPS_API_KEY=blahblahblahblahblahblah
 ```
 
 

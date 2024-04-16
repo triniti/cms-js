@@ -35,16 +35,9 @@ const replaceUndefinedEnvVars = () => {
 // https://vitejs.dev/config/
 export default defineConfig({
   envPrefix: 'CMS_',
-  // Trying to not prefix everything with @triniti/cms
-  // root: `${resolve(__dirname, 'src')}`,
-  // include: [
-  //   `${resolve(__dirname, '../src/**/*.jsx')}`,
-  // ],
-  
+
   // This transpiles everything but I have to prefix everything in src with @triniti/cms
   root: `${resolve(__dirname, 'src')}`,
-
-  // publicDir: `${resolve(__dirname, 'src')}`,
 
   rollupOptions: {
     preserveEntrySignatures: 'strict',
@@ -65,13 +58,6 @@ export default defineConfig({
     },
     https,
   },
-  // build: {
-  //   rollupOptions: {
-  //     input: {
-  //       app: './index.html',
-  //     },
-  //   },
-  // },
   resolve: {
     alias: {
       '@app': `${resolve(__dirname, 'src')}`,

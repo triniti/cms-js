@@ -1,6 +1,22 @@
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import insertBeforeExt from '@triniti/cms/utils/insertBeforeExt';
+// import insertBeforeExt from '../../utils/insertBeforeExt';
 import removeExt from '@triniti/cms/utils/removeExt';
+
+// wtf?? this needs to be imported but uh idk.
+import getExt from '@triniti/cms/utils/getExt';
+
+/**
+ * @param {String} fileName - A file name including extension.
+ * @param {String} str      - A String to insert before the extension.
+ *
+ * Ex: A key of 'thylacine.mp4' and a str of '-daydream' returns 'thylacine-daydream.mp4'
+ *
+ * @returns {String}
+ */
+function insertBeforeExt (fileName, str) {
+  const ext = getExt(fileName);
+  return fileName.replace(new RegExp(`.${ext}$`), `${str}.${ext}`);
+};
 
 export default (id, type) => {
   const assetUrl = damUrl(id);
