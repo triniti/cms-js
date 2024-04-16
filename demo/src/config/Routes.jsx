@@ -6,8 +6,8 @@ const ArticleScreen = lazy(() => import('@triniti/cms/plugins/news/components/ar
 const AssetScreen = lazy(() => import('@triniti/cms/plugins/dam/components/asset-screen'));
 const CategoryScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/category-screen'));
 const ChannelScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/channel-screen'));
-const DashboardScreen = lazy(() => import('../plugins/dashboard/components/dashboard-screen'));
-const DemoScreen = lazy(() => import('../plugins/dashboard/components/demo-screen'));
+const DashboardScreen = lazy(() => import('@app/plugins/dashboard/components/dashboard-screen'));
+const DemoScreen = lazy(() => import('@app/plugins/dashboard/components/demo-screen'));
 const FlagsetScreen = lazy(() => import('@triniti/cms/plugins/sys/components/flagset-screen'));
 const GalleryScreen = lazy(() => import('@triniti/cms/plugins/curator/components/gallery-screen'));
 const LivestreamsScreen = lazy(() => import('@triniti/cms/plugins/ovp/components/livestreams-screen'));

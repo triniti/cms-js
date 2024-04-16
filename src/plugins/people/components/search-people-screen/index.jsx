@@ -3,7 +3,7 @@ import { Badge, Button, Card, Input, Media, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchPeopleSort from '@triniti/schemas/triniti/people/enums/SearchPeopleSort';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components';
-import brokenImage from 'assets/img/broken-image--xs.jpg';
+import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import { scrollToTop } from '@triniti/cms/components/screen';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';

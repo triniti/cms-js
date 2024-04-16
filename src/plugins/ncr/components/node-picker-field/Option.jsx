@@ -4,7 +4,7 @@ import { Badge, Media } from 'reactstrap';
 import Loading from '@triniti/cms/components/loading';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode';
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import brokenImage from 'assets/img/broken-image--xxs.jpg';
+import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
 
 export default function Option(props) {
   const { showImage = true, showType = false } = props.selectProps;
