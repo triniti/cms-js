@@ -1,11 +1,11 @@
 /* globals API_ENDPOINT */
 import swal from 'sweetalert2';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import getAccessToken from '/plugins/iam/selectors/getAccessToken';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode';
 import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired';
-import { actionTypes, ravenTypes } from '../constants';
+import { actionTypes, ravenTypes } from '@triniti/cms/plugins/raven/constants';
 import publishMessage from './publishMessage';
 
 export default (topic, etag = null) => async (dispatch, getState) => {

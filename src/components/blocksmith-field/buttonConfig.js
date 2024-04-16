@@ -1,4 +1,4 @@
-import siteLogo from '@assets/img/svg/icon/site-logo.svg';
+import siteLogo from '@app/assets/img/svg/icon/site-logo.svg';
 
 const configs = {
   'article-block': {

@@ -8,7 +8,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration';
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration';
 import selector from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/selector';
-import 'plugins/raven/components/active-edits-notification-modal/styles.scss';
+import '@triniti/cms/plugins/raven/components/active-edits-notification-modal/styles.scss';
 
 const ActiveEditNotificationModal = ({
   activeUserNames,

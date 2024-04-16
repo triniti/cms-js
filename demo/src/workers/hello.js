@@ -1,7 +1,4 @@
-import setWebpackPublicPath from './webpackPublicPath';
-import MessageResolver from '../schemas';
-
-setWebpackPublicPath();
+import MessageResolver from '@app/schemas';
 
 async function test(msg) {
   const EchoRequestV1 = await MessageResolver.resolveCurie('gdbots:pbjx:request:echo-request:v1');
