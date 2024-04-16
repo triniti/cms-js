@@ -2,8 +2,20 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import fs from 'fs';
 
-console.log(resolve(__dirname, '../src'));
+// SSL Cert and Key
+const https = (() => {
+  const cert = resolve(__dirname, 'localhost.crt');
+  const key = resolve(__dirname, 'localhost.key');
+  if (fs.existsSync(cert) && fs.existsSync(key)) {
+    return {
+      key: fs.readFileSync(key),
+      cert: fs.readFileSync(cert),
+    }
+  }
+  return false;
+})();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -30,6 +42,12 @@ export default defineConfig({
   server: {
     root: `${resolve(__dirname, 'src/index.jsx')}`,
     open: 'index.html',
+    port: 3000,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+    },
+    https,
   },
   // build: {
   //   rollupOptions: {

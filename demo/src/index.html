@@ -9,7 +9,7 @@
       var APP_BASE_URL = '%CMS_APP_BASE_URL%%' || 'http://localhost:5173/';
       var SITE_BASE_URL = APP_BASE_URL;
       var STATIC_BASE_URL = '%CMS_STATIC_BASE_URL%' || 'http://localhost:5173/';
-      var CLIENT_PUBLIC_PATH = '%CMS_PUBLIC_PATH%' || 'http://localhost:5173/main.jsx'.split('main')[0];
+      var CLIENT_PUBLIC_PATH = APP_BASE_URL + 'main.jsx'.split('main')[0];
       var CLIENT_PRELOADED_STATE = {};
       var DEVICE_VIEW = '%CMS_DEVICE_VIEW%' || 'desktop';
       var VIEWER_COUNTRY = '%CMS_APP_BASE_URL%' || 'US';
