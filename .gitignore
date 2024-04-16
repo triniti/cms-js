@@ -1,5 +1,5 @@
-demo/.env
-demo/.env.dist
+.env
+.env.*
 demo/src/schemas.js
 
 # Package Files #

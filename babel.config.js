@@ -11,10 +11,10 @@ const plugins = [
   [
     'babel-plugin-module-resolver',
     {
-      root: [`${root}/src`],
+      // root: [`${root}/src`],
       alias: {
         //'@some/path/Example': `${root}/src/path/Example`,
-        '@triniti/cms': `${root}/src`,
+        // '@triniti/cms': `${root}/src`,
       },
     },
   ],

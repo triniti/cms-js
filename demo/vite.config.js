@@ -7,6 +7,7 @@ console.log(resolve(__dirname, '../src'));
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envPrefix: 'CMS_',
   // Trying to not prefix everything with @triniti/cms
   // root: `${resolve(__dirname, 'src')}`,
   // include: [

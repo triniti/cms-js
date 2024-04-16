@@ -4,31 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>Triniti CMS</title>
     <script id="app-globals">
-      var APP_BASE_URL = 'http://localhost:5173/';
+      var APP_BASE_URL = '%CMS_APP_BASE_URL%%' || 'http://localhost:5173/';
       var SITE_BASE_URL = APP_BASE_URL;
-      var STATIC_BASE_URL = 'http://localhost:5173/';
-      var CLIENT_PUBLIC_PATH = 'http://localhost:5173/main.jsx'.split('main')[0];
+      var STATIC_BASE_URL = '%CMS_STATIC_BASE_URL%' || 'http://localhost:5173/';
+      var CLIENT_PUBLIC_PATH = '%CMS_PUBLIC_PATH%' || 'http://localhost:5173/main.jsx'.split('main')[0];
       var CLIENT_PRELOADED_STATE = {};
-      var DEVICE_VIEW = 'desktop';
-      var VIEWER_COUNTRY = 'US';
-      var GDPR_APPLIES = false;
-      var APP_ENV = 'local';
-      var APP_VENDOR = 'tcd';
-      var APP_NAME = 'tcd-cms';
-      var APP_VERSION = 'v2.0.0';
-      var APP_BUILD = '1';
-      var APP_DEPLOYMENT_ID = '1';
-      var APP_DEV_BRANCH = 'main';
-      var CLOUD_PROVIDER = 'local';
-      var CLOUD_REGION = 'us-west-2';
-      var CLOUD_ZONE = 'us-west-2a';
-      var AUTH0_AUDIENCE = 'https://api.dev.tmz.com/';
-      var AUTH0_CLIENT_ID = 'S7Hl5EJdPYZaoInVIrZDExwVyS3PHmkP';
-      var AUTH0_DOMAIN = 'tpix.auth0.com';
-      var API_ENDPOINT = 'https://main.api.dev.tmz.com';
-      var PBJX_ENDPOINT = 'https://main.api.dev.tmz.com/pbjx';
+      var DEVICE_VIEW = '%CMS_DEVICE_VIEW%' || 'desktop';
+      var VIEWER_COUNTRY = '%CMS_APP_BASE_URL%' || 'US';
+      var GDPR_APPLIES = '%CMS_APP_BASE_URL%' || false;
+      var APP_ENV = '%CMS_APP_ENV%' || 'local';
+      var APP_VENDOR = '%CMS_APP_VENDOR%' || 'acme';
+      var APP_NAME = '%CMS_APP_NAME%' || 'cms';
+      var APP_VERSION = '%CMS_APP_VERSION%' || 'v2.0.0';
+      var APP_DEPLOYMENT_ID = '%CMS_APP_DEPLOYMENT_ID%' || 'local';
+      var APP_DEV_BRANCH = '%CMS_DEV_BRANCH%' || 'local';
+      var APP_BUILD = '%CMS_APP_BUILD%' || '1';
+      var AUTH0_AUDIENCE = '%CMS_AUTH0_AUDIENCE%' || 'https://api.dev.acme.com/';
+      var AUTH0_CLIENT_ID = '%CMS_AUTH0_CLIENT_ID%' || 'blah-blah-blah';
+      var AUTH0_DOMAIN = '%CMS_AUTH0_DOMAIN%' || 'acme.auth0.com';
+      var API_ENDPOINT = '%CMS_API_ENDPOINT%' || 'https://main.api.dev.acme.com';
+      var PBJX_ENDPOINT = '%CMS_PBJX_ENDPOINT%' || 'https://main.api.dev.acme.com/pbjx';
+      var DAM_BASE_URL = '%CMS_DAM_BASE_URL%' || 'https://dam.dev.acme.com/';
+      var IMAGE_BASE_URL = '%CMS_IMAGE_BASE_URL%' || 'https://imagez-dev.acme.com/';
+      var VIDEO_ASSET_BASE_URL = '%CMS_VIDEO_ASSET_BASE_URL%' || 'https://ovp.dev.acme.com/';
       var wbq = wbq || [];
     </script>
   </head>
