@@ -14,7 +14,7 @@ export default function SlugField(props) {
 
   if (!node) {
     const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
-    return <Loading inline size="md" error={error} />;
+    return <Loading inline size="sm" error={error} />;
   }
 
   const rootClassName = classNames(
