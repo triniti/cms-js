@@ -48,6 +48,7 @@ export default defineConfig({
     react(),
     replaceUndefinedEnvVars(),
   ],
+
   server: {
     root: `${resolve(__dirname, 'src/index.jsx')}`,
     open: 'index.html',
@@ -58,6 +59,7 @@ export default defineConfig({
     },
     https,
   },
+
   resolve: {
     alias: {
       '@app': `${resolve(__dirname, 'src')}`,
@@ -66,6 +68,7 @@ export default defineConfig({
       '@config': `${resolve(__dirname, '../src/config')}`,
     },
   },
+  
   optimizeDeps: {
     exclude: ['js-big-decimal']
   }
