@@ -15,7 +15,7 @@ import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName';
 import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile';
 
 
-import 'plugins/dam/components/asset-screen/variants.scss';
+import '@triniti/cms/plugins/dam/components/asset-screen/variants.scss';
 
 // Error messages
 const ERROR_MIME_TYPE = 'Invalid Action: Trying to upload invalid file type.';

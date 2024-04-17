@@ -42,7 +42,7 @@ import Paginator from '@triniti/cms/plugins/dam/components/uploader/Paginator';
 import CommonFields from '@triniti/cms/plugins/dam/components/uploader/CommonFields';
 import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName';
 
-import 'plugins/dam/components/uploader/styles.scss';
+import '@triniti/cms/plugins/dam/components/uploader/styles.scss';
 
 const ADD_GALLERY_ASSET_INCREMENT = 500;
 

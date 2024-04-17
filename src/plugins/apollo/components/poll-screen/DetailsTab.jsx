@@ -4,7 +4,7 @@ import { DatePickerField, SwitchField, TextField, UrlField } from '@triniti/cms/
 import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields';
-import SortableAnswers from "plugins/apollo/components/poll-screen/SortableAnswers";
+import SortableAnswers from '@triniti/cms/plugins/apollo/components/poll-screen/SortableAnswers';
 
 export default function DetailsTab(props) {
   const { node, nodeRef } = props;
