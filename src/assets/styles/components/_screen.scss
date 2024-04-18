@@ -34,9 +34,9 @@
   display: flex;
   min-height: $header-height + 8;
   padding: .125rem 1rem .25rem 1rem;
-  border-bottom: 1px solid $gray-700;
+  border-bottom: 1px solid var(--#{$prefix}border-color-translucent);
   border-radius: 0 !important;
-  background-color: $white;
+  background-color: var(--#{$prefix}body-bg);
   align-items: center;
   flex: 0 0 auto;
   justify-content: space-between;
@@ -147,8 +147,8 @@
   flex-wrap: nowrap;
   transition: margin $transition;
   width: 360px;
-  background-color: $white;
-  border-left: 1px solid $gray-600;
+  background-color: var(--#{$prefix}body-bg);
+  border-left: 1px solid var(--#{$prefix}border-color-translucent);
 
   @media (max-width: 420px) {
     width: calc(100vw - 25px);
@@ -230,8 +230,41 @@
 }
 
 .screen-navtabs {
-  background-color: $white;
+  background-color: var(--#{$prefix}body-bg);
   box-shadow: $shadow-depth-3;
   padding-top: .5rem;
   z-index: $zindex-sticky + 1;
+
+  [data-bs-theme=dark] & {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .36);
+  }
+}
+
+
+// sidenav in EME
+
+[data-bs-theme=dark] {
+  .screen-sidenav,
+  .screen-sidenav-header {
+    background-color: var(--#{$prefix}body-bg);
+    border-color: var(--#{$prefix}border-color-translucent);
+  }
+
+  .screen-sidenav-header {
+    box-shadow: $shadow-depth-3;
+  }
+
+  .screen-sidenav-link-text {
+    color: var(--#{$prefix}body-color);
+  }
+
+  .screen-sidenav-link-toggle {
+    border-radius: 0;
+  }
+
+  .screen-sidenav-link-toggle:not(:hover),
+  .show .screen-sidenav-link-toggle:not(:hover) {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
 }

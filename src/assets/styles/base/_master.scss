@@ -14,7 +14,7 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-feature-settings: 'kern' 1;
   -moz-font-feature-settings: 'kern' 1;
-  background-color: var(--bs-dark-bg-subtle); //  $dark-bg-subtle
+  background-color: var(--#{$prefix}dark-bg-subtle); //  $dark-bg-subtle
 }
 
 
@@ -25,6 +25,7 @@ input,
 textarea,
 select {
   outline: 0;
+  outline-offset: 0;
 }
 
 a:focus,
@@ -45,8 +46,14 @@ input::-moz-focus-inner {
   border: 0;
 }
 
-a:focus {
-  box-shadow: none;
+a {
+
+  &:focus {
+    box-shadow: none;
+  }
+  &.disabled {
+    cursor: no-drop;
+  }
 }
 
 .underline {
@@ -96,15 +103,35 @@ a:not([href]):not([tabindex]),
   cursor: pointer;
 }
 
+hr {
+  color: $black;
+
+  [data-bs-theme=dark] & {
+    opacity: .17;
+  }
+}
 
 // select background color
 
 ::selection {
-  background: darken($status-expired, 2%);
+  background: desaturate(lighten($secondary, 47%), 10%);
+
+  [data-bs-theme=dark] & {
+    background: $gray-rgba-700;
+  }
 }
 
 ::-moz-selection {
-  background: darken($status-expired, 2%);
+  background: desaturate(lighten($secondary, 47%), 10%);
+
+  [data-bs-theme=dark] & {
+    background: $gray-rgba-700;
+  }
+}
+
+// placeholder
+::placeholder { /* Most modern browsers support this now. */
+  color: var(--#{$prefix}secondary-color);
 }
 
 
@@ -164,7 +191,7 @@ a:not([href]):not([tabindex]),
 }
 
 .text-body-light {
-  color: $body-color-light !important;
+  color: var(--#{$prefix}tertiary-color) !important; // body-color-light
 }
 
 .text-label {
@@ -414,7 +441,7 @@ a:not([href]):not([tabindex]),
   width: 100%;
   padding: 0;
   overflow: hidden;
-  background-color: $gray-300;
+  background-color: var(--#{$prefix}dark-bg-subtle);
 
   &::before {
     content: '';
@@ -557,13 +584,3 @@ nav + div:not(.screen) {
   .container-sm {
     max-width: 540px; } }
 
-
-// image grid
-
-.image-grid-card,
-[data-bs-theme=dark] .image-grid-card {
-
-  &:hover {
-    background-color: $secondary;
-  }
-}

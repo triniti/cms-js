@@ -3,20 +3,15 @@
 .breadcrumb {
   margin-right: .5rem;
   text-transform: capitalize;
-  transition: margin $transition;
-  --bs-breadcrumb-divider-color: #e0e0e2;
 }
 
 // Breadcrumb Item
 
-.breadcrumb-item {
-  color: var(--bs-body-color);
+.breadcrumb-item,
+.breadcrumb-item a {
+  color: var(--#{$prefix}body-color);
 
-  & a {
-    color: var(--bs-body-color);
-  }
-  &:hover,
-  & a:hover {
-    color: var(--bs-emphasis-color);
+  &:hover {
+    color: var(--#{$prefix}body-color);
   }
 }

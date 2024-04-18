@@ -4,6 +4,10 @@
   position: relative;
   border: 1px solid $gray-700;
   border-radius: 3px;
+
+  [data-bs-theme=dark] & {
+    border-color: var(--#{$prefix}border-color);
+  }
 }
 
 // this is the placeholder. the default draft placeholder prop allows selecting the text
@@ -16,7 +20,7 @@
     content: 'Start typing here, or click a plus icon to add a new block.';
     font-size: 1.2em;
     word-spacing: .17em;
-    color: $text-light; // #636c72
+    color: var(--#{$prefix}tertiary-color); // $text-light
     cursor: text;
     pointer-events: none;
 
@@ -63,7 +67,7 @@
 
 #block-editor {
   a {
-    color: $secondary;
+    color: var(--#{$prefix}secondary);
   }
   .drag-area {
     position: absolute;
@@ -89,6 +93,10 @@
   .list-block {
     position: relative;
     margin-bottom: 8px;
+
+    div {
+      display: inline;
+    }
   }
 }
 
@@ -112,19 +120,22 @@ div[data-contents="true"] {
       opacity: 0 !important;
     }
     &.block-update {
-      box-shadow: 0 0 0 1px $danger;
+      box-shadow: 0 0 0 1px var(--#{$prefix}danger);
     }
     &.block-not-published {
-      box-shadow: 0 0 0 1px $warning;
+      box-shadow: 0 0 0 1px var(--#{$prefix}warning);
     }
     &.block-active {
-      box-shadow: 0 0 0 1px $gray-600;
+      box-shadow: 0 0 0 1px var(--#{$prefix}btn-border-color);
     }
     &.block-invalid {
       background-color: #fef1f1;
-      box-shadow: 0 0 0 1px $danger;
+      box-shadow: 0 0 0 1px var(--#{$prefix}danger);
       position: relative;
 
+      [data-bs-theme=dark] & {
+        background-color: var(--#{$prefix}status-pending);
+      }
       &:after {
         top: 5px;
         right: 10px;
@@ -259,19 +270,20 @@ div[data-contents="true"] {
   height: 32px;
   width: 32px;
   background: $gray-900;
-  color: $body-color-light;
+  color: $white-rgba-600;
 
   &:hover,
   &:focus {
     background: $gray-800;
     outline: 0;
+    color: $white-rgba-700;
   }
 }
 
 .inline-toolbar-button-active,
 .inline-toolbar-button-active:hover,
 .inline-toolbar-button-active:focus {
-  background: $secondary;
+  background: var(--#{$prefix}secondary);
   color: $white;
 }
 

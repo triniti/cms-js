@@ -1,4 +1,99 @@
 @media print {
+  // force light theme variables when printing
+  :root,
+  [data-bs-theme="light"],
+  [data-bs-theme="dark"] {
+    --bs-blue: #{$blue};
+    --bs-indigo: #{$indigo};
+    --bs-purple: #{$purple};
+    --bs-pink: #{$pink};
+    --bs-red: #{$red};
+    --bs-orange: #{$orange};
+    --bs-yellow: #{$yellow};
+    --bs-green: #{$green};
+    --bs-teal: #{$teal};
+    --bs-cyan: #{$cyan};
+    --bs-black: #{$black};
+    --bs-white: #{$white};
+    --bs-gray: #{$gray-600};
+    --bs-gray-dark: #{$gray-800};
+    --bs-gray-100: #{$gray-100};
+    --bs-gray-200: #{$gray-200};
+    --bs-gray-300: #{$gray-300};
+    --bs-gray-400: #{$gray-400};
+    --bs-gray-500: #{$gray-500};
+    --bs-gray-600: #{$gray-600};
+    --bs-gray-700: #{$gray-700};
+    --bs-gray-800: #{$gray-800};
+    --bs-gray-900: #{$gray-900};
+    --bs-primary: #{$primary};
+    --bs-secondary: #{$secondary};
+    --bs-success: #{$success};
+    --bs-info: #{$info};
+    --bs-warning: #{$warning};
+    --bs-danger: #{$danger};
+    --bs-light: #{$light};
+    --bs-dark: #{$dark};
+    --bs-primary-rgb: to-rgb(#{$primary});
+    --bs-secondary-rgb: to-rgb(#{$secondary});
+    --bs-success-rgb: to-rgb(#{$success});
+    --bs-info-rgb: to-rgb(#{$info});
+    --bs-warning-rgb: to-rgb(#{$warning});
+    --bs-danger-rgb: to-rgb(#{$danger});
+    --bs-light-rgb: to-rgb(#{$light});
+    --bs-dark-rgb: to-rgb(#{$dark});
+    --bs-primary-text-emphasis: #{$primary-text-emphasis};
+    --bs-secondary-text-emphasis: #{$secondary-text-emphasis};
+    --bs-success-text-emphasis: #{$success-text-emphasis};
+    --bs-info-text-emphasis: #{$info-text-emphasis};
+    --bs-warning-text-emphasis: #{$warning-text-emphasis};
+    --bs-danger-text-emphasis: #{$danger-text-emphasis};
+    --bs-light-text-emphasis: #{$light-text-emphasis};
+    --bs-dark-text-emphasis: #{$dark-text-emphasis};
+    --bs-primary-bg-subtle: #{$primary-bg-subtle};
+    --bs-secondary-bg-subtle: #{$secondary-bg-subtle};
+    --bs-success-bg-subtle: #{$success-bg-subtle};
+    --bs-info-bg-subtle: #{$info-bg-subtle};
+    --bs-warning-bg-subtle: #{$warning-bg-subtle};
+    --bs-danger-bg-subtle: #{$danger-bg-subtle};
+    --bs-light-bg-subtle: #{$light-bg-subtle};
+    --bs-dark-bg-subtle: #{$dark-bg-subtle};
+    --bs-primary-border-subtle: #{$primary-border-subtle};
+    --bs-secondary-border-subtle: #{$secondary-border-subtle};
+    --bs-success-border-subtle: #{$success-border-subtle};
+    --bs-info-border-subtle: #{$info-border-subtle};
+    --bs-warning-border-subtle: #{$warning-border-subtle};
+    --bs-danger-border-subtle: #{$danger-border-subtle};
+    --bs-light-border-subtle: #{$light-border-subtle};
+    --bs-dark-border-subtle: #{$dark-border-subtle};
+    --bs-white-rgb: to-rgb(#{$white});
+    --bs-black-rgb: to-rgb(#{$black});
+    --bs-gradient: #{$gradient};
+    --bs-body-color: #{$body-color};
+    --bs-body-color-rgb: to-rgb(#{$body-color});
+    --bs-body-bg: #{$body-bg};
+    --bs-body-bg-rgb: to-rgb(#{$body-bg});
+    --bs-emphasis-color: #{$body-emphasis-color};
+    --bs-emphasis-color-rgb: to-rgb(#{$body-emphasis-color});
+    --bs-secondary-color: #{$body-secondary-color};
+    --bs-secondary-color-rgb: to-rgb(#{$body-secondary-color});
+    --bs-secondary-bg: #{$body-secondary-bg};
+    --bs-secondary-bg-rgb: to-rgb(#{$body-secondary-bg});
+    --bs-tertiary-color: #{$body-tertiary-color};
+    --bs-tertiary-color-rgb: to-rgb(#{$body-tertiary-color});
+    --bs-tertiary-bg: #{$body-tertiary-bg};
+    --bs-tertiary-bg-rgb: to-rgb(#{$body-tertiary-bg});
+    --bs-link-color: #{$link-color};
+    --bs-link-color-rgb: to-rgb(#{$link-color});
+    --bs-link-hover-color: #{$link-hover-color};
+    --bs-link-hover-color-rgb: to-rgb(#{$link-hover-color});
+    --bs-code-color: #{$code-color};
+    --bs-highlight-color: #{$mark-color};
+    --bs-highlight-bg: #{$mark-bg};
+    --bs-border-color: #{$border-color};
+    --bs-border-color-translucent: #{$border-color-translucent};
+  }
+
   html {
 		background: #fff;
 		width: auto;
@@ -44,7 +139,7 @@
   }
 
   .icon {
-    color: $body-color !important;  // white icon on colored backgrounds disappear
+    color: var(--#{$prefix}body-color) !important;  // white icon on colored backgrounds disappear
   }
 
   #viewPortSize {

@@ -4,8 +4,6 @@
 // Base styles
 //
 
-$button-gradient: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, 0)) repeat-x;  // transparent gradient overlay on button
-$button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0)) repeat-x;
 
 .btn {
   // z-index: 1; // required for gradient hover transition
@@ -24,7 +22,9 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   &:focus {
     cursor: pointer;
   }
-  &:focus-visible {
+  &:focus-visible,
+  &.active:focus-visible,
+  &.show:focus-visible {
     box-shadow: $focus-ring-box-shadow; // $secondary
   }
   &:last-child,
@@ -36,10 +36,10 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   }
   .checkbox-input:checked + .checkbox-input-button & {
     color: $white !important;
-    background: $secondary;
+    background: var(--#{$prefix}secondary);
     border-color: darken($secondary, 5%);
   }
-  form &:not(:focus):hover,
+  form &:not(:focus):not(:focus-visible):hover,
   .form-group &:not(:focus):hover,
   [id^="form-group-"] &:not(:focus):hover,
   .input-group &:not(:focus):hover {
@@ -68,6 +68,12 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   &:not(:disabled):not(.disabled) {
     cursor: pointer;
   }
+  [data-bs-theme=dark] {
+    --#{$prefix}btn-border-color: var(--#{$prefix}btn-border-color-dark); // *new #494e5a #3e4551 #515966 #444e5c
+    --#{$prefix}btn-hover-border-color: var(--#{$prefix}btn-hover-border-color-dark); // *new lighten(#494e5a, .25%)
+    --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color-dark);
+    --#{$prefix}btn-active-color: var(--#{$prefix}emphasis-color);
+  }
 }
 
 
@@ -75,10 +81,12 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 
 .btn-hover {
   opacity: .625;
-  box-shadow: none !important;
   border: none;
   color: var(--#{$prefix}body-color) !important;
 
+  &:not(:focus-visible) {
+    box-shadow: none !important;
+  }
   &:hover,
   &.active {
     opacity: 1;
@@ -90,7 +98,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     height: 2.125rem;
   }
   tr.bg-selected & {
-    color: $white;
+    color: $white !important;
   }
 }
 
@@ -105,7 +113,11 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   &:hover,
   &.active {
     opacity: 1;
-    background-color: rgba(#000, .05); // #f2f2f4 $gray-300
+    background-color: rgba($black, .05); // #f2f2f4 $gray-300
+
+    [data-bs-theme=dark] & {
+      background-color: $white-rgba-100;
+    }
   }
   .form-group &,
   [id^="form-group-"] & {
@@ -117,209 +129,182 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 // scss-docs-start btn-variant-loops
 @each $color, $value in $theme-colors {
   .btn-#{$color} {
-    --bs-btn-color: #fff;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-active-color: #fff;
-    --bs-btn-disabled-color: #fff;
-    border-color: darken($value, 4%);
-    border-bottom-color: darken($value, 8%);
+    $btn-border-color: darken($value, 4%);
+    $btn-hover-bg: darken($value, 7%);
+    $btn-hover-border-color: darken($value, 14%);
+    --#{$prefix}btn-color: #{$white};
+    --#{$prefix}btn-border-color: #{$btn-border-color};
+    --#{$prefix}btn-hover-color: #{$white};
+    --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
+    --#{$prefix}btn-hover-border-color: #{$btn-hover-border-color};
+    --#{$prefix}btn-active-color: #{$white};
+    --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+    --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color);
+    --#{$prefix}btn-disabled-color: #{$white};
+    --#{$prefix}btn-disabled-bg: #{$value};
+    --#{$prefix}btn-disabled-border-color: var(--#{$prefix}btn-border-color);
     background-image: var(--#{$prefix}gradient);
 
-    &:hover,
-    &:focus:not(:hover),
-    &.focus:not(:hover),
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active,
-    .show > &.dropdown-toggle {
-      background-color: darken($value, 5%);
-      border-color: darken($value, 9%);
-      border-bottom-color: darken($value, 13%);
+    &.active {
+      background-image: none;
+    }
 
-      [data-bs-theme=dark] & {
-        background-color: darken($value, 5%);
-        border-color: darken($value, 14%);
+    [data-bs-theme=light] & {
+      &:hover,
+      &:focus {
         border-bottom-color: darken($value, 18%);
       }
     }
-    &.disabled,
-    &:disabled {
-      color: $white;
+
+    [data-bs-theme=dark] & {
+      $btn-bg: darken($value, 8%);
+      $btn-border-color: darken($value, 14%);
+      $btn-hover-bg: darken($value, 12%);
+      // $btn-hover-border-color: darken($value, 25%);
+      $btn-hover-border-color: tint-color($value, $btn-hover-border-tint-amount);
+      --#{$prefix}btn-bg: #{$btn-bg};
+      --#{$prefix}btn-border-color: #{$btn-border-color};
+      --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
+      --#{$prefix}btn-hover-border-color: #{$btn-hover-border-color};
+      --#{$prefix}btn-active-color: #{$white};
+      --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+      --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color);
+      --#{$prefix}btn-disabled-border-color: var(--#{$prefix}btn-border-color);
+      --#{$prefix}gradient: var(--#{$prefix}gradient-dark);
+    }
+
+    @if $color == "light" {
+      --#{$prefix}btn-bg: var(--#{$prefix}body-bg);
+      --#{$prefix}btn-color: var(--#{$prefix}body-color);
+      --#{$prefix}btn-border-color: #{$gray-600};
+      --#{$prefix}btn-hover-color: var(--#{$prefix}body-color);
+      --#{$prefix}btn-hover-bg: #{$gray-300};
+      --#{$prefix}btn-active-color: var(--#{$prefix}btn-color);
+      --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
+
+      [data-bs-theme=light] & {
+        &:hover,
+        &:focus {
+          border-bottom-color: darken($gray-600, 10%);
+        }
+      }
+
+      [data-bs-theme=dark] & {
+        $btn-hover-bg: shade-color($body-secondary-bg-dark, 6%);
+        --#{$prefix}btn-bg: var(--#{$prefix}secondary-bg);
+        --#{$prefix}btn-border-color: var(--#{$prefix}form-control-border-color);
+        --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
+        --#{$prefix}btn-hover-border-color: var(--#{$prefix}form-control-hover-border-color);
+        --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+        --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color);
+        --#{$prefix}btn-disabled-bg: var(--#{$prefix}btn-bg);
+      }
     }
   }
+
   .btn-outline-#{$color} {
-    --bs-btn-color: var(--#{$prefix}body-color);
-    --bs-btn-disabled-border-color: var(--#{$prefix}border-color);
-    background-color: $gray-300;
-    border: $input-btn-border-width solid $gray-700;
+    $btn-hover-bg: darken($value, 7%);
+    $btn-hover-border-color: darken($value, 14%);
+    --#{$prefix}btn-bg: #{$gray-200};
+    --#{$prefix}btn-color: var(--#{$prefix}body-color);
+    --#{$prefix}btn-border-color: #{$gray-600};
+    --#{$prefix}btn-hover-color: #{$white};
+    --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
+    --#{$prefix}btn-hover-border-color: #{$btn-hover-border-color};
+    --#{$prefix}btn-active-color: #{$white};
+    --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+    --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color);
+    --#{$prefix}btn-disabled-border-color: var(--#{$prefix}border-color);
+    --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
+    --#{$prefix}btn-disabled-bg: #{$gray-300};
+    --#{$prefix}btn-disabled-border-color: var(--#{$prefix}border-color);
     --#{$prefix}gradient: #{$gradient};
     background-image: var(--#{$prefix}gradient);
 
-    [data-bs-theme=dark] & {
-      border-color: var(--button-border-color);
-      background-color: var(--button-bg);
-      --#{$prefix}gradient: #{$gradient-dark};
+    &.active {
+      background-image: none;
     }
-    .modal-footer-buttons &:not(:hover):not(:active):not(.active):not(:disabled) {
-      background-color: $white;
 
-      [data-bs-theme=dark] & {
-        background-color: var(--modal-bg);
-      }
-    }
-    &:hover,
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active,
-    .show > &.dropdown-toggle {
-      color: $white;
-      background-color: darken($value, 6%);
-      border-color: darken($value, 14%);
-      border-bottom-color: darken($value, 18%);
-
-      [data-bs-theme=dark] & {
-        color: $white;
-        background-color: darken($value, 6%);
-        border-color: darken($value, 14%);
+    [data-bs-theme=light] & {
+      &:hover,
+      &:focus {
         border-bottom-color: darken($value, 18%);
       }
     }
-    &.disabled,
-    &:disabled {
-      color: $body-color;
-      background-color: $gray-300;
+
+    [data-bs-theme=dark] & {
+      $btn-hover-bg: darken($value, 12%);
+      // $btn-hover-border-color: darken($value, 25%);
+      $btn-hover-border-color: tint-color($value, $btn-hover-border-tint-amount);
+      --#{$prefix}btn-bg: var(--#{$prefix}secondary-bg);
+      --#{$prefix}btn-color: var(--#{$prefix}body-color);
+      --#{$prefix}btn-border-color: var(--#{$prefix}form-control-border-color);
+      --#{$prefix}btn-hover-color: #{$white};
+      --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
+      --#{$prefix}btn-hover-border-color: #{$btn-hover-border-color};
+      --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+      --#{$prefix}btn-disabled-border-color: var(--#{$prefix}btn-border-color);
+      --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
+      --#{$prefix}btn-disabled-bg: var(--#{$prefix}secondary-bg);
+      --#{$prefix}btn-disabled-border-color: var(--#{$prefix}btn-border-color);
+      --#{$prefix}gradient: var(--#{$prefix}gradient-dark);
+    }
+
+    @if $color == "light" {
+      --#{$prefix}btn-bg: #{$gray-200};
+      --#{$prefix}btn-color: var(--#{$prefix}body-color);
+      --#{$prefix}btn-border-color: #{$gray-600};
+      --#{$prefix}btn-hover-color: var(--#{$prefix}body-color);
+      --#{$prefix}btn-hover-bg: #{$gray-500};
+
+      [data-bs-theme=light] & {
+        &:hover,
+        &:focus {
+          border-bottom-color: darken($gray-600, 10%);
+        }
+      }
 
       [data-bs-theme=dark] & {
-        border-color: var(--button-border-color);
-        background-color: var(--button-bg);
+        $btn-hover-bg: shade-color($body-secondary-bg-dark, 7%);
+        // --#{$prefix}btn-hover-bg: var(--#{$prefix}secondary-bg);
+        --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
+        --#{$prefix}btn-hover-border-color: var(--#{$prefix}form-control-hover-border-color);
       }
     }
-  }
-}
 
-
-// btn-light, btn-outline-light overrides
-
-.btn-light {
-  --bs-btn-color: var(--bs-body-color);
-  --bs-btn-hover-color: var(--bs-body-color);
-  --bs-btn-active-color: var(--bs-body-color);
-  --bs-btn-disabled-color: var(--bs-body-color);
-  border-color: $input-border-color;
-
-  &:hover,
-  &:focus {
-    background-color: #efeff1;
-  }
-  &.disabled,
-  &:disabled {
-    background-color: $white;
-  }
-  [data-bs-theme=dark] & {
-    color: var(--#{$prefix}body-color);
-    border-color: var(--button-border-color);
-    background-color: var(--button-bg);
-  }
-}
-
-.btn-light,
-.btn-outline-light {
-  color: $body-color;
-  border-color: $gray-700;
-
-  [data-bs-theme=dark] & {
-    color: var(--#{$prefix}body-color);
-    border-color: var(--button-border-color);
-    background-color: var(--button-bg);
-  }
-  .input-group & {
-    [data-bs-theme=dark] & {
-      border-color: var(--form-control-border-color);
-    }
-  }
-  &:focus,
-  &:focus:not(:hover),
-  &.focus:not(:hover),
-  &:not(:disabled):not(.disabled):active:focus,
-  &:not(:disabled):not(.disabled).active:focus,
-  .show > &.dropdown-toggle:focus {
-    color: $body-color;
-    background-color: $gray-300;
-
-    [data-bs-theme=dark] & {
-      color: $white;
-      background-color: var(--button-bg);
-      border-color: var(--button-border-color);
-    }
-  }
-  &:focus-visible {
-    border-color: $gray-700;
-    background-color: darken($gray-400, 2.25%);
-  }
-  &:hover,
-  &:focus:hover,
-  &:focus-visible:hover {
-    color: $body-color;
-    background-color: darken($gray-400, 2.25%);
-    border-color: darken($gray-700, 4%);
-    border-bottom-color: darken($gray-700, 8%);
-
-    [data-bs-theme=dark] & {
-      color: $white;
-      background-color: var(--button-bg);
-      border-color: var(--button-border-color-hover);
-    }
-  }
-  &.disabled,
-  &:disabled {
-    color: $body-color !important;
-    background-color: $gray-200 !important;
-    border-color: $gray-700;
-
-    [data-bs-theme=dark] & {
-      color: var(--#{$prefix}body-color) !important;
-      background-color: var(--button-bg) !important;
-      border-color: var(--button-border-color);
-    }
-  }
-  &:not(:disabled):not(.disabled):active,
-  &:not(:disabled):not(.disabled).active,
-  .show > &.dropdown-toggle  {
-    color: $body-color !important;
-    background-color: darken($gray-400, 2%) !important;
-
-    [data-bs-theme=dark] & {
-      color: $white !important;
-      background-color: var(--button-bg) !important;
+    .modal-footer-buttons &:not(:hover):not(:active):not(.active):not(:disabled) {
+      background-color: var(--#{$prefix}body-bg);
     }
   }
 }
 
 .show > .btn-light.dropdown-toggle {
-  color: $body-color;
+  color: var(--#{$prefix}body-color);
   background-color: $white;
-  border-color: $gray-700;
+  border-color: var(--#{$prefix}border-color);
 
   [data-bs-theme=dark] & {
-    color: var(--#{$prefix}body-color);
-    background-color: var(--button-bg);
-    border-color: var(--button-border-color);
+    // color: var(--#{$prefix}body-color);
+    background-color: var(--#{$prefix}secondary-bg);
+    border-color: var(--#{$prefix}btn-border-color);
   }
   &:hover,
   &:focus:hover {
     background-color: $gray-400;
-    border-color: $gray-700;
+    border-color: var(--#{$prefix}border-color);
 
     [data-bs-theme=dark] & {
-      background-color: var(--button-bg);
-      border-color: var(--button-border-color-hover);
+      background-color: var(--#{$prefix}secondary-bg);
+      border-color: var(--#{$prefix}btn-hover-border-color);
     }
   }
   &:focus {
     background-color: $white;
-    border-color: $gray-700;
+    border-color: var(--#{$prefix}border-color);
 
     [data-bs-theme=dark] & {
-      background-color: var(--button-bg);
-      border-color: var(--button-border-color-hover);
+      background-color: var(--#{$prefix}secondary-bg);
+      border-color: var(--#{$prefix}btn-hover-border-color);
     }
   }
 }
@@ -416,7 +401,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   }
   &:hover,
   &.active {
-    color: $body-color;
+    color: var(--#{$prefix}body-color);
     border-color: transparent;
     background-color: transparent;
     text-shadow: none;
@@ -441,7 +426,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     margin: 0;
     border: none;
     border-radius: 0;
-    box-shadow: inset -1px 0 0 0 $gray-500;
+    box-shadow: inset -1px 0 0 0 var(--#{$prefix}border-color);
     flex: 1;
 
     &:last-child {
@@ -462,11 +447,11 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
 
 .modal-footer-buttons .btn:first-child {
   margin-left: 0;
-  border-bottom-left-radius: $modal-content-border-radius - 1px;
+  border-bottom-left-radius: $border-radius-lg - 1px;
 }
 
 .modal-footer-buttons .btn:last-child {
-  border-bottom-right-radius: $modal-content-border-radius - 1px;
+  border-bottom-right-radius: $border-radius-lg - 1px;
 }
 
 // modal-footer fixes
@@ -564,7 +549,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    --bs-btn-active-border-color: none;
+    --#{$prefix}btn-active-border-color: transparent;
   }
   &.btn-xxs {
     width: $button-round-height-xxs;
@@ -600,7 +585,12 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
   top: .25rem;
   right: .25rem;
   min-height: 0;
+  border-radius: 50px;
 
+  [data-bs-theme=dark] & {
+    filter: none;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27 %3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e") center/1em auto no-repeat;
+  }
   .alert &,
   [data-bs-theme=dark] .alert & {
     background: none;
@@ -614,7 +604,7 @@ $button-gradient-dark: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(25
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     }
   }
-  .alert-inverse & {
+  .alert-inverse & { // todo: check if alert-inverse has been removed
 
     &:before,
     [data-bs-theme=dark] &:before {
@@ -716,7 +706,7 @@ button.close {
 
   &:hover,
   &:focus {
-    border-color: $info;
+    border-color: var(--#{$prefix}secondary);
   }
   > div {
     display: inline-block;

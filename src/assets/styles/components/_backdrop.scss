@@ -12,7 +12,8 @@
   transition: all $transition;
   pointer-events: none;
   opacity: 0;
-  background-color: $gray-rgba-800;
+  background-color: $modal-backdrop-bg;
+  --#{$prefix}backdrop-opacity: #{$modal-backdrop-opacity};
 
   .navbar-main & {
     @media (max-width: 1024px) {
@@ -25,11 +26,11 @@
   .offcanvas-left + .backdrop,
   .offcanvas-right + .backdrop {
     pointer-events: auto;
-    opacity: .3;
+    opacity: var(--#{$prefix}backdrop-opacity);
   }
   .main-nav.is-open + .backdrop {
     pointer-events: auto;
-    opacity: .3;
+    opacity: var(--#{$prefix}backdrop-opacity);
   }
   .usernav-wrapper + .backdrop {
     z-index: 1;
