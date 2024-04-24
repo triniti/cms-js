@@ -1,3 +1,5 @@
+@import "../../../../assets/styles/variables";
+
 .table--object-table {
   .table--object-table {
     border: 1px solid var(--#{$prefix}border-color); // $gray-500

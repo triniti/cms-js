@@ -12,7 +12,8 @@
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{scss,sass,svg,jpg,png}' ./dist",
     "clean": "rm -rf ./dist",
     "pub": "npm run build && cd dist && npm publish --access public",
-    "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet"
+    "test": "BABEL_ENV=test tape -r ./bootstrap.test.js './src/**/*.test.js*' | faucet",
+    "build-vite": "npm run clean && vite build"
   },
   "workspaces": [
     "demo"
@@ -40,6 +41,7 @@
     "filesize": "^10.1.1",
     "final-form": "^4.20.10",
     "final-form-arrays": "^3.1.0",
+    "glob": "^10.3.12",
     "he": "^1.2.0",
     "history": "^5.3.0",
     "immutable": "^3.8.1",

@@ -61,7 +61,7 @@ import {
   UncontrolledPopover,
   UncontrolledTooltip
 } from 'reactstrap';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import ReactDatePicker from 'react-datepicker';
 import Select from 'react-select';
 import {
@@ -4248,7 +4248,7 @@ function DemoScreen() {
           <Nav className="nav-underline">
             <NavItem>
               <NavLink
-                className={classnames('tabindex', { active: activeTab === '1' })}
+                className={classNames('tabindex', { active: activeTab === '1' })}
                 onClick={() => {
                   toggle('1');
                 }}
@@ -4258,7 +4258,7 @@ function DemoScreen() {
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: activeTab === '2' })}
+                className={classNames({ active: activeTab === '2' })}
                 onClick={() => {
                   toggle('2');
                 }}
@@ -4338,7 +4338,7 @@ function DemoScreen() {
           <Nav className="nav-underline nav-sm">
             <NavItem>
               <NavLink
-                className={classnames('tabindex', { active: activeTab === '1' })}
+                className={classNames('tabindex', { active: activeTab === '1' })}
                 onClick={() => {
                   toggle('1');
                 }}
@@ -4348,7 +4348,7 @@ function DemoScreen() {
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: activeTab === '2' })}
+                className={classNames({ active: activeTab === '2' })}
                 onClick={() => {
                   toggle('2');
                 }}

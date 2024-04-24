@@ -42,13 +42,13 @@ function SearchAssetsScreen(props) {
 
     const components = {};
     const resolveComponent = (label) => {
-    if (components[label]) {
-        return components[label];
-    }
+      if (components[label]) {
+          return components[label];
+      }
 
-    const file = startCase(label).replace(/\s/g, '');
-    components[label] = lazy(() => import(`./${file}Icon.jsx`)); // needs the .jsx when dynamically importing
-    return components[label];
+      const file = startCase(label).replace(/\s/g, '');
+      components[label] = lazy(() => import(`./${file}Icon.jsx`)); // needs the .jsx when dynamically importing
+      return components[label];
     };
 
   return (
