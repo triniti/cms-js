@@ -25,21 +25,15 @@
       margin-top: 0 !important;
       padding-left: .5rem;
       padding-right: .5rem;
-      background: $white;
+      background: var(--#{$prefix}body-bg);
+      color: var(--#{$prefix}body-color) !important;
 
-      [data-bs-theme=dark] & {
-        background: var(--#{$prefix}body-bg);
-      }
       .modal-header & {
         background: $gray-100;
 
         [data-bs-theme=dark] & {
-          background: var(--modal-header-bg);
+          background-color: var(--#{$prefix}tertiary-bg);
         }
-      }
-      [data-bs-theme=dark] & {
-        background-color: var(--modal-header-bg);
-        color: var(--bs-body-color) !important;
       }
       &:first-child {
         box-shadow: 0 0 0 5px $white;
@@ -51,11 +45,11 @@
           box-shadow: 0 0 0 5px $gray-100;
 
           [data-bs-theme=dark] & {
-            box-shadow: 0 0 0 5px var(--modal-header-bg);
+            box-shadow: 0 0 0 5px var(--#{$prefix}tertiary-bg);
           }
         }
         [data-bs-theme=dark] & {
-          box-shadow: 0 0 0 5px var(--modal-header-bg);
+          box-shadow: 0 0 0 5px var(--#{$prefix}tertiary-bg);
         }
       }
       &:last-child {
@@ -84,11 +78,11 @@
         background: $gray-100;
 
         [data-bs-theme=dark] & {
-          background: var(--modal-header-bg);
+          background: var(--#{$prefix}tertiary-bg);
         }
       }
       [data-bs-theme=dark] & {
-        background-color: var(--modal-header-bg);
+        background-color: var(--#{$prefix}tertiary-bg);
         color: var(--#{$prefix}body-color) !important;
       }
       & + div {

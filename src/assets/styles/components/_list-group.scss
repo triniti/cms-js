@@ -6,12 +6,12 @@
 
   &.active,
   &:active {
-    color: $body-color;
+    color: var(--#{$prefix}body-color);
     z-index: 0;
   }
   &.disabled,
   &:disabled {
-    color: $text-disabled;
+    // color: $text-muted;
   }
   &:hover,
   &:focus {
@@ -19,7 +19,7 @@
   }
   .screen-sidebar .list-group:not(.list-group-chat):not(.list-group-nav) & {
     padding: 0.675rem 1rem;
-    border-color: $gray-500;
+    border-color: var(--#{$prefix}border-color);
   }
 }
 
@@ -48,7 +48,7 @@
       position: static;
       display: block;
       font-size: .9rem;
-      color: $gray-900;
+      color: var(--#{$prefix}body-color);
       font-weight: 400;
       line-height: 1;
       padding: 1rem 1.25rem;
@@ -56,10 +56,26 @@
       &:hover,
       &:focus {
         text-decoration: none;
-        background-color: $gray-100;
-        box-shadow: inset 3px 0 0 $gray-700;
+        background-color: var(--#{$prefix}tertiary-bg);
+        box-shadow: inset 3px 0 0 var(--#{$prefix}dark-bg-subtle);
       }
     }
+    &.active {
+      color: var(--#{$prefix}body-color);
+      background-color: var(--#{$prefix}dark-bg-subtle); // gray-300
+      box-shadow: inset 3px 0 0 var(--#{$prefix}primary);
+
+      > a,
+      > .btn {
+
+        &:hover,
+        &:focus {
+          background-color: var(--#{$prefix}dark-bg-subtle); // gray-300
+          box-shadow: inset 3px 0 0 var(--#{$prefix}primary);
+        }
+      }
+    }
+
     &::after {
       position: absolute;
       top: 0;
@@ -68,7 +84,7 @@
       margin-left: 1.25rem;
       width: calc(100% - 1.25rem);
       content: '';
-      border-top: 1px solid $gray-300;
+      border-top: 1px solid var(--#{$prefix}border-color-translucent);
 
       .screen-sidenav & {
         margin-left: 3.375rem;
@@ -83,7 +99,7 @@
       margin-left: 1.25rem;
       width: calc(100% - 1.25rem);
       content: '';
-      border-bottom: 1px solid $gray-300;
+      border-bottom: 1px solid var(--#{$prefix}border-color-translucent);
 
       .screen-sidenav & {
         margin-left: 3.375rem;
@@ -91,30 +107,15 @@
       }
     }
   }
-  .list-group-item-action.active {
-    color: $body-color;
-    background-color: $gray-300;
-    box-shadow: inset 3px 0 0 $primary;
-
-    &:hover,
-    &:focus {
-      background-color: $gray-300;
-      box-shadow: inset 3px 0 0 $primary;
-    }
-    [data-bs-theme=dark] & {
-      color: var(--#{$prefix}body-color);
-      background-color: transparent;
-    }
-  }
-  .list-group-collapse {
-    border-top: 1px solid $gray-500;
+  .list-group-collapse { // todo check if used
+    border-top: 1px solid var(--#{$prefix}border-color-translucent);
     padding-left: 0;
-    background-color: $gray-200;
+    background-color: var(--#{$prefix}dark-bg-subtle);
     transition: height $transition;
 
     .list-group-item a:hover,
     .list-group-item a:focus {
-      background-color: $gray-500;
+      background-color: var(--#{$prefix}tertiary-bg);
     }
   }
 }
@@ -147,7 +148,7 @@
   min-height: $header-height;
   padding-right: .75rem;
   padding-left: 1.5rem;
-  border-bottom: 1px solid $gray-400;
+  border-bottom: 1px solid var(--#{$prefix}border-color-translucent);
 
   &:last-child {
     border-bottom: none;
@@ -164,57 +165,56 @@
 .list-group-chat {
   flex-direction: column-reverse;
 
-  & .list-group-item {
-    border-radius: 6px !important;
-    margin-bottom: .5rem !important;
-    background-color: $white;
-    border-bottom-left-radius: 0 !important;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 0 !important;
+  .list-group-item {
+    border-radius: 6px 6px 6px 0;
+    margin-bottom: .5rem;
+    // border-bottom-left-radius: 0;
+    border: 1px solid var(--#{$prefix}light-border-subtle);
+    padding-bottom: 0;
   }
-  & .list-group-chat-item-me {
+  .list-group-chat-item-me {
     border-bottom-right-radius: 0 !important;
     border-bottom-left-radius: 6px !important;
-    background-color: $gray-400;
-    border-color: $gray-400;
+    background-color: var(--#{$prefix}dark-bg-subtle);
+    border-color: var(--#{$prefix}dark-bg-subtle);
   }
-  & .list-group-item::before {
+  .list-group-item::before {
     width: 0;
     height: 0;
     border-style: solid;
-    border-color: transparent $gray-700 transparent transparent;
+    border-color: transparent var(--#{$prefix}light-border-subtle) transparent transparent;
     content: '';
     position: absolute;
     left: -8px;
     bottom: -1px;
     border-width: 8px 8px 0 0;
   }
-  & .list-group-item::after {
+  .list-group-item::after {
     width: 0;
     height: 0;
     border-style: solid;
-    border-color: transparent $white transparent transparent;
+    border-color: transparent var(--#{$prefix}body-bg) transparent transparent;
     content: '';
     position: absolute;
     left: -6px;
     bottom: 0;
     border-width: 8px 8px 0 0;
   }
-  & .list-group-chat-item-me::before {
-    border-color: transparent transparent transparent $gray-400;
+  .list-group-chat-item-me::before {
+    border-color: transparent transparent transparent var(--#{$prefix}dark-bg-subtle);
     left: auto;
     right: -8px;
     border-width: 8px 0 0 8px;
   }
-  & .list-group-chat-item-me::after {
+  .list-group-chat-item-me::after {
     display: none;
   }
-  & .list-group-item-heading {
+  .list-group-item-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    & small {
+    small {
       font-size: .625rem;
     }
   }
@@ -246,7 +246,7 @@
     width: 3px;
     content: '';
     border-radius: 3px;
-    background-color: $gray-400;
+    background-color: var(--#{$prefix}dark-bg-subtle);
   }
 
   & .list-group-item {
@@ -262,8 +262,8 @@
     height: .875rem;
     margin-left: -9px;
     border-radius: $round;
-    background: $white;
-    border: 3px solid $gray-400;
+    background: var(--#{$prefix}body-bg);
+    border: 3px solid var(--#{$prefix}dark-bg-subtle);
   }
 }
 
@@ -296,11 +296,11 @@
     padding: .375rem .5rem;
     line-height: 1;
     font-size: .75em;
-    background-color: $gray-400;
+    background-color: var(--#{$prefix}dark-bg-subtle);
     transition: background-color $transition;
 
     &:hover {
-      background-color: $gray-200;
+      background-color: var(--#{$prefix}secondary-bg);
     }
   }
   &.list-group-horizontal {

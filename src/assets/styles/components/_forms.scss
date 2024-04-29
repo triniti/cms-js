@@ -24,18 +24,26 @@ form {
 .swal2-container .swal2-popup .form-control {
   position: relative;
   line-height: $input-btn-line-height;
-  border-radius: $form-control-radius;
+  // border-radius: $form-control-radius;
 
   // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
   background-image: none;
 
   &:not(:focus):hover {
     box-shadow: $hover-shadow;
+
+    [data-bs-theme=dark] & {
+      --#{$prefix}border-color: var(--#{$prefix}form-control-hover-border-color);
+    }
   }
   &:focus {
-    border-color: $secondary;
-    color: var(--#{$prefix}body-color);
-    background-color: $white !important;
+    // border-color: $secondary;
+    // color: var(--#{$prefix}body-color);
+    // background-color: $white !important;
+
+    [data-bs-theme=dark] & {
+      --#{$prefix}border-color: var(--#{$prefix}form-control-hover-border-color) !important;
+    }
   }
   &:focus-visible,
   &:focus-visible:hover {
@@ -54,6 +62,9 @@ form {
 .form-control {
   max-width: 100%;
 
+  [data-bs-theme=dark] & {
+    --#{$prefix}border-color: var(--#{$prefix}form-control-border-color);
+  }
   .input-group > &[type="number"],
   .input-group > &[type="time"] {
     flex-grow: 0;
@@ -68,6 +79,12 @@ form {
   &[type="number"],
   &[type="time"] {
     padding-right: calc(1.667em + 1rem); // padding for valid check icon
+  }
+  &:focus {
+
+    [data-bs-theme=dark] & {
+      background-color: var(--#{$prefix}secondary-bg);
+    }
   }
 }
 
@@ -125,9 +142,13 @@ select.form-control {
     // in IE and (under certain conditions) Edge, as it looks bad and cannot be made to
     // match the appearance of the native widget.
     // See https://github.com/twbs/bootstrap/issues/19398.
-    color: $input-color;
-    background-color: $white;
+    color: var(--#{$prefix}body-color);
+    background-color: var(--#{$prefix}body-bg);
     // box-shadow: 0 1px 3px 0px $gray-rgba-400;
+
+    [data-bs-theme=dark] & {
+      background-color: var(--#{$prefix}secondary-bg);
+    }
   }
 }
 
@@ -179,7 +200,11 @@ label,
   text-transform: uppercase;
   letter-spacing: .01em;
   font-weight: 500;
-  color: $dark;
+  color: var(--#{$prefix}tertiary-color);
+
+  [data-bs-theme=dark] & {
+    color: var(--#{$prefix}secondary-color);
+  }
 }
 
 .form-check-label {
@@ -188,7 +213,7 @@ label,
   text-transform: none;
   letter-spacing: 0;
   font-weight: $font-weight-normal;
-  color: $body-color;
+  color: var(--#{$prefix}body-color);
 
   &:empty {
     display: none;
@@ -238,7 +263,7 @@ input[type='text']:focus,
 .form-control:focus,
 .was-validated .form-control:valid,
 .was-validated .custom-select:valid {
-  background-color: var(--#{$prefix}body-bg);
+  // background-color: var(--#{$prefix}body-bg);
 }
 
 .form-label-strong {
@@ -278,15 +303,18 @@ input[type="checkbox"] {
 // readonly form-control
 
 .form-control[readonly] {
-  border: 1px dashed $gray-600 !important;
-  background-color: transparent;
+  border: 1px dashed var(--#{$prefix}border-color) !important; // $gray-700
+  background-color: transparent !important;
   background-image: none !important;
   // font-size: .9rem;
-  color: $gray-900;
+  color: var(--#{$prefix}body-color);
   opacity: 1 !important;
   box-shadow: none !important;
   // resize: none;
 
+  [data-bs-theme=dark] & {
+    border: 1px dashed var(--#{$prefix}form-control-border-color) !important;
+  }
   &::-webkit-input-placeholder {
     color: transparent;
   }
@@ -398,7 +426,7 @@ input[type="checkbox"] {
   }
   &:checked[type="checkbox"] {
     background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2718%27 viewBox=%270 0 22 18%27%3e%3cpath fill=%27%23fff%27 d=%27M3.525 6.356L7.767 10.6 18.367 0l3.545 3.525L7.77 17.667 0 9.881z%27/%3e%3c/svg%3e");
-    border-color: $secondary;
+    border-color: var(--#{$prefix}secondary);
   }
   .form-switch &[type="checkbox"] {
     background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23e5e5e5%27/%3e%3c/svg%3e");
@@ -408,11 +436,17 @@ input[type="checkbox"] {
     background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
   }
   [data-bs-theme=dark] & {
-    border-color: var(--#{$prefix}body-color);
+    border-color: var(--#{$prefix}form-control-hover-border-color);
 
     &:checked {
-      border-color: $secondary;
+      border-color: var(--#{$prefix}secondary);
     }
+  }
+  &:focus {
+    box-shadow: none;
+  }
+  &:focus-visible {
+    box-shadow: $focus-ring-box-shadow;
   }
 }
 
@@ -619,11 +653,11 @@ input[type="checkbox"] {
     box-shadow: $hover-shadow;
   }
   &:focus ~ .custom-file-label {
-    border-color: $secondary;
+    border-color: var(-#{$prefix}secondary);
     // box-shadow: none;
 
     &::after {
-      border-color: $secondary;
+      border-color: var(-#{$prefix}secondary);
       box-shadow: none;
     }
   }
@@ -689,8 +723,8 @@ input::-webkit-calendar-picker-indicator {
     font-size: .75rem;
 
     [data-bs-theme=dark] & {
-      border: 1px solid var(--form-control-bg);
-      background-color: var(--form-control-bg); // --content-bg-hover
+      border-color: var(--#{$prefix}secondary-bg);
+      background-color: var(--#{$prefix}secondary-bg); // --content-bg-hover
     }
     &::after,
     &::before {
@@ -702,20 +736,27 @@ input::-webkit-calendar-picker-indicator {
       background-color: $gray-500;
 
       [data-bs-theme=dark] & {
-        border-color: var(--button-border-color);
-        background-color: var(--content-bg-active);
+        border-color: var(--#{$prefix}btn-border-color);
+        background-color: rgba($black, .17);
       }
     }
   }
   .form-check-input:checked ~ .form-check-label {
     color: $white;
-    border-color: $secondary;
-    background-color: $secondary;
+    border-color: var(-#{$prefix}secondary);
+    background-color: var(-#{$prefix}secondary);
 
     [data-bs-theme=dark] & {
       color: var(--#{$prefix}body-color);
-      border-color: $secondary;
-      background-color: $secondary;
+      border-color: var(-#{$prefix}secondary);
+      background-color: var(-#{$prefix}secondary);
     }
+  }
+}
+
+.input-group-text {
+
+  [data-bs-theme=dark] & {
+    --#{$prefix}border-color: var(--#{$prefix}form-control-border-color);
   }
 }

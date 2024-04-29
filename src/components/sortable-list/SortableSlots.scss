@@ -3,16 +3,20 @@
   justify-content: space-between;
   flex-grow: 1;
   align-items: center;
-  background-color: #fff;
-  box-shadow: 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05),
-    0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15);
-  border-radius: calc(4px / var(--scale-x, 1));
+  background-color: var(--#{$prefix}secondary-bg);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1); // 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05), 0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15)
+  border-radius: 3px; // calc(4px / var(--scale-x, 1))
   box-sizing: border-box;
   list-style: none;
-  color: #333;
+  color: var(--#{$prefix}body-color);
+  border: 1px solid var(--#{$prefix}border-color);
   font-weight: 400;
   font-size: 1rem;
   font-family: sans-serif;
+
+  [data-bs-theme=dark] & {
+    border-color: #494e5a;  // todo use variable
+  }
 }
 
 .DragHandle {
@@ -44,7 +48,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0px 0px 2px #4c9ffe;
+    box-shadow: 0 0 0 2px var(--#{$prefix}secondary);
   }
 
   svg {
@@ -52,7 +56,7 @@
     margin: auto;
     height: 100%;
     overflow: visible;
-    color: #919eab;
+    color: #919eab; // todo use variable
   }
 }
 
@@ -60,7 +64,7 @@
 .SortableList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   padding: 0;
   list-style: none;
   margin-bottom: 0.5rem;

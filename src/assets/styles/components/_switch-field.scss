@@ -38,6 +38,10 @@
   vertical-align: middle;
   text-indent: -5000px;
 
+  [data-bs-theme=dark] & {
+    background-color: var(--#{$prefix}secondary-bg);
+    box-shadow: 0 0 0 1px var(--#{$prefix}form-control-border-color);
+  }
   .custom-control-right & {
     order: 3;
   }
@@ -72,7 +76,7 @@
   }
   input:checked + &::before {
     width: 100%;
-    background: $secondary;
+    background: var(--#{$prefix}secondary);
     box-shadow: inset 0 0 0 2px rgba(0,0,0,0.05);
   }
   span {

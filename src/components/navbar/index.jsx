@@ -77,7 +77,7 @@ export default function () {
   ].filter(Boolean);
 
   return (
-    <Navbar className="navbar-main">
+    <Navbar className="navbar-main" dark>
       <NavbarToggler onClick={toggle} className={isActive ? 'is-open' : ''}>
         <span className="navbar-toggler-bar navbar-toggler-bar--top" />
         <span className="navbar-toggler-bar navbar-toggler-bar--middle" />

@@ -1,0 +1,22 @@
+// image grid
+
+.image-grid-card {
+
+  .border {
+    --#{$prefix}border-color: var(--#{$prefix}light-border-subtle);
+  }
+  &.shadow .border {
+    --#{$prefix}border-color: var(--#{$prefix}body-bg);
+  }
+  [data-bs-theme=dark] & {
+    background-color: var(--#{$prefix}light-border-subtle);
+
+    .border,
+    &.shadow .border {
+      --#{$prefix}border-color: var(--#{$prefix}light-border-subtle);
+    }
+  }
+  &:hover {
+    background-color: var(--#{$prefix}secondary);
+  }
+}

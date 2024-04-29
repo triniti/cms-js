@@ -40,7 +40,7 @@ export default function UserNav() {
 
   const handleToggleDarkMode = (event) => {
     event.preventDefault();
-    dispatch(changeTheme(theme !== 'theme-dark' ? 'theme-dark' : 'theme-light'));
+    dispatch(changeTheme(theme !== 'dark' ? 'dark' : 'light'));
   };
 
   return (

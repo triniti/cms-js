@@ -15,7 +15,7 @@
   border-radius: 5px;
 
   &.selected {
-    border-color: $primary;
+    border-color: var(--#{$prefix}primary);
   }
 }
 
@@ -25,5 +25,5 @@
 
 .emoji-info--name {
   font-size: 0.75em;
-  color: $gray-800;
+  color: var(--#{$prefix}body-color);
 }
