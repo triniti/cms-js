@@ -3,7 +3,7 @@ import { actionChannel, all, fork, select, take, takeLatest } from 'redux-saga/e
 import { actionTypes } from 'plugins/raven/constants';
 import { actionTypes as appActionTypes } from 'constants';
 import { actionTypes as iamActionTypes } from 'plugins/iam/constants';
-import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken';
+import getAccessToken from 'plugins/iam/selectors/getAccessToken';
 import updateCollaborations from 'plugins/raven/actions/updateCollaborations';
 import updateConnectionStatus from 'plugins/raven/actions/updateConnectionStatus';
 import loadUser from 'plugins/raven/actions/loadUser';
@@ -52,7 +52,7 @@ function* watchWorkersStarted() {
       worker.addEventListener('message', workerMessaged(app.getRedux().dispatch));
       worker.addEventListener('error', workerError(app.getRedux().dispatch));
       const { hostname } = window.location;
-    
+
       worker.postMessage({
         event: 'configure',
         payload: {
@@ -74,7 +74,7 @@ function* watchUserLoaded() {
       const userRef = `${NodeRef.fromNode(user)}`;
       const accessToken = getAccessToken();
       const { href: currHref } = window.location;
-    
+
       worker.postMessage({
         event: 'connect',
         payload: {

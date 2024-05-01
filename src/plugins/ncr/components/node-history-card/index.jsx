@@ -1,7 +1,7 @@
 import React, { lazy, useEffect, useState } from 'react';
 import startCase from 'lodash-es/startCase';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash-es/isEqual';
 import moment from 'moment';
 import { Badge, Button, ButtonGroup, Card, CardBody, CardHeader, Spinner } from 'reactstrap';
 import { CreateModalButton, Icon, Loading } from 'components';

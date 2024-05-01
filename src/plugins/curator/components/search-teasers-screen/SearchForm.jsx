@@ -12,7 +12,7 @@ import CategoryPickerField from 'plugins/taxonomy/components/category-picker-fie
 import ChannelPickerField from 'plugins/taxonomy/components/channel-picker-field';
 import PersonPickerField from 'plugins/people/components/person-picker-field';
 import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run, teaserCuries } = props;

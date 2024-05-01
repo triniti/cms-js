@@ -6,7 +6,7 @@ import Header from 'components/blocksmith-field/components/audio-block-modal/Hea
 import CustomizeOptions from 'components/blocksmith-field/components/audio-block-modal/CustomizeOptions';
 import SelectAudio from 'components/blocksmith-field/components/audio-block-modal/SelectAudio';
 import useNode from 'plugins/ncr/components/useNode';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function AudioBlockModal(props) {
   const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;

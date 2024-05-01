@@ -8,7 +8,7 @@ import unregisterForm from 'actions/unregisterForm';
 import FormMarshaler from 'utils/FormMarshaler';
 import { FormContextProvider } from 'components/useFormContext';
 import Loading from 'components/loading';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 const defaultHandleSubmit = values => console.info('defaultHandleSubmit', values);
 

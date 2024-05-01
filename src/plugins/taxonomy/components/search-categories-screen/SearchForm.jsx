@@ -6,7 +6,7 @@ import FormMarshaler from 'utils/FormMarshaler';
 import { Icon, useDebounce } from 'components';
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;

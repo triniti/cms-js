@@ -1,13 +1,13 @@
 import React, { lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
-import { CreateModalButton, Icon, Loading } from '@triniti/cms/components';
-import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy';
-import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
-import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest';
-import formatDate from '@triniti/cms/utils/formatDate';
-import Collaborators from 'plugins/raven/components/collaborators';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import { CreateModalButton, Icon, Loading } from '@triniti/cms/components/index.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.jsx';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);

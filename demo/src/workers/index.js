@@ -1,6 +1,6 @@
-import startWorkers from 'actions/startWorkers';
-import HelloWorker from './hello';
-import RavenWorker from './raven';
+import startWorkers from '@triniti/cms/actions/startWorkers.js';
+import HelloWorker from './hello.js';
+import RavenWorker from './raven.js';
 
 // todo: replace with CLOUD_PROVIDER var
 //const WORKER_PATH = CLOUD_PROVIDER === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();

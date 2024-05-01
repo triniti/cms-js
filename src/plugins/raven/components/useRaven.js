@@ -3,7 +3,7 @@ import joinCollaboration from 'plugins/raven/actions/joinCollaboration';
 import leaveCollaboration from 'plugins/raven/actions/leaveCollaboration';
 import setCurrentNodeRef from 'plugins/raven/actions/setCurrentNodeRef';
 import sendHeartbeat from 'plugins/raven/actions/sendHeartbeat';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 
 /**
  * When the user switches between tabs in the browser
@@ -50,7 +50,7 @@ export default ({ editMode, node, nodeRef }) => {
       window.removeEventListener('beforeunload', leaveCollaborationOnUnload);
     }
   }
-  
+
   // Join / Leave Collaboration
   useEffect(() => {
     if (editMode) {
@@ -67,7 +67,7 @@ export default ({ editMode, node, nodeRef }) => {
       dispatch(leaveCollaboration(nodeRef));
     }
   }, [ editMode, nodeRef ]);
-  
+
 
   // Heartbeat
   useEffect(() => {
@@ -92,7 +92,7 @@ export default ({ editMode, node, nodeRef }) => {
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
   });
 
-  
+
   // Leave Collaboration On UnLoad
   /* eslint-disable no-param-reassign */
   leaveCollaborationOnUnload = (event) => {

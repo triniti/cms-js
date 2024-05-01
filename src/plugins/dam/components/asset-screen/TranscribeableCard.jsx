@@ -3,11 +3,11 @@ import { Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import artifactUrl from 'plugins/ovp/artifactUrl';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId';
-import camelCase from 'lodash/camelCase';
+import camelCase from 'lodash-es/camelCase';
 import damUrl from 'plugins/dam/damUrl';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import nodeUrl from 'plugins/ncr/nodeUrl';
-import startCase from 'lodash/startCase';
+import startCase from 'lodash-es/startCase';
 import withPbj from 'components/with-pbj';
 
 function TranscribeableCard({ asset, pbj }) {

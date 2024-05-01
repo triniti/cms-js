@@ -1,7 +1,7 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import emojis from '@config/emojis';
+import emojis from '@triniti/app/config/emojis.js';
 import 'components/blocksmith-field/components/special-character-modal/styles.scss';
 
 export default function SpecialCharacterModal(props) {

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import alerts from 'reducers/alerts';
-import forms from 'reducers/forms';
-import theme from 'reducers/theme';
+import alerts from './alerts.js';
+import forms from './forms.js';
+import theme from './theme.js';
 
 export default combineReducers({
   alerts,

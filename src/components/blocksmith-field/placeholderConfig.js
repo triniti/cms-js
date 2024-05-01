@@ -1,6 +1,6 @@
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import { localize } from 'plugins/utils/services/Localization';
-import siteLogo from '@assets/img/svg/icon/site-logo.svg';
+import siteLogo from '@triniti/app/assets/img/svg/icon/site-logo.svg';
 import GenericBlockPreviewComponent from 'components/blocksmith-field/components/generic-block-placeholder-preview';
 
 const vendor = localize(MessageResolver.getDefaultVendor());

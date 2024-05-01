@@ -3,7 +3,7 @@ import { Button, Card, CardBody, Form, InputGroup } from 'reactstrap';
 import { Field } from 'react-final-form';
 import FormMarshaler from 'utils/FormMarshaler';
 import { Icon, useDebounce } from 'components';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;

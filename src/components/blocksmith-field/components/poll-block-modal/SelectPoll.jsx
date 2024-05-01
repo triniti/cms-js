@@ -9,7 +9,7 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import SearchPollsSort from '@triniti/schemas/triniti/apollo/enums/SearchPollsSort';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 function SelectPoll(props) {
   const {

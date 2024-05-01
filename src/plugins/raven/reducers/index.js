@@ -1,5 +1,5 @@
 import createReducer from 'utils/createReducer';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash-es/isEmpty';
 import { actionTypes, ravenTypes, connectionStatus, } from 'plugins/raven/constants';
 import removeCollaborator from 'plugins/raven/utils/removeCollaborator';
 import addCollaborator from 'plugins/raven/utils/addCollaborator';

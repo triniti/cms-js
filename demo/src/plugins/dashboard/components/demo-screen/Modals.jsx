@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, CardBody, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Icon } from '@triniti/cms/components';
+import { Icon } from '@triniti/cms/components/index.js';
 
 class UiModal extends React.Component {
   constructor(props) {

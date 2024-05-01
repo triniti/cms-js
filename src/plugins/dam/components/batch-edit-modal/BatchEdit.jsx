@@ -14,7 +14,7 @@ import arrayMutators from 'final-form-arrays';
 import { TextField, TextareaField, DatePickerField } from 'components';
 import { FormGroup, Col, Row } from 'reactstrap';
 import PicklistField from 'plugins/sys/components/picklist-field';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
@@ -49,7 +49,7 @@ const patchAssets =  async (form, dispatch, nodeRefs) => {
       paths.push(field);
     }
   });
-  
+
   const nodeRefObjects = [];
   for (let i = 0; i < nodeRefs.length; i++) {
     const asset = await fromNodeRef(nodeRefs[i]);

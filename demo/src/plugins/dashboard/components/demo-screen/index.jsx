@@ -73,10 +73,10 @@ import {
   SwitchField,
   withForm,
   withPbj
-} from '@triniti/cms/components';
-import ModalExample from './Modals';
+} from '@triniti/cms/components/index.js';
+import ModalExample from './Modals.jsx';
 import './styles.scss';
-import toast from '@triniti/cms/utils/toast';
+import toast from '@triniti/cms/utils/toast.js';
 
 function showMultipleToasts() {
   toast({ title: 'First one' });

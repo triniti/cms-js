@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import Loading from 'components/loading';
 import logout from 'plugins/iam/actions/logout';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 function Logout() {
   const dispatch = useDispatch();

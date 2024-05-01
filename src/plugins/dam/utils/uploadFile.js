@@ -1,4 +1,4 @@
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 

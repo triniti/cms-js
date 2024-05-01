@@ -10,7 +10,7 @@ import SortField from 'plugins/ncr/components/sort-field';
 import CategoryPickerField from 'plugins/taxonomy/components/category-picker-field';
 import ChannelPickerField from 'plugins/taxonomy/components/channel-picker-field';
 import PersonPickerField from 'plugins/people/components/person-picker-field';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;

@@ -58,13 +58,13 @@ import styleDragTarget, { clearDragCache } from 'components/blocksmith-field/uti
 import visibilityWatcher from 'components/blocksmith-field/utils/visibilityWatcher';
 import customStyleMap from 'components/blocksmith-field/customStyleMap';
 import decorators from 'components/blocksmith-field/decorators';
-import constants, { blockTypes, COPIED_BLOCK_KEY } from 'components/blocksmith-field/constants';
+import constants, { blockTypes, COPIED_BLOCK_KEY } from './constants.js';
 import DraggableTextBlock from 'components/blocksmith-field/components/draggable-text-block';
 import { normalizeKey } from 'components/blocksmith-field/utils';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 // import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
 import 'components/blocksmith-field/styles.scss';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 
 const {
   BlockButtons,
@@ -1293,7 +1293,7 @@ class Blocksmith extends React.Component {
       const canvasBlockObject = isFreshBlock ? {} : canvasBlock.toObject();
       const ComponentWithPbj = curie && withPbj(getModalComponent(message), curie.toString(), canvasBlockObject);
 
-      this.handleOpenModal(() => 
+      this.handleOpenModal(() =>
         <ComponentWithPbj
           isOpen
           isFreshBlock={isFreshBlock}
@@ -1469,7 +1469,7 @@ class Blocksmith extends React.Component {
       }
       callback();
     });
-    
+
   }
 
   /**

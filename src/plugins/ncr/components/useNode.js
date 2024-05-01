@@ -5,8 +5,8 @@ import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 import * as constants from 'constants';
 import getNode from 'plugins/ncr/selectors/getNode';
-import { getInstance } from '@app/main';
-import noop from 'lodash/noop';
+import { getInstance } from '@triniti/app/main.js';
+import noop from 'lodash-es/noop';
 
 const fetchNode = async (nodeRef) => {
   const app = getInstance();

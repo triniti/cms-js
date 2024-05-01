@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 import { BackgroundImage } from 'components';
 import {
   ButtonToolbar,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FORM_ERROR } from 'final-form';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, FormErrors, NumberField, TextField, UrlField, withForm } from 'components';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';

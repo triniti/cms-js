@@ -21,7 +21,7 @@ import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage'
 import getNode from 'plugins/ncr/selectors/getNode';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import updateNode from 'plugins/ncr/actions/updateNode';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function SendForm(props) {
   const { nodeRef, node, onStatusUpdated } = props;

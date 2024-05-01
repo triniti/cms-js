@@ -7,7 +7,7 @@ import { ActionButton, DatePickerField, Icon, NumberField,TrinaryField, useDebou
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;

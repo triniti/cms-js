@@ -1,5 +1,5 @@
-import setWebpackPublicPath from './webpackPublicPath';
-import MessageResolver from '../schemas';
+import setWebpackPublicPath from './webpackPublicPath.js';
+import MessageResolver from '../schemas.js';
 
 setWebpackPublicPath();
 

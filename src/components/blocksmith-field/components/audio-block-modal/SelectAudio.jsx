@@ -7,7 +7,7 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import formatDate from 'utils/formatDate';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 function SelectAudio(props) {
   const {

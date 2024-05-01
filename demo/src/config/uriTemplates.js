@@ -1,4 +1,4 @@
-import { registerGlobals, registerTemplates } from '@gdbots/pbjx/pbjUrl';
+import { registerGlobals, registerTemplates } from '@gdbots/pbjx/pbjUrl.js';
 
 const tld = API_ENDPOINT.split('://').pop().split('/').shift().split('.').slice(-2).join('.');
 

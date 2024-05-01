@@ -5,7 +5,7 @@ import MessageResolver from '@gdbots/pbj/MessageResolver';
 import clearRequest from 'plugins/pbjx/actions/clearRequest';
 import persistRequest from 'plugins/pbjx/actions/persistRequest';
 import getRequest from 'plugins/pbjx/selectors/getRequest';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 const defaultConfig = {
   channel: '',

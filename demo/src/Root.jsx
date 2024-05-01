@@ -1,11 +1,11 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ErrorBoundary, Loading, Navbar } from '@triniti/cms/components';
-import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated';
-import getUser from '@triniti/cms/plugins/iam/selectors/getUser';
-import loadUser from '@triniti/cms/plugins/iam/actions/loadUser';
-import AppRoutes from './config/Routes';
+import { ErrorBoundary, Loading, Navbar } from '@triniti/cms/components/index.js';
+import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated.js';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
+import loadUser from '@triniti/cms/plugins/iam/actions/loadUser.js';
+import AppRoutes from './config/Routes.jsx';
 
 const LoggedIn = () => {
   const user = useSelector(getUser);

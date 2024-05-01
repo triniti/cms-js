@@ -1,7 +1,7 @@
 import React from 'react';
 import { FORM_ERROR } from 'final-form';
 import startCase from 'lodash-es/startCase';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, EnumField, FormErrors, TextField, withForm } from 'components';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';

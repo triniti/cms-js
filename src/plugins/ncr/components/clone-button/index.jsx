@@ -7,8 +7,8 @@ import { Icon, withPbj } from 'components';
 import Swal from 'sweetalert2';
 import cloneNode from 'plugins/ncr/actions/cloneNode';
 import progressIndicator from 'utils/progressIndicator';
-import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl';
-import toast from '@triniti/cms/utils/toast';
+import nodeUrl from 'plugins/ncr/nodeUrl';
+import toast from 'utils/toast';
 
 const Component = ({ node, pbj: nodeClone }) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const Component = ({ node, pbj: nodeClone }) => {
         cancelButton: 'btn btn-secondary',
       },
     });
-  
+
     if (!result.value) {
       return false;
     }

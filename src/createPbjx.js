@@ -1,7 +1,7 @@
-import { serviceIds } from '@gdbots/pbjx/constants';
-import ContainerAwareServiceLocator from '@gdbots/pbjx/ContainerAwareServiceLocator';
-import HttpTransport from '@gdbots/pbjx/transports/HttpTransport';
-import Pbjx from '@gdbots/pbjx/Pbjx';
+import { serviceIds } from '@gdbots/pbjx/constants.js';
+import ContainerAwareServiceLocator from '@gdbots/pbjx/ContainerAwareServiceLocator.js';
+import HttpTransport from '@gdbots/pbjx/transports/HttpTransport.js';
+import Pbjx from '@gdbots/pbjx/Pbjx.js';
 
 /**
  * @param {App} app

@@ -1,4 +1,4 @@
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 import React, { useReducer, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -12,13 +12,13 @@ import {
 } from 'reactstrap';
 import swal from 'sweetalert2';
 import md5 from 'md5';
-import get from 'lodash/get';
+import get from 'lodash-es/get';
 import merge from 'lodash-es/merge'
 import startCase from 'lodash-es/startCase';
 import mime from 'mime-types';
 
 // app
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import BigNumber from '@gdbots/pbj/well-known/BigNumber';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
@@ -203,7 +203,7 @@ const Uploader = ({
   // const { submitting, isRefreshing, dirty, valid, hasSubmitErrors } = formStateRef?.current;
   // const enableSaveChanges = submitting || isRefreshing || !isFormDirty || (!valid && !hasSubmitErrors);
   const enableSaveChanges = isFormDirty && formStateRef.current.valid;
-  
+
   const handleFileDrop = async (droppedFiles) => {
     const newFormattedFiles = processFiles(droppedFiles, galleryRef, lastGallerySequence); // formats list with hash
 
@@ -295,7 +295,7 @@ const Uploader = ({
    */
   const handleRemoveProcessedFile = (hashName) => {
     let newActiveMap = { ...files };
-  
+
     // If deleting an active asset, flag the next item as active.
     // If there is not a next item, flag the item prior as active.
     // If there are no more items, do nothing.
@@ -310,18 +310,18 @@ const Uploader = ({
             useNext = true;
             return accumulator;
           }
-  
+
           // Set current file as active
           if (useNext === true) {
             useNext = false;
             accumulator[currHashName] = { ...newActiveMap[currHashName], active: true };
             return accumulator;
           }
-  
+
           accumulator[currHashName] = newActiveMap[currHashName];
           return accumulator;
         }, {});
-  
+
         // If we didn't find a next item to use, then flag the previous (aka last) item as active.
         if (useNext) {
           const newHashList = Object.keys(newActiveMap);
@@ -331,7 +331,7 @@ const Uploader = ({
         }
       }
     }
-  
+
     delete newActiveMap[hashName];
     dispatch({ type: 'setFiles', files: newActiveMap });
   };
@@ -362,7 +362,7 @@ const Uploader = ({
     .set(field, field === 'expires_at' ? new Date(value) : value);
     await pbjx.send(command);
   }
-  
+
   const handleApplyAll = async (field) => {
     await progressIndicator.show(`Applying ${startCase(field)} to uploaded assets...`);
     try {
@@ -372,7 +372,7 @@ const Uploader = ({
 
       const { current: delegate } = delegateRef;
       delegate.shouldReinitialize = true;
-      
+
       setTimeout(refreshNodeRef.current);
     } catch (e) {
       await progressIndicator.close();
@@ -396,7 +396,7 @@ const Uploader = ({
 
       const { current: delegate } = delegateRef;
       delegate.shouldReinitialize = true;
-      
+
       setTimeout(refreshNodeRef.current);
     } catch (e) {
       await progressIndicator.close();

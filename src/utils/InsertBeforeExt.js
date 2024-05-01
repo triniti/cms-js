@@ -1,4 +1,4 @@
-import getExt from './getExt';
+import getExt from './getExt.js';
 
 /**
  * @param {String} fileName - A file name including extension.

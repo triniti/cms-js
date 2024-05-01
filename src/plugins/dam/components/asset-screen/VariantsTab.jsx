@@ -7,7 +7,7 @@ import Dropzone from 'react-dropzone';
 
 // app
 import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import sendAlert from 'actions/sendAlert';
 
 // dam
@@ -45,7 +45,7 @@ const getUploadUrls = async (file, asset, version) => {
 };
 
 export default function VariantsTab({ type, asset, editMode }) {
-  
+
   const variantScope = variants[type];
   const appDispatch = useDispatch();
   const myController = new AbortController();
@@ -94,7 +94,7 @@ export default function VariantsTab({ type, asset, editMode }) {
           message: ERROR_UPLOAD,
         }));
       }
-      
+
     };
   }
 

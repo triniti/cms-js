@@ -1,11 +1,11 @@
 import React, { lazy, useState } from 'react';
-import pull from 'lodash/pull';
-import pickBy from 'lodash/pickBy';
+import pull from 'lodash-es/pull';
+import pickBy from 'lodash-es/pickBy';
 import noop from 'lodash-es/noop';
 import isEqual from 'lodash-es/isEqual';
 import swal from 'sweetalert2';
 import { unstable_useBlocker } from 'react-router';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import useResolver from 'plugins/pbjx/components/with-request/useResolver';
 import { CreateModalButton, Loading } from 'components';
@@ -19,7 +19,7 @@ import { useDispatch } from 'react-redux';
 import progressIndicator from 'utils/progressIndicator';
 
 import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from 'reactstrap';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import damUrl from 'plugins/dam/damUrl';
 import Exception from '@gdbots/pbj/Exception';
 import Message from '@gdbots/pbj/Message';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
@@ -89,7 +89,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   //     return true;
   //   });
   // });
-  
+
   const request = useResolver('*:dam:request:search-assets-request', {
     initialData: {
       gallery_ref: nodeRef,
@@ -161,7 +161,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     } catch (e) {
       // did not update, should restore tab
     }
-    
+
     await delay(3000);
     reloadMedia();
   }
@@ -197,7 +197,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
       nodes: reorderedNodes,
       nodesToUpdate: nodesToUpdateCount ? newNodesToUpdate : null,
     });
-    
+
     if (nodesToUpdateCount > MAX_NODES_COUNT_TO_UPDATE) {
       handleSubmitReorder();
     }
@@ -283,7 +283,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
       nodes: reorderedNodes,
       nodesToUpdate: nodesToUpdateCount ? newNodesToUpdate : null,
     });
-    
+
     if (nodesToUpdateCount > MAX_NODES_COUNT_TO_UPDATE) {
       handleSubmitReorder();
     }
@@ -388,7 +388,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     await delay(2000);
     reloadMedia();
   }
-  
+
   const { nodesToUpdate } = reorder;
   const nodesPreview = reorder.nodes.length ? reorder.nodes : nodes;
   const lastGallerySequence = nodesPreview.length ? nodesPreview[0].get('gallery_seq') : 0;

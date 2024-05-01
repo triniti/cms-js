@@ -2,26 +2,11 @@ const dotenv = require('dotenv');
 const { resolve } = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
-const fs = require('fs');
-
-// SSL Cert and Key
-const https = (() => {
-  const cert = resolve(__dirname, 'localhost.crt');
-  const key = resolve(__dirname, 'localhost.key');
-  if (fs.existsSync(cert) && fs.existsSync(key)) {
-    return {
-      key: fs.readFileSync(key),
-      cert: fs.readFileSync(cert),
-    }
-  }
-  return {};
-})();
 
 /**
  * @link https://webpack.js.org/configuration/
  *
- * @param {Object} env
+ * @param {Object} webpackEnv
  *
  * @return {Object}
  */
@@ -44,11 +29,10 @@ const compileEnvVars = (webpackEnv) => Object.entries(process.env).reduce((acc, 
 module.exports = (webpackEnv = {}) => {
   const env = compileEnvVars(webpackEnv);
   env['process.env.NODE_DEBUG'] = false;
+
   return {
     entry: {
-      //'webpack-dev-server/client?https://localhost:3000',
-      //'webpack/hot/only-dev-server',
-      main: './main.jsx'
+      main: './main.jsx',
     },
     mode: 'development',
     devtool: 'eval-cheap-module-source-map',
@@ -60,11 +44,6 @@ module.exports = (webpackEnv = {}) => {
       },
       historyApiFallback: true,
       port: 3000,
-      server: {
-        type: 'https',
-        options: https,
-      },
-      hot: true,
     },
     stats: 'normal',
     output: {
@@ -79,13 +58,13 @@ module.exports = (webpackEnv = {}) => {
       alias: {},
       extensions: ['*', '.js', '.jsx', '.json'],
       fallback: {
-        // path: false,
         buffer: require.resolve('buffer/'),
+        constants: false,
         crypto: require.resolve('crypto-browserify'),
         fs: false,
+        path: false,
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
-        //process: resolve(__dirname, '../src') + '/hacks/process/browser.js',
       }
     },
     externals: {},
@@ -184,19 +163,14 @@ module.exports = (webpackEnv = {}) => {
       }, {})),
 
       new webpack.ProvidePlugin({
+        process: 'process/browser.js',
         Buffer: ['buffer', 'Buffer'],
       }),
 
-      new NodePolyfillPlugin({
-        includeAliases: [
-          'path',
-          'process', // mqtt needs this explicitly defined
-        ]
-      }),
+      new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
+      new webpack.IgnorePlugin({ resourceRegExp: /\.md$/ }),
 
-      // new webpack.DefinePlugin({
-      //   'process': undefined, // mqtt needs this explicitly defined
-      // }),
-    ]
+      //isProduction ? new BundleAnalyzerPlugin() : null,
+    ].filter(v => v !== null),
   };
 };

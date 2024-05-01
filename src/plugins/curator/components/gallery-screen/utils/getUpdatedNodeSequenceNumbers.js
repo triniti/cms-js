@@ -177,5 +177,6 @@ export default (oldIndex, newIndex, nodes) => {
   if (newIndex === nodes.length - 1) {
     return moveToLastPosition(oldIndex, newIndex, nodes);
   }
+
   return move(oldIndex, newIndex, nodes);
 };

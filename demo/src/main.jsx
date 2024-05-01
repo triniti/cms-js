@@ -1,4 +1,4 @@
-import './config/webpackPublicPath';
+import './config/webpackPublicPath.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'whatwg-fetch';
@@ -6,10 +6,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import './assets/styles/main.scss';
-import './config/uriTemplates';
-import Root from './Root';
-import createApp from './createApp';
-import startWorkers from './workers';
+import './config/uriTemplates.js';
+import Root from './Root.jsx';
+import createApp from './createApp.js';
+import startWorkers from './workers/index.js';
 
 let app = null;
 export const getInstance = () => app;

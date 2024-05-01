@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Media } from 'reactstrap';
 import { BackgroundImage } from 'components';
 import damUrl from 'plugins/dam/damUrl';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 import './Preview.scss';
 
 const EMBED_ROOT_ID = 'youtube-playlist-block-embed-root';

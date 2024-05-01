@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators';
+import Collaborators from 'plugins/raven/components/collaborators';
 import Message from '@gdbots/pbj/Message';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import nodeUrl from 'plugins/ncr/nodeUrl';

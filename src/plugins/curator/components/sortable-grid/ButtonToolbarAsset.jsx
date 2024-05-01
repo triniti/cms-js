@@ -1,4 +1,4 @@
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 import React, { useState } from 'react';
 import { ButtonToolbar, Media, CardImgOverlay, CardTitle  } from 'reactstrap';
 import { CheckboxField, BackgroundImage } from 'components';

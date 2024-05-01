@@ -12,12 +12,12 @@ import nodeUrl from 'plugins/ncr/nodeUrl';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import Swal from 'sweetalert2';
 import damUrl from 'plugins/dam/damUrl';
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
 import useFormContext from 'components/useFormContext';
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 
 const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
 
@@ -61,7 +61,7 @@ function LinkedImagesTab(props) {
       const command = LinkAssetsV1.create()
         .set('node_ref', NodeRef.fromString(nodeRef))
         .addToSet('asset_refs', assets.map((asset) => NodeRef.fromNode(asset)));
-      
+
       const pbjx = await app.getPbjx();
       await pbjx.send(command);
 
@@ -84,12 +84,12 @@ function LinkedImagesTab(props) {
     if (!await confirmUnlink(node)) {
       return;
     }
-    
+
     const UnlinkAssetsV1 = await MessageResolver.resolveCurie(`${APP_VENDOR}:dam:command:unlink-assets:v1`);
     const command = UnlinkAssetsV1.create()
       .set('node_ref', NodeRef.fromString(nodeRef))
       .addToSet('asset_refs', [NodeRef.fromNode(node)]);
-    
+
     const pbjx = await app.getPbjx();
     await pbjx.send(command);
     await delay(1000);

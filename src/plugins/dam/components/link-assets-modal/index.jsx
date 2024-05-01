@@ -1,4 +1,4 @@
-import noop from 'lodash/noop';
+import noop from 'lodash-es/noop';
 import React, { useState } from 'react';
 import {
   Button,
@@ -22,9 +22,9 @@ export default function LinkAssetModel (props) {
     imageSearchProps = {},
     uploaderProps = {},
   } = props;
-  
+
   const [ selectedImages, setSelectedImages ] = useState([]);
-  
+
   const handleAddAssets = async () => {
     try {
       await onAddAssets(selectedImages);
@@ -63,7 +63,7 @@ export default function LinkAssetModel (props) {
     onAssetsUploaded();
     handleCloseModal();
   }
-  
+
   return (
     <>
       <Modal isOpen size="xxl" toggle={handleCloseModal} backdrop="static" centered>

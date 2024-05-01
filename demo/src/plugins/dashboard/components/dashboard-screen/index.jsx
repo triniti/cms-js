@@ -1,11 +1,11 @@
 import React from 'react';
 import { Col, Row, TabContent, TabPane } from 'reactstrap';
-import { Screen } from '@triniti/cms/components';
-import withRequest from '@triniti/cms/plugins/pbjx/components/with-request';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort';
-import TopArticles from '../top-articles';
-import ActiveEditsTable from '@triniti/cms/plugins/raven/components/active-edits-table';
+import { Screen } from '@triniti/cms/components/index.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.jsx';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
+import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
+import TopArticles from '../top-articles/index.jsx';
+import ActiveEditsTable from '@triniti/cms/plugins/raven/components/active-edits-table/index.jsx';
 
 const HomePagePublished = withRequest(TopArticles, 'triniti:news:request:search-articles-request', {
   channel: 'homepage-published',

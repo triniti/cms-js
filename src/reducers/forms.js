@@ -1,5 +1,5 @@
-import createReducer from 'utils/createReducer';
-import { actionTypes } from 'constants';
+import createReducer from 'utils/createReducer.js';
+import { actionTypes } from 'constants.js';
 
 export const initialState = {};
 

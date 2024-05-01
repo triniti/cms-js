@@ -7,7 +7,7 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import formatDate from '@triniti/cms/utils/formatDate';
+import formatDate from 'utils/formatDate';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 
 const CreateNotificationModal = lazy(() => import('plugins/notify/components/create-notification-modal'));
