@@ -1,4 +1,4 @@
-import Plugin from '../../Plugin.js';
+import Plugin from '@triniti/cms/Plugin.js';
 
 export default class DamPlugin extends Plugin {
   constructor() {

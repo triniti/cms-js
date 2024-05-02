@@ -1,6 +1,6 @@
-import HttpTransportFailed from '@gdbots/pbjx/exceptions/HttpTransportFailed';
-import RequestHandlingFailed from '@gdbots/pbjx/exceptions/RequestHandlingFailed';
-// import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code';
+import HttpTransportFailed from '@gdbots/pbjx/exceptions/HttpTransportFailed.js';
+import RequestHandlingFailed from '@gdbots/pbjx/exceptions/RequestHandlingFailed.js';
+// import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code.js';
 
 export default (exception) => {
   if (!exception.constructor) {

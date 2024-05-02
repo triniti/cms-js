@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import noop from 'lodash-es/noop';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import noop from 'lodash-es/noop.js';
 
 const STATUS_NONE = 'none';
 const STATUS_RUNNING = 'running';

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { STATUS_FULFILLED, STATUS_PENDING } from 'constants';
+import { STATUS_FULFILLED, STATUS_PENDING } from '@triniti/cms/constants.js';
 import {
   Alert,
   Button,
@@ -9,10 +9,10 @@ import {
   CardHeader,
   Table,
 } from 'reactstrap';
-import { Icon, Loading } from 'components';
-import selector from 'plugins/raven/components/active-edits-table/selector';
-import TableRow from 'plugins/raven/components/active-edits-table/TableRow';
-import fetchCollaborations from 'plugins/raven/actions/fetchCollaborations';
+import { Icon, Loading } from '@triniti/cms/components/index.js';
+import selector from '@triniti/cms/plugins/raven/components/active-edits-table/selector.js';
+import TableRow from '@triniti/cms/plugins/raven/components/active-edits-table/TableRow.jsx';
+import fetchCollaborations from '@triniti/cms/plugins/raven/actions/fetchCollaborations.js';
 
 const StatusMessage = ({ status, exception }) => {
   switch (status) {

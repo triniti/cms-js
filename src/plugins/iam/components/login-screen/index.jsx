@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { Button } from 'reactstrap';
-import Loading from 'components/loading';
-import acceptLogin from 'plugins/iam/actions/acceptLogin';
-import { serviceIds } from 'plugins/iam/constants';
+import Loading from '@triniti/cms/components/loading/index.jsx';
+import acceptLogin from '@triniti/cms/plugins/iam/actions/acceptLogin.js';
+import { serviceIds } from '@triniti/cms/plugins/iam/constants.js';
 
 const cache = {
   get: function (key) {

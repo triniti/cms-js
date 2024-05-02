@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import registerForm from 'actions/registerForm';
-import unregisterForm from 'actions/unregisterForm';
-import FormMarshaler from 'utils/FormMarshaler';
-import { FormContextProvider } from 'components/useFormContext';
-import Loading from 'components/loading';
-import noop from 'lodash-es/noop';
+import registerForm from '@triniti/cms/actions/registerForm.js';
+import unregisterForm from '@triniti/cms/actions/unregisterForm.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
+import { FormContextProvider } from '@triniti/cms/components/useFormContext.js';
+import Loading from '@triniti/cms/components/loading/index.jsx';
+import noop from 'lodash-es/noop.js';
 
 const defaultHandleSubmit = values => console.info('defaultHandleSubmit', values);
 

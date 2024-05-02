@@ -1,8 +1,8 @@
 import React from 'react';
 import { Alert } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import dismissAlert from 'actions/dismissAlert';
-import getAlerts from 'selectors/getAlerts';
+import dismissAlert from '@triniti/cms/actions/dismissAlert.js';
+import getAlerts from '@triniti/cms/selectors/getAlerts.js';
 
 export default function AlertBar() {
   const dispatch = useDispatch();

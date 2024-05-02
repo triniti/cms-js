@@ -1,12 +1,12 @@
 /* globals API_ENDPOINT */
 import swal from 'sweetalert2';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import getAccessToken from '/plugins/iam/selectors/getAccessToken';
-import getNode from 'plugins/ncr/selectors/getNode';
-import hasNode from 'plugins/ncr/selectors/hasNode';
-import isJwtExpired from 'plugins/iam/utils/isJwtExpired';
-import { actionTypes, ravenTypes } from '../constants';
-import publishMessage from './publishMessage';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
+import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode.js';
+import isJwtExpired from '@triniti/cms/plugins/iam/utils/isJwtExpired.js';
+import { actionTypes, ravenTypes } from '@triniti/cms/plugins/raven/constants.js';
+import publishMessage from '@triniti/cms/plugins/raven/actions/publishMessage.js';
 
 export default (topic, etag = null) => async (dispatch, getState) => {
   const state = getState();

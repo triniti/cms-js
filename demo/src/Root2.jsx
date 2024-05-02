@@ -26,7 +26,7 @@ const LoggedIn = () => {
 }
 
 const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen'));
-const LoggedOut = () => <Routes><Route path="*" element={<Loading></Loading>} /></Routes>;
+const LoggedOut = () => <Routes><Route path="*" element={<Login />} /></Routes>;
 
 function Root() {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ function Root() {
   return (
     <Suspense fallback={<Loading />}>
       <BrowserRouter>
-        <LoggedOut />
+        {isLoggedIn ? <LoggedIn /> : <LoggedOut />}
       </BrowserRouter>
     </Suspense>
   );

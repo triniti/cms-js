@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export default (nodeRef, roles) => async (dispatch, getState, app) => {
   const RevokeRolesFromUserV1 = await MessageResolver.resolveCurie('gdbots:iam:command:revoke-roles-from-user:v1');

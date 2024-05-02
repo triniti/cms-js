@@ -10,10 +10,10 @@ import {
   UncontrolledDropdown
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import { Backdrop, RouterLink } from 'components/index';
-import UserNav from 'components/navbar/UserNav';
-import noop from 'lodash-es/noop';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import { Backdrop, RouterLink } from '@triniti/cms/components/index.js';
+import UserNav from '@triniti/cms/components/navbar/UserNav.jsx';
+import noop from 'lodash-es/noop.js';
 
 export default function () {
   const policy = usePolicy();

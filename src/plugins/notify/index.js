@@ -1,4 +1,4 @@
-import Plugin from 'Plugin';
+import Plugin from '@triniti/cms/Plugin.js';
 
 export default class NotifyPlugin extends Plugin {
   constructor() {

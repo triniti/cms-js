@@ -65,6 +65,7 @@ module.exports = (webpackEnv = {}) => {
         path: false,
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
+        vm: false,
       }
     },
     externals: {},

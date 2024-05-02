@@ -1,10 +1,10 @@
 /* globals APP_NAME */
 import swal from 'sweetalert2';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import getNode from 'plugins/ncr/selectors/getNode';
-import hasNode from 'plugins/ncr/selectors/hasNode';
-import getUser from 'plugins/iam/selectors/getUser';
-import isCollaborating from 'plugins/raven/selectors/isCollaborating';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
+import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode.js';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
+import isCollaborating from '@triniti/cms/plugins/raven/selectors/isCollaborating.js';
 
 export default class NodeChangeWatcher {
   constructor(app) {

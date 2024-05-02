@@ -3,10 +3,10 @@ import React from 'react';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import getUser from 'plugins/iam/selectors/getUser';
-import changeTheme from 'actions/changeTheme';
-import getTheme from 'selectors/getTheme';
-import Icon from 'components/icon';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
+import changeTheme from '@triniti/cms/actions/changeTheme.js';
+import getTheme from '@triniti/cms/selectors/getTheme.js';
+import Icon from '@triniti/cms/components/icon/index.jsx';
 
 const okToLogout = async () => {
   const result = await Swal.fire({

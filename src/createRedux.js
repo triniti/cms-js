@@ -3,9 +3,9 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { withExtraArgument } from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
-import ActionEvent from 'events/ActionEvent.js';
-import appReducer from 'reducers/index.js';
-import { serviceIds } from 'constants.js';
+import ActionEvent from '@triniti/cms/events/ActionEvent.js';
+import appReducer from '@triniti/cms/reducers/index.js';
+import { serviceIds } from '@triniti/cms/constants.js';
 
 /**
  * Broadcasts all actions through the app's dispatcher to

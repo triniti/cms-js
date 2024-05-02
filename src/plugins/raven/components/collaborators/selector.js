@@ -1,4 +1,4 @@
-import getCollaborators from 'plugins/raven/selectors/getCollaborators';
+import getCollaborators from '@triniti/cms/plugins/raven/selectors/getCollaborators.js';
 
 /**
  * @param {Object} state

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import joinCollaboration from 'plugins/raven/actions/joinCollaboration';
-import leaveCollaboration from 'plugins/raven/actions/leaveCollaboration';
-import setCurrentNodeRef from 'plugins/raven/actions/setCurrentNodeRef';
-import sendHeartbeat from 'plugins/raven/actions/sendHeartbeat';
+import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration.js';
+import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration.js';
+import setCurrentNodeRef from '@triniti/cms/plugins/raven/actions/setCurrentNodeRef.js';
+import sendHeartbeat from '@triniti/cms/plugins/raven/actions/sendHeartbeat.js';
 import { getInstance } from '@triniti/app/main.js';
 
 /**

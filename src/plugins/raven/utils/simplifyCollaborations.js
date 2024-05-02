@@ -1,10 +1,10 @@
-import sortedUniq from 'lodash-es/sortedUniq';
+import sortedUniq from 'lodash-es/sortedUniq.js';
 
 /**
  * Returns an object formatted for redux
  * injestion. We remove the timestamps and
  * and stale users here.
- * 
+ *
  * @param {*} data
  * @param {Integer} threshold
  * @returns {Object}
@@ -30,7 +30,7 @@ export default (collaborations, threshold = 15) => {
         simpleCollaborations[topic].push(userRef);
       }
     }
-    
+
     // clear topic if no one was alive in it
     if (!simpleCollaborations[topic].length) {
       delete simpleCollaborations[topic];

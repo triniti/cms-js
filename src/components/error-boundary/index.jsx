@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import ActionButton from 'components/action-button';
+import ActionButton from '@triniti/cms/components/action-button/index.jsx';
 
 function ErrorDetails({ error, errorInfo }) {
   return (

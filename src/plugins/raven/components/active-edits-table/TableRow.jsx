@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import Collaborators from 'plugins/raven/components/collaborators';
-import Message from '@gdbots/pbj/Message';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import { Icon, RouterLink, UncontrolledTooltip } from 'components';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.jsx';
+import Message from '@gdbots/pbj/Message.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import { Icon, RouterLink, UncontrolledTooltip } from '@triniti/cms/components/index.js';
 import { Button } from 'reactstrap';
 
 const TableRow = ({ idx, node }) => (

@@ -1,14 +1,14 @@
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from 'lodash-es/isEmpty.js';
 
 /**
  * Collaborations Eg:
  * {
  *  nodeRef: [userRef]
  * }
- * 
- * @param {*} collaborations 
- * @param {String} nodeRef 
- * @param {String} userRef 
+ *
+ * @param {*} collaborations
+ * @param {String} nodeRef
+ * @param {String} userRef
  * @returns {*}
  */
 const removeCollaborator = (collaborations, nodeRef, userRef) => {

@@ -1,9 +1,9 @@
-import { actionTypes } from 'plugins/raven/constants';
-import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import receiveNodes from 'plugins/ncr/actions/receiveNodes';
-import hasNode from 'plugins/ncr/selectors/hasNode';
-import getNode from 'plugins/ncr/selectors/getNode';
+import { actionTypes } from '@triniti/cms/plugins/raven/constants.js';
+import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import receiveNodes from '@triniti/cms/plugins/ncr/actions/receiveNodes.js';
+import hasNode from '@triniti/cms/plugins/ncr/selectors/hasNode.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 
 export default (userRef) => async(dispatch, getState, app) => {
   const state = getState();

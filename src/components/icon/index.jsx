@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import mapNameToIcon from 'components/icon/mapNameToIcon';
+import mapNameToIcon from '@triniti/cms/components/icon/mapNameToIcon.js';
 
 export default function Icon(props) {
   const {

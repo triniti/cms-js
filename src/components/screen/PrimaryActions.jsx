@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import classNames from 'classnames';
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon/index.jsx';
 
 export default function PrimaryActions(props) {
   const [isActive, setIsActive] = useState(false);

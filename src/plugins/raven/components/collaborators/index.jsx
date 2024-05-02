@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { UncontrolledTooltip } from 'components';
-import isString from 'lodash-es/isString';
+import { UncontrolledTooltip } from '@triniti/cms/components/index.js';
+import isString from 'lodash-es/isString.js';
 
-import selector from './selector';
+import selector from './selector.js';
 import './styles.scss';
 
 const Collaborators = ({ className, nodeRef, users }) => (

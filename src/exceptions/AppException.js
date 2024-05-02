@@ -1,4 +1,4 @@
-import Exception from '@gdbots/pbj/Exception';
+import Exception from '@gdbots/pbj/Exception.js';
 
 export default class AppException extends Exception {
 }
