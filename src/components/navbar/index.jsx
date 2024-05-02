@@ -19,7 +19,6 @@ export default function () {
   const policy = usePolicy();
   const [isActive, setActive] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
-  const isSmallScreen = window.innerWidth < 1025;
 
   useEffect(() => {
     const lastActive = localStorage.getItem('activeNavGroup');
@@ -32,17 +31,17 @@ export default function () {
   }, []);
 
   const isGroupActive = (group) => activeGroup === group;
-  const toggle = (group) => {
-    if(isSmallScreen && typeof group !== 'object') {
-      setActive(true)
-    }else if(isActive && (activeGroup === group || typeof group === 'object')){
+  const toggleRouterLink = (group) => {
+    if(isGroupActive(group) && typeof group === 'object'){
       setActive(false);
-    }else{
-      setActive(true);
     }
     setActiveGroup(group);
     localStorage.setItem('activeNavGroup', group);
   };
+
+  const toggleNavbar = () => {
+     setActive(!isActive);
+  }
 
   const contentLinks =  [
     (policy.isGranted('cms-view-articles') && { label: 'Articles', to: '/news/articles' }),
@@ -78,7 +77,7 @@ export default function () {
 
   return (
     <Navbar className="navbar-main" dark>
-      <NavbarToggler onClick={toggle} className={isActive ? 'is-open' : ''}>
+      <NavbarToggler onClick={toggleNavbar} className={isActive ? 'is-open' : ''}>
         <span className="navbar-toggler-bar navbar-toggler-bar--top" />
         <span className="navbar-toggler-bar navbar-toggler-bar--middle" />
         <span className="navbar-toggler-bar navbar-toggler-bar--bottom" />
@@ -89,14 +88,14 @@ export default function () {
       <div className={`navbar-toggleable-md main-nav ${isActive ? 'is-open' : ''}`}>
         <Nav navbar>
           <NavItem className={isGroupActive('dashboard') ? 'is-current' : ''}>
-            <RouterLink to="/" navTab onClick={() => toggle('dashboard')}>Dashboard</RouterLink>
+            <RouterLink to="/" navTab onClick={() => toggleRouterLink('dashboard')}>Dashboard</RouterLink>
           </NavItem>
           {policy.isGranted('cms-view-content') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('content') ? 'is-current' : ''}>
-              <DropdownToggle tag={isSmallScreen? 'span' : Link} to={ contentLinks?.[0]?.to ?? '/news/articles'}  onClick={() => toggle('content')} nav>Content</DropdownToggle>
+              <DropdownToggle tag={isActive? 'span' : Link} to={ contentLinks?.[0]?.to ?? '/news/articles'}  onClick={() => toggleRouterLink('content')} nav>Content</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {contentLinks.map(link => (
-                  <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('content')}>
+                  <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggleRouterLink('content')}>
                     {link.label}
                   </RouterLink>
                   )
@@ -106,10 +105,10 @@ export default function () {
           )}
           {policy.isGranted('cms-view-taxonomy') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('taxonomy') ? 'is-current' : ''}>
-              <DropdownToggle tag={isSmallScreen ? 'span': Link} to={taxonomyLinks?.[0]?.to ?? '/taxonomy/categories'} onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
+              <DropdownToggle tag={isActive ? 'span': Link} to={taxonomyLinks?.[0]?.to ?? '/taxonomy/categories'} onClick={() => toggleRouterLink('taxonomy')} nav>Taxonomy</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {taxonomyLinks.map(link => (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('taxonomy')}>
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggleRouterLink('taxonomy')}>
                       {link.label}
                     </RouterLink>
                   )
@@ -119,15 +118,15 @@ export default function () {
           )}
            {policy.isGranted('cms-view-asset') && (
                 <NavItem className={isGroupActive('asset') ? 'is-current' : ''}>
-                <RouterLink to="/dam/assets" navTab onClick={() => toggle('asset')}>Assets</RouterLink>
+                <RouterLink to="/dam/assets" navTab onClick={() => toggleRouterLink('asset')}>Assets</RouterLink>
               </NavItem>
           )}
           {policy.isGranted('cms-view-structure') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
-              <DropdownToggle tag={isSmallScreen ? 'span': Link} to={structureLinks?.[0]?.to ?? '/curator/promotions'} onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
+              <DropdownToggle tag={isActive ? 'span': Link} to={structureLinks?.[0]?.to ?? '/curator/promotions'} onClick={() => toggleRouterLink('structure')} nav>Structure</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {structureLinks.map(link => (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('structure')}>
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggleRouterLink('structure')}>
                       {link.label}
                     </RouterLink>
                   )
@@ -137,15 +136,15 @@ export default function () {
           )}
           {policy.isGranted('cms-view-notify') && (
             <NavItem className={isGroupActive('notify') ? 'is-current' : ''}>
-              <RouterLink to="/notify/notifications" navTab onClick={() => toggle('notify')}>Notifications</RouterLink>
+              <RouterLink to="/notify/notifications" navTab onClick={() => toggleRouterLink('notify')}>Notifications</RouterLink>
             </NavItem>
           )}
           {policy.isGranted('cms-view-admin') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('admin') ? 'is-current' : ''}>
-              <DropdownToggle tag={isSmallScreen ? 'span': Link} to={adminLinks?.[0]?.to ?? '/iam/users'} onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
+              <DropdownToggle tag={isActive ? 'span': Link} to={adminLinks?.[0]?.to ?? '/iam/users'} onClick={() => toggleRouterLink('admin')} nav>Admin</DropdownToggle>
               <DropdownMenu className="nav-dropdown-menu">
                 {adminLinks.map(link => (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('admin')}>
+                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggleRouterLink('admin')}>
                       {link.label}
                     </RouterLink>
                   )
@@ -155,7 +154,7 @@ export default function () {
           )}
         </Nav>
       </div>
-      <Backdrop onClick={toggle} />
+      <Backdrop onClick={toggleRouterLink} />
       <UserNav />
     </Navbar>
   );
