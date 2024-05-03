@@ -22,7 +22,7 @@ import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
 import markNodeAsPending from 'plugins/ncr/actions/markNodeAsPending';
 import publishNode from 'plugins/ncr/actions/publishNode';
 import unpublishNode from 'plugins/ncr/actions/unpublishNode';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 const actions = {
   'mark-as-draft': markNodeAsDraft,

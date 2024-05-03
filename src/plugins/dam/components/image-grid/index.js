@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import { BackgroundImage } from '@triniti/cms/components/index.js';
 import {
   ButtonToolbar,

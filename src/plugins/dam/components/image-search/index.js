@@ -1,4 +1,4 @@
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import React, { useState, useEffect } from 'react';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import useResolver from 'plugins/pbjx/components/with-request/useResolver';
@@ -30,30 +30,6 @@ const ImageSearch = (props) => {
     onSelectImage: handleSelectImage,
     nodeRef,
   } = props;
-  // static propTypes = {
-  //   assetTypes: PropTypes.arrayOf(PropTypes.string),
-  //   // delegate: PropTypes.shape({
-  //   //   handleSearch: PropTypes.func.isRequired,
-  //   // )}.isRequired,
-  //   excludeRef: PropTypes.instanceOf(NodeRef),
-  //   excludeAllWithRefType: PropTypes.string,
-  //   heightOffset: PropTypes.string,
-  //   images: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
-  //   innerRef: PropTypes.func,
-  //   // isFulfilled: PropTypes.bool.isRequired,
-  //   onChangeQ: PropTypes.func,
-  //   onSelectImage: PropTypes.func.isRequired,
-  //   onToggleUploader: PropTypes.func.isRequired,
-  //   q: PropTypes.string,
-  //   refreshSearch: PropTypes.number,
-  //   // searchImagesRequestState: PropTypes.shape({
-  //   //   request: PropTypes.instanceOf(Message),
-  //   //   response: PropTypes.instanceOf(Message),
-  //   //   status: PropTypes.string,
-  //   // }).isRequired,
-  //   selectedImages: PropTypes.arrayOf(PropTypes.instanceOf(Message)),
-  //   // statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // };
 
   let excludedRefType = '';
   if (excludedRef) {

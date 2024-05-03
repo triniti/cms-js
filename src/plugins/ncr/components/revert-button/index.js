@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
-import RevertModal from 'plugins/ncr/components/revert-modal';
-import Message from '@gdbots/pbj/Message';
+import RevertModal from '@triniti/cms/plugins/ncr/components/revert-modal/index.js';
 
 const RevertButton = ({
   event,
@@ -40,12 +38,5 @@ const RevertButton = ({
     ),
   ]);
 }
-
-RevertButton.propTypes = {
-  event: PropTypes.instanceOf(Message).isRequired,
-  isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-  isFormDirty: PropTypes.bool.isRequired,
-  onRevert: PropTypes.func.isRequired,
-};
 
 export default RevertButton;

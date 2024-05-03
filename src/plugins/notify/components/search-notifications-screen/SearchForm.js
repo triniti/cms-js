@@ -8,7 +8,7 @@ import { scrollToTop } from 'components/screen';
 import AppPickerField from 'plugins/iam/components/app-picker-field';
 import SortField from 'plugins/ncr/components/sort-field';
 import NotificationSendStatusField from 'plugins/notify/components/notification-send-status-field';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import withRequest from 'plugins/pbjx/components/with-request';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort';

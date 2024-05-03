@@ -1,9 +1,6 @@
 import { filesize } from 'filesize';
-import PropTypes from 'prop-types';
 import React from 'react';
-import Message from '@gdbots/pbj/Message';
 import { FormGroup, Label, Spinner } from 'reactstrap';
-import damUrl from 'plugins/dam/damUrl';
 
 const Image = ({ asset, previewUrl }) => (
   <div className="row">
@@ -32,14 +29,5 @@ const Image = ({ asset, previewUrl }) => (
     </div>
   </div>
 );
-
-Image.propTypes = {
-  asset: PropTypes.instanceOf(Message).isRequired,
-  previewUrl: PropTypes.string,
-};
-
-Image.defaultProps = {
-  previewUrl: null,
-};
 
 export default Image;

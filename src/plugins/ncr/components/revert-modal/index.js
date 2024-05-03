@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import swal from 'sweetalert2';
-import Message from '@gdbots/pbj/Message';
 import {
   Button,
   Modal,
@@ -31,7 +29,7 @@ const RevertModal = ({
   onRevert: handleRevert,
   onToggleRevertModal: handleToggleRevertModal,
 }) => {
-  
+
   const [ selected, setSelected ] = useState([]);
 
   const handleSelectField = (id, value, checked) => {
@@ -81,14 +79,5 @@ const RevertModal = ({
     </Modal>
   );
 }
-
-RevertModal.propTypes = {
-  event: PropTypes.instanceOf(Message).isRequired,
-  isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-  isFormDirty: PropTypes.bool.isRequired,
-  isOpen: PropTypes.bool,
-  onRevert: PropTypes.func.isRequired,
-  onToggleRevertModal: PropTypes.func.isRequired,
-};
 
 export default RevertModal;

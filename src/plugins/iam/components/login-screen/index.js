@@ -1,10 +1,10 @@
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
-import { Button } from 'reactstrap';
-import Loading from '@triniti/cms/components/loading/index.js';
+import { Button, Card, CardBody } from 'reactstrap';
+import { Loading } from '@triniti/cms/components/index.js';
 import acceptLogin from '@triniti/cms/plugins/iam/actions/acceptLogin.js';
 import { serviceIds } from '@triniti/cms/plugins/iam/constants.js';
 
@@ -33,7 +33,7 @@ const cache = {
 };
 
 const onRedirectCallback = (navigate, appState) => {
-  const returnTo = appState?.returnTo || window.location.pathname;
+  const returnTo = appState?.returnTo || sessionStorage.getItem(serviceIds.AUTH0_RETURN_TO) || window.location.pathname;
   const to = returnTo.startsWith('/log') ? '/' : returnTo;
   navigate(to, { replace: true });
 };
@@ -42,15 +42,22 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { error, isAuthenticated, isLoading, getAccessTokenSilently, loginWithRedirect } = useAuth0();
+  const signUpWithRedirect = () => {
+    loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } });
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
-      return noop;
+      return;
     }
 
     const getAccessToken = async () => {
       await dispatch(acceptLogin(await getAccessTokenSilently()));
-      await navigate('/');
+
+      const returnTo = sessionStorage.getItem(serviceIds.AUTH0_RETURN_TO) || '/';
+      sessionStorage.removeItem(serviceIds.AUTH0_RETURN_TO);
+
+      await navigate(returnTo);
     };
 
     getAccessToken().then(noop).catch(noop);
@@ -62,9 +69,24 @@ function Login() {
   }
 
   return (
-    <div className="text-center p-5">
-      {(isLoading || errorMsg) && <Loading error={errorMsg} />}
-      {!isLoading && <Button color="primary" size="lg" onClick={loginWithRedirect}>Login</Button>}
+    <div className="login-screen">
+      <div className="login-card">
+        <Card>
+          <CardBody>
+            <div className="mb-4 mt-4 pt-4">
+              <div className="login-logo"><span>Triniti</span></div>
+            </div>
+            <h1 className="mb-5">{APP_VENDOR} CMS</h1>
+            {(isLoading || errorMsg) && <Loading error={errorMsg} />}
+            {!isLoading && (
+              <>
+                <Button color="primary" className="mr-5 rounded-pill ps-6 pe-6 fs-2 shadow" onClick={loginWithRedirect}>Log In</Button>
+                <Button color="secondary" className="me-0 rounded-pill ps-6 pe-6 fs-2 shadow" onClick={signUpWithRedirect}>Sign Up</Button>
+              </>
+            )}
+          </CardBody>
+        </Card>
+      </div>
     </div>
   );
 }
@@ -76,6 +98,15 @@ const authorizationParams = {
 };
 
 export default function LoginScreen() {
+  useEffect(() => {
+    const returnTo = window.location.pathname;
+    if (returnTo.startsWith('/log')) {
+      return;
+    }
+
+    sessionStorage.setItem(serviceIds.AUTH0_RETURN_TO, window.location.pathname);
+  }, []);
+
   const navigate = useNavigate();
   return (
     <Auth0Provider

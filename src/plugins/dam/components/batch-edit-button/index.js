@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import BatchEditModal from 'plugins/dam/components/batch-edit-modal';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 export default ({
   assetIds = [],

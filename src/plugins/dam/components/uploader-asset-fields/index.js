@@ -1,6 +1,6 @@
 import React from 'react';
 import memoize from 'lodash-es/memoize';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import { Field } from 'react-final-form';
 import { Button, Col, FormGroup, Row } from 'reactstrap';
 import AssetSnippet from 'plugins/dam/components/asset-snippet';

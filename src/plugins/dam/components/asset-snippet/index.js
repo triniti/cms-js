@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import Message from '@gdbots/pbj/Message';
 import Archive from './Archive';
 import Audio from './Audio';
 import Code from './Code';
@@ -27,15 +25,6 @@ const AssetSnippet = ({ asset, previewUrl }) => {
     default:
       return <Unknown asset={asset} />;
   }
-};
-
-AssetSnippet.propTypes = {
-  asset: PropTypes.instanceOf(Message).isRequired,
-  previewUrl: PropTypes.string,
-};
-
-AssetSnippet.defaultProps = {
-  previewUrl: null,
 };
 
 export default AssetSnippet;

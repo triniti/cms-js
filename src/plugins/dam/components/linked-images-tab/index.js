@@ -17,7 +17,7 @@ import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
 import useFormContext from 'components/useFormContext';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
 

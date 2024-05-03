@@ -5,7 +5,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import { CreateModalButton, Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import { Link } from 'react-router-dom';
 import nodeUrl from '../../../ncr/nodeUrl';
 import usePolicy from '../../../iam/components/usePolicy';

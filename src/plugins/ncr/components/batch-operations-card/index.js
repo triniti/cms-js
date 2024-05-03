@@ -5,7 +5,7 @@ import deleteNode from 'plugins/ncr/actions/deleteNode';
 import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
 import publishNode from 'plugins/ncr/actions/publishNode';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 const BatchOperationModal = lazy(() => import('plugins/ncr/components/batch-operation-modal'));
 

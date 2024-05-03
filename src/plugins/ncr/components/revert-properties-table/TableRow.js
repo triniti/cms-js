@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Input } from 'reactstrap';
-import Message from '@gdbots/pbj/Message';
+import Message from '@gdbots/pbj/Message.js';
 import ValueRenderer from './ValueRenderer';
 
 const TableRow = ({
@@ -25,11 +24,5 @@ const TableRow = ({
     </tr>
   );
 }
-
-TableRow.propTypes = {
-  node: PropTypes.instanceOf(Message).isRequired,
-  onSelectField: PropTypes.func.isRequired,
-  property: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-};
 
 export default TableRow;

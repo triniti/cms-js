@@ -5,7 +5,7 @@ import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import ImageGrid from '../../../../plugins/dam/components/image-grid';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 function GalleryImages(props) {
   const { request, nodeRef, selectImage, toggle } = props;

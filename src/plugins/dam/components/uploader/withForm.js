@@ -3,7 +3,7 @@ import { Form } from 'react-final-form';
 import { FormContextProvider } from 'components/useFormContext';
 import FormMarshaler from 'utils/FormMarshaler';
 import arrayMutators from 'final-form-arrays';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import { Loading } from '@triniti/cms/components/index.js';
 
 export default function withForm(Component) {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Badge, FormText, Label } from 'reactstrap';
 import Creatable from 'react-select/creatable';
 import classNames from 'classnames';
-import fastDeepEqual from 'fast-deep-equal/es6';
+import fastDeepEqual from 'fast-deep-equal/es6/index.js';
 import isEmpty from 'lodash-es/isEmpty';
 import trim from 'lodash-es/trim';
 import { withAsyncPaginate } from 'react-select-async-paginate';

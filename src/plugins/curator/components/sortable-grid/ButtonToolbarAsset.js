@@ -1,4 +1,4 @@
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import React, { useState } from 'react';
 import { ButtonToolbar, Media, CardImgOverlay, CardTitle  } from 'reactstrap';
 import { CheckboxField, BackgroundImage } from '@triniti/cms/components/index.js';

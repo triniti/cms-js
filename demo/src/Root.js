@@ -9,6 +9,7 @@ import AppRoutes from './config/Routes.js';
 
 const LoggedIn = () => {
   const user = useSelector(getUser);
+  console.log('user', user);
   if (!user) {
     return <Loading />;
   }
@@ -25,7 +26,7 @@ const LoggedIn = () => {
   );
 }
 
-const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen'));
+const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen/index.js'));
 const LoggedOut = () => <Routes><Route path="*" element={<Login />} /></Routes>;
 
 function Root() {

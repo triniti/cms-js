@@ -6,6 +6,7 @@ export const serviceIds = {
 
   AUTHORIZER: t('AUTHORIZER'),
   AUTH0_SESSION_KEY: t('AUTH0_SESSION_KEY'),
+  AUTH0_RETURN_TO: t('AUTH0_RETURN_TO'),
 };
 
 export const actionTypes = {

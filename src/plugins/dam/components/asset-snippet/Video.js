@@ -1,8 +1,6 @@
 import { Label, FormGroup } from 'reactstrap';
-import artifactUrl from '../../../ovp/utils/artifactUrl';
+import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl.js';
 import { filesize } from 'filesize';
-import Message from '@gdbots/pbj/Message';
-import PropTypes from 'prop-types';
 import React from 'react';
 import ReactPlayer from 'react-player';
 
@@ -25,9 +23,5 @@ const Video = ({ asset }) => (
     </div>
   </div>
 );
-
-Video.propTypes = {
-  asset: PropTypes.instanceOf(Message).isRequired,
-};
 
 export default Video;

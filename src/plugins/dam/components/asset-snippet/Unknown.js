@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { filesize } from 'filesize';
 import { Icon } from '@triniti/cms/components/index.js';
 import {
   FormGroup,
   Label,
 } from 'reactstrap';
-import Message from '@gdbots/pbj/Message';
 
 const Unknown = (props) => {
   const { asset } = props;
@@ -30,10 +28,6 @@ const Unknown = (props) => {
       </div>
     </div>
   );
-};
-
-Unknown.propTypes = {
-  asset: PropTypes.instanceOf(Message).isRequired,
 };
 
 export default Unknown;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import { Button } from 'reactstrap';
 import Uploader from 'plugins/dam/components/uploader';
 

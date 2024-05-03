@@ -1,8 +1,6 @@
-/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Card, Table } from 'reactstrap';
 import Message from '@gdbots/pbj/Message';
-import PropTypes from 'prop-types';
 import './styles.scss';
 import TableRow from './TableRow';
 
@@ -43,12 +41,5 @@ const RevertPropertiesTable = ({
     </Table>
   </Card>
 );
-
-RevertPropertiesTable.propTypes = {
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-  onSelectField: PropTypes.func.isRequired,
-  node: PropTypes.instanceOf(Message).isRequired,
-};
 
 export default RevertPropertiesTable;

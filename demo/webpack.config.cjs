@@ -32,7 +32,7 @@ module.exports = (webpackEnv = {}) => {
 
   return {
     entry: {
-      main: './main.jsx',
+      main: './main.js',
     },
     mode: 'development',
     devtool: 'eval-cheap-module-source-map',
@@ -43,6 +43,7 @@ module.exports = (webpackEnv = {}) => {
         'Access-Control-Allow-Headers': '*',
       },
       historyApiFallback: true,
+      hot: true,
       port: 3000,
     },
     stats: 'normal',
@@ -59,10 +60,10 @@ module.exports = (webpackEnv = {}) => {
       extensions: ['*', '.js', '.jsx', '.json'],
       fallback: {
         buffer: require.resolve('buffer/'),
-        constants: false,
+        //constants: false,
         crypto: require.resolve('crypto-browserify'),
         fs: false,
-        path: false,
+        //path: false,
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         vm: false,
@@ -75,6 +76,7 @@ module.exports = (webpackEnv = {}) => {
         /\.md$/,
       ],
       rules: [
+      /*
         {
           test: /workers\/(hello|raven)\.js$/,
           use: [
@@ -92,12 +94,13 @@ module.exports = (webpackEnv = {}) => {
             },
           ],
         },
+       */
         {
           test: /\.jsx?$/,
           include: [
             resolve(__dirname, 'src'),
             resolve(__dirname, '../src'),
-            /node_modules\/(@gdbots|@triniti)/,
+            /node_modules\/(@gdbots|@triniti|@wb|@tmz|@toofab)/,
           ],
           loader: 'babel-loader',
           options: {

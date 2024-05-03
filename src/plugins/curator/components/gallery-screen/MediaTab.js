@@ -1,7 +1,7 @@
 import React, { lazy, useState } from 'react';
 import pull from 'lodash-es/pull';
 import pickBy from 'lodash-es/pickBy';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import isEqual from 'lodash-es/isEqual';
 import swal from 'sweetalert2';
 import { unstable_useBlocker } from 'react-router';

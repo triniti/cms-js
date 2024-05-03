@@ -1,6 +1,6 @@
 import './config/webpackPublicPath.js';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
 import 'whatwg-fetch';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -9,7 +9,7 @@ import './assets/styles/main.scss';
 import './config/uriTemplates.js';
 import Root from './Root.js';
 import createApp from './createApp.js';
-import startWorkers from './workers/index.js';
+//import startWorkers from './workers/index.js';
 
 let app = null;
 export const getInstance = () => app;
@@ -18,7 +18,7 @@ export const getInstance = () => app;
   app = await createApp();
   window.cms = app;
   await app.start();
-  await startWorkers(app);
+  //await startWorkers(app);
   const container = document.getElementById('react-root');
 
   createRoot(container).render(

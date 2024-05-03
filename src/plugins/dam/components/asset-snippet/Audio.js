@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
-import PropTypes from 'prop-types';
 import { filesize } from 'filesize';
 import {
   FormGroup,
   Label,
 } from 'reactstrap';
-import Message from '@gdbots/pbj/Message';
-import damUrl from 'plugins/dam/damUrl';
+import Message from '@gdbots/pbj/Message.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
 const Audio = ({ asset }) => (
   <div className="row">
@@ -28,9 +27,5 @@ const Audio = ({ asset }) => (
     </div>
   </div>
 );
-
-Audio.propTypes = {
-  asset: PropTypes.instanceOf(Message).isRequired,
-};
 
 export default Audio;

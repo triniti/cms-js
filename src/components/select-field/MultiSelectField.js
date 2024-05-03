@@ -3,7 +3,7 @@ import ReactSelect from 'react-select';
 import ReactSelectCreatable from 'react-select/creatable';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
-import fastDeepEqual from 'fast-deep-equal/es6';
+import fastDeepEqual from 'fast-deep-equal/es6/index.js';
 import isEmpty from 'lodash-es/isEmpty.js';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
 import noop from 'lodash-es/noop.js';

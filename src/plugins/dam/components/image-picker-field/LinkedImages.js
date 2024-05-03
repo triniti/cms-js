@@ -9,7 +9,7 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import ImageGrid from 'plugins/dam/components/image-grid';
 import UploaderButton from 'plugins/dam/components/uploader-button';
 import Icon from 'components/icon';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 function LinkedImages(props) {
   const { request, nodeRef, selectActiveTab, selectImage, toggle, onUploadedImageComplete: handleUploadedImageComplete = noop} = props;

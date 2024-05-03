@@ -7,7 +7,7 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import swal from 'sweetalert2';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';

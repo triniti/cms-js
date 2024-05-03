@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Message from '@gdbots/pbj/Message';
-import RevertPropertiesTable from '../revert-properties-table';
+import RevertPropertiesTable from '../revert-properties-table/index.js';
 import filterRevertableData from 'plugins/ncr/components/node-history-card/filterData';
 import findNodeDiff from 'plugins/ncr/components/node-history-card/findNodeDiff';
 import fullMapsAndLists from 'plugins/ncr/components/node-history-card/fullMapsAndLists';
@@ -29,12 +27,6 @@ const RevertDetails = ({ event, isDbValueSameAsNodeValue, onSelectField: handleS
       onSelectField={handleSelectField}
     />
   );
-};
-
-RevertDetails.propTypes = {
-  event: PropTypes.instanceOf(Message).isRequired,
-  isDbValueSameAsNodeValue: PropTypes.func.isRequired,
-  onSelectField: PropTypes.func.isRequired,
 };
 
 export default RevertDetails;

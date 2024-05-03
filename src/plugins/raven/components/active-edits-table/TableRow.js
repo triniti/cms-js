@@ -1,6 +1,5 @@
 import React from 'react';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
-import Message from '@gdbots/pbj/Message.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import { Icon, RouterLink, UncontrolledTooltip } from '@triniti/cms/components/index.js';
@@ -44,10 +43,5 @@ const TableRow = ({ idx, node }) => (
     </td>
   </tr>
 );
-
-TableRow.propTypes = {
-  node: PropTypes.instanceOf(Message).isRequired,
-  idx: PropTypes.number.isRequired,
-};
 
 export default TableRow;

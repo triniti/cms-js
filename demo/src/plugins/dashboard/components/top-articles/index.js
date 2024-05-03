@@ -17,7 +17,7 @@ const getRandomInt = (min, max) => {
 
 const delay = (time = 500) => new Promise((resolve) => setTimeout(resolve, time));
 
-const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal'));
+const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal/index.js'));
 
 const sampleBatchOperation = async (dispatch, node) => {
   const num = getRandomInt(0, 10);
@@ -33,7 +33,7 @@ const sampleBatchOperation = async (dispatch, node) => {
 
 export default function TopArticles(props) {
   const policy = usePolicy();
-  const canUpdate = policy.isGranted('tcd:article:update');
+  const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
   const { title, request } = props;
   const { response, pbjxError } = useRequest(request, true);
 

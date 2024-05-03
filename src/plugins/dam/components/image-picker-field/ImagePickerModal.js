@@ -15,7 +15,7 @@ import LinkedImages from 'plugins/dam/components/image-picker-field/LinkedImages
 import SearchImages from 'plugins/dam/components/image-picker-field/SearchImages';
 import UploaderButton from 'plugins/dam/components/uploader-button';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 export default function ImagePickerModal({
   imageRef,

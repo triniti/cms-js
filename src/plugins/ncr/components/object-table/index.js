@@ -1,8 +1,5 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Table } from 'reactstrap';
-import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 
 const ObjectTable = ({ data }) => (
@@ -17,9 +14,5 @@ const ObjectTable = ({ data }) => (
     </tbody>
   </Table>
 );
-
-ObjectTable.propTypes = {
-  data: PropTypes.instanceOf(Object).isRequired, // eslint-disable-line react/forbid-prop-types
-};
 
 export default ObjectTable;

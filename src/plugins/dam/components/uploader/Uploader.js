@@ -1,4 +1,4 @@
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import React, { useReducer, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {

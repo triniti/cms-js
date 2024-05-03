@@ -1,7 +1,6 @@
 import { filesize } from 'filesize';
-import PropTypes from 'prop-types';
 import React from 'react';
-import Message from '@gdbots/pbj/Message';
+import Message from '@gdbots/pbj/Message.js';
 import { Icon } from '@triniti/cms/components/index.js';
 import {
   FormGroup,
@@ -27,9 +26,5 @@ const Archive = ({ asset }) => (
     </div>
   </div>
 );
-
-Archive.propTypes = {
-  asset: PropTypes.instanceOf(Message).isRequired,
-};
 
 export default Archive;

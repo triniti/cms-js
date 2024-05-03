@@ -6,7 +6,7 @@ import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage'
 import * as constants from 'constants';
 import getNode from 'plugins/ncr/selectors/getNode';
 import { getInstance } from '@triniti/app/main.js';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 const fetchNode = async (nodeRef) => {
   const app = getInstance();

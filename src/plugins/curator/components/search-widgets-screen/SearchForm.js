@@ -8,7 +8,7 @@ import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';
 import FormMarshaler from 'utils/FormMarshaler';
 import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort';
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run, widgetCuries } = props;
