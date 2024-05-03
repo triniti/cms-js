@@ -1,7 +1,7 @@
 import React from 'react';
 import { components } from 'react-select';
 import { Badge, Media } from 'reactstrap';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components/index.js';
 import nodeUrl from 'plugins/ncr/nodeUrl'
 import Loading from 'components/loading';
 import useNode from 'plugins/ncr/components/useNode';

@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import classNames from "classnames";
 import { Badge, InputGroup, Label } from 'reactstrap';
-import { CreateModalButton, Loading } from 'components';
+import { CreateModalButton, Loading } from '@triniti/cms/components/index.js';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import useNode from 'plugins/ncr/components/useNode';
 

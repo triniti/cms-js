@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie';
-import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from 'components';
+import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';

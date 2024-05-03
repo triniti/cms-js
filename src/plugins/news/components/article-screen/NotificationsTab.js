@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, Label, ListGroupItem } from 'reactstrap';
-import { CheckboxField, TextField } from 'components';
+import { CheckboxField, TextField } from '@triniti/cms/components/index.js';
 import formatDate from 'utils/formatDate';
 import HasNotificationsCard from 'plugins/notify/components/has-notifications-card';
 

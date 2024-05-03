@@ -3,7 +3,7 @@ import startCase from 'lodash-es/startCase';
 import { Badge, ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie';
 import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort';
-import { ActionButton, Loading, withPbj } from 'components';
+import { ActionButton, Loading, withPbj } from '@triniti/cms/components/index.js';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';

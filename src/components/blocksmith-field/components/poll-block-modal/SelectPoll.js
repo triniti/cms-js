@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { Button, Form, InputGroup, Table } from 'reactstrap';
-import { Icon, Loading, Pager, useDebounce, withForm } from 'components';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
-import SearchPollsSort from '@triniti/schemas/triniti/apollo/enums/SearchPollsSort';
-import noop from 'lodash-es/noop';
+import { Icon, Loading, Pager, useDebounce, withForm } from '@triniti/cms/components/index.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import SearchPollsSort from '@triniti/schemas/triniti/apollo/enums/SearchPollsSort.js';
+import noop from 'lodash-es/noop.js';
 
 function SelectPoll(props) {
   const {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createInlineStyleButton } from '@draft-js-plugins/buttons';
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon/index.js';
 
 export default createInlineStyleButton({
   style: 'BOLD',

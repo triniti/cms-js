@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Media } from 'reactstrap';
-import { BackgroundImage } from 'components';
-import damUrl from 'plugins/dam/damUrl';
-import './Preview.scss';
+import { BackgroundImage } from '@triniti/cms/components/index.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import '@triniti/cms/components/blocksmith-field/components/vimeo-video-block-modal/Preview.scss';
 
 export default function VimeoVideoBlockPreview(props) {
   const { className, formState, width = 510 } = props;

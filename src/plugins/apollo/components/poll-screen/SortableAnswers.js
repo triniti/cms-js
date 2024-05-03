@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateModalButton, SortableListField, withPbj } from 'components';
+import { CreateModalButton, SortableListField, withPbj } from '@triniti/cms/components/index.js';
 import AnswerPlaceholder from 'plugins/apollo/components/poll-screen/AnswerPlaceholder';
 import AnswerModal from 'plugins/apollo/components/poll-screen/AnswerModal';
 

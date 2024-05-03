@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Card, CardBody } from 'reactstrap';
-import { CreateModalButton } from 'components';
+import { CreateModalButton } from '@triniti/cms/components/index.js';
 import deleteNode from 'plugins/ncr/actions/deleteNode';
 import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
 import publishNode from 'plugins/ncr/actions/publishNode';

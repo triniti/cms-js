@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField, TextField, UrlField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import Preview from './Preview';
+import { SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/quote-block-modal/Preview.js';
 
 function QuoteBlockModal(props) {
   const { formState } = props;

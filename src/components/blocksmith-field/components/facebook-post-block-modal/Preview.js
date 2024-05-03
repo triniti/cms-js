@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import loadFacebookSDK from '@triniti/cms/components/blocksmith-field/utils/loadFacebookSDK';
+import loadFacebookSDK from '@triniti/cms/components/blocksmith-field/utils/loadFacebookSDK.js';
 
 export default function Preview ({ formState }) {
 

@@ -4,7 +4,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import { useDispatch } from 'react-redux';
 import withRequest from 'plugins/pbjx/components/with-request';
 import useRequest from 'plugins/pbjx/components/useRequest';
-import { ActionButton, Loading } from 'components';
+import { ActionButton, Loading } from '@triniti/cms/components/index.js';
 import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';
 import sendAlert from 'actions/sendAlert';

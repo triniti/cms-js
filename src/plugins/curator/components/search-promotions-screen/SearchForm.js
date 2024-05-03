@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Ro
 import { Field } from 'react-final-form';
 import SearchPromotionsSort from '@triniti/schemas/triniti/curator/enums/SearchPromotionsSort';
 import FormMarshaler from 'utils/FormMarshaler';
-import { ActionButton, DatePickerField, Icon, NumberField, useDebounce } from 'components';
+import { ActionButton, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import Icon from 'components/icon';
-import UncontrolledTooltip from 'components/uncontrolled-tooltip';
+import Icon from '@triniti/cms/components/icon/index.js';
+import UncontrolledTooltip from '@triniti/cms/components/uncontrolled-tooltip/index.js';
 
 export default function CopyBlockButton({ buttonText, onCopyBlock: handleCopyBlock }) {
   return (

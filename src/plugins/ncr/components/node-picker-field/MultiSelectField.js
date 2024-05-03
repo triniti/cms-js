@@ -21,7 +21,7 @@ import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6';
 import isEmpty from 'lodash-es/isEmpty';
-import { useField, useFormContext } from 'components';
+import { useField, useFormContext } from '@triniti/cms/components/index.js';
 import defaultLoadOptions from 'plugins/ncr/components/node-picker-field/loadOptions';
 import MultiValueLabel from 'plugins/ncr/components/node-picker-field/MultiValueLabel';
 import Option from 'plugins/ncr/components/node-picker-field/Option';
@@ -34,7 +34,7 @@ function arrayMove(array, from, to) {
   return array;
 }
 
-const SortableMultiValueLabel = (props) => {  
+const SortableMultiValueLabel = (props) => {
   const disabled = typeof props.selectProps?.sortable === undefined ? true : !props.selectProps?.sortable;
   const { attributes, listeners } = useSortable({ id: props.data.value, disabled });
   return (
@@ -149,7 +149,7 @@ export default function MultiSelectField(props) {
                 setQ(value);
                 return;
               }
-    
+
               if (action.action === 'menu-close') {
                 request.clear('q');
                 setQ('');

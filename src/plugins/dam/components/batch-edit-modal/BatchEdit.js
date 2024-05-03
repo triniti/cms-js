@@ -11,7 +11,7 @@ import noop from 'lodash-es/noop';
 import swal from 'sweetalert2';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { TextField, TextareaField, DatePickerField } from 'components';
+import { TextField, TextareaField, DatePickerField } from '@triniti/cms/components/index.js';
 import { FormGroup, Col, Row } from 'reactstrap';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import { getInstance } from '@triniti/app/main.js';

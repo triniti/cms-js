@@ -1,7 +1,6 @@
-import React from 'react';
-import getRootFields from 'utils/getRootFields';
-import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import getRootFields from '@triniti/cms/utils/getRootFields.js';
+import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export default (props) => {
   const { delegate, form, formState, isFreshBlock, onAddBlock, onEditBlock, pbj } = props;

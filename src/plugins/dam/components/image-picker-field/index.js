@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import classNames from 'classnames';
 import { Button, Label, Media, Card, CardImgOverlay, CardTitle } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { CreateModalButton, Icon, useField, useFormContext } from 'components';
+import { CreateModalButton, Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
 import damUrl from 'plugins/dam/damUrl';
 import useNode from 'plugins/ncr/components/useNode';
 import noop from 'lodash-es/noop';

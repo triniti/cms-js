@@ -5,7 +5,7 @@ import HistoryTab from 'plugins/ncr/components/history-tab';
 import RawTab from 'plugins/ncr/components/raw-tab';
 import SeoTab from 'plugins/common/components/seo-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from 'plugins/people/components/person-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
 import Collaborators from 'plugins/raven/components/collaborators';

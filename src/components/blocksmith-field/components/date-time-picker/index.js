@@ -8,7 +8,7 @@ import {
   Label,
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon/index.js';
 
 // todo: style this mofo like admin-ui used to be
 export default function DateTimePicker({

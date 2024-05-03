@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { TextareaField, TextField } from 'components';
+import { TextareaField, TextField } from '@triniti/cms/components/index.js';
 import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
 import AdvertisingFields from 'plugins/common/components/advertising-fields';
 import TaggableFields from 'plugins/common/components/taggable-fields';

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Label } from 'reactstrap';
 import ReactSelect from 'react-select';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { SwitchField, TextField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import { SwitchField, TextField } from '@triniti/cms/components/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio.js';
 
+// todo: use the enum-field for aspect ratio, wtf
 const aspectRatios = [
   { label: 'auto', value: 'auto' },
   { label: '1 by 1', value: '1by1' },

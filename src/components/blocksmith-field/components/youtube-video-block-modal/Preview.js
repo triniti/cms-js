@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import YouTube from 'react-youtube';
 import classNames from 'classnames';
 import { Media } from 'reactstrap';
-import { BackgroundImage } from 'components';
-import damUrl from 'plugins/dam/damUrl';
-import './Preview.scss';
+import { BackgroundImage } from '@triniti/cms/components/index.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import '@triniti/cms/components/blocksmith-field/components/youtube-video-block-modal/Preview.scss';
 
 export default function Preview(props) {
   const { formState, width = 510, className, imageNode } = props;

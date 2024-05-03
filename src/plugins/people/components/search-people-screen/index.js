@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import { Badge, Button, Card, Input, Media, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchPeopleSort from '@triniti/schemas/triniti/people/enums/SearchPeopleSort';
-import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
+import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import brokenImage from 'assets/img/broken-image--xs.jpg';
 import damUrl from 'plugins/dam/damUrl';
 import { scrollToTop } from 'components/screen';

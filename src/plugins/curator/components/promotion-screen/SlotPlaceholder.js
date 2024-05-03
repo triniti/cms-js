@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge, Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
-import { CreateModalButton, Icon, useFormContext, withPbj } from 'components';
+import { CreateModalButton, Icon, useFormContext, withPbj } from '@triniti/cms/components/index.js';
 import schemaToCurie from 'utils/schemaToCurie';
 import useNode from 'plugins/ncr/components/useNode';
 import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';

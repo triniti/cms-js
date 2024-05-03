@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { ErrorBoundary, Loading, TextField } from 'components';
+import { ErrorBoundary, Loading, TextField } from '@triniti/cms/components/index.js';
 
 const components = {};
 const resolveComponent = (label) => {

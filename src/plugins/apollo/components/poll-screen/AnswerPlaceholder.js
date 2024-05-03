@@ -3,7 +3,7 @@ import kebabCase from 'lodash-es/kebabCase';
 import lowerCase from 'lodash-es/lowerCase';
 import { Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
-import { CreateModalButton, Icon, useFormContext, withPbj } from 'components';
+import { CreateModalButton, Icon, useFormContext, withPbj } from '@triniti/cms/components/index.js';
 import schemaToCurie from 'utils/schemaToCurie';
 import AnswerModal from 'plugins/apollo/components/poll-screen/AnswerModal';
 

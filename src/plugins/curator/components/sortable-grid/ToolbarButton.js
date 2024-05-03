@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import { Icon, UncontrolledTooltip } from 'components';
+import { Icon, UncontrolledTooltip } from '@triniti/cms/components/index.js';
 
 const ToolbarButton = ({ onMouseDown, icon, id, tooltip }) => (
   <>

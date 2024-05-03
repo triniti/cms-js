@@ -1,16 +1,16 @@
-import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio';
-import GalleryGrid from './GalleryGrid';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import AspectRatioEnum from '@triniti/schemas/triniti/common/enums/AspectRatio.js';
+import GalleryGrid from '@triniti/cms/components/blocksmith-field/components/gallery-block-modal/GalleryGrid.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import React, { useState } from 'react';
-import { ScrollableContainer } from 'components';
+import { ScrollableContainer } from '@triniti/cms/components/index.js';
 import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-import CustomizeOptions from './CustomizeOptions';
-import Footer from './Footer';
-import Header from './Header';
-import './styles.scss';
+import CustomizeOptions from '@triniti/cms/components/blocksmith-field/components/gallery-block-modal/CustomizeOptions.js';
+import Footer from '@triniti/cms/components/blocksmith-field/components/gallery-block-modal/Footer.js';
+import Header from '@triniti/cms/components/blocksmith-field/components/gallery-block-modal/Header.js';
+import '@triniti/cms/components/blocksmith-field/components/gallery-block-modal/styles.scss';
 
 const GalleryBlockModal = ({
   gallery = null,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon/index.js';
 import { Collapse, Label } from 'reactstrap';
 
 export default function MoreInfo ({

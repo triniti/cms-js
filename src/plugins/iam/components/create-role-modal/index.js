@@ -5,7 +5,7 @@ import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import createSlug from '@gdbots/pbj/utils/createSlug';
 import RoleId from '@gdbots/schemas/gdbots/iam/RoleId';
-import { ActionButton, FormErrors, TextField, withForm, withPbj } from 'components';
+import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from 'plugins/ncr/actions/createNode';
 import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';

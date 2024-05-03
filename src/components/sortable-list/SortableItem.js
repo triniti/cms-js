@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components/index.js';
 
 const SortableItemContext = createContext({
   attributes: {},

@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Card, CardBody } from 'reactstrap';
 import startCase from 'lodash-es/startCase';
-import { ErrorBoundary,  Loading } from 'components';
+import { ErrorBoundary,  Loading } from '@triniti/cms/components/index.js';
 import { FormSpy } from 'react-final-form';
 import withNode from 'plugins/dam/components/uploader/withNode';
 

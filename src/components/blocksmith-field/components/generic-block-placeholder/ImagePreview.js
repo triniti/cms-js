@@ -1,4 +1,4 @@
-import Icon from 'components/icon';
+import Icon from '@triniti/cms/components/icon/index.js';
 import React from 'react';
 import '@triniti/cms/components/blocksmith-field/components/generic-block-placeholder/styles.scss';
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Footer from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/Footer';
-import Header from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/Header';
-import CustomizeOptions from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/CustomizeOptions';
-import SelectAudio from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/SelectAudio';
-import useNode from 'plugins/ncr/components/useNode';
-import noop from 'lodash-es/noop';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import Footer from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/Footer.js';
+import Header from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/Header.js';
+import CustomizeOptions from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/CustomizeOptions.js';
+import SelectAudio from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/SelectAudio.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import noop from 'lodash-es/noop.js';
 
 export default function AudioBlockModal(props) {
   const { block, isFreshBlock, isOpen, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { TextareaField, TextField } from 'components';
+import { TextareaField, TextField } from '@triniti/cms/components/index.js';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import ContentRefField from 'plugins/notify/components/content-ref-field';
 

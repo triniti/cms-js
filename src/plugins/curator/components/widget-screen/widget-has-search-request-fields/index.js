@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
-import { SwitchField } from 'components';
+import { SwitchField } from '@triniti/cms/components/index.js';
 import useCuries from 'plugins/pbjx/components/useCuries';
 import SearchRequestTypeField from 'plugins/curator/components/widget-screen/widget-has-search-request-fields/search-request-type-field'
 

@@ -2,9 +2,9 @@ import noop from 'lodash-es/noop';
 import React, { useState, useEffect } from 'react';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import useResolver from 'plugins/pbjx/components/with-request/useResolver';
-import { Icon, Loading } from 'components';
+import { Icon, Loading } from '@triniti/cms/components/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import { ScrollableContainer } from 'components';
+import { ScrollableContainer } from '@triniti/cms/components/index.js';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import {
   Button,
@@ -67,7 +67,7 @@ const ImageSearch = (props) => {
   const [ q, setQ ] = useState('');
   const [ page, setPage ] = useState(1);
   const [ requestCount, setRequestCount ] = useState(0);
-  
+
   let queryAddon = '';
   if (excludedRef) {
     queryAddon += ` -${excludedRefType}:${excludedRef}`;
@@ -120,7 +120,7 @@ const ImageSearch = (props) => {
       request.set('q', `${q}${queryAddon}`);
       request.set('page', page);
     }
-    
+
     run();
   };
 

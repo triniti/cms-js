@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
-import { CreateModalButton, Icon, Loading, } from 'components';
+import { CreateModalButton, Icon, Loading, } from '@triniti/cms/components/index.js';
 import { Link } from 'react-router-dom';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import useRequest from 'plugins/pbjx/components/useRequest';

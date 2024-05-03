@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort';
-import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from 'components';
+import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import { scrollToTop } from 'components/screen';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';

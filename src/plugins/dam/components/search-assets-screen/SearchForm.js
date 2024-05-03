@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
 import FormMarshaler from 'utils/FormMarshaler';
-import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from 'components';
+import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import SortField from 'plugins/ncr/components/sort-field';

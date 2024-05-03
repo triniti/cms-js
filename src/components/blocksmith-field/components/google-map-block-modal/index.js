@@ -1,11 +1,11 @@
 /* globals GOOGLE_MAPS_API_KEY */
 import React, { useState } from 'react';
 import { ModalBody } from 'reactstrap';
-import { NumberField, SelectField, SwitchField, TextField, TextareaField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import Preview from '@triniti/cms/components/blocksmith-field/components/google-map-block-modal/Preview';
-import debounce from 'lodash-es/debounce';
-import GeoPoint from '@gdbots/pbj/well-known/GeoPoint';
+import { NumberField, SelectField, SwitchField, TextField, TextareaField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/google-map-block-modal/Preview.js';
+import debounce from 'lodash-es/debounce.js';
+import GeoPoint from '@gdbots/pbj/well-known/GeoPoint.js';
 
 const mapTypeOptions = [
   { label: 'roadmap', value: 'roadmap' },

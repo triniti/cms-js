@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
-import { SelectField, TextareaField } from 'components';
+import { SelectField, TextareaField } from '@triniti/cms/components/index.js';
 import getNode from 'plugins/ncr/selectors/getNode';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import ContentRefField from 'plugins/notify/components/content-ref-field';

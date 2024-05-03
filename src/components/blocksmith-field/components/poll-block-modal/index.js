@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { FormGroup, Modal, ModalBody } from 'reactstrap';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { SwitchField } from 'components';
-import Footer from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/Footer';
-import Header from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/Header';
-import SelectPoll from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/SelectPoll';
-import Preview from './Preview';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import { SwitchField } from '@triniti/cms/components/index.js';
+import Footer from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/Footer.js';
+import Header from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/Header.js';
+import SelectPoll from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/SelectPoll.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/poll-block-modal/Preview.js';
 
 export default function PollBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;

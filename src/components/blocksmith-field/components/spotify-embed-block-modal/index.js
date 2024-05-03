@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Label, ModalBody } from 'reactstrap';
-import { SwitchField, TextField } from 'components';
+import { SwitchField, TextField } from '@triniti/cms/components/index.js';
 import { FormGroup, Input } from 'reactstrap';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import getSpotifyMediaId from '@triniti/cms/components/blocksmith-field/components/spotify-embed-block-modal/getSpotifyMediaId';
-import Preview from './Preview';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import getSpotifyMediaId from '@triniti/cms/components/blocksmith-field/components/spotify-embed-block-modal/getSpotifyMediaId.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/spotify-embed-block-modal/Preview.js';
 
 const SPOTIFY_EMBED_REGEX = /^<iframe.+?spotify\.com\/embed\/track\/[0-9A-Za-z]{22}.*?<\/iframe>$/;
 const SPOTIFY_SONG_LINK_REGEX = /^https?:\/\/open\.spotify\.com\/track\/[0-9A-Za-z]{22}.*$/;

@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import Icon from 'components/icon';
-import { entityTypes } from '@triniti/cms/components/blocksmith-field/constants';
-import { hasEntity } from '@triniti/cms/components/blocksmith-field/utils';
+import Icon from '@triniti/cms/components/icon/index.js';
+import { entityTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
+import { hasEntity } from '@triniti/cms/components/blocksmith-field/utils/index.js';
 
 export default function LinkButton({ getEditorState, onToggleLinkModal }) {
   return (

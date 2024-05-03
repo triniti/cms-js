@@ -1,12 +1,12 @@
 import React from 'react';
-import PollPickerField from 'plugins/apollo/components/poll-picker-field';
+import PollPickerField from '@triniti/cms/plugins/apollo/components/poll-picker-field/index.js';
 import {
   FormGroup,
   ModalBody,
 } from 'reactstrap';
-import { SwitchField } from 'components';
-import { ScrollableContainer } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import { SwitchField } from '@triniti/cms/components/index.js';
+import { ScrollableContainer } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
 
 const PollGridBlockModal = () =>  (
   <ModalBody className="p-0">

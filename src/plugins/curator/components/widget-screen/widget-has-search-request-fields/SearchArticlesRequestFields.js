@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import slottingConfig from '@triniti/app/config/slottingConfig.js';
-import { DatePickerField, NumberField, SelectField, TextField } from 'components';
+import { DatePickerField, NumberField, SelectField, TextField } from '@triniti/cms/components/index.js';
 import SortField from 'plugins/ncr/components/sort-field';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort';
 

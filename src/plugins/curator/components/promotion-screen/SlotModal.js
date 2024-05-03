@@ -3,7 +3,7 @@ import { FORM_ERROR } from 'final-form';
 import startCase from 'lodash-es/startCase';
 import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, EnumField, FormErrors, TextField, withForm } from 'components';
+import { ActionButton, EnumField, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 import FormMarshaler from 'utils/FormMarshaler';
 import getRootFields from 'utils/getRootFields';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
 import CodeTab from 'plugins/common/components/code-tab';
 import SeoTab from 'plugins/common/components/seo-tab';

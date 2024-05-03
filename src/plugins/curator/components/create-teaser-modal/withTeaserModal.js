@@ -5,7 +5,7 @@ import { FORM_ERROR } from 'final-form';
 import { Form, ModalFooter, ModalHeader } from 'reactstrap';
 import startCase from 'lodash-es/startCase';
 import { getInstance } from '@triniti/app/main.js';
-import { ActionButton, FormErrors, withForm } from 'components';
+import { ActionButton, FormErrors, withForm } from '@triniti/cms/components/index.js';
 import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';

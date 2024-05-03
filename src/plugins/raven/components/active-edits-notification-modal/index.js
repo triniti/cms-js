@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { Badge, Button, Modal, ModalBody } from 'reactstrap';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import joinCollaboration from 'plugins/raven/actions/joinCollaboration';
 import leaveCollaboration from 'plugins/raven/actions/leaveCollaboration';
@@ -20,7 +20,7 @@ const ActiveEditNotificationModal = ({
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  
+
   if (!shouldShowImmediately) {
     setTimeout(() => setReady(true), 3000);
   }
@@ -28,7 +28,7 @@ const ActiveEditNotificationModal = ({
   useEffect(() => {
     setIsOpen(activeUserNames.length > 0);
   }, [ready]);
-  
+
   const handleCancel = () => {
     handleContinueInViewMode(nodeRef);
     handleToggle();

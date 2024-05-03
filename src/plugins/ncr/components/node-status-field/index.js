@@ -1,7 +1,7 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import { EnumField } from 'components';
+import { EnumField } from '@triniti/cms/components/index.js';
 import Option from 'plugins/ncr/components/node-status-field/Option';
 import SingleValue from 'plugins/ncr/components/node-status-field/SingleValue';
 

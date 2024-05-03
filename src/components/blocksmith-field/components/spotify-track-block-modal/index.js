@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import Preview from './Preview';
+import { SwitchField, TextareaField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/spotify-track-block-modal/Preview.js';
 
 const SPOTIFY_EMBED_REGEX = /^<iframe.+?spotify\.com\/embed\/track\/[0-9A-Za-z]{22}.*?<\/iframe>$/;
 const SPOTIFY_SONG_LINK_REGEX = /^https?:\/\/open\.spotify\.com\/track\/[0-9A-Za-z]{22}.*$/;

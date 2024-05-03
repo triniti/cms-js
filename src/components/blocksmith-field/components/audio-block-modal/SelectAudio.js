@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Button, Form, InputGroup, Table } from 'reactstrap';
-import { Icon, Loading, Pager, useDebounce, withForm } from 'components';
-import damUrl from 'plugins/dam/damUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
-import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import noop from 'lodash-es/noop';
+import { Icon, Loading, Pager, useDebounce, withForm } from '@triniti/cms/components/index.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
+import noop from 'lodash-es/noop.js';
 
 function SelectAudio(props) {
   const {

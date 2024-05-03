@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
-import { SwitchField, TextField } from 'components';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import damUrl from 'plugins/dam/damUrl';
+import { SwitchField, TextField } from '@triniti/cms/components/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
 export default function CustomizeOptions(props) {
   const {

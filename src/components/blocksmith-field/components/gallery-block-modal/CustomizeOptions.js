@@ -1,11 +1,11 @@
 import React from 'react';
-import humanizeEnums from '@triniti/cms/components/blocksmith-field/utils/humanizeEnums';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import humanizeEnums from '@triniti/cms/components/blocksmith-field/utils/humanizeEnums.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import ReactSelect from 'react-select';
 import { Label } from 'reactstrap';
-import { SwitchField, Icon, TextField } from 'components';
-import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio';
+import { SwitchField, TextField } from '@triniti/cms/components/index.js';
+import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio.js';
 
 const aspectRatioOptions = humanizeEnums(AspectRatio, {
   format: 'map',

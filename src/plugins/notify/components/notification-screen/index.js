@@ -3,7 +3,7 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
 import HistoryTab from 'plugins/ncr/components/history-tab';
 import RawTab from 'plugins/ncr/components/raw-tab';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from 'plugins/notify/components/notification-screen/DetailsTab';
 import SendStatusCard from 'plugins/notify/components/notification-screen/SendStatusCard';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';

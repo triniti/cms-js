@@ -1,5 +1,5 @@
 import React from 'react';
-import { SwitchField, TextField, UrlField } from 'components';
+import { SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
 import PicklistField from 'plugins/sys/components/picklist-field';
 
 export default function GalleryWidgetFields(props) {

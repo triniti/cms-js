@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateModalButton, SortableListField, withPbj } from 'components';
+import { CreateModalButton, SortableListField, withPbj } from '@triniti/cms/components/index.js';
 import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
 import SlotPlaceholder from 'plugins/curator/components/promotion-screen/SlotPlaceholder';
 

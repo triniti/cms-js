@@ -5,7 +5,7 @@ import CodeTab from 'plugins/common/components/code-tab';
 import HistoryTab from 'plugins/ncr/components/history-tab';
 import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import WidgetHasSearchRequestFields from 'plugins/curator/components/widget-screen/widget-has-search-request-fields';
 import DetailsTab from 'plugins/curator/components/widget-screen/DetailsTab';
 import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';

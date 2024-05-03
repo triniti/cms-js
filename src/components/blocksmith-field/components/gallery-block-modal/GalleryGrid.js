@@ -1,10 +1,10 @@
-import noop from 'lodash-es/noop';
+import noop from 'lodash-es/noop.js';
 import React from 'react';
-import { Loading, withForm } from 'components';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import ImageGrid from '../../../../plugins/dam/components/image-grid';
-import SearchForm from 'plugins/dam/components/image-picker-field/SearchForm';
+import { Loading, withForm } from '@triniti/cms/components/index.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
+import SearchForm from '@triniti/cms/plugins/dam/components/image-picker-field/SearchForm.js';
 
 const GalleryGrid = (props) => {
   const {

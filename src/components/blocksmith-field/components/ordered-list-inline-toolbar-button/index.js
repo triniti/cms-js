@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBlockStyleButton } from '@draft-js-plugins/buttons';
-import Icon from 'components/icon';
-import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants';
+import Icon from '@triniti/cms/components/icon/index.js';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
 
 export default createBlockStyleButton({
   blockType: blockTypes.ORDERED_LIST_ITEM,

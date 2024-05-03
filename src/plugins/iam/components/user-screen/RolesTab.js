@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { ErrorBoundary, Loading } from 'components';
+import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 
 const RolesForm = lazy(() => import('plugins/iam/components/user-screen/RolesForm'));
 

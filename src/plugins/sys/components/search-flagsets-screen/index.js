@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import { Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchFlagsetsSort from '@triniti/schemas/triniti/sys/enums/SearchFlagsetsSort';
-import { CreateModalButton, Icon, Loading, Screen } from 'components';
+import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';

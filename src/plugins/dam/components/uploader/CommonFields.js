@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePickerField, TextareaField, TextField } from 'components';
+import { DatePickerField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import { Button } from 'reactstrap';
 import noop from 'lodash-es/noop';
@@ -56,6 +56,6 @@ export default function CommonFields(props) {
         </div>
       )}
       <TextareaField name="description" label="Description" />
-    </>  
+    </>
   );
 }

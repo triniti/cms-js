@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Card, CardImgOverlay, CardTitle, Col, Media, Row } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { ActionButton, Loading, withForm } from 'components';
+import { ActionButton, Loading, withForm } from '@triniti/cms/components/index.js';
 import damUrl from 'plugins/dam/damUrl';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';

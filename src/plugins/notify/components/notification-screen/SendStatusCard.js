@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Badge, Button, Card, CardBody, CardHeader, Spinner, Table } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components/index.js';
 import useNode from 'plugins/ncr/components/useNode';
 import getNode from 'plugins/ncr/selectors/getNode';
 import formatDate from 'utils/formatDate';

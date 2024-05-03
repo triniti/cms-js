@@ -1,9 +1,9 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SelectField, SwitchField, TextareaField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import getPinterestPinUrl from '@triniti/cms/components/blocksmith-field/components/pinterest-pin-block-modal/getPinterestPinUrl';
-import Preview from './Preview';
+import { SelectField, SwitchField, TextareaField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import getPinterestPinUrl from '@triniti/cms/components/blocksmith-field/components/pinterest-pin-block-modal/getPinterestPinUrl.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/pinterest-pin-block-modal/Preview.js';
 
 const sizeOptions = [
   { label: 'small', value: 'small' },

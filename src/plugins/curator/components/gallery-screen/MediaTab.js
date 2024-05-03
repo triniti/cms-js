@@ -8,7 +8,7 @@ import { unstable_useBlocker } from 'react-router';
 import { getInstance } from '@triniti/app/main.js';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import useResolver from 'plugins/pbjx/components/with-request/useResolver';
-import { CreateModalButton, Loading } from 'components';
+import { CreateModalButton, Loading } from '@triniti/cms/components/index.js';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import { useNavigate } from 'react-router-dom';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';

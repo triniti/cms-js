@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SlugField from 'plugins/ncr/components/slug-field';
-import { DatePickerField, SelectField, SwitchField, TextareaField, TextField } from 'components';
+import { DatePickerField, SelectField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from 'plugins/common/components/advertising-fields';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import TaggableFields from 'plugins/common/components/taggable-fields';

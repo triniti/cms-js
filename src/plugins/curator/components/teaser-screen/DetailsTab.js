@@ -10,7 +10,7 @@ import {
   NumberField,
   TextareaField,
   TextField
-} from 'components';
+} from '@triniti/cms/components/index.js';
 import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
 import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';

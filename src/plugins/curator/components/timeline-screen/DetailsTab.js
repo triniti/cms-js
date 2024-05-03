@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { DatePickerField, SwitchField, TextareaField, TextField } from 'components';
+import { DatePickerField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from 'plugins/common/components/advertising-fields';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import PicklistField from 'plugins/sys/components/picklist-field';

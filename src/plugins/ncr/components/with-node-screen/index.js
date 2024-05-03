@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import startCase from 'lodash-es/startCase';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Loading, withForm } from 'components';
+import { Loading, withForm } from '@triniti/cms/components/index.js';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import pruneNodes from 'plugins/ncr/actions/pruneNodes';
 import useNode from 'plugins/ncr/components/useNode';

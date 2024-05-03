@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
-import { TextField } from 'components';
+import { TextField } from '@triniti/cms/components/index.js';
 import humanizeBytes from 'utils/humanizeBytes';
 import CommonFields from './CommonFields';
 
@@ -19,6 +19,6 @@ export default function UnknownAssetFields(props) {
         </Row>
       </Container>
       <CommonFieldsComponent asset={asset} credit="unknown-asset-credits" {...props} />
-    </>  
+    </>
   );
 }

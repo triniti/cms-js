@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ModalBody } from 'reactstrap';
-import { TextField, SwitchField, TextareaField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import getTwitterTweetFields from '@triniti/cms/components/blocksmith-field/components/twitter-tweet-block-modal/getTwitterTweetFields';
-import Preview from '@triniti/cms/components/blocksmith-field/components/twitter-tweet-block-modal/Preview';
+import { TextField, SwitchField, TextareaField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import getTwitterTweetFields from '@triniti/cms/components/blocksmith-field/components/twitter-tweet-block-modal/getTwitterTweetFields.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/twitter-tweet-block-modal/Preview.js';
 
 function TwitterTweetEmbedBlockModal({ block, form, formState }) {
   const { valid } = formState;

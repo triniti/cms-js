@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Loading } from 'components';
-import useNode from 'plugins/ncr/components/useNode';
-import './preview.scss';
+import { Loading } from '@triniti/cms/components/index.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import '@triniti/cms/components/blocksmith-field/components/poll-block-modal/preview.scss';
 
 
 const PollBlockPreview = ({ className = '', nodeRef }) => {

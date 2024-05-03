@@ -1,9 +1,9 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField, TextField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import Preview from '@triniti/cms/components/blocksmith-field/components/vimeo-video-block-modal/Preview';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import { SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/vimeo-video-block-modal/Preview.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import he from 'he';
 
 const EMBED_REGEX = /https?:\/\/player\.vimeo\.com\/video\/\d+/;

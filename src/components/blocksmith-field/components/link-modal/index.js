@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import prependHttp from 'prepend-http';
-import isValidUrl from '@gdbots/pbj/utils/isValidUrl';
+import isValidUrl from '@gdbots/pbj/utils/isValidUrl.js';
 import { Button, Form, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { SwitchField } from 'components';
+import { SwitchField } from '@triniti/cms/components/index.js';
 
 export default function LinkModal(props) {
   const { isOpen, onAddLink, onRemoveLink, openInNewTab, toggle, url } = props;

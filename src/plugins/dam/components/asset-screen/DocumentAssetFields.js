@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePickerField, TextareaField, TextField } from 'components';
+import { DatePickerField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import { Container, Col, Row } from 'reactstrap';
 import humanizeBytes from 'utils/humanizeBytes';
 import PicklistField from 'plugins/sys/components/picklist-field';

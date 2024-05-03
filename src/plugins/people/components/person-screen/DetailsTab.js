@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { SelectField, SwitchField, TextareaField, TextField, UrlField } from 'components';
+import { SelectField, SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
 import BlocksmithField from 'components/blocksmith-field';
 import AdvertisingFields from 'plugins/common/components/advertising-fields';
 import TaggableFields from 'plugins/common/components/taggable-fields';

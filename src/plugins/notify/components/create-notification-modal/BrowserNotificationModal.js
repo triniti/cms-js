@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField } from 'components';
+import { SwitchField } from '@triniti/cms/components/index.js';
 import PicklistField from 'plugins/sys/components/picklist-field';
 import ContentRefField from 'plugins/notify/components/content-ref-field';
 import SendOptionsField from 'plugins/notify/components/send-options-field';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { TextField, UrlField } from 'components';
+import { TextField, UrlField } from '@triniti/cms/components/index.js';
 import withTeaserModal from 'plugins/curator/components/create-teaser-modal/withTeaserModal';
 
 function LinkTeaserModal() {

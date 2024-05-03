@@ -3,7 +3,7 @@ import startCase from 'lodash-es/startCase';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import { ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from 'components';
+import { ErrorBoundary, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import { scrollToTop } from 'components/screen';
 import nodeUrl from 'plugins/ncr/nodeUrl';
 import useCuries from 'plugins/pbjx/components/useCuries';
@@ -89,7 +89,7 @@ function SearchAssetsScreen(props) {
               <thead>
                 <tr>
                   <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
-                  <th></th>  
+                  <th></th>
                   <th>Title</th>
                   <th>Mime type</th>
                   <th>File size</th>
@@ -115,7 +115,7 @@ function SearchAssetsScreen(props) {
                           </ErrorBoundary>
                         </Suspense>
                        )}
-                      </td>  
+                      </td>
                       <td>
                         {node.get('title')}
                         <Collaborators nodeRef={NodeRef.fromNode(node)} />

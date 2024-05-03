@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { TextareaField, SelectField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import DividerBlockPreview from './DividerBlockPreview';
+import { TextareaField, SelectField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import DividerBlockPreview from '@triniti/cms/components/blocksmith-field/components/divider-block-modal/DividerBlockPreview.js';
 
 const strokeColorOptions = [
   { label: 'primary', value: 'primary' },

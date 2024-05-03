@@ -1,7 +1,7 @@
 import noop from 'lodash-es/noop';
 import React, { useState } from 'react';
 import { ButtonToolbar, Media, CardImgOverlay, CardTitle  } from 'reactstrap';
-import { CheckboxField, BackgroundImage } from 'components';
+import { CheckboxField, BackgroundImage } from '@triniti/cms/components/index.js';
 import damUrl from 'plugins/dam/damUrl';
 import ToolbarButton from './ToolbarButton';
 

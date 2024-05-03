@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { TextField } from 'components';
+import { TextField } from '@triniti/cms/components/index.js';
 import getYouTubeId from 'utils/getYouTubeId';
 import withTeaserModal from 'plugins/curator/components/create-teaser-modal/withTeaserModal';
 

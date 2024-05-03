@@ -1,9 +1,9 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import getImgurPostBlockId from '@triniti/cms/components/blocksmith-field/components/imgur-post-block-modal/getImgurPostBlockId';
-import Preview from './Preview';
+import { SwitchField, TextareaField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import getImgurPostBlockId from '@triniti/cms/components/blocksmith-field/components/imgur-post-block-modal/getImgurPostBlockId.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/imgur-post-block-modal/Preview.js';
 
 function ImgurPostBlockModal(props) {
   const { formState } = props;

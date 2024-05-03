@@ -11,7 +11,7 @@ import {
   TextField,
   withForm,
   withPbj
-} from 'components';
+} from '@triniti/cms/components/index.js';
 import createNode from 'plugins/ncr/actions/createNode';
 import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';

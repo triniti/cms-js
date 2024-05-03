@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
 import { Badge, Label } from 'reactstrap';
-import { DatePickerField, useField, useFormContext } from 'components';
+import { DatePickerField, useField, useFormContext } from '@triniti/cms/components/index.js';
 
 const sendOptions = [
   { label: 'Send Now', value: 'send-now' },

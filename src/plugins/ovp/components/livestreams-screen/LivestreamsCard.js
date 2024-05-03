@@ -6,7 +6,7 @@ import usePolicy from 'plugins/iam/components/usePolicy';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import { Link } from 'react-router-dom';
 import nodeUrl from 'plugins/ncr/nodeUrl';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components/index.js';
 import swal from 'sweetalert2';
 import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1';
 import { getInstance } from '@triniti/demo/src/main';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import { Icon } from 'components';
+import { Icon } from '@triniti/cms/components/index.js';
 
 export default function GenericSidebarButton({
   config,

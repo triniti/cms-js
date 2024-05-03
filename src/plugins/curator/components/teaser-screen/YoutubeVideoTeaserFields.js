@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from 'components';
+import { TextField } from '@triniti/cms/components/index.js';
 import getYouTubeId from 'utils/getYouTubeId';
 
 export default function YoutubeVideoTeaserFields() {

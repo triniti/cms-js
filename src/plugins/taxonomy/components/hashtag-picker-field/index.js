@@ -7,7 +7,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import trim from 'lodash-es/trim';
 import { withAsyncPaginate } from 'react-select-async-paginate';
 import { createHashtag, isValidHashtag } from '@gdbots/pbj/utils';
-import { useField, useFormContext } from 'components';
+import { useField, useFormContext } from '@triniti/cms/components/index.js';
 import withRequest from 'plugins/pbjx/components/with-request';
 import defaultLoadOptions from 'plugins/taxonomy/components/hashtag-picker-field/loadOptions';
 

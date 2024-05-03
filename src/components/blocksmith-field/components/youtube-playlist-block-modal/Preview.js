@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Media } from 'reactstrap';
-import { BackgroundImage } from 'components';
-import damUrl from 'plugins/dam/damUrl';
-import noop from 'lodash-es/noop';
-import './Preview.scss';
+import { BackgroundImage } from '@triniti/cms/components/index.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import noop from 'lodash-es/noop.js';
+import '@triniti/cms/components/blocksmith-field/components/youtube-playlist-block-modal/Preview.scss';
 
 const EMBED_ROOT_ID = 'youtube-playlist-block-embed-root';
 

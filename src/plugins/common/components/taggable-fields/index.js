@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, CardText } from 'reactstrap';
-import { KeyValuesField, TextField } from 'components';
+import { KeyValuesField, TextField } from '@triniti/cms/components/index.js';
 
 export default function TaggableFields() {
   return (

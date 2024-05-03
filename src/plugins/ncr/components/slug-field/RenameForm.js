@@ -7,7 +7,7 @@ import trimStart from 'lodash-es/trimStart';
 import createSlug from '@gdbots/pbj/utils/createSlug';
 import isValidSlug from '@gdbots/pbj/utils/isValidSlug';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { ActionButton, FormErrors, TextField, withForm } from 'components';
+import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
 import renameNode from 'plugins/ncr/actions/renameNode';
 import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';

@@ -4,7 +4,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import isEqual from 'lodash-es/isEqual';
 import moment from 'moment';
 import { Badge, Button, ButtonGroup, Card, CardBody, CardHeader, Spinner } from 'reactstrap';
-import { CreateModalButton, Icon, Loading } from 'components';
+import { CreateModalButton, Icon, Loading } from '@triniti/cms/components/index.js';
 import usePolicy from 'plugins/iam/components/usePolicy';
 import useRequest from 'plugins/pbjx/components/useRequest';
 import withRequest from 'plugins/pbjx/components/with-request';

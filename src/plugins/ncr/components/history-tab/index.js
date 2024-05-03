@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { ErrorBoundary, Loading } from 'components';
+import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 
 const NodeHistoryCard = lazy(() => import('plugins/ncr/components/node-history-card'));
 

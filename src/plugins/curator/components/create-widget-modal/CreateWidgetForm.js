@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import startCase from 'lodash-es/startCase';
 import { Form, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, FormErrors, TextField, withForm } from 'components';
+import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
 import createNode from 'plugins/ncr/actions/createNode';
 import progressIndicator from 'utils/progressIndicator';
 import toast from 'utils/toast';

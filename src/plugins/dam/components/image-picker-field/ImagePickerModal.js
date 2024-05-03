@@ -9,7 +9,7 @@ import {
   TabContent,
   TabPane
 } from 'reactstrap';
-import { ActionButton } from 'components';
+import { ActionButton } from '@triniti/cms/components/index.js';
 import GalleryImages from 'plugins/dam/components/image-picker-field/GalleryImages';
 import LinkedImages from 'plugins/dam/components/image-picker-field/LinkedImages';
 import SearchImages from 'plugins/dam/components/image-picker-field/SearchImages';

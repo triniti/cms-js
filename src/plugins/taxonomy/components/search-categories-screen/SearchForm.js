@@ -3,7 +3,7 @@ import { Button, Card, CardBody, Form, InputGroup } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SearchCategoriesSort from '@triniti/schemas/triniti/taxonomy/enums/SearchCategoriesSort';
 import FormMarshaler from 'utils/FormMarshaler';
-import { Icon, useDebounce } from 'components';
+import { Icon, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from 'components/screen';
 import NodeStatusField from 'plugins/ncr/components/node-status-field';
 import noop from 'lodash-es/noop';

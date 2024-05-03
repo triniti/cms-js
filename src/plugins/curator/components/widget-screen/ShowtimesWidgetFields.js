@@ -1,5 +1,5 @@
 import React from 'react';
-import { SwitchField, TextareaField, TextField, UrlField } from 'components';
+import { SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import PicklistField from 'plugins/sys/components/picklist-field';
 

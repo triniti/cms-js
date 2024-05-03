@@ -4,7 +4,7 @@ import { FormContextProvider } from 'components/useFormContext';
 import FormMarshaler from 'utils/FormMarshaler';
 import arrayMutators from 'final-form-arrays';
 import noop from 'lodash-es/noop';
-import { Loading } from 'components';
+import { Loading } from '@triniti/cms/components/index.js';
 
 export default function withForm(Component) {
   return props => {

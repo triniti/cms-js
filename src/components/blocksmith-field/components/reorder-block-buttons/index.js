@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'reactstrap';
-import Icon from 'components/icon';
-import UncontrolledTooltip from 'components/uncontrolled-tooltip';
+import Icon from '@triniti/cms/components/icon/index.js';
+import UncontrolledTooltip from '@triniti/cms/components/uncontrolled-tooltip/index.js';
 
-import { handleDragEnd, handleDragStart } from '@triniti/cms/components/blocksmith-field/utils';
-import constants from '@triniti/cms/components/blocksmith-field/constants';
+import { handleDragEnd, handleDragStart } from '@triniti/cms/components/blocksmith-field/utils/index.js';
+import constants from '@triniti/cms/components/blocksmith-field/constants.js';
 
 export default function ReorderButtons({
   activeBlockKey,

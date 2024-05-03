@@ -7,8 +7,8 @@ import {
   ModalHeader,
 } from 'reactstrap';
 
-import DateTimePicker from '@triniti/cms/components/blocksmith-field/components/date-time-picker';
-import changedTime from '@triniti/cms/components/blocksmith-field/utils/changedTime';
+import DateTimePicker from '@triniti/cms/components/blocksmith-field/components/date-time-picker/index.js';
+import changedTime from '@triniti/cms/components/blocksmith-field/utils/changedTime.js';
 
 export default function TextBlockModal(props) {
   const { block, isOpen, onEditBlock, toggle } = props;

@@ -6,7 +6,7 @@ import RawTab from 'plugins/ncr/components/raw-tab';
 import NodeStatusCard from 'plugins/ncr/components/node-status-card';
 import SeoTab from 'plugins/common/components/seo-tab';
 import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from 'components';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from 'plugins/news/components/article-screen/DetailsTab';
 import StoryTab from 'plugins/news/components/article-screen/StoryTab';
 import NotificationsTab from 'plugins/news/components/article-screen/NotificationsTab';

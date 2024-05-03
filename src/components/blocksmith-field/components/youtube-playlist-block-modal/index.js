@@ -1,10 +1,10 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import { SwitchField, TextareaField } from 'components';
-import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
-import getYoutubePlaylistId from '@triniti/cms/components/blocksmith-field/components/youtube-playlist-block-modal/getYoutubePlaylistId';
-import Preview from './Preview';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
+import { SwitchField, TextareaField } from '@triniti/cms/components/index.js';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal/index.js';
+import getYoutubePlaylistId from '@triniti/cms/components/blocksmith-field/components/youtube-playlist-block-modal/getYoutubePlaylistId.js';
+import Preview from '@triniti/cms/components/blocksmith-field/components/youtube-playlist-block-modal/Preview.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 
 function YoutubePlaylistBlockModal(props) {
   const { formState } = props;

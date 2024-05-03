@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { EditorBlock } from 'draft-js';
-import { handleDragEnd, handleDragStart } from '@triniti/cms/components/blocksmith-field/utils';
-import PlaceholderErrorBoundary from '@triniti/cms/components/blocksmith-field/components/placeholder-error-boundary';
-import selector from '@triniti/cms/components/blocksmith-field/components/draggable-text-block/selector';
+import { handleDragEnd, handleDragStart } from '@triniti/cms/components/blocksmith-field/utils/index.js';
+import PlaceholderErrorBoundary from '@triniti/cms/components/blocksmith-field/components/placeholder-error-boundary/index.js';
+import selector from '@triniti/cms/components/blocksmith-field/components/draggable-text-block/selector.js';
 
 // todo: incorporate the block buttons (and maybe sidebar/s) into this component and rename to TextBlockWrapper
 function DraggableTextBlock({ block, blockProps, draggable, offsetKey, ...rest }) {

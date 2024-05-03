@@ -3,7 +3,7 @@ import { useField, useFormState } from 'react-final-form';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
 import { Label } from 'reactstrap';
-import { ErrorBoundary, Loading, useFormContext } from 'components';
+import { ErrorBoundary, Loading, useFormContext } from '@triniti/cms/components/index.js';
 
 export const searchRequestFields = {
   'search-teasers-request': lazy(() => import('plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchTeasersRequestFields')),

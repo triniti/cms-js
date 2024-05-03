@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import slottingConfig from '@triniti/app/config/slottingConfig.js';
-import { DatePickerField, NumberField, SelectField, TextField } from 'components';
+import { DatePickerField, NumberField, SelectField, TextField } from '@triniti/cms/components/index.js';
 import GalleryPickerField from 'plugins/curator/components/gallery-picker-field';
 import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
 import useCuries from 'plugins/pbjx/components/useCuries';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePickerField, TextareaField, TextField, UrlField } from 'components';
+import { DatePickerField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
 import PicklistField from 'plugins/sys/components/picklist-field';
 
 export default function CommonFields(props) {
@@ -16,6 +16,6 @@ export default function CommonFields(props) {
       <UrlField name="cta_url" label="CTA Url" />
       <DatePickerField name="expires_at" label="Expires At" />
       <TextareaField name="description" label="Description" />
-    </>  
+    </>
   );
 }

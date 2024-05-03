@@ -2,7 +2,7 @@ import React from 'react';
 import { FORM_ERROR } from 'final-form';
 import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { ActionButton, FormErrors, NumberField, TextField, UrlField, withForm } from 'components';
+import { ActionButton, FormErrors, NumberField, TextField, UrlField, withForm } from '@triniti/cms/components/index.js';
 import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
 import FormMarshaler from 'utils/FormMarshaler';
 import getRootFields from 'utils/getRootFields';

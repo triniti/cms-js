@@ -3,7 +3,7 @@ import startCase from 'lodash-es/startCase';
 import useNode from 'plugins/ncr/components/useNode';
 import useParams from 'plugins/ncr/components/with-node-screen/useParams';
 import withForm from 'plugins/dam/components/uploader/withForm';
-import { Loading } from 'components';
+import { Loading } from '@triniti/cms/components/index.js';
 
 export default function withNode(Component) {
   const ComponentWithForm = withForm(Component);
