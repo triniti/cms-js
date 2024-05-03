@@ -3,8 +3,8 @@ import ReactSelect from 'react-select';
 import ReactSelectCreatable from 'react-select/creatable';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
-import { useField, useFormContext } from 'components/index';
-import noop from 'lodash-es/noop';
+import { useField, useFormContext } from '@triniti/cms/components/index.js';
+import noop from 'lodash-es/noop.js';
 
 export default function SingleSelectField(props) {
   const {

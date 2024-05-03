@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
-import RawPbj from 'components/raw-pbj';
+import RawPbj from '@triniti/cms/components/raw-pbj/index.js';
 
 export default function RawPbjModal(props) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import TextareaField from 'components/textarea-field';
+import TextareaField from '@triniti/cms/components/textarea-field/index.js';
 
 const ENCRYPTED_VALUE_PATTERN = /^[a-f0-9]{150,}$/;
 

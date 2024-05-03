@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectField from 'components/select-field';
+import SelectField from '@triniti/cms/components/select-field/index.js';
 
 const options = new Map;
 const nofilter = () => true;

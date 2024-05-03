@@ -2,8 +2,8 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
 import { Badge, FormText, InputGroup, InputGroupText, Label } from 'reactstrap';
-import formatDate from 'utils/formatDate';
-import { Icon, useField, useFormContext } from 'components/index';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import { Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
 
 // fixme: handle date vs date-time scenarios
 export default function DatePickerField(props) {

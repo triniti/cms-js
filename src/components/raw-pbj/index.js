@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import { expand } from '@gdbots/pbjx/pbjUrl';
+import { expand } from '@gdbots/pbjx/pbjUrl.js';
 
 export default function RawPbj({ pbj }) {
   const schema = pbj.schema();

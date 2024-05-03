@@ -1,9 +1,9 @@
 import React from 'react';
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from 'lodash-es/isEmpty.js';
 import fastDeepEqual from 'fast-deep-equal/es6';
-import useFormContext from 'components/useFormContext';
+import useFormContext from '@triniti/cms/components/useFormContext.js';
 import { FieldArray } from 'react-final-form-arrays';
-import SortableList from '../sortable-list';
+import SortableList from '@triniti/cms/components/sortable-list/index.js';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 

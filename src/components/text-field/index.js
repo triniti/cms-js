@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
-import { useField, useFormContext } from 'components/index';
+import { useField, useFormContext } from '@triniti/cms/components/index.js';
 
 export default function TextField(props) {
   const {

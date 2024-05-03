@@ -1,5 +1,5 @@
 import React from 'react';
-import clamp from 'lodash-es/clamp';
+import clamp from 'lodash-es/clamp.js';
 import { Button, ButtonGroup } from 'reactstrap';
 
 const MAX_PAGE = 50;

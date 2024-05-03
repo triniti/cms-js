@@ -1,6 +1,6 @@
 import React from 'react';
-import MultiSelectField from 'components/select-field/MultiSelectField';
-import SingleSelectField from 'components/select-field/SingleSelectField';
+import MultiSelectField from '@triniti/cms/components/select-field/MultiSelectField.js';
+import SingleSelectField from '@triniti/cms/components/select-field/SingleSelectField.js';
 
 export default function SelectField({ isMulti = false, ...rest }) {
   const Component = isMulti ? MultiSelectField : SingleSelectField;

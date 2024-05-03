@@ -13,9 +13,8 @@ import {
   arrayMove,
   sortableKeyboardCoordinates
 } from '@dnd-kit/sortable';
-import SortableItem, { DragHandle } from './SortableItem';
-
-import './SortableSlots.scss';
+import SortableItem, { DragHandle } from '@triniti/cms/components/sortable-list/SortableItem.js';
+import '@triniti/cms/components/sortable-list/SortableSlots.scss';
 
 const SortableList = ({
   keyField = 'name', // Specify a unique key field to use from object list
@@ -43,7 +42,7 @@ const SortableList = ({
         if (over && active.id !== over?.id) {
           const activeIndex = items.findIndex((item) => item[keyField] === active.id);
           const overIndex = items.findIndex((item) => item[keyField] === over.id);
-          
+
           onChange(arrayMove(items, activeIndex, overIndex));
         }
         setActive(null);
