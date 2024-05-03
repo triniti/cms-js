@@ -2,10 +2,10 @@ import React, { lazy } from 'react';
 import classNames from "classnames";
 import { Badge, InputGroup, Label } from 'reactstrap';
 import { CreateModalButton, Loading } from '@triniti/cms/components/index.js';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import useNode from 'plugins/ncr/components/useNode';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 
-const RenameForm = lazy(() => import('plugins/ncr/components/slug-field/RenameForm'));
+const RenameForm = lazy(() => import('@triniti/cms/plugins/ncr/components/slug-field/RenameForm.js'));
 
 export default function SlugField(props) {
   const { groupClassName = '', label = 'Slug', nodeRef, withDatedSlug = false } = props;

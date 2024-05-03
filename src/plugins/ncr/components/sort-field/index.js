@@ -1,6 +1,6 @@
 import React from 'react';
 import { EnumField } from '@triniti/cms/components/index.js';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 
 const filter = option => option.value !== 'unknown';
 const format = label => startCase(label.toLowerCase()).replace(/(Asc|Desc)/, '$1ending');

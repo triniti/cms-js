@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Table } from 'reactstrap';
-import './styles.scss';
-import TableRow from './TableRow.js';
+import '@triniti/cms/plugins/ncr/components/revert-properties-table/styles.scss';
+import TableRow from '@triniti/cms/plugins/ncr/components/revert-properties-table/TableRow.js';
 
 const RevertPropertiesTable = ({
   data,

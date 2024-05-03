@@ -7,24 +7,18 @@ import {
   useSensor,
   useSensors
 } from '@dnd-kit/core';
-import {
-  SortableContext,
-  useSortable,
-  sortableKeyboardCoordinates
-} from '@dnd-kit/sortable';
-import {
-  components,
-} from 'react-select';
-import { CSS } from "@dnd-kit/utilities";
+import { SortableContext, useSortable, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { components } from 'react-select';
+import { CSS } from '@dnd-kit/utilities';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from 'lodash-es/isEmpty.js';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
-import defaultLoadOptions from 'plugins/ncr/components/node-picker-field/loadOptions';
-import MultiValueLabel from 'plugins/ncr/components/node-picker-field/MultiValueLabel';
-import Option from 'plugins/ncr/components/node-picker-field/Option';
+import defaultLoadOptions from '@triniti/cms/plugins/ncr/components/node-picker-field/loadOptions.js';
+import MultiValueLabel from '@triniti/cms/plugins/ncr/components/node-picker-field/MultiValueLabel.js';
+import Option from '@triniti/cms/plugins/ncr/components/node-picker-field/Option.js';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
@@ -167,7 +161,7 @@ export default function MultiSelectField(props) {
           />
         </SortableContext>
       </DndContext>
-    {description && <FormText color="dark">{description}</FormText>}
+      {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
     </div>
   );

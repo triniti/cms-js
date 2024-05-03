@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'reactstrap';
-import ValueRenderer from './ValueRenderer.js';
+import ValueRenderer from '@triniti/cms/plugins/ncr/components/revert-properties-table/ValueRenderer.js';
 
 const TableRow = ({
   node,

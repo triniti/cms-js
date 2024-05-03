@@ -1,13 +1,13 @@
 import React, { lazy } from 'react';
 import { Card, CardBody } from 'reactstrap';
 import { CreateModalButton } from '@triniti/cms/components/index.js';
-import deleteNode from 'plugins/ncr/actions/deleteNode';
-import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
-import publishNode from 'plugins/ncr/actions/publishNode';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
+import markNodeAsDraft from '@triniti/cms/plugins/ncr/actions/markNodeAsDraft.js';
+import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import noop from 'lodash-es/noop.js';
 
-const BatchOperationModal = lazy(() => import('plugins/ncr/components/batch-operation-modal'));
+const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal/index.js'));
 
 const BATCH_OPERATION_PUBLISH = 'publish';
 const BATCH_OPERATION_DRAFT = 'draft';

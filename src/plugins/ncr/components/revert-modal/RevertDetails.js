@@ -1,5 +1,5 @@
 import React from 'react';
-import RevertPropertiesTable from '../revert-properties-table/index.js';
+import RevertPropertiesTable from '@triniti/cms/plugins/ncr/components/revert-properties-table/index.js';
 import filterRevertableData from '@triniti/cms/plugins/ncr/components/node-history-card/filterData.js';
 import findNodeDiff from '@triniti/cms/plugins/ncr/components/node-history-card/findNodeDiff.js';
 import fullMapsAndLists from '@triniti/cms/plugins/ncr/components/node-history-card/fullMapsAndLists.js';

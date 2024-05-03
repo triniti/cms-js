@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'reactstrap';
-import TableRow from './TableRow.js';
+import TableRow from '@triniti/cms/plugins/ncr/components/object-table/TableRow.js';
 
 const ObjectTable = ({ data }) => (
   <Table borderless size="sm" className="mb-0 table--object-table">

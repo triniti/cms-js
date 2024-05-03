@@ -13,8 +13,7 @@ import toast from '@triniti/cms/utils/toast.js';
 import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
 import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
-
-const useBlocker = func => () => func();
+import useBlocker from '@triniti/cms/plugins/ncr/components/with-node-screen/useBlocker.js';
 
 const okayToDelete = async (nodeRef) => {
   const result = await Swal.fire({
@@ -60,17 +59,12 @@ export default (props) => {
   } = props;
 
   useBlocker(async (transition) => {
-    console.log('https://github.com/remix-run/react-router/commit/256cad70d3fd4500b1abcfea66f3ee622fb90874#diff-b60f1a2d4276b2a605c05e19816634111de2e8a4186fe9dd7de8e344b65ed4d3');
-    return;
-    const nextUri = transition.location.pathname;
+    const nextUri = transition.pathname;
     if (nextUri.startsWith(urls.baseUri)) {
-      transition.retry();
-      return;
+      return false;
     }
 
-    if (await okayToLeave()) {
-      transition.retry();
-    }
+    return !(await okayToLeave());
   }, editMode && formState.dirty);
 
   delegate.handleCancel = async () => {

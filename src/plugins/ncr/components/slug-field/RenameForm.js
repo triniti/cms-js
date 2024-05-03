@@ -2,16 +2,16 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import startCase from 'lodash-es/startCase';
-import trimStart from 'lodash-es/trimStart';
-import createSlug from '@gdbots/pbj/utils/createSlug';
-import isValidSlug from '@gdbots/pbj/utils/isValidSlug';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import startCase from 'lodash-es/startCase.js';
+import trimStart from 'lodash-es/trimStart.js';
+import createSlug from '@gdbots/pbj/utils/createSlug.js';
+import isValidSlug from '@gdbots/pbj/utils/isValidSlug.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
-import renameNode from 'plugins/ncr/actions/renameNode';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
+import renameNode from '@triniti/cms/plugins/ncr/actions/renameNode.js';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 
 
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does

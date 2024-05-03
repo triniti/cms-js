@@ -1,6 +1,6 @@
 import React from 'react';
-import ValueRenderer from '../revert-properties-table/ValueRenderer.js';
-import './styles.scss';
+import ValueRenderer from '@triniti/cms/plugins/ncr/components/revert-properties-table/ValueRenderer.js';
+import '@triniti/cms/plugins/ncr/components/object-table/styles.scss';
 
 const TableRow = ({ property: [label, value] }) => (
   <tr className="bg-none">

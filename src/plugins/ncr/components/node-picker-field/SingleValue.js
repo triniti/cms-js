@@ -1,11 +1,11 @@
 import React from 'react';
 import { components } from 'react-select';
 import { Badge, Media } from 'reactstrap';
-import nodeUrl from 'plugins/ncr/nodeUrl'
-import Loading from 'components/loading';
-import useNode from 'plugins/ncr/components/useNode';
-import damUrl from 'plugins/dam/damUrl';
-import brokenImage from 'assets/img/broken-image--xxs.jpg';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js'
+import Loading from '@triniti/cms/components/loading/index.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
 
 const noop = (event) => {
   event.stopPropagation();
