@@ -5,7 +5,7 @@ import { ErrorBoundary, Loading, Navbar } from '@triniti/cms/components/index.js
 import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated.js';
 import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
 import loadUser from '@triniti/cms/plugins/iam/actions/loadUser.js';
-import AppRoutes from './config/Routes.jsx';
+import AppRoutes from './config/Routes.js';
 
 const LoggedIn = () => {
   const user = useSelector(getUser);
@@ -26,7 +26,7 @@ const LoggedIn = () => {
 }
 
 const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen'));
-const LoggedOut = () => <Routes><Route path="*" element={<Login />} /></Routes>;
+const LoggedOut = () => <Routes><Route path="*" element={<Loading></Loading>} /></Routes>;
 
 function Root() {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ function Root() {
   return (
     <Suspense fallback={<Loading />}>
       <BrowserRouter>
-        {isLoggedIn ? <LoggedIn /> : <LoggedOut />}
+        <LoggedOut />
       </BrowserRouter>
     </Suspense>
   );

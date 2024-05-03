@@ -137,9 +137,11 @@ function* publishFlow() {
 
 export default function* rootSaga() {
   yield all([
+    /*
     fork(watchUserLoaded),
     fork(watchUserLoggedOut),
     fork(watchWorkersStarted),
     fork(publishFlow),
+     */
   ]);
 }

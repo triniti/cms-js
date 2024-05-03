@@ -7,7 +7,7 @@ import registerForm from '@triniti/cms/actions/registerForm.js';
 import unregisterForm from '@triniti/cms/actions/unregisterForm.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { FormContextProvider } from '@triniti/cms/components/useFormContext.js';
-import Loading from '@triniti/cms/components/loading/index.jsx';
+import Loading from '@triniti/cms/components/loading/index.js';
 import noop from 'lodash-es/noop.js';
 
 const defaultHandleSubmit = values => console.info('defaultHandleSubmit', values);

@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import './assets/styles/main.scss';
 import './config/uriTemplates.js';
-import Root from './Root.jsx';
+import Root from './Root.js';
 import createApp from './createApp.js';
 import startWorkers from './workers/index.js';
 

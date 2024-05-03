@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { Icon, Loading } from '@triniti/cms/components/index.js';
 import selector from '@triniti/cms/plugins/raven/components/active-edits-table/selector.js';
-import TableRow from '@triniti/cms/plugins/raven/components/active-edits-table/TableRow.jsx';
+import TableRow from '@triniti/cms/plugins/raven/components/active-edits-table/TableRow.js';
 import fetchCollaborations from '@triniti/cms/plugins/raven/actions/fetchCollaborations.js';
 
 const StatusMessage = ({ status, exception }) => {

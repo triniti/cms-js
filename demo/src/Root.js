@@ -5,7 +5,7 @@ import { ErrorBoundary, Loading, Navbar } from '@triniti/cms/components/index.js
 import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated.js';
 import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
 import loadUser from '@triniti/cms/plugins/iam/actions/loadUser.js';
-import AppRoutes from './config/Routes.jsx';
+import AppRoutes from './config/Routes.js';
 
 const LoggedIn = () => {
   const user = useSelector(getUser);

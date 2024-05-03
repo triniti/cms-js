@@ -24,13 +24,13 @@ const derivePath = fn => {
 
 export default (app) => {
   const workers = {
-    hello: derivePath(HelloWorker),
+    //hello: derivePath(HelloWorker),
     raven: derivePath(RavenWorker),
   };
 
-  app.setParameter('hello.worker', new Worker(workers.hello));
+  //app.setParameter('hello.worker', new Worker(workers.hello));
   app.setParameter('raven.worker', new Worker(workers.raven));
-  app.getRedux().dispatch(startWorkers(app));
+  //app.getRedux().dispatch(startWorkers(app));
 
   return workers;
 };

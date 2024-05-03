@@ -12,7 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import { Backdrop, RouterLink } from '@triniti/cms/components/index.js';
-import UserNav from '@triniti/cms/components/navbar/UserNav.jsx';
+import UserNav from '@triniti/cms/components/navbar/UserNav.js';
 import noop from 'lodash-es/noop.js';
 
 export default function () {

@@ -6,7 +6,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.jsx';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 const getRandomInt = (min, max) => {

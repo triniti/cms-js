@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, NavItem } from 'reactstrap';
 import kebabCase from 'lodash-es/kebabCase.js';
 import { Icon, Nav, RouterLink } from '@triniti/cms/components/index.js';
-import AlertBar from '@triniti/cms/components/screen/AlertBar.jsx';
-import PrimaryActions from '@triniti/cms/components/screen/PrimaryActions.jsx';
+import AlertBar from '@triniti/cms/components/screen/AlertBar.js';
+import PrimaryActions from '@triniti/cms/components/screen/PrimaryActions.js';
 
 let screenBody = null;
 export const scrollToTop = (behavior = 'smooth') => {

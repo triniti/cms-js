@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from '@triniti/cms/components/loading/index.jsx';
+import Loading from '@triniti/cms/components/loading/index.js';
 import useResolver from '@triniti/cms/components/with-pbj/useResolver.js';
 
 export { useResolver };

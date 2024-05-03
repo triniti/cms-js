@@ -1,5 +1,5 @@
 import React from 'react';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.jsx';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import Message from '@gdbots/pbj/Message.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';

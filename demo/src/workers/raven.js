@@ -1,5 +1,5 @@
 import setWebpackPublicPath from './webpackPublicPath.js';
-// import MessageResolver from '../schemas';
+import '../schemas.js';
 import Raven from '@triniti/cms/plugins/raven/services/Raven.js';
 import mqtt from 'mqtt';
 

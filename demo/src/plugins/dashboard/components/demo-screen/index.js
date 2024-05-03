@@ -74,7 +74,7 @@ import {
   withForm,
   withPbj
 } from '@triniti/cms/components/index.js';
-import ModalExample from './Modals.jsx';
+import ModalExample from './Modals.js';
 import './styles.scss';
 import toast from '@triniti/cms/utils/toast.js';
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getInstance } from '@triniti/app/main.jsx';
+import { getInstance } from '@triniti/app/main.js';
 import * as constants from '@triniti/cms/constants.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import noop from 'lodash-es/noop.js';

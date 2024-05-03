@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 // const AssetScreen = lazy(() => import('@triniti/cms/plugins/dam/components/asset-screen'));
 // const CategoryScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/category-screen'));
 // const ChannelScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/channel-screen'));
-const DashboardScreen = lazy(() => import('../plugins/dashboard/components/dashboard-screen'));
+const DashboardScreen = lazy(() => import('../plugins/dashboard/components/dashboard-screen/index.js'));
 const DemoScreen = lazy(() => import('../plugins/dashboard/components/demo-screen'));
 // const FlagsetScreen = lazy(() => import('@triniti/cms/plugins/sys/components/flagset-screen'));
 // const GalleryScreen = lazy(() => import('@triniti/cms/plugins/curator/components/gallery-screen'));
