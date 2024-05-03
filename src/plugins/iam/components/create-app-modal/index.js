@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import SchemaCurie from '@gdbots/pbj/SchemaCurie';
-import useCuries from 'plugins/pbjx/components/useCuries';
+import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import { ActionButton, withPbj } from '@triniti/cms/components/index.js';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import CreateAppForm from 'plugins/iam/components/create-app-modal/CreateAppForm';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import CreateAppForm from '@triniti/cms/plugins/iam/components/create-app-modal/CreateAppForm.js';
 
 // todo: mgollnick to make nice grid or list of icons?
 export default function CreateAppModal(props) {

@@ -8,7 +8,7 @@ export default function FirebaseFields() {
       <CardHeader>Firebase Configuration</CardHeader>
       <CardBody>
         <CardText className="pb-2">
-          These values can be found in the <a href="plugins/iam/components/app-screen/FirebaseFields" rel="noopener noreferrer" target="_blank">Firebase console</a> Settings pane of a project.
+          These values can be found in the <a href="#todo:getcorrectfirebaseurl" rel="noopener noreferrer" target="_blank">Firebase console</a> Settings pane of a project.
         </CardText>
         <TextField name="fcm_project_id" label="Project ID" />
         <TextField

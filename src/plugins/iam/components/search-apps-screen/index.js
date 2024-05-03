@@ -1,14 +1,14 @@
 import React, { lazy } from 'react';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort';
+import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort.js';
 import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import usePolicy from 'plugins/iam/components/usePolicy';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
-const CreateAppModal = lazy(() => import('plugins/iam/components/create-app-modal'));
+const CreateAppModal = lazy(() => import('@triniti/cms/plugins/iam/components/create-app-modal/index.js'));
 
 function SearchAppsScreen(props) {
   const { request } = props;

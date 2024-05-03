@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { ErrorBoundary, Loading, TextField } from '@triniti/cms/components/index.js';
 
@@ -10,7 +10,7 @@ const resolveComponent = (label) => {
   }
 
   const file = startCase(label).replace(/\s/g, '');
-  components[label] = lazy(() => import(`./${file}Fields`));
+  components[label] = lazy(() => import(`@triniti/cms/plugins/iam/components/app-screen/${file}Fields.js`));
   return components[label];
 };
 
