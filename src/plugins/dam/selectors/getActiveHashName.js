@@ -10,7 +10,6 @@ export default createSelector(
       return null;
     }
 
-    /* eslint no-restricted-syntax: off */
     for (const hashName of hashNames) {
       const fileInfo = files[hashName];
       if (fileInfo.active) {

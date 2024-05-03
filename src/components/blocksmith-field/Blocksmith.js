@@ -545,11 +545,9 @@ class Blocksmith extends React.Component {
         // if (!isDirty) {
         //   delegate.handleDirtyEditor();
         // }
-        // /* eslint-disable react/destructuring-assignment */
         // if (!this.state.editorState.getSelection().getHasFocus()) {
         //   delegate.handleStoreEditor(this.state.editorState);
         // }
-        // /* eslint-enable react/destructuring-assignment */
         if (shouldSelectAndStyle) {
           this.selectAndStyleBlock(newBlockKey || activeBlockKey);
         }
@@ -806,7 +804,6 @@ class Blocksmith extends React.Component {
         // if (!isDirty) {
         //   delegate.handleDirtyEditor();
         // }
-        // // eslint-disable-next-line react/destructuring-assignment
         // delegate.handleStoreEditor(this.state.editorState);
       });
     });
@@ -1270,7 +1267,6 @@ class Blocksmith extends React.Component {
         // if (!isDirty) {
         //   delegate.handleDirtyEditor();
         // }
-        // // eslint-disable-next-line react/destructuring-assignment
         // delegate.handleStoreEditor(this.state.editorState);
       });
     });
@@ -1519,7 +1515,7 @@ class Blocksmith extends React.Component {
 
     const blockBounds = selectedBlockNode.getBoundingClientRect();
 
-    const blockButtonsStyle = { ...this.state.blockButtonsStyle }; // eslint-disable-line
+    const blockButtonsStyle = { ...this.state.blockButtonsStyle };
     blockButtonsStyle.top = (blockBounds.top - editorBounds.top) - 10;
     blockButtonsStyle.transform = `scale(${readOnly || isHoverInsertMode ? 0 : 1})`;
 
@@ -1554,11 +1550,9 @@ class Blocksmith extends React.Component {
    */
   removeActiveStyling() {
     const { editorState, isSidebarOpen } = this.state;
-    // eslint-disable-next-line
     const blockButtonsStyle = { ...this.state.blockButtonsStyle };
     blockButtonsStyle.transform = 'scale(0)';
 
-    // eslint-disable-next-line
     const sidebarHolderStyle = { ...this.state.sidebarHolderStyle };
     if (editorState.getCurrentContent().hasText()) {
       if (!isSidebarOpen) {

@@ -1,7 +1,3 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-empty */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import trim from 'lodash-es/trim';
 import { Link } from 'react-router-dom';

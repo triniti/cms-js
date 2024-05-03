@@ -32,7 +32,6 @@ const getReorderedNodes = async (oldIndex, newIndex, nodes) => {
   const reorderedNodes = moveNodeByIndex(oldIndex, newIndex, newNodes);
 
   Object.keys(updatedNodeSequenceNumbers)
-  // eslint-disable-next-line no-loop-func
     .forEach((nodeId) => reorderedNodes.find((node) => node.get('_id').toString() === nodeId)
       .set('gallery_seq', updatedNodeSequenceNumbers[nodeId]));
 

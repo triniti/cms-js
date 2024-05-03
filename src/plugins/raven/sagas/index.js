@@ -106,7 +106,7 @@ function* publishFlow() {
     const action = yield take(channel);
     if (!(yield select(isAuthenticated))) {
       // message is dropped
-      continue; // eslint-disable-line no-continue
+      continue;
     }
 
     const connected = yield select(isConnected);

@@ -90,7 +90,7 @@ export default class NodeChangeWatcher {
         icon: 'warning',
       }).then((result) => {
         if (result.value) {
-          window.location.reload(); // eslint-disable-line
+          window.location.reload();
         }
       });
     }

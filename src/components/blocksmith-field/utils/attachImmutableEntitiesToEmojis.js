@@ -7,7 +7,7 @@ import applyToBlockText from '@triniti/cms/components/blocksmith-field/utils/app
 let emojiRegex = /$^/; // matches nothing (just so tests dont die)
 // tape does not understand the module resolver, regular import breaks all tests
 // todo: fix this nonsense
-// import('config/emojis').then(({ entityEmojis }) => { // eslint-disable-line import/no-unresolved
+// import('config/emojis').then(({ entityEmojis }) => {
 //   emojiRegex = new RegExp(`((${Object.values(entityEmojis).join(')|(')}))`, 'g');
 // });
 

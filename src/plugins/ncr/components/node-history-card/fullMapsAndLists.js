@@ -11,7 +11,6 @@ import isPlainObject from 'lodash-es/isPlainObject';
  */
 export default (newNode, origNode) => {
   const newerNode = { ...newNode };
-  /* eslint no-restricted-syntax: off */
   for (const [key, value] of Object.entries(newerNode)) {
     if (Array.isArray(value) || isPlainObject(value)) {
       newerNode[key] = origNode[key];

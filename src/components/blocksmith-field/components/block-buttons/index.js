@@ -25,7 +25,7 @@ export default class BlockButtons extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps({ resetFlag }) {
-    if (this.state.resetFlag !== resetFlag) { // eslint-disable-line react/destructuring-assignment
+    if (this.state.resetFlag !== resetFlag) {
       const { timeoutId } = this.state;
       clearTimeout(timeoutId);
       this.setState({

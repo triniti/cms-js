@@ -84,7 +84,6 @@ function NodeHistoryCard(props) {
     //   updatedNode.addToList(id, value ? Array.from(value) : []);
     // }
     // if (field.isAMap()) {
-    //   /* eslint-disable no-restricted-syntax */
     //   for (const [k, v] of Object.entries(value)) {
     //     updatedNode.addToMap(id, k, v);
     //   }

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
 const loadTwitterSDK = () => {
-  /* eslint-disable */
   window.twttr = (function(d, s, id) {
     let js, fjs = d.getElementsByTagName(s)[0],
       t = window.twttr || {};
@@ -18,11 +17,10 @@ const loadTwitterSDK = () => {
 
     return t;
   }(document, 'script', 'twitter-wjs'));
-  /* eslint-enable */
 };
 
 export default function TwitterTweetPreview ({ hideMedia, hideThread, tweetId }) {
-  
+
   useEffect(() => loadTwitterSDK(), [tweetId]);
   const twitterPreview = useRef();
 

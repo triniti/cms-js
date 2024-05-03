@@ -41,7 +41,6 @@ export default (props) => {
   //       || prevProps.block.get('playlist_id') !== block.get('playlist_id')
   //     )
   //   ) {
-  //     // eslint-disable-next-line react/no-did-update-set-state
   //     this.setState(() => ({ showVideo: false }));
   //   } else if (!prevProps.block.get('autoplay') && block.get('autoplay')) {
   //     this.handlePlay();

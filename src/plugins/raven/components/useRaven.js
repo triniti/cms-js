@@ -94,7 +94,6 @@ export default ({ editMode, node, nodeRef }) => {
 
 
   // Leave Collaboration On UnLoad
-  /* eslint-disable no-param-reassign */
   leaveCollaborationOnUnload = (event) => {
     // don't desctructure isPristine so it uses latest value, required for Chrome prompt
     // if (this.component.props.isPristine) {

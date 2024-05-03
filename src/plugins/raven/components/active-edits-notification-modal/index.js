@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';

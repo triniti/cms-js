@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable-next-line max-len */
 const getAutoCorrectedNodeSequenceNumber = (currentSequence, currentIndex, nodes, direction, correctedNodeSequence = {}) => {
   const nextIndex = (direction === 'reverse') ? currentIndex - 1 : currentIndex + 1;
   const nextNode = nodes[nextIndex];

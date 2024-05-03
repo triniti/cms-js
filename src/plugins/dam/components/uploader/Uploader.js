@@ -94,7 +94,6 @@ const processFiles = (files, galleryRef, lastGallerySequence, variant) => {
       const gallerySequence = galleryRef
         ? lastGallerySequence + (files.length - index) * incrementValues.ADD_GALLERY_ASSET_INCREMENT
         : 0;
-      /* eslint no-param-reassign: off */
       accumulator[hashName] = {
         uuidName,
         file,
@@ -119,7 +118,6 @@ const getActiveHashName = files => {
     return null;
   }
 
-  /* eslint no-restricted-syntax: off */
   for (const hashName of hashNames) {
     const fileInfo = files[hashName];
     if (fileInfo.active) {
@@ -304,7 +302,6 @@ const Uploader = ({
       if (hashes.length > 1) {
         let useNext = false;
         newActiveMap = hashes.reduce((accumulator, currHashName) => {
-          /* eslint no-param-reassign: off */
           // Set next file as active and don't add anything to accumulator
           if (currHashName === hashName) {
             useNext = true;
