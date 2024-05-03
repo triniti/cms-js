@@ -1,14 +1,14 @@
 import React, { lazy } from 'react';
 import { Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchRolesSort from '@gdbots/schemas/gdbots/iam/enums/SearchRolesSort';
+import SearchRolesSort from '@gdbots/schemas/gdbots/iam/enums/SearchRolesSort.js';
 import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import usePolicy from 'plugins/iam/components/usePolicy';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
-const CreateRoleModal = lazy(() => import('plugins/iam/components/create-role-modal'));
+const CreateRoleModal = lazy(() => import('@triniti/cms/plugins/iam/components/create-role-modal/index.js'));
 
 function SearchRolesScreen(props) {
   const { request } = props;

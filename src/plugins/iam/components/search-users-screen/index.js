@@ -1,17 +1,17 @@
 import React, { lazy } from 'react';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchUsersSort from '@gdbots/schemas/gdbots/iam/enums/SearchUsersSort';
+import SearchUsersSort from '@gdbots/schemas/gdbots/iam/enums/SearchUsersSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
-import { scrollToTop } from 'components/screen';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import SearchForm from 'plugins/iam/components/search-users-screen/SearchForm';
+import { scrollToTop } from '@triniti/cms/components/screen/index.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import SearchForm from '@triniti/cms/plugins/iam/components/search-users-screen/SearchForm.js';
 
-const CreateUserModal = lazy(() => import('plugins/iam/components/create-user-modal'));
+const CreateUserModal = lazy(() => import('@triniti/cms/plugins/iam/components/create-user-modal/index.js'));
 
 function SearchUsersScreen(props) {
   const { request, delegate } = props;

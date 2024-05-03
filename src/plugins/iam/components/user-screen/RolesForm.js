@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Card, CardBody, CardHeader, Col, Label, ListGroup, ListGroupItem, Row } from 'reactstrap';
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from 'lodash-es/isEmpty.js';
 import { useDispatch } from 'react-redux';
-import withRequest from 'plugins/pbjx/components/with-request';
-import useRequest from 'plugins/pbjx/components/useRequest';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { ActionButton, Loading } from '@triniti/cms/components/index.js';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import grantRolesToUser from 'plugins/iam/actions/grantRolesToUser';
-import revokeRolesFromUser from 'plugins/iam/actions/revokeRolesFromUser';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import grantRolesToUser from '@triniti/cms/plugins/iam/actions/grantRolesToUser.js';
+import revokeRolesFromUser from '@triniti/cms/plugins/iam/actions/revokeRolesFromUser.js';
 
 function RolesForm(props) {
   const { node, nodeRef, request, refreshNode } = props;

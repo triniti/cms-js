@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import * as constants from 'constants';
-import getNode from 'plugins/ncr/selectors/getNode';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import * as constants from '@triniti/cms/constants.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 import { getInstance } from '@triniti/app/main.js';
 import noop from 'lodash-es/noop.js';
 

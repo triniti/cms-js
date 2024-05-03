@@ -1,18 +1,18 @@
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { useDispatch } from 'react-redux';
 //import { useBlocker } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import Swal from 'sweetalert2';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import clearAlerts from 'actions/clearAlerts';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import deleteNode from 'plugins/ncr/actions/deleteNode';
-import updateNode from 'plugins/ncr/actions/updateNode';
-import publishNode from 'plugins/ncr/actions/publishNode';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import clearAlerts from '@triniti/cms/actions/clearAlerts.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
+import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
+import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 
 const useBlocker = func => () => func();
 

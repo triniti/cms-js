@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export default (nodeRef, publishAt = null) => async (dispatch, getState, app) => {
   const PublishNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:publish-node:v1');

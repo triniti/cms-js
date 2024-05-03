@@ -1,8 +1,7 @@
 import React from 'react';
 import { Card, Table } from 'reactstrap';
-import Message from '@gdbots/pbj/Message';
 import './styles.scss';
-import TableRow from './TableRow';
+import TableRow from './TableRow.js';
 
 const RevertPropertiesTable = ({
   data,

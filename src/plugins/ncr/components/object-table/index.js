@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'reactstrap';
-import TableRow from './TableRow';
+import TableRow from './TableRow.js';
 
 const ObjectTable = ({ data }) => (
   <Table borderless size="sm" className="mb-0 table--object-table">

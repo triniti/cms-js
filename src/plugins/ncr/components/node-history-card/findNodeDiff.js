@@ -1,6 +1,6 @@
-import transform from 'lodash-es/transform';
-import isEqual from 'lodash-es/isEqual';
-import isObject from 'lodash-es/isObject';
+import transform from 'lodash-es/transform.js';
+import isEqual from 'lodash-es/isEqual.js';
+import isObject from 'lodash-es/isObject.js';
 
 /**
  * @param {Object} targetObject

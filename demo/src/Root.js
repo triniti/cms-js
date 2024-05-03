@@ -9,7 +9,6 @@ import AppRoutes from './config/Routes.js';
 
 const LoggedIn = () => {
   const user = useSelector(getUser);
-  console.log('user', user);
   if (!user) {
     return <Loading />;
   }

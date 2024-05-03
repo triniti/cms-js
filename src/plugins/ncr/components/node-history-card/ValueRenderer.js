@@ -1,8 +1,8 @@
 import React from 'react';
-import trim from 'lodash-es/trim';
+import trim from 'lodash-es/trim.js';
 import { Table } from 'reactstrap';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { expand } from '@gdbots/pbjx/pbjUrl';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import { expand } from '@gdbots/pbjx/pbjUrl.js';
 
 const URL_REGEX = /^(https?:\/\/[^\s]+)$/;
 const NODEREF_REGEX = /^[\w\/\.:-][^0-9]+$/;

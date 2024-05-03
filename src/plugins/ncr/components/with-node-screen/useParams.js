@@ -1,6 +1,6 @@
 import { useLocation, useParams } from 'react-router-dom';
-import kebabCase from 'lodash-es/kebabCase';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
+import kebabCase from 'lodash-es/kebabCase.js';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 
 export default (props, config) => {
   const { pathname } = useLocation();

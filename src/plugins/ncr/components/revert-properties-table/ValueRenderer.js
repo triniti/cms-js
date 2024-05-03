@@ -1,9 +1,9 @@
 import React from 'react';
-import trim from 'lodash-es/trim';
+import trim from 'lodash-es/trim.js';
 import { Link } from 'react-router-dom';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import { expand } from '@gdbots/pbjx/pbjUrl';
-import ObjectTable from '../object-table';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import { expand } from '@gdbots/pbjx/pbjUrl.js';
+import ObjectTable from '../object-table/index.js';
 
 const URL_REGEX = /^(https?:\/\/[^\s]+)$/;
 const NODEREF_REGEX = /^[\w\/\.:-]+$/;

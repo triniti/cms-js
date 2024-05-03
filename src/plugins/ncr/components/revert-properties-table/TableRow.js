@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input } from 'reactstrap';
-import Message from '@gdbots/pbj/Message.js';
-import ValueRenderer from './ValueRenderer';
+import ValueRenderer from './ValueRenderer.js';
 
 const TableRow = ({
   node,

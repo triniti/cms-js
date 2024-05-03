@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import kebabCase from 'lodash-es/kebabCase';
-import startCase from 'lodash-es/startCase';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import kebabCase from 'lodash-es/kebabCase.js';
+import startCase from 'lodash-es/startCase.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import {
   Button,
   Col,
@@ -13,15 +13,15 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import markNodeAsDraft from 'plugins/ncr/actions/markNodeAsDraft';
-import markNodeAsPending from 'plugins/ncr/actions/markNodeAsPending';
-import publishNode from 'plugins/ncr/actions/publishNode';
-import unpublishNode from 'plugins/ncr/actions/unpublishNode';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import markNodeAsDraft from '@triniti/cms/plugins/ncr/actions/markNodeAsDraft.js';
+import markNodeAsPending from '@triniti/cms/plugins/ncr/actions/markNodeAsPending.js';
+import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
+import unpublishNode from '@triniti/cms/plugins/ncr/actions/unpublishNode.js';
 import noop from 'lodash-es/noop.js';
 
 const actions = {

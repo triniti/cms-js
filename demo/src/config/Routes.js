@@ -20,7 +20,7 @@ const LogoutScreen = lazy(() => import('@triniti/cms/plugins/iam/components/logo
 // const PicklistScreen = lazy(() => import('@triniti/cms/plugins/sys/components/picklist-screen/index.js'));
 // const PromotionScreen = lazy(() => import('@triniti/cms/plugins/curator/components/promotion-screen/index.js'));
 // const RedirectScreen = lazy(() => import('@triniti/cms/plugins/sys/components/redirect-screen/index.js'));
-// const RoleScreen = lazy(() => import('@triniti/cms/plugins/iam/components/role-screen/index.js'));
+const RoleScreen = lazy(() => import('@triniti/cms/plugins/iam/components/role-screen/index.js'));
 // const SearchAppsScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-apps-screen/index.js'));
 // const SearchArticlesScreen = lazy(() => import('@triniti/cms/plugins/news/components/search-articles-screen/index.js'));
 // const SearchAssetsScreen = lazy(() => import('@triniti/cms/plugins/dam/components/search-assets-screen/index.js'));
@@ -35,17 +35,17 @@ const LogoutScreen = lazy(() => import('@triniti/cms/plugins/iam/components/logo
 // const SearchPicklistsScreen = lazy(() => import('@triniti/cms/plugins/sys/components/search-picklists-screen/index.js'));
 // const SearchPromotionsScreen = lazy(() => import('@triniti/cms/plugins/curator/components/search-promotions-screen/index.js'));
 // const SearchRedirectsScreen = lazy(() => import('@triniti/cms/plugins/sys/components/search-redirects-screen/index.js'));
-// const SearchRolesScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-roles-screen/index.js'));
+const SearchRolesScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-roles-screen/index.js'));
 // const SearchSponsorsScreen = lazy(() => import('@triniti/cms/plugins/boost/components/search-sponsors-screen/index.js'));
 // const SearchTeasersScreen = lazy(() => import('@triniti/cms/plugins/curator/components/search-teasers-screen/index.js'));
 // const SearchTimelinesScreen = lazy(() => import('@triniti/cms/plugins/curator/components/search-timelines-screen/index.js'));
-// const SearchUsersScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-users-screen/index.js'));
+const SearchUsersScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-users-screen/index.js'));
 // const SearchVideosScreen = lazy(() => import('@triniti/cms/plugins/ovp/components/search-videos-screen/index.js'));
 // const SearchWidgetsScreen = lazy(() => import('@triniti/cms/plugins/curator/components/search-widgets-screen/index.js'));
 // const SponsorScreen = lazy(() => import('@triniti/cms/plugins/boost/components/sponsor-screen/index.js'));
 // const TeaserScreen = lazy(() => import('@triniti/cms/plugins/curator/components/teaser-screen/index.js'));
 // const TimelineScreen = lazy(() => import('@triniti/cms/plugins/curator/components/timeline-screen/index.js'));
-// const UserScreen = lazy(() => import('@triniti/cms/plugins/iam/components/user-screen/index.js'));
+const UserScreen = lazy(() => import('@triniti/cms/plugins/iam/components/user-screen/index.js'));
 // const VideoScreen = lazy(() => import('@triniti/cms/plugins/ovp/components/video-screen/index.js'));
 // const WidgetScreen = lazy(() => import('@triniti/cms/plugins/curator/components/widget-screen/index.js'));
 
@@ -64,8 +64,8 @@ export default () => (
     {/*<Route path="/dam/assets" element={<SearchAssetsScreen />} />*/}
     <Route path="/demo" element={<DemoScreen />} />
     {/*<Route path="/iam/apps" element={<SearchAppsScreen />} />*/}
-    {/*<Route path="/iam/roles" element={<SearchRolesScreen />} />*/}
-    {/*<Route path="/iam/users" element={<SearchUsersScreen />} />*/}
+    <Route path="/iam/roles" element={<SearchRolesScreen />} />
+    <Route path="/iam/users" element={<SearchUsersScreen />} />
     <Route path="/login" element={<LoginScreen />} />
     <Route path="/logout" element={<LogoutScreen />} />
     {/*<Route path="/ncr/ad-widget/:id/*" element={<WidgetScreen label="ad-widget" />} />*/}
@@ -115,7 +115,7 @@ export default () => (
     {/*<Route path="/ncr/poll-teaser/:id/*" element={<TeaserScreen label="poll-teaser" />} />*/}
     {/*<Route path="/ncr/promotion/:id/*" element={<PromotionScreen />} />*/}
     {/*<Route path="/ncr/redirect/:id/*" element={<RedirectScreen />} />*/}
-    {/*<Route path="/ncr/role/:id/*" element={<RoleScreen />} />*/}
+    <Route path="/ncr/role/:id/*" element={<RoleScreen />} />
     {/*<Route path="/ncr/showtimes-widget/:id/*" element={<WidgetScreen label="showtimes-widget" />} />*/}
     {/*<Route path="/ncr/slack-app/:id/*" element={<AppScreen label="slack-app" />} />*/}
     {/*<Route path="/ncr/slack-notification/:id/*" element={<NotificationScreen label="slack-notification" />} />*/}
@@ -131,7 +131,7 @@ export default () => (
     {/*<Route path="/ncr/twitter-app/:id/*" element={<AppScreen label="twitter-app" />} />*/}
     {/*<Route path="/ncr/twitter-notification/:id/*" element={<NotificationScreen label="twitter-notification" />} />*/}
     {/*<Route path="/ncr/unknown-asset/:id/*" element={<AssetScreen label="unknown-asset" />} />*/}
-    {/*<Route path="/ncr/user/:id/*" element={<UserScreen />} />*/}
+    <Route path="/ncr/user/:id/*" element={<UserScreen />} />
     {/*<Route path="/ncr/video/:id/*" element={<VideoScreen />} />*/}
     {/*<Route path="/ncr/video-asset/:id/*" element={<AssetScreen label="video-asset" />} />*/}
     {/*<Route path="/ncr/video-teaser/:id/*" element={<TeaserScreen label="video-teaser" />} />*/}

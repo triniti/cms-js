@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash-es/isPlainObject';
+import isPlainObject from 'lodash-es/isPlainObject.js';
 
 /**
  * Removes "[removed]" entries from nodes changeset.
