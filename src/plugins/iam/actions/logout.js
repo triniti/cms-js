@@ -11,6 +11,7 @@ export default () => (dispatch) => {
   }
   sessionStorage.setItem(auth0SessionKey, JSON.stringify(auth0Token));
 
+  sessionStorage.removeItem(serviceIds.AUTH0_RETURN_TO);
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
   dispatch({ type: actionTypes.LOGOUT_COMPLETED });
 };
