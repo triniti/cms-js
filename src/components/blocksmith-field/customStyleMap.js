@@ -1,4 +1,4 @@
-import { inlineStyleTypes } from 'components/blocksmith-field/constants';
+import { inlineStyleTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
 
 /**
  * Defines custom style types.

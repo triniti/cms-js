@@ -6,7 +6,6 @@ export default function loadFacebookSDK() {
     body.parentNode.insertBefore(fbRoot, body);
   }
 
-  /* eslint-disable */
   (function(d, s, id) {
     let js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
@@ -14,5 +13,4 @@ export default function loadFacebookSDK() {
     js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-  /* eslint-enable */
 };

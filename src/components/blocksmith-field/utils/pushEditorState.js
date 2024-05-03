@@ -1,5 +1,5 @@
 import { EditorState } from 'draft-js';
-import validateBlocks from 'components/blocksmith-field/utils/validateBlocks';
+import validateBlocks from '@triniti/cms/components/blocksmith-field/utils/validateBlocks.js';
 
 /**
  * Enforce/detect validity of incoming EditorState with this util. Only necessary when the

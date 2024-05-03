@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { TextareaField, SelectField, UrlField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import Preview from 'components/blocksmith-field/components/heading-block-modal/Preview';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import Preview from '@triniti/cms/components/blocksmith-field/components/heading-block-modal/Preview';
 
 const sizeOptions = [
   { label: 'h1', value: 1 },

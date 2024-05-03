@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import loadFacebookSDK from 'components/blocksmith-field/utils/loadFacebookSDK';
+import loadFacebookSDK from '@triniti/cms/components/blocksmith-field/utils/loadFacebookSDK';
 
 export default function Preview ({ formState }) {
-  
+
   const { href, show_text: showText, width } = formState.values;
   const fbPost = useRef();
 

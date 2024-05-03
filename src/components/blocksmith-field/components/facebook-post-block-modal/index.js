@@ -2,9 +2,9 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
 import isValidUrl from '@gdbots/pbj/utils/isValidUrl';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import Preview from 'components/blocksmith-field/components/facebook-post-block-modal/Preview';
-import MoreInfo from 'components/blocksmith-field/components/more-info';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import Preview from '@triniti/cms/components/blocksmith-field/components/facebook-post-block-modal/Preview';
+import MoreInfo from '@triniti/cms/components/blocksmith-field/components/more-info';
 
 // supports list of valid Post Urls - https://developers.facebook.com/docs/plugins/oembed
 const getFacebookPostUrl = (str) => {

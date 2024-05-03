@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalHeader } from 'reactstrap';
-import Stepper from 'components/blocksmith-field/components/stepper';
+import Stepper from '@triniti/cms/components/blocksmith-field/components/stepper';
 
 const Header = ({
   activeStep,

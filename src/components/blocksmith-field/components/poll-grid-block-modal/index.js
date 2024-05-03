@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { SwitchField } from 'components';
 import { ScrollableContainer } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
 
 const PollGridBlockModal = () =>  (
   <ModalBody className="p-0">

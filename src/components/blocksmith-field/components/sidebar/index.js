@@ -12,11 +12,11 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import Icon from 'components/icon';
-import { blockParentNode } from 'components/blocksmith-field/utils';
-import { getButtonConfig } from 'components/blocksmith-field/buttonConfig';
-import sidebarSections, { vendorButtonTypes } from 'components/blocksmith-field/components/sidebar/config';
+import { blockParentNode } from '@triniti/cms/components/blocksmith-field/utils';
+import { getButtonConfig } from '@triniti/cms/components/blocksmith-field/buttonConfig';
+import sidebarSections, { vendorButtonTypes } from '@triniti/cms/components/blocksmith-field/components/sidebar/config';
 
-const GenericSidebarButton = lazy(() => import('components/blocksmith-field/components/generic-sidebar-button'));
+const GenericSidebarButton = lazy(() => import('@triniti/cms/components/blocksmith-field/components/generic-sidebar-button'));
 
 export default function Sidebar({
   onHoverInsert: handleHoverInsert,
@@ -82,7 +82,7 @@ export default function Sidebar({
         if (!currentlySupported.includes(message)) {
           return acc;
         }
-  
+
         const buttonConfig = getButtonConfig(message);
         acc.push({
           Button: () => <GenericSidebarButton

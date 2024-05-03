@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import Preview from './Preview';
 

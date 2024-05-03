@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Footer from 'components/blocksmith-field/components/article-block-modal/Footer';
-import Header from 'components/blocksmith-field/components/article-block-modal/Header';
-import SelectArticle from 'components/blocksmith-field/components/article-block-modal/SelectArticle';
+import Footer from '@triniti/cms/components/blocksmith-field/components/article-block-modal/Footer';
+import Header from '@triniti/cms/components/blocksmith-field/components/article-block-modal/Header';
+import SelectArticle from '@triniti/cms/components/blocksmith-field/components/article-block-modal/SelectArticle';
 import { SwitchField, TextField } from 'components';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import useNode from 'plugins/ncr/components/useNode';

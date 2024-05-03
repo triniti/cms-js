@@ -1,6 +1,6 @@
 import { ContentState, EditorState } from 'draft-js';
-import convertToCanvasBlocks from 'components/blocksmith-field/utils/convertToCanvasBlocks';
-import convertToEditorState from 'components/blocksmith-field/utils/convertToEditorState';
+import convertToCanvasBlocks from '@triniti/cms/components/blocksmith-field/utils/convertToCanvasBlocks.js';
+import convertToEditorState from '@triniti/cms/components/blocksmith-field/utils/convertToEditorState.js';
 
 /**
  * @param {EditorState} editorState

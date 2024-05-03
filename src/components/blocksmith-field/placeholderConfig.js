@@ -1,7 +1,7 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import { localize } from 'plugins/utils/services/Localization';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import { localize } from '@triniti/cms/plugins/utils/services/Localization.js';
 import siteLogo from '@triniti/app/assets/img/svg/icon/site-logo.svg';
-import GenericBlockPreviewComponent from 'components/blocksmith-field/components/generic-block-placeholder-preview';
+import GenericBlockPreviewComponent from '@triniti/cms/components/blocksmith-field/components/generic-block-placeholder-preview/index.js';
 
 const vendor = localize(MessageResolver.getDefaultVendor());
 

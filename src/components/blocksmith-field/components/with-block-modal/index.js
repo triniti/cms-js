@@ -2,7 +2,7 @@ import React from 'react';
 import startCase from 'lodash-es/startCase';
 import { Form, Modal, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, FormErrors, withForm } from 'components';
-import useDelegate from 'components/blocksmith-field/components/with-block-modal/useDelegate';
+import useDelegate from '@triniti/cms/components/blocksmith-field/components/with-block-modal/useDelegate';
 
 export default function withBlockModal(ModalBody, blockModalConfig = {}) {
   return withForm(function BlockModal(props) {

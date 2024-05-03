@@ -1,6 +1,5 @@
-/* eslint-disable import/no-useless-path-segments */
-import { handleDocumentDragover, handleDocumentDrop } from 'components/blocksmith-field/utils/index';
-import { clearDragCache } from 'components/blocksmith-field/utils/styleDragTarget';
+import { handleDocumentDragover, handleDocumentDrop } from '@triniti/cms/components/blocksmith-field/utils/index.js';
+import { clearDragCache } from '@triniti/cms/components/blocksmith-field/utils/styleDragTarget.js';
 
 /**
  * Cleans up editor/drag n drop state when a block is dropped outside of the editor. Included

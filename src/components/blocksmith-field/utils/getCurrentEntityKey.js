@@ -1,4 +1,4 @@
-import getBlockForKey from 'components/blocksmith-field/utils/getBlockForKey';
+import getBlockForKey from '@triniti/cms/components/blocksmith-field/utils/getBlockForKey.js';
 
 /**
  * Gets the entity key for the current selection.

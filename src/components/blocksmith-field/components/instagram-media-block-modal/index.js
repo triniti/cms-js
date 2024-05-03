@@ -1,8 +1,8 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import Preview from 'components/blocksmith-field/components/instagram-media-block-modal/Preview';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import Preview from '@triniti/cms/components/blocksmith-field/components/instagram-media-block-modal/Preview';
 
 const getInstagramMediaId = (str) => {
   const regex = RegExp('https://www.instagram.com/(p|tv|reel)/[a-zA-Z0-9-_]+', 'g');

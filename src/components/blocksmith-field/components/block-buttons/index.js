@@ -1,13 +1,13 @@
-import SpecialCharacterButton from 'components/blocksmith-field/components/special-character-button';
+import SpecialCharacterButton from '@triniti/cms/components/blocksmith-field/components/special-character-button';
 import classNames from 'classnames';
-import CopyButton from 'components/blocksmith-field/components/copy-block-button';
-import DeleteButton from 'components/blocksmith-field/components/delete-block-button';
-import EditButton from 'components/blocksmith-field/components/edit-block-button';
-import PasteButton from 'components/blocksmith-field/components/paste-block-button';
+import CopyButton from '@triniti/cms/components/blocksmith-field/components/copy-block-button';
+import DeleteButton from '@triniti/cms/components/blocksmith-field/components/delete-block-button';
+import EditButton from '@triniti/cms/components/blocksmith-field/components/edit-block-button';
+import PasteButton from '@triniti/cms/components/blocksmith-field/components/paste-block-button';
 import React from 'react';
-import ReorderButtons from 'components/blocksmith-field/components/reorder-block-buttons';
-import { blockTypes } from 'components/blocksmith-field/constants';
-import { getBlockForKey, isBlockEmpty } from 'components/blocksmith-field/utils';
+import ReorderButtons from '@triniti/cms/components/blocksmith-field/components/reorder-block-buttons';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants';
+import { getBlockForKey, isBlockEmpty } from '@triniti/cms/components/blocksmith-field/utils';
 
 export default class BlockButtons extends React.Component {
   constructor(props) {

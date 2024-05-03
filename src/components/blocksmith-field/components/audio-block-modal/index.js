@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Footer from 'components/blocksmith-field/components/audio-block-modal/Footer';
-import Header from 'components/blocksmith-field/components/audio-block-modal/Header';
-import CustomizeOptions from 'components/blocksmith-field/components/audio-block-modal/CustomizeOptions';
-import SelectAudio from 'components/blocksmith-field/components/audio-block-modal/SelectAudio';
+import Footer from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/Footer';
+import Header from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/Header';
+import CustomizeOptions from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/CustomizeOptions';
+import SelectAudio from '@triniti/cms/components/blocksmith-field/components/audio-block-modal/SelectAudio';
 import useNode from 'plugins/ncr/components/useNode';
 import noop from 'lodash-es/noop';
 

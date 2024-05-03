@@ -7,9 +7,9 @@ import {
   genKey,
 } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes, inlineStyleTypes, tokens } from 'components/blocksmith-field/constants';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
-import attachImmutableEntitiesToEmojis from 'components/blocksmith-field/utils/attachImmutableEntitiesToEmojis';
+import { blockTypes, inlineStyleTypes, tokens } from '@triniti/cms/components/blocksmith-field/constants.js';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList.js';
+import attachImmutableEntitiesToEmojis from '@triniti/cms/components/blocksmith-field/utils/attachImmutableEntitiesToEmojis.js';
 
 // pushed onto in various ways, then used to create the final ContentState
 const masterContentBlocks = [];

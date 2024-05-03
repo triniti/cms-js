@@ -1,9 +1,9 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from 'components';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import Preview from 'components/blocksmith-field/components/facebook-video-block-modal/Preview';
-import MoreInfo from 'components/blocksmith-field/components/more-info';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import Preview from '@triniti/cms/components/blocksmith-field/components/facebook-video-block-modal/Preview';
+import MoreInfo from '@triniti/cms/components/blocksmith-field/components/more-info';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 
 const FB_VIDEO_REGEX = new RegExp('(?:(?:https?:)?\\/\\/)?(?:www\\.)?facebook\\.com\\/[a-zA-Z0-9\\.]+\\/videos\\/(?:[a-z0-9\\.]+\\/)?([0-9]+)\\/?(?:\\?.*)?');

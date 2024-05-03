@@ -1,6 +1,6 @@
-import isArray from 'lodash-es/isArray';
-import lowerCase from 'lodash-es/lowerCase';
-import startCase from 'lodash-es/startCase';
+import isArray from 'lodash-es/isArray.js';
+import lowerCase from 'lodash-es/lowerCase.js';
+import startCase from 'lodash-es/startCase.js';
 
 /**
  * Convert a triniti Enum object to a human readable format

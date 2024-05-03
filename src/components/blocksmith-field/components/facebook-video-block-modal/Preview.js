@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Media } from 'reactstrap';
 import { BackgroundImage } from 'components';
 import damUrl from 'plugins/dam/damUrl';
-import loadFacebookSDK from 'components/blocksmith-field/utils/loadFacebookSDK';
+import loadFacebookSDK from '@triniti/cms/components/blocksmith-field/utils/loadFacebookSDK';
 import './Preview.scss';
 
 export default function Preview(props) {
@@ -24,7 +24,7 @@ export default function Preview(props) {
   }, 0);
 
   const height = width / (16 / 9);
-  
+
   return (
     <div
       className={classNames('block-preview-facebook-video')}

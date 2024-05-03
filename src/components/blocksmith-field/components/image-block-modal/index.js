@@ -7,8 +7,8 @@ import {
 import { TextField, ScrollableContainer, SelectField, SwitchField } from 'components';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import withBlockModal from 'components/blocksmith-field/components/with-block-modal';
-import humanizeEnums from 'components/blocksmith-field/utils/humanizeEnums';
+import withBlockModal from '@triniti/cms/components/blocksmith-field/components/with-block-modal';
+import humanizeEnums from '@triniti/cms/components/blocksmith-field/utils/humanizeEnums';
 import PicklistField from 'plugins/sys/components/picklist-field';
 
 const aspectRatioOptions = humanizeEnums(AspectRatio, {
@@ -27,14 +27,14 @@ const ImageBlockModal = ({
 }) => {
   const [ hasCaption, setHasCaption ] = useState(block.has('caption'));
   const [ isLink, setIsLink ] = useState(block.has('url'));
-  
+
   const imageRef = block.has('node_ref') ? `${block.get('node_ref')}` : null;
 
   const handleUploadedImage = (nodes) => {
     if (!nodes.length) {
       return;
-    } 
-    
+    }
+
     form.change('node_ref', NodeRef.fromNode(nodes[0]));
   }
 

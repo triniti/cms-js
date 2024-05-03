@@ -1,5 +1,5 @@
 import { ContentBlock } from 'draft-js';
-import getBlockForKey from 'components/blocksmith-field/utils/getBlockForKey';
+import getBlockForKey from '@triniti/cms/components/blocksmith-field/utils/getBlockForKey.js';
 
 /**
  * Internal util for resolving various block identifiers to actual ContentBlocks

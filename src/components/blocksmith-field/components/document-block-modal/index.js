@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import Footer from 'components/blocksmith-field/components/document-block-modal/Footer';
-import Header from 'components/blocksmith-field/components/document-block-modal/Header';
-import CustomizeOptions from 'components/blocksmith-field/components/document-block-modal/CustomizeOptions';
-import SelectAudio from 'components/blocksmith-field/components/document-block-modal/SelectDocument';
+import Footer from '@triniti/cms/components/blocksmith-field/components/document-block-modal/Footer';
+import Header from '@triniti/cms/components/blocksmith-field/components/document-block-modal/Header';
+import CustomizeOptions from '@triniti/cms/components/blocksmith-field/components/document-block-modal/CustomizeOptions';
+import SelectAudio from '@triniti/cms/components/blocksmith-field/components/document-block-modal/SelectDocument';
 
 export default function DocumentBlockModal(props) {
   const { block, isFreshBlock, isOpen, node, onAddBlock: handleAddBlock, onEditBlock: handleEditBlock, toggle } = props;

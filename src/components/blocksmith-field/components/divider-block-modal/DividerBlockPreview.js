@@ -1,5 +1,5 @@
 import React from 'react';
-import 'components/blocksmith-field/components/divider-block-modal/DividerBlockPreview.scss';
+import '@triniti/cms/components/blocksmith-field/components/divider-block-modal/DividerBlockPreview.scss';
 
 const DividerBlockPreview = (props) => {
   const { formState } = props;

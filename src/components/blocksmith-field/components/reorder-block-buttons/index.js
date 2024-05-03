@@ -5,8 +5,8 @@ import { Button } from 'reactstrap';
 import Icon from 'components/icon';
 import UncontrolledTooltip from 'components/uncontrolled-tooltip';
 
-import { handleDragEnd, handleDragStart } from 'components/blocksmith-field/utils';
-import constants from 'components/blocksmith-field/constants';
+import { handleDragEnd, handleDragStart } from '@triniti/cms/components/blocksmith-field/utils';
+import constants from '@triniti/cms/components/blocksmith-field/constants';
 
 export default function ReorderButtons({
   activeBlockKey,

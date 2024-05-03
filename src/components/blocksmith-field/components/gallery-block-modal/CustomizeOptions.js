@@ -1,5 +1,5 @@
 import React from 'react';
-import humanizeEnums from 'components/blocksmith-field/utils/humanizeEnums';
+import humanizeEnums from '@triniti/cms/components/blocksmith-field/utils/humanizeEnums';
 import ImagePickerField from 'plugins/dam/components/image-picker-field';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef';
 import ReactSelect from 'react-select';
@@ -36,8 +36,8 @@ const CustomizeOptions = ({
   const handleUploadedImage = (nodes) => {
     if (!nodes.length) {
       return;
-    } 
-    
+    }
+
     handleSelectImage(NodeRef.fromNode(nodes[0]));
   }
 
