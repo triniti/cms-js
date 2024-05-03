@@ -1,19 +1,19 @@
 import React, { lazy } from 'react';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchCategoriesSort from '@triniti/schemas/triniti/taxonomy/enums/SearchCategoriesSort';
+import SearchCategoriesSort from '@triniti/schemas/triniti/taxonomy/enums/SearchCategoriesSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
-import { scrollToTop } from 'components/screen';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import SearchForm from 'plugins/taxonomy/components/search-categories-screen/SearchForm';
-import Collaborators from 'plugins/raven/components/collaborators';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import { scrollToTop } from '@triniti/cms/components/screen/index.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import SearchForm from '@triniti/cms/plugins/taxonomy/components/search-categories-screen/SearchForm.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
-const CreateCategoryModal = lazy(() => import('plugins/taxonomy/components/create-category-modal'));
+const CreateCategoryModal = lazy(() => import('@triniti/cms/plugins/taxonomy/components/create-category-modal/index.js'));
 
 function SearchCategoriesScreen(props) {
   const { request, delegate } = props;

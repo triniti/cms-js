@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, CardBody, CardHeader, Label } from 'reactstrap';
 import { Icon } from '@triniti/cms/components/index.js';
-import { ActionButton } from 'components/index';
+import { ActionButton } from '@triniti/cms/components/index';
 import ChannelState from '@triniti/schemas/triniti/ovp.medialive/enums/ChannelState';
 
 function MedialiveChannelStateButton(props) {

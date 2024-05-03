@@ -1,7 +1,6 @@
-import React from 'react';
-import SearchPollsSort from '@triniti/schemas/triniti/apollo/enums/SearchPollsSort';
-import withRequest from 'plugins/pbjx/components/with-request';
-import NodePickerField from 'plugins/ncr/components/node-picker-field';
+import SearchPollsSort from '@triniti/schemas/triniti/apollo/enums/SearchPollsSort.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 export default withRequest(NodePickerField, 'triniti:apollo:request:search-polls-request', {
   channel: 'picker',

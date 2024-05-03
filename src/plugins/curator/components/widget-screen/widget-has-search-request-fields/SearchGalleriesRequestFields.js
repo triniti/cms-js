@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { DatePickerField, NumberField, TextField } from '@triniti/cms/components/index.js';
-import SortField from 'plugins/ncr/components/sort-field';
-import SearchGalleriesSort from '@triniti/schemas/triniti/curator/enums/SearchGalleriesSort';
+import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
+import SearchGalleriesSort from '@triniti/schemas/triniti/curator/enums/SearchGalleriesSort.js';
 
 export default function SearchGalleriesRequestFields() {
   return (

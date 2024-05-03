@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Card, CardBody, Form, InputGroup } from 'reactstrap';
 import { Field } from 'react-final-form';
-import FormMarshaler from 'utils/FormMarshaler';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { Icon, useDebounce } from '@triniti/cms/components/index.js';
 import noop from 'lodash-es/noop.js';
 

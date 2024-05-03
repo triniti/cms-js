@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import CategoryPickerField from 'plugins/taxonomy/components/category-picker-field';
-import withTeaserModal from 'plugins/curator/components/create-teaser-modal/withTeaserModal';
+import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field';
+import withTeaserModal from '@triniti/cms/plugins/curator/components/create-teaser-modal/withTeaserModal';
 
 function CategoryTeaserModal() {
   return (

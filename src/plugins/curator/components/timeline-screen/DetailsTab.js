@@ -1,13 +1,13 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
-import AdvertisingFields from 'plugins/common/components/advertising-fields';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import PicklistField from 'plugins/sys/components/picklist-field';
-import SlugField from 'plugins/ncr/components/slug-field';
-import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
-import TaggableFields from 'plugins/common/components/taggable-fields';
-import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
 
 export default function DetailsTab(props) {
   const { node, nodeRef } = props;

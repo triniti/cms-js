@@ -4,8 +4,8 @@ import { Badge, FormText, InputGroup, InputGroupText, Label } from 'reactstrap';
 import { useField } from 'react-final-form';
 import FileId from '@gdbots/schemas/gdbots/common/FileId';
 import { ActionButton, Icon, useFormContext } from '@triniti/cms/components/index.js';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import uploadFile from 'plugins/collector/utils/uploadFile';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import uploadFile from '@triniti/cms/plugins/collector/utils/uploadFile';
 import Preview from './Preview';
 
 const validate = async (value) => {

@@ -6,35 +6,35 @@ import isEqual from 'lodash-es/isEqual';
 import swal from 'sweetalert2';
 import { unstable_useBlocker } from 'react-router';
 import { getInstance } from '@triniti/app/main.js';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import useResolver from 'plugins/pbjx/components/with-request/useResolver';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import useResolver from '@triniti/cms/plugins/pbjx/components/with-request/useResolver';
 import { CreateModalButton, Loading } from '@triniti/cms/components/index.js';
-import nodeUrl from 'plugins/ncr/nodeUrl';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import { useNavigate } from 'react-router-dom';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import ReorderGalleryAssetsV1 from '@triniti/schemas/triniti/dam/command/ReorderGalleryAssetsV1';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
-import progressIndicator from 'utils/progressIndicator';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 
 import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from 'reactstrap';
-import damUrl from 'plugins/dam/damUrl';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import Exception from '@gdbots/pbj/Exception';
 import Message from '@gdbots/pbj/Message';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
-import SortableGrid from 'plugins/curator/components/sortable-grid';
-import BatchEditButton from 'plugins/dam/components/batch-edit-button';
-import usePolicy from 'plugins/iam/components/usePolicy';
+import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid';
+import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
 import getUpdatedNodeSequenceNumbers from './utils/getUpdatedNodeSequenceNumbers';
 import moveNodeByGallerySequence from './utils/moveNodeByGallerySequence';
 import moveNodeByIndex from './utils/moveNodeByIndex';
 import ResizeGallerySlider from './ResizeGallerySlider';
-import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { STATUS_FULFILLED } from 'constants';
 
-const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
+const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/link-assets-modal/index.js'));
 
 const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 

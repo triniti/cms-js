@@ -1,5 +1,5 @@
 import React from 'react';
-import ChannelPickerField from 'plugins/taxonomy/components/channel-picker-field';
+import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field';
 
 export default function ChannelTeaserFields() {
   return (

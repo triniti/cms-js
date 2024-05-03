@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { Card, CardImgOverlay, CardTitle, Col, Media, Row } from 'reactstrap';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { ActionButton, Loading, withForm } from '@triniti/cms/components/index.js';
-import damUrl from 'plugins/dam/damUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
-import ImageGrid from 'plugins/dam/components/image-grid';
-import UploaderButton from 'plugins/dam/components/uploader-button';
-import Icon from 'components/icon';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid';
+import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button';
+import Icon from '@triniti/cms/components/icon';
 import noop from 'lodash-es/noop.js';
 
 function LinkedImages(props) {

@@ -1,18 +1,18 @@
 import React, { lazy } from 'react';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchChannelsSort from '@triniti/schemas/triniti/taxonomy/enums/SearchChannelsSort';
+import SearchChannelsSort from '@triniti/schemas/triniti/taxonomy/enums/SearchChannelsSort.js';
 import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import SearchForm from 'plugins/taxonomy/components/search-channels-screen/SearchForm';
-import Collaborators from 'plugins/raven/components/collaborators';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import SearchForm from '@triniti/cms/plugins/taxonomy/components/search-channels-screen/SearchForm.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import withForm from '../../../../components/with-form';
 
-const CreateChannelModal = lazy(() => import('plugins/taxonomy/components/create-channel-modal'));
+const CreateChannelModal = lazy(() => import('@triniti/cms/plugins/taxonomy/components/create-channel-modal/index.js'));
 
 function SearchChannelsScreen(props) {
   const { request } = props;

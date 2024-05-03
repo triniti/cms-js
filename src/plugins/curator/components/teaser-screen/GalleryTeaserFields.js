@@ -1,5 +1,5 @@
 import React from 'react';
-import GalleryPickerField from 'plugins/curator/components/gallery-picker-field';
+import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field';
 
 export default function GalleryTeaserFields() {
   return (

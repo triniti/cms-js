@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import VideoPickerField from 'plugins/ovp/components/video-picker-field';
-import withTeaserModal from 'plugins/curator/components/create-teaser-modal/withTeaserModal';
+import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field';
+import withTeaserModal from '@triniti/cms/plugins/curator/components/create-teaser-modal/withTeaserModal';
 
 function VideoTeaserModal() {
   return (

@@ -3,9 +3,9 @@ import { FORM_ERROR } from 'final-form';
 import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, FormErrors, NumberField, TextField, UrlField, withForm } from '@triniti/cms/components/index.js';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import FormMarshaler from 'utils/FormMarshaler';
-import getRootFields from 'utils/getRootFields';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
+import getRootFields from '@triniti/cms/utils/getRootFields.js';
 
 function AnswerModal(props) {
   const { delegate, editMode, form, formState, handleSubmit, pbj } = props;

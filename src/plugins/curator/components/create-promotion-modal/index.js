@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import createSlug from '@gdbots/pbj/utils/createSlug';
+import createSlug from '@gdbots/pbj/utils/createSlug.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
-import createNode from 'plugins/ncr/actions/createNode';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import nodeUrl from 'plugins/ncr/nodeUrl';
+import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
 function CreatePromotionModal(props) {
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import { useForm } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import kebabCase from 'lodash-es/kebabCase';
 import startCase from 'lodash-es/startCase';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import {
   Button,
   Col,
@@ -14,13 +14,13 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
 import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import getNode from 'plugins/ncr/selectors/getNode';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import updateNode from 'plugins/ncr/actions/updateNode';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode';
 import noop from 'lodash-es/noop.js';
 
 export default function SendForm(props) {

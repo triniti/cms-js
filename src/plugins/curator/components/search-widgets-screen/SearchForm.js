@@ -3,11 +3,11 @@ import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Ro
 import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie';
 import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
-import { scrollToTop } from 'components/screen';
-import NodeStatusField from 'plugins/ncr/components/node-status-field';
-import SortField from 'plugins/ncr/components/sort-field';
-import FormMarshaler from 'utils/FormMarshaler';
-import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort';
+import { scrollToTop } from '@triniti/cms/components/screen/index.js';
+import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
+import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
+import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort.js';
 import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {

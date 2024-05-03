@@ -1,16 +1,16 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
-import withNodeScreen, { useDelegate } from 'plugins/ncr/components/with-node-screen';
-import CodeTab from 'plugins/common/components/code-tab';
-import SeoTab from 'plugins/common/components/seo-tab';
-import HistoryTab from 'plugins/ncr/components/history-tab';
-import RawTab from 'plugins/ncr/components/raw-tab';
-import NodeStatusCard from 'plugins/ncr/components/node-status-card';
-import TaxonomyTab from 'plugins/taxonomy/components/taxonomy-tab';
-import DetailsTab from 'plugins/canvas/components/page-screen/DetailsTab';
-import ActiveEditsNotificationModal from 'plugins/raven/components/active-edits-notification-modal';
-import Collaborators from 'plugins/raven/components/collaborators';
+import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
+import CodeTab from '@triniti/cms/plugins/common/components/code-tab';
+import SeoTab from '@triniti/cms/plugins/common/components/seo-tab';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
+import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab';
+import DetailsTab from '@triniti/cms/plugins/canvas/components/page-screen/DetailsTab.js';
+import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 
 function PageScreen(props) {
   const {

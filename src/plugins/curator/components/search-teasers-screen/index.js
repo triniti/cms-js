@@ -1,23 +1,23 @@
 import React, { lazy } from 'react';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort';
+import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
-import { scrollToTop } from 'components/screen';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import useCuries from 'plugins/pbjx/components/useCuries';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import formatDate from 'utils/formatDate';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import SearchForm from 'plugins/curator/components/search-teasers-screen/SearchForm';
-import Collaborators from 'plugins/raven/components/collaborators';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import BatchOperationsCard from 'plugins/ncr/components/batch-operations-card';
-import useBatchSelection from 'plugins/ncr/components/useBatchSelection';
-import CloneButton from 'plugins/ncr/components/clone-button';
+import { scrollToTop } from '@triniti/cms/components/screen/index.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import SearchForm from '@triniti/cms/plugins/curator/components/search-teasers-screen/SearchForm.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import useBatchSelection from '@triniti/cms/plugins/ncr/components/useBatchSelection.js';
+import CloneButton from '@triniti/cms/plugins/ncr/components/clone-button';
 
-const CreateTeaserModal = lazy(() => import('plugins/curator/components/create-teaser-modal'));
+const CreateTeaserModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-teaser-modal/index.js'));
 
 function SearchTeasersScreen(props) {
   const { request, delegate } = props;

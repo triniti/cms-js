@@ -11,12 +11,12 @@ import {
   TextareaField,
   TextField
 } from '@triniti/cms/components/index.js';
-import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
-import TimelinePickerField from 'plugins/curator/components/timeline-picker-field';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import AdvertisingFields from 'plugins/common/components/advertising-fields';
-import TaggableFields from 'plugins/common/components/taggable-fields';
-import PicklistField from 'plugins/sys/components/picklist-field';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 
 const components = {};
 const resolveComponent = (label) => {

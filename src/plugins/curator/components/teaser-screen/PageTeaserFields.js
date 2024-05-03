@@ -1,5 +1,5 @@
 import React from 'react';
-import PagePickerField from 'plugins/canvas/components/page-picker-field';
+import PagePickerField from '@triniti/cms/plugins/canvas/components/page-picker-field';
 
 export default function PageTeaserFields() {
   return (

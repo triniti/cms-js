@@ -4,11 +4,11 @@ import startCase from 'lodash-es/startCase';
 import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, EnumField, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import FormMarshaler from 'utils/FormMarshaler';
-import getRootFields from 'utils/getRootFields';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
+import getRootFields from '@triniti/cms/utils/getRootFields';
 import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering';
-import WidgetPickerField from 'plugins/curator/components/widget-picker-field';
+import WidgetPickerField from '@triniti/cms/plugins/curator/components/widget-picker-field';
 
 const filter = option => option.value !== 'unknown';
 const format = label => startCase(label.toLowerCase());

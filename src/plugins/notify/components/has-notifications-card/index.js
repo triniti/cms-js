@@ -2,15 +2,15 @@ import React, { lazy } from 'react';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { CreateModalButton, Icon, Loading, } from '@triniti/cms/components/index.js';
 import { Link } from 'react-router-dom';
-import usePolicy from 'plugins/iam/components/usePolicy';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
-import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import formatDate from 'utils/formatDate';
-import nodeUrl from 'plugins/ncr/nodeUrl';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import formatDate from '@triniti/cms/utils/formatDate.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
-const CreateNotificationModal = lazy(() => import('plugins/notify/components/create-notification-modal'));
+const CreateNotificationModal = lazy(() => import('@triniti/cms/plugins/notify/components/create-notification-modal/index.js'));
 
 
 function HasNotificationsCard(props) {

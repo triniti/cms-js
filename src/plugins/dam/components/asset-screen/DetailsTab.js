@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { ErrorBoundary,  Loading, TextField } from '@triniti/cms/components/index.js';
-import TaggableFields from 'plugins/common/components/taggable-fields';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import TranscodeableCard from './TranscodeableCard';
 import TranscribeableCard from './TranscribeableCard';
 

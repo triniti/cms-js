@@ -1,6 +1,6 @@
 import React from 'react';
 import { SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import PicklistField from 'plugins/sys/components/picklist-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 
 export default function TagCloudWidgetFields(props) {
   const { node } = props;

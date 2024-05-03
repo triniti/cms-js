@@ -6,10 +6,10 @@ import { Label } from 'reactstrap';
 import { ErrorBoundary, Loading, useFormContext } from '@triniti/cms/components/index.js';
 
 export const searchRequestFields = {
-  'search-teasers-request': lazy(() => import('plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchTeasersRequestFields')),
-  'search-galleries-request': lazy(() => import('plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchGalleriesRequestFields')),
-  'search-articles-request': lazy(() => import('plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchArticlesRequestFields')),
-  'search-videos-request': lazy(() => import('plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchVideosRequestFields')),
+  'search-teasers-request': lazy(() => import('@triniti/cms/plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchTeasersRequestFields')),
+  'search-galleries-request': lazy(() => import('@triniti/cms/plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchGalleriesRequestFields')),
+  'search-articles-request': lazy(() => import('@triniti/cms/plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchArticlesRequestFields')),
+  'search-videos-request': lazy(() => import('@triniti/cms/plugins/curator/components/widget-screen/widget-has-search-request-fields/SearchVideosRequestFields')),
 };
 
 export default function SearchRequestTypeField(props) {

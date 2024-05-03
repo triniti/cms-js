@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
-import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort';
-import FormMarshaler from 'utils/FormMarshaler';
+import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { ActionButton, CheckboxField, DatePickerField, Icon, Loading, NumberField, useDebounce } from '@triniti/cms/components/index.js';
-import { scrollToTop } from 'components/screen';
-import AppPickerField from 'plugins/iam/components/app-picker-field';
-import SortField from 'plugins/ncr/components/sort-field';
-import NotificationSendStatusField from 'plugins/notify/components/notification-send-status-field';
+import { scrollToTop } from '@triniti/cms/components/screen/index.js';
+import AppPickerField from '@triniti/cms/plugins/iam/components/app-picker-field';
+import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
+import NotificationSendStatusField from '@triniti/cms/plugins/notify/components/notification-send-status-field';
 import noop from 'lodash-es/noop.js';
-import withRequest from 'plugins/pbjx/components/with-request';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 const AppList = withRequest(props => {
   const { request, onClick = noop } = props;

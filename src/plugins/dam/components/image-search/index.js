@@ -1,9 +1,9 @@
 import noop from 'lodash-es/noop.js';
 import React, { useState, useEffect } from 'react';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import useResolver from 'plugins/pbjx/components/with-request/useResolver';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import useResolver from '@triniti/cms/plugins/pbjx/components/with-request/useResolver';
 import { Icon, Loading } from '@triniti/cms/components/index.js';
-import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { ScrollableContainer } from '@triniti/cms/components/index.js';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import {

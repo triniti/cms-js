@@ -2,9 +2,9 @@ import React, { lazy, useState } from 'react';
 import startCase from 'lodash-es/startCase';
 import { ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie';
-import useCuries from 'plugins/pbjx/components/useCuries';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
 import { ActionButton, withPbj } from '@triniti/cms/components/index.js';
-import usePolicy from 'plugins/iam/components/usePolicy';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
 const components = {};
 const resolveComponent = (curie) => {

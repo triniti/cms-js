@@ -1,11 +1,11 @@
 import React from 'react';
-import kebabCase from 'lodash-es/kebabCase';
-import lowerCase from 'lodash-es/lowerCase';
+import kebabCase from 'lodash-es/kebabCase.js';
+import lowerCase from 'lodash-es/lowerCase.js';
 import { Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
 import { CreateModalButton, Icon, useFormContext, withPbj } from '@triniti/cms/components/index.js';
-import schemaToCurie from 'utils/schemaToCurie';
-import AnswerModal from 'plugins/apollo/components/poll-screen/AnswerModal';
+import schemaToCurie from '@triniti/cms/utils/schemaToCurie.js';
+import AnswerModal from '@triniti/cms/plugins/apollo/components/poll-screen/AnswerModal.js';
 
 export default function AnswerPlaceholder(props) {
   const { editMode } = useFormContext();

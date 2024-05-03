@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import pbjUrl from '@gdbots/pbjx/pbjUrl';
 import { SelectField, TextareaField } from '@triniti/cms/components/index.js';
-import getNode from 'plugins/ncr/selectors/getNode';
-import PicklistField from 'plugins/sys/components/picklist-field';
-import ContentRefField from 'plugins/notify/components/content-ref-field';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import ContentRefField from '@triniti/cms/plugins/notify/components/content-ref-field';
 
 export default function EmailNotificationFields(props) {
   const { node } = props;

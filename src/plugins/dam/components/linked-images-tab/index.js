@@ -2,24 +2,24 @@ import React, { lazy } from 'react';
 import { Button, Card, CardHeader, CardBody } from 'reactstrap';
 import { CreateModalButton, Icon, Loading, UncontrolledTooltip } from '@triniti/cms/components/index.js';
 import { Link } from 'react-router-dom';
-import useRequest from 'plugins/pbjx/components/useRequest';
-import withRequest from 'plugins/pbjx/components/with-request';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import ImageGrid from '../../../../plugins/dam/components/image-grid';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import nodeUrl from 'plugins/ncr/nodeUrl';
-import usePolicy from 'plugins/iam/components/usePolicy';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import Swal from 'sweetalert2';
-import damUrl from 'plugins/dam/damUrl';
+import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import { getInstance } from '@triniti/app/main.js';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from 'actions/sendAlert';
 import { useDispatch } from 'react-redux';
-import useFormContext from 'components/useFormContext';
+import useFormContext from '@triniti/cms/components/useFormContext';
 import noop from 'lodash-es/noop.js';
 
-const LinkAssetsModal = lazy(() => import('plugins/dam/components/link-assets-modal'));
+const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/link-assets-modal/index.js'));
 
 const delay = (time = 500) => new Promise((resolve) => setTimeout(resolve, time));
 

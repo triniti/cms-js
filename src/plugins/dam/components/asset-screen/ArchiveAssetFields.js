@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
-import humanizeBytes from 'utils/humanizeBytes';
+import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
 import CommonFields from './CommonFields';
 
 export default function ArchiveAssetFields(props) {

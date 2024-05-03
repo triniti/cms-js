@@ -1,7 +1,7 @@
 import React from 'react';
-import SearchRedirectsSort from '@triniti/schemas/triniti/sys/enums/SearchRedirectsSort';
-import withRequest from 'plugins/pbjx/components/with-request';
-import NodePickerField from 'plugins/ncr/components/node-picker-field';
+import SearchRedirectsSort from '@triniti/schemas/triniti/sys/enums/SearchRedirectsSort.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 function RedirectPickerField(props) {
   return <NodePickerField {...props} />;

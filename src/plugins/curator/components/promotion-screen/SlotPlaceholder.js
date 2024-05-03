@@ -2,9 +2,9 @@ import React from 'react';
 import { Badge, Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
 import { CreateModalButton, Icon, useFormContext, withPbj } from '@triniti/cms/components/index.js';
-import schemaToCurie from 'utils/schemaToCurie';
-import useNode from 'plugins/ncr/components/useNode';
-import SlotModal from 'plugins/curator/components/promotion-screen/SlotModal';
+import schemaToCurie from '@triniti/cms/utils/schemaToCurie';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode';
+import SlotModal from '@triniti/cms/plugins/curator/components/promotion-screen/SlotModal';
 
 export default function SlotPlaceholder(props) {
   const { editMode } = useFormContext();

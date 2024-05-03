@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import { Button } from 'reactstrap';
-import Icon from 'components/icon';
-import artifactUrl from 'plugins/ovp/artifactUrl';
+import Icon from '@triniti/cms/components/icon';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl';
 
 export default function VideoAssetIcon({ asset }) {
   const playerRef = useRef(null);

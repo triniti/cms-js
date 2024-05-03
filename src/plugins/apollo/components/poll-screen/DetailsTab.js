@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import ImagePickerField from 'plugins/dam/components/image-picker-field';
-import SponsorPickerField from 'plugins/boost/components/sponsor-picker-field';
-import TaggableFields from 'plugins/common/components/taggable-fields';
-import SortableAnswers from "plugins/apollo/components/poll-screen/SortableAnswers";
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
+import SortableAnswers from '@triniti/cms/plugins/apollo/components/poll-screen/SortableAnswers.js';
 
 export default function DetailsTab(props) {
   const { node, nodeRef } = props;

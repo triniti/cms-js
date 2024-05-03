@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { DatePickerField, NumberField, TextField } from '@triniti/cms/components/index.js';
-import SortField from 'plugins/ncr/components/sort-field';
-import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort';
+import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
+import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort.js';
 
 export default function SearchVideosRequestFields() {
   return (
