@@ -207,8 +207,6 @@ function showMultipleToasts() {
 
 function DemoScreen() {
   const [activeTab, setActiveTab] = useState('1');
-  const [startDate, setStartDate] = useState(new Date());
-  const [dateTime, setDateTime] = useState(new Date());
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -3543,7 +3541,6 @@ function DemoScreen() {
 
           <div className="form-group">
             <Label className="d-block" htmlFor="customRange1">Default Form Control</Label>
-
           </div>
 
           <div className="form-group">
@@ -4646,7 +4643,7 @@ function DemoScreen() {
         </CardHeader>
         <CardBody>
           <Toast>
-            <ToastHeader tagClassName="me-0 pe-2 d-flex flex-row w-100 align-items-center" tag="div" toggle={toggle}>
+            <ToastHeader tagClassName="me-0 pe-2 d-flex flex-row w-100 align-items-center" tag="div" >
               <img className="rounded me-2" src="//via.placeholder.com/50x50"
                    alt="Generic placeholder image" />
               <strong className="me-auto">Bootstrap</strong>
@@ -4657,7 +4654,7 @@ function DemoScreen() {
             </ToastBody>
           </Toast>
           <Toast>
-            <ToastHeader icon={<Spinner size="sm" />} toggle={toggle}>
+            <ToastHeader icon={<Spinner size="sm">Loading...</Spinner>} toggle={function noRefCheck(){}}>
               Reactstrap
             </ToastHeader>
             <ToastBody>
@@ -4665,12 +4662,12 @@ function DemoScreen() {
             </ToastBody>
           </Toast>
           <Toast>
-            <ToastHeader icon="success" toggle={toggle}>
+            <ToastHeader icon="success" toggle={function noRefCheck(){}}>
               File Saved!
             </ToastHeader>
           </Toast>
           <Toast className="toast--info">
-            <ToastHeader toggle={toggle}>
+            <ToastHeader toggle={function noRefCheck(){}}>
               Info Theme
             </ToastHeader>
             <ToastBody>
@@ -4678,17 +4675,17 @@ function DemoScreen() {
             </ToastBody>
           </Toast>
           <Toast className="toast--success">
-            <ToastHeader toggle={toggle}>
+            <ToastHeader toggle={function noRefCheck(){}}>
               Success Theme
             </ToastHeader>
           </Toast>
           <Toast className="toast--warning">
-            <ToastHeader toggle={toggle}>
+            <ToastHeader toggle={function noRefCheck(){}}>
               Warning Theme
             </ToastHeader>
           </Toast>
           <Toast className="toast--danger">
-            <ToastHeader toggle={toggle}>
+            <ToastHeader toggle={function noRefCheck(){}}>
               Danger Theme
             </ToastHeader>
           </Toast>
