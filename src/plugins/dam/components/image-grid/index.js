@@ -12,8 +12,8 @@ import {
   Media,
   Row,
 } from 'reactstrap';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import useFormContext from '@triniti/cms/components/useFormContext';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import useFormContext from '@triniti/cms/components/useFormContext.js';
 
 const isGallery = (schema) => schema.indexOf('gallery') > -1;
 

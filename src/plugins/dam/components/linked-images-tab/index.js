@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import { getInstance } from '@triniti/app/main.js';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
-import sendAlert from 'actions/sendAlert';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 import useFormContext from '@triniti/cms/components/useFormContext';
 import noop from 'lodash-es/noop.js';

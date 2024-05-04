@@ -1,8 +1,8 @@
 import React from 'react';
-import startCase from 'lodash-es/startCase';
-import useNode from '@triniti/cms/plugins/ncr/components/useNode';
-import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams';
-import withForm from '@triniti/cms/plugins/dam/components/uploader/withForm';
+import startCase from 'lodash-es/startCase.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams.js';
+import withForm from '@triniti/cms/plugins/dam/components/uploader/withForm.js';
 import { Loading } from '@triniti/cms/components/index.js';
 
 export default function withNode(Component) {

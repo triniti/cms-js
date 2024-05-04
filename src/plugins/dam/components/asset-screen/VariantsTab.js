@@ -8,7 +8,7 @@ import Dropzone from 'react-dropzone';
 // app
 import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1';
 import { getInstance } from '@triniti/app/main.js';
-import sendAlert from 'actions/sendAlert';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 
 // dam
 import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName';

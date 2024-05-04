@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
 import ReorderGalleryAssetsV1 from '@triniti/schemas/triniti/dam/command/ReorderGalleryAssetsV1';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import sendAlert from 'actions/sendAlert';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 

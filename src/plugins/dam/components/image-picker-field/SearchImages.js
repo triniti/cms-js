@@ -4,7 +4,7 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/image-picker-field/SearchForm.js';
-import ImageGrid from '../../../../plugins/dam/components/image-grid';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
 
 function SearchImages(props) {
   const { request, selectImage, toggle } = props;

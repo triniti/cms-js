@@ -3,16 +3,16 @@ import classNames from 'classnames';
 import { Button, Label, Media, Card, CardImgOverlay, CardTitle } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { CreateModalButton, Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import useNode from '@triniti/cms/plugins/ncr/components/useNode';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import noop from 'lodash-es/noop.js';
 import { Link } from 'react-router-dom';
-import nodeUrl from '../../../ncr/nodeUrl.js';
-import usePolicy from '../../../iam/components/usePolicy.js';
-import getNode from '../../../ncr/selectors/getNode';
-import { getInstance } from '@triniti/demo/src/main';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
+import { getInstance } from '@triniti/app/main.js';
 
-const ImagePickerModal = lazy(() => import('@triniti/cms/plugins/dam/components/image-picker-field/ImagePickerModal'));
+const ImagePickerModal = lazy(() => import('@triniti/cms/plugins/dam/components/image-picker-field/ImagePickerModal.js'));
 
 const defaultAspectRatio = (aspectRatio) => {
   if (`${aspectRatio}` === 'auto' || `${aspectRatio}` === 'original') {

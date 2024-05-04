@@ -13,7 +13,7 @@ import { getInstance } from '@triniti/demo/src/main';
 import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import MedialiveChannelStateButton from './MedialiveChannelStateButton';
-import sendAlert from 'actions/sendAlert';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {

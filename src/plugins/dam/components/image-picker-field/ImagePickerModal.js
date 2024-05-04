@@ -10,10 +10,10 @@ import {
   TabPane
 } from 'reactstrap';
 import { ActionButton } from '@triniti/cms/components/index.js';
-import GalleryImages from '@triniti/cms/plugins/dam/components/image-picker-field/GalleryImages';
-import LinkedImages from '@triniti/cms/plugins/dam/components/image-picker-field/LinkedImages';
-import SearchImages from '@triniti/cms/plugins/dam/components/image-picker-field/SearchImages';
-import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button';
+import GalleryImages from '@triniti/cms/plugins/dam/components/image-picker-field/GalleryImages.js';
+import LinkedImages from '@triniti/cms/plugins/dam/components/image-picker-field/LinkedImages.js';
+import SearchImages from '@triniti/cms/plugins/dam/components/image-picker-field/SearchImages.js';
+import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import noop from 'lodash-es/noop.js';
 
