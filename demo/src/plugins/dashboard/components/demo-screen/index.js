@@ -64,6 +64,7 @@ import {
 import classnames from 'classnames';
 import ReactDatePicker from 'react-datepicker';
 import Select from 'react-select';
+import Swal from 'sweetalert2';
 import {
   ActionButton,
   CheckboxField,
@@ -77,6 +78,122 @@ import {
 import ModalExample from './Modals.js';
 import './styles.scss';
 import toast from '@triniti/cms/utils/toast.js';
+
+function sweetAlert1(e) {
+  e.preventDefault();
+  Swal.fire('Hello world!');
+}
+
+function sweetAlert2(e) {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Error!',
+    text: 'Do you want to continue',
+    type: 'error',
+    confirmButtonText: 'Cool',
+  });
+}
+
+function sweetAlert3(e) {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Most Basic',
+    text: 'Here are the two standard button styles',
+    type: 'success',
+    showCancelButton: true,
+    confirmButtonText: 'Confirm Button',
+    cancelButtonText: 'Cancel Button',
+  });
+}
+
+function sweetAlert4(e) {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, keep it',
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-secondary',
+  }).then((result) => {
+    if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your imaginary file has been deleted.',
+        'success',
+      );
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error',
+      );
+    }
+  });
+}
+
+function sweetAlert5(e) {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Ajax Request',
+    text: 'Enter Email Address',
+    input: 'email',
+    inputClass: 'form-control',
+    showCancelButton: true,
+    confirmButtonText: 'Submit',
+    showLoaderOnConfirm: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-secondary',
+    preConfirm: email => new Promise((resolve) => {
+      setTimeout(() => {
+        if (email === 'taken@example.com') {
+          Swal.showValidationError('This email is already taken.');
+        }
+        resolve();
+      }, 2000);
+    }),
+    allowOutsideClick: () => !Swal.isLoading(),
+  }).then((result) => {
+    if (result.value) {
+      Swal.fire({
+        type: 'success',
+        title: 'Ajax request finished!',
+        html: `Submitted email: ${result.value}`,
+      });
+    }
+  });
+}
+
+function sweetAlert6(e) {
+  e.preventDefault();
+  Swal.fire({
+    customClass: 'swal-spinner',
+    didOpen: () => {
+      Swal.showLoading();
+    },
+    showConfirmButton: false,
+    target: '.screen-main',
+    title: 'loading and stuff',
+  });
+}
+
+function sweetAlert7(e) {
+  e.preventDefault();
+  Swal.fire({
+    html: '<h5>Dismissable Horizontal Alert Ellipsis</h5><p>Some alert that needs your attention. Must click here to close.</p> ',
+    allowOutsideClick: false,
+    customClass: 'swal2-horizontal',
+    showCancelButton: true,
+    confirmButtonText: 'Submit',
+    confirmButtonClass: 'btn btn-sm btn-link-bg text-body',
+    cancelButtonClass: 'btn btn-sm btn-link-bg text-body',
+    position: 'top-right',
+  });
+}
 
 function showMultipleToasts() {
   toast({ title: 'First one' });
@@ -458,7 +575,7 @@ function DemoScreen() {
           <Button color="hover" className="rounded-circle text-success mb-0">
             <Icon imgSrc="check-solid"
                   size="lg" /></Button>
-          <Button color="primary" className="btn-hover rounded-circle mb-0" size="sm">
+          <Button color="primary" className="rounded-circle mb-0" size="sm">
             <Icon imgSrc="plus"
                   size="md" /></Button>
         </CardBody>
@@ -2264,7 +2381,6 @@ function DemoScreen() {
         </CardBody>
       </Card>
 
-
       {/* Layout */}
 
       <Card id="layout">
@@ -3417,7 +3533,6 @@ function DemoScreen() {
         </CardBody>
       </Card>
 
-
       {/* ReactDatePicker */}
 
       <Card id="reactdatepicker">
@@ -3428,8 +3543,7 @@ function DemoScreen() {
 
           <div className="form-group">
             <Label className="d-block" htmlFor="customRange1">Default Form Control</Label>
-            <ReactDatePicker className="form-control" selected={startDate} onChange={date => setStartDate(date)}
-                             isClearable />
+
           </div>
 
           <div className="form-group">
@@ -3438,13 +3552,6 @@ function DemoScreen() {
               <InputGroupText>
                 <Icon imgSrc="calendar" size="sd" className="mx-1" />
               </InputGroupText>
-              <ReactDatePicker className="form-control form-control-sm"
-                               showTimeSelect
-                //dateFormat="LLL"
-                               dateFormat="MM/dd/yyyy h:mm aa"
-                               selected={dateTime}
-                               onChange={date => setDateTime(date)}
-                               isClearable />
             </InputGroup>
           </div>
 
@@ -3530,25 +3637,25 @@ function DemoScreen() {
           Sweet Alert
         </CardHeader>
         <CardBody>
-          <Button outline>
+          <Button outline onClick={sweetAlert1}>
             Alert 1 - Basic
           </Button>
-          <Button outline>
+          <Button outline onClick={sweetAlert2}>
             Alert 2 - Error
           </Button>
-          <Button outline>
+          <Button outline onClick={sweetAlert3}>
             Alert 3 - Standard Buttons
           </Button>
-          <Button outline>
+          <Button outline onClick={sweetAlert4}>
             Alert 4 - EME Buttons
           </Button>
-          <Button outline>
+          <Button outline onClick={sweetAlert5}>
             Alert 5 - Form Field
           </Button>
-          <Button outline>
+          <Button outline onClick={sweetAlert6}>
             Alert 6 - Loading
           </Button>
-          <Button outline>
+          <Button outline onClick={sweetAlert7}>
             Alert 7 - Horizontal
           </Button>
           <Button outline onClick={showMultipleToasts}>
@@ -4530,7 +4637,9 @@ function DemoScreen() {
         </CardBody>
       </Card>
 
+
       {/* Toasts */}
+
       <Card id="toasts">
         <CardHeader>
           Toasts
@@ -4605,6 +4714,7 @@ function DemoScreen() {
           </UncontrolledTooltip>
         </CardBody>
       </Card>
+
     </Screen>
   );
 }
