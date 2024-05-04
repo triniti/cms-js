@@ -62,7 +62,7 @@ import {
   UncontrolledTooltip
 } from 'reactstrap';
 import classnames from 'classnames';
-import ReactDatePicker from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
 import {
@@ -208,6 +208,12 @@ function showMultipleToasts() {
 function DemoScreen() {
   const [activeTab, setActiveTab] = useState('1');
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [clearableDate, setClearableDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   };
@@ -3541,6 +3547,7 @@ function DemoScreen() {
 
           <div className="form-group">
             <Label className="d-block" htmlFor="customRange1">Default Form Control</Label>
+            <DatePicker.default className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
           </div>
 
           <div className="form-group">
@@ -3549,6 +3556,7 @@ function DemoScreen() {
               <InputGroupText>
                 <Icon imgSrc="calendar" size="sd" className="mx-1" />
               </InputGroupText>
+              <DatePicker.default className="form-control" selected={clearableDate} onChange={(date) => setClearableDate(date)} isClearable />
             </InputGroup>
           </div>
 
