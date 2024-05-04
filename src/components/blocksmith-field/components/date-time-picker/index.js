@@ -27,7 +27,7 @@ export default function DateTimePicker({
         {label}: {moment(updatedDate).format('YYYY-MM-DD hh:mm A')}
       </Label>
       <div className="shadow-none">
-        <DatePicker
+        <DatePicker.default
           onChange={handleChangeDate}
           selected={updatedDate}
           shouldCloseOnSelect={shouldCloseOnSelect}

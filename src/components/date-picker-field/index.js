@@ -44,7 +44,7 @@ export default function DatePickerField(props) {
           <Icon imgSrc="calendar" size="sd" />
         </InputGroupText>
         {editMode && !readOnly && (
-          <DatePicker
+          <DatePicker.default
             id={name}
             name={name}
             className={className}

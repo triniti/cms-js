@@ -139,7 +139,7 @@ export default function SendForm(props) {
         <Row>
           <Col>
             <div className="form-group">
-              <DatePicker
+              <DatePicker.default
                 selected={sendAt}
                 onChange={date => date && setSendAt(date)}
                 inline
