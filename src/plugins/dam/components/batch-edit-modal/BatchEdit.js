@@ -16,7 +16,7 @@ import { FormGroup, Col, Row } from 'reactstrap';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
 import { getInstance } from '@triniti/app/main.js';
 import MessageResolver from '@gdbots/pbj/MessageResolver';
-import sendAlert from 'actions/sendAlert';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 
 import './styles.scss';

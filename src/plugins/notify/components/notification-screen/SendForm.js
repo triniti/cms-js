@@ -16,7 +16,7 @@ import {
 import DatePicker from 'react-datepicker';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
-import sendAlert from 'actions/sendAlert';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';

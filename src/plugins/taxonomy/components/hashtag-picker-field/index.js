@@ -3,13 +3,13 @@ import { Badge, FormText, Label } from 'reactstrap';
 import Creatable from 'react-select/creatable';
 import classNames from 'classnames';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
-import isEmpty from 'lodash-es/isEmpty';
-import trim from 'lodash-es/trim';
+import isEmpty from 'lodash-es/isEmpty.js';
+import trim from 'lodash-es/trim.js';
 import { withAsyncPaginate } from 'react-select-async-paginate';
-import { createHashtag, isValidHashtag } from '@gdbots/pbj/utils';
+import { createHashtag, isValidHashtag } from '@gdbots/pbj/utils/index.js';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
-import defaultLoadOptions from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/loadOptions';
+import defaultLoadOptions from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/loadOptions.js';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 const CreatableAsyncPaginate = withAsyncPaginate(Creatable);

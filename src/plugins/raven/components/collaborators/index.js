@@ -3,9 +3,8 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { UncontrolledTooltip } from '@triniti/cms/components/index.js';
 import isString from 'lodash-es/isString.js';
-
-import selector from './selector.js';
-import './styles.scss';
+import selector from '@triniti/cms/plugins/raven/components/collaborators/selector.js';
+import '@triniti/cms/plugins/raven/components/collaborators/styles.scss';
 
 const Collaborators = ({ className, nodeRef, users }) => (
   <div key="users" className={classNames(className, 'screen-primary-actions-collaborators')}>

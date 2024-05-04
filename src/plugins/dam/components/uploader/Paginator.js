@@ -4,8 +4,8 @@ import {
   PaginationItem,
   PaginationLink,
 } from 'reactstrap';
-import PaginatorItem from '@triniti/cms/plugins/dam/components/uploader/PaginatorItem';
-import PaginatorNoFiles from '@triniti/cms/plugins/dam/components/uploader/PaginatorNoFiles';
+import PaginatorItem from '@triniti/cms/plugins/dam/components/uploader/PaginatorItem.js';
+import PaginatorNoFiles from '@triniti/cms/plugins/dam/components/uploader/PaginatorNoFiles.js';
 
 // Change this to the amount of files to display as paginating buttons
 const MAX_FILE_LINKS = 3;

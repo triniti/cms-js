@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import AssetId from '@triniti/schemas/triniti/dam/AssetId';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
 
 export const fromNodeRef = async (nodeRef) => {
   const assetId = AssetId.fromString(nodeRef);

@@ -63,7 +63,7 @@ module.exports = (webpackEnv = {}) => {
         //constants: false,
         crypto: require.resolve('crypto-browserify'),
         fs: false,
-        //path: false,
+        path: false,
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         vm: false,

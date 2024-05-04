@@ -12,37 +12,36 @@ import {
 } from 'reactstrap';
 import swal from 'sweetalert2';
 import md5 from 'md5';
-import get from 'lodash-es/get';
-import merge from 'lodash-es/merge'
-import startCase from 'lodash-es/startCase';
+import get from 'lodash-es/get.js';
+import merge from 'lodash-es/merge.js'
+import startCase from 'lodash-es/startCase.js';
 import mime from 'mime-types';
 
 // app
 import { getInstance } from '@triniti/app/main.js';
-import BigNumber from '@gdbots/pbj/well-known/BigNumber';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
+import BigNumber from '@gdbots/pbj/well-known/BigNumber.js';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import clearAlerts from 'actions/clearAlerts';
-import sendAlert from 'actions/sendAlert';
+import clearAlerts from '@triniti/cms/actions/clearAlerts.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import toast from '@triniti/cms/utils/toast.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 
 // dam
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import { fileUploadStatuses } from '@triniti/cms/plugins/dam/constants';
-import uploadFile, { getUploadUrls } from '@triniti/cms/plugins/dam/utils/uploadFile';
-import { fromAssetId } from '@triniti/cms/plugins/dam/utils/assetFactory';
-import imageUrlDimensions from '@triniti/cms/plugins/dam/utils/imageUrlDimensions';
-import DropArea from '@triniti/cms/plugins/dam/components/uploader/DropArea';
-import FileList from '@triniti/cms/plugins/dam/components/uploader/FileList';
-import Form from '@triniti/cms/plugins/dam/components/uploader/Form';
-import Paginator from '@triniti/cms/plugins/dam/components/uploader/Paginator';
-import CommonFields from '@triniti/cms/plugins/dam/components/uploader/CommonFields';
-import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName';
-
-import 'plugins/dam/components/uploader/styles.scss';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import { fileUploadStatuses } from '@triniti/cms/plugins/dam/constants.js';
+import uploadFile, { getUploadUrls } from '@triniti/cms/plugins/dam/utils/uploadFile.js';
+import { fromAssetId } from '@triniti/cms/plugins/dam/utils/assetFactory.js';
+import imageUrlDimensions from '@triniti/cms/plugins/dam/utils/imageUrlDimensions.js';
+import DropArea from '@triniti/cms/plugins/dam/components/uploader/DropArea.js';
+import FileList from '@triniti/cms/plugins/dam/components/uploader/FileList.js';
+import Form from '@triniti/cms/plugins/dam/components/uploader/Form.js';
+import Paginator from '@triniti/cms/plugins/dam/components/uploader/Paginator.js';
+import CommonFields from '@triniti/cms/plugins/dam/components/uploader/CommonFields.js';
+import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName.js';
+import '@triniti/cms/plugins/dam/components/uploader/styles.scss';
 
 const ADD_GALLERY_ASSET_INCREMENT = 500;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field';
-import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field';
-import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field';
-import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field';
+import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
+import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field/index.js';
+import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field/index.js';
+import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/index.js';
 
 export default function TaxonomyTab(props) {
   const { node } = props;

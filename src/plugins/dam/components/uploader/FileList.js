@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop.js';
-import throttle from 'lodash-es/throttle'
+import throttle from 'lodash-es/throttle.js';
 import { compute as computeScrollIntoView } from 'compute-scroll-into-view';
 import Swal from 'sweetalert2';
 
-import FileItem from './FileItem';
+import FileItem from './FileItem.js';
 
 const confirmSelect = async () => {
   return Swal.fire({

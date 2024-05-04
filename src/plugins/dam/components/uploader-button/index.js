@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import noop from 'lodash-es/noop.js';
 import { Button } from 'reactstrap';
-import Uploader from '@triniti/cms/plugins/dam/components/uploader';
+import Uploader from '@triniti/cms/plugins/dam/components/uploader/index.js';
 
 const UploaderButton = (props) => {
   const {

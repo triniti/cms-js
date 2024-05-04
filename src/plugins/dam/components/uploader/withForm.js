@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Form } from 'react-final-form';
-import { FormContextProvider } from '@triniti/cms/components/useFormContext';
+import { FormContextProvider } from '@triniti/cms/components/useFormContext.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import arrayMutators from 'final-form-arrays';
 import noop from 'lodash-es/noop.js';
