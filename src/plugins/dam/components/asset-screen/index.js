@@ -7,7 +7,7 @@ import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/dam/components/asset-screen/DetailsTab.js';
-import VariantsTab from '@triniti/cms/plugins/dam/components/asset-screen/VariantsTab';
+import VariantsTab from '@triniti/cms/plugins/dam/components/asset-screen/VariantsTab.js';
 import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 

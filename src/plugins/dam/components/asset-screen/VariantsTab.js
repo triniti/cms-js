@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import { Card, CardBody, CardHeader, Spinner } from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import variants from '@triniti/cms/plugins/dam/components/asset-screen/variants';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import variants from '@triniti/cms/plugins/dam/components/asset-screen/variants.js';
 import Dropzone from 'react-dropzone';
-
-// app
-import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1';
+import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1.js';
 import { getInstance } from '@triniti/app/main.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
-
-// dam
-import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName';
-import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile';
-
+import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName.js';
+import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile.js';
 
 import 'plugins/dam/components/asset-screen/variants.scss';
 

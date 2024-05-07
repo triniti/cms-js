@@ -1,14 +1,14 @@
 import React from 'react';
 import { Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl';
-import AssetId from '@triniti/schemas/triniti/dam/AssetId';
-import camelCase from 'lodash-es/camelCase';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
+import camelCase from 'lodash-es/camelCase.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import startCase from 'lodash-es/startCase';
-import withPbj from '@triniti/cms/components/with-pbj';
+import startCase from 'lodash-es/startCase.js';
+import withPbj from '@triniti/cms/components/with-pbj/index.js';
 
 function TranscodeableCard({ asset, pbj }) {
   const status = asset.has('transcoding_status') ? asset.get('transcoding_status').getValue() : 'unknown';

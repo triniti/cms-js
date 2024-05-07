@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Col, Media, Row } from 'reactstrap';
 import { TextField } from '@triniti/cms/components/index.js';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import humanizeBytes from '@triniti/cms/utils/humanizeBytes.js';
 import PollPickerField from '@triniti/cms/plugins/apollo/components/poll-picker-field/index.js';
-import CommonFields from './CommonFields';
+import CommonFields from '@triniti/cms/plugins/dam/components/asset-screen/CommonFields.js';
+
 
 export default function ImageAssetFields(props) {
   const { asset, commonFieldsComponent } = props;

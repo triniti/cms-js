@@ -1,14 +1,14 @@
 import React from 'react';
-import memoize from 'lodash-es/memoize';
+import memoize from 'lodash-es/memoize.js';
 import noop from 'lodash-es/noop.js';
 import { Field } from 'react-final-form';
 import { Button, Col, FormGroup, Row } from 'reactstrap';
-import AssetSnippet from '@triniti/cms/plugins/dam/components/asset-snippet';
+import AssetSnippet from '@triniti/cms/plugins/dam/components/asset-snippet/index.js';
 import DatePickerField from '@triniti/cms/components/date-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import TextareaField from '@triniti/cms/components/textarea-field/index.js';
 import TextField from '@triniti/cms/components/text-field/index.js';
-import { DATE_FIELD_QUICK_SELECT_OPTIONS } from '@triniti/cms/plugins/dam/constants';
+import { DATE_FIELD_QUICK_SELECT_OPTIONS } from '@triniti/cms/plugins/dam/constants.js';
 
 const getPicklistId = memoize((cacheKey, asset) => `${asset.schema().getCurie().getMessage()}-credits`);
 

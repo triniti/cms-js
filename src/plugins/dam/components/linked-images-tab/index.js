@@ -4,19 +4,19 @@ import { CreateModalButton, Icon, Loading, UncontrolledTooltip } from '@triniti/
 import { Link } from 'react-router-dom';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import ImageGrid from '../../../../plugins/dam/components/image-grid';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import Swal from 'sweetalert2';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { getInstance } from '@triniti/app/main.js';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
-import useFormContext from '@triniti/cms/components/useFormContext';
+import useFormContext from '@triniti/cms/components/useFormContext.js';
 import noop from 'lodash-es/noop.js';
 
 const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/link-assets-modal/index.js'));

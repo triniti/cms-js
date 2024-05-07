@@ -1,11 +1,11 @@
 import noop from 'lodash-es/noop.js';
 import React, { useState, useEffect } from 'react';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
-import useResolver from '@triniti/cms/plugins/pbjx/components/with-request/useResolver';
+import useResolver from '@triniti/cms/plugins/pbjx/components/with-request/useResolver.js';
 import { Icon, Loading } from '@triniti/cms/components/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { ScrollableContainer } from '@triniti/cms/components/index.js';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import {
   Button,
   Container,
@@ -13,8 +13,8 @@ import {
   Input,
   InputGroup,
 } from 'reactstrap';
-import ImageGrid from '../image-grid';
-import { debounce } from 'lodash-es';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
+import debounce from 'lodash-es/debounce.js';
 
 const ImageSearch = (props) => {
   const {

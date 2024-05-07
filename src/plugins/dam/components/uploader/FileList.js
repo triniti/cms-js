@@ -4,7 +4,7 @@ import throttle from 'lodash-es/throttle.js';
 import { compute as computeScrollIntoView } from 'compute-scroll-into-view';
 import Swal from 'sweetalert2';
 
-import FileItem from './FileItem.js';
+import FileItem from '@triniti/cms/plugins/dam/components/uploader/FileItem.js';
 
 const confirmSelect = async () => {
   return Swal.fire({

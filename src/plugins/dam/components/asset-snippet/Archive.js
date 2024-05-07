@@ -1,6 +1,5 @@
 import { filesize } from 'filesize';
 import React from 'react';
-import Message from '@gdbots/pbj/Message.js';
 import { Icon } from '@triniti/cms/components/index.js';
 import {
   FormGroup,

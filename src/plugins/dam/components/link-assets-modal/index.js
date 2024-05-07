@@ -8,8 +8,8 @@ import {
   ModalHeader,
 } from 'reactstrap';
 
-import ImageSearch from '../image-search';
-import UploaderButton from '../uploader-button';
+import ImageSearch from '@triniti/cms/plugins/dam/components/image-search/index.js';
+import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button/index.js';
 
 export default function LinkAssetModel (props) {
   const {

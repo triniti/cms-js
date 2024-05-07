@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import { Button } from 'reactstrap';
-import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 
 export default function AudioAssetIcon({ asset }) {
   const playerRef = useRef(null);

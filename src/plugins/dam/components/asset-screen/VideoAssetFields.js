@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
 import { TextField } from '@triniti/cms/components/index.js';
-import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
-import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl';
+import humanizeBytes from '@triniti/cms/utils/humanizeBytes.js';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import ReactPlayer from 'react-player';
-import CommonFields from './CommonFields';
+import CommonFields from '@triniti/cms/plugins/dam/components/asset-screen/CommonFields.js';
 
 
 export default function VideoAssetFields(props) {

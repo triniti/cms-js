@@ -1,11 +1,11 @@
 import React from 'react';
-import Archive from './Archive';
-import Audio from './Audio';
-import Code from './Code';
-import Document from './Document';
-import Image from './Image';
-import Unknown from './Unknown';
-import Video from './Video';
+import Archive from '@triniti/cms/plugins/dam/components/asset-snippet/Archive.js';
+import Audio from '@triniti/cms/plugins/dam/components/asset-snippet/Audio.js';
+import Code from '@triniti/cms/plugins/dam/components/asset-snippet/Code.js';
+import Document from '@triniti/cms/plugins/dam/components/asset-snippet/Document.js';
+import Image from '@triniti/cms/plugins/dam/components/asset-snippet/Image.js';
+import Unknown from '@triniti/cms/plugins/dam/components/asset-snippet/Unknown.js';
+import Video from '@triniti/cms/plugins/dam/components/asset-snippet/Video.js';
 
 const AssetSnippet = ({ asset, previewUrl }) => {
   switch (asset.get('_id').getType()) {

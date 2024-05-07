@@ -19,9 +19,9 @@ import MessageResolver from '@gdbots/pbj/MessageResolver';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 
-import './styles.scss';
+import '@triniti/cms/plugins/dam/components/batch-edit-modal/styles.scss';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import { fromNodeRef } from '@triniti/cms/plugins/dam/utils/assetFactory';
+import { fromNodeRef } from '@triniti/cms/plugins/dam/utils/assetFactory.js';
 
 const confirmDone = async (text) => {
   return swal.fire({
@@ -39,7 +39,7 @@ const confirmDone = async (text) => {
 const patchAssets =  async (form, dispatch, nodeRefs) => {
   const app = getInstance();
   const pbjx = await app.getPbjx();
-  const PatchAssetsV1 = await MessageResolver.resolveCurie(`${APP_VENDOR}:dam:command:patch-assets:v1`);
+  const PatchAssetsV1 = await MessageResolver.resolveCurie('triniti:dam:command:patch-assets:v1');
   const paths = [];
   const command = PatchAssetsV1.create();
   form.getRegisteredFields().map(field => {

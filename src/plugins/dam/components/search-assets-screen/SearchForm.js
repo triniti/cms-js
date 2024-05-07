@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
-import SchemaCurie from '@gdbots/pbj/SchemaCurie';
+import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';

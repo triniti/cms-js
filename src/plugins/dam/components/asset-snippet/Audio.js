@@ -5,7 +5,6 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap';
-import Message from '@gdbots/pbj/Message.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
 const Audio = ({ asset }) => (

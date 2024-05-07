@@ -5,7 +5,6 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap';
-import Message from '@gdbots/pbj/Message.js';
 
 const Code = (props) => {
   const { asset } = props;

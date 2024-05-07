@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import getFileList from './getFileList';
+import getFileList from '@triniti/cms/plugins/dam/selectors/getFileList.js';
 
 export default createSelector(
   getFileList,
