@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'reactstrap';
-import ButtonToolbarAsset from './ButtonToolbarAsset';
+import ButtonToolbarAsset from '@triniti/cms/plugins/curator/components/sortable-grid/ButtonToolbarAsset.js';
 import { useSortable } from '@dnd-kit/sortable';
 
 const itemStyles = {

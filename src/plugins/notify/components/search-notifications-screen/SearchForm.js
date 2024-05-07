@@ -5,9 +5,9 @@ import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/Searc
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { ActionButton, CheckboxField, DatePickerField, Icon, Loading, NumberField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
-import AppPickerField from '@triniti/cms/plugins/iam/components/app-picker-field';
+import AppPickerField from '@triniti/cms/plugins/iam/components/app-picker-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
-import NotificationSendStatusField from '@triniti/cms/plugins/notify/components/notification-send-status-field';
+import NotificationSendStatusField from '@triniti/cms/plugins/notify/components/notification-send-status-field/index.js';
 import noop from 'lodash-es/noop.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';

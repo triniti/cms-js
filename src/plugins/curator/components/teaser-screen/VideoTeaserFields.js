@@ -1,5 +1,5 @@
 import React from 'react';
-import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field';
+import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field/index.js';
 
 export default function VideoTeaserFields() {
   return (

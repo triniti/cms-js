@@ -4,15 +4,15 @@ import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import SeoTab from '@triniti/cms/plugins/common/components/seo-tab';
-import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab';
+import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
+import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/news/components/article-screen/DetailsTab.js';
 import StoryTab from '@triniti/cms/plugins/news/components/article-screen/StoryTab';
 import NotificationsTab from '@triniti/cms/plugins/news/components/article-screen/NotificationsTab';
 import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
-import LinkedImagesTab from '@triniti/cms/plugins/dam/components/linked-images-tab';
+import LinkedImagesTab from '@triniti/cms/plugins/dam/components/linked-images-tab/index.js';
 
 
 function ArticleScreen(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import startCase from 'lodash-es/startCase';
 import { EnumField, KeyValuesField, SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import AdSizeEnum from '@triniti/schemas/triniti/common/enums/AdSize';
+import AdSizeEnum from '@triniti/schemas/triniti/common/enums/AdSize.js';
 
 const filter = option => option.value !== 'unknown';
 const format = label => startCase(label.toLowerCase());
@@ -16,7 +16,7 @@ export default function AdWidgetFields() {
         filter={filter}
         format={format}
       />
-      <TextField name="dfp_ad_unit_path" label="DFP AD UNIT PATH" />
+      <TextField name="dfp_ad_unit_path" label="DFP Ad Unit Path" />
       <KeyValuesField name="dfp_cust_params" label="DFP Custom Parameters" component={TextField} />
       <SwitchField name="show_header" label="Show Header" />
       <SwitchField name="show_border" label="Show Border" />

@@ -3,9 +3,9 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import { DatePickerField, SelectField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
 export default function DetailsTab(props) {
   const { nodeRef, node } = props;

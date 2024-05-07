@@ -1,8 +1,8 @@
 import React, { lazy, useState } from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import SchemaCurie from '@gdbots/pbj/SchemaCurie';
-import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
+import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import { ActionButton, withPbj } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
@@ -12,8 +12,8 @@ const resolveComponent = (curie) => {
     return components[curie];
   }
 
-  const file = startCase(SchemaCurie.fromString(curie).getMessage()).replace(/\s/g,'');
-  components[curie] = lazy(() => import(`./${file}Modal`));
+  const file = startCase(SchemaCurie.fromString(curie).getMessage()).replace(/\s/g, '');
+  components[curie] = lazy(() => import(`@triniti/cms/plugins/curator/components/create-teaser-modal/${file}Modal.js`));
   return components[curie];
 };
 
@@ -42,23 +42,22 @@ export default function CreateTeaserModal(props) {
           <ModalBody>
             <ListGroup>
               {teaserCuries.map(str => {
-                  const curie = SchemaCurie.fromString(str);
-                  const canCreate = policy.isGranted(`${curie.getQName()}:create`);
-                  if (!canCreate) {
-                    return;
-                  }
-
-                  return (
-                    <ListGroupItem key={curie.toString()}>
-                      <a
-                        className="text-info"
-                        data-curie={curie.toString()}
-                        onClick={handleClick}
-                      >{curie.getMessage()}</a>
-                    </ListGroupItem>
-                  );
+                const curie = SchemaCurie.fromString(str);
+                const canCreate = policy.isGranted(`${curie.getQName()}:create`);
+                if (!canCreate) {
+                  return;
                 }
-              )}
+
+                return (
+                  <ListGroupItem key={curie.toString()}>
+                    <a
+                      className="text-info"
+                      data-curie={curie.toString()}
+                      onClick={handleClick}
+                    >{curie.getMessage()}</a>
+                  </ListGroupItem>
+                );
+              })}
             </ListGroup>
           </ModalBody>
           <ModalFooter>

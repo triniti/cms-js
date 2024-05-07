@@ -1,7 +1,7 @@
 import React from 'react';
 import { SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
-import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
 export default function ShowtimesWidgetFields(props) {
   const { node, nodeRef } = props;

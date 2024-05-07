@@ -13,7 +13,7 @@ const resolveComponent = (label) => {
   }
 
   const file = startCase(label).replace(/\s/g, '');
-  components[label] = lazy(() => import(`./${file}Fields`));
+  components[label] = lazy(() => import(`@triniti/cms/plugins/dam/components/asset-screen/${file}Fields.js`));
   return components[label];
 };
 

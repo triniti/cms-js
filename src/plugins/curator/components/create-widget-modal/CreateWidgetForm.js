@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { Form, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';

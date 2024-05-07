@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SelectField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
-import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
-import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
-import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
+import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
-import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 
 export default function DetailsTab(props) {

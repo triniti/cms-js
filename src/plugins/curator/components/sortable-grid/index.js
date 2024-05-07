@@ -1,9 +1,9 @@
 import React from 'react';
 import { DndContext, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import { SortableContext,  } from '@dnd-kit/sortable';
-import SortableItem from './SortableItem';
+import SortableItem from '@triniti/cms/plugins/curator/components/sortable-grid/SortableItem.js';
 
-import './styles.scss';
+import '@triniti/cms/plugins/curator/components/sortable-grid/styles.scss';
 
 const gridStyles = {
   // display: 'grid',

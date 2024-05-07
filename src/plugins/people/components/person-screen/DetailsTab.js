@@ -1,13 +1,13 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { SelectField, SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import BlocksmithField from '@triniti/cms/components/blocksmith-field';
+import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
-import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
-import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
+import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/index.js';
 
 const bioSourceOptions = [
   { value: 'imdb', label: 'imdb' },

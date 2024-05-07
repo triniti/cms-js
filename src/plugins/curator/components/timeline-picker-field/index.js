@@ -1,4 +1,3 @@
-import React from 'react';
 import SearchTimelinesSort from '@triniti/schemas/triniti/curator/enums/SearchTimelinesSort.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';

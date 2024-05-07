@@ -5,7 +5,7 @@ import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidg
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
@@ -13,7 +13,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/curator/components/search-widgets-screen/SearchForm.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import CloneButton from '@triniti/cms/plugins/ncr/components/clone-button';
+import CloneButton from '@triniti/cms/plugins/ncr/components/clone-button/index.js';
 
 const CreateWidgetModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-widget-modal/index.js'));
 

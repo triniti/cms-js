@@ -47,7 +47,7 @@ function SearchAssetsScreen(props) {
     }
 
     const file = startCase(label).replace(/\s/g, '');
-    components[label] = lazy(() => import(`./${file}Icon`));
+    components[label] = lazy(() => import(`@triniti/cms/plugins/dam/components/search-assets-screen/${file}Icon.js`));
     return components[label];
     };
 

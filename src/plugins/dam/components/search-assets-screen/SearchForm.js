@@ -8,10 +8,10 @@ import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, Trinar
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
-import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field';
-import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field';
-import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field';
-import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
+import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field/index.js';
+import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field/index.js';
+import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
 import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {

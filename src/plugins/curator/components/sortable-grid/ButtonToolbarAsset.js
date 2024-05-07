@@ -2,8 +2,8 @@ import noop from 'lodash-es/noop.js';
 import React, { useState } from 'react';
 import { ButtonToolbar, Media, CardImgOverlay, CardTitle  } from 'reactstrap';
 import { CheckboxField, BackgroundImage } from '@triniti/cms/components/index.js';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import ToolbarButton from './ToolbarButton';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import ToolbarButton from '@triniti/cms/plugins/curator/components/sortable-grid/ToolbarButton.js';
 
 const Asset = ({
   asset,

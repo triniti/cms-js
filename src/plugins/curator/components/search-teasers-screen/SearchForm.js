@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
-import SchemaCurie from '@gdbots/pbj/SchemaCurie';
+import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
-import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field';
-import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field';
-import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field';
-import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
+import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field/index.js';
+import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field/index.js';
+import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
 import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {

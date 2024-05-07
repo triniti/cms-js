@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
-import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field';
-import withTeaserModal from '@triniti/cms/plugins/curator/components/create-teaser-modal/withTeaserModal';
+import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field/index.js';
+import withTeaserModal from '@triniti/cms/plugins/curator/components/create-teaser-modal/withTeaserModal.js';
 
 function ChannelTeaserModal() {
   return (

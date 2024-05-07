@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
   CheckboxField,
@@ -11,12 +11,12 @@ import {
   TextareaField,
   TextField
 } from '@triniti/cms/components/index.js';
-import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field';
-import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field';
-import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
 const components = {};
 const resolveComponent = (label) => {
@@ -25,7 +25,7 @@ const resolveComponent = (label) => {
   }
 
   const file = startCase(label).replace(/\s/g, '');
-  components[label] = lazy(() => import(`./${file}Fields`));
+  components[label] = lazy(() => import(`@triniti/cms/plugins/curator/components/teaser-screen/${file}Fields.js`));
   return components[label];
 };
 

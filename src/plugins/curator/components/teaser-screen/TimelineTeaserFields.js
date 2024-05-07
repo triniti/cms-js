@@ -1,5 +1,5 @@
 import React from 'react';
-import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
 
 export default function TimelineTeaserFields() {
   return (

@@ -3,7 +3,7 @@ import { Container, Col, Media, Row } from 'reactstrap';
 import { TextField } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl';
 import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
-import PollPickerField from '@triniti/cms/plugins/apollo/components/poll-picker-field';
+import PollPickerField from '@triniti/cms/plugins/apollo/components/poll-picker-field/index.js';
 import CommonFields from './CommonFields';
 
 export default function ImageAssetFields(props) {

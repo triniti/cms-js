@@ -14,7 +14,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/i
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import useBatchSelection from '@triniti/cms/plugins/ncr/components/useBatchSelection.js';
-import CloneButton from '@triniti/cms/plugins/ncr/components/clone-button';
+import CloneButton from '@triniti/cms/plugins/ncr/components/clone-button/index.js';
 
 const CreatePromotionModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-promotion-modal/index.js'));
 

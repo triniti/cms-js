@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
-import BlocksmithField from '@triniti/cms/components/blocksmith-field';
+import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
 import { DatePickerField, KeyValuesField, NumberField, TextField } from '@triniti/cms/components/index.js';
 
 export default function StoryTab(props) {

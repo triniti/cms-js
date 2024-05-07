@@ -2,7 +2,7 @@ import React from 'react';
 import { DatePickerField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import { Container, Col, Row } from 'reactstrap';
 import humanizeBytes from '@triniti/cms/utils/humanizeBytes';
-import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
 export default function DocumentAssetFields() {
   <>

@@ -15,7 +15,7 @@ const resolveComponent = (curie) => {
   }
 
   const file = startCase(SchemaCurie.fromString(curie).getMessage()).replace(/\s/g, '');
-  components[curie] = lazy(() => import(`./${file}Modal`));
+  components[curie] = lazy(() => import(`@triniti/cms/plugins/notify/components/create-notification-modal/${file}Modal.js`));
   return components[curie];
 };
 

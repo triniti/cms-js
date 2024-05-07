@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field';
+import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field/index.js';
 
 export default function CategoryTeaserFields() {
   return (

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import SchemaCurie from '@gdbots/pbj/SchemaCurie';
-import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries';
+import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
+import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import { ActionButton, withPbj } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import CreateWidgetForm from '@triniti/cms/plugins/curator/components/create-widget-modal/CreateWidgetForm';
+import CreateWidgetForm from '@triniti/cms/plugins/curator/components/create-widget-modal/CreateWidgetForm.js';
 
 export default function CreateWidgetModal(props) {
   const policy = usePolicy();

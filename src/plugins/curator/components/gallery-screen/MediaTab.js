@@ -1,38 +1,34 @@
 import React, { lazy, useState } from 'react';
-import pull from 'lodash-es/pull';
-import pickBy from 'lodash-es/pickBy';
+import pull from 'lodash-es/pull.js';
+import pickBy from 'lodash-es/pickBy.js';
 import noop from 'lodash-es/noop.js';
-import isEqual from 'lodash-es/isEqual';
+import isEqual from 'lodash-es/isEqual.js';
 import swal from 'sweetalert2';
-import { unstable_useBlocker } from 'react-router';
 import { getInstance } from '@triniti/app/main.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
-import useResolver from '@triniti/cms/plugins/pbjx/components/with-request/useResolver';
+import useResolver from '@triniti/cms/plugins/pbjx/components/with-request/useResolver.js';
 import { CreateModalButton, Loading } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import { useNavigate } from 'react-router-dom';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
-import ReorderGalleryAssetsV1 from '@triniti/schemas/triniti/dam/command/ReorderGalleryAssetsV1';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
+import ReorderGalleryAssetsV1 from '@triniti/schemas/triniti/dam/command/ReorderGalleryAssetsV1.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 
 import { Button, Card, Col, CardBody, CardHeader, CardFooter, Row } from 'reactstrap';
-import damUrl from '@triniti/cms/plugins/dam/damUrl';
-import Exception from '@gdbots/pbj/Exception';
-import Message from '@gdbots/pbj/Message';
-import pbjUrl from '@gdbots/pbjx/pbjUrl';
-import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid';
-import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid/index.js';
+import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
-import getUpdatedNodeSequenceNumbers from './utils/getUpdatedNodeSequenceNumbers';
-import moveNodeByGallerySequence from './utils/moveNodeByGallerySequence';
-import moveNodeByIndex from './utils/moveNodeByIndex';
-import ResizeGallerySlider from './ResizeGallerySlider';
+import getUpdatedNodeSequenceNumbers from '@triniti/cms/plugins/curator/components/gallery-screen/utils/getUpdatedNodeSequenceNumbers.js';
+import moveNodeByGallerySequence from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByGallerySequence.js';
+import moveNodeByIndex from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByIndex.js';
+import ResizeGallerySlider from '@triniti/cms/plugins/curator/components/gallery-screen/ResizeGallerySlider.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import { STATUS_FULFILLED } from 'constants';
+import { STATUS_FULFILLED } from '@triniti/cms/constants.js';
 
 const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/link-assets-modal/index.js'));
 
