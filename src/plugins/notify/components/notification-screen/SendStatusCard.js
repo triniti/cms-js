@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { Badge, Button, Card, CardBody, CardHeader, Spinner, Table } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { Icon } from '@triniti/cms/components/index.js';
-import useNode from '@triniti/cms/plugins/ncr/components/useNode';
-import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
-import SendForm from '@triniti/cms/plugins/notify/components/notification-screen/SendForm';
+import SendForm from '@triniti/cms/plugins/notify/components/notification-screen/SendForm.js';
 
 export default function SendStatusCard(props) {
   const { nodeRef } = props;

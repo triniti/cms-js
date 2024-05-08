@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useFormState } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { Form, ModalFooter, ModalHeader } from 'reactstrap';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { getInstance } from '@triniti/app/main.js';
 import { ActionButton, FormErrors, withForm } from '@triniti/cms/components/index.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
@@ -12,7 +12,7 @@ import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
-import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 
 const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
 

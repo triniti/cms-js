@@ -3,7 +3,7 @@ import { ModalBody } from 'reactstrap';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import ContentRefField from '@triniti/cms/plugins/notify/components/content-ref-field/index.js';
 import SendOptionsField from '@triniti/cms/plugins/notify/components/send-options-field/index.js';
-import withNotificationModal from '@triniti/cms/plugins/notify/components/create-notification-modal/withNotificationModal';
+import withNotificationModal from '@triniti/cms/plugins/notify/components/create-notification-modal/withNotificationModal.js';
 
 function AndroidNotificationModal(props) {
   const { articleStatus, contentRef } = props;

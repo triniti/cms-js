@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
-import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';

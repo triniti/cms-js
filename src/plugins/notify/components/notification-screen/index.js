@@ -5,7 +5,7 @@ import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/notify/components/notification-screen/DetailsTab.js';
-import SendStatusCard from '@triniti/cms/plugins/notify/components/notification-screen/SendStatusCard';
+import SendStatusCard from '@triniti/cms/plugins/notify/components/notification-screen/SendStatusCard.js';
 import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 

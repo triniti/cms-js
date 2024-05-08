@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 
 const components = {};

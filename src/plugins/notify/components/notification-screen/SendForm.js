@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
-import kebabCase from 'lodash-es/kebabCase';
-import startCase from 'lodash-es/startCase';
+import kebabCase from 'lodash-es/kebabCase.js';
+import startCase from 'lodash-es/startCase.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import {
   Button,
@@ -18,9 +18,9 @@ import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-import getNode from '@triniti/cms/plugins/ncr/selectors/getNode';
+import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 import noop from 'lodash-es/noop.js';
 
 export default function SendForm(props) {

@@ -1,4 +1,3 @@
-import React from 'react';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';

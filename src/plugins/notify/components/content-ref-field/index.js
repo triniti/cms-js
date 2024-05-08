@@ -6,7 +6,7 @@ import { Badge, Label } from 'reactstrap';
 import { ErrorBoundary, Loading, useFormContext } from '@triniti/cms/components/index.js';
 
 export const pickers = {
-  article: lazy(() => import('@triniti/cms/plugins/news/components/article-picker-field')),
+  article: lazy(() => import('@triniti/cms/plugins/news/components/article-picker-field/index.js')),
   // gallery: lazy(() => import('@triniti/cms/plugins/curator/components/gallery-picker-field')),
   // video: lazy(() => import('@triniti/cms/plugins/ovp/components/video-picker-field')),
   none: props => <Field {...props} type="hidden" component="input" value={null} />,

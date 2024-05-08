@@ -1,7 +1,7 @@
 import React, { lazy, useState } from 'react';
-import startCase from 'lodash-es/startCase';
-import { Badge, ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import SchemaCurie from '@gdbots/pbj/SchemaCurie';
+import startCase from 'lodash-es/startCase.js';
+import { Badge, ListGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort.js';
 import { ActionButton, Loading, withPbj } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
