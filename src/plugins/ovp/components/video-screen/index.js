@@ -8,7 +8,7 @@ import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/ovp/components/video-screen/DetailsTab.js';
-import MediaTab from '@triniti/cms/plugins/ovp/components/video-screen/MediaTab';
+import MediaTab from '@triniti/cms/plugins/ovp/components/video-screen/MediaTab.js';
 import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 

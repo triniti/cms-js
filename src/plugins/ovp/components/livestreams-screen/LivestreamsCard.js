@@ -1,18 +1,18 @@
 import React from 'react';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
-import { ActionButton } from '@triniti/cms/components/index';
-import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus';
+import { ActionButton } from '@triniti/cms/components/index.js';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { Link } from 'react-router-dom';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 import swal from 'sweetalert2';
-import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1';
-import { getInstance } from '@triniti/demo/src/main';
-import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1';
+import StartChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StartChannelV1.js';
+import { getInstance } from '@triniti/app/main.js';
+import StopChannelV1 from '@triniti/schemas/triniti/ovp.medialive/command/StopChannelV1.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
-import MedialiveChannelStateButton from './MedialiveChannelStateButton';
+import MedialiveChannelStateButton from '@triniti/cms/plugins/ovp/components/livestreams-screen/MedialiveChannelStateButton.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 

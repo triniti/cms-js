@@ -1,21 +1,15 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort.js';
-import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
-import { scrollToTop } from '@triniti/cms/components/screen/index.js';
+import { Loading, Screen } from '@triniti/cms/components/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
-import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import LivestreamsCard from './LivestreamsCard';
+import LivestreamsCard from '@triniti/cms/plugins/ovp/components/livestreams-screen/LivestreamsCard.js';
 
 function LivestreamsScreen(props) {
   const { request } = props;
   const { response, pbjxError, run } = useRequest(request, true);
   const nodes = response ? response.get('nodes', []) : [];
   const metas = response ? response.get('metas', {}) : {};
-
-  const reloadChannelState = () => {
-    run();
-  }
 
   return (
     <Screen
@@ -25,7 +19,7 @@ function LivestreamsScreen(props) {
     >
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
-        <LivestreamsCard nodes={nodes} metas={metas} reloadChannelState={reloadChannelState}/>
+        <LivestreamsCard nodes={nodes} metas={metas} reloadChannelState={run} />
       )}
     </Screen>
   );
