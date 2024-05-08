@@ -59,7 +59,7 @@
   --#{$prefix}table-bg-state: 0;
 }
 
-.table-hover > tbody > tr:hover > * {
+.table-hover > tbody > tr:hover {
   background-color: var(--#{$prefix}table-hover-bg);
   --#{$prefix}table-bg-state: 0;
 }
@@ -68,19 +68,9 @@
   background-color: transparent; // nested table bg
 }
 
-/*
 .table-dark {
-  --bs-table-color: $body-color-dark; // var(--#{$prefix}body-color)
-
-  thead th {
-    --bs-table-color: $white; // var(--#{$prefix}body-color)
-  }
-  [data-bs-theme=dark] & {
-    --bs-table-bg: var(--#{$prefix}light-bg-subtle);
-    --bs-table-color: var(--#{$prefix}body-color);
-  }
+  --bs-table-color: var(--#{$prefix}body-color);
 }
-*/
 
 td {
 
@@ -289,7 +279,7 @@ tr > td:first-child {
       right: 0;
       height: 3rem;
       pointer-events: none;
-      background: linear-gradient(to bottom, var(--#{$prefix}body-color) 0%,var(--#{$prefix}body-color) 50%,var(--#{$prefix}body-color) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      background: linear-gradient(to bottom, rgba(var(--#{$prefix}body-bg-rgb), 0) 0%, var(--#{$prefix}body-bg) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     }
   }
 }

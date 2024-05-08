@@ -149,13 +149,6 @@
       background-image: none;
     }
 
-    [data-bs-theme=light] & {
-      &:hover,
-      &:focus {
-        border-bottom-color: darken($value, 18%);
-      }
-    }
-
     [data-bs-theme=dark] & {
       $btn-bg: darken($value, 8%);
       $btn-border-color: darken($value, 14%);
@@ -181,13 +174,6 @@
       --#{$prefix}btn-hover-bg: #{$gray-300};
       --#{$prefix}btn-active-color: var(--#{$prefix}btn-color);
       --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
-
-      [data-bs-theme=light] & {
-        &:hover,
-        &:focus {
-          border-bottom-color: darken($gray-600, 10%);
-        }
-      }
 
       [data-bs-theme=dark] & {
         $btn-hover-bg: shade-color($body-secondary-bg-dark, 6%);
@@ -225,13 +211,6 @@
       background-image: none;
     }
 
-    [data-bs-theme=light] & {
-      &:hover,
-      &:focus {
-        border-bottom-color: darken($value, 18%);
-      }
-    }
-
     [data-bs-theme=dark] & {
       $btn-hover-bg: darken($value, 12%);
       // $btn-hover-border-color: darken($value, 25%);
@@ -256,13 +235,7 @@
       --#{$prefix}btn-border-color: #{$gray-600};
       --#{$prefix}btn-hover-color: var(--#{$prefix}body-color);
       --#{$prefix}btn-hover-bg: #{$gray-500};
-
-      [data-bs-theme=light] & {
-        &:hover,
-        &:focus {
-          border-bottom-color: darken($gray-600, 10%);
-        }
-      }
+      --#{$prefix}btn-active-color: var(--#{$prefix}body-color);
 
       [data-bs-theme=dark] & {
         $btn-hover-bg: shade-color($body-secondary-bg-dark, 7%);
@@ -591,8 +564,7 @@
     filter: none;
     background: transparent url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27 %3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e") center/1em auto no-repeat;
   }
-  .alert &,
-  [data-bs-theme=dark] .alert & {
+  .alert & {
     background: none;
 
     &:before {
@@ -600,26 +572,8 @@
       font-size: 24px;
       font-weight: 600;
       line-height: .5;
-      color: $white;
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-    }
-  }
-  .alert-inverse & { // todo: check if alert-inverse has been removed
-
-    &:before,
-    [data-bs-theme=dark] &:before {
-      color: $body-color;
-      text-shadow: none;
-    }
-    &.alert-link,
-    [data-bs-theme=dark] &.alert-link { // add to btn-close for theme colored buttons
-      text-decoration: none !important;
-
-      &:before,
-      &:hover,
-      &:focus {
-        color: inherit;
-      }
+      color: var(--#{$prefix}alert-link-color);
+      // text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     }
   }
 }

@@ -207,15 +207,23 @@ function showMultipleToasts() {
 
 function DemoScreen() {
   const [activeTab, setActiveTab] = useState('1');
+  const [activeTabNext, setActiveTabNext] = useState('3');
 
   const [startDate, setStartDate] = useState(new Date());
   const [clearableDate, setClearableDate] = useState(new Date());
 
-  const handleDateChange = (date) => {
-    setDate(date);
-  };
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
+  };
+
+  const toggleNext = tab => {
+    if (activeTabNext !== tab) setActiveTabNext(tab);
+  };
+
+  const [activeButton, setActiveButton] = useState('button1');
+
+  const handleClick = (button) => {
+    setActiveButton(button);
   };
 
   const items = [ // Carousel Content
@@ -270,104 +278,104 @@ function DemoScreen() {
           <CardHeader>Components</CardHeader>
           <CardBody className="p-0">
             <ListGroup className="list-group-nav pt-3 pb-4">
-              <ListGroupItem active>
-                <a href="#alerts">Alerts</a>
+              <ListGroupItem action tag="a" href="#alerts" active={activeButton === 'button1'} onClick={() => handleClick('button1')}>
+                Alerts
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#badges">Badges</a>
+              <ListGroupItem action tag="a" href="#badges" active={activeButton === 'button2'} onClick={() => handleClick('button2')}>
+                Badges
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#breadcrumbs">Breadcrumbs</a>
+              <ListGroupItem action tag="a" href="#breadcrumbs" active={activeButton === 'button3'} onClick={() => handleClick('button3')}>
+                Breadcrumbs
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#button-groups">Button Groups</a>
+              <ListGroupItem action tag="a" href="#button-groups" active={activeButton === 'button4'} onClick={() => handleClick('button4')}>
+                Button Groups
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#buttons">Buttons</a>
+              <ListGroupItem action tag="a" href="#buttons" active={activeButton === 'button5'} onClick={() => handleClick('button5')}>
+                Buttons
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#cards">Cards</a>
+              <ListGroupItem action tag="a" href="#cards" active={activeButton === 'button6'} onClick={() => handleClick('button6')}>
+                Cards
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#carousel">Carousel</a>
+              <ListGroupItem action tag="a" href="#carousel" active={activeButton === 'button7'} onClick={() => handleClick('button7')}>
+                Carousel
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#checkbox-field">Checkbox Field</a>
+              <ListGroupItem action tag="a" href="#checkbox-field" active={activeButton === 'button8'} onClick={() => handleClick('button8')}>
+                Checkbox Field
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#dropdown">Dropdown</a>
+              <ListGroupItem action tag="a" href="#dropdown" active={activeButton === 'button9'} onClick={() => handleClick('button9')}>
+                Dropdown
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#forms">Forms</a>
+              <ListGroupItem action tag="a" href="#forms" active={activeButton === 'button10'} onClick={() => handleClick('button10')}>
+                Forms
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#headers">Headers</a>
+              <ListGroupItem action tag="a" href="#headers" active={activeButton === 'button11'} onClick={() => handleClick('button11')}>
+                Headers
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#icons">Icons</a>
+              <ListGroupItem action tag="a" href="#icons" active={activeButton === 'button12'} onClick={() => handleClick('button12')}>
+                Icons
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#input-group">Input Group</a>
+              <ListGroupItem action tag="a" href="#input-group" active={activeButton === 'button13'} onClick={() => handleClick('button13')}>
+                Input Group
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#layout">Layout</a>
+              <ListGroupItem action tag="a" href="#layout" active={activeButton === 'button14'} onClick={() => handleClick('button14')}>
+                Layout
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#list-group">List Group</a>
+              <ListGroupItem action tag="a" href="#list-group" active={activeButton === 'button15'} onClick={() => handleClick('button15')}>
+                List Group
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#media">Media</a>
+              <ListGroupItem action tag="a" href="#media" active={activeButton === 'button16'} onClick={() => handleClick('button16')}>
+                Media
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#modals">Modals</a>
+              <ListGroupItem action tag="a" href="#modals" active={activeButton === 'button17'} onClick={() => handleClick('button17')}>
+                Modals
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#navbar">Navbar</a>
+              <ListGroupItem action tag="a" href="#navbar" active={activeButton === 'button18`'} onClick={() => handleClick('button18')}>
+                Navbar
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#navs">Navs</a>
+              <ListGroupItem action tag="a" href="#navs" active={activeButton === 'button19'} onClick={() => handleClick('button19')}>
+                Navs
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#pagination">Pagination</a>
+              <ListGroupItem action tag="a" href="#pagination" active={activeButton === 'button20'} onClick={() => handleClick('button20')}>
+                Pagination
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#popover">Popovers</a>
+              <ListGroupItem action tag="a" href="#popover" active={activeButton === 'button21'} onClick={() => handleClick('button21')}>
+                Popovers
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#progress">Progress</a>
+              <ListGroupItem action tag="a" href="#progress" active={activeButton === 'button22'} onClick={() => handleClick('button22')}>
+                Progress
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#radio-field">Radio Field</a>
+              <ListGroupItem action tag="a" href="#radio-field" active={activeButton === 'button23'} onClick={() => handleClick('button23')}>
+                Radio Field
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#range-field">Range Field</a>
+              <ListGroupItem action tag="a" href="#range-field" active={activeButton === 'button24'} onClick={() => handleClick('button24')}>
+                Range Field
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#reactdatepicker">React DatePicker</a>
+              <ListGroupItem action tag="a" href="#reactdatepicker" active={activeButton === 'button25'} onClick={() => handleClick('button25')}>
+                React DatePicker
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#react-select">React Select</a>
+              <ListGroupItem action tag="a" href="#react-select" active={activeButton === 'button26'} onClick={() => handleClick('button26')}>
+                React Select
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#spinner">Spinner</a>
+              <ListGroupItem action tag="a" href="#spinner" active={activeButton === 'button27'} onClick={() => handleClick('button27')}>
+                Spinner
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#sweet-alert">Sweet Alert</a>
+              <ListGroupItem action tag="a" href="#sweet-alert" active={activeButton === 'button28'} onClick={() => handleClick('button28')}>
+                Sweet Alert
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#switch-field">Switch Field</a>
+              <ListGroupItem action tag="a" href="#switch-field" active={activeButton === 'button29'} onClick={() => handleClick('button29')}>
+                Switch Field
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#table">Table</a>
+              <ListGroupItem action tag="a" href="#table" active={activeButton === 'button30'} onClick={() => handleClick('button30')}>
+                Table
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#tabs">Tabs</a>
+              <ListGroupItem action tag="a" href="#tabs" active={activeButton === 'button31'} onClick={() => handleClick('button31')}>
+                Tabs
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#toasts">Toasts</a>
+              <ListGroupItem action tag="a" href="#toasts" active={activeButton === 'button32'} onClick={() => handleClick('button32')}>
+                Toasts
               </ListGroupItem>
-              <ListGroupItem>
-                <a href="#tooltips">Tooltips</a>
+              <ListGroupItem action tag="a" href="#tooltips" active={activeButton === 'button33'} onClick={() => handleClick('button33')}>
+                Tooltips
               </ListGroupItem>
             </ListGroup>
           </CardBody>
@@ -4450,9 +4458,9 @@ function DemoScreen() {
           <Nav className="nav-underline nav-sm">
             <NavItem>
               <NavLink
-                className={classnames('tabindex', { active: activeTab === '1' })}
+                className={classnames('tabindex', { active: activeTabNext === '3' })}
                 onClick={() => {
-                  toggle('1');
+                  toggleNext('3');
                 }}
               >
                 Underline Style
@@ -4460,9 +4468,9 @@ function DemoScreen() {
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: activeTab === '2' })}
+                className={classnames({ active: activeTabNext === '4' })}
                 onClick={() => {
-                  toggle('2');
+                  toggleNext('4');
                 }}
               >
                 Fields
@@ -4477,8 +4485,8 @@ function DemoScreen() {
             </NavItem>
           </Nav>
 
-          <TabContent activeTab={activeTab}>
-            <TabPane tabId="1" className="pt-4">
+          <TabContent activeTab={activeTabNext}>
+            <TabPane tabId="3" className="pt-4">
               <div className="mb-3">
                 <div className="float-start me-3">
                   <Button color="zoom" className="rounded">
@@ -4513,7 +4521,7 @@ function DemoScreen() {
               </ListGroup>
 
             </TabPane>
-            <TabPane tabId="2" className="pt-4">
+            <TabPane tabId="4" className="pt-4">
               <Table bordered size="sm" className="mb-0">
                 <thead>
                 <tr className="bg-light py-2">
