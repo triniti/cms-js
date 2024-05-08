@@ -50,7 +50,7 @@ export const ActiveEditsTable = ({
   )), [status]);
 
   return (
-    <Card>
+    <Card className="card-shadow">
       <CardHeader className="pr-2">
         {title}
         <Button size="sm" className="btn-light">
