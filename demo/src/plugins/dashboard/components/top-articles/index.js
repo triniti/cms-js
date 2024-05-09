@@ -79,19 +79,19 @@ export default function TopArticles(props) {
                   <td>{formatDate(node.get('order_date'))}</td>
                   <td className="td-icons">
                     <Link to={nodeUrl(node, 'view')}>
-                      <Button color="hover" className="rounded-circle">
+                      <Button tag="span" color="hover" className="rounded-circle">
                         <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
                     {canUpdate && (
                       <Link to={nodeUrl(node, 'edit')}>
-                        <Button color="hover" className="rounded-circle">
+                        <Button tag="span" color="hover" className="rounded-circle">
                           <Icon imgSrc="pencil" alt="edit" />
                         </Button>
                       </Link>
                     )}
                     <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                      <Button color="hover">
+                      <Button tag="span" color="hover" className="rounded-circle">
                         <Icon imgSrc="external" alt="open" />
                       </Button>
                     </a>

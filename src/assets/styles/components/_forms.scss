@@ -29,6 +29,9 @@ form {
   // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
   background-image: none;
 
+  [data-bs-theme=dark] & {
+    --#{$prefix}border-color: var(--#{$prefix}form-control-border-color);
+  }
   &:not(:focus):hover {
     box-shadow: $hover-shadow;
 
@@ -37,9 +40,6 @@ form {
     }
   }
   &:focus {
-    // border-color: $secondary;
-    // color: var(--#{$prefix}body-color);
-    // background-color: $white !important;
 
     [data-bs-theme=dark] & {
       --#{$prefix}border-color: var(--#{$prefix}form-control-hover-border-color) !important;
@@ -62,9 +62,6 @@ form {
 .form-control {
   max-width: 100%;
 
-  [data-bs-theme=dark] & {
-    --#{$prefix}border-color: var(--#{$prefix}form-control-border-color);
-  }
   .input-group > &[type="number"],
   .input-group > &[type="time"] {
     flex-grow: 0;

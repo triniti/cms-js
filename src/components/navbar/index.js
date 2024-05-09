@@ -36,6 +36,9 @@ export default function () {
     setActiveGroup(group);
     localStorage.setItem('activeNavGroup', group);
   };
+  const toggleNav = () => {
+    setActive(!isActive);
+  };
 
   const contentLinks =  [
     (policy.isGranted('cms-view-articles') && { label: 'Articles', to: '/news/articles' }),
@@ -71,25 +74,28 @@ export default function () {
 
   return (
     <Navbar className="navbar-main" dark>
-      <NavbarToggler onClick={toggle} className={isActive ? 'is-open' : ''}>
+      <NavbarToggler onClick={toggleNav} className={isActive ? 'is-open' : ''}>
         <span className="navbar-toggler-bar navbar-toggler-bar--top" />
         <span className="navbar-toggler-bar navbar-toggler-bar--middle" />
         <span className="navbar-toggler-bar navbar-toggler-bar--bottom" />
       </NavbarToggler>
       <NavbarBrand tag="div">
-        <RouterLink to="/" />
+        <RouterLink to="/" tabIndex={-1} />
       </NavbarBrand>
       <div className={`navbar-toggleable-md main-nav ${isActive ? 'is-open' : ''}`}>
         <Nav navbar>
           <NavItem className={isGroupActive('dashboard') ? 'is-current' : ''}>
-            <RouterLink to="/" navTab onClick={() => toggle('dashboard')}>Dashboard</RouterLink>
+            <RouterLink role="menuitem" to="/" navTab onClick={() => toggle('dashboard')}>Dashboard</RouterLink>
           </NavItem>
           {policy.isGranted('cms-view-content') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('content') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={contentLinks?.[0]?.to ?? '/news/articles'}  onClick={() => toggle('content')} nav>Content</DropdownToggle>
+              <DropdownToggle nav>
+                Content
+              </DropdownToggle>
+              <Link tabIndex={-1} className="nav-link--desktop" to={contentLinks?.[0]?.to ?? '/news/articles'}></Link>
               <DropdownMenu className="nav-dropdown-menu">
                 {contentLinks.map(link => (
-                  <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('content')}>
+                  <RouterLink role="menuitem" key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('content')}>
                     {link.label}
                   </RouterLink>
                   )
@@ -99,10 +105,13 @@ export default function () {
           )}
           {policy.isGranted('cms-view-taxonomy') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('taxonomy') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={taxonomyLinks?.[0]?.to ?? '/taxonomy/categories'} onClick={() => toggle('taxonomy')} nav>Taxonomy</DropdownToggle>
+              <DropdownToggle nav>
+                Taxonomy
+              </DropdownToggle>
+              <Link tabIndex={-1} className="nav-link--desktop" to={taxonomyLinks?.[0]?.to ?? '/taxonomy/categories'}></Link>
               <DropdownMenu className="nav-dropdown-menu">
                 {taxonomyLinks.map(link => (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('taxonomy')}>
+                    <RouterLink role="menuitem" key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('taxonomy')}>
                       {link.label}
                     </RouterLink>
                   )
@@ -112,15 +121,18 @@ export default function () {
           )}
            {policy.isGranted('cms-view-asset') && (
                 <NavItem className={isGroupActive('asset') ? 'is-current' : ''}>
-                <RouterLink to="/dam/assets" navTab onClick={() => toggle('asset')}>Assets</RouterLink>
+                <RouterLink role="menuitem" to="/dam/assets" navTab onClick={() => toggle('asset')}>Assets</RouterLink>
               </NavItem>
           )}
           {policy.isGranted('cms-view-structure') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('structure') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={structureLinks?.[0]?.to ?? '/curator/promotions'} onClick={() => toggle('structure')} nav>Structure</DropdownToggle>
+              <DropdownToggle nav>
+                Structure
+              </DropdownToggle>
+              <Link tabIndex={-1} className="nav-link--desktop" to={structureLinks?.[0]?.to ?? '/curator/promotions'}></Link>
               <DropdownMenu className="nav-dropdown-menu">
                 {structureLinks.map(link => (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('structure')}>
+                    <RouterLink role="menuitem" key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('structure')}>
                       {link.label}
                     </RouterLink>
                   )
@@ -130,15 +142,18 @@ export default function () {
           )}
           {policy.isGranted('cms-view-notify') && (
             <NavItem className={isGroupActive('notify') ? 'is-current' : ''}>
-              <RouterLink to="/notify/notifications" navTab onClick={() => toggle('notify')}>Notifications</RouterLink>
+              <RouterLink role="menuitem" to="/notify/notifications" navTab onClick={() => toggle('notify')}>Notifications</RouterLink>
             </NavItem>
           )}
           {policy.isGranted('cms-view-admin') && (
             <UncontrolledDropdown inNavbar nav className={isGroupActive('admin') ? 'is-current' : ''}>
-              <DropdownToggle tag={Link} to={adminLinks?.[0]?.to ?? '/iam/users'} onClick={() => toggle('admin')} nav>Admin</DropdownToggle>
+              <DropdownToggle nav>
+                Admin
+              </DropdownToggle>
+              <Link tabIndex={-1} className="nav-link--desktop" to={adminLinks?.[0]?.to ?? '/iam/users'}></Link>
               <DropdownMenu className="nav-dropdown-menu">
                 {adminLinks.map(link => (
-                    <RouterLink key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('admin')}>
+                    <RouterLink role="menuitem" key={link.to} to={link.to} className="dropdown-item" onClick={() => toggle('admin')}>
                       {link.label}
                     </RouterLink>
                   )
@@ -148,7 +163,7 @@ export default function () {
           )}
         </Nav>
       </div>
-      <Backdrop onClick={toggle} />
+      <Backdrop onClick={toggleNav} />
       <UserNav />
     </Navbar>
   );

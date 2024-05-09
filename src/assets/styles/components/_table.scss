@@ -80,7 +80,9 @@ td {
   }
   &.td-icons {
     padding-top: .25rem;
+    padding-right: .5rem;
     padding-bottom: .25rem;
+    padding-left: .5rem;
   }
   .table-sm &.td-icons {
     padding-top: 0;
@@ -121,6 +123,21 @@ tr[class*=" status-"] {
 
   & .btn {
     margin-bottom: 0;
+  }
+  a {
+    display: inline-block;
+    margin-right: .25rem;
+    border-radius: 10rem;
+
+    &:focus-visible {
+      box-shadow: $focus-ring-box-shadow;
+    }
+    .btn {
+      pointer-events: none;
+    }
+    .btn-hover {
+      margin-right: 0;
+    }
   }
 }
 

@@ -101,6 +101,9 @@
     &.active:hover {
       box-shadow: inset 0 -3px 0 0 $primary;
     }
+    &.active:focus-visible {
+      box-shadow: inset 0 -3px 0 0 $primary, 0 0 0 2px $focus-ring-color;
+    }
   }
   // nav-sm styles
   &.nav-sm > .nav-item > .nav-link {

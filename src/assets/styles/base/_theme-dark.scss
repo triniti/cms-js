@@ -30,6 +30,11 @@
   --#{$prefix}gradient-dark: #{$gradient-dark};
   --#{$prefix}gray-100: #{$body-tertiary-bg-dark};
   --#{$prefix}gray-400: rgba(0, 0, 0, .14);
+
+  .dropdown-menu,
+  .swal2-container {
+    --#{$prefix}form-control-border-color: #{$light-border-dropdown-dark};
+  }
 }
 
 

@@ -68,7 +68,7 @@
   &:not(:disabled):not(.disabled) {
     cursor: pointer;
   }
-  [data-bs-theme=dark] {
+  [data-bs-theme=dark] & {
     --#{$prefix}btn-border-color: var(--#{$prefix}btn-border-color-dark); // *new #494e5a #3e4551 #515966 #444e5c
     --#{$prefix}btn-hover-border-color: var(--#{$prefix}btn-hover-border-color-dark); // *new lighten(#494e5a, .25%)
     --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color-dark);

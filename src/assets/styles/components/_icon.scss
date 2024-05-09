@@ -249,37 +249,9 @@
   }
 }
 
-.icon-outline {
-  box-shadow: 0 0 0 2px var(--#{$prefix}body-bg);
-}
-
-.icon-border {
-  background-color: transparent;
-  color: var(--#{$prefix}body-color);
-  box-shadow: inset 0 0 0 2px var(--#{$prefix}body-color);
-
-  &.icon-alert-lg {
-    box-shadow: inset 0 0 0 3px var(--#{$prefix}body-color);
-  }
-  &.icon-alert-xl {
-    box-shadow: inset 0 0 0 4px var(--#{$prefix}body-color);
-  }
-
-  &.icon-outline { // todo test in dark mode
-    box-shadow: inset 0 0 0 2px $body-color, 0 0 0 2px $white;
-
-    &.icon-alert-lg {
-      box-shadow: inset 0 0 0 3px $body-color, 0 0 0 2px $white;
-    }
-    &.icon-alert-xl {
-      box-shadow: inset 0 0 0 4px $body-color, 0 0 0 3px $white;
-    }
-  }
-}
-
 .icon-noborder {
-  background-color: transparent;
-  color: $body-color;
+  background-color: transparent !important;
+  color: var(--#{$prefix}body-color);
 }
 
 @each $color, $value in $theme-colors {
