@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './styles.scss';
 
-const BackgroundImage = ({ className, imgSrc, position, repeat, size, tag: Tag, ...attributes }) => {
+const BackgroundImage = ({ className, imgSrc, position, repeat, size, tag: Tag = 'span', ...attributes }) => {
   const classes = classNames(
     className,
     'background-image',

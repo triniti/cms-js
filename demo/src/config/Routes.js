@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 const AppScreen = lazy(() => import('@triniti/cms/plugins/iam/components/app-screen/index.js'));
-// const ArticleScreen = lazy(() => import('@triniti/cms/plugins/news/components/article-screen/index.js'));
+const ArticleScreen = lazy(() => import('@triniti/cms/plugins/news/components/article-screen/index.js'));
 // const AssetScreen = lazy(() => import('@triniti/cms/plugins/dam/components/asset-screen/index.js'));
 // const CategoryScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/category-screen/index.js'));
 // const ChannelScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/channel-screen/index.js'));
@@ -77,7 +77,7 @@ export default () => (
     <Route path="/ncr/apple-news-app/:id/*" element={<AppScreen label="apple-news-app" />} />
     {/*<Route path="/ncr/apple-news-notification/:id/*" element={<NotificationScreen label="apple-news-notification" />} />*/}
     {/*<Route path="/ncr/archive-asset/:id/*" element={<AssetScreen label="archive-asset" />} />*/}
-    {/*<Route path="/ncr/article/:id/*" element={<ArticleScreen />} />*/}
+    <Route path="/ncr/article/:id/*" element={<ArticleScreen />} />
     {/*<Route path="/ncr/article-teaser/:id/*" element={<TeaserScreen label="article-teaser" />} />*/}
     {/*<Route path="/ncr/asset-teaser/:id/*" element={<TeaserScreen label="asset-teaser" />} />*/}
     {/*<Route path="/ncr/audio-asset/:id/*" element={<AssetScreen label="audio-asset" />} />*/}
