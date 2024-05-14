@@ -7,6 +7,8 @@ import { Button, Card, CardBody } from 'reactstrap';
 import { Loading } from '@triniti/cms/components/index.js';
 import acceptLogin from '@triniti/cms/plugins/iam/actions/acceptLogin.js';
 import { serviceIds } from '@triniti/cms/plugins/iam/constants.js';
+import logoLight from '@triniti/app/assets/img/site-logo-login--light.png';
+import logoDark from '@triniti/app/assets/img/site-logo-login--dark.png';
 
 const cache = {
   get: function (key) {
@@ -74,14 +76,15 @@ function Login() {
         <Card>
           <CardBody>
             <div className="mb-4 mt-4 pt-4">
-              <div className="login-logo"><span>Triniti</span></div>
+              <div className="login-logo"><img src={logoLight} alt="Triniti" className="login-logo--light" /><img src={logoDark} alt="Triniti" className="login-logo--dark" /></div>
+
             </div>
             <h1 className="mb-5">{APP_VENDOR} CMS</h1>
             {(isLoading || errorMsg) && <Loading error={errorMsg} />}
             {!isLoading && (
               <>
-                <Button color="primary" className="mr-5 rounded-pill ps-6 pe-6 fs-2 shadow" onClick={loginWithRedirect}>Log In</Button>
-                <Button color="secondary" className="me-0 rounded-pill ps-6 pe-6 fs-2 shadow" onClick={signUpWithRedirect}>Sign Up</Button>
+                <Button color="primary" className="me-2 rounded-pill ps-6 pe-6 fs-2 shadow" onClick={loginWithRedirect}>Log In</Button>
+                <Button color="secondary" className="ms-1 me-0 rounded-pill ps-6 pe-6 fs-2 shadow" onClick={signUpWithRedirect}>Sign Up</Button>
               </>
             )}
           </CardBody>

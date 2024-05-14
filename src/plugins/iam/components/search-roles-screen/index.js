@@ -38,13 +38,13 @@ function SearchRolesScreen(props) {
                 <td>{node.get('title')}</td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover">
+                    <Button tag="span" color="hover" className="rounded-circle">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button color="hover">
+                      <Button tag="span" color="hover" className="rounded-circle">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>

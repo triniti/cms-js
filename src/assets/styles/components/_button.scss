@@ -91,7 +91,7 @@
   &.active {
     opacity: 1;
   }
-  .td-icons & {
+  .td-icons > & {
     margin-right: .25rem;
     padding: 0;
     width: 2.125rem;
@@ -99,6 +99,14 @@
   }
   tr.bg-selected & {
     color: $white !important;
+  }
+}
+
+a {
+  &:focus-visible > .btn-hover,
+  &:hover > .btn-hover,
+  &.active > .btn-hover {
+    opacity: 1;
   }
 }
 
@@ -222,6 +230,7 @@
       --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
       --#{$prefix}btn-hover-border-color: #{$btn-hover-border-color};
       --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+      --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color);
       --#{$prefix}btn-disabled-border-color: var(--#{$prefix}btn-border-color);
       --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
       --#{$prefix}btn-disabled-bg: var(--#{$prefix}secondary-bg);
@@ -478,6 +487,7 @@
   padding: 1.25rem 3rem;
   min-height: 78px;
   line-height: 1.8;
+  border-radius: var(--#{$prefix}border-radius-lg);
 }
 
 
