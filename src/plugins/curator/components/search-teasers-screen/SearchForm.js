@@ -165,7 +165,7 @@ export default function SearchForm(props) {
 
           <CardFooter className="d-flex justify-content-between ps-3 border-top-0 mb-0">
             <span>
-              <Button color="hover" onClick={toggle} className="mb-0">
+              <Button color="hover" onClick={toggle} className="mb-0 rounded-circle">
                 <Icon imgSrc="close" />
               </Button>
             </span>
