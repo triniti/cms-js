@@ -24,3 +24,7 @@
   height: 2.5rem;
   animation: $spinner-transition;
 }
+
+.spinner-border-sm {
+  --bs-spinner-vertical-align: -4px;
+}
