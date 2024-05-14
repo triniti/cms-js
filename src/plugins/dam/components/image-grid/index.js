@@ -44,13 +44,15 @@ const Image = (props) => {
     <Col key={node.get('_id')} {...colProps}>
       <Card
         onClick={() => onSelectImage(node)}
+        // needs onKeyDown using "enter or spacebar" for accessibility
         inverse
-        role="presentation"
+        role="button"
         color={ selectedImages.some((i) => `${i.get('_id')}` === `${node.get('_id')}`) ? 'success' : '' }
         className={classNames('shadow', 'p-1', 'image-grid-card')}
         onMouseOver={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false) }
         style={{cursor: "pointer"}}
+        tabIndex="0"
         {...cardProps}
       >
         <Media className="aspect-ratio aspect-ratio-1by1 mt-0 border border-4" style={{"--bs-border-color": "var(--bs-body-bg)"}}>

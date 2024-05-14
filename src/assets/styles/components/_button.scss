@@ -89,6 +89,9 @@
   &:not(:focus-visible) {
     box-shadow: none !important;
   }
+  a:focus-visible > & {
+    box-shadow: $focus-ring-box-shadow !important;
+  }
   &:hover,
   &.active {
     opacity: 1;
