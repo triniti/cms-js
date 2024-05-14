@@ -114,23 +114,23 @@ export default function PublishForm(props) {
             </DropdownToggle>
             <DropdownMenu className="p-0">
               {can('publish') && (
-                <DropdownItem className="status-published" onClick={handleSelect}>Publish</DropdownItem>
+                <DropdownItem className="status-published" onClick={handleSelect} role="menuitem" tabIndex="0">Publish</DropdownItem>
               )}
 
               {can('publish') && (
-                <DropdownItem className="status-scheduled" onClick={handleSelect}>Schedule</DropdownItem>
+                <DropdownItem className="status-scheduled" onClick={handleSelect} role="menuitem" tabIndex="0">Schedule</DropdownItem>
               )}
 
               {can('unpublish') && (
-                <DropdownItem className="status-draft" onClick={handleSelect}>Unpublish</DropdownItem>
+                <DropdownItem className="status-draft" onClick={handleSelect} role="menuitem" tabIndex="0">Unpublish</DropdownItem>
               )}
 
               {can('mark-as-draft') && (
-                <DropdownItem className="status-draft" onClick={handleSelect}>Mark As Draft</DropdownItem>
+                <DropdownItem className="status-draft" onClick={handleSelect} role="menuitem" tabIndex="0">Mark As Draft</DropdownItem>
               )}
 
               {can('mark-as-pending') && (
-                <DropdownItem className="status-pending" onClick={handleSelect}>Mark As Pending</DropdownItem>
+                <DropdownItem className="status-pending" onClick={handleSelect} role="menuitem" tabIndex="0">Mark As Pending</DropdownItem>
               )}
             </DropdownMenu>
           </UncontrolledButtonDropdown>

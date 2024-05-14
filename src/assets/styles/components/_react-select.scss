@@ -210,16 +210,10 @@ $status-height:         320px;
     font-size: .825rem;
 
     &:hover,
-    &:focus {
-      background-color: $dropdown-link-hover-bg; // rgba($input-focus-color, 0.04); // $gray-rgba-100
-
-      [data-bs-theme=dark] & {
-        background-color: var(--#{$prefix}dropdown-link-hover-bg);
-      }
-    }
+    &:focus,
     &:active,
     &--is-focused {
-      background-color: rgba($input-focus-color, 0.04); // $gray-rgba-100
+      background-color: $dropdown-link-hover-bg; // $gray-rgba-100
       color: #333;
 
       [data-bs-theme=dark] & {
