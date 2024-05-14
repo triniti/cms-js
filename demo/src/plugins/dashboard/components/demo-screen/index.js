@@ -982,6 +982,7 @@ function DemoScreen() {
           <CardTitle className="card-section-title mt-5">Size</CardTitle>
           <CheckboxField name="is_default" label="Default" check />
           <CheckboxField name="is_small" label="size='sm'" size="sm" check />
+          <CheckboxField name="is_large" label="size='lg'" size="lg" check />
 
 
         </CardBody>
