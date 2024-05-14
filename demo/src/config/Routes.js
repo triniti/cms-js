@@ -22,7 +22,7 @@ const PollScreen = lazy(() => import('@triniti/cms/plugins/apollo/components/pol
 // const RedirectScreen = lazy(() => import('@triniti/cms/plugins/sys/components/redirect-screen/index.js'));
 const RoleScreen = lazy(() => import('@triniti/cms/plugins/iam/components/role-screen/index.js'));
 const SearchAppsScreen = lazy(() => import('@triniti/cms/plugins/iam/components/search-apps-screen/index.js'));
-// const SearchArticlesScreen = lazy(() => import('@triniti/cms/plugins/news/components/search-articles-screen/index.js'));
+const SearchArticlesScreen = lazy(() => import('@triniti/cms/plugins/news/components/search-articles-screen/index.js'));
 // const SearchAssetsScreen = lazy(() => import('@triniti/cms/plugins/dam/components/search-assets-screen/index.js'));
 // const SearchCategoriesScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/search-categories-screen/index.js'));
 // const SearchChannelsScreen = lazy(() => import('@triniti/cms/plugins/taxonomy/components/search-channels-screen/index.js'));
@@ -136,7 +136,7 @@ export default () => (
     {/*<Route path="/ncr/video-asset/:id/*" element={<AssetScreen label="video-asset" />} />*/}
     {/*<Route path="/ncr/video-teaser/:id/*" element={<TeaserScreen label="video-teaser" />} />*/}
     {/*<Route path="/ncr/youtube-video-teaser/:id/*" element={<TeaserScreen label="youtube-video-teaser" />} />*/}
-    {/*<Route path="/news/articles" element={<SearchArticlesScreen />} />*/}
+    <Route path="/news/articles" element={<SearchArticlesScreen />} />
     {/*<Route path="/notify/notifications" element={<SearchNotificationsScreen />} />*/}
     {/*<Route path="/ovp/livestreams" element={<LivestreamsScreen />} />*/}
     {/*<Route path="/ovp/videos" element={<SearchVideosScreen />} />*/}
