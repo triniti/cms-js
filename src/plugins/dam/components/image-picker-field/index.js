@@ -75,29 +75,29 @@ export default function ImagePickerField(props) {
 
   return (
     <div className={rootClassName} id={`form-group-${name}`}>
-      {label && <Label htmlFor={name} className="d-inline-block w-auto">{label}</Label>}
+      {label && <Label htmlFor={name} className="d-inline-block w-auto me-1">{label}</Label>}
       {imageRef && (
         <>
           {previewImage && (
             <>
               {imageNode && (
                 <>
-                  <Link to={nodeUrl(imageNode,'view')}>
-                    <Button color="hover">
+                  <Link to={nodeUrl(imageNode,'view')} className="mb-1 d-inline-block rounded-circle">
+                    <Button tag="span" size="sm" color="hover" className="rounded-circle mb-0">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
-                    <Link to={nodeUrl(imageNode,'edit')}>
-                      <Button color="hover">
+                    <Link to={nodeUrl(imageNode,'edit')} className="mb-1 d-inline-block rounded-circle">
+                      <Button tag="span" size="sm" color="hover" className="rounded-circle mb-0">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>
                   )}
                 </>
                 )}
-              <a href={damUrl(imageRef)} target="_blank" rel="noopener noreferrer">
-                <div className="btn btn-hover btn-sm mb-1">
+              <a href={damUrl(imageRef)} target="_blank" rel="noopener noreferrer" className="mb-1 d-inline-block rounded-circle">
+                <div className="btn btn-sm btn-hover rounded-circle mb-0">
                   <Icon imgSrc="external" alt="open" />
                 </div>
               </a>

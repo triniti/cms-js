@@ -59,11 +59,13 @@
   .dropdown-menu &.btn-action {
     margin-bottom: .5rem;
     margin-left: 0 !important;
-    box-shadow: none;
 
     &:last-child {
       margin-bottom: 0;
     }
+  }
+  .dropdown-menu &.btn-action:not(:focus-visible) {
+    box-shadow: none;
   }
   &:not(:disabled):not(.disabled) {
     cursor: pointer;

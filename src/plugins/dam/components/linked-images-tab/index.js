@@ -138,7 +138,7 @@ function LinkedImagesTab(props) {
                 {canUpdate && (
                   <>
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button id="media-edit-button" className="rounded-circle me-2" outline size="sm">
+                      <Button tag="span" id="media-edit-button" className="rounded-circle me-2" outline size="sm">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                       <UncontrolledTooltip placement="top" target="media-edit-button">Edit</UncontrolledTooltip>

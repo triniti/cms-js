@@ -100,6 +100,8 @@ function AssetScreen(props) {
                   icon="delete"
                   color="danger"
                   outline
+                  role="menuitem"
+                  tabIndex="0"
                 />
               </DropdownMenu>
             </UncontrolledDropdown>
