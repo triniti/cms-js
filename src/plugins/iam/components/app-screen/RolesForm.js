@@ -103,16 +103,16 @@ function RolesForm(props) {
                     const value = `${roleRef}`;
                     return (
                       <ListGroupItem key={`li-${domId}`} className="list-group-item-roles ps-3">
-                        <div key={domId} className="custom-control custom-checkbox w-100 mb-0">
+                        <div key={domId} className="form-check form-check-lg w-100 text-start mb-0">
                           <input
                             id={domId}
                             type="checkbox"
-                            className="custom-control-input"
+                            className="form-check-input"
                             value={value}
                             checked={revokes[value] || false}
                             onChange={handleRevokeableChange}
                           />
-                          <Label className="custom-control-label" htmlFor={domId}>{id}</Label>
+                          <Label className="form-check-label d-block" htmlFor={domId}>{id}</Label>
                         </div>
                       </ListGroupItem>
                     );
@@ -152,16 +152,16 @@ function RolesForm(props) {
                     const value = `${roleRef}`;
                     return (
                       <ListGroupItem key={`li-${domId}`} className="list-group-item-roles ps-3">
-                        <div key={domId} className="custom-control custom-checkbox w-100 mb-0">
+                        <div key={domId} className="form-check form-check-lg w-100 text-start mb-0">
                           <input
                             id={domId}
                             type="checkbox"
-                            className="custom-control-input"
+                            className="form-check-input"
                             value={value}
                             checked={grants[value] || false}
                             onChange={handleGrantableChange}
                           />
-                          <Label className="custom-control-label" htmlFor={domId}>{id}</Label>
+                          <Label className="form-check-label d-block" htmlFor={domId}>{id}</Label>
                         </div>
                       </ListGroupItem>
                     );

@@ -469,6 +469,23 @@ input[type="checkbox"] {
   }
 }
 
+.form-check-lg {
+  padding-left: 1.75rem;
+  min-height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  .form-check-input {
+    margin-left: -2rem;
+    padding: 1px 0;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .form-check-label {
+    margin-top: 3px;
+  }
+}
+
 
 // input group
 
@@ -601,6 +618,7 @@ input[type="checkbox"] {
   text-align: left;
 
   &::after {
+    content: '';
     border: 2px solid transparent;
     background-size: 60% 60%;
 
