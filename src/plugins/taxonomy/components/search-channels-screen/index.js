@@ -10,7 +10,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/taxonomy/components/search-channels-screen/SearchForm.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import withForm from '../../../../components/with-form';
+import withForm from '@triniti/cms/components/with-form/index.js';
 
 const CreateChannelModal = lazy(() => import('@triniti/cms/plugins/taxonomy/components/create-channel-modal/index.js'));
 

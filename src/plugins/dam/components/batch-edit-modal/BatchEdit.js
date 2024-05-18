@@ -15,7 +15,7 @@ import { TextField, TextareaField, DatePickerField } from '@triniti/cms/componen
 import { FormGroup, Col, Row } from 'reactstrap';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import { getInstance } from '@triniti/app/main.js';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
 

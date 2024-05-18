@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { addDateToSlug, createSlug } from '@gdbots/pbj/utils';
+import { addDateToSlug, createSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';

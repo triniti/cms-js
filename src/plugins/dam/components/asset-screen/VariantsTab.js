@@ -10,7 +10,7 @@ import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName.js';
 import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile.js';
 
-import 'plugins/dam/components/asset-screen/variants.scss';
+import '@triniti/cms/plugins/dam/components/asset-screen/variants.scss';
 
 // Error messages
 const ERROR_MIME_TYPE = 'Invalid Action: Trying to upload invalid file type.';

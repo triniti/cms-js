@@ -1,5 +1,5 @@
 import React from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { EnumField, KeyValuesField, SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
 import AdSizeEnum from '@triniti/schemas/triniti/common/enums/AdSize.js';
 

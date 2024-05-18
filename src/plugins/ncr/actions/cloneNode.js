@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import FieldRule from '@gdbots/pbj/enums/FieldRule';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import FieldRule from '@gdbots/pbj/enums/FieldRule.js';
 
 const ignoredFieldNames = [
   '_id',

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import createSlug from '@gdbots/pbj/utils/createSlug.js';
-import FlagsetId from '@triniti/schemas/triniti/sys/FlagsetId';
+import FlagsetId from '@triniti/schemas/triniti/sys/FlagsetId.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { ErrorBoundary, Loading, TextField } from '@triniti/cms/components/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';

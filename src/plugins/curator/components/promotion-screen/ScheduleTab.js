@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { Button, Card, CardBody, CardHeader, Input, Label } from 'reactstrap';
 import { CheckboxField, NumberField, TimePickerField } from '@triniti/cms/components/index.js';
 

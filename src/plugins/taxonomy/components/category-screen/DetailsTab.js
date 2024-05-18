@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { TextareaField, TextField } from '@triniti/cms/components/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
-import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields';
+import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
