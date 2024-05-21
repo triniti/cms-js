@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, Form, InputGroup, Row } from 'reactstrap';
+import { Button, Card, CardBody, Form, InputGroup } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SearchRedirectsSort from '@triniti/schemas/triniti/sys/enums/SearchRedirectsSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
