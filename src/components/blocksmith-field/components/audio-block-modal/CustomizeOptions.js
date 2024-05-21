@@ -22,7 +22,7 @@ export default function CustomizeOptions(props) {
 
   return (
     <div className="container-lg p-5">
-      <ReactPlayer
+      <ReactPlayer.default
         className="react-player"
         controls
         height="calc(4em + 2px)"

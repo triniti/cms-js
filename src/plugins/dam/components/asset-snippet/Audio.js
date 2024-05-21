@@ -21,7 +21,7 @@ const Audio = ({ asset }) => (
     </div>
     <div className="col-12 col-md-6">
       <div className="dam-media-container">
-        <ReactPlayer url={damUrl(asset)} width="100%" height="auto" controls />
+        <ReactPlayer.default url={damUrl(asset)} width="100%" height="auto" controls />
       </div>
     </div>
   </div>

@@ -38,7 +38,7 @@ export default function AudioAssetIcon({ asset }) {
   return (
     <>
       <div>
-        <ReactPlayer
+        <ReactPlayer.default
           controls={controls}
           height={height}
           playing={isPlaying}

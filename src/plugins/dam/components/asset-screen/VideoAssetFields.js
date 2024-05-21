@@ -19,7 +19,7 @@ export default function VideoAssetFields(props) {
             <TextField name="file_size" label="File size" format={humanizeBytes} readOnly />
           </Col>
           <Col xs="6 pe-0">
-            <ReactPlayer url={artifactUrl(asset, 'video')} width="100%" height="auto" controls />
+            <ReactPlayer.default url={artifactUrl(asset, 'video')} width="100%" height="auto" controls />
           </Col>
         </Row>
       </Container>

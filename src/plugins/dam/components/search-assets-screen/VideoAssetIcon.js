@@ -71,7 +71,7 @@ export default function VideoAssetIcon({ asset }) {
             }}
           />
         )}
-        <ReactPlayer
+        <ReactPlayer.default
           controls={controls}
           height={height}
           playing={isPlaying}
