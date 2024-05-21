@@ -10,7 +10,7 @@ import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import createSlug from '@gdbots/pbj/utils/createSlug.js';
-import { addDateToSlug } from '@gdbots/pbj/utils/index.js';
+import addDateToSlug from '@gdbots/pbj/utils/addDateToSlug.js';
 
 function CreateVideoModal(props) {
   const dispatch = useDispatch();
