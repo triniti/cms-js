@@ -1,7 +1,6 @@
-import constants from 'components/blocksmith-field/constants';
-import areKeysSame from 'components/blocksmith-field/utils/areKeysSame';
-/* eslint-disable import/no-useless-path-segments */
-import { blockParentNode, getDraggedBlockNode, getInsertBlockMarkerNode, preventDefault } from 'components/blocksmith-field/utils/index';
+import constants from '@triniti/cms/components/blocksmith-field/constants.js';
+import areKeysSame from '@triniti/cms/components/blocksmith-field/utils/areKeysSame.js';
+import { blockParentNode, getDraggedBlockNode, getInsertBlockMarkerNode, preventDefault } from '@triniti/cms/components/blocksmith-field/utils/index.js';
 
 let cache;
 

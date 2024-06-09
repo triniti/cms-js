@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import alerts from 'reducers/alerts';
-import forms from 'reducers/forms';
-import theme from 'reducers/theme';
+import alerts from '@triniti/cms/reducers/alerts.js';
+import forms from '@triniti/cms/reducers/forms.js';
+import theme from '@triniti/cms/reducers/theme.js';
 
 export default combineReducers({
   alerts,

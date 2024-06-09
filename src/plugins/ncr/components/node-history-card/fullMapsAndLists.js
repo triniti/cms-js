@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash-es/isPlainObject.js';
 
 /**
  * This will keep the whole object or list for a key. The reason is trying
@@ -11,7 +11,6 @@ import isPlainObject from 'lodash/isPlainObject';
  */
 export default (newNode, origNode) => {
   const newerNode = { ...newNode };
-  /* eslint no-restricted-syntax: off */
   for (const [key, value] of Object.entries(newerNode)) {
     if (Array.isArray(value) || isPlainObject(value)) {
       newerNode[key] = origNode[key];

@@ -1,8 +1,8 @@
 // modified from https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-emoji-plugin/src/modifiers/addEmoji.js
 
 import { Modifier, EditorState } from 'draft-js';
-import { entityTypes, mutabilityTypes } from 'components/blocksmith-field/constants';
-import selectBlock, { selectionTypes } from 'components/blocksmith-field/utils/selectBlock';
+import { entityTypes, mutabilityTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
+import selectBlock, { selectionTypes } from '@triniti/cms/components/blocksmith-field/utils/selectBlock.js';
 
 /**
  * @param {EditorState}             editorState

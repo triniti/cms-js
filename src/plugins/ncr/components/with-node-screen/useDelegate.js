@@ -1,20 +1,19 @@
-import startCase from 'lodash-es/startCase';
+import startCase from 'lodash-es/startCase.js';
 import { useDispatch } from 'react-redux';
 //import { useBlocker } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import Swal from 'sweetalert2';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
-import clearAlerts from 'actions/clearAlerts';
-import sendAlert from 'actions/sendAlert';
-import getFriendlyErrorMessage from 'plugins/pbjx/utils/getFriendlyErrorMessage';
-import progressIndicator from 'utils/progressIndicator';
-import toast from 'utils/toast';
-import deleteNode from 'plugins/ncr/actions/deleteNode';
-import updateNode from 'plugins/ncr/actions/updateNode';
-import publishNode from 'plugins/ncr/actions/publishNode';
-
-const useBlocker = func => () => func();
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import clearAlerts from '@triniti/cms/actions/clearAlerts.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
+import toast from '@triniti/cms/utils/toast.js';
+import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
+import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
+import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
+import useBlocker from '@triniti/cms/plugins/ncr/components/with-node-screen/useBlocker.js';
 
 const okayToDelete = async (nodeRef) => {
   const result = await Swal.fire({
@@ -60,17 +59,12 @@ export default (props) => {
   } = props;
 
   useBlocker(async (transition) => {
-    console.log('https://github.com/remix-run/react-router/commit/256cad70d3fd4500b1abcfea66f3ee622fb90874#diff-b60f1a2d4276b2a605c05e19816634111de2e8a4186fe9dd7de8e344b65ed4d3');
-    return;
-    const nextUri = transition.location.pathname;
+    const nextUri = transition.pathname;
     if (nextUri.startsWith(urls.baseUri)) {
-      transition.retry();
-      return;
+      return false;
     }
 
-    if (await okayToLeave()) {
-      transition.retry();
-    }
+    return !(await okayToLeave());
   }, editMode && formState.dirty);
 
   delegate.handleCancel = async () => {

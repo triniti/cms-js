@@ -1,16 +1,15 @@
 /* globals VIDEO_ASSET_BASE_URL */
 import test from 'tape';
-import AssetId from '@triniti/schemas/triniti/dam/AssetId';
-import AssetV1Mixin from '@triniti/schemas/triniti/dam/mixin/asset/AssetV1Mixin';
-import artifactUrl from './artifactUrl';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
+import artifactUrl from './artifactUrl.js';
 
-test('Ovp:util:artifactUrl', (t) => {
-  const assetSchemas = AssetV1Mixin.findAll();
-  const videoAssetSchema = assetSchemas[6];
+test('Ovp:util:artifactUrl', async (t) => {
+  const videoAssetSchema = await MessageResolver.resolveCurie('*:dam:node:video-asset:v1');
   const uuid = 'cb7124f9bcf242d8a460eb23f5d7d039';
   const ext = 'mxf';
   const videoAsset = videoAssetSchema
-    .createMessage()
+    .create()
     .set('title', 'thylacine')
     .set('_id', AssetId.fromString(`video_${ext}_20200729_${uuid}`))
     .set('mime_type', 'application/mxf');

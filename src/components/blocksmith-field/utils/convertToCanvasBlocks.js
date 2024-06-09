@@ -1,10 +1,10 @@
 import { stateToHTML } from 'draft-js-export-html';
-import isNumber from 'lodash-es/isNumber';
-import Message from '@gdbots/pbj/Message';
-import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import { blockTypes, inlineStyleTypes, tokens } from 'components/blocksmith-field/constants';
-import getIndexOffsets from 'components/blocksmith-field/utils/getIndexOffsets';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
+import isNumber from 'lodash-es/isNumber.js';
+import Message from '@gdbots/pbj/Message.js';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer.js';
+import { blockTypes, inlineStyleTypes, tokens } from '@triniti/cms/components/blocksmith-field/constants.js';
+import getIndexOffsets from '@triniti/cms/components/blocksmith-field/utils/getIndexOffsets.js';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 
 const CANVAS_BLOCK_TOKEN = 'CANVAS_BLOCK:';
 const EMPTY_BLOCK_REGEX = /<p>(<br>)?<\/p>/;

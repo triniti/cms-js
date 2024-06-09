@@ -55,20 +55,39 @@
 
     &:hover {
       background-color: darken($secondary, 7%);
-      border: 1px solid darken($secondary, 14%) !important;
+      border-color: darken($secondary, 14%) !important;
+    }
+    [data-bs-theme=dark] & {
+      background-image: var(--#{$prefix}gradient-dark);
+
+      &:hover {
+        background-color:darken($secondary, 12%);
+        border-color: tint-color($secondary, 25%) !important;
+      }
     }
   }
 
   .swal2-popup .swal2-styled.swal2-cancel {
+    color: var(--bs-body-color);
     margin-bottom: .5rem;
-    background-color: $warning;
-    border: 1px solid darken($warning, 4%) !important;
+    background-color: $light;
+    border: 1px solid $gray-600 !important;
     box-shadow: $shadow-depth-3;
     background-image: var(--#{$prefix}gradient);
 
     &:hover {
-      background-color: darken($warning, 7%);
-      border: 1px solid darken($warning, 14%) !important;
+      background-color: #e9e9eb;
+      border-color: #ceceda !important;
+    }
+    [data-bs-theme=dark] & {
+      background-color: var(--#{$prefix}secondary-bg);
+      border: 1px solid var(--#{$prefix}form-control-border-color) !important;
+      background-image: var(--#{$prefix}gradient-dark);
+
+      &:hover {
+        background-color: #212a36;
+        border-color: var(--#{$prefix}form-control-hover-border-color) !important;
+      }
     }
   }
 

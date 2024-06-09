@@ -1,8 +1,8 @@
 import { ContentBlock, ContentState } from 'draft-js';
 import { List, Map } from 'immutable';
-import { blockTypes } from 'components/blocksmith-field/constants';
-import areKeysSame from 'components/blocksmith-field/utils/areKeysSame';
-import normalizeKey from 'components/blocksmith-field/utils/normalizeKey';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
+import areKeysSame from '@triniti/cms/components/blocksmith-field/utils/areKeysSame.js';
+import normalizeKey from '@triniti/cms/components/blocksmith-field/utils/normalizeKey.js';
 
 /**
  * Given a canvas block and a key, creates an atomic DraftJs block (with data) at that key

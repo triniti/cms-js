@@ -1,4 +1,4 @@
-import moveNodeByIndex from './moveNodeByIndex';
+import moveNodeByIndex from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByIndex.js';
 /**
  * Move node to the index of the first item that has a lesser gallery sequence
  * compared to the given value of the given `gallerySequence` param.

@@ -4,8 +4,8 @@
  * @link https://github.com/facebook/draft-js/blob/master/docs/Advanced-Topics-Decorators.md
  * @link https://github.com/draft-js-plugins/draft-js-plugins/blob/master/FAQ.md#how-can-i-use-custom-decorators-with-the-plugin-editor
  */
-import Link from 'components/blocksmith-field/components/link';
-import { entityTypes } from 'components/blocksmith-field/constants';
+import Link from '@triniti/cms/components/blocksmith-field/components/link/index.js';
+import { entityTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
 
 function linkStrategy(contentBlock, cb, contentState) {
  if (!contentState) {

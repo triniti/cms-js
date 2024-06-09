@@ -1,5 +1,5 @@
-import getListBlocks from 'components/blocksmith-field/utils/getListBlocks';
-import isBlockAList from 'components/blocksmith-field/utils/isBlockAList';
+import getListBlocks from '@triniti/cms/components/blocksmith-field/utils/getListBlocks.js';
+import isBlockAList from '@triniti/cms/components/blocksmith-field/utils/isBlockAList.js';
 
 /**
  * Checks if the provided list block is the first in its list

@@ -1,6 +1,6 @@
-import startWorkers from 'actions/startWorkers';
-import HelloWorker from './hello';
-import RavenWorker from './raven';
+import startWorkers from '@triniti/cms/actions/startWorkers.js';
+//import HelloWorker from './hello.js';
+//import RavenWorker from './raven.js';
 
 // todo: replace with CLOUD_PROVIDER var
 //const WORKER_PATH = CLOUD_PROVIDER === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
@@ -24,12 +24,12 @@ const derivePath = fn => {
 
 export default (app) => {
   const workers = {
-    hello: derivePath(HelloWorker),
-    raven: derivePath(RavenWorker),
+    //hello: derivePath(HelloWorker),
+    //raven: derivePath(RavenWorker),
   };
 
-  app.setParameter('hello.worker', new Worker(workers.hello));
-  app.setParameter('raven.worker', new Worker(workers.raven));
+  //app.setParameter('hello.worker', new Worker(workers.hello));
+  //app.setParameter('raven.worker', new Worker(workers.raven));
   app.getRedux().dispatch(startWorkers(app));
 
   return workers;

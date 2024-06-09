@@ -1,6 +1,5 @@
-/* eslint-disable import/no-useless-path-segments */
-import { blockParentNode, getDraggedBlockNode } from 'components/blocksmith-field/utils/index';
-import { removeOldInsertBlockMarkerNode } from 'components/blocksmith-field/utils/styleDragTarget';
+import { blockParentNode, getDraggedBlockNode } from '@triniti/cms/components/blocksmith-field/utils/index.js';
+import { removeOldInsertBlockMarkerNode } from '@triniti/cms/components/blocksmith-field/utils/styleDragTarget.js';
 
 /**
  * Cleans up editor/drag n drop state when a block is dragged outside of the editor. Included

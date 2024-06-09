@@ -16,7 +16,9 @@
       --#{$prefix}border-color: var(--#{$prefix}light-border-subtle);
     }
   }
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: var(--#{$prefix}secondary);
+    outline: none;
   }
 }

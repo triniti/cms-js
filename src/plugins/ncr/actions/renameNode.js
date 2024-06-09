@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export default (nodeRef, oldSlug, newSlug) => async (dispatch, getState, app) => {
   const RenameNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:rename-node:v1');

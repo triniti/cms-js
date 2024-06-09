@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('plugins/dam/components/uploader/Uploader'));
+export default lazy(() => import('@triniti/cms/plugins/dam/components/uploader/Uploader.js'));

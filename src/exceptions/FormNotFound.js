@@ -1,4 +1,4 @@
-import LogicException from 'exceptions/LogicException';
+import LogicException from '@triniti/cms/exceptions/LogicException.js';
 
 export default class FormNotFound extends LogicException {
   /**

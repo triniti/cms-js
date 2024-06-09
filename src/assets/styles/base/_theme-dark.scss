@@ -30,6 +30,11 @@
   --#{$prefix}gradient-dark: #{$gradient-dark};
   --#{$prefix}gray-100: #{$body-tertiary-bg-dark};
   --#{$prefix}gray-400: rgba(0, 0, 0, .14);
+
+  .dropdown-menu,
+  .swal2-container {
+    --#{$prefix}form-control-border-color: #{$light-border-dropdown-dark};
+  }
 }
 
 
@@ -54,7 +59,7 @@
   .swal2-success-circular-line-left,
   .swal2-success-fix,
   .swal2-success-circular-line-right {
-    background-color: var(--#{$prefix}body-bg) !important;
+    background-color: var(--#{$prefix}dropdown-bg) !important;
   }
   &.swal2-toast-shown .swal2-container {
     background-color: transparent;

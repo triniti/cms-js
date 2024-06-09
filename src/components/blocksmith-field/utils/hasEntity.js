@@ -1,4 +1,4 @@
-import getCurrentEntity from 'components/blocksmith-field/utils/getCurrentEntity';
+import getCurrentEntity from '@triniti/cms/components/blocksmith-field/utils/getCurrentEntity.js';
 
 /**
  * Checks if the current entity is of a certain type

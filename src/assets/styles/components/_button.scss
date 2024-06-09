@@ -59,16 +59,18 @@
   .dropdown-menu &.btn-action {
     margin-bottom: .5rem;
     margin-left: 0 !important;
-    box-shadow: none;
 
     &:last-child {
       margin-bottom: 0;
     }
   }
+  .dropdown-menu &.btn-action:not(:focus-visible) {
+    box-shadow: none;
+  }
   &:not(:disabled):not(.disabled) {
     cursor: pointer;
   }
-  [data-bs-theme=dark] {
+  [data-bs-theme=dark] & {
     --#{$prefix}btn-border-color: var(--#{$prefix}btn-border-color-dark); // *new #494e5a #3e4551 #515966 #444e5c
     --#{$prefix}btn-hover-border-color: var(--#{$prefix}btn-hover-border-color-dark); // *new lighten(#494e5a, .25%)
     --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color-dark);
@@ -87,11 +89,14 @@
   &:not(:focus-visible) {
     box-shadow: none !important;
   }
+  a:focus-visible > & {
+    box-shadow: $focus-ring-box-shadow !important;
+  }
   &:hover,
   &.active {
     opacity: 1;
   }
-  .td-icons & {
+  .td-icons > & {
     margin-right: .25rem;
     padding: 0;
     width: 2.125rem;
@@ -99,6 +104,14 @@
   }
   tr.bg-selected & {
     color: $white !important;
+  }
+}
+
+a {
+  &:focus-visible > .btn-hover,
+  &:hover > .btn-hover,
+  &.active > .btn-hover {
+    opacity: 1;
   }
 }
 
@@ -149,13 +162,6 @@
       background-image: none;
     }
 
-    [data-bs-theme=light] & {
-      &:hover,
-      &:focus {
-        border-bottom-color: darken($value, 18%);
-      }
-    }
-
     [data-bs-theme=dark] & {
       $btn-bg: darken($value, 8%);
       $btn-border-color: darken($value, 14%);
@@ -181,13 +187,6 @@
       --#{$prefix}btn-hover-bg: #{$gray-300};
       --#{$prefix}btn-active-color: var(--#{$prefix}btn-color);
       --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
-
-      [data-bs-theme=light] & {
-        &:hover,
-        &:focus {
-          border-bottom-color: darken($gray-600, 10%);
-        }
-      }
 
       [data-bs-theme=dark] & {
         $btn-hover-bg: shade-color($body-secondary-bg-dark, 6%);
@@ -225,13 +224,6 @@
       background-image: none;
     }
 
-    [data-bs-theme=light] & {
-      &:hover,
-      &:focus {
-        border-bottom-color: darken($value, 18%);
-      }
-    }
-
     [data-bs-theme=dark] & {
       $btn-hover-bg: darken($value, 12%);
       // $btn-hover-border-color: darken($value, 25%);
@@ -243,6 +235,7 @@
       --#{$prefix}btn-hover-bg: #{$btn-hover-bg};
       --#{$prefix}btn-hover-border-color: #{$btn-hover-border-color};
       --#{$prefix}btn-active-bg: var(--#{$prefix}btn-hover-bg);
+      --#{$prefix}btn-active-border-color: var(--#{$prefix}btn-hover-border-color);
       --#{$prefix}btn-disabled-border-color: var(--#{$prefix}btn-border-color);
       --#{$prefix}btn-disabled-color: var(--#{$prefix}body-color);
       --#{$prefix}btn-disabled-bg: var(--#{$prefix}secondary-bg);
@@ -256,13 +249,7 @@
       --#{$prefix}btn-border-color: #{$gray-600};
       --#{$prefix}btn-hover-color: var(--#{$prefix}body-color);
       --#{$prefix}btn-hover-bg: #{$gray-500};
-
-      [data-bs-theme=light] & {
-        &:hover,
-        &:focus {
-          border-bottom-color: darken($gray-600, 10%);
-        }
-      }
+      --#{$prefix}btn-active-color: var(--#{$prefix}body-color);
 
       [data-bs-theme=dark] & {
         $btn-hover-bg: shade-color($body-secondary-bg-dark, 7%);
@@ -505,6 +492,7 @@
   padding: 1.25rem 3rem;
   min-height: 78px;
   line-height: 1.8;
+  border-radius: var(--#{$prefix}border-radius-lg);
 }
 
 
@@ -591,8 +579,7 @@
     filter: none;
     background: transparent url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27 %3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e") center/1em auto no-repeat;
   }
-  .alert &,
-  [data-bs-theme=dark] .alert & {
+  .alert & {
     background: none;
 
     &:before {
@@ -600,26 +587,8 @@
       font-size: 24px;
       font-weight: 600;
       line-height: .5;
-      color: $white;
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-    }
-  }
-  .alert-inverse & { // todo: check if alert-inverse has been removed
-
-    &:before,
-    [data-bs-theme=dark] &:before {
-      color: $body-color;
-      text-shadow: none;
-    }
-    &.alert-link,
-    [data-bs-theme=dark] &.alert-link { // add to btn-close for theme colored buttons
-      text-decoration: none !important;
-
-      &:before,
-      &:hover,
-      &:focus {
-        color: inherit;
-      }
+      color: var(--#{$prefix}alert-link-color);
+      // text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     }
   }
 }

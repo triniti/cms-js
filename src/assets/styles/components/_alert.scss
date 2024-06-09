@@ -5,6 +5,7 @@
   box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05);
   text-align: center;
   letter-spacing: .01em;
+  font-weight: 500;
 
   .card-body > &,
   .alert-container & {
@@ -16,10 +17,6 @@
   }
   .alert-wrapper & {
     animation: 300ms ease-out 0s 1 animate-slidein;
-  }
-  &:not(.alert-inverse) {
-    font-weight: 600;
-    text-shadow: 0 1px 0 $gray-rgba-600;
   }
   .screen-body-content > & {
     margin-top: -.5rem;
@@ -94,12 +91,11 @@
 
   .alert-link {
     font-weight: 700;
-    border-bottom: 1px dotted rgba(255,255,255,0.7);
+    border-bottom: 1px dotted var(--#{$prefix}alert-link-color);
     text-decoration: none;
 
     &:hover,
     &:focus {
-      border-bottom: 1px solid rgba(255, 255, 255, .9);
       text-decoration: none;
     }
   }

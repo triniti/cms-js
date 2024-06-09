@@ -60,7 +60,8 @@ tr.status-status,
   background-color: var(--#{$prefix}status-archived) !important;
 
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-archived-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}purple);
   }
@@ -89,7 +90,8 @@ tr.status-archived,
   background-color: var(--#{$prefix}status-deleted) !important;
 
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-deleted-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}warning);
   }
@@ -118,7 +120,8 @@ tr.status-deleted,
   background-color: var(--#{$prefix}status-draft) !important;
 
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-draft-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}dark);
   }
@@ -147,7 +150,8 @@ tr.status-draft,
   background-color: var(--#{$prefix}status-expired) !important;
 
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-expired-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}info);
   }
@@ -176,7 +180,8 @@ tr.status-expired,
   background-color: var(--#{$prefix}status-pending) !important;
 
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-pending-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}danger);
   }
@@ -209,7 +214,8 @@ tr.status-pending,
     background-color: var(--#{$prefix}status-published) !important; // todo: test .select__value exists
   }
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-published-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}success);
     // position: relative;
@@ -242,7 +248,8 @@ tr.status-published,
   background-color: var(--#{$prefix}status-scheduled) !important;
 
   .select__option:hover &,
-  .select__option.is-selected & {
+  .select__option.is-selected &,
+  .select__option--is-focused & {
     background-color: var(--#{$prefix}status-scheduled-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}yellow);
   }
@@ -360,7 +367,7 @@ tr.status-completed {
 // Status archive buttons
 
 button:not(.disabled):hover,
-button.disabled {
+button:not(.disabled):focus-visible {
 
   &.status-archived {
     background: var(--#{$prefix}status-archived-hover) !important;
@@ -394,7 +401,7 @@ button.disabled {
 
 button.disabled[class^="status-"],
 button.disabled[class*=" status-"] {
-  color: var(--#{$prefix}body-color);
+  color: var(--#{$prefix}tertiary-color);
 }
 
 button[class^="status-"],

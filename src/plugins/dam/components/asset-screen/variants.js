@@ -1,4 +1,4 @@
-import isUndefined from 'lodash/isUndefined';
+import isUndefined from 'lodash-es/isUndefined.js';
 
 const sizes = {
   'image-asset': {

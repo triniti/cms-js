@@ -1,4 +1,4 @@
-import { actionTypes } from '../constants';
+import { actionTypes } from '@triniti/cms/plugins/raven/constants.js';
 
 /**
  * Creates an action that will eventually be published

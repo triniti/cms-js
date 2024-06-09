@@ -1,6 +1,6 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import FormMarshaler from 'utils/FormMarshaler';
-import getRootFields from 'utils/getRootFields';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
+import getRootFields from '@triniti/cms/utils/getRootFields.js';
 
 export default (values, form, oldNode) => async (dispatch, getState, app) => {
   const UpdateNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:update-node:v1');

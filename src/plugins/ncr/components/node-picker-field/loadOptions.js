@@ -1,4 +1,4 @@
-import { getInstance } from '@app/main';
+import { getInstance } from '@triniti/app/main.js';
 
 const makeRequest = async (request) => {
   const app = getInstance();

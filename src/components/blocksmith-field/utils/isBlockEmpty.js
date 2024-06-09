@@ -1,4 +1,4 @@
-import { blockTypes } from 'components/blocksmith-field/constants';
+import { blockTypes } from '@triniti/cms/components/blocksmith-field/constants.js';
 
 /**
  * Checks if the block is "empty", eg its text is an empty string, or it is a non-atomic block and

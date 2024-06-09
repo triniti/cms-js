@@ -9,6 +9,12 @@
   [data-bs-theme=dark] & {
     background-color: var(--#{$prefix}dark-bg-subtle);
   }
+  .nav-link {
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px $focus-ring-color;
+    }
+  }
 }
 
 .navbar-light {
@@ -28,12 +34,18 @@
     box-shadow: none;
   }
   .navbar-main & {
-    width: 50px;
+    margin-left: 6px;
+    border-radius: 10rem;
+    width: 34px;
     height: 34px;
 
     @media (min-width: 1025px) {
       display: none;
     }
+  }
+  &:focus-visible {
+    box-shadow: 0 0 0 2px $focus-ring-color;
+    outline: 0;
   }
 }
 
@@ -224,6 +236,7 @@
 }
 
 .nav-link {
+
   .main-nav & {
     font-weight: 600;
     position: relative;
@@ -244,7 +257,6 @@
       padding: 1.5rem 1rem;
     }
   }
-  .main-nav .show > &,
   .main-nav .is-current > &,
   .main-nav &.active {
     color: $navbar-dark-active-color;
@@ -255,6 +267,9 @@
     color: $navbar-dark-color;
   }
   @media (max-width: 1024px) {
+    width: 100%;
+    text-align: left;
+
     // Active states for mobile
     .main-nav &::before {
       position: absolute;
@@ -272,7 +287,10 @@
       background-color: var(--#{$prefix}secondary);
     }
     .main-nav .show > &::before,
-    .main-nav .show > &:hover::before,
+    .main-nav .show > &:hover::before  {
+      margin: 2px 0;
+      background-color: var(--#{$prefix}secondary);
+    }
     .main-nav .is-current > &::before,
     .main-nav .is-current > &:hover::before {
       margin: 2px 0;
@@ -319,6 +337,28 @@
         background: var(--#{$prefix}dropdown-bg);
       }
     }
+    @media (hover: hover) and (pointer: fine) { // target devices with mouse
+      .main-nav .nav-item.show & {
+        background: $navbar-theme-dark-dropdown;
+
+        [data-bs-theme=dark] & {
+          background: var(--#{$prefix}dropdown-bg);
+        }
+      }
+    }
+  }
+}
+
+.nav-link--desktop {
+  display: none;
+
+  @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 }
 
@@ -360,6 +400,11 @@
     .main-nav .nav-item:hover & {
       display: block;
     }
+    @media (hover: hover) and (pointer: fine) { // target devices with mouse
+      .main-nav .nav-item.show & {
+        display: block;
+      }
+    }
     .main-nav .show & {
       padding: 0;
     }
@@ -367,12 +412,19 @@
 }
 
 .dropdown-item {
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px $focus-ring-color, inset 0 0 0 3px var(--#{$prefix}body-bg);
+  }
+
   .main-nav & {
     margin: 0;
     padding: 0;
     overflow: hidden;
     height: 0;
 
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px $focus-ring-color;
+    }
     @media (min-width: 1025px) {
       position: relative;
       margin: .25rem 0;
@@ -425,6 +477,10 @@
   opacity: .625;
   border: none;
 
+  &:focus-visible {
+    --#{$prefix}btn-hover-color: var(--#{$prefix}white);
+    box-shadow: 0 0 0 2px $focus-ring-color;
+  }
   &.rounded-circle {
     width: 2.125rem;
     height: 2.125rem;

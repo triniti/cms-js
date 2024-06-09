@@ -10,7 +10,6 @@ export const getFileExtensionByName = (str) => {
 
 export default (file) => {
   // Return quick for known types
-  /* eslint default-case: off */
   switch (file.typeIdentifierBytes) {
     case '89504e47':
       return mime.extension('image/png');

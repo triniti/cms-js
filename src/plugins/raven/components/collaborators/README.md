@@ -9,7 +9,7 @@ Renders a list of users that are currently in edit mode (aka collaborating) on a
 
 
 ```jsx harmony
-import Collaborators from 'plugins/raven/components/collaborators';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 
 <Collaborators nodeRef={nodeRef} />
 ```

@@ -1,4 +1,4 @@
-import pbjUrl, { expand } from '@gdbots/pbjx/pbjUrl';
+import pbjUrl, { expand } from '@gdbots/pbjx/pbjUrl.js';
 
 const vars = node => ({
   label: node.schema().getQName().getMessage(),

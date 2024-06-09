@@ -1,9 +1,9 @@
 import test from 'tape';
-import isEqual from 'lodash/isEqual';
-import ImageAssetV1 from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1';
-import AssetId from '@triniti/schemas/triniti/dam/AssetId';
+import isEqual from 'lodash-es/isEqual.js';
+import ImageAssetV1 from '@triniti/acme-schemas/acme/dam/node/ImageAssetV1.js';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
 
-import moveNodeByGallerySequence from './moveNodeByGallerySequence';
+import moveNodeByGallerySequence from './moveNodeByGallerySequence.js';
 
 const nonExistentNode = ImageAssetV1
   .create()
