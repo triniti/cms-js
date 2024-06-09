@@ -76,7 +76,6 @@ module.exports = (webpackEnv = {}) => {
         /\.md$/,
       ],
       rules: [
-      /*
         {
           test: /workers\/(hello|raven)\.js$/,
           use: [
@@ -94,7 +93,6 @@ module.exports = (webpackEnv = {}) => {
             },
           ],
         },
-       */
         {
           test: /\.jsx?$/,
           include: [
