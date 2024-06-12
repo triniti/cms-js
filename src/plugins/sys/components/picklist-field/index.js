@@ -7,7 +7,7 @@ const picklists = new Map;
 
 export default function PicklistField({ picklist, ...rest }) {
   const nodeRef = `${APP_VENDOR}:picklist:${picklist}`;
-  const { node, pbjxError } = useNode(nodeRef, false);
+  const { node, pbjxError } = useNode(nodeRef);
 
   if (!node) {
     const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;

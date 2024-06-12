@@ -20,7 +20,7 @@ export default function SlotPlaceholder(props) {
     input.value['_schema'] = 'pbj:triniti:curator::slot:1-0-0';
   }
 
-  const { node } = useNode(widget_ref, false);
+  const { node } = useNode(widget_ref);
   const widgetType = node.schema().getCurie().getMessage();
 
   const rowClassnames = editMode

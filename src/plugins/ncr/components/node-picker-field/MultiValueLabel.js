@@ -15,7 +15,7 @@ const noop = (event) => {
 export default function MultiValueLabel(props) {
   const { showImage = true, showLink = true, showType = false, urlTemplate = 'view' } = props.selectProps;
   const nodeRef = props.data.value;
-  const { node, pbjxError } = useNode(nodeRef, false);
+  const { node, pbjxError } = useNode(nodeRef);
 
   if (!node) {
     const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;

@@ -11,7 +11,7 @@ import PublishForm from '@triniti/cms/plugins/ncr/components/node-status-card/Pu
 
 export default function NodeStatusCard(props) {
   const { nodeRef } = props;
-  const { node, refreshNode, isRefreshing } = useNode(nodeRef, false);
+  const { node, refreshNode, isRefreshing } = useNode(nodeRef);
   const user = useSelector((state) => {
     const userRef = node.get('updater_ref', node.get('creator_ref'));
     return userRef ? getNode(state, NodeRef.fromMessageRef(userRef)) : null;
