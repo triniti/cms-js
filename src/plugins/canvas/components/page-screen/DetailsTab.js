@@ -56,7 +56,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Content</CardHeader>
         <CardBody>
-          <BlocksmithField node={node} />
+          <BlocksmithField name="blocks" />
         </CardBody>
       </Card>
       <AdvertisingFields />

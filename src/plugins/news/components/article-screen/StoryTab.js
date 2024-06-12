@@ -27,7 +27,7 @@ export default function StoryTab(props) {
       <Card>
         <CardHeader>Content</CardHeader>
         <CardBody>
-          <BlocksmithField node={node} />
+          <BlocksmithField name="blocks" />
         </CardBody>
       </Card>
     </>
