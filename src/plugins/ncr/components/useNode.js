@@ -6,19 +6,19 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import * as constants from '@triniti/cms/constants.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 import { getInstance } from '@triniti/app/main.js';
-import noop from 'lodash-es/noop.js';
 
-const fetchNode = async (nodeRef) => {
+
+const fetchNode = async (nodeRef, consistent = false) => {
   const app = getInstance();
   const pbjx = await app.getPbjx();
   const request = GetNodeRequestV1.create()
-    .set('consistent_read', true)
-    .set('node_ref', NodeRef.fromString(nodeRef));
+    .set('consistent_read', consistent)
+    .set('node_ref', NodeRef.fromString(`${nodeRef}`));
   const response = await pbjx.request(request);
   return response.get('node');
 };
 
-export default (nodeRef, consistent = true) => {
+export default (nodeRef, consistent = false) => {
   const cachedNode = useSelector(state => consistent ? null : getNode(state, nodeRef));
   const [node, setNode] = useState(cachedNode);
   const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ export default (nodeRef, consistent = true) => {
 
   useEffect(() => {
     if (!nodeRef || consistent || !cachedNode) {
-      return noop;
+      return;
     }
 
     setNode(cachedNode.freeze());
@@ -37,7 +37,7 @@ export default (nodeRef, consistent = true) => {
 
   useEffect(() => {
     if (!nodeRef || !node || !consistent) {
-      return noop;
+      return;
     }
 
     setNode(null);
@@ -47,11 +47,11 @@ export default (nodeRef, consistent = true) => {
 
   useEffect(() => {
     if (!nodeRef) {
-      return noop;
+      return;
     }
 
     if (!consistent && cachedNode && refreshCount === 0) {
-      return noop;
+      return;
     }
 
     let cancelled = false;
@@ -66,7 +66,7 @@ export default (nodeRef, consistent = true) => {
       let newNode;
 
       try {
-        newNode = await fetchNode(nodeRef);
+        newNode = await fetchNode(nodeRef, consistent);
       } catch (e) {
         if (cancelled) {
           return;

@@ -10,7 +10,7 @@ const RenameForm = lazy(() => import('@triniti/cms/plugins/ncr/components/slug-f
 export default function SlugField(props) {
   const { groupClassName = '', label = 'Slug', nodeRef, withDatedSlug = false } = props;
   const policy = usePolicy();
-  const { node, refreshNode, pbjxError } = useNode(nodeRef, false);
+  const { node, refreshNode, pbjxError } = useNode(nodeRef);
 
   if (!node) {
     const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;

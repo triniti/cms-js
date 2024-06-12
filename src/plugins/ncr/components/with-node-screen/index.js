@@ -25,7 +25,7 @@ export default function withNodeScreen(Screen, config) {
     const navigate = useNavigate();
     const policy = usePolicy();
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
-    const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef);
+    const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
 
     useEffect(() => {
       if (editMode && !policy.isGranted(`${qname}:update`)) {
