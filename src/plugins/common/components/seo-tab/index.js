@@ -11,7 +11,7 @@ export default function SeoTab(props) {
       <CardBody>
         <TextField name="seo_title" label="SEO Title Tag" />
         <TextareaField name="meta_description" label="Meta Description" maxCharsConfig={{charsMax: 500}} parse={value => value && value.replace('\n', '')} />
-        <SelectField name="meta_keywords" label="Meta Keywords" allowOther isMulti={true} />
+        <SelectField name="meta_keywords" label="Meta Keywords" allowOther isMulti />
         <ImagePickerField name="seo_image_ref" label="Seo Image" nodeRef={nodeRef} />
         <DatePickerField name="seo_published_at" label="SEO Published At" />
         <SwitchField name="is_unlisted" label="Unlisted" />
