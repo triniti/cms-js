@@ -1,4 +1,4 @@
-import { jwtDecode as decode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 /**
  * @param {string} jwt
@@ -6,7 +6,7 @@ import { jwtDecode as decode } from 'jwt-decode';
  * @returns {?Date}
  */
 const getExpirationDate = (jwt) => {
-  const decoded = decode(jwt);
+  const decoded = jwtDecode(jwt);
   if (!decoded.exp) {
     return null;
   }
