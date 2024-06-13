@@ -55,6 +55,7 @@ function CreateAppForm(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -62,6 +63,7 @@ function CreateAppForm(props) {
           text={`Create ${label}`}
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
