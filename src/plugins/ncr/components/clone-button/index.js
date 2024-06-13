@@ -33,9 +33,9 @@ const Component = ({ node, pbj: nodeClone }) => {
     }
 
     await progressIndicator.show('Cloning Node...');
-    await dispatch(cloneNode(node, nodeClone));
+    const newNode = await dispatch(cloneNode(node));
     await progressIndicator.close();
-    await navigate(nodeUrl(nodeClone, 'edit'));
+    await navigate(nodeUrl(newNode, 'edit'));
     toast({ title: 'Node Created.' });
   };
 

@@ -11,6 +11,7 @@ export default class NcrPlugin extends Plugin {
 
     const dispatcher = app.getDispatcher();
 
+    // todo: do we need to force everything to be consistent?
     dispatcher.addListener('gdbots:ncr:mixin:get-node-request.enrich', (pbjxEvent) => {
       pbjxEvent.getMessage().set('consistent_read', true);
     });

@@ -87,6 +87,7 @@ function RenameForm(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -94,6 +95,7 @@ function RenameForm(props) {
           text={`Rename ${label}`}
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="save-diskette"
           color="primary"
         />
       </ModalFooter>
