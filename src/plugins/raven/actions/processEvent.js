@@ -1,4 +1,5 @@
-import getCurrentNodeRef from 'plugins/raven/selectors/getCurrentNodeRef';
+import getCurrentNodeRef from '@triniti/cms/plugins/raven/selectors/getCurrentNodeRef.js';
+import publishPbj from '@triniti/cms/plugins/pbjx/actions/publishPbj.js';
 
 export default (pbj) => async (dispatch, getState, app) => {
   const state = getState();
@@ -12,7 +13,6 @@ export default (pbj) => async (dispatch, getState, app) => {
     return;
   }
 
-  app.getPbjx().publish(pbj);
-
-  return;
+  return dispatch(publishPbj(pbj));
 };
+

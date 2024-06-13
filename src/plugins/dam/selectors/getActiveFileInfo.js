@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
-import getFileList from './getFileList';
-import getActiveHashName from './getActiveHashName';
+import getFileList from '@triniti/cms/plugins/dam/selectors/getFileList.js';
+import getActiveHashName from '@triniti/cms/plugins/dam/selectors/getActiveHashName.js';
 
 export default createSelector(
   getActiveHashName,

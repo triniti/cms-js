@@ -807,7 +807,7 @@ $table-active-bg:             rgba(var(--#{$prefix}emphasis-color-rgb), $table-a
 
 $table-hover-color:           $table-color !default;
 $table-hover-bg-factor:       .04; // .075 !default
-$table-hover-bg:              rgba(var(--#{$prefix}emphasis-color-rgb), $table-hover-bg-factor) !default;
+$table-hover-bg:              var(--#{$prefix}tertiary-bg); // rgba(var(--#{$prefix}emphasis-color-rgb), $table-hover-bg-factor) !default
 
 $table-border-factor:         .0625; // .2 !default
 $table-border-width:          var(--#{$prefix}border-width) !default;
@@ -1635,7 +1635,7 @@ $progress-bar-transition:           width .6s ease !default;
 // scss-docs-start list-group-variables
 $list-group-color:                  var(--#{$prefix}body-color) !default;
 $list-group-bg:                     var(--#{$prefix}body-bg) !default;
-$list-group-border-color:           var(--#{$prefix}border-color) !default;
+$list-group-border-color:           var(--#{$prefix}border-color-translucent);
 $list-group-border-width:           var(--#{$prefix}border-width) !default;
 $list-group-border-radius:          var(--#{$prefix}border-radius) !default;
 
@@ -1648,8 +1648,8 @@ $list-group-item-color-scale:       40% !default; // Deprecated in v5.3.0
 
 $list-group-hover-bg:               var(--#{$prefix}tertiary-bg) !default;
 $list-group-active-color:           $component-active-color !default;
-$list-group-active-bg:              var(--#{$prefix}dark-bg-subtle); // $gray-400 $component-active-bg !default;
-$list-group-active-border-color:    var(--#{$prefix}border-color); // #e0e0e2 $list-group-active-bg !default;
+$list-group-active-bg:              var(--#{$prefix}secondary-bg); // $gray-400 $component-active-bg !default;
+$list-group-active-border-color:    var(--#{$prefix}border-color-translucent); // #e0e0e2 $list-group-active-bg !default;
 
 $list-group-disabled-color:         var(--#{$prefix}light-text-emphasis); // var(--#{$prefix}secondary-color) !default
 $list-group-disabled-bg:            $list-group-bg !default;

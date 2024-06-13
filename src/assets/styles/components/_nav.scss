@@ -101,17 +101,22 @@
     &.active:hover {
       box-shadow: inset 0 -3px 0 0 $primary;
     }
+    &.active:focus-visible {
+      box-shadow: inset 0 -3px 0 0 $primary, 0 0 0 2px $focus-ring-color;
+    }
   }
   // nav-sm styles
   &.nav-sm > .nav-item > .nav-link {
     padding: .5625rem 1rem;
     font-weight: 400;
     text-transform: none;
+    letter-spacing: .01em;
 
     &.active,
     &.active:hover {
       box-shadow: inset 0 -1px 0 0 $primary;
       font-weight: 500;
+      letter-spacing: 0;
     }
   }
 }

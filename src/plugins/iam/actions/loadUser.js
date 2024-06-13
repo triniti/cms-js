@@ -1,14 +1,14 @@
-import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import EnvelopeV1 from '@gdbots/schemas/gdbots/pbjx/EnvelopeV1';
-import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code';
-import HttpCode from '@gdbots/schemas/gdbots/pbjx/enums/HttpCode';
-import Exception from '@gdbots/pbj/Exception';
-import { vendorToHttp } from '@gdbots/pbjx/utils/statusCodeConverter';
-import sendAlert from 'actions/sendAlert';
-import receiveEnvelope from 'plugins/pbjx/actions/receiveEnvelope';
-import getAccessToken from 'plugins/iam/selectors/getAccessToken';
-import Policy from 'plugins/iam/Policy';
-import { actionTypes } from 'plugins/iam/constants';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer.js';
+import EnvelopeV1 from '@gdbots/schemas/gdbots/pbjx/EnvelopeV1.js';
+import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code.js';
+import HttpCode from '@gdbots/schemas/gdbots/pbjx/enums/HttpCode.js';
+import Exception from '@gdbots/pbj/Exception.js';
+import { vendorToHttp } from '@gdbots/pbjx/utils/statusCodeConverter.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import receiveEnvelope from '@triniti/cms/plugins/pbjx/actions/receiveEnvelope.js';
+import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken.js';
+import Policy from '@triniti/cms/plugins/iam/Policy.js';
+import { actionTypes } from '@triniti/cms/plugins/iam/constants.js';
 
 async function fetchUser(accessToken) {
   try {

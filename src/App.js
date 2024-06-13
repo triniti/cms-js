@@ -1,10 +1,10 @@
-import isFunction from 'lodash-es/isFunction';
-import Dispatcher from '@gdbots/pbjx/Dispatcher';
-import LogicException from 'exceptions/LogicException';
-import ServiceNotFound from 'exceptions/ServiceNotFound';
-import createPbjx from 'createPbjx';
-import createRedux from 'createRedux';
-import startApp from 'actions/startApp';
+import isFunction from 'lodash-es/isFunction.js';
+import Dispatcher from '@gdbots/pbjx/Dispatcher.js';
+import LogicException from '@triniti/cms/exceptions/LogicException.js';
+import ServiceNotFound from '@triniti/cms/exceptions/ServiceNotFound.js';
+import createPbjx from '@triniti/cms/createPbjx.js';
+import createRedux from '@triniti/cms/createRedux.js';
+import startApp from '@triniti/cms/actions/startApp.js';
 
 const instances = new WeakMap();
 

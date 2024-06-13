@@ -1,7 +1,7 @@
 /* globals DAM_BASE_URL, IMAGE_BASE_URL, VIDEO_ASSET_BASE_URL */
-import AssetId from '@triniti/schemas/triniti/dam/AssetId';
-import Message from '@gdbots/pbj/Message';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
+import Message from '@gdbots/pbj/Message.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export const baseUrls = {
   dfault: DAM_BASE_URL,

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import joinCollaboration from 'plugins/raven/actions/joinCollaboration';
-import leaveCollaboration from 'plugins/raven/actions/leaveCollaboration';
-import setCurrentNodeRef from 'plugins/raven/actions/setCurrentNodeRef';
-import sendHeartbeat from 'plugins/raven/actions/sendHeartbeat';
-import { getInstance } from '@app/main';
+import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration.js';
+import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration.js';
+import setCurrentNodeRef from '@triniti/cms/plugins/raven/actions/setCurrentNodeRef.js';
+import sendHeartbeat from '@triniti/cms/plugins/raven/actions/sendHeartbeat.js';
+import { getInstance } from '@triniti/app/main.js';
 
 /**
  * When the user switches between tabs in the browser
@@ -50,7 +50,7 @@ export default ({ editMode, node, nodeRef }) => {
       window.removeEventListener('beforeunload', leaveCollaborationOnUnload);
     }
   }
-  
+
   // Join / Leave Collaboration
   useEffect(() => {
     if (editMode) {
@@ -67,7 +67,7 @@ export default ({ editMode, node, nodeRef }) => {
       dispatch(leaveCollaboration(nodeRef));
     }
   }, [ editMode, nodeRef ]);
-  
+
 
   // Heartbeat
   useEffect(() => {
@@ -92,9 +92,8 @@ export default ({ editMode, node, nodeRef }) => {
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
   });
 
-  
+
   // Leave Collaboration On UnLoad
-  /* eslint-disable no-param-reassign */
   leaveCollaborationOnUnload = (event) => {
     // don't desctructure isPristine so it uses latest value, required for Chrome prompt
     // if (this.component.props.isPristine) {

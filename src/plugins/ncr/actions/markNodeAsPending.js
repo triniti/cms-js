@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export default (nodeRef) => async (dispatch, getState, app) => {
   const MarkNodeAsPendingV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:mark-node-as-pending:v1');

@@ -1,4 +1,4 @@
-import Event from '@gdbots/pbjx/events/Event';
+import Event from '@gdbots/pbjx/events/Event.js';
 
 const appSym = Symbol('app');
 const actionSym = Symbol('action');

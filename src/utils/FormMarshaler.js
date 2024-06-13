@@ -1,10 +1,10 @@
-import isArray from 'lodash-es/isArray';
-import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer';
-import AssertionFailed from '@gdbots/pbj/exceptions/AssertionFailed';
-import InvalidResolvedSchema from '@gdbots/pbj/exceptions/InvalidResolvedSchema';
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import { PBJ_FIELD_NAME } from '@gdbots/pbj/Schema';
-import SchemaId from '@gdbots/pbj/SchemaId';
+import isArray from 'lodash-es/isArray.js';
+import ObjectSerializer from '@gdbots/pbj/serializers/ObjectSerializer.js';
+import AssertionFailed from '@gdbots/pbj/exceptions/AssertionFailed.js';
+import InvalidResolvedSchema from '@gdbots/pbj/exceptions/InvalidResolvedSchema.js';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import { PBJ_FIELD_NAME } from '@gdbots/pbj/Schema.js';
+import SchemaId from '@gdbots/pbj/SchemaId.js';
 
 let opt = {};
 

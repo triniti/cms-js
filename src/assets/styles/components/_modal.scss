@@ -211,7 +211,11 @@
   max-width: 60px;
 
   & .modal-content {
-    background: rgba($navbar-theme-dark, .25); // todo test
+    background: rgba($navbar-theme-dark, .25);
+
+    [data-bs-theme=dark] & {
+      background: var(--bs-dropdown-bg);
+    }
   }
 }
 

@@ -1,5 +1,5 @@
-import MessageResolver from '@gdbots/pbj/MessageResolver';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef';
+import MessageResolver from '@gdbots/pbj/MessageResolver.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 export default (nodeRef, roles) => async (dispatch, getState, app) => {
   const GrantRolesToAppV1 = await MessageResolver.resolveCurie('gdbots:iam:command:grant-roles-to-app:v1');

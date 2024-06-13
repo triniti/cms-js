@@ -1,5 +1,5 @@
-import incrementer from 'utils/incrementer';
-import { actionTypes } from 'constants';
+import incrementer from '@triniti/cms/utils/incrementer.js';
+import { actionTypes } from '@triniti/cms/constants.js';
 
 const nextId = incrementer();
 

@@ -1,4 +1,4 @@
-import { fileUploadStatuses } from '../constants';
+import { fileUploadStatuses } from '@triniti/cms/plugins/dam/constants.js';
 
 export default ({ dam }) => {
   const { files } = dam.uploader;

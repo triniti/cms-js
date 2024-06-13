@@ -1,4 +1,4 @@
-import AppException from 'exceptions/AppException';
+import AppException from '@triniti/cms/exceptions/AppException.js';
 
 export default class InvalidArgumentException extends AppException {
   /**

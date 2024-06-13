@@ -1,6 +1,6 @@
-import setWebpackPublicPath from './webpackPublicPath';
-// import MessageResolver from '../schemas';
-import Raven from 'plugins/raven/services/Raven';
+import setWebpackPublicPath from './webpackPublicPath.js';
+import '../schemas.js';
+import Raven from '@triniti/cms/plugins/raven/services/Raven.js';
 import mqtt from 'mqtt';
 
 setWebpackPublicPath();
@@ -9,7 +9,7 @@ let raven = null;
 /**
  * We cannot pass `self.postMessage` directly to Raven service, so
  * this wrapper is created that works.
- * @param {*} msg 
+ * @param {*} msg
  */
 async function postMessage (msg) {
   console.log('Raven Worker Message', msg);
@@ -18,7 +18,7 @@ async function postMessage (msg) {
 
 /**
  * Handles Messages received from @app.
- * @param {*} param0 
+ * @param {*} param0
  */
 self.onmessage = async function ({ data }) {
   const { event, payload } = data;

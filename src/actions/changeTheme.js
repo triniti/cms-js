@@ -1,4 +1,4 @@
-import { actionTypes, THEME_STORAGE_KEY } from 'constants';
+import { actionTypes, THEME_STORAGE_KEY } from '@triniti/cms/constants.js';
 
 export default (theme) => {
   document.documentElement.setAttribute('data-bs-theme',(theme))

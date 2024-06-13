@@ -1,4 +1,4 @@
-import getUserRef from 'plugins/iam/selectors/getUserRef';
+import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef.js';
 
 /**
  * @param {Object}         state

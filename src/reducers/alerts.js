@@ -1,5 +1,5 @@
-import createReducer from 'utils/createReducer';
-import { actionTypes } from 'constants';
+import createReducer from '@triniti/cms/utils/createReducer.js';
+import { actionTypes } from '@triniti/cms/constants.js';
 
 export const initialState = [];
 

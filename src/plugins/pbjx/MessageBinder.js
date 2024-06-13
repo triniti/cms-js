@@ -1,4 +1,4 @@
-import AppV1 from '@gdbots/schemas/gdbots/contexts/AppV1';
+import AppV1 from '@gdbots/schemas/gdbots/contexts/AppV1.js';
 
 export default class MessageBinder {
   /**

@@ -66,6 +66,9 @@ $status-height:         320px;
   a {
     color: var(--#{$prefix}body-color);
 
+    &:focus-visible {
+      box-shadow: $focus-ring-box-shadow;
+    }
     [data-bs-theme=dark] & {
       color: var(--#{$prefix}body-color);
     }
@@ -207,16 +210,10 @@ $status-height:         320px;
     font-size: .825rem;
 
     &:hover,
-    &:focus {
-      background-color: rgba($input-focus-color, 0.04); // $gray-rgba-100
-
-      [data-bs-theme=dark] & {
-        background-color: var(--#{$prefix}dropdown-link-hover-bg);
-      }
-    }
+    &:focus,
     &:active,
     &--is-focused {
-      background-color: rgba($input-focus-color, 0.04); // $gray-rgba-100
+      background-color: $dropdown-link-hover-bg; // $gray-rgba-100
       color: #333;
 
       [data-bs-theme=dark] & {
@@ -226,14 +223,22 @@ $status-height:         320px;
     }
     &--is-selected,
     &--is-selected.select__option--is-focused {
-      background-color: rgba($input-focus-color, 0.125);
+      background-color: rgba($input-focus-color, 0.15);
       box-shadow: inset 2px 0 0 $input-focus-color;
       color: #333;
 
       [data-bs-theme=dark] & {
-        background-color: rgba($input-focus-color, 0.125);
+        background-color: rgba($input-focus-color, 0.25);
         box-shadow: inset 2px 0 0 var(--#{$prefix}secondary);
         color: var(--#{$prefix}body-color);
+      }
+    }
+    &--is-selected:hover,
+    &--is-selected.select__option--is-focused:hover {
+      background-color: rgba($input-focus-color, 0.19);
+
+      [data-bs-theme=dark] & {
+        background-color: rgba($input-focus-color, 0.18);
       }
     }
     &--is-disabled {
@@ -280,6 +285,7 @@ $status-height:         320px;
 
     [role="button"][tabindex="0"] {
       order: 2;
+      outline: none;
     }
 
     > a,
@@ -318,7 +324,7 @@ $status-height:         320px;
     }
     &:after {
       margin-bottom: .5px;
-      color: $text-light; // todo check dark mode
+      color: var(--#{$prefix}tertiary-color);
       content: '×';
       display: inline-block;
       font-weight: 600;
@@ -337,6 +343,13 @@ $status-height:         320px;
     }
     svg {
       display: none;
+    }
+  }
+
+  .multi-select-sortable {
+
+    &:focus-visible {
+      outline: none;
     }
   }
 

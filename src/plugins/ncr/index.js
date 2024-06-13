@@ -1,5 +1,5 @@
-import Plugin from 'Plugin';
-import reducer from 'plugins/ncr/reducers';
+import Plugin from '@triniti/cms/Plugin.js';
+import reducer from '@triniti/cms/plugins/ncr/reducers/index.js';
 
 export default class NcrPlugin extends Plugin {
   constructor() {

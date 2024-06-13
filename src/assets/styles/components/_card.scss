@@ -87,10 +87,10 @@
 }
 
 .card-shadow {
-  box-shadow: $shadow-depth-2; // todo: check if used
+  box-shadow: $shadow-card;
 
   [data-bs-theme=dark] & {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .28);
   }
 }
 
@@ -137,6 +137,7 @@
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: .01em;
+  --#{$prefix}card-title-spacer-y: .5rem;
 }
 
 div.card-title {

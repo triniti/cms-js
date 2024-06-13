@@ -16,7 +16,7 @@ $body-tertiary-color-dark:          rgba($white, .56); // #93969d rgba($body-emp
 $body-tertiary-bg-dark:             shade-color($body-bg-dark, 7%); // rgba($black, .07) #283243 --content-bg-hover gray-100 swap, mix($gray-800, $gray-900, 50%) !default;
 $body-emphasis-color-dark:          $white !default;
 $border-color-dark:                 #222a36; // $gray-700 !default
-$border-color-translucent-dark:     rgba($black, .11); // .17 rgba($white, .15) !default
+$border-color-translucent-dark:     rgba($black, .22); // .17 rgba($white, .15) !default
 $headings-color-dark:               inherit !default;
 $link-color-dark:                   $secondary; // tint-color($primary, 40%) !default;
 $link-hover-color-dark:             lighten($secondary, 5%); // shift-color($link-color-dark, -$link-shade-percentage) !default;
@@ -54,7 +54,8 @@ $success-border-subtle-dark:        shade-color($success, 40%) !default;
 $info-border-subtle-dark:           shade-color($info, 40%) !default;
 $warning-border-subtle-dark:        shade-color($warning, 40%) !default;
 $danger-border-subtle-dark:         shade-color($danger, 40%) !default;
-$light-border-subtle-dark:          desaturate(tint-color($body-bg-dark, 12%), 3%); // #444954 --form-control-border-color $gray-700 !default
+$light-border-subtle-dark:          desaturate(tint-color($body-bg-dark, 15%), 3%); // #616870; // 12% #444954 --form-control-border-color $gray-700 !default
+$light-border-dropdown-dark:        desaturate(tint-color($body-bg-dark, 25%), 3%); // used with dropdown-bg elements
 $dark-border-subtle-dark:           $border-color-translucent-dark;
 // scss-docs-end theme-border-subtle-dark-variables
 
