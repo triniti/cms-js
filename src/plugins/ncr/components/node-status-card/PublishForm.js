@@ -22,7 +22,6 @@ import markNodeAsDraft from '@triniti/cms/plugins/ncr/actions/markNodeAsDraft.js
 import markNodeAsPending from '@triniti/cms/plugins/ncr/actions/markNodeAsPending.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 import unpublishNode from '@triniti/cms/plugins/ncr/actions/unpublishNode.js';
-import noop from 'lodash-es/noop.js';
 
 const actions = {
   'mark-as-draft': markNodeAsDraft,
@@ -74,7 +73,7 @@ export default function PublishForm(props) {
 
   useEffect(() => {
     if (!action) {
-      return noop;
+      return;
     }
 
     setPublishAt(node.get('published_at') || new Date());
@@ -161,3 +160,4 @@ export default function PublishForm(props) {
     </>
   );
 }
+
