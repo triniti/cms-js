@@ -77,7 +77,6 @@ function Login() {
           <CardBody>
             <div className="mb-4 mt-4 pt-4">
               <div className="login-logo"><img src={logoLight} alt="Triniti" className="login-logo--light" /><img src={logoDark} alt="Triniti" className="login-logo--dark" /></div>
-
             </div>
             <h1 className="mb-5">{APP_VENDOR} CMS</h1>
             {(isLoading || errorMsg) && <Loading error={errorMsg} />}

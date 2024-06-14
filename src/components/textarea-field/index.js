@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
 
+// todo: simplify max chars thingy
 export default function TextareaField(props) {
   const { groupClassName = '', name, label, description, parse, validator, pbjName, required, maxCharsConfig = false, ...rest } = props;
   const formContext = useFormContext();

@@ -9,7 +9,7 @@ export default function withPbj(Component, curie, initialData = {}) {
     const pbj = useResolver(curie, initialData);
 
     if (!pbj) {
-      return <Loading fixed/>;
+      return <Loading />;
     }
 
     return <Component {...props} pbj={pbj} />;

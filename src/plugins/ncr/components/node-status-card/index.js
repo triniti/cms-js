@@ -10,7 +10,7 @@ import formatDate from '@triniti/cms/utils/formatDate.js';
 import PublishForm from '@triniti/cms/plugins/ncr/components/node-status-card/PublishForm.js';
 
 export default function NodeStatusCard(props) {
-  const { nodeRef } = props;
+  const { nodeRef, statusField = 'status' } = props;
   const { node, refreshNode, isRefreshing } = useNode(nodeRef);
   const user = useSelector((state) => {
     const userRef = node.get('updater_ref', node.get('creator_ref'));
@@ -21,7 +21,7 @@ export default function NodeStatusCard(props) {
     return null;
   }
 
-  const status = `${node.get('status')}`;
+  const status = `${node.get(statusField)}`;
   const handleStatusUpdated = props.onStatusUpdated || refreshNode;
   const isPublishable = node.schema().hasMixin('gdbots:ncr:mixin:publishable');
   const canonicalUrl = pbjUrl(node, 'canonical');

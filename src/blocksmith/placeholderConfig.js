@@ -1,5 +1,5 @@
 import MessageResolver from '@gdbots/pbj/MessageResolver.js';
-import { localize } from '@triniti/cms/plugins/utils/services/Localization.js';
+import { localize } from '@triniti/cms/utils/Localization.js';
 import siteLogo from '@triniti/app/assets/img/svg/icon/site-logo.svg';
 import GenericBlockPreviewComponent from '@triniti/cms/blocksmith/components/generic-block-placeholder-preview/index.js';
 

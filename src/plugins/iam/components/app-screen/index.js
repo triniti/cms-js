@@ -1,14 +1,12 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
-import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
-import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import DetailsTab from '@triniti/cms/plugins/iam/components/app-screen/DetailsTab.js';
 import RolesTab from '@triniti/cms/plugins/iam/components/app-screen/RolesTab.js';
-import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 
 function AppScreen(props) {
   const {
@@ -49,13 +47,13 @@ function AppScreen(props) {
       ]}
       primaryActions={
         <>
-          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
             text="Close"
             onClick={delegate.handleClose}
             disabled={submitting || isRefreshing}
+            icon="back"
             color="light"
             outline
           />
@@ -65,13 +63,14 @@ function AppScreen(props) {
                 text="Save"
                 onClick={delegate.handleSave}
                 disabled={submitDisabled}
-                icon="save"
+                icon="save-diskette"
                 color="primary"
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
                 onClick={delegate.handleSwitchMode}
                 disabled={submitting || isRefreshing}
+                icon={editMode ? 'eye' : 'edit'}
                 color="light"
                 outline
               />
@@ -86,11 +85,9 @@ function AppScreen(props) {
                 <ActionButton
                   text="Delete"
                   onClick={delegate.handleDelete}
-                  icon="delete"
+                  icon="trash"
                   color="danger"
                   outline
-                  role="menuitem"
-                  tabIndex="0"
                 />
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -104,7 +101,6 @@ function AppScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
-      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>

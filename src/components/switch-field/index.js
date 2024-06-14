@@ -9,7 +9,9 @@ export default function SwitchField(props) {
     name,
     label,
     description,
+    nestedPbj,
     pbjName,
+    groupClassName = '',
     labelOff = 'No',
     labelOn = 'Yes',
     inline,
@@ -18,14 +20,14 @@ export default function SwitchField(props) {
     title,
     readOnly = false,
     tooltip,
-    tooltipIconProps = {},
     ...rest
   } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input } = useField({ ...props, type: 'checkbox' }, formContext);
 
-  const groupClassName = classNames(
+  const rootClassName = classNames(
+    groupClassName,
     'form-group',
     {
       'form-group-inline': inline,
@@ -44,7 +46,7 @@ export default function SwitchField(props) {
   const domId = (id || name || pbjName).replace(/(\[|\])/g, '-');
 
   return (
-    <div id={`form-group-${domId}`} className={groupClassName}>
+    <div className={rootClassName} id={`form-group-${domId}`}>
       {title && <label className="custom-control-header">{title}</label>}
       <div className={customClassName}>
         <input
@@ -63,10 +65,12 @@ export default function SwitchField(props) {
         <label className="text-label" htmlFor={domId}>{label}</label>
         {description && <FormText color="dark" style={{ flexBasis: '100%' }}>{description}</FormText>}
       </div>
-      {tooltip && <>
-        <Icon imgSrc="info-outline" id={`${name}-tooltip`} className="ms-1 align-self-start mb-2" {...tooltipIconProps} />
-        <UncontrolledTooltip target={`${name}-tooltip`} placement="right" className="mb-2">{tooltip}</UncontrolledTooltip>
-      </>}
+      {tooltip && (
+        <>
+          <Icon imgSrc="info-outline" id={`${domId}-tooltip`} className="ms-1 align-self-start mb-2" />
+          <UncontrolledTooltip target={`${domId}-tooltip`} placement="right" className="mb-2">{tooltip}</UncontrolledTooltip>
+        </>
+      )}
     </div>
   );
 }

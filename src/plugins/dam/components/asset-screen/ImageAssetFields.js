@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Col, Media, Row } from 'reactstrap';
 import { TextField } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
-import humanizeBytes from '@triniti/cms/utils/humanizeBytes.js';
+import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import PollPickerField from '@triniti/cms/plugins/apollo/components/poll-picker-field/index.js';
 import CommonFields from '@triniti/cms/plugins/dam/components/asset-screen/CommonFields.js';
 
@@ -23,7 +23,7 @@ export default function ImageAssetFields(props) {
         <Row>
           <Col xs="6 ps-0">
             <TextField name="mime_type" label="MIME type" readOnly />
-            <TextField name="file_size" label="File size" format={humanizeBytes} readOnly />
+            <TextField name="file_size" label="File size" format={formatBytes} readOnly />
             <TextField name="width" label="Dimensions" format={getDimensions} readOnly />
           </Col>
           <Col xs="6 pe-0">

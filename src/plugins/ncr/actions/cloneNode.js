@@ -1,49 +1,35 @@
 import MessageResolver from '@gdbots/pbj/MessageResolver.js';
-import FieldRule from '@gdbots/pbj/enums/FieldRule.js';
 
-const ignoredFieldNames = [
+const ignoredFields = [
   '_id',
-  '_schema',
+  'status',
+  'etag',
   'created_at',
   'creator_ref',
-  'etag',
-  'last_event_ref',
-  'published_at',
-  'status',
-  'tags',
   'updated_at',
   'updater_ref',
+  'last_event_ref',
+  'expires_at',
+  'published_at',
+  'labels',
 ];
 
-export default (node, nodeClone) => async (dispatch, getState, app) => {
+export default (node) => async (dispatch, getState, app) => {
   const CreateNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:create-node:v1');
+  const newNode = await node.clone();
 
-  let fieldName;
-  node.schema().fields.forEach((field) => {
-    fieldName = field.getName();
-    if (node.get(fieldName) && !ignoredFieldNames.includes(fieldName)) {
-      switch (field.getRule()) {
-        case FieldRule.A_SINGLE_VALUE:
-          nodeClone.set(fieldName, node.get(fieldName));
-          break;
-        case FieldRule.A_SET:
-          nodeClone.addToSet(fieldName, node.get(fieldName));
-          break;
-        case FieldRule.A_LIST:
-          nodeClone.addToList(fieldName, node.get(fieldName));
-          break;
-        case FieldRule.A_MAP:
-          Object.entries(node.get(fieldName)).forEach(([key, value]) => {
-            nodeClone.addToMap(fieldName, key, value);
-          });
-          break;
-        default:
-          break;
-      }
+  const schema = node.schema();
+  for (let i = 0; i < ignoredFields.length; i++) {
+    const field = ignoredFields[i];
+    if (schema.hasField(field)) {
+      newNode.clear(field);
     }
-  });
-  
+  }
+
+  newNode.set('title', node.get('title') + ' (duplicate)');
+
   const pbjx = app.getPbjx();
-  const command = CreateNodeV1.create().set('node', nodeClone);
+  const command = CreateNodeV1.create().set('node', newNode);
   await pbjx.send(command);
+  return newNode;
 };

@@ -72,7 +72,7 @@ export default function withForm(Component, config = {}) {
 
             useEffect(() => {
               if (!config.restorable) {
-                return noop;
+                return;
               }
 
               dispatch(registerForm({

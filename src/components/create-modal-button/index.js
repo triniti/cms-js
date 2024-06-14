@@ -2,14 +2,29 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { ActionButton, ErrorBoundary } from '@triniti/cms/components/index.js';
 
 export default function CreateModalButton(props) {
-  const { color = 'light', modal: ModalComponent, modalProps = {}, ...rest } = props;
+  const { color = 'light', modal: ModalComponent, modalProps = {}, keyCode, ...rest } = props;
   const [isOpen, setIsOpen] = useState(false);
   const isMounted = useRef(false);
 
   useEffect(() => {
+    let listener;
+    if (keyCode) {
+      listener = (e) => {
+        if (e.metaKey && e.keyCode === keyCode) {
+          e.preventDefault();
+          setIsOpen(true);
+          return false;
+        }
+      };
+      document.addEventListener('keydown', listener);
+    }
+
     isMounted.current = true;
     return () => {
       isMounted.current = false;
+      if (keyCode) {
+        document.removeEventListener('keydown', listener);
+      }
     };
   }, []);
 
