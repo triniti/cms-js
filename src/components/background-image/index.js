@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import './styles.scss';
+import '@triniti/cms/components/background-image/styles.scss';
 
 const BackgroundImage = ({ className, imgSrc, position, repeat, size, tag: Tag = 'span', ...attributes }) => {
   const classes = classNames(
