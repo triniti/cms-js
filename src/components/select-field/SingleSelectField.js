@@ -4,21 +4,20 @@ import ReactSelectCreatable from 'react-select/creatable';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
-import noop from 'lodash-es/noop.js';
 
 export default function SingleSelectField(props) {
   const {
-    className = '',
-    groupClassName = '',
     name,
     label,
     description,
+    nestedPbj,
     pbjName,
+    className = '',
+    groupClassName = '',
     options = [],
     allowOther = false,
     ignoreUnknownOptions = false,
     isClearable = true,
-    isMulti = false,
     readOnly = false,
     required = false,
     ...rest
@@ -30,21 +29,17 @@ export default function SingleSelectField(props) {
 
   useEffect(() => {
     if (ignoreUnknownOptions || !`${input.value}`.length) {
-      return noop;
+      return;
     }
 
     if (options.map(o => `${o.value}`).includes(`${input.value}`)) {
-      return noop;
+      return;
     }
 
     setAllOptions([...options, { value: input.value, label: input.value }]);
   }, []);
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
-
+  const rootClassName = classNames(groupClassName, 'form-group');
   const classes = classNames(
     'select',
     className,
@@ -67,6 +62,7 @@ export default function SingleSelectField(props) {
         classNamePrefix="select"
         isDisabled={!editMode || readOnly}
         isClearable={isClearable}
+        isMulti={false}
         options={allOptions}
         value={currentOption}
         onChange={selected => input.onChange(selected ? selected.value : undefined)}

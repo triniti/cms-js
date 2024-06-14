@@ -3,7 +3,7 @@ import {
   DropdownMenu,
   DropdownToggle,
   Nav,
-  Navbar,
+  Navbar as NavbarRS,
   NavbarBrand,
   NavbarToggler,
   NavItem,
@@ -13,9 +13,9 @@ import { Link } from 'react-router-dom';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import { Backdrop, RouterLink } from '@triniti/cms/components/index.js';
 import UserNav from '@triniti/cms/components/navbar/UserNav.js';
-import noop from 'lodash-es/noop.js';
 
-export default function () {
+// todo: fix active state handling and probably shouldn't need localStorage (doesn't handle permalinks atm)
+export default function Navbar() {
   const policy = usePolicy();
   const [isActive, setActive] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
@@ -23,11 +23,10 @@ export default function () {
   useEffect(() => {
     const lastActive = localStorage.getItem('activeNavGroup');
     if (!lastActive) {
-      return noop;
+      return;
     }
 
     setActiveGroup(lastActive);
-    isGroupActive(localStorage.getItem('activeNavGroup'));
   }, []);
 
   const isGroupActive = (group) => activeGroup === group;
@@ -36,6 +35,7 @@ export default function () {
     setActiveGroup(group);
     localStorage.setItem('activeNavGroup', group);
   };
+
   const toggleNav = () => {
     setActive(!isActive);
   };
@@ -73,7 +73,7 @@ export default function () {
   ].filter(Boolean);
 
   return (
-    <Navbar className="navbar-main" dark>
+    <NavbarRS className="navbar-main" dark>
       <NavbarToggler onClick={toggleNav} className={isActive ? 'is-open' : ''}>
         <span className="navbar-toggler-bar navbar-toggler-bar--top" />
         <span className="navbar-toggler-bar navbar-toggler-bar--middle" />
@@ -165,6 +165,6 @@ export default function () {
       </div>
       <Backdrop onClick={toggleNav} />
       <UserNav />
-    </Navbar>
+    </NavbarRS>
   );
 }

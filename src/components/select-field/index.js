@@ -6,3 +6,4 @@ export default function SelectField({ isMulti = false, ...rest }) {
   const Component = isMulti ? MultiSelectField : SingleSelectField;
   return <Component {...rest} />;
 }
+
