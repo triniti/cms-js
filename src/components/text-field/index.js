@@ -5,26 +5,23 @@ import { useField, useFormContext } from '@triniti/cms/components/index.js';
 
 export default function TextField(props) {
   const {
-    groupClassName = '',
     name,
     label,
     description,
     parse,
     format,
     validator,
+    nestedPbj,
     pbjName,
     required,
+    groupClassName = '',
     ...rest
   } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props }, formContext);
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
-
+  const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
     'form-control',
     meta.touched && !meta.valid && 'is-invalid',

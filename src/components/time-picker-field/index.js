@@ -5,12 +5,13 @@ import { useField, useFormContext } from '@triniti/cms/components/index.js';
 
 export default function TimePickerField(props) {
   const {
-    className = '',
-    groupClassName = '',
     name,
     label,
     description,
+    nestedPbj,
     pbjName,
+    className = '',
+    groupClassName = '',
     readOnly = false,
     required = false
   } = props;
@@ -18,11 +19,7 @@ export default function TimePickerField(props) {
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props }, formContext);
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
-
+  const rootClassName = classNames(groupClassName, 'form-group');
   const inputClassName = classNames(
     className,
     'form-control',
@@ -35,25 +32,25 @@ export default function TimePickerField(props) {
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
-        {editMode && !readOnly && (
-          <Input
-            id={name}
-            name={name}
-            className={inputClassName}
-            readOnly={!editMode}
-            type="time"
-            step="1"
-            {...input}
-            value={currentTime}
-            onChange={time => {
-              input.onChange(time ? time : undefined);
-              input.onBlur();
-            }}
-          />
-        )}
-        {(!editMode || readOnly) && (
-          <input type="text" className="form-control" readOnly value={currentTime} />
-        )}
+      {editMode && !readOnly && (
+        <Input
+          id={name}
+          name={name}
+          className={inputClassName}
+          readOnly={!editMode}
+          type="time"
+          step="1"
+          {...input}
+          value={currentTime}
+          onChange={time => {
+            input.onChange(time ? time : undefined);
+            input.onBlur();
+          }}
+        />
+      )}
+      {(!editMode || readOnly) && (
+        <input type="text" className="form-control" readOnly value={currentTime} />
+      )}
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
     </div>
