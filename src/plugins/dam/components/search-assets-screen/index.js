@@ -10,7 +10,7 @@ import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
-import humanizeBytes from '@triniti/cms/utils/humanizeBytes.js';
+import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen/SearchForm.js';
 import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button/index.js';
@@ -124,7 +124,7 @@ function SearchAssetsScreen(props) {
                         </Badge>
                       </td>
                       <td>{node.get('mime_type')}</td>
-                      <td>{humanizeBytes(node.get('file_size'))}</td>
+                      <td>{formatBytes(node.get('file_size'))}</td>
                       <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
