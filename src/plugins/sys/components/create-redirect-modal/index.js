@@ -71,6 +71,7 @@ function CreateRedirectModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -78,6 +79,7 @@ function CreateRedirectModal(props) {
           text="Create Redirect"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
