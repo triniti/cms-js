@@ -1,32 +1,33 @@
 import React from 'react';
-import classNames from "classnames";
+import classNames from 'classnames';
 import { Badge, Button, Col, Label, Row } from 'reactstrap';
 import { FieldArray } from 'react-final-form-arrays';
 import isEmpty from 'lodash-es/isEmpty.js';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
 import { Icon, useFormContext } from '@triniti/cms/components/index.js';
+import SelectKeyField from '@triniti/cms/components/key-values-field/SelectKeyField.js';
 import TextKeyField from '@triniti/cms/components/key-values-field/TextKeyField.js';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
 export default function KeyValuesField(props) {
   const {
-    groupClassName = '',
     name,
     label,
     component: Component,
     validator,
+    nestedPbj,
     pbjName,
     required,
+    groupClassName = '',
+    selectKeyProps,
     ...rest
   } = props;
   const { editMode, form } = useFormContext();
   const { push } = form.mutators;
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
+  const rootClassName = classNames(groupClassName, 'form-group');
+  const KeyFieldComponent = selectKeyProps ? SelectKeyField : TextKeyField;
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
@@ -40,7 +41,7 @@ export default function KeyValuesField(props) {
           return fields.map((fname, index) => (
             <Row className="gx-2" key={fname}>
               <Col xs="4">
-                <TextKeyField name={`${fname}.key`} pbjName={name} required />
+                <KeyFieldComponent name={`${fname}.key`} pbjName={name} required {...selectKeyProps} />
               </Col>
               <Col>
                 <Component
