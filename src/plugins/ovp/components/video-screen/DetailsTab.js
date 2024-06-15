@@ -13,7 +13,7 @@ export default function DetailsTab(props) {
   const schema = node.schema();
 
   const { node: mezzanineNode } = useNode(node.get('mezzanine_ref'), false);
-  const mezzanineNodeStatus = mezzanineNode.has('transcoding_status') ? mezzanineNode.get('transcoding_status').getValue() : 'unknown';
+  const mezzanineNodeStatus = mezzanineNode && mezzanineNode.has('transcoding_status') ? mezzanineNode.get('transcoding_status').getValue() : 'unknown';
 
   return (
     <>
