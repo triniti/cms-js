@@ -6,34 +6,18 @@ import AdvertisingFields from '@triniti/cms/plugins/common/components/advertisin
 import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
-import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import Medialive from '@triniti/cms/plugins/ovp/components/video-screen/Medialive.js';
 
 export default function DetailsTab(props) {
   const { nodeRef, node } = props;
   const schema = node.schema();
 
-  const { node: mezzanineNode } = useNode(node.get('mezzanine_ref'), false);
-  const mezzanineNodeStatus = mezzanineNode && mezzanineNode.has('transcoding_status') ? mezzanineNode.get('transcoding_status').getValue() : 'unknown';
-
   return (
     <>
       <Card>
-        {
-          mezzanineNode && mezzanineNode.schema().hasMixin('triniti:ovp:mixin:transcodeable') ?
           <CardHeader>
-            Details
-            <div>
-              <small className="text-uppercase status-copy mr-0 pr-0">
-                Transcoding Status:
-              </small>
-              <small className={`text-uppercase status-copy mr-2 transcoding-status-${mezzanineNodeStatus}`}>
-                {mezzanineNodeStatus}
-              </small>
-            </div>
+            Details {node.has('mezzanine_ref') && <Medialive nodeRef={node.get('mezzanine_ref')} />}
           </CardHeader>
-          :
-          <CardHeader>Details</CardHeader>
-        }
         <CardBody>
           <TextField name="title" label="Title" required />
           <SlugField nodeRef={nodeRef} withDatedSlug />
