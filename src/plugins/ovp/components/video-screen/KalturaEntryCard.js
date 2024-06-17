@@ -6,13 +6,13 @@ const KalturaEntryCard = () => (
   <Card>
     <CardHeader>Kaltura</CardHeader>
     <CardBody indent>
-      <TextField name="kalturaEntryId" label="Kaltura Entry ID" />
-      <TextField name="kalturaPartnerId" label="Kaltura Partner ID" />
-      <CheckboxField name="kalturaSyncEnabled" label="Kaltura Sync Enabled" />
-      <TextField name="kalturaSyncedAt" label="Kaltura Synced At" readOnly />
-      <TextField name="kalturaMp4Url" label="Kaltura MP4 URL" />
-      <TextareaField name="kalturaMetadata" label="Kaltura Metadata" readOnly />
-      <TextareaField name="kalturaFlavors" label="Kaltura Flavors" readOnly />
+      <TextField name="kaltura_entry_id" label="Kaltura Entry ID" />
+      <TextField name="kaltura_partner_id" label="Kaltura Partner ID" />
+      <CheckboxField name="kaltura_sync_enabled" label="Kaltura Sync Enabled" />
+      <TextField name="kaltura_synced_at" label="Kaltura Synced At" readOnly />
+      <TextField name="kaltura_mp4_url" label="Kaltura MP4 URL" />
+      <TextareaField name="kaltura_metadata" label="Kaltura Metadata" readOnly />
+      <TextareaField name="kaltura_flavors" label="Kaltura Flavors" readOnly />
     </CardBody>
   </Card>
 );

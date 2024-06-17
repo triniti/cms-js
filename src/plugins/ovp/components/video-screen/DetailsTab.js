@@ -7,7 +7,6 @@ import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-f
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import Medialive from '@triniti/cms/plugins/ovp/components/video-screen/Medialive.js';
-import HighlightsCard from '@triniti/cms/plugins/ovp/components/video-screen/HighlightsCard.js';
 
 export default function DetailsTab(props) {
   const { nodeRef, node } = props;
@@ -38,8 +37,6 @@ export default function DetailsTab(props) {
           <PicklistField picklist="video-swipes" name="swipe" label="Swipe" />
         </CardBody>
       </Card>
-
-      <HighlightsCard title="Episode Highlights" />
 
       <Card>
         <CardHeader>Related Videos</CardHeader>

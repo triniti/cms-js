@@ -15,6 +15,7 @@ export default function KeyValuesField(props) {
     name,
     label,
     component: Component,
+    textKeyFieldComponent: TextKeyFieldComponent = TextKeyField,
     validator,
     pbjName,
     required,
@@ -40,7 +41,7 @@ export default function KeyValuesField(props) {
           return fields.map((fname, index) => (
             <Row className="gx-2" key={fname}>
               <Col xs="4">
-                <TextKeyField name={`${fname}.key`} pbjName={name} required />
+                <TextKeyFieldComponent name={`${fname}.key`} pbjName={name} required />
               </Col>
               <Col>
                 <Component
