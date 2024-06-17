@@ -34,6 +34,7 @@ export TrinaryField from '@triniti/cms/components/trinary-field/index.js';
 export UncontrolledTooltip from '@triniti/cms/components/uncontrolled-tooltip/index.js';
 export UriField from '@triniti/cms/components/uri-field/index.js';
 export UrlField from '@triniti/cms/components/url-field/index.js';
+export ValuesField from '@triniti/cms/components/values-field/index.js';
 export ViewModeWarning from '@triniti/cms/components/view-mode-warning/index.js';
 export useDebounce from '@triniti/cms/components/useDebounce.js';
 export useField from '@triniti/cms/components/useField.js';
