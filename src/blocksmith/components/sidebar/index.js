@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { localize } from '@triniti/cms/plugins/utils/services/Localization.js';
+import { localize } from '@triniti/cms/utils/Localization.js';
 import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 import {

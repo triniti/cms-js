@@ -32,6 +32,7 @@ function CreateUserModal(props) {
     try {
       await progressIndicator.show('Creating User...');
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -58,6 +59,7 @@ function CreateUserModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -65,6 +67,7 @@ function CreateUserModal(props) {
           text="Create User"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>

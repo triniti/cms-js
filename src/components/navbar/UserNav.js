@@ -52,9 +52,11 @@ export default function UserNav() {
         <DropdownItem header>
           {user.get('title')}
         </DropdownItem>
+        {/*
         <DropdownItem onClick={handleToggleDarkMode}>
           Toggle Dark Mode
         </DropdownItem>
+        */}
         <DropdownItem onClick={handleLogout}>
           Logout
         </DropdownItem>

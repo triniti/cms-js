@@ -4,21 +4,22 @@ import ReactSelectCreatable from 'react-select/creatable';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
+import isArray from 'lodash-es/isArray.js';
 import isEmpty from 'lodash-es/isEmpty.js';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
-import noop from 'lodash-es/noop.js';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 const noopNormalize = value => value;
 
 export default function MultiSelectField(props) {
   const {
-    className = '',
-    groupClassName = '',
     name,
     label,
     description,
+    nestedPbj,
     pbjName,
+    className = '',
+    groupClassName = '',
     options = [],
     allowOther = false,
     closeMenuOnSelect = false,
@@ -32,29 +33,41 @@ export default function MultiSelectField(props) {
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props, isEqual }, formContext);
 
-  const [allOptions, setAllOptions] = useState(options);
+  const [originalOptions, setOriginalOptions] = useState(options);
+  const [allOptions, setAllOptions] = useState(null);
 
   useEffect(() => {
-    if (!input.value.length) {
-      return noop;
+    // todo: must be a better way to have dynamic options, this is gross.
+    if (JSON.stringify(options) === JSON.stringify(originalOptions)) {
+      return;
     }
 
-    const initialOptions = options.map(o => normalize(o.value));
+    setOriginalOptions(options);
+  }, [options]);
+
+  useEffect(() => {
+    if (!input.value || !input.value.length) {
+      setAllOptions(originalOptions);
+      return;
+    }
+
+    const inputValue = isArray(input.value) ? input.value : [input.value];
+    const initialOptions = originalOptions.map(o => normalize(o.value));
     const newOptions = [
-      ...options,
-      ...input.value
+      ...originalOptions,
+      ...inputValue
         .filter(v => !initialOptions.includes(normalize(v)))
         .map(v => ({ value: normalize(v), label: v }))
     ];
 
     setAllOptions(newOptions);
-  }, [input.value]);
+  }, [input.value, originalOptions]);
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
+  if (allOptions === null) {
+    return null;
+  }
 
+  const rootClassName = classNames(groupClassName, 'form-group');
   const classes = classNames(
     'select',
     className,

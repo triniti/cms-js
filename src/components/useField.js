@@ -21,6 +21,10 @@ export default (config, formContext) => {
     required = true;
   }
 
+  if (pbjField && !config.parse && withPbjParse) {
+    config.parse = value => pbjField.getType().encode(value, pbjField);
+  }
+
   const field = useField(name, config);
   field.pbjField = pbjField;
 
@@ -43,10 +47,6 @@ export default (config, formContext) => {
 
     return isFunction(validator) ? validator(value, allValues, meta) : undefined;
   };
-
-  if (pbjField && !config.parse && withPbjParse) {
-    config.parse = value => pbjField.getType().encode(value, pbjField);
-  }
 
   return field;
 };

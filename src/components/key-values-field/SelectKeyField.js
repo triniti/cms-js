@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import ReactSelect from 'react-select';
-import ReactSelectCreatable from 'react-select/creatable';
 import classNames from 'classnames';
-import { Badge, FormText, Label } from 'reactstrap';
-import { useField, useFormContext } from '@triniti/cms/components/index.js';
+import { FormText } from 'reactstrap';
+import { useField } from 'react-final-form';
+import { useFormContext } from '@triniti/cms/components/index.js';
+import validateKey from '@triniti/cms/components/key-values-field/validateKey.js';
 
-export default function SingleSelectField(props) {
+export default function SelectKeyField(props) {
   const {
     name,
-    label,
-    description,
     nestedPbj,
     pbjName,
     className = '',
     groupClassName = '',
     options = [],
-    allowOther = false,
     ignoreUnknownOptions = false,
-    isClearable = true,
     readOnly = false,
-    required = false,
     ...rest
   } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
-  const { input, meta } = useField({ ...props }, formContext);
+  const { input, meta } =
+  useField(name, {
+    validate: (value, allValues) => validateKey(value, allValues, pbjName),
+  });
+
   const [allOptions, setAllOptions] = useState(options);
 
   useEffect(() => {
@@ -42,18 +42,15 @@ export default function SingleSelectField(props) {
   const rootClassName = classNames(groupClassName, 'form-group');
   const classes = classNames(
     'select',
-    className,
     meta.touched && !meta.valid && 'is-invalid',
     meta.touched && meta.valid && 'is-valid',
   );
 
   const currentOption = `${input.value}`.length ? allOptions.find(o => `${o.value}` === `${input.value}`) : null;
-  const Select = allowOther ? ReactSelectCreatable : ReactSelect;
 
   return (
-    <div className={rootClassName} id={`form-group-${pbjName || name}`}>
-      {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
-      <Select
+    <div className={rootClassName}>
+      <ReactSelect
         {...input}
         {...rest}
         id={name}
@@ -61,19 +58,13 @@ export default function SingleSelectField(props) {
         className={classes}
         classNamePrefix="select"
         isDisabled={!editMode || readOnly}
-        isClearable={isClearable}
+        isClearable={false}
         isMulti={false}
         options={allOptions}
         value={currentOption}
         onChange={selected => input.onChange(selected ? selected.value : undefined)}
-        onCreateOption={value => {
-          const newOption = { value, label: value };
-          setAllOptions([...allOptions, newOption]);
-          input.onChange(value);
-        }}
       />
-      {description && <FormText color="dark">{description}</FormText>}
-      {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
+      {!meta.valid && <FormText color="danger">{meta.error}</FormText>}
     </div>
   );
 }

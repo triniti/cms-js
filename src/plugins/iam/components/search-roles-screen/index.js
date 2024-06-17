@@ -23,7 +23,7 @@ function SearchRolesScreen(props) {
       header="Roles"
       primaryActions={
         <>
-          {canCreate && <CreateModalButton text="Create Role" modal={CreateRoleModal} />}
+          {canCreate && <CreateModalButton text="Create Role" icon="plus-outline" modal={CreateRoleModal} />}
         </>
       }
     >
@@ -31,20 +31,20 @@ function SearchRolesScreen(props) {
 
       {response && response.has('nodes') && (
         <Card>
-          <Table responsive>
+          <Table hover responsive>
             <tbody>
             {response.get('nodes').map(node => (
               <tr key={`${node.get('_id')}`}>
                 <td>{node.get('title')}</td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
-                    <Button tag="span" color="hover" className="rounded-circle">
+                    <Button color="hover" tabIndex="-1">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button tag="span" color="hover" className="rounded-circle">
+                      <Button color="hover" tabIndex="-1">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>

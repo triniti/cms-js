@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import MessageResolver from '@gdbots/pbj/MessageResolver.js';
-import noop from 'lodash-es/noop.js';
 
 export default (curie, initialData = {}) => {
   const pbjRef = useRef(null);
@@ -8,7 +7,7 @@ export default (curie, initialData = {}) => {
 
   useEffect(() => {
     if (resolved) {
-      return noop;
+      return;
     }
 
     let cancelled = false;

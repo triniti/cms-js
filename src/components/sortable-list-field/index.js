@@ -7,6 +7,8 @@ import SortableList from '@triniti/cms/components/sortable-list/index.js';
 
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
+// todo: refactor sortable-list-field and sortable-list into one thing
+// not even ure this needs to be made generic, could just use this capability in the 1 or two places it's needed.
 export default function SortableListField(props) {
   const {
     name,

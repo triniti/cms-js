@@ -768,7 +768,7 @@ function DemoScreen() {
             <CardImg
               top
               width="100%"
-              src="//via.placeholder.com/318x180"
+              src="//placehold.co/318x180"
               alt="Card image cap"
             />
             <CardBody>
@@ -789,7 +789,7 @@ function DemoScreen() {
             </CardBody>
             <img
               width="100%"
-              src="//via.placeholder.com/318x180"
+              src="//placehold.co/318x180"
               alt="Card image cap"
             />
             <CardBody>
@@ -825,7 +825,7 @@ function DemoScreen() {
             <CardImg
               top
               width="100%"
-              src="//via.placeholder.com/318x180"
+              src="//placehold.co/318x180"
               alt="Card image cap"
             />
             <CardBody>
@@ -854,7 +854,7 @@ function DemoScreen() {
             <CardImg
               bottom
               width="100%"
-              src="//via.placeholder.com/318x180"
+              src="//placehold.co/318x180"
               alt="Card image cap"
             />
           </Card>
@@ -863,7 +863,7 @@ function DemoScreen() {
           <Card inverse>
             <CardImg
               width="100%"
-              src="//via.placeholder.com/318"
+              src="//placehold.co/318x300"
               alt="Card image cap"
             />
             <CardImgOverlay className="p-4">
@@ -903,7 +903,7 @@ function DemoScreen() {
           <CardImg
             top
             width="100%"
-            src="//via.placeholder.com/256x180"
+            src="//placehold.co/256x180"
             alt="Card image cap"
           />
           <CardBody>
@@ -919,7 +919,7 @@ function DemoScreen() {
           <CardImg
             top
             width="100%"
-            src="//via.placeholder.com/256x180"
+            src="//placehold.co/256x180"
             alt="Card image cap"
           />
           <CardBody>
@@ -933,7 +933,7 @@ function DemoScreen() {
           <CardImg
             top
             width="100%"
-            src="//via.placeholder.com/256x180"
+            src="//placehold.co/256x180"
             alt="Card image cap"
           />
           <CardBody>
@@ -2996,13 +2996,13 @@ function DemoScreen() {
             <Col>
               <legend>className="media-hover-shadow"</legend>
               <a href="#" className="media-hover-shadow media-left">
-                <img src="//via.placeholder.com/150x150" alt="Generic placeholder image" />
+                <img src="//placehold.co/150x150" alt="Generic placeholder image" />
               </a>
               <a href="#" className="media-hover-shadow media-left">
-                <img src="//via.placeholder.com/150x150" alt="Generic placeholder image" />
+                <img src="//placehold.co/150x150" alt="Generic placeholder image" />
               </a>
               <a href="#" className="media-hover-shadow media-left">
-                <img src="//via.placeholder.com/150x150" alt="Generic placeholder image" />
+                <img src="//placehold.co/150x150" alt="Generic placeholder image" />
               </a>
             </Col>
           </Row>
@@ -3010,15 +3010,15 @@ function DemoScreen() {
             <Col>
               <legend>className="media-hover-shadow", className="img-thumbnail" on object</legend>
               <a href="#" className="media-hover-shadow media-left">
-                <img src="//via.placeholder.com/150x150" alt="Generic placeholder image"
+                <img src="//placehold.co/150x150" alt="Generic placeholder image"
                      className="img-thumbnail" />
               </a>
               <a href="#" className="media-hover-shadow media-left">
-                <img src="//via.placeholder.com/150x150" alt="Generic placeholder image"
+                <img src="//placehold.co/150x150" alt="Generic placeholder image"
                      className="img-thumbnail" />
               </a>
               <a href="#" className="media-hover-shadow media-left">
-                <img src="//via.placeholder.com/150x150" alt="Generic placeholder image"
+                <img src="//placehold.co/150x150" alt="Generic placeholder image"
                      className="img-thumbnail" />
               </a>
             </Col>
@@ -3027,15 +3027,15 @@ function DemoScreen() {
             <Col>
               <legend>className="media-hover-outline"</legend>
               <a href="#" className="media-left media-hover-outline">
-                <img className="rounded" src="//via.placeholder.com/150x150"
+                <img className="rounded" src="//placehold.co/150x150"
                      alt="Generic placeholder image" />
               </a>
               <a href="#" className="media-left media-hover-outline">
-                <img className="rounded" src="//via.placeholder.com/150x150"
+                <img className="rounded" src="//placehold.co/150x150"
                      alt="Generic placeholder image" />
               </a>
               <a href="#" className="media-left media-hover-outline">
-                <img className="rounded" src="//via.placeholder.com/150x150"
+                <img className="rounded" src="//placehold.co/150x150"
                      alt="Generic placeholder image" />
               </a>
             </Col>
@@ -3044,15 +3044,15 @@ function DemoScreen() {
             <Col>
               <legend>className="media-hover-opacity"</legend>
               <a href="#" className="media-left media-hover-opacity">
-                <img className="rounded" src="//via.placeholder.com/150x150"
+                <img className="rounded" src="//placehold.co/150x150"
                      alt="Generic placeholder image" />
               </a>
               <a href="#" className="media-left media-hover-opacity">
-                <img className="rounded" src="//via.placeholder.com/150x150"
+                <img className="rounded" src="//placehold.co/150x150"
                      alt="Generic placeholder image" />
               </a>
               <a href="#" className="media-left media-hover-opacity">
-                <img className="rounded" src="//via.placeholder.com/150x150"
+                <img className="rounded" src="//placehold.co/150x150"
                      alt="Generic placeholder image" />
               </a>
             </Col>
@@ -4491,7 +4491,7 @@ function DemoScreen() {
               <div className="mb-3">
                 <div className="float-start me-3">
                   <Button color="zoom" className="rounded">
-                    <img src="//via.placeholder.com/160x160" alt="Generic placeholder image" />
+                    <img src="//placehold.co/160x160" alt="Generic placeholder image" />
                   </Button>
                 </div>
                 <div>
@@ -4568,7 +4568,7 @@ function DemoScreen() {
         <div className="py-2 media-left" style={{ width: "100px" }}>
           <Button color="zoom" className="rounded mb-0 w-100">
             <div className="aspect-ratio aspect-ratio-1by1">
-              <img src="//via.placeholder.com/100x100" alt="Generic placeholder image" />
+              <img src="//placehold.co/100x100" alt="Generic placeholder image" />
             </div>
           </Button>
         </div>
@@ -4661,7 +4661,7 @@ function DemoScreen() {
         <CardBody>
           <Toast>
             <ToastHeader tagClassName="me-0 pe-2 d-flex flex-row w-100 align-items-center" tag="div" >
-              <img className="rounded me-2" src="//via.placeholder.com/50x50"
+              <img className="rounded me-2" src="//placehold.co/50x50"
                    alt="Generic placeholder image" />
               <strong className="me-auto">Bootstrap</strong>
               <small className="text-light">11 mins ago</small>

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { getInstance } from '@triniti/app/main.js';
 import * as constants from '@triniti/cms/constants.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-import noop from 'lodash-es/noop.js';
 
 const makeRequest = async (request) => {
   const app = getInstance();
@@ -25,11 +24,11 @@ export default (request, runImmediately = false) => {
 
   useEffect(() => {
     if (!runImmediately && requestCount === 0) {
-      return noop;
+      return;
     }
 
     if (!request) {
-      return noop;
+      return;
     }
 
     let cancelled = false;

@@ -13,3 +13,4 @@
 * simplify batch editing and remove from screens where it's not needed.
 * media resorting and gallery management can use some tlc.
 * slotting needs to use select for key with slotting config.
+* add alert for dirty form when leaving page (used to be apart of useBlocker?)

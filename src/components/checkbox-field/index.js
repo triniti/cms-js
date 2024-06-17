@@ -4,7 +4,19 @@ import { Label } from 'reactstrap';
 import { useField, useFormContext } from '@triniti/cms/components/index.js';
 
 export default function CheckboxField(props) {
-  const { className = '', id, name, label, pbjName, inline, right, size, readOnly = false, ...rest } = props;
+  const {
+    className = '',
+    id,
+    name,
+    label,
+    nestedPbj,
+    pbjName,
+    inline,
+    right,
+    size,
+    readOnly = false,
+    ...rest
+  } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input } = useField({ ...props, type: 'checkbox' }, formContext);

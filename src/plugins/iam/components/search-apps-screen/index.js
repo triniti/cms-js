@@ -22,7 +22,7 @@ function SearchAppsScreen(props) {
       header="Apps"
       primaryActions={
         <>
-          {canCreate && <CreateModalButton text="Create App" modal={CreateAppModal} />}
+          {canCreate && <CreateModalButton text="Create App" icon="plus-outline" modal={CreateAppModal} />}
         </>
       }
     >
@@ -30,34 +30,34 @@ function SearchAppsScreen(props) {
 
       {response && response.has('nodes') && (
         <Card>
-          <Table responsive>
+          <Table hover responsive>
             <tbody>
             {response.get('nodes').map(node => {
               const schema = node.schema();
               const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
               return (
-                <tr key={`${node.get('_id')}`}>
-                  <td>
-                    {node.get('title')}
-                    <Badge className="ms-1" color="light" pill>
-                      {schema.getCurie().getMessage().replace('-app', '')}
-                    </Badge>
-                  </td>
-                  <td className="td-icons">
-                    <Link to={nodeUrl(node, 'view')}>
-                      <Button color="hover">
-                        <Icon imgSrc="eye" alt="view" />
+              <tr key={`${node.get('_id')}`}>
+                <td>
+                  {node.get('title')}
+                  <Badge className="ms-1" color="light" pill>
+                    {schema.getCurie().getMessage().replace('-app', '')}
+                  </Badge>
+                </td>
+                <td className="td-icons">
+                  <Link to={nodeUrl(node, 'view')}>
+                    <Button color="hover" tabIndex="-1">
+                      <Icon imgSrc="eye" alt="view" />
+                    </Button>
+                  </Link>
+                  {canUpdate && (
+                    <Link to={nodeUrl(node, 'edit')}>
+                      <Button color="hover" tabIndex="-1">
+                        <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>
-                    {canUpdate && (
-                      <Link to={nodeUrl(node, 'edit')}>
-                        <Button color="hover">
-                          <Icon imgSrc="pencil" alt="edit" />
-                        </Button>
-                      </Link>
-                    )}
-                  </td>
-                </tr>
+                  )}
+                </td>
+              </tr>
               );
             })}
             </tbody>
