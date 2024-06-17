@@ -144,6 +144,20 @@
 
 // animated text inside badge
 
+.badge-searching,
+.badge-uploading {
+  position: absolute;
+  top: 50%;
+  right: 5.25rem;
+  pointer-events: none;
+  z-index: 10;
+  margin-top: -11px;
+}
+
+.badge-uploading {
+  right: 105%;
+}
+
 .screen-primary-actions-body {
 
   .badge {
