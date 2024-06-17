@@ -15,9 +15,9 @@ export default function DetailsTab(props) {
   return (
     <>
       <Card>
-          <CardHeader>
-            Details {node.has('mezzanine_ref') && <Medialive nodeRef={node.get('mezzanine_ref')} />}
-          </CardHeader>
+        <CardHeader>
+          Details {node.has('mezzanine_ref') && <Medialive nodeRef={node.get('mezzanine_ref')} />}
+        </CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
           <SlugField nodeRef={nodeRef} withDatedSlug />
