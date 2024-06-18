@@ -98,7 +98,7 @@ function SearchCategoriesScreen(props) {
 export default withRequest(withForm(SearchCategoriesScreen), 'triniti:taxonomy:request:search-categories-request', {
   persist: true,
   initialData: {
-    sort: SearchCategoriesSort.TITLE_DESC.getValue(),
+    sort: SearchCategoriesSort.TITLE_ASC.getValue(),
     track_total_hits: true,
   }
 });
