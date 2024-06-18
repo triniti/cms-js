@@ -23,7 +23,7 @@ export default function DetailsTab(props) {
           <TextareaField name="description" label="Description" />
           <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           {schema.hasMixin('triniti:common:mixin:themeable') && (
-            <PicklistField picklist="category-themes" name="theme" label="Theme" />
+            <PicklistField picklist="channel-themes" name="theme" label="Theme" />
           )}
           {schema.hasMixin('triniti:taxonomy:mixin:hashtaggable') && (
             <HashtagPickerField name="hashtags" label="Hashtags" />
