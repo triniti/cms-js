@@ -9,25 +9,7 @@ import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import RedirectPickerField from '@triniti/cms/plugins/sys/components/redirect-picker-field/index.js';
-
-const pageLayouts = [
-  {
-    label: 'Content Only (no NAV, header or footer)',
-    value: 'content-only',
-  },
-  {
-    label: 'One Column',
-    value: 'one-column',
-  },
-  {
-    label: 'Two Column',
-    value: 'two-column',
-  },
-  {
-    label: 'None (no HTML wrapper)',
-    value: 'none',
-  },
-];
+import pageLayouts from '@triniti/app/config/pageLayouts.js';
 
 export default function DetailsTab(props) {
   const { node, nodeRef } = props;
