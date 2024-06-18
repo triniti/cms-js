@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardHeader, Dropdown } from 'reactstrap';
+import { Card, CardBody, CardHeader } from 'reactstrap';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import { CheckboxField, DatePickerField, KeyValuesField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
