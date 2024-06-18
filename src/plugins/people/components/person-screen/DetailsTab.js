@@ -28,7 +28,7 @@ export default function DetailsTab(props) {
           <SlugField nodeRef={nodeRef} />
           <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           <SelectField name="bio_source" label="Bio Source" options={bioSourceOptions} />
-          <TextareaField name="bio" label="Bio" rows={6} maxCharsConfig={{charsMax: 300, charsWarning: 150}} parse={value => value && value.replace('\n', '')} />
+          <TextareaField name="bio" label="Bio" rows={6} />
           <SwitchField name="is_celebrity" label="Is Celebrity?" />
           <UrlField name="imdb_url" label="Imdb Url" />
           <TextField name="twitter_username" label="Twitter Username" />
