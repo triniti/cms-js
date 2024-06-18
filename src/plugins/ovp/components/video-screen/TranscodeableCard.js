@@ -3,14 +3,16 @@ import { Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import camelCase from 'lodash-es/camelCase.js';
 import startCase from 'lodash-es/startCase.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 
-export default ({ node }) => {
+export default ({ nodeRef }) => {
+  const { node } = useNode(nodeRef, false);
   const status = node.has('transcoding_status') ? node.get('transcoding_status').getValue() : 'unknown';
 
   return (
     <Card>
       <CardHeader>
-        Transcoding
+        Transcoding 
         <span>
           Status <Badge color="dark" pill className={`status-${status}`}>{status}</Badge>
         </span>

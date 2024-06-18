@@ -80,9 +80,7 @@ export default function DetailsTab(props) {
         </CardBody>
       </Card>
 
-      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
-       <TranscodeableCard node={node} />
-      )}
+      {node.has('mezzanine_ref') && <TranscodeableCard node={node} nodeRef={node.get('mezzanine_ref')} />}
 
       <Card>
         <CardHeader>Related Videos</CardHeader>
