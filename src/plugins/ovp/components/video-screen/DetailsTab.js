@@ -6,8 +6,8 @@ import AdvertisingFields from '@triniti/cms/plugins/common/components/advertisin
 import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
-import Medialive from '@triniti/cms/plugins/ovp/components/video-screen/Medialive.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
+import TranscodeableCard from '@triniti/cms/plugins/ovp/components/video-screen/TranscodeableCard.js';
 
 export default function DetailsTab(props) {
   const { nodeRef, node } = props;
@@ -17,7 +17,7 @@ export default function DetailsTab(props) {
     <>
       <Card>
         <CardHeader>
-          Details {node.has('mezzanine_ref') && <Medialive nodeRef={node.get('mezzanine_ref')} />}
+          Details
         </CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
@@ -79,6 +79,10 @@ export default function DetailsTab(props) {
 
         </CardBody>
       </Card>
+
+      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
+       <TranscodeableCard node={node} />
+      )}
 
       <Card>
         <CardHeader>Related Videos</CardHeader>
