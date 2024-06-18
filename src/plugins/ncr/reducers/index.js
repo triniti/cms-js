@@ -55,7 +55,7 @@ const onPbjxEnvelopeReceived = (prevState, action) => {
 const onPruneNodes = (prevState) => {
   const state = { ...prevState };
   for (const nodeRef of Object.keys(state)) {
-    if (nodeRef.endsWith('user') || nodeRef.endsWith('role') || nodeRef.endsWith('picklist')) {
+    if (nodeRef.includes(':user:') || nodeRef.includes(':role:') || nodeRef.includes(':picklist:')) {
       continue;
     }
 

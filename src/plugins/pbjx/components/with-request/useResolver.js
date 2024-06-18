@@ -5,7 +5,6 @@ import MessageResolver from '@gdbots/pbj/MessageResolver.js';
 import clearRequest from '@triniti/cms/plugins/pbjx/actions/clearRequest.js';
 import persistRequest from '@triniti/cms/plugins/pbjx/actions/persistRequest.js';
 import getRequest from '@triniti/cms/plugins/pbjx/selectors/getRequest.js';
-import noop from 'lodash-es/noop.js';
 
 const defaultConfig = {
   channel: '',
@@ -30,14 +29,14 @@ export default (curie, config = defaultConfig) => {
 
   useEffect(() => {
     if (resolved) {
-      return noop;
+      return;
     }
 
     let cancelled = false;
 
     (async () => {
       if (cancelled) {
-        return noop;
+        return;
       }
 
       let message;
@@ -50,7 +49,7 @@ export default (curie, config = defaultConfig) => {
       }
 
       if (cancelled) {
-        return noop;
+        return;
       }
 
       requestRef.current = await (initialData ? message.fromObject(initialData) : message.create());

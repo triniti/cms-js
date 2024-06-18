@@ -4,16 +4,12 @@ import { Badge, FormText, InputGroup, InputGroupText, Label } from 'reactstrap';
 import { Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
 
 export default function NumberField(props) {
-  const { groupClassName = '', name, label, description, validator, pbjName, required, ...rest } = props;
+  const { name, label, description, validator, nestedPbj, pbjName, required, groupClassName = '', ...rest } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props, withPbjParse: true }, formContext);
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
-
+  const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
     'form-control',
     meta.touched && !meta.valid && 'is-invalid',

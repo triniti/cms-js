@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
-import noop from 'lodash-es/noop.js';
 import AuthenticationRequired from '@triniti/cms/plugins/iam/exceptions/AuthenticationRequired.js';
 import PermissionDenied from '@triniti/cms/plugins/iam/exceptions/PermissionDenied.js';
 import getPolicy from '@triniti/cms/plugins/iam/selectors/getPolicy.js';
 import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated.js';
+import logout from '@triniti/cms/plugins/iam/actions/logout.js';
 
 const MIXINS_TO_ACTION = {
   'gdbots:ncr:mixin:create-node': 'create',
@@ -46,20 +46,27 @@ export default class Authorizer {
       return;
     }
 
-    const state = this.app.getRedux().getState();
-    if (!isAuthenticated(state)) {
+    const redux = this.app.getRedux();
+    const state = redux.getState();
+    if (!isAuthenticated(state, true)) {
       Swal.fire({
-        title: 'Session Expired',
+        title: 'Authentication Expired',
         icon: 'error',
+        showCancelButton: true,
+        cancelButtonText: 'Logout',
         html: '<p><strong>To avoid losing your work:</strong>'
           + '<ol class="text-start">'
           + '<li class="pb-2"><mark><u>DO NOT</u></mark> close or refresh.</li>'
-          + '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Login</strong></a> in a new tab.</li>'
+          + '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Log in</strong></a> from a new tab.</li>'
           + '<li class="pb-2">Once logged in, return to this tab.</li>'
           + '<li>Click <strong>OK</strong> and then retry your operation.</li>'
           + '</ol>'
           + '</p>',
-      }).then(noop).catch(console.error);
+      }).then((result) => {
+        if (result.isDismissed) {
+          redux.dispatch(logout());
+        }
+      }).catch(console.error);
       throw new AuthenticationRequired();
     }
 

@@ -1,5 +1,5 @@
 import camelCase from 'lodash-es/camelCase.js';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { applyMiddleware, combineReducers, compose, legacy_createStore as createStore } from 'redux';
 import { withExtraArgument } from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';

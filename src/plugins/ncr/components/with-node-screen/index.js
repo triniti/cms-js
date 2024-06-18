@@ -4,11 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Loading, withForm } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes.js';
 import useDelegate from '@triniti/cms/plugins/ncr/components/with-node-screen/useDelegate.js';
 import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams.js';
-import useRaven from '@triniti/cms/plugins/raven/components/useRaven.js';
 
 
 export { useDelegate, useParams };
@@ -25,7 +24,7 @@ export default function withNodeScreen(Screen, config) {
     const navigate = useNavigate();
     const policy = usePolicy();
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
-    const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef);
+    const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
 
     useEffect(() => {
       if (editMode && !policy.isGranted(`${qname}:update`)) {
@@ -35,7 +34,8 @@ export default function withNodeScreen(Screen, config) {
 
     useEffect(() => () => dispatch(pruneNodes()), []);
 
-    useRaven({ editMode, node, nodeRef });
+    //todo: raven needs some tlc, wonky atm, also note sure here is the right place for this
+    //useRaven({ editMode, node, nodeRef });
 
     if (!node) {
       return <Loading error={pbjxError}>Loading {startCase(label)}...</Loading>;

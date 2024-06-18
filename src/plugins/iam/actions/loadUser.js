@@ -33,7 +33,7 @@ async function fetchUser(accessToken) {
       .set('code', code)
       .set('http_code', HttpCode.create(vendorToHttp(code)))
       .set('error_name', e.name)
-      .set('error_message', e.message.substr(0, 2048));
+      .set('error_message', e.message.substring(0, 2048));
   }
 }
 

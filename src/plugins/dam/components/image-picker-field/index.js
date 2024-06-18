@@ -37,7 +37,7 @@ export default function ImagePickerField(props) {
     onUploadedImageComplete: handleUploadedImageComplete = noop,
   } = props;
 
-  const { node } = useNode(nodeRef, false);
+  const { node } = useNode(nodeRef);
   const formContext = useFormContext();
   const { editMode } = formContext;
   const nodeLabel = nodeRef ? NodeRef.fromString(nodeRef).getLabel() : null;

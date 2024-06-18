@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import classNames from "classnames";
+import classNames from 'classnames';
 import { Badge, InputGroup, Label } from 'reactstrap';
 import { CreateModalButton, Loading } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
@@ -8,20 +8,16 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 const RenameForm = lazy(() => import('@triniti/cms/plugins/ncr/components/slug-field/RenameForm.js'));
 
 export default function SlugField(props) {
-  const { groupClassName = '', label = 'Slug', nodeRef, withDatedSlug = false } = props;
+  const { label = 'Slug', nodeRef, withDatedSlug = false, groupClassName = '' } = props;
   const policy = usePolicy();
-  const { node, refreshNode, pbjxError } = useNode(nodeRef, false);
+  const { node, refreshNode, pbjxError } = useNode(nodeRef);
 
   if (!node) {
     const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
-    return <Loading inline size="md" error={error} />;
+    return <Loading inline size="sm" error={error} />;
   }
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
-
+  const rootClassName = classNames(groupClassName, 'form-group');
   const qname = node.schema().getQName();
   const canRename = policy.isGranted(`${qname}:rename`);
 

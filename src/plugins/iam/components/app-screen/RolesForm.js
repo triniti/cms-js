@@ -103,7 +103,7 @@ function RolesForm(props) {
                     const value = `${roleRef}`;
                     return (
                       <ListGroupItem key={`li-${domId}`} className="list-group-item-roles ps-3">
-                        <div key={domId} className="form-check form-check-lg w-100 text-start mb-0">
+                        <div key={domId} className="form-check form-check-inline mb-0">
                           <input
                             id={domId}
                             type="checkbox"
@@ -112,7 +112,7 @@ function RolesForm(props) {
                             checked={revokes[value] || false}
                             onChange={handleRevokeableChange}
                           />
-                          <Label className="form-check-label d-block" htmlFor={domId}>{id}</Label>
+                          <Label className="form-check-label" htmlFor={domId}>{id}</Label>
                         </div>
                       </ListGroupItem>
                     );
@@ -152,7 +152,7 @@ function RolesForm(props) {
                     const value = `${roleRef}`;
                     return (
                       <ListGroupItem key={`li-${domId}`} className="list-group-item-roles ps-3">
-                        <div key={domId} className="form-check form-check-lg w-100 text-start mb-0">
+                        <div key={domId} className="form-check form-check-inline mb-0">
                           <input
                             id={domId}
                             type="checkbox"
@@ -161,7 +161,7 @@ function RolesForm(props) {
                             checked={grants[value] || false}
                             onChange={handleGrantableChange}
                           />
-                          <Label className="form-check-label d-block" htmlFor={domId}>{id}</Label>
+                          <Label className="form-check-label" htmlFor={domId}>{id}</Label>
                         </div>
                       </ListGroupItem>
                     );

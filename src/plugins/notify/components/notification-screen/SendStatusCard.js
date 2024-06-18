@@ -10,7 +10,7 @@ import SendForm from '@triniti/cms/plugins/notify/components/notification-screen
 
 export default function SendStatusCard(props) {
   const { nodeRef } = props;
-  const { node, refreshNode, isRefreshing } = useNode(nodeRef, false);
+  const { node, refreshNode, isRefreshing } = useNode(nodeRef);
   const user = useSelector((state) => {
     const userRef = node.get('updater_ref', node.get('creator_ref'));
     return userRef ? getNode(state, NodeRef.fromMessageRef(userRef)) : null;

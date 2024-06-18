@@ -1,9 +1,8 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Table } from 'reactstrap';
+import { Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchUsersSort from '@gdbots/schemas/gdbots/iam/enums/SearchUsersSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
-import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
@@ -20,21 +19,14 @@ function SearchUsersScreen(props) {
   const canCreate = policy.isGranted(`${APP_VENDOR}:user:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:user:update`);
 
-  delegate.handleChangePage = page => {
-    request.set('page', page);
-    run();
-    scrollToTop();
-  };
-
   return (
     <Screen
       title="Users"
       header="Users"
-      contentWidth="1600px"
+      contentWidth="1200px"
       primaryActions={
         <>
-          {isRunning && <Badge color="light" pill><span className="badge-animated">Searching</span></Badge>}
-          {canCreate && <CreateModalButton text="Create User" modal={CreateUserModal} />}
+          {canCreate && <CreateModalButton text="Create User" icon="plus-outline" modal={CreateUserModal} />}
         </>
       }
     >
@@ -49,7 +41,7 @@ function SearchUsersScreen(props) {
           </div>
 
           <Card>
-            <Table responsive>
+            <Table hover responsive>
               <thead>
               <tr>
                 <th>Name</th>
@@ -70,13 +62,13 @@ function SearchUsersScreen(props) {
                   <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                   <td className="td-icons">
                     <Link to={nodeUrl(node, 'view')}>
-                      <Button tag="span" color="hover" className="rounded-circle">
+                      <Button color="hover" tabIndex="-1">
                         <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
                     {canUpdate && (
                       <Link to={nodeUrl(node, 'edit')}>
-                        <Button tag="span" color="hover" className="rounded-circle">
+                        <Button color="hover" tabIndex="-1">
                           <Icon imgSrc="pencil" alt="edit" />
                         </Button>
                       </Link>
@@ -106,5 +98,6 @@ export default withRequest(withForm(SearchUsersScreen), 'gdbots:iam:request:sear
   persist: true,
   initialData: {
     sort: SearchUsersSort.FIRST_NAME_ASC.getValue(),
+    track_total_hits: true,
   }
 });

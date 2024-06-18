@@ -9,14 +9,11 @@ import { Icon, useFormContext } from '@triniti/cms/components/index.js';
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
 export default function FlatArrayField(props) {
-  const { groupClassName = '', name, label, component: Component, pbjName, required, ...rest } = props;
+  const { name, label, component: Component, nestedPbj, pbjName, required, groupClassName = '', ...rest } = props;
   const { editMode, form } = useFormContext();
   const { push } = form.mutators;
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
+  const rootClassName = classNames(groupClassName, 'form-group');
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
@@ -29,7 +26,7 @@ export default function FlatArrayField(props) {
 
           return fields.map((fname, index) => (
             <Row className="gx-2" key={fname}>
-              <Col xs="11">
+              <Col>
                 <Component name={fname} label="" pbjName={name} {...rest} />
               </Col>
               {editMode && (
