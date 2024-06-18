@@ -40,12 +40,16 @@ export default function DetailsTab(props) {
           )}
         </CardBody>
       </Card>
-      <Card>
-        <CardHeader>Content</CardHeader>
-        <CardBody>
-          <BlocksmithField name="blocks" />
-        </CardBody>
-      </Card>
+
+      {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
+        <Card>
+          <CardHeader>Content</CardHeader>
+          <CardBody>
+            <BlocksmithField name="blocks" />
+          </CardBody>
+        </Card>
+      )}
+
       <AdvertisingFields />
       <TaggableFields />
     </>

@@ -7,6 +7,9 @@ import { ActionButton, DatePickerField, Icon, NumberField, TrinaryField, useDebo
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
+import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/category-picker-field/index.js';
+import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field/index.js';
+import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
@@ -90,6 +93,21 @@ export default function SearchForm(props) {
           <CardBody className="pt-1 pb-0">
             <Row>
               <Col sm={6} xl={3}>
+                <ChannelPickerField name="channel_ref" label="Channel" />
+              </Col>
+              <Col sm={6} xl={3}>
+                <CategoryPickerField name="category_refs" label="Categories" isMulti />
+              </Col>
+              <Col sm={6} xl={3}>
+                <PersonPickerField name="person_refs" label="People" isMulti />
+              </Col>
+              <Col sm={6} xl={3}>
+                <TrinaryField name="is_unlisted" label="Unlisted" unknownLabel="ANY" />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col sm={6} xl={3}>
                 <DatePickerField name="created_after" label="Created After" />
               </Col>
               <Col sm={6} xl={3}>
@@ -105,7 +123,10 @@ export default function SearchForm(props) {
 
             <Row>
               <Col sm={6} xl={3}>
-                <TrinaryField name="is_unlisted" label="Unlisted" unknownLabel="ANY" />
+                <DatePickerField name="published_after" label="Published After" />
+              </Col>
+              <Col sm={6} xl={3}>
+                <DatePickerField name="published_before" label="Published Before" />
               </Col>
               <Col sm={6} xl={3}>
                 <SortField enumClass={SearchPagesSort} />
