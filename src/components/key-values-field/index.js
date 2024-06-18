@@ -15,7 +15,6 @@ export default function KeyValuesField(props) {
     name,
     label,
     component: Component,
-    textKeyFieldComponent: TextKeyFieldComponent = TextKeyField,
     validator,
     nestedPbj,
     pbjName,
