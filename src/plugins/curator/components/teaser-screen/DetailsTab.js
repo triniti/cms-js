@@ -13,7 +13,7 @@ import {
 } from '@triniti/cms/components/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
@@ -51,7 +51,7 @@ export default function DetailsTab(props) {
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
             <DatePickerField name="expires_At" label="Expires At" />
           )}
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <AssetPickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
           )}

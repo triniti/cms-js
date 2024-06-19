@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { TextField, ScrollableContainer, SelectField, SwitchField } from '@triniti/cms/components/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import humanizeEnums from '@triniti/cms/blocksmith/utils/humanizeEnums.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
@@ -64,16 +64,16 @@ const ImageBlockModal = ({
       >
         <div className="modal-body-blocksmith">
           <div style={{ maxWidth: '350px', margin: '0 auto' }}>
-            <ImagePickerField
+            <AssetPickerField
               label="Image"
               name="node_ref"
               nodeRef={imageRef}
-              setSelectedImage={(nodeRef) => form.change('node_ref', nodeRef)}
-              selectedImageRef={imageRef}
+              setSelectedAsset={(nodeRef) => form.change('node_ref', nodeRef)}
+              selectedAssetRef={imageRef}
               aspectRatio={formState?.values?.aspect_ratio}
               caption={hasCaption ? formState?.values?.caption : null}
               launchText={formState?.values?.launch_text}
-              onUploadedImageComplete={handleUploadedImage}
+              onUploadedAssetComplete={handleUploadedImage}
               required
               />
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
 export default function ShowtimesWidgetFields(props) {
@@ -11,7 +11,7 @@ export default function ShowtimesWidgetFields(props) {
       <PicklistField name="show" label="Show" picklist="video-shows" />
       <TextField name="headline" label="Headline" />
       <TextareaField name="excerpt" label="Excerpt" />
-      <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+      <AssetPickerField name="image_ref" label="Image" nodeRef={nodeRef} />
       <SwitchField name="show_header" label="Show Header" />
       <SwitchField name="show_border" label="Show Border" />
       <SwitchField name="include_latest_episode" label="Include Latest Episode" />

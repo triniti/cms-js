@@ -3,10 +3,10 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import ArticlePickerField from '@triniti/cms/plugins/news/components/article-picker-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
+import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
 
 export default function DetailsTab(props) {
   const { node, nodeRef } = props;
@@ -17,7 +17,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <AssetPickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           <hr />
           <PicklistField picklist="article-swipes" name="swipe" label="Swipe" />
           <div className="row p-3">
