@@ -1,6 +1,9 @@
 import React from 'react';
-import { Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Badge, Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
+import { Icon } from '@triniti/cms/components/index.js';
 import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import camelCase from 'lodash-es/camelCase.js';
 import startCase from 'lodash-es/startCase.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
@@ -12,7 +15,14 @@ export default ({ nodeRef }) => {
   return (
     <Card>
       <CardHeader>
-        Transcoding 
+        <span>
+          Transcoding
+          <Link to={nodeUrl(node, 'view')}>
+            <Button color="hover">
+              <Icon imgSrc="eye" alt="view" />
+            </Button>
+          </Link>
+        </span>
         <span>
           Status <Badge color="dark" pill className={`status-${status}`}>{status}</Badge>
         </span>
