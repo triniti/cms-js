@@ -18,6 +18,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/i
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import useBatchSelection from '@triniti/cms/plugins/ncr/components/useBatchSelection.js';
+import TranscodeableBadge from '@triniti/cms/plugins/dam/components/search-assets-screen/TranscodeableBadge.js';
 
 //const CreateAssetModal = lazy(() => import('@triniti/cms/plugins/dam/components/create-asset-modal/index.js'));
 
@@ -122,6 +123,7 @@ function SearchAssetsScreen(props) {
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-asset', '')}
                         </Badge>
+                        {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (<TranscodeableBadge asset={node} />)}
                       </td>
                       <td>{node.get('mime_type')}</td>
                       <td>{formatBytes(node.get('file_size'))}</td>

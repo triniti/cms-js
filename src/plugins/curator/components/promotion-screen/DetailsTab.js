@@ -24,7 +24,7 @@ export default function DetailsTab(props) {
         </CardBody>
       </Card>
       <Card>
-        <CardHeader>Widgets (Deprecated)</CardHeader>
+        <CardHeader>Widgets</CardHeader>
         <CardBody>
           <WidgetPickerField name="widget_refs" label="Widgets" isMulti sortable />
         </CardBody>
