@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
+import { Badge, Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SearchSponsorsSort from '@triniti/schemas/triniti/boost/enums/SearchSponsorsSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
-import { ActionButton, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
+import { ActionButton, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
-import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
-  const [ isOpen, setIsOpen ] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -22,13 +21,19 @@ export default function SearchForm(props) {
     run();
   };
 
+  delegate.handleChangePage = (page) => {
+    request.set('page', page);
+    run();
+    scrollToTop();
+  };
+
   delegate.handleResetFilters = (event) => {
     event.stopPropagation();
     event.preventDefault();
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
     const values = FormMarshaler.marshal(request);
     values.count = 25;
-    values.sort = SearchSponsorsSort.RELEVANCE.getValue();
+    values.sort = SearchSponsorsSort.TITLE_ASC.getValue();
     form.reset(values);
     form.submit();
   };
@@ -44,7 +49,7 @@ export default function SearchForm(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -53,7 +58,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -62,7 +67,7 @@ export default function SearchForm(props) {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
-        <CardBody>
+        <CardBody className="position-relative">
           <InputGroup>
             <Button color="light" onClick={toggle} className="text-dark px-2">
               <Icon imgSrc="filter" className="mx-1" />
@@ -74,6 +79,11 @@ export default function SearchForm(props) {
               <Icon imgSrc="search" />
             </Button>
           </InputGroup>
+          {isRunning && (
+            <Badge color="light" pill className="badge-searching">
+              <span className="badge-animated">Searching</span>
+            </Badge>
+          )}
         </CardBody>
 
         <Collapse isOpen={isOpen}>
@@ -113,7 +123,7 @@ export default function SearchForm(props) {
 
           <CardFooter className="d-flex justify-content-between ps-3 border-top-0 mb-0">
             <span>
-              <Button color="hover" onClick={toggle} className="mb-0 rounded-circle">
+              <Button color="hover" onClick={toggle} className="mb-0">
                 <Icon imgSrc="close" />
               </Button>
             </span>
