@@ -9,7 +9,7 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import SearchForm from '@triniti/cms/plugins/news/components/search-articles-screen/SearchForm.js';
+import SearchForm from '@triniti/cms/plugins/curator/components/search-galleries-screen/SearchForm.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';

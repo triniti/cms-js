@@ -72,7 +72,7 @@ export default function SearchForm(props) {
               <span className="me-1 d-none d-md-block">Filters</span>
             </Button>
             <NodeStatusField />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Articles" />
+            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Galleries" />
             <Button color="secondary" disabled={isRunning} type="submit">
               <Icon imgSrc="search" />
             </Button>
