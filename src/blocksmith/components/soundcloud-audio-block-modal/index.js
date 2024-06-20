@@ -2,7 +2,7 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField } from '@triniti/cms/components/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import Preview from '@triniti/cms/blocksmith/components/soundcloud-audio-block-modal/Preview.js';
 
 const TRACK_ID_REGEX = /api\.soundcloud\.com\/tracks\/\d+/;
@@ -47,7 +47,7 @@ function SoundcloudAudioBlockModal(props) {
           required
         />
         {valid && <Preview {...props} />}
-        <AssetPickerField name="poster_image_ref" previewImage={false} />
+        <ImagePickerField name="poster_image_ref" previewImage={false} />
         <SwitchField name="auto_play" label="Autoplay" disabled={!!posterImageRef} />
         <SwitchField name="visual" label="Visual Overlay" />
         <SwitchField name="hide_related" label="Hide Related" />

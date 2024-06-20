@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
@@ -24,7 +24,7 @@ export default function DetailsTab(props) {
           <TextareaField name="description" label="Description" />
           <DatePickerField name="order_date" label="Order Date" />
           <DatePickerField name="expires_at" label="Expires At" />
-          <AssetPickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
           )}

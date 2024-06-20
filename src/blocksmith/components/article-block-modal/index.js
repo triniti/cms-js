@@ -5,7 +5,7 @@ import Footer from '@triniti/cms/blocksmith/components/article-block-modal/Foote
 import Header from '@triniti/cms/blocksmith/components/article-block-modal/Header.js';
 import SelectArticle from '@triniti/cms/blocksmith/components/article-block-modal/SelectArticle.js';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import noop from 'lodash-es/noop.js';
 
@@ -80,7 +80,7 @@ export default function ArticleBlockModal(props) {
           )}
           {activeStep === 1 && (
             <div className="container-lg p-5">
-              <AssetPickerField
+              <ImagePickerField
                 label="Image"
                 name="image_ref"
                 nodeRef={`${selectedArticleNodeRef}`}

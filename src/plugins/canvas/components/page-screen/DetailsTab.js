@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SelectField, TextField } from '@triniti/cms/components/index.js';
 import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
@@ -42,7 +42,7 @@ export default function DetailsTab(props) {
           <SlugField nodeRef={nodeRef} />
           <DatePickerField name="order_date" label="Order Date" />
           <DatePickerField name="expires_at" label="Expires At" />
-          <AssetPickerField name="image_ref" label="Primary Image" nodeRef={nodeRef} />
+          <ImagePickerField name="image_ref" label="Primary Image" nodeRef={nodeRef} />
           <SelectField name="layout" label="Layout" options={pageLayouts} />
           <RedirectPickerField name="redirect_ref" label="Vanity URL" />
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (

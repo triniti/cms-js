@@ -3,7 +3,7 @@ import { ModalBody } from 'reactstrap';
 import { SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import Preview from '@triniti/cms/blocksmith/components/vimeo-video-block-modal/Preview.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import he from 'he';
 
 const EMBED_REGEX = /https?:\/\/player\.vimeo\.com\/video\/\d+/;
@@ -102,7 +102,7 @@ function VimeoVideoBlockModal(props) {
         <TextField name="user_name" style={{ display: 'none' }} />
         <TextField name="description" style={{ display: 'none' }} />
         {valid && <Preview {...props} />}
-        {valid && id && <AssetPickerField name="poster_image_ref" previewImage={false} />}
+        {valid && id && <ImagePickerField name="poster_image_ref" previewImage={false} />}
         <SwitchField name="autoplay" label="Autoplay" />
         <SwitchField name="loop" label="Loop" />
         <SwitchField name="show_byline" label="Show Byline in Overlay" />

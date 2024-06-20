@@ -4,7 +4,7 @@ import { SelectField, SwitchField, TextareaField, TextField, UrlField } from '@t
 import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/index.js';
@@ -26,7 +26,7 @@ export default function DetailsTab(props) {
         <CardBody>
           <TextField name="title" label="Title" required />
           <SlugField nodeRef={nodeRef} />
-          <AssetPickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           <SelectField name="bio_source" label="Bio Source" options={bioSourceOptions} />
           <TextareaField name="bio" label="Bio" rows={6} maxCharsConfig={{charsMax: 300, charsWarning: 150}} parse={value => value && value.replace('\n', '')} />
           <SwitchField name="is_celebrity" label="Is Celebrity?" />

@@ -1,6 +1,6 @@
 import React from 'react';
 import humanizeEnums from '@triniti/cms/blocksmith/utils/humanizeEnums.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import ReactSelect from 'react-select';
 import { Label } from 'reactstrap';
@@ -43,7 +43,7 @@ const CustomizeOptions = ({
 
   return (
     <div className="container-lg p-5">
-      <AssetPickerField
+      <ImagePickerField
         label="Image"
         name="image_ref"
         nodeRef={nodeRef}

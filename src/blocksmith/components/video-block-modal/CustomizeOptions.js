@@ -1,7 +1,7 @@
 import React from 'react';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { NumberField, SwitchField, TextField } from '@triniti/cms/components/index.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 
 export default function CustomizeOptions(props) {
@@ -31,7 +31,7 @@ export default function CustomizeOptions(props) {
 
   return (
     <div className="container-lg p-5">
-      <AssetPickerField
+      <ImagePickerField
         name="poster_image"
         label="Poster Image"
         nodeRef={nodeRef}

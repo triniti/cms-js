@@ -4,7 +4,7 @@ import { ErrorBoundary, Icon, Loading, withForm } from '@triniti/cms/components/
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import SearchForm from '@triniti/cms/plugins/dam/components/image-picker-field/SearchForm.js';
+import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import startCase from 'lodash-es/startCase.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';

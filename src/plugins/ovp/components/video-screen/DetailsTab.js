@@ -7,7 +7,9 @@ import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fiel
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TranscodeableCard from '@triniti/cms/plugins/ovp/components/video-screen/TranscodeableCard.js';
-import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
+import DocumentPickerField from '@triniti/cms/plugins/dam/components/document-picker-field/index.js';
+import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import VideoPickerField from '@triniti/cms/plugins/dam/components/video-picker-field/index.js';
 
 export default function DetailsTab(props) {
   const { nodeRef, node } = props;
@@ -32,49 +34,16 @@ export default function DetailsTab(props) {
           )}
 
           <TextareaField name="description" label="Description" placeholder="enter description" />
-          <AssetPickerField name="image_ref" label="Primary Image" nodeRef={nodeRef} />
+          <ImagePickerField name="image_ref" label="Primary Image" nodeRef={nodeRef} />
           <TextField name="launchText" label="Launch Text" placeholder="enter launch text" />
           <PicklistField picklist="video-credits" name="credit" label="Credit" />
           {schema.hasMixin('triniti:common:mixin:swipeable') && <PicklistField picklist="video-swipes" name="swipe" label="Swipe" /> }
           
-          <AssetPickerField
-            nodeRef={nodeRef}
-            name="caption_ref"
-            label="Caption"
-            assetType="document-asset"
-            searchQ="-mime_type:application/pdf"
-            clearButtonTxt="Clear Document"
-            selectButtonTxt="Select a Document"
-            selectNewButtonTxt="Select a New Document"
-            displayTitle={true}
-            previewImage={false}
-            modalTitle="Select a Caption"
-            uploaderProps={
-              {
-                allowedMimeTypes: ['text/plain', 'text/vtt', 'text/srt'],
-                allowMultiUpload: false,
-              }
-            }/>
+          <DocumentPickerField nodeRef={nodeRef} name="caption_ref" label="Caption" modalTitle="Select a Caption" />
           
           <KeyValuesField name="caption_urls" label="Caption URLs" component={TextField} selectKeyProps={{options: [{value: 'en', label: 'en'}, {value: 'es', label: 'es'}, {value: 'fr', label: 'fr'}]}} />
 
-          <AssetPickerField
-            nodeRef={nodeRef}
-            name="mezzanine_ref"
-            label="Mezzanine Video Asset"
-            assetType="video-asset"
-            clearButtonTxt="Clear Video"
-            selectButtonTxt="Select a Video"
-            selectNewButtonTxt="Select a New Video"
-            modalTitle="Select a Video"
-            displayTitle={true}
-            previewImage={false}
-            uploaderProps={
-              {
-                allowedMimeTypes: ['application/mxf', 'video/x-flv', 'video/mp4', 'video/webm'],
-                allowMultiUpload: false,
-              }
-            }/>
+          <VideoPickerField nodeRef={nodeRef} name="mezzanine_ref" label="Mezzanine Video Asset" modalTitle="Select a Mezzanine Video" />
 
           <TextField label="Mezzanine URL" name="mezzanineUrl" placeholder="mezzanine url" />
           {!schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && <TextField name="live_m3u8_url" label="Live M3U8 URL" />}
