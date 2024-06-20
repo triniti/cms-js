@@ -38,13 +38,9 @@ export default function DetailsTab(props) {
           <TextField name="launchText" label="Launch Text" placeholder="enter launch text" />
           <PicklistField picklist="video-credits" name="credit" label="Credit" />
           {schema.hasMixin('triniti:common:mixin:swipeable') && <PicklistField picklist="video-swipes" name="swipe" label="Swipe" /> }
-          
           <DocumentPickerField nodeRef={nodeRef} name="caption_ref" label="Caption" modalTitle="Select a Caption" />
-          
           <KeyValuesField name="caption_urls" label="Caption URLs" component={TextField} selectKeyProps={{options: [{value: 'en', label: 'en'}, {value: 'es', label: 'es'}, {value: 'fr', label: 'fr'}]}} />
-
           <VideoPickerField nodeRef={nodeRef} name="mezzanine_ref" label="Mezzanine Video Asset" modalTitle="Select a Mezzanine Video" />
-
           <TextField label="Mezzanine URL" name="mezzanineUrl" placeholder="mezzanine url" />
           {!schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && <TextField name="live_m3u8_url" label="Live M3U8 URL" />}
           <DatePickerField label="Original Air Date" name="originalAirDate" />
