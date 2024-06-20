@@ -7,7 +7,7 @@ export default function AdvertisingFields() {
     <Card>
       <CardHeader>Advertising</CardHeader>
       <CardBody className="pb-0">
-        <SwitchField name="ads_enabled" label="Ads Enabled?" />
+        <SwitchField name="ads_enabled" label="Ads Enabled" />
         <TextField name="dfp_ad_unit_path" label="DFP Ad Unit Path" />
         <KeyValuesField name="dfp_cust_params" label="DFP custom parameters" component={TextField} />
       </CardBody>

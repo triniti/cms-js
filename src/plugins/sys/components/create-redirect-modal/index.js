@@ -63,8 +63,8 @@ function CreateRedirectModal(props) {
         <Form onSubmit={handleSubmit} autoComplete="off">
           <UriField name="title" label="Request URI" required />
           <UriField name="redirect_to" label="Redirect URI" required />
-          <SwitchField name="is_vanity" label="Is Vanity URL?" />
-          <SwitchField name="is_permanent" label="Is Permanent?" />
+          <SwitchField name="is_vanity" label="Is Vanity URL" />
+          <SwitchField name="is_permanent" label="Is Permanent" />
         </Form>
       </ModalBody>
       <ModalFooter>

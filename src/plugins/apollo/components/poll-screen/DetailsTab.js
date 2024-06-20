@@ -17,10 +17,19 @@ export default function DetailsTab(props) {
         <CardBody>
           <TextField name="title" label="Title" required />
           <TextField name="question" label="Question" />
-          <UrlField name="question_url" label="Question Link" />
-          <SwitchField name="allow_multiple_responses" label="Multiple Responses" />
-          <DatePickerField name="expires_at" label="Expires At" />
+          <UrlField name="question_url" label="Question URL" />
+          <SwitchField name="allow_multiple_responses" label="Allow Multiple Responses" />
+
+          {schema.hasMixin('triniti:curator:mixin:teaserable') && (
+            <DatePickerField name="order_date" label="Order Date" />
+          )}
+
+          {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+            <DatePickerField name="expires_at" label="Expires At" />
+          )}
+
           <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
           )}

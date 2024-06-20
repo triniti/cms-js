@@ -52,7 +52,7 @@ function CreateUserModal(props) {
           <TextField name="first_name" label="First Name" required />
           <TextField name="last_name" label="Last Name" required />
           <EmailField name="email" label="Email" required />
-          <SwitchField name="is_staff" label="Is Staff?" />
+          <SwitchField name="is_staff" label="Is Staff" />
         </Form>
       </ModalBody>
       <ModalFooter>
