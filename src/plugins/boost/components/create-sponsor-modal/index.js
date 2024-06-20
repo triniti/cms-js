@@ -25,6 +25,7 @@ function CreateSponsorModal(props) {
       await progressIndicator.show('Creating Sponsor...');
       values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -48,6 +49,7 @@ function CreateSponsorModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +57,7 @@ function CreateSponsorModal(props) {
           text="Create Sponsor"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>

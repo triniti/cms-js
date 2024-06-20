@@ -64,6 +64,7 @@ function CreateFlagsetModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -71,6 +72,7 @@ function CreateFlagsetModal(props) {
           text="Create Flagset"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>

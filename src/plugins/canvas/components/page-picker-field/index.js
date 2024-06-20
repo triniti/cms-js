@@ -5,7 +5,7 @@ import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-fie
 export default withRequest(NodePickerField, 'triniti:canvas:request:search-pages-request', {
   channel: 'picker',
   initialData: {
-    sort: SearchPagesSort.CREATED_AT_ASC.getValue(),
+    sort: SearchPagesSort.TITLE_ASC.getValue(),
     autocomplete: true,
   }
 });

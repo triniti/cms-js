@@ -63,7 +63,7 @@ export default class Authorizer {
           + '</ol>'
           + '</p>',
       }).then((result) => {
-        if (result.isDismissed) {
+        if (result.isDismissed && result.dismiss === 'cancel') {
           redux.dispatch(logout());
         }
       }).catch(console.error);

@@ -35,6 +35,11 @@ export default function PicklistField({ picklist, ...rest }) {
   return <SelectField
     {...rest}
     options={picklists.get(picklist)}
+    // todo: fix default Value, doesn't always work and using initialValue
+    // overwrites the existing value on the form.  a form when first
+    // opened sets the default correctly but after that the default
+    // is not set.
+    /*initialValue={defaults.get(picklist)}*/
     defaultValue={defaults.get(picklist)}
     allowOther={allowOther}
     ignoreUnknownOptions={!allowOther}
