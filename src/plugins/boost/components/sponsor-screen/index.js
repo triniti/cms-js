@@ -1,13 +1,11 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
+import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import DetailsTab from '@triniti/cms/plugins/boost/components/sponsor-screen/DetailsTab.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
-import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import DetailsTab from '@triniti/cms/plugins/boost/components/sponsor-screen/DetailsTab.js';
-import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 
 function SponsorScreen(props) {
   const {
@@ -47,13 +45,13 @@ function SponsorScreen(props) {
       ]}
       primaryActions={
         <>
-          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
             text="Close"
             onClick={delegate.handleClose}
             disabled={submitting || isRefreshing}
+            icon="back"
             color="light"
             outline
           />
@@ -63,13 +61,14 @@ function SponsorScreen(props) {
                 text="Save"
                 onClick={delegate.handleSave}
                 disabled={submitDisabled}
-                icon="save"
+                icon="save-diskette"
                 color="primary"
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
                 onClick={delegate.handleSwitchMode}
                 disabled={submitting || isRefreshing}
+                icon={editMode ? 'eye' : 'edit'}
                 color="light"
                 outline
               />
@@ -84,11 +83,9 @@ function SponsorScreen(props) {
                 <ActionButton
                   text="Delete"
                   onClick={delegate.handleDelete}
-                  icon="delete"
+                  icon="trash"
                   color="danger"
                   outline
-                  role="menuitem"
-                  tabIndex="0"
                 />
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -102,7 +99,6 @@ function SponsorScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
-      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
