@@ -17,3 +17,5 @@
 * Review sorting on all search screens and pickers.
 * add classification and author fields to article
 * Add node labels component
+* move Sortable* styles to main sass files.
+* review sortable on node picker, interaction is wonky af.  does node picker need this?

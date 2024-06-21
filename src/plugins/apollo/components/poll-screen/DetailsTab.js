@@ -39,7 +39,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Answers</CardHeader>
         <CardBody>
-          <SortableAnswers name="answers" {...props} />
+          <SortableAnswers />
         </CardBody>
       </Card>
 
