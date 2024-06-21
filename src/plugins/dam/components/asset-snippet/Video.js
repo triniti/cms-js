@@ -1,5 +1,5 @@
 import { Label, FormGroup } from 'reactstrap';
-import artifactUrl from '@triniti/cms/plugins/ovp/utils/artifactUrl.js';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import { filesize } from 'filesize';
 import React from 'react';
 import ReactPlayer from 'react-player';
