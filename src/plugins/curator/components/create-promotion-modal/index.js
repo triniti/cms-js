@@ -30,7 +30,7 @@ function CreatePromotionModal(props) {
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
-      toast({ title: 'Promotion Created.' });
+      toast({ title: 'Promotion created.' });
     } catch (e) {
       await progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };

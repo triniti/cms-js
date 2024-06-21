@@ -28,7 +28,7 @@ function CreateTimelineModal(props) {
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
-      toast({ title: 'Timeline Created.' });
+      toast({ title: 'Timeline created.' });
     } catch (e) {
       await progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };

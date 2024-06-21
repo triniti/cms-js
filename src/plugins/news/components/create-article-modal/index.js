@@ -15,7 +15,7 @@ import trimStart from 'lodash-es/trimStart.js';
 
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
-const validDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value)) ? true : false;
+const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
@@ -30,14 +30,15 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      if(slug && validDatedSlug(slug)){
+      if (slug && isValidDatedSlug(slug)) {
         values.slug = slug;
-      }else if(slug && !validDatedSlug(slug)){
+      } else if (slug && !isValidDatedSlug(slug)) {
         values.slug = addDateToSlug(slug);
       } else {
-        values.slug =  addDateToSlug(createSlug(values.title, true));
+        values.slug = addDateToSlug(createSlug(values.title));
       }
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -48,21 +49,21 @@ function CreateArticleModal(props) {
     }
   };
 
-  const handleBlur = e => {
-    if(e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value, true)));
+  const handleBlur = (e) => {
+    if (e.target.value && !slug) {
+      setSlug(addDateToSlug(createSlug(e.target.value)));
     }
-  }
+  };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value, true)));
+      setSlug(addDateToSlug(createSlug(e.target.value)));
     }
-  }
+  };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSlug(e.target.value);
-  }
+  };
 
   return (
     <Modal isOpen backdrop="static">
@@ -78,6 +79,7 @@ function CreateArticleModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -85,6 +87,7 @@ function CreateArticleModal(props) {
           text="Create Article"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
