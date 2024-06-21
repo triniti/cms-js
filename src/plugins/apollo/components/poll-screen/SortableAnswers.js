@@ -75,6 +75,7 @@ export default function SortableAnswers() {
                     const handleUpdate = pbj => fields.update(index, pbj.toObject());
                     return (
                       <SortableAnswer
+                        key={fname}
                         name={fname}
                         pbjName="answers"
                         onDragEnd={handleDragEnd}

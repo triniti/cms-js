@@ -15,8 +15,9 @@
 * slotting needs to use select for key with slotting config.
 * add alert for dirty form when leaving page (used to be apart of useBlocker?)
 * Review sorting on all search screens and pickers.
-* add classification and author fields to article
+* add headline fragments, classification and author fields to article
 * Add node labels component
 * move Sortable* styles to main sass files.
 * review sortable on node picker, interaction is wonky af.  does node picker need this?
 * review/simplify node history and reverting.
+
