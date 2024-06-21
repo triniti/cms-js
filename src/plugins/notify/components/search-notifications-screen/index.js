@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
@@ -20,6 +21,7 @@ function SearchNotificationsScreen(props) {
   const { response, run, isRunning, pbjxError } = useRequest(request, true);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:notify:create`);
+  const navigate = useNavigate();
 
   delegate.handleChangePage = page => {
     request.set('page', page);
@@ -66,12 +68,12 @@ function SearchNotificationsScreen(props) {
                   const schema = node.schema();
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
-                    <tr key={`${node.get('_id')}`} className={`status-${node.get('send_status')}`}>
-                      <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
-                      <td>{schema.getCurie().getMessage()}</td>
-                      <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                      <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>
-                      <td className="text-nowrap">{node.get('send_status').toString()}</td>
+                    <tr key={`${node.get('_id')}`} className={`status-${node.get('send_status')}`} role='button'>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>{schema.getCurie().getMessage()}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('send_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{node.get('send_status').toString()}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
                           <Button id={`view-${node.get('_id')}`} color="hover">

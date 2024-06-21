@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchCategoriesSort from '@triniti/schemas/triniti/taxonomy/enums/SearchCategoriesSort.js';
@@ -21,6 +22,7 @@ function SearchCategoriesScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:category:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:category:update`);
+  const navigate = useNavigate();
 
   delegate.handleChangePage = page => {
     request.set('page', page);
@@ -63,10 +65,10 @@ function SearchCategoriesScreen(props) {
               <tbody>
                 {response.get('nodes', []).map(node => {
                   return (
-                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                      <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
-                      <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                      <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} role='button'>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
                           <Button color="hover">

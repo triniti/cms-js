@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchRolesSort from '@gdbots/schemas/gdbots/iam/enums/SearchRolesSort.js';
@@ -16,6 +17,7 @@ function SearchRolesScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:role:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:role:update`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -34,8 +36,8 @@ function SearchRolesScreen(props) {
           <Table hover responsive>
             <tbody>
             {response.get('nodes').map(node => (
-              <tr key={`${node.get('_id')}`}>
-                <td>{node.get('title')}</td>
+              <tr key={`${node.get('_id')}`} role='button'>
+                <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('title')}</td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
                     <Button color="hover" tabIndex="-1">

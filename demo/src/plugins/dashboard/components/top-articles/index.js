@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { CreateModalButton, Icon, Loading } from '@triniti/cms/components/index.js';
@@ -36,6 +37,7 @@ export default function TopArticles(props) {
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
   const { title, request } = props;
   const { response, pbjxError } = useRequest(request, true);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -68,15 +70,15 @@ export default function TopArticles(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => (
-                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                  <td>{node.get('title')}  <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
-                  <td>
+                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} role='button'>
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('title')}  <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))}>
                     {node.has('slotting')
                       ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={`${key}:${slot}`}>{key}:{slot}</span>
                       )) : null}
                   </td>
-                  <td>{formatDate(node.get('order_date'))}</td>
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))}>{formatDate(node.get('order_date'))}</td>
                   <td className="td-icons">
                     <Link to={nodeUrl(node, 'view')}>
                       <Button tag="span" color="hover" className="rounded-circle">

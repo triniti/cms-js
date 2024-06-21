@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchUsersSort from '@gdbots/schemas/gdbots/iam/enums/SearchUsersSort.js';
@@ -18,6 +19,7 @@ function SearchUsersScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:user:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:user:update`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -54,12 +56,12 @@ function SearchUsersScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => (
-                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                  <td>{node.get('title')}</td>
+                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} >
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('title')}</td>
                   <td><a href={`mailto:${node.get('email')}`} rel="noopener noreferrer">{node.get('email')}</a></td>
-                  <td>{node.get('is_staff') ? 'Yes' : 'No'}</td>
-                  <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                  <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('is_staff') ? 'Yes' : 'No'}</td>
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                  <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                   <td className="td-icons">
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tabIndex="-1">

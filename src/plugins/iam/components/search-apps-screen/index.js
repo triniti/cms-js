@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort.js';
@@ -15,6 +16,7 @@ function SearchAppsScreen(props) {
   const { response, pbjxError } = useRequest(request, true);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:app:create`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -36,8 +38,8 @@ function SearchAppsScreen(props) {
               const schema = node.schema();
               const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
               return (
-              <tr key={`${node.get('_id')}`}>
-                <td>
+              <tr key={`${node.get('_id')}`} role='button'>
+                <td onClick={() => navigate(nodeUrl(node, 'view'))}>
                   {node.get('title')}
                   <Badge className="ms-1" color="light" pill>
                     {schema.getCurie().getMessage().replace('-app', '')}

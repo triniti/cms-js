@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
@@ -28,6 +29,7 @@ function SearchTeasersScreen(props) {
   const canDelete = policy.isGranted(`${APP_VENDOR}:teaser:delete`);
   const nodes = response ? response.get('nodes', []) : [];
   const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
+  const navigate = useNavigate();
 
   const teaserCuries = useCuries('triniti:curator:mixin:teaser:v1');
   if (!teaserCuries) {
@@ -92,22 +94,22 @@ function SearchTeasersScreen(props) {
                   const schema = node.schema();
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
-                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} role='button'>
                       <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
-                      <td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>
                         {node.get('title')}
                         <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-teaser', '')}
                         </Badge>
                       </td>
-                      <td>{node.has('slotting')
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.has('slotting')
                         ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                           <span key={`${key}:${slot}`}>{key}:{slot} </span>
                         ))
                         : null}</td>
-                      <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                      <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('published_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
                           <Button color="hover">

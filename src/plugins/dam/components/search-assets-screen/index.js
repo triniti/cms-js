@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
 import startCase from 'lodash-es/startCase.js';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -29,6 +30,7 @@ function SearchAssetsScreen(props) {
   const canDelete = policy.isGranted(`${APP_VENDOR}:asset:delete`);
   const nodes = response ? response.get('nodes', []) : [];
   const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
+  const navigate = useNavigate();
 
   const assetCuries = useCuries('triniti:dam:mixin:asset:v1');
   if (!assetCuries) {
@@ -106,7 +108,7 @@ function SearchAssetsScreen(props) {
                   const FieldsComponent = resolveComponent(label);
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
-                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} role='button'>
                       <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
                       <td>
                        {hasAssetIcon && (
@@ -117,7 +119,7 @@ function SearchAssetsScreen(props) {
                         </Suspense>
                        )}
                       </td>
-                      <td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>
                         {node.get('title')}
                         <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
@@ -125,9 +127,9 @@ function SearchAssetsScreen(props) {
                         </Badge>
                         {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (<TranscodeableBadge asset={node} />)}
                       </td>
-                      <td>{node.get('mime_type')}</td>
-                      <td>{formatBytes(node.get('file_size'))}</td>
-                      <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('mime_type')}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>{formatBytes(node.get('file_size'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
                           <Button color="hover">

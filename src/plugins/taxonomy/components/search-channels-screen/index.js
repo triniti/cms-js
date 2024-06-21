@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchChannelsSort from '@triniti/schemas/triniti/taxonomy/enums/SearchChannelsSort.js';
@@ -20,6 +21,7 @@ function SearchChannelsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:channel:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:channel:update`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -37,11 +39,11 @@ function SearchChannelsScreen(props) {
 
       {response && response.has('nodes') && (
         <Card>
-          <Table responsive>
+          <Table responsive className='table-hover'>
             <tbody>
             {response.get('nodes').map(node => (
-              <tr key={`${node.get('_id')}`}>
-                <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+              <tr key={`${node.get('_id')}`} role='button'>
+                <td onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
                     <Button color="hover">

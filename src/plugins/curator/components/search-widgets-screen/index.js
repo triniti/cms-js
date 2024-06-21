@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort.js';
@@ -22,6 +23,7 @@ function SearchWidgetsScreen(props) {
   const { response, run, isRunning, pbjxError } = useRequest(request, true);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:widget:create`);
+  const navigate = useNavigate();
 
   const widgetCuries = useCuries('triniti:curator:mixin:widget:v1');
   if (!widgetCuries) {
@@ -72,16 +74,16 @@ function SearchWidgetsScreen(props) {
                   const schema = node.schema();
                   const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                   return (
-                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                      <td>
+                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} role='button'>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))}>
                         {node.get('title')}
                         <Collaborators nodeRef={NodeRef.fromNode(node)} />
                         <Badge className="ms-1" color="light" pill>
                           {schema.getCurie().getMessage().replace('-widget', '')}
                         </Badge>
                       </td>
-                      <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                      <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                      <td onClick={() => navigate(nodeUrl(node, 'view'))} className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
                           <Button color="hover">
