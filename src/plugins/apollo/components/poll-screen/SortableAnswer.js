@@ -1,34 +1,54 @@
 import React from 'react';
-import kebabCase from 'lodash-es/kebabCase.js';
-import lowerCase from 'lodash-es/lowerCase.js';
 import { Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { CreateModalButton, Icon, useFormContext, withPbj } from '@triniti/cms/components/index.js';
 import schemaToCurie from '@triniti/cms/utils/schemaToCurie.js';
 import AnswerModal from '@triniti/cms/plugins/apollo/components/poll-screen/AnswerModal.js';
 
-export default function AnswerPlaceholder(props) {
+export default function SortableAnswer(props) {
   const { editMode } = useFormContext();
-  const { componentDragHandle, onRemove, onUpdate, name: fieldName } = props;
+  const { asOverlay = false, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-
-  const { title, initial_votes, _schema } = input.value;
+  const { _id, title, _schema } = input.value;
+  const key = _id;
   const curie = schemaToCurie(_schema);
-  const key = `${kebabCase(lowerCase(title))}-${initial_votes}`;
 
-  const rowClassnames = editMode
-    ? 'd-flex flex-nowrap align-items-center'
-    : 'd-flex flex-nowrap align-items-center'
+  const {
+    attributes,
+    isDragging = false,
+    listeners,
+    setNodeRef,
+    transform = null,
+    transition,
+  } = asOverlay ? {} : useSortable({ id: _id });
+
+  const style = {
+    opacity: isDragging ? 0.4 : undefined,
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  const conditionalProps = asOverlay ? {} : { ref: setNodeRef, 'data-id': key };
 
   return (
-    <div
+    <li
+      {...conditionalProps}
       key={key}
-      data-id={key}
-      className={rowClassnames}
+      className="SortableItem d-flex flex-nowrap align-items-center"
+      style={style}
     >
-      <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-        {componentDragHandle || <Icon imgSrc="insert" size="lg" className="text-black-50" />}
-      </div>
+      {editMode && (
+        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
+          {!asOverlay && (
+            <button className="DragHandle" {...attributes} {...listeners}>
+              <Icon imgSrc="drag" />
+            </button>
+          )}
+          {asOverlay && <span className="DragHandle"><Icon imgSrc="drag" /></span>}
+        </div>
+      )}
       <div className="d-flex px-2">
         <CardText className="ms-1 mb-1">{title}</CardText>
       </div>
@@ -51,6 +71,6 @@ export default function AnswerPlaceholder(props) {
           </Button>
         )}
       </div>
-    </div>
+    </li>
   );
 }
