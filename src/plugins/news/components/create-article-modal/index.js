@@ -3,14 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { addDateToSlug, createSlug } from '@gdbots/pbj/utils/index.js';
+import { addDateToSlug, createSlug, isValidSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import isValidSlug from '@gdbots/pbj/utils/isValidSlug.js';
 import trimStart from 'lodash-es/trimStart.js';
 
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
