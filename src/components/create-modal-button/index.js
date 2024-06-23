@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
+import isFunction from 'lodash-es/isFunction.js';
 import { ActionButton, ErrorBoundary } from '@triniti/cms/components/index.js';
 
 export default function CreateModalButton(props) {
@@ -41,13 +42,15 @@ export default function CreateModalButton(props) {
     setIsOpen(!isOpen);
   }
 
+  const finalModalProps = isOpen && isFunction(modalProps) ? modalProps() : modalProps;
+
   return (
     <>
       <ActionButton color={color} onClick={toggle} {...rest} />
       {isOpen && (
         <ErrorBoundary asModal toggle={toggle}>
           <Suspense fallback={<></>}>
-            <ModalComponent toggle={toggle} {...modalProps} />
+            <ModalComponent toggle={toggle} {...finalModalProps} />
           </Suspense>
         </ErrorBoundary>
       )}

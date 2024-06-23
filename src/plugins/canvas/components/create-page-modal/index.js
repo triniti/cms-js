@@ -29,7 +29,7 @@ function CreatePageModal(props) {
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
-      toast({ title: 'Page Created.' });
+      toast({ title: 'Page created.' });
     } catch (e) {
       await progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };

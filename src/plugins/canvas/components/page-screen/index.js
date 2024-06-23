@@ -43,9 +43,9 @@ function PageScreen(props) {
       activeTab={tab}
       tabs={[
         { text: 'Details', to: urls.tab('details') },
-        { text: 'Code', to: urls.tab('code') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         { text: 'SEO', to: urls.tab('seo') },
+        { text: 'Code', to: urls.tab('code') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -111,14 +111,14 @@ function PageScreen(props) {
           <TabPane tabId="details">
             <DetailsTab {...props} />
           </TabPane>
-          <TabPane tabId="code">
-            <CodeTab {...props} />
-          </TabPane>
           <TabPane tabId="taxonomy">
             <TaxonomyTab {...props} />
           </TabPane>
           <TabPane tabId="seo">
             <SeoTab {...props} />
+          </TabPane>
+          <TabPane tabId="code">
+            <CodeTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />
