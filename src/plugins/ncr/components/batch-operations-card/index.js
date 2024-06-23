@@ -14,9 +14,6 @@ export { useBatch };
 
 const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal/index.js'));
 
-const delay = (time = 500) => new Promise((resolve) => setTimeout(resolve, time));
-
-
 const publishOperation = async (dispatch, node) => {
   if (node.get('status') === NodeStatus.PUBLISHED) {
     throw new Error('Node is already published.');
@@ -34,8 +31,7 @@ const markAsDraftOperation = async (dispatch, node) => {
     throw new Error('Node is already marked as draft.');
   }
 
-  //await dispatch(markNodeAsDraft(node.generateNodeRef());
-  await delay();
+  await dispatch(markNodeAsDraft(node.generateNodeRef()));
 };
 
 const markAsPendingOperation = async (dispatch, node) => {
@@ -47,8 +43,7 @@ const markAsPendingOperation = async (dispatch, node) => {
     throw new Error('Node is already marked as pending.');
   }
 
-  //await dispatch(markNodeAsPending(node.generateNodeRef());
-  await delay();
+  await dispatch(markNodeAsPending(node.generateNodeRef()));
 };
 
 const unpublishOperation = async (dispatch, node) => {
@@ -64,9 +59,7 @@ const deleteOperation = async (dispatch, node) => {
     throw new Error('Node is already deleted.');
   }
 
-  //await dispatch(deleteNode(node.generateNodeRef());
-  await delay();
-  throw new Error('already deleted');
+  await dispatch(deleteNode(node.generateNodeRef()));
 };
 
 export default function BatchOperationsCard(props) {
@@ -74,10 +67,11 @@ export default function BatchOperationsCard(props) {
   const qname = schema.getQName();
   const policy = usePolicy();
   const canDelete = policy.isGranted(`${qname}:delete`);
-  const canPublish = schema.hasMixin('gdbots:ncr:mixin:publishable') && policy.isGranted(`${qname}:create`);
-  const canMarkAsDraft = canPublish && policy.isGranted(`${qname}:mark-as-draft`);
-  const canMarkAsPending = canPublish && policy.isGranted(`${qname}:mark-as-pending`);
-  const canUnpublish = schema.hasMixin('gdbots:ncr:mixin:publishable') && policy.isGranted(`${qname}:unpublish`);
+  const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
+  const canPublish = isPublishable && policy.isGranted(`${qname}:publish`);
+  const canMarkAsDraft = isPublishable && policy.isGranted(`${qname}:mark-as-draft`);
+  const canMarkAsPending = isPublishable && policy.isGranted(`${qname}:mark-as-pending`);
+  const canUnpublish = isPublishable && policy.isGranted(`${qname}:unpublish`);
 
   return (
     <Card>
