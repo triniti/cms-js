@@ -95,7 +95,7 @@ export default function BatchOperationsCard(props) {
             {canMarkAsDraft && (
               <CreateModalButton
                 text="Mark As Draft"
-                color="outline-warning"
+                color="outline-light"
                 modal={BatchOperationModal}
                 modalProps={() => ({
                   header: `Mark Nodes (${batch.size}) As Draft`,
@@ -109,7 +109,7 @@ export default function BatchOperationsCard(props) {
             {canMarkAsPending && (
               <CreateModalButton
                 text="Mark As Pending"
-                color="outline-warning"
+                color="outline-light"
                 modal={BatchOperationModal}
                 modalProps={() => ({
                   header: `Mark Nodes (${batch.size}) As Pending`,
