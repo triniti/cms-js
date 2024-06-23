@@ -12,8 +12,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/news/components/search-articles-screen/SearchForm.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
-import useBatchSelection from '@triniti/cms/plugins/ncr/components/useBatchSelection.js';
+import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 
 const CreateArticleModal = lazy(() => import('@triniti/cms/plugins/news/components/create-article-modal/index.js'));
 
@@ -23,9 +22,7 @@ function SearchArticlesScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:article:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
-  const canDelete = policy.isGranted(`${APP_VENDOR}:article:delete`);
-  const nodes = response ? response.get('nodes', []) : [];
-  const { allSelected, toggle, toggleAll, selected, setSelected, setAllSelected } = useBatchSelection(nodes);
+  const batch = useBatch(response);
 
   delegate.handleChangePage = page => {
     request.set('page', page);
@@ -46,22 +43,21 @@ function SearchArticlesScreen(props) {
       }
     >
       <SearchForm {...props} isRunning={isRunning} run={run} />
-
-      <BatchOperationsCard
-        run={run}
-        selected={selected}
-        setSelected={setSelected}
-        setAllSelected={setAllSelected}
-        nodes={nodes}
-        canDelete={canDelete}
-        canDraft={canUpdate}
-        canPublish={canUpdate}
-      />
-
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && (
         <>
+          {batch.size > 0 && (
+            <BatchOperationsCard
+              batch={batch}
+              schema={response.getFromListAt('nodes', 0).schema()}
+              onComplete={() => {
+                batch.reset();
+                run();
+              }}
+            />
+          )}
+
           <div className="text-dark mb-2">
             Found <strong>{response.get('total').toLocaleString()}</strong> articles
             in <strong>{response.get('time_taken').toLocaleString()}</strong> milliseconds.
@@ -71,7 +67,7 @@ function SearchArticlesScreen(props) {
             <Table responsive>
               <thead>
               <tr>
-                <th><Input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>
+                <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th>Title</th>
                 <th>Slotting</th>
                 <th>Created At</th>
@@ -83,7 +79,7 @@ function SearchArticlesScreen(props) {
               {response.get('nodes', []).map(node => {
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                    <td><Input type="checkbox" onChange={() => toggle(`${node.get('_id')}`)} checked={selected.includes(`${node.get('_id')}`)} /></td>
+                    <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                     <td>
                       {node.has('slotting')
@@ -138,5 +134,6 @@ export default withRequest(withForm(SearchArticlesScreen), 'triniti:news:request
   persist: true,
   initialData: {
     sort: SearchArticlesSort.ORDER_DATE_DESC.getValue(),
+    track_total_hits: true,
   }
 });

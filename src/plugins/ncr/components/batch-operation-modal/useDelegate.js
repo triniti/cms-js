@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import noop from 'lodash-es/noop.js';
+import { getInstance } from '@triniti/app/main.js';
 
 const STATUS_NONE = 'none';
 const STATUS_RUNNING = 'running';
@@ -107,7 +108,8 @@ export default (nodes, operation) => {
       }
 
       try {
-        const result = await operation(dispatch, node);
+        const app = getInstance();
+        const result = await operation(dispatch, node, app);
         controlsRef.current.complete(node, true, result);
       } catch (e) {
         controlsRef.current.complete(node, false, getFriendlyErrorMessage(e));
