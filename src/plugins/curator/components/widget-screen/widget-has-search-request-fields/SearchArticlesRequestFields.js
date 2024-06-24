@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
-import slottingConfig from '@triniti/app/config/slottingConfig.js';
+import slottingKeys from '@triniti/app/config/slottingKeys.js';
 import { DatePickerField, NumberField, SelectField, TextField } from '@triniti/cms/components/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
@@ -18,7 +18,7 @@ export default function SearchArticlesRequestFields() {
         </Col>
       </Row>
 
-      <SelectField name="search_request.slotting_key" label="Slotting Key" options={slottingConfig} />
+      <SelectField name="search_request.slotting_key" label="Slotting Key" options={slottingKeys} />
       <SortField name="search_request.sort" enumClass={SearchArticlesSort} />
 
       <Row>
