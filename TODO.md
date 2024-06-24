@@ -13,7 +13,8 @@
 * style batch-operations-card (matt)
 * media resorting and gallery management can use some tlc.
 * slotting needs to use select for key with slotting config.
-* add headline fragments, slotting, classification and author fields to article
+* add headline fragments components, this is a wonky one, might be partially site specific.
+* slotting, classification and author fields to article
 * add alert for dirty form when leaving page (used to be apart of useBlocker?)
 * Review sorting on all search screens and pickers.
 * Add node labels component
@@ -24,3 +25,6 @@
 * make sure track total results is used on search screens but not pickers
 * lock node features?
 * get rid of clone-button, add a duplicate node button on node screens that need it (details, not search)
+* add word count indicator to story tab on article
+* add title length warning on article "title"
+* dam plugin cleanup, significant improvement needed.

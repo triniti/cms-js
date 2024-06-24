@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
-import slottingConfig from '@triniti/app/config/slottingConfig.js';
+import slottingKeys from '@triniti/app/config/slottingKeys.js';
 import { DatePickerField, NumberField, SelectField, TextField } from '@triniti/cms/components/index.js';
 import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field/index.js';
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
@@ -31,7 +31,7 @@ export default function SearchTeasersRequestFields() {
         </Col>
       </Row>
 
-      <SelectField name="search_request.slotting_key" label="Slotting Key" options={slottingConfig} />
+      <SelectField name="search_request.slotting_key" label="Slotting Key" options={slottingKeys} />
       <SortField name="search_request.sort" enumClass={SearchTeasersSort} />
       <SelectField name="search_request.types" label="Types" options={typeOptions} isMulti />
       <TimelinePickerField name="search_request.timeline_ref" label="Timeline" />

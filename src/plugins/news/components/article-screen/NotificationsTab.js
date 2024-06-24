@@ -1,35 +1,38 @@
-import React from 'react';
-import { Card, CardBody, Label, ListGroupItem } from 'reactstrap';
-import { CheckboxField, TextField } from '@triniti/cms/components/index.js';
-import formatDate from '@triniti/cms/utils/formatDate.js';
-import HasNotificationsCard from '@triniti/cms/plugins/notify/components/has-notifications-card/index.js';
+import React, { lazy, Suspense } from 'react';
+import { Card, CardBody, CardHeader } from 'reactstrap';
+import {
+  DatePickerField,
+  ErrorBoundary,
+  Loading,
+  SwitchField,
+  TextField,
+  UrlField
+} from '@triniti/cms/components/index.js';
+
+const NotificationsCard = lazy(() => import('@triniti/cms/plugins/notify/components/notifications-card/index.js'));
 
 export default function NotificationsTab(props) {
-  const { node, nodeRef } = props;
+  const { node, nodeRef, tab } = props;
   const schema = node.schema();
 
   return (
     <>
-      {schema.hasMixin('triniti:notify:mixin:has-notifications') && (
-        <HasNotificationsCard contentRef={nodeRef} {...props} />
+      {tab === 'notifications' && schema.hasMixin('triniti:notify:mixin:has-notifications') && (
+        <Suspense fallback={<Loading />}>
+          <ErrorBoundary>
+            <NotificationsCard contentRef={nodeRef} {...props} />
+          </ErrorBoundary>
+        </Suspense>
       )}
+
       <Card>
+        <CardHeader>Apple News</CardHeader>
         <CardBody>
-          <CheckboxField name="apple_news_enabled" label="Apple News Enabled" inline={true} />
-          <CheckboxField name="twitter_publish_enabled" label="Twitter Publish Enabled" inline={true}  />
+          <SwitchField name="apple_news_enabled" label="Apple News Enabled" />
           <TextField name="apple_news_revision" label="Apple News Revision" />
           <TextField name="apple_news_id" label="Apple News ID" />
-          <TextField name="apple_news_share_url" label="Apple News Share URL" />
-          {
-            node.has('apple_news_updated_at') && (
-              <>
-                <Label>Apple News Updated At</Label>
-                <ListGroupItem className="mb-4 pt-2 pb-2 border-0 pl-0">
-                  {formatDate(node.get('apple_news_updated_at'))}
-                </ListGroupItem>
-              </>
-            )
-          }
+          <UrlField name="apple_news_share_url" label="Apple News Share URL" />
+          <DatePickerField name="apple_news_updated_at" label="Apple News Updated At" readOnly />
         </CardBody>
       </Card>
     </>
