@@ -9,6 +9,7 @@ const omitKeys = [
   'ctx_cloud',
   'ctx_correlator_ref',
   'ctx_ip',
+  'ctx_ipv6',
   'ctx_tenant_id',
   'ctx_ua',
   'ctx_ua_parsed',
