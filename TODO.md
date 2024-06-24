@@ -28,3 +28,4 @@
 * add word count indicator to story tab on article
 * add title length warning on article "title"
 * dam plugin cleanup, significant improvement needed.
+* add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)

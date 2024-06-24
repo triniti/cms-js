@@ -4,7 +4,7 @@ import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 const LinkedMediaCard = lazy(() => import('@triniti/cms/plugins/dam/components/linked-images-tab/index.js'));
 
 export default function MediaTab(props) {
-  const { tab } = props;
+  const { tab, nodeRef } = props;
   if (tab !== 'media') {
     return null;
   }
@@ -12,7 +12,7 @@ export default function MediaTab(props) {
   return (
     <Suspense fallback={<Loading />}>
       <ErrorBoundary>
-        <LinkedMediaCard {...props} />
+        <LinkedMediaCard nodeRef={nodeRef} />
       </ErrorBoundary>
     </Suspense>
   );

@@ -20,7 +20,7 @@ export default function NotificationsTab(props) {
       {tab === 'notifications' && schema.hasMixin('triniti:notify:mixin:has-notifications') && (
         <Suspense fallback={<Loading />}>
           <ErrorBoundary>
-            <NotificationsCard contentRef={nodeRef} {...props} />
+            <NotificationsCard contentRef={nodeRef} />
           </ErrorBoundary>
         </Suspense>
       )}
