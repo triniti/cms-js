@@ -30,6 +30,7 @@ function TeaserScreen(props) {
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+  const canDuplicate = policy.isGranted(`${qname}:create`);
 
   return (
     <Screen
@@ -78,19 +79,30 @@ function TeaserScreen(props) {
               />
             </>
           )}
-          {canDelete && (
+          {(canDelete || canDuplicate) && (
             <UncontrolledDropdown>
               <DropdownToggle className="px-1 me-0 mb-0" color="light" outline>
                 <Icon imgSrc="more-vertical" alt="More Actions" size="md" />
               </DropdownToggle>
               <DropdownMenu end className="px-2 dropdown-menu-arrow-right">
-                <ActionButton
-                  text="Delete"
-                  onClick={delegate.handleDelete}
-                  icon="trash"
-                  color="danger"
-                  outline
-                />
+                {canDuplicate && (
+                  <ActionButton
+                    text="Duplicate"
+                    onClick={delegate.handleDuplicate}
+                    icon="documents"
+                    color="light"
+                    outline
+                  />
+                )}
+                {canDelete && (
+                  <ActionButton
+                    text="Delete"
+                    onClick={delegate.handleDelete}
+                    icon="trash"
+                    color="danger"
+                    outline
+                  />
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
