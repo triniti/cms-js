@@ -12,6 +12,7 @@ export default function CheckboxField(props) {
     nestedPbj,
     pbjName,
     inline,
+    button,
     right,
     size,
     readOnly = false,
@@ -26,6 +27,7 @@ export default function CheckboxField(props) {
     'form-check',
     {
       'form-check-inline': inline,
+      'form-check--button': button,
       'form-check-right': right,
       [`form-check-${size}`]: !!size,
     },

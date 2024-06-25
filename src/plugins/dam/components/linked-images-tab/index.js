@@ -158,7 +158,6 @@ function LinkedImagesTab(props) {
 
 export default withRequest(LinkedImagesTab, 'triniti:dam:request:search-assets-request', {
   channel: 'media-search',
-  persist: true,
   initialData: {
     sort: SearchAssetsSort.RELEVANCE.getValue(),
     types: ['image-asset'],

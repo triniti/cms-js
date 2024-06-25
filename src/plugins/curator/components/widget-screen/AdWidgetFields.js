@@ -1,30 +1,17 @@
 import React from 'react';
-import startCase from 'lodash-es/startCase.js';
-import { EnumField, KeyValuesField, SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
+import { Card, CardBody, CardHeader } from 'reactstrap';
 import AdSizeEnum from '@triniti/schemas/triniti/common/enums/AdSize.js';
-
-const filter = option => option.value !== 'unknown';
-const format = label => startCase(label.toLowerCase());
+import { EnumField, KeyValuesField, TextField } from '@triniti/cms/components/index.js';
 
 export default function AdWidgetFields() {
   return (
-    <>
-      <EnumField
-        label="Ad Size"
-        name="ad_size"
-        enumClass={AdSizeEnum}
-        filter={filter}
-        format={format}
-      />
-      <TextField name="dfp_ad_unit_path" label="DFP Ad Unit Path" />
-      <KeyValuesField name="dfp_cust_params" label="DFP Custom Parameters" component={TextField} />
-      <SwitchField name="show_header" label="Show Header" />
-      <SwitchField name="show_border" label="Show Border" />
-      <TextField name="header_text" label="Header Text" />
-      <TextField name="view_all_text" label="View All Text" />
-      <UrlField name="view_all_url" label="View All Url" />
-      <TextField name="partner_text" label="Partner Text" />
-      <UrlField name="partner_url" label="Partner Url" />
-    </>
+    <Card>
+      <CardHeader>Ad Widget Configuration</CardHeader>
+      <CardBody className="pb-0">
+        <EnumField enumClass={AdSizeEnum} name="ad_size" label="Ad Size" />
+        <TextField name="dfp_ad_unit_path" label="DFP Ad Unit Path" />
+        <KeyValuesField name="dfp_cust_params" label="DFP Custom Parameters" component={TextField} />
+      </CardBody>
+    </Card>
   );
 }

@@ -112,6 +112,9 @@ export default function Screen(props) {
         {tabs.length > 0 && (
           <Nav underline className="screen-navtabs">
             {tabs.map((tab) => {
+              if (!tab) {
+                return null;
+              }
               const isActive = kebabCase(tab.text) === activeTab;
               return (
                 <NavItem key={tab.to} onClick={() => scrollToTop('auto')} active={isActive}>
