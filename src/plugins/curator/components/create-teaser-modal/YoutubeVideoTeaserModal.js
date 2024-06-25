@@ -9,7 +9,6 @@ function YoutubeVideoTeaserModal() {
     <ModalBody>
       <TextField name="title" label="Title" required />
       <TextField name="youtube_video_id" label="YouTube URL or Video ID" parse={getYouTubeId} required />
-      <TextField name="youtube_custom_id" label="YouTube Custom URL or Video ID" parse={getYouTubeId} />
     </ModalBody>
   );
 }

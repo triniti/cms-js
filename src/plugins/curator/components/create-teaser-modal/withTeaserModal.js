@@ -67,6 +67,7 @@ export default function withTeaserModal(ModalBody) {
           <ActionButton
             text="Cancel"
             onClick={props.toggle}
+            icon="close-sm"
             color="light"
             tabIndex="-1"
           />
@@ -74,6 +75,7 @@ export default function withTeaserModal(ModalBody) {
             text={`Create ${label}`}
             onClick={delegate.handleCreate}
             disabled={submitDisabled}
+            icon="plus-outline"
             color="primary"
           />
         </ModalFooter>
