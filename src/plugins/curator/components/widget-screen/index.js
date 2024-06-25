@@ -4,6 +4,7 @@ import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/curator/components/widget-screen/DetailsTab.js';
+import DataSourceTab from '@triniti/cms/plugins/curator/components/widget-screen/DataSourceTab.js';
 import CodeTab from '@triniti/cms/plugins/curator/components/widget-screen/CodeTab.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
@@ -124,7 +125,7 @@ function WidgetScreen(props) {
           </TabPane>
           {hasDataSource && (
             <TabPane tabId="data-source">
-              <div {...props}>data source</div>
+              <DataSourceTab {...props} />
             </TabPane>
           )}
           <TabPane tabId="code">
