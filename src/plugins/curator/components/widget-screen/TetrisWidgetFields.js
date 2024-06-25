@@ -1,22 +1,14 @@
 import React from 'react';
-import { SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
+import { Card, CardBody, CardHeader } from 'reactstrap';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
-export default function TetrisWidgetFields(props) {
-  const { node } = props;
-
+export default function TetrisWidgetFields() {
   return (
-    <>
-      <SwitchField name="show_header" label="Show Header" />
-      <SwitchField name="show_border" label="Show Border" />
-      <TextField name="header_text" label="Header Text" />
-      {node.schema().hasMixin('triniti:common:mixin:themeable') && (
-        <PicklistField name="theme" label="Theme" picklist="tetris-widget-themes" />
-      )}
-      <TextField name="view_all_text" label="View All Text" />
-      <UrlField name="view_all_url" label="View All Url" />
-      <TextField name="partner_text" label="Partner Text" />
-      <UrlField name="partner_url" label="Partner Url" />
-    </>
+    <Card>
+      <CardHeader>Tetris Widget Configuration</CardHeader>
+      <CardBody>
+        <PicklistField name="layout" label="Layout" picklist="tetris-widget-layouts" />
+      </CardBody>
+    </Card>
   );
 }
