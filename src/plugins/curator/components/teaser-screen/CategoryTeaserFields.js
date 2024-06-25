@@ -3,6 +3,6 @@ import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/catego
 
 export default function CategoryTeaserFields() {
   return (
-    <CategoryPickerField name="target_ref" label="Target Category" readOnly />
+    <CategoryPickerField name="target_ref" label="Target Category" required readOnly />
   );
 }

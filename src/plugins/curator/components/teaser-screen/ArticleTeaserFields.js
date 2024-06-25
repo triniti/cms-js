@@ -3,6 +3,6 @@ import ArticlePickerField from '@triniti/cms/plugins/news/components/article-pic
 
 export default function ArticleTeaserFields() {
   return (
-    <ArticlePickerField name="target_ref" label="Target Article" readOnly />
+    <ArticlePickerField name="target_ref" label="Target Article" required readOnly />
   );
 }

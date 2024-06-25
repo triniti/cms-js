@@ -30,3 +30,4 @@
 * dam plugin cleanup, significant improvement needed.
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)
 * matt to fix search badge while running on search teasers
+* matt, the selects go behind url fields, see teaser screen

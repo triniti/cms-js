@@ -3,6 +3,6 @@ import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel
 
 export default function ChannelTeaserFields() {
   return (
-    <ChannelPickerField name="target_ref" label="Target Channel" readOnly />
+    <ChannelPickerField name="target_ref" label="Target Channel" required readOnly />
   );
 }
