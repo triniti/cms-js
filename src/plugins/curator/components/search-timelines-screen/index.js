@@ -46,7 +46,7 @@ function SearchTimelinesScreen(props) {
               <tr>
                 <th>Title</th>
                 <th>Created At</th>
-                <th>Updated At</th>
+                <th>Published At</th>
                 <th></th>
               </tr>
               </thead>
@@ -55,7 +55,7 @@ function SearchTimelinesScreen(props) {
                 <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                   <td>{node.get('title')}</td>
                   <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                  <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                  <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
                   <td className="td-icons">
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tabIndex="-1">
