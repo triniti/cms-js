@@ -37,8 +37,8 @@ export default function DetailsTab(props) {
             <DatePickerField name="expires_at" label="Expires At" />
           )}
 
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           <TextareaField name="description" label="Description" rows={3} />
+          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
           <TextField name="launch_text" label="Launch Text" />
           <PicklistField name="credit" label="Credit" picklist="gallery-credits" />
           <UrlField name="credit_url" label="Credit URL" />

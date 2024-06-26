@@ -33,3 +33,4 @@
 * matt, style the promotion schedule and sortable slots page a little
 * matt, style the poll answer sortable a little
 * add "create article" into navbar?
+* matt, style search assets
