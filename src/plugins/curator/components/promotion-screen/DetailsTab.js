@@ -24,21 +24,23 @@ export default function DetailsTab(props) {
       </Card>
 
       <Card>
-        <CardHeader>Slots</CardHeader>
+        <CardHeader>Widgets</CardHeader>
         <CardBody>
+          <CardText>
+            A single promotion can handle an entire screen of a website or application.
+            Widgets are placed into slots using the
+            new <a href="https://github.com/triniti/schemas/blob/master/schemas/triniti/curator/slot/latest.xml" rel="noopener noreferrer" target="_blank">slot</a> object
+            which determines how the widget is loaded and where it renders.<br/><br/>
+          </CardText>
           <SortableSlots />
         </CardBody>
       </Card>
 
       <Card>
-        <CardHeader>Widgets (Deprecated)</CardHeader>
+        <CardHeader>Legacy Widgets (Deprecated)</CardHeader>
         <CardBody>
           <CardText className="pb-2">
-            In most cases a single promotion handles an entire screen of a website or application.
-            The widgets are placed into slots using the
-            new <a href="https://github.com/triniti/schemas/blob/master/schemas/triniti/curator/slot/latest.xml" rel="noopener noreferrer" target="_blank">slots</a> object
-            which determines how the widget is loaded and where it renders.<br/><br/>
-            The older method renders all widgets into the matching slot in the order they are
+            This legacy method renders all widgets into the matching slot in the order they are
             included here.  It is less efficient due to querying to find matching promotions
             multiple times within a screen.
           </CardText>
