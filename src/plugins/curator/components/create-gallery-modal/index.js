@@ -23,8 +23,9 @@ function CreateGalleryModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Gallery...');
-      values.slug =  addDateToSlug(createSlug(values.title, true));
+      values.slug = addDateToSlug(createSlug(values.title));
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -48,6 +49,7 @@ function CreateGalleryModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +57,7 @@ function CreateGalleryModal(props) {
           text="Create Gallery"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
