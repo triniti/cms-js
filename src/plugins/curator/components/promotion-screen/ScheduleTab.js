@@ -73,6 +73,7 @@ export default function ScheduleTab(props) {
             step="1"
             value={startAt}
             onChange={e => handleChangeTime(e.target.value, 'start')}
+            disabled={!editMode}
           />
           <Label className="ms-2 me-2 mb-0">to</Label>
           <Input
@@ -81,6 +82,7 @@ export default function ScheduleTab(props) {
             step="1"
             value={endAt}
             onChange={e => handleChangeTime(e.target.value, 'end')}
+            disabled={!editMode}
           />
           <Button
             className="mb-0"
@@ -102,6 +104,7 @@ export default function ScheduleTab(props) {
               onChange={(e) => handleChangeCheckbox(e.target, day)}
               checked={hasValue(formState.values, day)}
               className="me-0 mb-0 mr-2"
+              disabled={!editMode}
             />
             <Label htmlFor={day} className="mb-0" style={{ justifyContent: 'left', minWidth: '5.3rem', marginLeft: '5px' }}>{startCase(day)}</Label>
             <TimePickerField groupClassName="mb-0" name={`${abbreviate(day)}_start_at`} />

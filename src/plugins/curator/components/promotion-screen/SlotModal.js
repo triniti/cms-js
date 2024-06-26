@@ -1,6 +1,5 @@
 import React from 'react';
 import { FORM_ERROR } from 'final-form';
-import startCase from 'lodash-es/startCase.js';
 import { getInstance } from '@triniti/app/main.js';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ActionButton, EnumField, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
@@ -11,14 +10,13 @@ import SlotRendering from '@triniti/schemas/triniti/curator/enums/SlotRendering.
 import WidgetPickerField from '@triniti/cms/plugins/curator/components/widget-picker-field/index.js';
 
 const filter = option => option.value !== 'unknown';
-const format = label => startCase(label.toLowerCase());
 
 function SlotModal(props) {
   const { delegate, editMode, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
 
-  delegate.handleSave = form.submit;
+  delegate.handleDone = form.submit;
   delegate.handleSubmit = async (values) => {
     try {
       const oldObj = FormMarshaler.marshal(pbj, { skipValidation: true });
@@ -31,8 +29,12 @@ function SlotModal(props) {
         const app = getInstance();
         const pbjx = await app.getPbjx();
         await pbjx.triggerLifecycle(newPbj);
-        props.onSubmit(newPbj);
+        // todo: review this modal closing during form update issue, seems jank
+        setTimeout(() => {
+          props.onSubmit(newPbj);
+        });
       }
+
       props.toggle();
     } catch (e) {
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -41,17 +43,23 @@ function SlotModal(props) {
 
   return (
     <Modal isOpen backdrop="static">
-      <ModalHeader toggle={props.toggle}>Promotion Slot</ModalHeader>
+      <ModalHeader toggle={props.toggle}>Slot</ModalHeader>
       {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody>
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <TextField label="Name" name="name" />
+          <TextField
+            name="name"
+            label="Name"
+            description="Location where this widget will render, e.g. html-head, header, footer."
+            required
+          />
           <EnumField
-            label="Rendering"
-            name="rendering"
             enumClass={SlotRendering}
+            name="rendering"
+            label="Rendering"
             filter={filter}
-            format={format}
+            isClearable={false}
+            required
           />
           <WidgetPickerField name="widget_ref" label="Widget" required />
         </Form>
@@ -63,13 +71,15 @@ function SlotModal(props) {
             <ActionButton
               text="Cancel"
               onClick={props.toggle}
+              icon="close-sm"
               color="light"
               tabIndex="-1"
             />
             <ActionButton
-              text="Save"
-              onClick={delegate.handleSave}
+              text="Done"
+              onClick={delegate.handleDone}
               disabled={submitDisabled}
+              icon="save"
               color="primary"
             />
           </>

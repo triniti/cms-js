@@ -30,4 +30,5 @@
 * matt to fix search badge while running on search teasers
 * matt, the selects go behind url fields, see teaser screen
 * add clock for "now" time to date-picker-field?
-* matt, style the promotion schedule page a little
+* matt, style the promotion schedule and sortable slots page a little
+* matt, style the poll answer sortable a little

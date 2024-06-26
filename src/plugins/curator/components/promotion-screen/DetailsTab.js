@@ -4,7 +4,7 @@ import { DatePickerField, TextField } from '@triniti/cms/components/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import WidgetPickerField from '@triniti/cms/plugins/curator/components/widget-picker-field/index.js';
-//import SortableSlots from '@triniti/cms/plugins/curator/components/promotion-screen/SortableSlots.js';
+import SortableSlots from '@triniti/cms/plugins/curator/components/promotion-screen/SortableSlots.js';
 
 export default function DetailsTab(props) {
   const { node } = props;
@@ -26,7 +26,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Slots</CardHeader>
         <CardBody>
-          {/*<SortableSlots name="slots" {...props} />*/}
+          <SortableSlots />
         </CardBody>
       </Card>
 
