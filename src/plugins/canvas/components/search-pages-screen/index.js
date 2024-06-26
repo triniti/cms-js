@@ -21,8 +21,8 @@ function SearchPagesScreen(props) {
 
   return (
     <Screen
-      title="Pages"
       header="Pages"
+      activeNav="Content"
       contentWidth="1200px"
       primaryActions={
         <>

@@ -31,8 +31,9 @@ function RedirectScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Admin"
+      activeSubNav="Redirects"
       breadcrumbs={[
         { text: 'Redirects', to: '/sys/redirects' },
         { text: node.get('title') },

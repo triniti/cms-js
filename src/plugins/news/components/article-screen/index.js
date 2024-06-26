@@ -36,8 +36,9 @@ function ArticleScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Content"
+      activeSubNav="Articles"
       breadcrumbs={[
         { text: 'Articles', to: '/news/articles' },
         { text: node.get('title') },

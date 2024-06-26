@@ -32,8 +32,9 @@ function UserScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Admin"
+      activeSubNav="Users"
       breadcrumbs={[
         { text: 'Users', to: '/iam/users' },
         { text: node.get('title') },

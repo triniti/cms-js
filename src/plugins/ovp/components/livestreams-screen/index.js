@@ -13,8 +13,8 @@ function LivestreamsScreen(props) {
 
   return (
     <Screen
-      title="Livestreams"
       header="Livestreams"
+      activeNav="Content"
       contentWidth="1200px"
     >
       {(!response || pbjxError) && <Loading error={pbjxError} />}

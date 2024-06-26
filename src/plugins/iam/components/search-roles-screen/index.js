@@ -19,8 +19,8 @@ function SearchRolesScreen(props) {
 
   return (
     <Screen
-      title="Roles"
       header="Roles"
+      activeNav="Admin"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Role" icon="plus-outline" modal={CreateRoleModal} />}

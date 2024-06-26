@@ -32,8 +32,9 @@ function PollScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Content"
+      activeSubNav="Polls"
       breadcrumbs={[
         { text: 'Polls', to: '/apollo/polls' },
         { text: node.get('title') },

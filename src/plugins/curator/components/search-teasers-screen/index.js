@@ -28,8 +28,8 @@ function SearchTeasersScreen(props) {
 
   return (
     <Screen
-      title="Teasers"
       header="Teasers"
+      activeNav="Structure"
       contentWidth="1600px"
       primaryActions={
         <>

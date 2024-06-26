@@ -18,8 +18,8 @@ function SearchAppsScreen(props) {
 
   return (
     <Screen
-      title="Apps"
       header="Apps"
+      activeNav="Admin"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create App" icon="plus-outline" modal={CreateAppModal} />}

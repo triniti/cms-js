@@ -29,7 +29,6 @@ function SearchNotificationsScreen(props) {
 
   return (
     <Screen
-      title="Notifications"
       header="Notifications"
       contentWidth="1600px"
       primaryActions={

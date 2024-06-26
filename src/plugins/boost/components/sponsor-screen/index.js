@@ -31,8 +31,9 @@ function SponsorScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Structure"
+      activeSubNav="Sponsors"
       breadcrumbs={[
         { text: 'Sponsors', to: '/boost/sponsors' },
         { text: node.get('title') },

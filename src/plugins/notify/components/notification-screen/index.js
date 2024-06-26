@@ -31,8 +31,8 @@ function NotificationScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Notifications"
       breadcrumbs={[
         { text: 'Notifications', to: '/notify/notifications' },
         { text: node.get('title') },

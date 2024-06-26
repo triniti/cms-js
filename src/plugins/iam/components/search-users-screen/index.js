@@ -21,8 +21,8 @@ function SearchUsersScreen(props) {
 
   return (
     <Screen
-      title="Users"
       header="Users"
+      activeNav="Admin"
       contentWidth="1200px"
       primaryActions={
         <>

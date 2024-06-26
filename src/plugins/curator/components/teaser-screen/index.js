@@ -34,8 +34,9 @@ function TeaserScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Structure"
+      activeSubNav="Teasers"
       breadcrumbs={[
         { text: 'Teasers', to: '/curator/teasers' },
         { text: node.get('title') },

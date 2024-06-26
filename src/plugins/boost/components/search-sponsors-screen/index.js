@@ -21,8 +21,8 @@ function SearchSponsorsScreen(props) {
 
   return (
     <Screen
-      title="Sponsors"
       header="Sponsors"
+      activeNav="Structure"
       contentWidth="1200px"
       primaryActions={
         <>

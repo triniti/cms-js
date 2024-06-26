@@ -34,8 +34,9 @@ function PageScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Content"
+      activeSubNav="Pages"
       breadcrumbs={[
         { text: 'Pages', to: '/canvas/pages' },
         { text: node.get('title') },

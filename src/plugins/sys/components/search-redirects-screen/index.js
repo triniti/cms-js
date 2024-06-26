@@ -21,8 +21,8 @@ function SearchRedirectsScreen(props) {
 
   return (
     <Screen
-      title="Redirects"
       header="Redirects"
+      activeNav="Admin"
       contentWidth="1200px"
       primaryActions={
         <>

@@ -50,8 +50,8 @@ function AssetScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Assets"
       breadcrumbs={[
         { text: 'Assets', to: '/dam/assets' },
         { text: node.get('title') },

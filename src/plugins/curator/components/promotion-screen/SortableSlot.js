@@ -1,19 +1,28 @@
 import React from 'react';
-import { Button, CardText } from 'reactstrap';
+import { Badge, Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CreateModalButton, Icon, useFormContext, withPbj } from '@triniti/cms/components/index.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import schemaToCurie from '@triniti/cms/utils/schemaToCurie.js';
-import AnswerModal from '@triniti/cms/plugins/apollo/components/poll-screen/AnswerModal.js';
+import SlotModal from '@triniti/cms/plugins/curator/components/promotion-screen/SlotModal.js';
 
-export default function SortableAnswer(props) {
+const renderingColors = {
+  server: 'danger',
+  client: 'secondary',
+  lazy: 'primary',
+};
+
+export default function SortableSlot(props) {
   const { editMode } = useFormContext();
   const { asOverlay = false, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  const { _id, title, _schema } = input.value;
-  const key = _id;
+  const { name, widget_ref, rendering, _schema } = input.value;
+  const key = `${name}-${widget_ref}`;
   const curie = schemaToCurie(_schema);
+  const { node: widget } = useNode(widget_ref);
 
   const {
     attributes,
@@ -22,7 +31,7 @@ export default function SortableAnswer(props) {
     setNodeRef,
     transform = null,
     transition,
-  } = asOverlay ? {} : useSortable({ id: _id });
+  } = asOverlay ? {} : useSortable({ id: key });
 
   const style = {
     opacity: isDragging ? 0.4 : undefined,
@@ -50,7 +59,22 @@ export default function SortableAnswer(props) {
         </div>
       )}
       <div className="d-flex px-2">
-        <CardText>{title}</CardText>
+        <CardText>
+          {widget && (
+            <>
+              <Badge color="light" pill className="me-2">{name}</Badge>
+              <a href={nodeUrl(widget, 'view')} target="_blank">{widget.get('title')}</a>
+              <Badge color={renderingColors[rendering]} pill className="ms-2">{rendering}</Badge>
+            </>
+          )}
+          {!widget && (
+            <>
+              <Badge color="light" pill className="me-2">{name}</Badge>
+              {widget_ref}
+              <Badge color={renderingColors[rendering]} pill className="ms-2">{rendering}</Badge>
+            </>
+          )}
+        </CardText>
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
         <CreateModalButton
@@ -58,7 +82,7 @@ export default function SortableAnswer(props) {
           color="hover"
           className="me-0 mb-0 rounded-circle"
           icon={editMode ? 'pencil' : 'eye'}
-          modal={withPbj(AnswerModal, curie, input.value)}
+          modal={withPbj(SlotModal, curie, input.value)}
           modalProps={{
             editMode,
             curie,

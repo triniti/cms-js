@@ -35,8 +35,8 @@ function SearchGalleriesScreen(props) {
 
   return (
     <Screen
-      title="Galleries"
       header="Galleries"
+      activeNav="Content"
       contentWidth="1600px"
       primaryActions={
         <>
