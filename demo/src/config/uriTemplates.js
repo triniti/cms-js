@@ -47,6 +47,7 @@ registerTemplates({
   [`${APP_VENDOR}:category-teaser.canonical`]: '{+web_base_url}t/category/{_id}/',
   [`${APP_VENDOR}:channel.canonical`]: '{+web_base_url}{slug}/',
   [`${APP_VENDOR}:channel-teaser.canonical`]: '{+web_base_url}t/channel/{_id}/',
+  [`${APP_VENDOR}:gallery.canonical`]: '{+web_base_url}photos/{+slug}/',
   [`${APP_VENDOR}:gallery-teaser.canonical`]: '{+web_base_url}t/gallery/{_id}/',
   [`${APP_VENDOR}:link-teaser.canonical`]: '{+link_url}',
   [`${APP_VENDOR}:page.canonical`]: '{+web_base_url}pages/{slug}/',
