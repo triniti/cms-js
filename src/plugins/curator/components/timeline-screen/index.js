@@ -33,8 +33,9 @@ function TimelineScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Structure"
+      activeSubNav="Timelines"
       breadcrumbs={[
         { text: 'Timelines', to: '/curator/timelines' },
         { text: node.get('title') },

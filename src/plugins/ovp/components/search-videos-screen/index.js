@@ -35,8 +35,8 @@ function SearchVideosScreen(props) {
 
   return (
     <Screen
-      title="Videos"
       header="Videos"
+      activeNav="Content"
       contentWidth="1600px"
       primaryActions={
         <>

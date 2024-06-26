@@ -23,8 +23,8 @@ function SearchPeopleScreen(props) {
 
   return (
     <Screen
-      title="People"
       header="People"
+      activeNav="Taxonomy"
       contentWidth="1200px"
       primaryActions={
         <>

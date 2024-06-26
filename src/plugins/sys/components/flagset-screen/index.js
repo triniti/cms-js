@@ -31,8 +31,9 @@ function FlagsetScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Admin"
+      activeSubNav="Flagsets"
       breadcrumbs={[
         { text: 'Flagsets', to: '/sys/flagsets' },
         { text: node.get('title') },

@@ -19,8 +19,8 @@ function SearchChannelsScreen(props) {
 
   return (
     <Screen
-      title="Channels"
       header="Channels"
+      activeNav="Taxonomy"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Channel" icon="plus-outline" modal={CreateChannelModal} />}

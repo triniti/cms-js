@@ -21,8 +21,8 @@ function SearchCategoriesScreen(props) {
 
   return (
     <Screen
-      title="Categories"
       header="Categories"
+      activeNav="Taxonomy"
       contentWidth="1200px"
       primaryActions={
         <>

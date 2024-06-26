@@ -33,8 +33,9 @@ function ChannelScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Taxonomy"
+      activeSubNav="Channels"
       breadcrumbs={[
         { text: 'Channels', to: '/taxonomy/channels' },
         { text: node.get('title') },

@@ -31,8 +31,9 @@ function PicklistScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Admin"
+      activeSubNav="Picklists"
       breadcrumbs={[
         { text: 'Picklists', to: '/sys/picklists' },
         { text: node.get('title') },

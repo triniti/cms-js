@@ -53,7 +53,6 @@ function SearchAssetsScreen(props) {
 
   return (
     <Screen
-      title="Assets"
       header="Assets"
       contentWidth="1600px"
       primaryActions={

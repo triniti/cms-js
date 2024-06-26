@@ -19,8 +19,8 @@ function SearchPicklistsScreen(props) {
 
   return (
     <Screen
-      title="Picklists"
       header="Picklists"
+      activeNav="Admin"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Picklist" icon="plus-outline" modal={CreatePicklistModal} />}

@@ -19,8 +19,8 @@ function SearchFlagsetsScreen(props) {
 
   return (
     <Screen
-      title="Flagsets"
       header="Flagsets"
+      activeNav="Admin"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Flagset" icon="plus-outline" modal={CreateFlagsetModal} />}

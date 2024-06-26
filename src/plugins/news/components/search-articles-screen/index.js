@@ -23,8 +23,8 @@ function SearchArticlesScreen(props) {
 
   return (
     <Screen
-      title="Articles"
       header="Articles"
+      activeNav="Content"
       contentWidth="1600px"
       primaryActions={
         <>

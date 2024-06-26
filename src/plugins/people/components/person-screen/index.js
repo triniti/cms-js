@@ -32,8 +32,9 @@ function PersonScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Taxonomy"
+      activeSubNav="People"
       breadcrumbs={[
         { text: 'People', to: '/people/people' },
         { text: node.get('title') },

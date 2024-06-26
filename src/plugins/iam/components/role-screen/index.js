@@ -31,8 +31,9 @@ function RoleScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Admin"
+      activeSubNav="Roles"
       breadcrumbs={[
         { text: 'Roles', to: '/iam/roles' },
         { text: node.get('title') },

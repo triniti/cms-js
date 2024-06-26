@@ -37,8 +37,9 @@ function GalleryScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Content"
+      activeSubNav="Galleries"
       breadcrumbs={[
         { text: 'Galleries', to: '/curator/galleries' },
         { text: node.get('title') },

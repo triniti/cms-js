@@ -21,8 +21,8 @@ function SearchPollsScreen(props) {
 
   return (
     <Screen
-      title="Polls"
       header="Polls"
+      activeNav="Content"
       contentWidth="1200px"
       primaryActions={
         <>

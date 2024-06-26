@@ -28,8 +28,8 @@ function SearchWidgetsScreen(props) {
 
   return (
     <Screen
-      title="Widgets"
       header="Widgets"
+      activeNav="Structure"
       contentWidth="1200px"
       primaryActions={
         <>

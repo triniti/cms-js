@@ -33,8 +33,9 @@ function CategoryScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Taxonomy"
+      activeSubNav="Categories"
       breadcrumbs={[
         { text: 'Categories', to: '/taxonomy/categories' },
         { text: node.get('title') },

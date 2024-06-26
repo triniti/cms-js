@@ -21,8 +21,8 @@ function SearchPromotionsScreen(props) {
 
   return (
     <Screen
-      title="Promotions"
       header="Promotions"
+      activeNav="Structure"
       contentWidth="1200px"
       primaryActions={
         <>

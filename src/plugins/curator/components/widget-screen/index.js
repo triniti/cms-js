@@ -36,8 +36,9 @@ function WidgetScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Structure"
+      activeSubNav="Widgets"
       breadcrumbs={[
         { text: 'Widgets', to: '/curator/widgets' },
         { text: node.get('title') },

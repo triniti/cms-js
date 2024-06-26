@@ -21,8 +21,8 @@ function SearchTimelinesScreen(props) {
 
   return (
     <Screen
-      title="Timelines"
       header="Timelines"
+      activeNav="Structure"
       contentWidth="1200px"
       primaryActions={
         <>

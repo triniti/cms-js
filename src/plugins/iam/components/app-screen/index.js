@@ -32,8 +32,9 @@ function AppScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Admin"
+      activeSubNav="Apps"
       breadcrumbs={[
         { text: 'Apps', to: '/iam/apps' },
         { text: node.get('title') },

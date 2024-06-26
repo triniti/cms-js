@@ -36,8 +36,9 @@ function VideoScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Content"
+      activeSubNav="Videos"
       breadcrumbs={[
         { text: 'Videos', to: '/ovp/videos' },
         { text: node.get('title') },

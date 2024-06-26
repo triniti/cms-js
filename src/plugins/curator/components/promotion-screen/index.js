@@ -34,8 +34,9 @@ function PromotionScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Structure"
+      activeSubNav="Promotions"
       breadcrumbs={[
         { text: 'Promotions', to: '/curator/promotions' },
         { text: node.get('title') },
