@@ -17,7 +17,7 @@
 * Review sorting on all search screens and pickers.
 * Add node labels component
 * move Sortable* styles to main sass files.
-* review sortable on node picker, interaction is wonky af.  does node picker need this?
+* review sortable on node picker, interaction is wonky af.  does node picker need this? (redo this so the sorting is done outside of the picker, i absolute hate the way it is rn)
 * review/simplify node history and reverting.
 * ensure lazing loading for tabs which fetch data (notifications, media, history)
 * make sure track total results is used on search screens but not pickers

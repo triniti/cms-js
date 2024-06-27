@@ -5,10 +5,14 @@ import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import ReactPlayer from 'react-player';
 import CommonFields from '@triniti/cms/plugins/dam/components/asset-screen/CommonFields.js';
+import TranscodeableCard from '@triniti/cms/plugins/dam/components/asset-screen/TranscodeableCard.js';
+import TranscribeableCard from '@triniti/cms/plugins/dam/components/asset-screen/TranscribeableCard.js';
 
 
 export default function VideoAssetFields(props) {
-  const { asset } = props
+  const { node } = props;
+  const asset = node;
+  const schema = node.schema();
 
   return (
     <>
@@ -24,6 +28,13 @@ export default function VideoAssetFields(props) {
         </Row>
       </Container>
       <CommonFields asset={asset} credit="video-asset-credits" />
+
+      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
+       <TranscodeableCard asset={node} />
+      )}
+      {schema.hasMixin('triniti:ovp:mixin:transcribable') && (
+       <TranscribeableCard asset={node} />
+      )}
     </>
   );
 }

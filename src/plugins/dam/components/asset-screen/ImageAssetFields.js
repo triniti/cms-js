@@ -1,48 +1,59 @@
 import React from 'react';
-import { Container, Col, Media, Row } from 'reactstrap';
-import { TextField } from '@triniti/cms/components/index.js';
+import { Col, Media, Row, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import formatBytes from '@triniti/cms/utils/formatBytes.js';
-import PollPickerField from '@triniti/cms/plugins/apollo/components/poll-picker-field/index.js';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import CommonFields from '@triniti/cms/plugins/dam/components/asset-screen/CommonFields.js';
 
-
 export default function ImageAssetFields(props) {
-  const { asset, commonFieldsComponent } = props;
-  const CommonFieldsComponent = commonFieldsComponent || CommonFields;
-
-  const getDimensions = (value) => {
-    return `${value} x ${asset.get('height')}`;
-  }
-
-  const previewUrl = damUrl(asset);
+  const { node } = props;
+  const id = node.get('_id');
+  const originalUrl = damUrl(id);
+  const previewUrl = damUrl(id, '1by1', 'md');
 
   return (
     <>
-      <Container fluid className="ui-cols">
-        <Row>
-          <Col xs="6 ps-0">
-            <TextField name="mime_type" label="MIME type" readOnly />
-            <TextField name="file_size" label="File size" format={formatBytes} readOnly />
-            <TextField name="width" label="Dimensions" format={getDimensions} readOnly />
-          </Col>
-          <Col xs="6 pe-0">
-            {previewUrl && (
-              <a href={previewUrl} target="_blank" rel="noopener noreferrer">
-                <Media src={previewUrl}
-                  alt=""
-                  width="100%"
-                  height="auto"
-                  object
-                  className="rounded-2"
-                />
+      <Card>
+        <CardHeader>Image Asset</CardHeader>
+        <CardBody>
+          <Row>
+            <Col sm={4} xl={4}>
+              <a href={originalUrl} target="_blank" rel="noopener noreferrer">
+                <Media src={previewUrl} alt="" width="100%" height="auto" object className="rounded-2" />
               </a>
-            )}
-          </Col>
-        </Row>
-      </Container>
-      <CommonFieldsComponent asset={asset} credit="image-asset-credits" {...props}  />
-      <PollPickerField name="poll_ref" label="Search and Select a Poll" />
+            </Col>
+            <Col sm={8} xl={8}>
+              <Table className="border-bottom">
+                <tbody>
+                <tr>
+                  <th className="nowrap" scope="row">Asset ID:</th>
+                  <td className="w-100">{`${id}`}</td>
+                </tr>
+                <tr>
+                  <th className="nowrap" scope="row">MIME Type:</th>
+                  <td className="w-100">{node.get('mime_type')}</td>
+                </tr>
+                <tr>
+                  <th className="nowrap" scope="row">File Etag:</th>
+                  <td className="w-100">{node.get('file_etag')}</td>
+                </tr>
+                <tr>
+                  <th className="nowrap" scope="row">File Size:</th>
+                  <td className="w-100">{formatBytes(node.get('file_size'))}</td>
+                </tr>
+                <tr>
+                  <th className="nowrap" scope="row">Dimensions:</th>
+                  <td className="w-100">{node.get('width')}x{node.get('height')}</td>
+                </tr>
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+
+      <CommonFields {...props} />
+      <TaggableFields />
     </>
   );
 }

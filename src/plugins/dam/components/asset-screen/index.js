@@ -1,15 +1,14 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
-import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
-import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/dam/components/asset-screen/DetailsTab.js';
+import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import VariantsTab from '@triniti/cms/plugins/dam/components/asset-screen/VariantsTab.js';
-import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 
 function AssetScreen(props) {
   const {
@@ -32,24 +31,18 @@ function AssetScreen(props) {
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+  const schema = node.schema();
+  const showVariants = schema.hasMixin('triniti:dam:mixin:image-asset');
 
-  const TabItems=[
-    { text: 'Details', to: urls.tab('details') },
-    { text: 'Taxonomy', to: urls.tab('taxonomy') },
-    { text: 'History', to: urls.tab('history') },
-    { text: 'Raw', to: urls.tab('raw') },
-  ]
+  delegate.handleDownload = () => {
+    const originalUrl = damUrl(node);
+    window.open(originalUrl, '_blank', 'noopener,noreferrer');
+  };
 
-  const TabItemsWithVariants=[
-    { text: 'Details', to: urls.tab('details') },
-    { text: 'Taxonomy', to: urls.tab('taxonomy') },
-    { text: 'Variants', to: urls.tab('variants') },
-    { text: 'History', to: urls.tab('history') },
-    { text: 'Raw', to: urls.tab('raw') },
-  ]
-
+// todo: add asset icon to header?  eh, matt, thoughts?
   return (
     <Screen
+      title={node.get('title')}
       header={node.get('title')}
       activeNav="Assets"
       breadcrumbs={[
@@ -57,16 +50,30 @@ function AssetScreen(props) {
         { text: node.get('title') },
       ]}
       activeTab={tab}
-      tabs={[...(node.schema().hasMixin('triniti:dam:mixin:image-asset') ? TabItemsWithVariants : TabItems)]}
+      tabs={[
+        { text: 'Details', to: urls.tab('details') },
+        showVariants && { text: 'Variants', to: urls.tab('variants') },
+        { text: 'Taxonomy', to: urls.tab('taxonomy') },
+        { text: 'History', to: urls.tab('history') },
+        { text: 'Raw', to: urls.tab('raw') },
+      ]}
       primaryActions={
         <>
-          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
             text="Close"
             onClick={delegate.handleClose}
             disabled={submitting || isRefreshing}
+            icon="back"
+            color="light"
+            outline
+          />
+          <ActionButton
+            text="Download"
+            onClick={delegate.handleDownload}
+            disabled={submitting || isRefreshing}
+            icon="download"
             color="light"
             outline
           />
@@ -76,13 +83,14 @@ function AssetScreen(props) {
                 text="Save"
                 onClick={delegate.handleSave}
                 disabled={submitDisabled}
-                icon="save"
+                icon="save-diskette"
                 color="primary"
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
                 onClick={delegate.handleSwitchMode}
                 disabled={submitting || isRefreshing}
+                icon={editMode ? 'eye' : 'edit'}
                 color="light"
                 outline
               />
@@ -97,11 +105,9 @@ function AssetScreen(props) {
                 <ActionButton
                   text="Delete"
                   onClick={delegate.handleDelete}
-                  icon="delete"
+                  icon="trash"
                   color="danger"
                   outline
-                  role="menuitem"
-                  tabIndex="0"
                 />
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -115,21 +121,20 @@ function AssetScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
-      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
           <TabPane tabId="details">
             <DetailsTab {...props} />
           </TabPane>
+          {showVariants && (
+            <TabPane tabId="variants">
+              <VariantsTab {...props} />
+            </TabPane>
+          )}
           <TabPane tabId="taxonomy">
             <TaxonomyTab {...props} />
           </TabPane>
-          {node.schema().hasMixin('triniti:dam:mixin:image-asset') && (
-          <TabPane tabId="variants">
-            <VariantsTab {...props} asset={node} type="image-asset"/>
-          </TabPane>
-          )}
           <TabPane tabId="history">
             <HistoryTab {...props} />
           </TabPane>

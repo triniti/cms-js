@@ -38,7 +38,7 @@ function DocumentAsset({ asset }) {
 function ImageAsset({ asset }) {
   return (
     <Media
-      src={damUrl(asset, '1by1', 'xs', null)}
+      src={damUrl(asset, '1by1', 'xs')}
       alt=""
       width="44"
       height="44"
