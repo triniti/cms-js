@@ -32,7 +32,7 @@ function SearchAssetsScreen(props) {
   return (
     <Screen
       header="Assets"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {/*{canCreate && <CreateModalButton text="Create Teaser" icon="plus-outline" modal={CreateTeaserModal} />}*/}
