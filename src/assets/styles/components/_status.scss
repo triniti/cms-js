@@ -127,7 +127,7 @@ tr.status-deleted,
   }
   &.badge,
   &.status-copy {
-    background-color: #eaeaed !important;
+    background-color: $gray-400 !important; // #eaeaed
     color: #7a7a7c;
 
     [data-bs-theme=dark] & {

@@ -36,7 +36,7 @@
 }
 
 .badge.bg-light {
-  background-color: $gray-500 !important;
+  background-color: $gray-400 !important; // gray-500
   text-shadow: none;
   font-weight: 500;
   color: var(--#{$prefix}body-color);
