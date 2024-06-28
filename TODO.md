@@ -34,3 +34,5 @@
 * matt, style the poll answer sortable a little
 * add "create article" into navbar?
 * matt, style search assets
+* finished dam asset-screen, linked nodes card
+* do we need a duration field (assets with duration?)

@@ -10,7 +10,7 @@ import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import startCase from 'lodash-es/startCase.js';
 import withPbj from '@triniti/cms/components/with-pbj/index.js';
 
-function TranscribeableCard({ asset, pbj }) {
+function TranscribeableCard({ node: asset, pbj }) {
     const status = asset.has('transcription_status') ? asset.get('transcription_status').getValue() : 'unknown';
     const videoId = AssetId.fromString(NodeRef.fromNode(asset).getId());
     const documentId = AssetId.fromString(`document_vtt_${videoId.getDate()}_${videoId.getUuid()}`);
