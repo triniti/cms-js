@@ -10,7 +10,6 @@
   * big question is to we have to move away from draftjs, since it's no longer maintained.
 * simplify raven and collaboration.  more can be done here, need to think more on this.
   * starting works and worker path resolution is not working atm.
-* style batch-operations-card (matt)
 * media resorting and gallery management can use some tlc.
 * add headline fragments components, this is a wonky one, might be partially site specific.
 * add alert for dirty form when leaving page (used to be apart of useBlocker?)
@@ -25,14 +24,14 @@
 * get rid of clone-button, add a duplicate node button on node screens that need it (details, not search)
 * add word count indicator to story tab on article
 * add title length warning on article "title"
-* dam plugin cleanup, significant improvement needed.
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)
 * matt to fix search badge while running on search teasers
-* matt, the selects go behind url fields, see teaser screen
+* matt, the selects go behind url/number/etc. (i think fields with icons) fields, see teaser screen
 * add clock for "now" time to date-picker-field?
 * matt, style the promotion schedule and sortable slots page a little
 * matt, style the poll answer sortable a little
 * add "create article" into navbar?
 * matt, style search assets
-* finished dam asset-screen, linked nodes card
+* finish dam asset-screen variants tab
+* dam plugin cleanup, significant improvement needed.
 * do we need a duration field (assets with duration?)
