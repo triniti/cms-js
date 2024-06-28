@@ -37,7 +37,7 @@ export default function DetailsTab(props) {
                 <tbody>
                 <tr>
                   <th className="nowrap" scope="row">Asset ID:</th>
-                  <td className="w-100">{`${id}`}</td>
+                  <td className="w-100 text-break">{`${id}`}</td>
                 </tr>
                 <tr>
                   <th className="nowrap" scope="row">MIME Type:</th>
@@ -45,7 +45,7 @@ export default function DetailsTab(props) {
                 </tr>
                 <tr>
                   <th className="nowrap" scope="row">File Etag:</th>
-                  <td className="w-100">{node.get('file_etag')}</td>
+                  <td className="w-100 text-break">{node.get('file_etag')}</td>
                 </tr>
                 <tr>
                   <th className="nowrap" scope="row">File Size:</th>

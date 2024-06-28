@@ -139,6 +139,14 @@ a {
   }
 }
 
+.hover-box-shadow {
+
+  &:hover {
+    box-shadow: $focus-ring-box-shadow;
+  }
+}
+
+
 
 // scss-docs-start btn-variant-loops
 @each $color, $value in $theme-colors {
