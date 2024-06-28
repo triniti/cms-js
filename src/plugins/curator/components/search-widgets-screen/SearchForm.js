@@ -89,7 +89,7 @@ export default function SearchForm(props) {
               <Icon imgSrc="search" />
             </Button>
           </InputGroup>
-          <ButtonGroup className="mt-3">
+          <ButtonGroup className="mt-3 flex-wrap">
             {curies.map(str => {
               const curie = SchemaCurie.fromString(str);
               const type = curie.getMessage();
