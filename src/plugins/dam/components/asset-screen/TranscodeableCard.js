@@ -10,7 +10,7 @@ const artifactTypes = ['original', 'manifest', 'subtitled', 'video', 'tooltip-th
 
 export default function TranscodeableCard(props) {
   const { node } = props;
-  const status = node.get('transcoding_status', TranscodingStatus.UNKNOWN).getValue();
+  const status = node.get('transcoding_status', TranscodingStatus.UNKNOWN);
   const videoId = node.get('_id');
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
   const imageUrl = expand('node.view', { label: 'image-asset', _id: imageId.toString() });
@@ -19,10 +19,10 @@ export default function TranscodeableCard(props) {
     <Card>
       <CardHeader>
         Transcoding
-        <Badge color="dark" pill className={`status-${status}`}>{status}</Badge>
+        <Badge color="dark" pill className={`status-${status}`}>{status.getValue()}</Badge>
       </CardHeader>
       <CardBody>
-        {status !== 'completed' && (
+        {status !== TranscodingStatus.COMPLETED && (
           <Table className="border-bottom border-light mb-0">
             <tbody>
             {artifactTypes.map((type) => (
@@ -54,7 +54,7 @@ export default function TranscodeableCard(props) {
             </tbody>
           </Table>
         )}
-        {status !== 'completed' && (
+        {status !== TranscodingStatus.COMPLETED && (
           <p>{`No artifacts available. Transcoding status: ${status}.`}</p>
         )}
       </CardBody>

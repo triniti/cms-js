@@ -3,7 +3,7 @@ import { Button, Media } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
-function ArchiveAsset({ node, downloadUrl }) {
+function ArchiveAsset({ asset, downloadUrl }) {
   return (
     <Button color="hover">
       <Icon imgSrc="zip" alt="" />
@@ -11,13 +11,13 @@ function ArchiveAsset({ node, downloadUrl }) {
   );
 }
 
-function AudioAsset({ node, downloadUrl }) {
+function AudioAsset({ asset, downloadUrl }) {
   return (
     <audio controls src={downloadUrl} />
   );
 }
 
-function CodeAsset({ node, downloadUrl }) {
+function CodeAsset({ asset, downloadUrl }) {
   return (
     <Button color="hover">
       <Icon imgSrc="code" alt="" />
@@ -25,7 +25,7 @@ function CodeAsset({ node, downloadUrl }) {
   );
 }
 
-function DocumentAsset({ node, downloadUrl }) {
+function DocumentAsset({ asset, downloadUrl }) {
   return (
     <Button color="hover">
       <Icon imgSrc="document" alt="" />
@@ -33,8 +33,8 @@ function DocumentAsset({ node, downloadUrl }) {
   );
 }
 
-function ImageAsset({ node, downloadUrl }) {
-  const previewUrl = damUrl(node, '1by1', 'md');
+function ImageAsset({ asset, downloadUrl }) {
+  const previewUrl = damUrl(asset, '1by1', 'md');
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
       <Media src={previewUrl} alt="" width="100%" height="auto" object className="rounded-2" />
@@ -42,7 +42,7 @@ function ImageAsset({ node, downloadUrl }) {
   );
 }
 
-function UnknownAsset({ node, downloadUrl }) {
+function UnknownAsset({ asset, downloadUrl }) {
   return (
     <Button color="hover">
       <Icon imgSrc="question-outline" alt="" />
@@ -50,7 +50,7 @@ function UnknownAsset({ node, downloadUrl }) {
   );
 }
 
-function VideoAsset({ node, downloadUrl }) {
+function VideoAsset({ asset, downloadUrl }) {
   return (
     <video className="ratio ratio-16x9" controls src={downloadUrl} />
   );
@@ -66,8 +66,8 @@ const components = {
   'video-asset': VideoAsset,
 };
 
-export default function AssetPreview({ node }) {
-  const downloadUrl = damUrl(node);
-  const Component = components[node.schema().getCurie().getMessage()] || components['unknown-asset'];
-  return <Component node={node} downloadUrl={downloadUrl} />;
+export default function AssetPreview({ asset }) {
+  const downloadUrl = damUrl(asset);
+  const Component = components[asset.schema().getCurie().getMessage()] || components['unknown-asset'];
+  return <Component asset={asset} downloadUrl={downloadUrl} />;
 }
