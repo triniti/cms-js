@@ -159,17 +159,17 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
         </span>
         <span>
           <Link to={nodeUrl(node, 'view')}>
-            <Button color="hover">
+            <Button color="hover" tag="span">
               <Icon imgSrc="eye" alt="view" />
             </Button>
           </Link>
             <Link to={nodeUrl(node, 'edit')}>
-              <Button color="hover">
+              <Button color="hover" tag="span">
                 <Icon imgSrc="pencil" alt="edit" />
               </Button>
             </Link>
           <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-            <Button color="hover">
+            <Button color="hover" tag="span">
               <Icon imgSrc="external" alt="open" />
             </Button>
           </a>

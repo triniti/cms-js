@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { ButtonGroup, Card, CardBody } from 'reactstrap';
+import { ButtonGroup} from 'reactstrap';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import { CreateModalButton } from '@triniti/cms/components/index.js';
 import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
@@ -74,86 +74,82 @@ export default function BatchOperationsCard(props) {
   const canUnpublish = isPublishable && policy.isGranted(`${qname}:unpublish`);
 
   return (
-    <Card>
-      <CardBody className="d-flex flex-row p-1">
-        <div>
-          <ButtonGroup>
-            {canPublish && (
-              <CreateModalButton
-                text="Publish"
-                color="outline-primary"
-                modal={BatchOperationModal}
-                modalProps={() => ({
-                  header: `Publish Nodes (${batch.size})`,
-                  completedText: 'Published',
-                  nodes: Array.from(batch.values()),
-                  operation: publishOperation,
-                  onComplete,
-                })}
-              />
-            )}
-            {canMarkAsDraft && (
-              <CreateModalButton
-                text="Mark As Draft"
-                color="outline-light"
-                modal={BatchOperationModal}
-                modalProps={() => ({
-                  header: `Mark Nodes (${batch.size}) As Draft`,
-                  completedText: 'Marked As Draft',
-                  nodes: Array.from(batch.values()),
-                  operation: markAsDraftOperation,
-                  onComplete,
-                })}
-              />
-            )}
-            {canMarkAsPending && (
-              <CreateModalButton
-                text="Mark As Pending"
-                color="outline-light"
-                modal={BatchOperationModal}
-                modalProps={() => ({
-                  header: `Mark Nodes (${batch.size}) As Pending`,
-                  completedText: 'Marked As Pending',
-                  nodes: Array.from(batch.values()),
-                  operation: markAsPendingOperation,
-                  onComplete,
-                })}
-              />
-            )}
-            {canUnpublish && (
-              <CreateModalButton
-                text="Unpublish"
-                color="outline-warning"
-                modal={BatchOperationModal}
-                modalProps={() => ({
-                  header: `Unpublish Nodes (${batch.size})`,
-                  completedText: 'Unpublished',
-                  nodes: Array.from(batch.values()),
-                  operation: unpublishOperation,
-                  onComplete,
-                })}
-              />
-            )}
-            {canDelete && (
-              <CreateModalButton
-                text="Delete"
-                color="outline-danger"
-                modal={BatchOperationModal}
-                modalProps={() => ({
-                  header: `Delete Nodes (${batch.size})`,
-                  completedText: 'Deleted',
-                  nodes: Array.from(batch.values()),
-                  operation: deleteOperation,
-                  onComplete,
-                })}
-              />
-            )}
-          </ButtonGroup>
-        </div>
-        <div className="align-middle pt-2">
-          {batch.size} items
-        </div>
-      </CardBody>
-    </Card>
+    <div className="mb-2 d-flex align-items-center justify-content-center">
+      <div className="me-2 h3 mb-0">
+        <span className="badge bg-info ms-1 rounded-pill px-3">Items {batch.size}</span>
+      </div>
+      <ButtonGroup className="btn-group--white flex-wrap shadow-sm">
+        {canPublish && (
+          <CreateModalButton
+            text="Publish"
+            color="outline-primary"
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Publish Nodes (${batch.size})`,
+              completedText: 'Published',
+              nodes: Array.from(batch.values()),
+              operation: publishOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canMarkAsDraft && (
+          <CreateModalButton
+            text="Mark As Draft"
+            color="outline-light"
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Mark Nodes (${batch.size}) As Draft`,
+              completedText: 'Marked As Draft',
+              nodes: Array.from(batch.values()),
+              operation: markAsDraftOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canMarkAsPending && (
+          <CreateModalButton
+            text="Mark As Pending"
+            color="outline-light"
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Mark Nodes (${batch.size}) As Pending`,
+              completedText: 'Marked As Pending',
+              nodes: Array.from(batch.values()),
+              operation: markAsPendingOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canUnpublish && (
+          <CreateModalButton
+            text="Unpublish"
+            color="outline-warning"
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Unpublish Nodes (${batch.size})`,
+              completedText: 'Unpublished',
+              nodes: Array.from(batch.values()),
+              operation: unpublishOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canDelete && (
+          <CreateModalButton
+            text="Delete"
+            color="outline-danger"
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Delete Nodes (${batch.size})`,
+              completedText: 'Deleted',
+              nodes: Array.from(batch.values()),
+              operation: deleteOperation,
+              onComplete,
+            })}
+          />
+        )}
+      </ButtonGroup>
+    </div>
   );
 }

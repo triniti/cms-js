@@ -87,19 +87,19 @@ function SearchAssetsScreen(props) {
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
-                        <Button color="hover" tabIndex="-1">
+                        <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />
                         </Button>
                       </Link>
                       {canUpdate && (
                         <Link to={nodeUrl(node, 'edit')}>
-                          <Button color="hover" tabIndex="-1">
+                          <Button color="hover" tag="span">
                             <Icon imgSrc="pencil" alt="edit" />
                           </Button>
                         </Link>
                       )}
                       <a href={damUrl(node.get('_id'))} target="_blank" rel="noopener noreferrer">
-                        <Button color="hover">
+                        <Button color="hover" tag="span">
                           <Icon imgSrc="download" alt="download" />
                         </Button>
                       </a>

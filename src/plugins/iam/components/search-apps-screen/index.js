@@ -45,13 +45,13 @@ function SearchAppsScreen(props) {
                 </td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover" tabIndex="-1">
+                    <Button color="hover" tag="span">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button color="hover" tabIndex="-1">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>

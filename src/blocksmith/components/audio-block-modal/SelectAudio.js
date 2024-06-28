@@ -74,7 +74,7 @@ function SelectAudio(props) {
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="td-icons">
                       <a href={damUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                        <Button color="hover">
+                        <Button color="hover" tag="span">
                           <Icon imgSrc="external" alt="open" />
                         </Button>
                       </a>

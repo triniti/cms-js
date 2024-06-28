@@ -73,13 +73,13 @@ function SearchNotificationsScreen(props) {
                       <td className="text-nowrap">{node.get('send_status').toString()}</td>
                       <td className="td-icons">
                         <Link to={nodeUrl(node, 'view')}>
-                          <Button id={`view-${node.get('_id')}`} color="hover">
+                          <Button id={`view-${node.get('_id')}`} color="hover" tag="span">
                             <Icon imgSrc="eye" alt="view" />
                           </Button>
                         </Link>
                         {canUpdate && (
                           <Link to={nodeUrl(node, 'edit')}>
-                            <Button color="hover">
+                            <Button color="hover" tag="span">
                               <Icon imgSrc="pencil" alt="edit" />
                             </Button>
                           </Link>

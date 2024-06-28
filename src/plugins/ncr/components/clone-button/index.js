@@ -41,7 +41,7 @@ const Component = ({ node, pbj: nodeClone }) => {
 
   return (
     <Link onClick={handleClone}>
-      <Button color="hover">
+      <Button color="hover" tag="span">
         <Icon imgSrc="documents" alt="clone" />
       </Button>
     </Link>

@@ -762,13 +762,13 @@ input::-webkit-calendar-picker-indicator {
   }
   .form-check-input:checked ~ .form-check-label {
     color: $white;
-    border-color: var(-#{$prefix}secondary);
-    background-color: var(-#{$prefix}secondary);
+    border-color: var(--#{$prefix}secondary);
+    background-color: var(--#{$prefix}secondary);
 
     [data-bs-theme=dark] & {
       color: var(--#{$prefix}body-color);
-      border-color: var(-#{$prefix}secondary);
-      background-color: var(-#{$prefix}secondary);
+      border-color: var(--#{$prefix}secondary);
+      background-color: var(--#{$prefix}secondary);
     }
   }
 }

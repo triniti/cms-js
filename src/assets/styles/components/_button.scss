@@ -90,17 +90,18 @@
     box-shadow: none !important;
   }
   a:focus-visible > & {
-    box-shadow: $focus-ring-box-shadow !important;
+    box-shadow: none !important;
   }
   &:hover,
   &.active {
     opacity: 1;
   }
-  .td-icons > & {
-    margin-right: .25rem;
+  .td-icons > &,
+  .td-icons > a & {
     padding: 0;
     width: 2.125rem;
     height: 2.125rem;
+    min-height: 2.125rem;
   }
   tr.bg-selected & {
     color: $white !important;
@@ -219,6 +220,14 @@ a {
     --#{$prefix}btn-disabled-border-color: var(--#{$prefix}border-color);
     --#{$prefix}gradient: #{$gradient};
     background-image: var(--#{$prefix}gradient);
+
+    .btn-group--white & {
+      --#{$prefix}btn-bg: #{$white};
+
+      [data-bs-theme=dark] & {
+        --#{$prefix}btn-bg: var(--#{$prefix}secondary-bg);
+      }
+    }
 
     &.active {
       background-image: none;
