@@ -18,7 +18,7 @@ export default function TranscribeableCard(props) {
   return (
     <Card>
       <CardHeader>
-        Transcription
+        Transcribing
         <span>
           Status <Badge color="dark" pill className={`status-${status}`}>{status.getValue()}</Badge>
         </span>

@@ -3,7 +3,7 @@ import memoize from 'lodash-es/memoize.js';
 import noop from 'lodash-es/noop.js';
 import { Field } from 'react-final-form';
 import { Button, Col, FormGroup, Row } from 'reactstrap';
-import AssetSnippet from '@triniti/cms/plugins/dam/components/asset-snippet/index.js';
+import AssetPreview from '@triniti/cms/plugins/dam/components/asset-preview/index.js';
 import DatePickerField from '@triniti/cms/components/date-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import TextareaField from '@triniti/cms/components/textarea-field/index.js';
@@ -28,7 +28,7 @@ export default function UploaderAssetFields ({
 
   return (
     <div>
-      <AssetSnippet asset={asset} previewUrl={previewUrl} />
+      <AssetPreview asset={asset} previewUrl={previewUrl} />
       <Row>
         <Col>
           <FormGroup>
