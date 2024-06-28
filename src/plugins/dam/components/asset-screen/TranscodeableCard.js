@@ -10,7 +10,7 @@ const artifactTypes = ['original', 'manifest', 'subtitled', 'video', 'tooltip-th
 
 export default function TranscodeableCard(props) {
   const { node } = props;
-  const status = TranscodingStatus.COMPLETED;//node.get('transcoding_status', TranscodingStatus.UNKNOWN);
+  const status = node.get('transcoding_status', TranscodingStatus.UNKNOWN);
   const videoId = node.get('_id');
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
   const imageUrl = expand('node.view', { label: 'image-asset', _id: imageId.toString() });

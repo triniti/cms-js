@@ -149,7 +149,7 @@ export default function BatchOperationsCard(props) {
         )}
       </ButtonGroup>
       <div className="ms-2 h3 mb-0">
-        <span className="badge bg-info ms-1 rounded-pill px-3">{batch.size} {batch.size > 1 ? "items" : "item"}</span>
+        <span className="badge bg-info ms-1 rounded-pill px-3">{batch.size} {batch.size > 1 ? 'nodes' : 'node'}</span>
       </div>
     </div>
   );

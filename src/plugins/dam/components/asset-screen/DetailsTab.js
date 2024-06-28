@@ -109,11 +109,11 @@ export default function DetailsTab(props) {
         </Card>
       )}
 
-      {!schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
+      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
         <TranscodeableCard {...props} />
       )}
 
-      {!schema.hasMixin('triniti:ovp:mixin:transcribable') && (
+      {schema.hasMixin('triniti:ovp:mixin:transcribable') && (
         <TranscribeableCard {...props} />
       )}
 
