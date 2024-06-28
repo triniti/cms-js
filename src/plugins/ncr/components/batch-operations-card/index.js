@@ -73,10 +73,11 @@ export default function BatchOperationsCard(props) {
   const canMarkAsPending = isPublishable && policy.isGranted(`${qname}:mark-as-pending`);
   const canUnpublish = isPublishable && policy.isGranted(`${qname}:unpublish`);
 
+
   return (
     <div className="mb-2 d-flex align-items-center justify-content-center">
       <div className="me-2 h3 mb-0">
-        <span className="badge bg-info ms-1 rounded-pill px-3">Items {batch.size}</span>
+        <span className="badge bg-info ms-1 rounded-pill px-3">{batch.size} {batch.size > 1 ? "items" : "item"}</span>
       </div>
       <ButtonGroup className="btn-group--white flex-wrap shadow-sm">
         {canPublish && (
