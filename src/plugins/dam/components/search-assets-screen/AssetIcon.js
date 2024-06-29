@@ -1,37 +1,37 @@
 import React from 'react';
-import { Button, Media } from 'reactstrap';
+import { Media } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
 function ArchiveAsset({ asset }) {
   return (
-    <Button color="hover" tabIndex="-1">
-      <Icon imgSrc="zip" alt="" />
-    </Button>
+    <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
+      <Icon imgSrc="zip" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+    </div>
   );
 }
 
 function CodeAsset({ asset }) {
   return (
-    <Button color="hover" tabIndex="-1">
-      <Icon imgSrc="code" alt="" />
-    </Button>
+    <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
+      <Icon imgSrc="code" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+    </div>
   );
 }
 
 function AudioAsset({ asset }) {
   return (
-    <Button color="hover" tabIndex="-1">
-      <Icon imgSrc="audio" alt="" />
-    </Button>
+    <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
+      <Icon imgSrc="audio" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+    </div>
   );
 }
 
 function DocumentAsset({ asset }) {
   return (
-    <Button color="hover" tabIndex="-1">
-      <Icon imgSrc="document" alt="" />
-    </Button>
+    <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
+      <Icon imgSrc="document" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+    </div>
   );
 }
 
@@ -50,17 +50,17 @@ function ImageAsset({ asset }) {
 
 function UnknownAsset({ asset }) {
   return (
-    <Button color="hover" tabIndex="-1">
-      <Icon imgSrc="question-outline" alt="" />
-    </Button>
+    <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
+      <Icon imgSrc="question-outline" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+    </div>
   );
 }
 
 function VideoAsset({ asset }) {
   return (
-    <Button color="hover" tabIndex="-1">
-      <Icon imgSrc="video" alt="" />
-    </Button>
+    <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
+      <Icon imgSrc="video" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+    </div>
   );
 }
 
@@ -79,7 +79,14 @@ export default function AssetIcon({ asset }) {
   const Component = components[asset.schema().getCurie().getMessage()] || components['unknown-asset'];
 
   return (
-    <a href={downloadUrl} target="_blank" rel="noopener noreferrer" title={`Download ${asset.get('title')}`}>
+    <a
+      href={downloadUrl}
+      target="_blank"
+      className="hover-box-shadow d-block rounded-2"
+      style={{ minWidth: '44px' }}
+      rel="noopener noreferrer"
+      title={`Download ${asset.get('title')}`}
+    >
       <Component asset={asset} />
     </a>
   );
