@@ -32,9 +32,9 @@
 * matt, style the poll answer sortable a little
 * add "create article" into navbar?
 * matt, style search assets
-* finish dam asset-screen variants tab
 * dam plugin cleanup, significant improvement needed.
 * do we need a duration field (assets with duration?)
 * add trancoding status to search assets table?
 * add unlink option to dam asset screen LinkedNodesCard?
 * send purge cache command when asset variant is replaced.
+* matt, border issue on hover on asset-preview on asset-screen (ref document, code, etc.)

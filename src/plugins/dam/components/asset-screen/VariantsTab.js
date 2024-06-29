@@ -80,6 +80,8 @@ function ImageVariant(props) {
         getTestUrl: () => getPreviewUrl(assetId, version),
       });
 
+      // send purge cache command now too?
+
       if (!isMounted.current) {
         return;
       }

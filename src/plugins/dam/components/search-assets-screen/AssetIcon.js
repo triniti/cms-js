@@ -79,7 +79,14 @@ export default function AssetIcon({ asset }) {
   const Component = components[asset.schema().getCurie().getMessage()] || components['unknown-asset'];
 
   return (
-    <a href={downloadUrl} target="_blank" className="hover-box-shadow d-block rounded-2" style={{ minWidth: "44px" }} rel="noopener noreferrer" title={`Download ${asset.get('title')}`}>
+    <a
+      href={downloadUrl}
+      target="_blank"
+      className="hover-box-shadow d-block rounded-2"
+      style={{ minWidth: '44px' }}
+      rel="noopener noreferrer"
+      title={`Download ${asset.get('title')}`}
+    >
       <Component asset={asset} />
     </a>
   );
