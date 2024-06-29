@@ -35,3 +35,6 @@
 * finish dam asset-screen variants tab
 * dam plugin cleanup, significant improvement needed.
 * do we need a duration field (assets with duration?)
+* add trancoding status to search assets table?
+* add unlink option to dam asset screen LinkedNodesCard?
+* send purge cache command when asset variant is replaced.
