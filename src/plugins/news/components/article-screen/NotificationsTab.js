@@ -29,8 +29,8 @@ export default function NotificationsTab(props) {
         <CardHeader>Apple News</CardHeader>
         <CardBody>
           <SwitchField name="apple_news_enabled" label="Apple News Enabled" />
-          <TextField name="apple_news_revision" label="Apple News Revision" />
           <TextField name="apple_news_id" label="Apple News ID" />
+          <TextField name="apple_news_revision" label="Apple News Revision" />
           <UrlField name="apple_news_share_url" label="Apple News Share URL" />
           <DatePickerField name="apple_news_updated_at" label="Apple News Updated At" readOnly />
         </CardBody>

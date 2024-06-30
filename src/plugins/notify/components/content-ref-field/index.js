@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { Badge, Label } from 'reactstrap';
 import { ErrorBoundary, Loading, useFormContext } from '@triniti/cms/components/index.js';
 
+// todo: enable the other pickers once server side handling exists for other content types, also, could this be simpler?
 export const pickers = {
   article: lazy(() => import('@triniti/cms/plugins/news/components/article-picker-field/index.js')),
   // gallery: lazy(() => import('@triniti/cms/plugins/curator/components/gallery-picker-field')),
@@ -32,8 +33,6 @@ export default function ContentRefField(props) {
     ...rest
   } = props;
 
-
-
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { values } = useFormState({ subscription: { values: true } });
@@ -46,7 +45,7 @@ export default function ContentRefField(props) {
 
   useEffect(() => {
     if (contentRef) {
-      formContext.form.change(name, contentRef);
+      formContext.form.change(name, `${contentRef}`);
     }
   });
 

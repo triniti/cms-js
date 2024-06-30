@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardText, Table } from 'reactstrap';
 import { CreateModalButton, Icon, Loading, } from '@triniti/cms/components/index.js';
 import { Link } from 'react-router-dom';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
@@ -11,6 +11,8 @@ import formatDate from '@triniti/cms/utils/formatDate.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
 const CreateNotificationModal = lazy(() => import('@triniti/cms/plugins/notify/components/create-notification-modal/index.js'));
+
+const editable = { draft: true, scheduled: true };
 
 function NotificationsCard(props) {
   const { contentRef, request } = props;
@@ -36,30 +38,38 @@ function NotificationsCard(props) {
         <CardBody>
           {(!response || pbjxError) && <Loading error={pbjxError} />}
 
-          {response && (
+          {response && !response.has('nodes') && (
+            <CardText>
+              No notifications found for this {request.get('content_ref').getLabel()}.
+            </CardText>
+          )}
+
+          {response && response.has('nodes') && (
             <Table hover responsive>
               <thead>
               <tr>
                 <th>Type</th>
+                <th>Status</th>
                 <th>Created At</th>
                 <th>Send At</th>
-                <th>Status</th>
                 <th></th>
               </tr>
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
                 const schema = node.schema();
-                const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const sendStatus = node.get('send_status').toString();
+                const type = schema.getCurie().getMessage().replace('-notification', '');
+                const canUpdate = editable[sendStatus] && policy.isGranted(`${schema.getQName()}:update`);
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('send_status')}`}>
-                    <td>
-                      {schema.getCurie().getMessage()}
-                      {node.has('apple_news_operation') ? ` (${node.get('apple_news_operation')})` : ''}
+                  <tr key={`${node.get('_id')}`} className={`status-${sendStatus}`}>
+                    <td className="text-nowrap">
+                      {type}
+                      {type === 'apple-news' && ` (${node.get('apple_news_operation')})`}
                     </td>
+                    <td className="text-nowrap">{sendStatus}</td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>
-                    <td className="text-nowrap">{node.get('send_status').toString()}</td>
                     <td className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
