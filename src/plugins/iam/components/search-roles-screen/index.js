@@ -63,7 +63,7 @@ function SearchRolesScreen(props) {
 export default withRequest(SearchRolesScreen, 'gdbots:iam:request:search-roles-request', {
   persist: true,
   initialData: {
-    count: 50,
+    count: 100,
     sort: SearchRolesSort.TITLE_ASC.getValue(),
   }
 });
