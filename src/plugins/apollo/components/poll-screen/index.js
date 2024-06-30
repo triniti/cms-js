@@ -125,6 +125,5 @@ function PollScreen(props) {
 
 export default withNodeScreen(PollScreen, {
   label: 'poll',
-  defaultTab: 'details',
   leaveUrl: '/apollo/polls',
 });

@@ -145,6 +145,5 @@ function WidgetScreen(props) {
 }
 
 export default withNodeScreen(WidgetScreen, {
-  defaultTab: 'details',
   leaveUrl: '/curator/widgets',
 });

@@ -148,6 +148,5 @@ function AssetScreen(props) {
 }
 
 export default withNodeScreen(AssetScreen, {
-  defaultTab: 'details',
   leaveUrl: '/dam/assets',
 });

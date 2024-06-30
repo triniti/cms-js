@@ -124,6 +124,5 @@ function AppScreen(props) {
 }
 
 export default withNodeScreen(AppScreen, {
-  defaultTab: 'details',
   leaveUrl: '/iam/apps',
 });
