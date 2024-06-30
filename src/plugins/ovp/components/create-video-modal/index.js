@@ -3,14 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import createSlug from '@gdbots/pbj/utils/createSlug.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import createSlug from '@gdbots/pbj/utils/createSlug.js';
-import addDateToSlug from '@gdbots/pbj/utils/addDateToSlug.js';
 
 function CreateVideoModal(props) {
   const dispatch = useDispatch();
@@ -24,8 +23,9 @@ function CreateVideoModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Video...');
-      values.slug =  addDateToSlug(createSlug(values.title, true));
+      values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -49,6 +49,7 @@ function CreateVideoModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -56,6 +57,7 @@ function CreateVideoModal(props) {
           text="Create Video"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
