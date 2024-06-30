@@ -16,10 +16,9 @@ export default function IosNotificationFields() {
         </CardBody>
       </Card>
       <Card>
-        <CardHeader>Notification Options</CardHeader>
+        <CardHeader>iOS Notification Options</CardHeader>
         <CardBody>
           <PicklistField picklist="ios-notification-fcm-topics" name="fcm_topics" label="FCM Topics" />
-          <SwitchField name="require_interaction" label="Require Interaction" />
         </CardBody>
       </Card>
     </>

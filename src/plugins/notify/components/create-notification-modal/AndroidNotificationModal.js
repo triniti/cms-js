@@ -6,12 +6,12 @@ import SendOptionsField from '@triniti/cms/plugins/notify/components/send-option
 import withNotificationModal from '@triniti/cms/plugins/notify/components/create-notification-modal/withNotificationModal.js';
 
 function AndroidNotificationModal(props) {
-  const { articleStatus, contentRef } = props;
+  const { contentStatus, contentRef } = props;
 
   return (
     <ModalBody>
       <ContentRefField contentRef={contentRef} />
-      <SendOptionsField name="send_option" label="Send Options" articleStatus={articleStatus} />
+      <SendOptionsField name="send_option" label="Send Options" contentStatus={contentStatus} />
       <PicklistField picklist="android-notification-fcm-topics" name="fcm_topics" label="FCM Topics" isMulti />
     </ModalBody>
   );

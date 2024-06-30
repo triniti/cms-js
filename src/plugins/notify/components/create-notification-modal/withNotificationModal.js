@@ -27,7 +27,7 @@ export default function withNotificationModal(ModalBody) {
 
     const label = startCase(pbj.schema().getQName().getMessage());
     const { values } = useFormState({ subscription: { values: true } });
-    const articleStatus = values.content_ref && getContent(values.content_ref).get('status').value;
+    const contentStatus = values.content_ref && getContent(values.content_ref).get('status').getValue();
 
     delegate.handleCreate = form.submit;
     delegate.handleSubmit = async (values) => {
@@ -59,7 +59,7 @@ export default function withNotificationModal(ModalBody) {
           <ModalBody
             {...props}
             className="modal-scrollable"
-            articleStatus={articleStatus}
+            contentStatus={contentStatus}
             delegate={delegate}
             submitDisabled={submitDisabled}
           />
@@ -74,6 +74,7 @@ export default function withNotificationModal(ModalBody) {
           <ActionButton
             text="Cancel"
             onClick={props.toggle}
+            icon="close-sm"
             color="light"
             tabIndex="-1"
           />
@@ -81,6 +82,7 @@ export default function withNotificationModal(ModalBody) {
             text={`Create ${label}`}
             onClick={delegate.handleCreate}
             disabled={submitDisabled}
+            icon="plus-outline"
             color="primary"
           />
         </ModalFooter>

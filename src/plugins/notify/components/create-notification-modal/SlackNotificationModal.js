@@ -5,11 +5,11 @@ import SendOptionsField from '@triniti/cms/plugins/notify/components/send-option
 import withNotificationModal from '@triniti/cms/plugins/notify/components/create-notification-modal/withNotificationModal.js';
 
 function SlackNotificationModal(props) {
-  const { articleStatus, contentRef } = props;
+  const { contentStatus, contentRef } = props;
   return (
     <ModalBody>
       <ContentRefField contentRef={contentRef} />
-      <SendOptionsField name="send_option" label="Send Options" articleStatus={articleStatus} />
+      <SendOptionsField name="send_option" label="Send Options" contentStatus={contentStatus} />
     </ModalBody>
   );
 }

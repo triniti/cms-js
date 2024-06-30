@@ -22,7 +22,7 @@ export default function SendOptionsField(props) {
     ignoreUnknownOptions = false,
     readOnly = false,
     required = false,
-    articleStatus,
+    contentStatus,
     ...rest
   } = props;
 
@@ -64,7 +64,7 @@ export default function SendOptionsField(props) {
           name={name}
           className={className}
           classNamePrefix="select"
-          options={articleStatus === 'published' ?
+          options={contentStatus === 'published' ?
             sendOptions.filter(option => option.value !== 'send-on-publish')
             : sendOptions}
           value={currentOption}
