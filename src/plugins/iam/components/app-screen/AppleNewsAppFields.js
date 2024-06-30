@@ -5,7 +5,7 @@ import { EncryptedField, TextField } from '@triniti/cms/components/index.js';
 export default function AppleNewsAppFields() {
   return (
     <Card>
-      <CardHeader>Configuration</CardHeader>
+      <CardHeader>Apple News Configuration</CardHeader>
       <CardBody>
         <CardText className="pb-2">
           Reference the <a href="https://developer.apple.com/documentation/apple_news/apple_news_api/about_the_news_security_model" rel="noopener noreferrer" target="_blank">Apple News Security Model</a>.

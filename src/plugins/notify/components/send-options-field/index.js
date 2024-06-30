@@ -1,78 +1,31 @@
-import React, { useState } from 'react';
-import ReactSelect from 'react-select';
-import classNames from 'classnames';
-import { Badge, Label } from 'reactstrap';
-import { DatePickerField, useField, useFormContext } from '@triniti/cms/components/index.js';
-
-const sendOptions = [
-  { label: 'Send Now', value: 'send-now' },
-  { label: 'Schedule Send', value: 'schedule-send' },
-  { label: 'Send on Publish', value: 'send-on-publish' },
-];
+import React, { useEffect } from 'react';
+import { DatePickerField, SwitchField, useFormContext } from '@triniti/cms/components/index.js';
+import { useFormState, Field } from 'react-final-form';
 
 export default function SendOptionsField(props) {
-  const {
-    groupClassName = '',
-    name,
-    label,
-    description,
-    pbjName,
-    options = [],
-    allowOther = false,
-    ignoreUnknownOptions = false,
-    readOnly = false,
-    required = false,
-    contentStatus,
-    ...rest
-  } = props;
+  const { contentStatus } = props;
+  const { form } = useFormContext();
+  const { values } = useFormState({ subscription: { values: true } });
+  const canSendOnPublish = contentStatus && contentStatus !== 'published';
+  const sendOnPublish = values.send_on_publish;
+  const contentType = values.content_ref ? values.content_ref.split(':')[1] : '';
 
-  const formContext = useFormContext();
-  const { input, meta } = useField({ ...props }, formContext);
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const className = classNames(
-    'select',
-    meta.touched && !meta.valid && 'is-invalid',
-    meta.touched && meta.valid && 'is-valid',
-  );
-
-  let currentOption;
-  if ('schedule-send' === selectedOption) {
-    currentOption = { label: 'Schedule Send', value: 'schedule-send' };
-  } else {
-    currentOption = `${input.value}`.length ? sendOptions.find(o => `${o.value}` === `${input.value}`) : null;
-  }
-
-  const renderSelected = (selected) => {
-    setSelectedOption(selected.value);
-    return selected.value;
-  }
-
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
+  useEffect(() => {
+    if (sendOnPublish) {
+      form.change('send_at', undefined);
+    }
+  }, [sendOnPublish]);
 
   return (
     <>
-      <div className={rootClassName} id={`form-group-${pbjName || name}`}>
-        {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
-        <ReactSelect
-          {...input}
-          {...rest}
-          id={name}
-          name={name}
-          className={className}
-          classNamePrefix="select"
-          options={contentStatus === 'published' ?
-            sendOptions.filter(option => option.value !== 'send-on-publish')
-            : sendOptions}
-          value={currentOption}
-          onChange={selected => input.onChange(selected ? renderSelected(selected) : undefined)}
-        />
-      </div>
-      {selectedOption === 'schedule-send' && (
-        <DatePickerField name="send_at" label="Send At" required />
+      {canSendOnPublish && (
+        <SwitchField name="send_on_publish" label={`Send when ${contentType} is published`} />
+      )}
+      {(!canSendOnPublish || !sendOnPublish) && (
+        <DatePickerField name="send_at" label="Send At" />
+      )}
+      {canSendOnPublish && sendOnPublish && (
+        <Field name="send_at" type="hidden" component="input" />
       )}
     </>
   );
