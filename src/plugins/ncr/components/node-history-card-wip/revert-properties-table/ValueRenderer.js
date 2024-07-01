@@ -3,7 +3,7 @@ import trim from 'lodash-es/trim.js';
 import { Link } from 'react-router-dom';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { expand } from '@gdbots/pbjx/pbjUrl.js';
-import ObjectTable from '@triniti/cms/plugins/ncr/components/object-table/index.js';
+import ObjectTable from 'src/plugins/ncr/components/node-history-card-wip/object-table/index.js';
 
 const URL_REGEX = /^(https?:\/\/[^\s]+)$/;
 const NODEREF_REGEX = /^[\w\/\.:-]+$/;

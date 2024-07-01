@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
-import RevertModal from '@triniti/cms/plugins/ncr/components/revert-modal/index.js';
+import RevertModal from 'src/plugins/ncr/components/node-history-card-wip/revert-modal/index.js';
 
 const RevertButton = ({
   event,
