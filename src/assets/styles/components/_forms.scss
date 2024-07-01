@@ -232,6 +232,7 @@ label,
 
 .form-check-label {
   display: inline-block;
+  margin-bottom: 0;
   font-size: $font-size-base;
   text-transform: none;
   letter-spacing: 0;
@@ -472,10 +473,6 @@ input[type="checkbox"] {
   &:focus-visible {
     box-shadow: $focus-ring-box-shadow;
   }
-}
-
-.form-check-label {
-  margin-bottom: 0;
 }
 
 .form-check-sm {
@@ -763,21 +760,21 @@ input::-webkit-calendar-picker-indicator {
 
     [data-bs-theme=dark] & {
       border-color: var(--#{$prefix}secondary-bg);
-      background-color: var(--#{$prefix}secondary-bg); // --content-bg-hover
+      background-color: var(--#{$prefix}secondary-bg);
     }
     &::after,
     &::before {
       display: none;
       content: none;
     }
-    &:hover {
-      border-color: $gray-500;
-      background-color: $gray-500;
+  }
+  &:hover .form-check-label {
+    border-color: $gray-500;
+    background-color: $gray-500;
 
-      [data-bs-theme=dark] & {
-        border-color: var(--#{$prefix}btn-border-color);
-        background-color: rgba($black, .17);
-      }
+    [data-bs-theme=dark] & {
+      border-color: var(--#{$prefix}btn-border-color);
+      background-color: rgba($black, .17);
     }
   }
   .form-check-input:checked ~ .form-check-label {
