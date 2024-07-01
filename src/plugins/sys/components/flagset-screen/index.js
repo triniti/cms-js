@@ -120,6 +120,5 @@ function FlagsetScreen(props) {
 
 export default withNodeScreen(FlagsetScreen, {
   label: 'flagset',
-  defaultTab: 'details',
   leaveUrl: '/sys/flagsets',
 });

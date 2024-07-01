@@ -127,6 +127,5 @@ function NotificationScreen(props) {
 }
 
 export default withNodeScreen(NotificationScreen, {
-  defaultTab: 'details',
   leaveUrl: '/notify/notifications',
 });

@@ -3,6 +3,8 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import ReactionsCard from '@triniti/cms/plugins/apollo/components/reactions-card/index.js';
+import StatsCard from '@triniti/cms/plugins/news/components/article-screen/StatsCard.js';
 import StoryTab from '@triniti/cms/plugins/news/components/article-screen/StoryTab.js';
 import DetailsTab from '@triniti/cms/plugins/news/components/article-screen/DetailsTab.js';
 import NotificationsTab from '@triniti/cms/plugins/news/components/article-screen/NotificationsTab.js';
@@ -27,6 +29,7 @@ function ArticleScreen(props) {
   } = props;
 
   const delegate = useDelegate(props);
+  const schema = node.schema();
 
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
@@ -106,6 +109,10 @@ function ArticleScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          <StatsCard nodeRef={nodeRef.replace('article', 'article-stats')} />
+          {schema.hasMixin('triniti:apollo:mixin:has-reactions') && (
+            <ReactionsCard nodeRef={nodeRef.replace('article', 'reactions')} />
+          )}
         </>
       }
     >

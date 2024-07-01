@@ -120,6 +120,5 @@ function RoleScreen(props) {
 
 export default withNodeScreen(RoleScreen, {
   label: 'role',
-  defaultTab: 'details',
   leaveUrl: '/iam/roles',
 });

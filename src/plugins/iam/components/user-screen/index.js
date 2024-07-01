@@ -125,6 +125,5 @@ function UserScreen(props) {
 
 export default withNodeScreen(UserScreen, {
   label: 'user',
-  defaultTab: 'details',
   leaveUrl: '/iam/users',
 });

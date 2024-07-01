@@ -120,6 +120,5 @@ function PicklistScreen(props) {
 
 export default withNodeScreen(PicklistScreen, {
   label: 'picklist',
-  defaultTab: 'details',
   leaveUrl: '/sys/picklists',
 });

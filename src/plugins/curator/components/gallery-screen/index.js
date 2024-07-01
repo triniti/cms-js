@@ -140,6 +140,5 @@ function GalleryScreen(props) {
 
 export default withNodeScreen(GalleryScreen, {
   label: 'gallery',
-  defaultTab: 'details',
   leaveUrl: '/curator/galleries',
 });

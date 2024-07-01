@@ -130,6 +130,5 @@ function CategoryScreen(props) {
 
 export default withNodeScreen(CategoryScreen, {
   label: 'category',
-  defaultTab: 'details',
   leaveUrl: '/taxonomy/categories',
 });

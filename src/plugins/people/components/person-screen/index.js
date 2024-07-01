@@ -125,6 +125,5 @@ function PersonScreen(props) {
 
 export default withNodeScreen(PersonScreen, {
   label: 'person',
-  defaultTab: 'details',
   leaveUrl: '/people/people',
 });

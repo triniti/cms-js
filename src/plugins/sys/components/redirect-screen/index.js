@@ -120,6 +120,5 @@ function RedirectScreen(props) {
 
 export default withNodeScreen(RedirectScreen, {
   label: 'redirect',
-  defaultTab: 'details',
   leaveUrl: '/sys/redirects',
 });

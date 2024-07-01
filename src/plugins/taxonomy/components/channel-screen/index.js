@@ -130,6 +130,5 @@ function ChannelScreen(props) {
 
 export default withNodeScreen(ChannelScreen, {
   label: 'channel',
-  defaultTab: 'details',
   leaveUrl: '/taxonomy/channels',
 });

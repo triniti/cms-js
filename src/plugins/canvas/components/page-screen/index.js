@@ -135,6 +135,5 @@ function PageScreen(props) {
 
 export default withNodeScreen(PageScreen, {
   label: 'page',
-  defaultTab: 'details',
   leaveUrl: '/canvas/pages',
 });

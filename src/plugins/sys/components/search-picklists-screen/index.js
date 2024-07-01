@@ -63,7 +63,7 @@ function SearchPicklistsScreen(props) {
 export default withRequest(SearchPicklistsScreen, 'triniti:sys:request:search-picklists-request', {
   persist: true,
   initialData: {
-    count: 50,
+    count: 100,
     sort: SearchPicklistsSort.TITLE_ASC.getValue(),
   }
 });

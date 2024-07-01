@@ -120,6 +120,5 @@ function SponsorScreen(props) {
 
 export default withNodeScreen(SponsorScreen, {
   label: 'sponsor',
-  defaultTab: 'details',
   leaveUrl: '/boost/sponsors',
 });

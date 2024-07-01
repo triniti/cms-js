@@ -130,6 +130,5 @@ function TimelineScreen(props) {
 
 export default withNodeScreen(TimelineScreen, {
   label: 'timeline',
-  defaultTab: 'details',
   leaveUrl: '/curator/timelines',
 });

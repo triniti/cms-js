@@ -142,6 +142,5 @@ function PromotionScreen(props) {
 
 export default withNodeScreen(PromotionScreen, {
   label: 'promotion',
-  defaultTab: 'details',
   leaveUrl: '/curator/promotions',
 });

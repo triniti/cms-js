@@ -141,6 +141,5 @@ function TeaserScreen(props) {
 }
 
 export default withNodeScreen(TeaserScreen, {
-  defaultTab: 'details',
   leaveUrl: '/curator/teasers',
 });
