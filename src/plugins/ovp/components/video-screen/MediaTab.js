@@ -4,7 +4,8 @@ import {
   KeyValuesField,
   Loading,
   NumberField,
-  SwitchField, TextField,
+  SwitchField,
+  TextField,
   UrlField
 } from '@triniti/cms/components/index.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
