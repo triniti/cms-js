@@ -27,14 +27,13 @@
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)
 * matt to fix search badge while running on search teasers
 * matt, the selects go behind url/number/etc. (i think fields with icons) fields, see teaser screen
-* add clock for "now" time to date-picker-field?
 * matt, style the promotion schedule and sortable slots page a little
 * matt, style the poll answer sortable a little
 * add "create article" into navbar?
-* matt, style search assets
 * dam plugin cleanup, significant improvement needed.
 * do we need a duration field (assets with duration?)
-* add trancoding status to search assets table?
 * add unlink option to dam asset screen LinkedNodesCard?
 * send purge cache command when asset variant is replaced.
 * matt, border issue on hover on asset-preview on asset-screen (ref document, code, etc.)
+* matt, style set to now button on date-picker-field
+* add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
