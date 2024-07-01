@@ -20,7 +20,7 @@ form {
 
 fieldset {
   padding: .75rem;
-  border: 1px solid var(--bs-border-color);
+  border: 1px solid var(--#{$prefix}border-color);
   border-radius: $border-radius-lg;
 
   legend {
@@ -32,6 +32,9 @@ fieldset {
   .ratio:focus-visible {
     outline: none;
     box-shadow: $focus-ring-box-shadow;
+  }
+  [data-bs-theme=dark] & {
+    border-color: var(--#{$prefix}light-text-emphasis);
   }
 }
 
