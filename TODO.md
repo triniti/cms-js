@@ -35,5 +35,4 @@
 * add unlink option to dam asset screen LinkedNodesCard?
 * send purge cache command when asset variant is replaced.
 * matt, border issue on hover on asset-preview on asset-screen (ref document, code, etc.)
-* matt, style set to now button on date-picker-field
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."

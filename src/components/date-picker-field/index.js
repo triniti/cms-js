@@ -74,7 +74,7 @@ export default function DatePickerField(props) {
                 input.onBlur();
               }}
             />
-            {showSetToNow && (
+            {showSetToNow && !input.value && (
               <Button
                 id={`set-to-now-${name}`}
                 color="hover"
