@@ -50,7 +50,7 @@
 }
 
 .table-hover tr:hover {
-  cursor: pointer;
+  cursor: default;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) > *,
