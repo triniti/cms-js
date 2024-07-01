@@ -12,7 +12,7 @@ import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
-import duplicateNode from '@triniti/cms/plugins/ncr/actions/cloneNode.js';
+import duplicateNode from '@triniti/cms/plugins/ncr/actions/duplicateNode.js';
 import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 import useBlocker from '@triniti/cms/plugins/ncr/components/with-node-screen/useBlocker.js';

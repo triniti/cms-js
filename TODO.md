@@ -21,7 +21,6 @@
 * ensure lazing loading for tabs which fetch data (notifications, media, history)
 * make sure track total results is used on search screens but not pickers
 * lock node features?
-* get rid of clone-button, add a duplicate node button on node screens that need it (details, not search)
 * add word count indicator to story tab on article
 * add title length warning on article "title"
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)
