@@ -13,13 +13,15 @@ export default function DatePickerField(props) {
     nestedPbj,
     pbjName,
     groupClassName = '',
-    showSetToNow = true,
+    nowable,
     isClearable = true,
     readOnly = false,
     required = false
   } = props;
+
   const formContext = useFormContext();
   const { editMode } = formContext;
+  const showSetToNow = !!nowable || !formContext.delegate.handleSearchFromFilters;
   const { input, meta, pbjField } = useField({ ...props }, formContext);
 
   const rootClassName = classNames(groupClassName, 'form-group');
