@@ -4,7 +4,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 function PersonPickerField(props) {
-  return <NodePickerField {...props} showImage={false} urlTemplate="canonical" />;
+  return <NodePickerField {...props} showImage={false} />;
 }
 
 export default withRequest(PersonPickerField, 'triniti:people:request:search-people-request', {

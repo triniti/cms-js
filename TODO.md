@@ -36,3 +36,4 @@
 * send purge cache command when asset variant is replaced.
 * matt, border issue on hover on asset-preview on asset-screen (ref document, code, etc.)
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
+* can the links on node pickers work even when the picker is disabled or readonly?
