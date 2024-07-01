@@ -8,6 +8,9 @@ const numberFormatter = new Intl.NumberFormat('en-US');
 export default function StatsCard(props) {
   const { nodeRef } = props;
   const { node, refreshNode, isRefreshing } = useNode(nodeRef);
+  if (!node) {
+    return null;
+  }
 
   return (
     <Card className="border-top">

@@ -3,6 +3,7 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import StatsCard from '@triniti/cms/plugins/apollo/components/poll-screen/StatsCard.js';
 import DetailsTab from '@triniti/cms/plugins/apollo/components/poll-screen/DetailsTab.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
@@ -98,6 +99,7 @@ function PollScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          <StatsCard nodeRef={nodeRef.replace('poll', 'poll-stats')} poll={node} />
         </>
       }
     >
