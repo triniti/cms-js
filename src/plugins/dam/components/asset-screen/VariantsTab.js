@@ -113,7 +113,7 @@ function ImageVariant(props) {
       <div {...dropzone.getRootProps()} className={`ratio ratio-${version.replace('by', 'x')} hover-box-shadow`}>
         <input {...dropzone.getInputProps()} />
         {uploading && (
-          <Loading>Uploading File...</Loading>
+          <Loading overlay>Uploading File...</Loading>
         )}
 
         {dropzone.isDragActive && (
