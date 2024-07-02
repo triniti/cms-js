@@ -45,17 +45,17 @@ export default function SortableSlot(props) {
     <li
       {...conditionalProps}
       key={key}
-      className="SortableItem d-flex flex-nowrap align-items-center"
+      className="sortable-item d-flex flex-nowrap align-items-center"
       style={style}
     >
       {editMode && (
         <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
           {!asOverlay && (
-            <button className="DragHandle" {...attributes} {...listeners}>
+            <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
               <Icon imgSrc="drag" />
             </button>
           )}
-          {asOverlay && <span className="DragHandle"><Icon imgSrc="drag" /></span>}
+          {asOverlay && <span className="sortable-drag-handle btn-hover btn-hover-bg"><Icon imgSrc="drag" /></span>}
         </div>
       )}
       <div className="d-flex px-2">

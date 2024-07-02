@@ -23,7 +23,7 @@ fieldset {
   border: 1px solid var(--#{$prefix}border-color);
   border-radius: $border-radius-lg;
 
-  legend {
+  > legend {
     width: auto;
     float: none;
     margin-bottom: 0;
