@@ -22,7 +22,7 @@ const RevertButton = ({
       color="light"
       size="sm"
       radius="round"
-      className="mr-2"
+      className="me-2"
       onClick={handleToggleRevertModal} {...btnProps}>Revert</Button>,
     isModalOpen
     && (

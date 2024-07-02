@@ -33,7 +33,7 @@ const ResizeGallerySlider = ({
     <Button
       disabled={imagesPerRow === minImagesPerRow}
       onClick={onDecreaseImagesPerRow}
-      className="ml-2 rounded-circle"
+      className="ms-2 rounded-circle"
       size="xs"
       color="light"
     >

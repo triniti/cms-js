@@ -19,13 +19,13 @@ const TableRow = ({ idx, node }) => (
 
     <td className="td-icons">
       <RouterLink to={nodeUrl(node, 'view')}>
-        <Button id={`view-${node.get('_id')}`} color="hover" radius="circle" tag="span" className="mb-0 mr-1">
+        <Button id={`view-${node.get('_id')}`} color="hover" radius="circle" tag="span" className="mb-0 me-1">
           <Icon imgSrc="eye" alt="view" />
         </Button>
         <UncontrolledTooltip placement="auto" target={`view-${node.get('_id')}`}>View</UncontrolledTooltip>
       </RouterLink>
       <RouterLink to={`${nodeUrl(node, 'edit')}`}>
-        <Button id={`edit-${node.get('_id')}`} color="hover" radius="circle" tag="span" className="mb-0 mr-1">
+        <Button id={`edit-${node.get('_id')}`} color="hover" radius="circle" tag="span" className="mb-0 me-1">
           <Icon imgSrc="pencil" alt="edit" />
         </Button>
         <UncontrolledTooltip placement="auto" target={`edit-${node.get('_id')}`}>Edit</UncontrolledTooltip>
@@ -35,7 +35,7 @@ const TableRow = ({ idx, node }) => (
         rel="noopener noreferrer"
         target="_blank"
       >
-        <Button id={`open-in-new-tab-${node.get('_id')}`} color="hover" radius="circle" tag="span" className="mr-1 mb-0">
+        <Button id={`open-in-new-tab-${node.get('_id')}`} color="hover" radius="circle" tag="span" className="me-1 mb-0">
           <Icon imgSrc="external" alt="open" />
         </Button>
         <UncontrolledTooltip placement="auto" target={`open-in-new-tab-${node.get('_id')}`}>Open in new tab</UncontrolledTooltip>

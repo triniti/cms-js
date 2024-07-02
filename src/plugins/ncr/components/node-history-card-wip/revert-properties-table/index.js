@@ -16,7 +16,7 @@ const RevertPropertiesTable = ({
           <th className="select-col---revert-properties-table">
             Select
           </th>
-          <th className="pl-3 left-col--revert-properties-table">
+          <th className="ps-3 left-col--revert-properties-table">
             Field
           </th>
           <th>

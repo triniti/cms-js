@@ -36,7 +36,7 @@ export default function Screen(props) {
   } = props;
 
   const dispatch = useDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidenavOpen, setIsSidenavOpen] = useState(true);
   const screenBodyRef = useRef(null);
 

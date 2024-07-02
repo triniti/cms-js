@@ -121,7 +121,7 @@ const ImageSearch = (props) => {
               // value={q}
             />
             <Button color="secondary" onClick={() => handleSearch()}>
-              <Icon imgSrc="search" className="mr-0" />
+              <Icon imgSrc="search" className="me-0" />
             </Button>
           </InputGroup>
         </Form>
@@ -143,12 +143,12 @@ const ImageSearch = (props) => {
             <div className="not-found-message">
               <p>No images found that match your search. You can
                 <Button
-                  className="ml-1 mr-1"
+                  className="ms-1 me-1"
                   onClick={handleToggleUploader}
                   size="sm"
                   style={{ marginBottom: '3px' }}
                   color="primary"
-                ><Icon imgSrc="upload" size="xs" className="mr-1" /> upload
+                ><Icon imgSrc="upload" size="xs" className="me-1" /> upload
                 </Button> new images.
               </p>
             </div>

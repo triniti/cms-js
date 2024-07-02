@@ -410,7 +410,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
   return (
     <Card>
       <CardHeader>
-        <span className="pr-4" style={{ minWidth: '130px' }}>Images { nodesPreview.length ? `(${nodesPreview.length})` : ''}</span>
+        <span className="pe-4" style={{ minWidth: '130px' }}>Images { nodesPreview.length ? `(${nodesPreview.length})` : ''}</span>
         <ResizeGallerySlider
           imagesPerRow={imagesPerRow}
           maxImagesPerRow={MAX_IMAGES_PER_ROW}
@@ -420,7 +420,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
           onSlideImagesPerRow={handleSlideImagesPerRow}
         />
 
-        <div className="d-inline-flex flex-wrap justify-content-end ml-2 my-1">
+        <div className="d-inline-flex flex-wrap justify-content-end ms-2 my-1">
           <BatchEditButton
             assetIds={selected}
             className="mt-2 mb-2"

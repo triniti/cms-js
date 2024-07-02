@@ -10,7 +10,7 @@ const TableRow = ({
 
   return (
     <tr>
-      <th scope="row" className="pl-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>
+      <th scope="row" className="ps-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>
         <Input
           id={label}
           onChange={({ target: { checked } }) => { handleSelectField(label, node.get(label), checked); }}
@@ -18,7 +18,7 @@ const TableRow = ({
           type="checkbox"
         />
       </th>
-      <th scope="row" className="pl-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>{label}</th>
+      <th scope="row" className="ps-3 left-col--properties-table" style={{ borderColor: '#efefef' }}>{label}</th>
       <td style={{ borderColor: '#efefef' }}><ValueRenderer value={value} /></td>
     </tr>
   );

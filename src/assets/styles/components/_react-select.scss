@@ -174,7 +174,7 @@ $status-height:         320px;
   .select__menu {
     border-radius: 0 0 4px 4px;
     border: 1px solid $dropdown-border-color;
-    z-index: 4; // form-control.is-valid z-index 3
+    z-index: 6; // form-control.is-invalid z-index 4
     margin-top: -1px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 

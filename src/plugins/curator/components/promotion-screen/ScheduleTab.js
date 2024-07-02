@@ -65,27 +65,29 @@ export default function ScheduleTab(props) {
     <Card>
       <CardHeader>Schedule</CardHeader>
       <CardBody>
-        <div className="form-inline mb-5">
+        <div className="form-inline mb-2 flex-wrap">
           <Label className="my-1 me-2">Range</Label>
-          <Input
-            className="w-auto flex-shrink-0"
-            type="time"
-            step="1"
-            value={startAt}
-            onChange={e => handleChangeTime(e.target.value, 'start')}
-            disabled={!editMode}
-          />
-          <Label className="ms-2 me-2 mb-0">to</Label>
-          <Input
-            className="w-auto flex-shrink-0 me-2"
-            type="time"
-            step="1"
-            value={endAt}
-            onChange={e => handleChangeTime(e.target.value, 'end')}
-            disabled={!editMode}
-          />
+          <div className="d-inline-flex align-items-center flex-wrap">
+            <Input
+              className="w-auto flex-shrink-0 my-1"
+              type="time"
+              step="1"
+              value={startAt}
+              onChange={e => handleChangeTime(e.target.value, 'start')}
+              disabled={!editMode}
+            />
+            <Label className="ms-2 me-2 mb-0">to</Label>
+            <Input
+              className="w-auto flex-shrink-0 me-2 my-1"
+              type="time"
+              step="1"
+              value={endAt}
+              onChange={e => handleChangeTime(e.target.value, 'end')}
+              disabled={!editMode}
+            />
+          </div>
           <Button
-            className="mb-0"
+            className="my-1"
             onClick={handleApply}
             color="secondary"
             outline
@@ -95,23 +97,27 @@ export default function ScheduleTab(props) {
           </Button>
         </div>
 
+        <hr />
         {days.map((day) => (
-          <div id={`${day}-schedule`} key={day} className="form-inline mb-4">
+          <div id={`${day}-schedule`} key={day} className="form-inline mb-4 flex-wrap">
             <Input
               type="checkbox"
               id={day}
               name={day}
               onChange={(e) => handleChangeCheckbox(e.target, day)}
               checked={hasValue(formState.values, day)}
-              className="me-0 mb-0 mr-2"
+              className="me-0 mb-0 me-1"
               disabled={!editMode}
             />
             <Label htmlFor={day} className="mb-0" style={{ justifyContent: 'left', minWidth: '5.3rem', marginLeft: '5px' }}>{startCase(day)}</Label>
-            <TimePickerField groupClassName="mb-0" name={`${abbreviate(day)}_start_at`} />
-            <Label className="ms-2 me-2 mb-0">to</Label>
-            <TimePickerField groupClassName="mb-0" name={`${abbreviate(day)}_end_at`} />
+            <div className="d-inline-flex align-items-center">
+              <TimePickerField groupClassName="mb-0 me-0" className="form-control form-control-sm my-1" name={`${abbreviate(day)}_start_at`} />
+              <Label className="ms-2 me-2 mb-0">to</Label>
+              <TimePickerField groupClassName="mb-0" className="form-control form-control-sm" name={`${abbreviate(day)}_end_at`} />
+            </div>
           </div>
         ))}
+        <hr />
 
         <NumberField name="priority" label="priority" description="A higher number takes priority over other promotions that match the same schedule and screen/slot." />
       </CardBody>
