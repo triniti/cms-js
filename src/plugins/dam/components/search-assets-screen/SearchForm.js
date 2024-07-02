@@ -78,40 +78,42 @@ export default function SearchForm(props) {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
-        <CardBody className="position-relative">
-          <InputGroup>
-            <Button color="light" onClick={toggle} className="text-dark px-2">
-              <Icon imgSrc="filter" className="mx-1" />
-              <span className="me-1 d-none d-md-block">Filters</span>
-            </Button>
-            <NodeStatusField preset="expirable" />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Assets" />
-            <Button color="secondary" disabled={isRunning} type="submit">
-              <Icon imgSrc="search" />
-            </Button>
-          </InputGroup>
+        <CardBody>
+          <div className="position-relative">
+            <InputGroup>
+              <Button color="light" onClick={toggle} className="text-dark px-2">
+                <Icon imgSrc="filter" className="mx-1" />
+                <span className="me-1 d-none d-md-block">Filters</span>
+              </Button>
+              <NodeStatusField preset="expirable" />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Assets" />
+              <Button color="secondary" disabled={isRunning} type="submit">
+                <Icon imgSrc="search" />
+              </Button>
+            </InputGroup>
+            {isRunning && (
+              <Badge color="light" pill className="badge-searching">
+                <span className="badge-animated">Searching</span>
+              </Badge>
+            )}
+          </div>
           <ButtonGroup className="mt-3 flex-wrap">
             {curies.map(str => {
               const curie = SchemaCurie.fromString(str);
               const type = curie.getMessage();
               return (
-                <CheckboxField
-                  id={type}
-                  key={type}
-                  name="types"
-                  inline
-                  button
-                  value={type}
-                  label={type.replace('-asset', '')}
-                />
+                  <CheckboxField
+                      id={type}
+                      key={type}
+                      name="types"
+                      inline
+                      button
+                      value={type}
+                      label={type.replace('-asset', '')}
+                  />
               );
             })}
           </ButtonGroup>
-          {isRunning && (
-            <Badge color="light" pill className="badge-searching">
-              <span className="badge-animated">Searching</span>
-            </Badge>
-          )}
         </CardBody>
 
         <Collapse isOpen={isOpen}>

@@ -67,23 +67,25 @@ export default function SearchForm(props) {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
-        <CardBody className="position-relative">
-          <InputGroup>
-            <Button color="light" onClick={toggle} className="text-dark px-2">
-              <Icon imgSrc="filter" className="mx-1" />
-              <span className="me-1 d-none d-md-block">Filters</span>
-            </Button>
-            <NodeStatusField />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Promotions" />
-            <Button color="secondary" disabled={isRunning} type="submit">
-              <Icon imgSrc="search" />
-            </Button>
-          </InputGroup>
-          {isRunning && (
-            <Badge color="light" pill className="badge-searching">
-              <span className="badge-animated">Searching</span>
-            </Badge>
-          )}
+        <CardBody>
+          <div className="position-relative">
+            <InputGroup>
+              <Button color="light" onClick={toggle} className="text-dark px-2">
+                <Icon imgSrc="filter" className="mx-1" />
+                <span className="me-1 d-none d-md-block">Filters</span>
+              </Button>
+              <NodeStatusField />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Promotions" />
+              <Button color="secondary" disabled={isRunning} type="submit">
+                <Icon imgSrc="search" />
+              </Button>
+            </InputGroup>
+            {isRunning && (
+              <Badge color="light" pill className="badge-searching">
+                <span className="badge-animated">Searching</span>
+              </Badge>
+            )}
+          </div>
         </CardBody>
 
         <Collapse isOpen={isOpen}>
