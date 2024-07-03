@@ -40,7 +40,8 @@ const getUploadUrl = async (assetId, version) => {
 };
 
 const getPreviewUrl = (assetId, version) => {
-  const rand = `?r=${(new Date()).getTime()}`;
+  const d = new Date();
+  const rand = `?r=${d.getTime()}${d.getMilliseconds()}`;
   return `${damUrl(assetId, version, 'sm')}${rand}`;
 };
 
@@ -148,7 +149,7 @@ export default function VariantsTab(props) {
       <CardHeader>Variants</CardHeader>
       <CardBody>
         {canUpdate && <CardText>Click an image you would like to replace or drag a new image over it.</CardText>}
-        <div className="grid" style={{alignItems: "start"}}>
+        <div className="grid" style={{alignItems: 'start'}}>
         {Object.keys(variants).map((version) => {
           const previewUrl = damUrl(node, version, 'sm');
           return (

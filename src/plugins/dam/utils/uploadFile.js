@@ -4,10 +4,12 @@ import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
 export const getUploadUrls = () => {
+  // todo: remove me
 };
 
 const defaultGetTestUrl = (assetId) => {
-  const rand = `?r=${(new Date()).getTime()}`;
+  const d = new Date();
+  const rand = `?r=${d.getTime()}${d.getMilliseconds()}`;
   return `${damUrl(assetId)}${rand}`;
 };
 
@@ -37,7 +39,7 @@ export default async (options) => {
     file,
     controller,
     getTestUrl = defaultGetTestUrl,
-    testUpload = true
+    testUpload = false
   } = options;
   // await delay(3000); // for testing UI states
 
@@ -66,14 +68,15 @@ export default async (options) => {
   }
 
   if (testUpload) {
-    const testUrl = getTestUrl(assetId);
+    let testUrl = getTestUrl(assetId);
     if (testUrl) {
       for (let checked = 0; checked < MAX_CHECKS; checked += 1) {
         try {
           await checkUrl(testUrl);
           break;
         } catch (e) {
-          await delay(1000);
+          await delay(500);
+          testUrl = getTestUrl(assetId);
         }
       }
     }

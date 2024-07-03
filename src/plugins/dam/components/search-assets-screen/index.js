@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Input, Table } from 'reactstrap';
+import { Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
@@ -15,7 +15,7 @@ import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen
 import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/search-assets-screen/AssetIcon.js';
 
-//const UploadFilesModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-teaser-modal/index.js'));
+const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
 
 function SearchAssetsScreen(props) {
   const { request, delegate } = props;
@@ -35,7 +35,7 @@ function SearchAssetsScreen(props) {
       contentWidth="1600px"
       primaryActions={
         <>
-          {/*{canCreate && <CreateModalButton text="Create Teaser" icon="plus-outline" modal={CreateTeaserModal} />}*/}
+          {canCreate && <CreateModalButton text="Upload Files" color="primary" modal={UploaderModal} />}
         </>
       }
     >
