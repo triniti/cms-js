@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Form } from 'reactstrap';
+import { Alert, Button, Col, Form, Row } from 'reactstrap';
+import { useFormState } from 'react-final-form';
 import {
   DatePickerField,
   Loading,
@@ -14,9 +15,12 @@ import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
 
 function AssetDetails(props) {
   useDelegate(props);
+  const { values } = useFormState({ subscription: { values: true } });
+
   const { batch, formState, handleSubmit, controls, node } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
+
   const schema = node.schema();
   const label = schema.getCurie().getMessage();
 
@@ -34,10 +38,39 @@ function AssetDetails(props) {
       {schema.hasField('alt_text') && (
         <TextField name="alt_text" label="Alt Text" />
       )}
-      <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
-      {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-        <DatePickerField name="expires_At" label="Expires At" />
+
+      {batch.completed > 1 && (
+        <>
+          <Row>
+            <Col sm={8}>
+              <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+            </Col>
+            <Col sm={4}>
+              <Button color="light" outline disabled={!values.credit}>Apply to All</Button>
+            </Col>
+          </Row>
+          {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+            <Row>
+              <Col sm={8}>
+                <DatePickerField name="expires_at" label="Expires At" />
+              </Col>
+              <Col sm={4}>
+                <Button color="light" outline disabled={!values.expires_at}>Apply to All</Button>
+              </Col>
+            </Row>
+          )}
+        </>
       )}
+
+      {batch.completed === 1 && (
+        <>
+          <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+          {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+            <DatePickerField name="expires_at" label="Expires At" />
+          )}
+        </>
+      )}
+
       <TextareaField name="description" label="Description" rows={3} />
     </Form>
   );

@@ -56,7 +56,7 @@ export default function DetailsTab(props) {
           <DatePickerField name="order_date" label="Order Date" />
 
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-            <DatePickerField name="expires_At" label="Expires At" />
+            <DatePickerField name="expires_at" label="Expires At" />
           )}
 
           <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
