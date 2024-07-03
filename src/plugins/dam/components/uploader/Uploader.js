@@ -180,13 +180,8 @@ export default function Uploader(props) {
 
           asset = await createAsset(upload, app, dispatch, batch);
         } catch (e) {
-          if (upload.controller.signal.aborted) {
-            upload.status = uploadStatus.CANCELED;
-            upload.error = uploadStatus.CANCELED;
-          } else {
-            upload.status = uploadStatus.FAILED;
-            upload.error = getFriendlyErrorMessage(e);
-          }
+          upload.error = getFriendlyErrorMessage(e);
+          upload.status = upload.controller.signal.aborted ? uploadStatus.CANCELED : uploadStatus.FAILED;
           upload.running = false;
           batch.refresh();
           return;

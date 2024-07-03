@@ -71,7 +71,7 @@ export default function AssetForm(props) {
   if (upload.error) {
     return (
       <Alert color="danger">
-        {upload.name}: {upload.error}
+        {upload.error}
         <a onClick={upload.retry}>Retry</a> -
         <a onClick={onRemoveUpload}>Remove</a>
       </Alert>

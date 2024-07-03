@@ -72,14 +72,7 @@ function ImageVariant(props) {
 
     try {
       const s3PresignedUrl = await getUploadUrl(assetId, version);
-      await uploadFile({
-        assetId,
-        s3PresignedUrl,
-        file: files[0],
-        controller: myController,
-        getTestUrl: () => getPreviewUrl(assetId, version),
-      });
-
+      await uploadFile({ assetId, s3PresignedUrl, file: files[0], controller: myController });
       // send purge cache command now too?
 
       if (!isMounted.current) {
@@ -122,7 +115,13 @@ function ImageVariant(props) {
         )}
 
         {!dropzone.isDragActive && !uploading && (
-          <img src={previewUrl} alt={variants[version]} width={200} height={200} className="bg-body-secondary object-fit-contain" style={{objectPosition: 'top left'}} />
+          <img
+            src={previewUrl}
+            alt={variants[version]}
+            width={200}
+            height={200}
+            className="bg-body-secondary object-fit-contain" style={{ objectPosition: 'top left' }}
+          />
         )}
 
         {!dropzone.isDragActive && dropzone.fileRejections.map(({ file, errors }) => (
@@ -149,19 +148,19 @@ export default function VariantsTab(props) {
       <CardHeader>Variants</CardHeader>
       <CardBody>
         {canUpdate && <CardText>Click an image you would like to replace or drag a new image over it.</CardText>}
-        <div className="grid" style={{alignItems: 'start'}}>
-        {Object.keys(variants).map((version) => {
-          const previewUrl = damUrl(node, version, 'sm');
-          return (
-            <ImageVariant
-              disabled={!canUpdate}
-              key={version}
-              version={version}
-              previewUrl={previewUrl}
-              {...props}
-            />
-          );
-        })}
+        <div className="grid" style={{ alignItems: 'start' }}>
+          {Object.keys(variants).map((version) => {
+            const previewUrl = damUrl(node, version, 'sm');
+            return (
+              <ImageVariant
+                disabled={!canUpdate}
+                key={version}
+                version={version}
+                previewUrl={previewUrl}
+                {...props}
+              />
+            );
+          })}
         </div>
       </CardBody>
     </Card>

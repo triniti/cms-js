@@ -78,13 +78,15 @@ export default function FileList(props) {
     <div className="dam-file-list">
       {batch.values().map((upload) => {
         const Item = components[upload.status];
-        return <Item
-          key={upload.nameHash}
-          batch={batch}
-          upload={upload}
-          isActive={activeUpload === upload.nameHash}
-          onSelectUpload={onSelectUpload}
-        />;
+        return (
+          <Item
+            key={upload.nameHash}
+            batch={batch}
+            upload={upload}
+            isActive={activeUpload === upload.nameHash}
+            onSelectUpload={onSelectUpload}
+          />
+        );
       })}
     </div>
   );
