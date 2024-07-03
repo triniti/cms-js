@@ -118,7 +118,7 @@ export default function UploaderModal(props) {
         </div>
       </ModalBody>
 
-      <ModalFooter className="p-0">
+      <ModalFooter>
         <div className="align-self-start dam-pagination-col">
           {batch.size > 0 && (
             <>
@@ -126,7 +126,7 @@ export default function UploaderModal(props) {
             </>
           )}
         </div>
-        <div className="ms-auto pe-3">
+        <div className="ms-auto">
           {controls && upload && (
             <>
               {controls.dirty && (

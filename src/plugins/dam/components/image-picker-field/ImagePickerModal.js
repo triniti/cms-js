@@ -1,131 +1,34 @@
-import React, { useState } from 'react';
-import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Nav,
-  NavItem,
-  TabContent,
-  TabPane
-} from 'reactstrap';
-import { ActionButton } from '@triniti/cms/components/index.js';
-import GalleryImages from '@triniti/cms/plugins/dam/components/image-picker-field/GalleryImages.js';
-import LinkedImages from '@triniti/cms/plugins/dam/components/image-picker-field/LinkedImages.js';
-import SearchImages from '@triniti/cms/plugins/dam/components/image-picker-field/SearchImages.js';
-import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button/index.js';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import React, { useRef, useState } from 'react';
+import { Card, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import noop from 'lodash-es/noop.js';
+import startCase from 'lodash-es/startCase.js';
+import { ActionButton } from '@triniti/cms/components/index.js';
 
-export default function ImagePickerModal({
-  imageRef,
-  nodeRef,
-  selectImage,
-  toggle,
-  onUploadedImageComplete = noop,
-}) {
-  const isGallery = nodeRef && nodeRef.includes('gallery');
-  const allowLinked = (imageRef && nodeRef.includes('article')) || isGallery;
-  const tab = allowLinked ? 'linked-images' : 'search-images'
-  const [activeTab, setActiveTab] = useState(tab);
+export default function ImagePickerModal(props) {
+  const controlsRef = useRef({});
+  const { onClose = noop, linkedRef, label } = props;
+  const [activeUpload, setActiveUpload] = useState();
 
-  const selectActiveTab = (tab) => {
-    setActiveTab(tab);
-  }
-
-  const handleUploadedImageComplete = (assets) => {
-    onUploadedImageComplete(assets);
-    //toggle();
+  const handleCloseModal = () => {
+    onClose('tcd:image-asset:image_jpg_20240703_3152be3786ea45928253681c379a5df1');
+    props.toggle();
   };
 
   return (
-    <Modal isOpen backdrop="static" size="xxl" centered>
-      <ModalHeader toggle={toggle}>Select Primary Image</ModalHeader>
-      <ModalBody className="p-0">
-        {allowLinked && (
-          <Nav className="nav-underline">
-            {imageRef && (
-              <NavItem active={'linked-images' === activeTab}>
-                <div
-                  className={'linked-images' === activeTab ? 'nav-link active' : 'nav-link'}
-                  onClick={() => selectActiveTab('linked-images')}
-                >
-                  Linked Images
-                </div>
-              </NavItem>
-            )}
-            <NavItem active={'search-images' === activeTab}>
-              <div
-                className={'search-images' === activeTab ? 'nav-link active' : 'nav-link'}
-                onClick={() => selectActiveTab('search-images')}
-              >
-                Search Images
-              </div>
-            </NavItem>
-            {isGallery && (
-              <NavItem active={'gallery-images' === activeTab}>
-                <div
-                  className={'gallery-images' === activeTab ? 'nav-link active' : 'nav-link'}
-                  onClick={() => selectActiveTab('gallery-images')}
-                >
-                  Gallery Images
-                </div>
-              </NavItem>
-            )}
-          </Nav>
-        )}
-
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId="search-images">
-            <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
-              <SearchImages
-                selectImage={selectImage}
-                toggle={toggle}
-              />
-            </div>
-          </TabPane>
-          <TabPane tabId="linked-images">
-            <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
-              <LinkedImages
-                nodeRef={nodeRef}
-                selectActiveTab={selectActiveTab}
-                selectImage={selectImage}
-                toggle={toggle}
-                onUploadedImageComplete={handleUploadedImageComplete}
-              />
-            </div>
-          </TabPane>
-          <TabPane tabId="gallery-images">
-            <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
-              <GalleryImages
-                nodeRef={nodeRef}
-                selectImage={selectImage}
-                toggle={toggle}
-              />
-            </div>
-          </TabPane>
-        </TabContent>
+    <Modal isOpen backdrop="static" size="lg" centered>
+      <ModalHeader toggle={handleCloseModal}>Select {startCase(label)}</ModalHeader>
+      <ModalBody className="modal-scrollable">
+        <p>stuff</p>
       </ModalBody>
+
       <ModalFooter>
-      <div className="d-flex justify-content-between container-fluid">
-        <div className="me-auto p-2">
-          <UploaderButton
-            linkedRefs={nodeRef ? [NodeRef.fromString(nodeRef)] : []}
-            allowMultiUpload={false}
-            onClose={handleUploadedImageComplete}
-            >
-            Upload
-          </UploaderButton>
-        </div>
-        <div className="p-2">
-          <ActionButton
-            text="Cancel"
-            onClick={toggle}
-            color="secondary"
-            tabIndex="-1"
-          />
-        </div>
-      </div>
+        <ActionButton
+          text="Close"
+          onClick={handleCloseModal}
+          icon="close-sm"
+          color="light"
+          tabIndex="-1"
+        />
       </ModalFooter>
     </Modal>
   );
