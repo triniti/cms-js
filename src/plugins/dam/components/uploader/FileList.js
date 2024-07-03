@@ -1,96 +1,94 @@
-import React, { useEffect, useRef } from 'react';
-import noop from 'lodash-es/noop.js';
-import throttle from 'lodash-es/throttle.js';
-import { compute as computeScrollIntoView } from 'compute-scroll-into-view';
-import Swal from 'sweetalert2';
+import React from 'react';
+import { Button, Spinner } from 'reactstrap';
+import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
 
-import FileItem from '@triniti/cms/plugins/dam/components/uploader/FileItem.js';
+function UploadingItem(props) {
+  const { upload, onSelectUpload } = props;
 
-const confirmSelect = async () => {
-  return Swal.fire({
-    confirmButtonText: 'Yes',
-    showCancelButton: true,
-    text: 'Do you want to select another asset without saving? The unsaved changes will be lost.',
-    title: 'Are you sure?',
-    icon: 'warning',
-    reverseButtons: true,
-    customClass: {
-      confirmButton: 'btn btn-danger',
-      cancelButton: 'btn btn-secondary',
-    },
-  });
+  const handleClick = () => {
+    onSelectUpload(upload.nameHash);
+  };
+
+  //onClick={upload.cancel}
+  return (
+    <Button
+      outline
+      size="sm"
+      className="d-inline-block text-truncate w-100 ml-0 mr-0"
+      color="info"
+      onClick={handleClick}
+    >
+      <Spinner className="m-0 mr-2" color="info" width="16" strokeWidth="8" size="sm" />
+      {upload.name}
+    </Button>
+  );
 }
 
-export default props => {
-  const {
-    files,
-    isFormDirty = false,
-    onDelete,
-    onRetry,
-    onSelectFile,
-  } = props;
-  const fileList = useRef();
-  let activeFileItem = null;
+function CompletedItem(props) {
+  const { isActive = false, upload, onSelectUpload } = props;
 
-  const handleOnChange = (hashName) => {
-    if (!isFormDirty) {
-      onSelectFile(hashName);
-    } else {
-      confirmSelect().then(({ value }) => {
-        if (value) {
-          onSelectFile(hashName);
-        } else {
-          // do nothing, user declined
-        }
-      });
-    }
+  const handleClick = () => {
+    onSelectUpload(upload.nameHash);
   };
-
-  const ensureActiveItemVisible = () => {
-    if (!activeFileItem) {
-      return;
-    }
-
-    computeScrollIntoView(activeFileItem, { scrollMode: 'if-needed' }).forEach((action) => {
-      if (action.el.className !== fileList.current.className) {
-        // computeScrollIntoView thinks we need to scroll
-        // more elements than is actually necessary/desired
-        return;
-      }
-
-      const el = action.el;
-      const top = action.top;
-
-      if (el.scroll && ('scrollBehavior' in document.body.style)) {
-        el.scroll({
-          top,
-          behavior: 'smooth',
-        });
-      } else {
-        el.scrollTop = top;
-      }
-    });
-  };
-
-  const ensureActiveItemVisibleThrottled = throttle(ensureActiveItemVisible, 5000);
-  useEffect(() => ensureActiveItemVisibleThrottled());
 
   return (
-    <div className="dam-file-list" ref={fileList}>
-      {
-        Object.keys(files).map((hash) => (
-          <FileItem
-            file={files[hash]}
-            hashName={hash}
-            key={hash}
-            onClick={() => handleOnChange(hash)}
-            onDelete={onDelete}
-            onRetry={onRetry}
-            onSelectFile={onSelectFile}
-            innerRef={files[hash].active ? (el) => { activeFileItem = el; } : noop}
+    <Button
+      outline
+      size="sm"
+      className="d-inline-block text-truncate w-100 ml-0 mr-0"
+      color="success"
+      onClick={handleClick}
+    >
+      {isActive ? '(x) ' : ''}{upload.name} completed
+    </Button>
+  );
+}
+
+function FailedItem(props) {
+  const { isActive = false, upload, onSelectUpload } = props;
+
+  const handleClick = () => {
+    onSelectUpload(upload.nameHash);
+  };
+
+  return (
+    <Button
+      outline
+      size="sm"
+      className="d-inline-block text-truncate w-100 ml-0 mr-0"
+      color="danger"
+      onClick={handleClick}
+    >
+      {isActive ? '(x) ' : ''}{upload.name} {upload.status} {upload.error}
+    </Button>
+  );
+}
+
+const components = {
+  [uploadStatus.UPLOADING]: UploadingItem,
+  [uploadStatus.COMPLETED]: CompletedItem,
+  [uploadStatus.FAILED]: FailedItem,
+  [uploadStatus.CANCELED]: FailedItem,
+};
+
+export default function FileList(props) {
+  const { activeUpload, batch, onSelectUpload } = props;
+
+  return (
+    <div className="dam-file-list">
+      {batch.values().map((upload) => {
+        const Item = components[upload.status];
+        return (
+          <Item
+            key={upload.nameHash}
+            batch={batch}
+            upload={upload}
+            isActive={activeUpload === upload.nameHash}
+            onSelectUpload={onSelectUpload}
           />
-        ))
-      }
+        );
+      })}
     </div>
   );
-};
+}
+

@@ -53,31 +53,48 @@
 }
 
 
+// Sortable List
 
-// todo: eliminate CamelCase css selectors, doesn't match convention of everything else.
-// also, this should probably be in the styles section.
-.SortableItem {
+.sortable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 0.5rem;
+}
+
+.sortable-item {
   // display: flex;
   justify-content: space-between;
   flex-grow: 1;
-  align-items: center;
+  // align-items: center;
   background-color: var(--#{$prefix}secondary-bg);
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1); // 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05), 0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15)
-  border-radius: 3px; // calc(4px / var(--scale-x, 1))
+  border-radius: 3px;
   box-sizing: border-box;
   list-style: none;
   color: var(--#{$prefix}body-color);
-  border: 1px solid var(--#{$prefix}border-color);
+  border: 1px solid $secondary;
   font-weight: 400;
   font-size: 1rem;
   font-family: sans-serif;
+  box-shadow: 0 0 0 2px rgba($secondary, .3), $shadow-depth-5;
 
   [data-bs-theme=dark] & {
-    border-color: #494e5a;  // todo use variable
+    box-shadow: 0 0 2px 3px rgba($secondary, .5), $shadow-depth-3, $shadow-depth-6;
+  }
+
+  .sortable-list & {
+    border-color: var(--#{$prefix}border-color);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+
+    [data-bs-theme=dark] & {
+      border-color: #494e5a;  // todo use variable
+    }
   }
 }
 
-.DragHandle {
+.sortable-drag-handle {
   display: flex;
   width: 12px;
   padding: 15px;
@@ -85,7 +102,6 @@
   justify-content: center;
   flex: 0 0 auto;
   touch-action: none;
-  cursor: var(--cursor, pointer);
   border-radius: 5px;
   border: none;
   outline: none;
@@ -93,37 +109,14 @@
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 
-  &.disabled {
-    cursor: not-allowed;
-
-    &:hover {
-      background-color: white;
-    }
-  }
-
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    cursor: move !important;
   }
-
+  &.disabled {
+    background-color: transparent;
+    cursor: not-allowed !important;
+  }
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--#{$prefix}secondary);
+    box-shadow: $focus-ring-box-shadow;
   }
-
-  svg {
-    flex: 0 0 auto;
-    margin: auto;
-    height: 100%;
-    overflow: visible;
-    color: #919eab; // todo use variable
-  }
-}
-
-
-.SortableList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 0;
-  list-style: none;
-  margin-bottom: 0.5rem;
 }

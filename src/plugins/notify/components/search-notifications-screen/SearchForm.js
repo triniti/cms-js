@@ -1,10 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, ButtonGroup, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
+import {
+  Badge,
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  CardFooter,
+  Col,
+  Collapse,
+  Form,
+  InputGroup,
+  Row
+} from 'reactstrap';
 import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
-import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
+import {
+  ActionButton,
+  CheckboxField,
+  DatePickerField,
+  Icon,
+  NumberField,
+  useDebounce
+} from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NotificationSendStatusField from '@triniti/cms/plugins/notify/components/notification-send-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
@@ -78,18 +97,25 @@ export default function SearchForm(props) {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
-        <CardBody className="position-relative">
-          <InputGroup>
-            <Button color="light" onClick={toggle} className="text-dark px-2">
-              <Icon imgSrc="filter" className="mx-1" />
-              <span className="me-1 d-none d-md-block">Filters</span>
-            </Button>
-            <NotificationSendStatusField />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Notifications" />
-            <Button color="secondary" disabled={isRunning} type="submit">
-              <Icon imgSrc="search" />
-            </Button>
-          </InputGroup>
+        <CardBody>
+          <div className="position-relative">
+            <InputGroup>
+              <Button color="light" onClick={toggle} className="text-dark px-2">
+                <Icon imgSrc="filter" className="mx-1" />
+                <span className="me-1 d-none d-md-block">Filters</span>
+              </Button>
+              <NotificationSendStatusField />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Notifications" />
+              <Button color="secondary" disabled={isRunning} type="submit">
+                <Icon imgSrc="search" />
+              </Button>
+            </InputGroup>
+            {isRunning && (
+              <Badge color="light" pill className="badge-searching">
+                <span className="badge-animated">Searching</span>
+              </Badge>
+            )}
+          </div>
           <ButtonGroup className="mt-3 flex-wrap">
             {curies.map(str => {
               const curie = SchemaCurie.fromString(str);
@@ -107,11 +133,6 @@ export default function SearchForm(props) {
               );
             })}
           </ButtonGroup>
-          {isRunning && (
-            <Badge color="light" pill className="badge-searching">
-              <span className="badge-animated">Searching</span>
-            </Badge>
-          )}
         </CardBody>
 
         <Collapse isOpen={isOpen}>

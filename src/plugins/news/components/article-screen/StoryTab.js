@@ -21,7 +21,7 @@ export default function StoryTab(props) {
             <DatePickerField name="order_date" label="Order Date" />
           )}
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-            <DatePickerField name="expires_At" label="Expires At" />
+            <DatePickerField name="expires_at" label="Expires At" />
           )}
           <PicklistField picklist="article-classifications" name="classification" label="Classification" />
           <SwitchField name="is_homepage_news" label="Homepage News" />

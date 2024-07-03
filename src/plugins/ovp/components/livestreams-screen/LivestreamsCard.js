@@ -155,7 +155,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
   return (
     <Card key={id}>
       <CardHeader> <span >
-          <small className={`text-uppercase status-copy ml-0 mr-2 status-${statusColorMap[status]}`}>{status}</small>{title}
+          <small className={`text-uppercase status-copy ms-0 me-2 status-${statusColorMap[status]}`}>{status}</small>{title}
         </span>
         <span>
           <Link to={nodeUrl(node, 'view')}>
@@ -220,7 +220,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].originEndpoints.length > 0 && mediaLiveData[nodeRef].originEndpoints.map((originEndpoint, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -239,7 +239,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].cdnEndpoints.length > 0 && mediaLiveData[nodeRef].cdnEndpoints.map((cdnEndpoint, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"
@@ -258,7 +258,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
           )}
           {mediaLiveData[nodeRef].inputs.length > 0 && mediaLiveData[nodeRef].inputs.map((input, index) => (
             <tr key={index}>
-              <th className="pl-0">
+              <th className="ps-0">
                 <ActionButton
                   className="mb-1"
                   color="hover"

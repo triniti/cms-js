@@ -34,7 +34,7 @@ export default (props) => {
       <ButtonDropdown
         isOpen={errBtnOpen}
         toggle={handleErrBtnToggle}
-        className="w-100  ml-0 mr-0"
+        className="w-100  ms-0 me-0"
       >
         <DropdownToggle
           caret
@@ -46,7 +46,7 @@ export default (props) => {
           onClick={onClick}
           {...options}
         >
-          <span className="ms-auto mr-auto w-100 text-truncate">{file.file.name}</span>
+          <span className="ms-auto me-auto w-100 text-truncate">{file.file.name}</span>
         </DropdownToggle>
         <DropdownMenu end>
           <DropdownItem onClick={() => onRetry(hashName)}>Retry</DropdownItem>
@@ -82,12 +82,12 @@ export default (props) => {
       outline
       color={color}
       size="sm"
-      className="d-inline-block text-truncate w-100 ml-0 mr-0"
+      className="d-inline-block text-truncate w-100 ms-0 me-0"
       role="button"
       onClick={onClick}
       {...options}
     >
-      {loading && <Spinner className="m-0 mr-2" color="info" width="16" strokeWidth="8" size="sm" />} {file.file.name}
+      {loading && <Spinner className="m-0 me-2" color="info" width="16" strokeWidth="8" size="sm" />} {file.file.name}
     </Button>
   );
 }

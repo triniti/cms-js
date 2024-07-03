@@ -7,8 +7,8 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
-import RevertDetails from '@triniti/cms/plugins/ncr/components/revert-modal/RevertDetails.js';
-import filterRemoved from '@triniti/cms/plugins/ncr/components/node-history-card/filterRemoved.js';
+import RevertDetails from 'src/plugins/ncr/components/node-history-card-wip/revert-modal/RevertDetails.js';
+import filterRemoved from 'src/plugins/ncr/components/node-history-card-wip/filterRemoved.js';
 
 const revertComplete =  async () => {
   return swal.fire({

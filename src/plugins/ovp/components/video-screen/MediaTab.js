@@ -4,7 +4,8 @@ import {
   KeyValuesField,
   Loading,
   NumberField,
-  SwitchField, TextField,
+  SwitchField,
+  TextField,
   UrlField
 } from '@triniti/cms/components/index.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
@@ -33,7 +34,6 @@ export default function MediaTab(props) {
           {!schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
             <TextField name="medialive_channel_arn" label="MediaLive Channel ARN" />
           )}
-          <p>audio picker</p>
         </CardBody>
       </Card>
 
@@ -42,6 +42,7 @@ export default function MediaTab(props) {
       <Card>
         <CardHeader>Captions</CardHeader>
         <CardBody>
+          <p>audio picker</p>
           <p>caption picker</p>
           <KeyValuesField
             name="caption_urls"

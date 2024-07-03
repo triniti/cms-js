@@ -11,7 +11,6 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Loading } from '@triniti/cms/components/index.js';
-import '@triniti/cms/plugins/dam/components/asset-screen/variants.scss';
 
 const variants = {
   '16by9': 'Widescreen - 16:9',
@@ -41,7 +40,8 @@ const getUploadUrl = async (assetId, version) => {
 };
 
 const getPreviewUrl = (assetId, version) => {
-  const rand = `?r=${(new Date()).getTime()}`;
+  const d = new Date();
+  const rand = `?r=${d.getTime()}${d.getMilliseconds()}`;
   return `${damUrl(assetId, version, 'sm')}${rand}`;
 };
 
@@ -72,14 +72,7 @@ function ImageVariant(props) {
 
     try {
       const s3PresignedUrl = await getUploadUrl(assetId, version);
-      await uploadFile({
-        assetId,
-        s3PresignedUrl,
-        file: files[0],
-        controller: myController,
-        getTestUrl: () => getPreviewUrl(assetId, version),
-      });
-
+      await uploadFile({ assetId, s3PresignedUrl, file: files[0], controller: myController });
       // send purge cache command now too?
 
       if (!isMounted.current) {
@@ -109,12 +102,12 @@ function ImageVariant(props) {
   });
 
   return (
-    <fieldset className="variant">
+    <fieldset className="g-col-12 g-col-sm-6">
       <legend>{variants[version]}</legend>
-      <div {...dropzone.getRootProps()} className={`ratio ratio-${version.replace('by', 'x')}`}>
+      <div {...dropzone.getRootProps()} className={`ratio ratio-${version.replace('by', 'x')} hover-box-shadow`}>
         <input {...dropzone.getInputProps()} />
         {uploading && (
-          <Loading>Uploading File...</Loading>
+          <Loading overlay>Uploading File...</Loading>
         )}
 
         {dropzone.isDragActive && (
@@ -122,7 +115,13 @@ function ImageVariant(props) {
         )}
 
         {!dropzone.isDragActive && !uploading && (
-          <img src={previewUrl} alt={variants[version]} width={200} height={200} />
+          <img
+            src={previewUrl}
+            alt={variants[version]}
+            width={200}
+            height={200}
+            className="bg-body-secondary object-fit-contain" style={{ objectPosition: 'top left' }}
+          />
         )}
 
         {!dropzone.isDragActive && dropzone.fileRejections.map(({ file, errors }) => (
@@ -147,20 +146,22 @@ export default function VariantsTab(props) {
   return (
     <Card>
       <CardHeader>Variants</CardHeader>
-      <CardBody className="variants-body">
+      <CardBody>
         {canUpdate && <CardText>Click an image you would like to replace or drag a new image over it.</CardText>}
-        {Object.keys(variants).map((version) => {
-          const previewUrl = damUrl(node, version, 'sm');
-          return (
-            <ImageVariant
-              disabled={!canUpdate}
-              key={version}
-              version={version}
-              previewUrl={previewUrl}
-              {...props}
-            />
-          );
-        })}
+        <div className="grid" style={{ alignItems: 'start' }}>
+          {Object.keys(variants).map((version) => {
+            const previewUrl = damUrl(node, version, 'sm');
+            return (
+              <ImageVariant
+                disabled={!canUpdate}
+                key={version}
+                version={version}
+                previewUrl={previewUrl}
+                {...props}
+              />
+            );
+          })}
+        </div>
       </CardBody>
     </Card>
   );

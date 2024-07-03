@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Table } from 'reactstrap';
-import '@triniti/cms/plugins/ncr/components/revert-properties-table/styles.scss';
-import TableRow from '@triniti/cms/plugins/ncr/components/revert-properties-table/TableRow.js';
+import 'src/plugins/ncr/components/node-history-card-wip/revert-properties-table/styles.scss';
+import TableRow from 'src/plugins/ncr/components/node-history-card-wip/revert-properties-table/TableRow.js';
 
 const RevertPropertiesTable = ({
   data,
@@ -16,7 +16,7 @@ const RevertPropertiesTable = ({
           <th className="select-col---revert-properties-table">
             Select
           </th>
-          <th className="pl-3 left-col--revert-properties-table">
+          <th className="ps-3 left-col--revert-properties-table">
             Field
           </th>
           <th>

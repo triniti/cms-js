@@ -137,6 +137,11 @@ a {
   [id^="form-group-"] & {
     box-shadow: none !important;
   }
+  &.disabled {
+    opacity: .625;
+    background-color: transparent;
+    cursor: not-allowed;
+  }
 }
 
 .hover-box-shadow {

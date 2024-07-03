@@ -75,7 +75,7 @@ export default function BatchOperationsCard(props) {
 
 
   return (
-    <div className="mb-3 d-flex align-items-center">
+    <fieldset className="mb-3 d-flex align-items-center">
       <ButtonGroup className="btn-group--white flex-wrap shadow-sm">
         {canPublish && (
           <CreateModalButton
@@ -148,9 +148,9 @@ export default function BatchOperationsCard(props) {
           />
         )}
       </ButtonGroup>
-      <div className="ms-2 h3 mb-0">
-        <span className="badge bg-info ms-1 rounded-pill px-3">{batch.size} {batch.size > 1 ? 'nodes' : 'node'}</span>
-      </div>
-    </div>
+      <legend className="h3 mb-0">
+        <span className="badge bg-info rounded-pill">{batch.size}</span> <span className="h4">{batch.size > 1 ? 'nodes' : 'node'}</span>
+      </legend>
+    </fieldset>
   );
 }

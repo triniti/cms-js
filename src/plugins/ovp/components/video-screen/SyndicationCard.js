@@ -11,7 +11,7 @@ import {
 } from '@triniti/cms/components/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
-export default function MezzanineCard(props) {
+export default function SyndicationCard(props) {
   const { node } = props;
   const schema = node.schema();
 

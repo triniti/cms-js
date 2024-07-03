@@ -1,8 +1,8 @@
 import React from 'react';
-import RevertPropertiesTable from '@triniti/cms/plugins/ncr/components/revert-properties-table/index.js';
-import filterRevertableData from '@triniti/cms/plugins/ncr/components/node-history-card/filterData.js';
-import findNodeDiff from '@triniti/cms/plugins/ncr/components/node-history-card/findNodeDiff.js';
-import fullMapsAndLists from '@triniti/cms/plugins/ncr/components/node-history-card/fullMapsAndLists.js';
+import RevertPropertiesTable from 'src/plugins/ncr/components/node-history-card-wip/revert-properties-table/index.js';
+import filterRevertableData from 'src/plugins/ncr/components/node-history-card-wip/filterData.js';
+import findNodeDiff from 'src/plugins/ncr/components/node-history-card-wip/findNodeDiff.js';
+import fullMapsAndLists from 'src/plugins/ncr/components/node-history-card-wip/fullMapsAndLists.js';
 
 const RevertDetails = ({ event, isDbValueSameAsNodeValue, onSelectField: handleSelectField }) => {
   // find properties in node that were removed

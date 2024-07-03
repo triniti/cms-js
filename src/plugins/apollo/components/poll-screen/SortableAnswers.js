@@ -69,7 +69,7 @@ export default function SortableAnswers() {
               onDragEnd={handleDragEnd}
             >
               <SortableContext items={fields.value || []} strategy={verticalListSortingStrategy}>
-                <ul className="SortableList">
+                <ul className="sortable-list">
                   {fields.map((fname, index) => {
                     const handleRemove = () => fields.remove(index);
                     const handleUpdate = pbj => fields.update(index, pbj.toObject());

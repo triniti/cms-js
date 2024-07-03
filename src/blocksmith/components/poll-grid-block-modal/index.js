@@ -19,7 +19,7 @@ const PollGridBlockModal = () =>  (
           <FormGroup inline className="d-flex form-group-mobile px-3 mb-2 mt-3">
           <PollPickerField
               label="Select Polls"
-              className="mr-4"
+              className="me-4"
               groupClassName="w-100"
               name="node_refs"
               isMulti
@@ -28,7 +28,7 @@ const PollGridBlockModal = () =>  (
               />
           </FormGroup>
           <FormGroup inline className="d-flex form-group-mobile px-3 mb-2">
-            <FormGroup className="mr-4">
+            <FormGroup className="me-4">
               <SwitchField
                 name="aside"
                 label="Aside"
