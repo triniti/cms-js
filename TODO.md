@@ -29,5 +29,4 @@
 * add unlink option to dam asset screen LinkedNodesCard?
 * send purge cache command when asset variant is replaced.
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
-* can the links on node pickers work even when the picker is disabled or readonly?
 * with-form handleRestore from sessionstorage when dirty?

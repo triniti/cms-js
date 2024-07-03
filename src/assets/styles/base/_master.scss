@@ -642,6 +642,11 @@ nav + div:not(.screen) {
 
 // Triniti Specific Styles
 
+// so links within node pickers work when in view mode
+.enable-pointer-events {
+  pointer-events: all;
+}
+
 // Gallery Grid Container
 
 .gallery-grid-container,
