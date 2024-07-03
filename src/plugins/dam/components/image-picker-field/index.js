@@ -101,6 +101,7 @@ export default function ImagePickerField(props) {
         <div className="d-block">
           <CreateModalButton
             text={`Select ${label}`}
+            icon="photo"
             color="light"
             modal={ImagePickerModal}
             modalProps={{
