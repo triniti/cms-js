@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Button, Card, Input, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
@@ -77,11 +77,22 @@ function SearchAssetsScreen(props) {
               {response.get('nodes', []).map(node => {
                 const schema = node.schema();
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const seq = node.get('gallery_seq');
+                const transcodingStatus = node.get('transcoding_status');
+
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                     <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="text-center"><AssetIcon asset={node} /></td>
-                    <td>{node.get('title')}</td>
+                    <td>
+                      {seq > 0 && (
+                        <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
+                      )}
+                      {node.get('title')}
+                      {transcodingStatus && (
+                        <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
+                      )}
+                    </td>
                     <td className="text-nowrap">{node.get('mime_type')}</td>
                     <td>{formatBytes(node.get('file_size'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>

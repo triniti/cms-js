@@ -27,6 +27,7 @@ import {
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
+import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field/index.js';
 import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
 
 export default function SearchForm(props) {
@@ -153,6 +154,9 @@ export default function SearchForm(props) {
             </Row>
 
             <Row>
+              <Col sm={6} xl={3}>
+                <GalleryPickerField name="gallery_ref" label="Gallery" />
+              </Col>
               <Col sm={6} xl={3}>
                 <PersonPickerField name="person_refs" label="People" isMulti />
               </Col>
