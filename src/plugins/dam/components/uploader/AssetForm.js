@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Col, Form, Row } from 'reactstrap';
+import { Alert, Button, Col, Form, Row, Table } from 'reactstrap';
 import { useFormState } from 'react-final-form';
 import {
   DatePickerField,
@@ -10,15 +10,17 @@ import {
 } from '@triniti/cms/components/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
+import AssetPreview from '@triniti/cms/plugins/dam/components/asset-preview/index.js';
+import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import useDelegate from '@triniti/cms/plugins/dam/components/uploader/useDelegate.js';
 import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
 
 function AssetDetails(props) {
-  useDelegate(props);
+  const delegate = useDelegate(props);
   const { values } = useFormState({ subscription: { values: true } });
 
   const { batch, formState, handleSubmit, controls, node } = props;
-  const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
+  const { dirty, hasSubmitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
 
   const schema = node.schema();
@@ -32,47 +34,89 @@ function AssetDetails(props) {
   }, [submitDisabled]);
 
   return (
-    <Form key={label} onSubmit={handleSubmit} autoComplete="off">
-      <TextField name="title" label="Title" required />
-      <TextField name="display_title" label="Display Title" />
-      {schema.hasField('alt_text') && (
-        <TextField name="alt_text" label="Alt Text" />
-      )}
+    <>
+      <Row>
+        <Col sm={4} xl={4}>
+          <AssetPreview asset={node} />
+        </Col>
+        <Col sm={8} xl={8}>
+          <Table className="border-bottom">
+            <tbody>
+            <tr>
+              <th className="nowrap" scope="row">MIME Type:</th>
+              <td className="w-100">{node.get('mime_type')}</td>
+            </tr>
+            <tr>
+              <th className="nowrap" scope="row">File Size:</th>
+              <td className="w-100">{formatBytes(node.get('file_size'))}</td>
+            </tr>
+            {schema.hasMixin('triniti:dam:mixin:image-asset') && (
+              <tr>
+                <th className="nowrap" scope="row">Dimensions:</th>
+                <td className="w-100">{node.get('width')}x{node.get('height')}</td>
+              </tr>
+            )}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
 
-      {batch.completed > 1 && (
-        <>
-          <Row>
-            <Col sm={8}>
-              <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
-            </Col>
-            <Col sm={4}>
-              <Button color="light" outline disabled={!values.credit}>Apply to All</Button>
-            </Col>
-          </Row>
-          {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+      <Form key={label} onSubmit={handleSubmit} autoComplete="off">
+        <TextField name="title" label="Title" required />
+        <TextField name="display_title" label="Display Title" />
+        {schema.hasField('alt_text') && (
+          <TextField name="alt_text" label="Alt Text" />
+        )}
+
+        {batch.completed > 1 && (
+          <>
             <Row>
               <Col sm={8}>
-                <DatePickerField name="expires_at" label="Expires At" />
+                <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
               </Col>
               <Col sm={4}>
-                <Button color="light" outline disabled={!values.expires_at}>Apply to All</Button>
+                <Button
+                  color="light"
+                  outline
+                  disabled={!values.credit}
+                  onClick={() => delegate.handleApplyToAll('credit')}
+                >
+                  Apply to All
+                </Button>
               </Col>
             </Row>
-          )}
-        </>
-      )}
+            {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+              <Row>
+                <Col sm={8}>
+                  <DatePickerField name="expires_at" label="Expires At" />
+                </Col>
+                <Col sm={4}>
+                  <Button
+                    color="light"
+                    outline
+                    disabled={!values.expires_at}
+                    onClick={() => delegate.handleApplyToAll('expires_at')}
+                  >
+                    Apply to All
+                  </Button>
+                </Col>
+              </Row>
+            )}
+          </>
+        )}
 
-      {batch.completed === 1 && (
-        <>
-          <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
-          {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-            <DatePickerField name="expires_at" label="Expires At" />
-          )}
-        </>
-      )}
+        {batch.completed === 1 && (
+          <>
+            <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+            {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+              <DatePickerField name="expires_at" label="Expires At" />
+            )}
+          </>
+        )}
 
-      <TextareaField name="description" label="Description" rows={3} />
-    </Form>
+        <TextareaField name="description" label="Description" rows={3} />
+      </Form>
+    </>
   );
 }
 
