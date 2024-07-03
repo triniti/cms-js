@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Form } from 'reactstrap';
-import { Loading, TextField, withForm } from '@triniti/cms/components/index.js';
+import { Alert, Form } from 'reactstrap';
+import {
+  DatePickerField,
+  Loading,
+  TextareaField,
+  TextField,
+  withForm
+} from '@triniti/cms/components/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import useDelegate from '@triniti/cms/plugins/dam/components/uploader/useDelegate.js';
 import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
 
 function AssetDetails(props) {
   useDelegate(props);
-  const { batch, formState, handleSubmit, controls } = props;
+  const { batch, formState, handleSubmit, controls, node } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
+  const schema = node.schema();
+  const label = schema.getCurie().getMessage();
 
   useEffect(() => {
     controls.current.submitDisabled = submitDisabled;
@@ -19,9 +28,17 @@ function AssetDetails(props) {
   }, [submitDisabled]);
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off">
+    <Form key={label} onSubmit={handleSubmit} autoComplete="off">
       <TextField name="title" label="Title" required />
       <TextField name="display_title" label="Display Title" />
+      {schema.hasField('alt_text') && (
+        <TextField name="alt_text" label="Alt Text" />
+      )}
+      <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+      {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
+        <DatePickerField name="expires_At" label="Expires At" />
+      )}
+      <TextareaField name="description" label="Description" rows={3} />
     </Form>
   );
 }
@@ -29,7 +46,7 @@ function AssetDetails(props) {
 const AssetDetailsWithForm = withForm(AssetDetails);
 
 export default function AssetForm(props) {
-  const { batch, uploadHash } = props;
+  const { batch, uploadHash, onRemoveUpload } = props;
   const upload = batch.get(uploadHash);
   const [nodeRef, setNodeRef] = useState(null);
   const { node, refreshNode, setNode, isRefreshing, pbjxError } = useNode(nodeRef);
@@ -51,21 +68,37 @@ export default function AssetForm(props) {
     return <Loading error="Upload doesn't exist." />;
   }
 
+  if (upload.error) {
+    return (
+      <Alert color="danger">
+        {upload.name}: {upload.error}
+        <a onClick={upload.retry}>Retry</a> -
+        <a onClick={onRemoveUpload}>Remove</a>
+      </Alert>
+    );
+  }
+
   if (!node) {
-    return <Loading error={upload.error}>Loading {upload.name}...</Loading>;
+    return (
+      <Loading>
+        Uploading {upload.name}... <a onClick={upload.cancel}>Cancel</a>
+      </Loading>
+    );
   }
 
   if (pbjxError) {
-    return <Loading error={pbjxError} />;
+    return <Loading error={`${upload.name}: ${pbjxError}`} />;
   }
 
-  return <AssetDetailsWithForm
-    editMode
-    pbj={node}
-    node={node}
-    nodeRef={nodeRef}
-    isRefreshing={isRefreshing}
-    refreshNode={refreshNode}
-    {...props}
-  />;
+  return (
+    <AssetDetailsWithForm
+      editMode
+      pbj={node}
+      node={node}
+      nodeRef={nodeRef}
+      isRefreshing={isRefreshing}
+      refreshNode={refreshNode}
+      {...props}
+    />
+  );
 }

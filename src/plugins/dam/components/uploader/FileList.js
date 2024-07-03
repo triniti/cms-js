@@ -9,7 +9,7 @@ function UploadingItem(props) {
     onSelectUpload(upload.nameHash);
   };
 
-//onClick={upload.cancel}
+  //onClick={upload.cancel}
   return (
     <Button
       outline
@@ -25,7 +25,7 @@ function UploadingItem(props) {
 }
 
 function CompletedItem(props) {
-  const { upload, onSelectUpload } = props;
+  const { isActive = false, upload, onSelectUpload } = props;
 
   const handleClick = () => {
     onSelectUpload(upload.nameHash);
@@ -39,13 +39,17 @@ function CompletedItem(props) {
       color="success"
       onClick={handleClick}
     >
-      {upload.name} completed
+      {isActive ? '(x) ' : ''}{upload.name} completed
     </Button>
   );
 }
 
 function FailedItem(props) {
-  const { upload } = props;
+  const { isActive = false, upload, onSelectUpload } = props;
+
+  const handleClick = () => {
+    onSelectUpload(upload.nameHash);
+  };
 
   return (
     <Button
@@ -53,9 +57,9 @@ function FailedItem(props) {
       size="sm"
       className="d-inline-block text-truncate w-100 ml-0 mr-0"
       color="danger"
-      onClick={upload.retry}
+      onClick={handleClick}
     >
-      {upload.name} {upload.status} {upload.error}
+      {isActive ? '(x) ' : ''}{upload.name} {upload.status} {upload.error}
     </Button>
   );
 }
@@ -68,13 +72,19 @@ const components = {
 };
 
 export default function FileList(props) {
-  const { batch, onSelectUpload } = props;
+  const { activeUpload, batch, onSelectUpload } = props;
 
   return (
     <div className="dam-file-list">
       {batch.values().map((upload) => {
         const Item = components[upload.status];
-        return <Item key={upload.nameHash} batch={batch} upload={upload} onSelectUpload={onSelectUpload} />;
+        return <Item
+          key={upload.nameHash}
+          batch={batch}
+          upload={upload}
+          isActive={activeUpload === upload.nameHash}
+          onSelectUpload={onSelectUpload}
+        />;
       })}
     </div>
   );

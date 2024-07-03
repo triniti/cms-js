@@ -78,6 +78,7 @@ const createAsset = async (upload, app, dispatch, batch) => {
     asset.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
   }
 
+  // todo: sequencer on creation of uploads in handle drop.
   if (gallerySeq) {
     asset.set('gallery_seq', gallerySeq);
   }

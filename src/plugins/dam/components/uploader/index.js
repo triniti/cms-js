@@ -8,8 +8,9 @@ import Uploader from '@triniti/cms/plugins/dam/components/uploader/Uploader.js';
 import FileList from '@triniti/cms/plugins/dam/components/uploader/FileList.js';
 import useBatch from '@triniti/cms/plugins/dam/components/uploader/useBatch.js';
 import '@triniti/cms/plugins/dam/components/uploader/styles.scss';
+import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
 
-const okayToClose = async (msg, btn = 'Yes, Close!') => {
+const okayToClose = async (msg = 'Files that haven\'t uploaded will be lost.', btn = 'OK, Close!') => {
   const result = await Swal.fire({
     title: 'Are you sure?',
     text: msg,
@@ -21,7 +22,7 @@ const okayToClose = async (msg, btn = 'Yes, Close!') => {
     allowEscapeKey: false,
   });
 
-  return result.value;
+  return !!result.value;
 };
 
 export default function UploaderModal(props) {
@@ -39,20 +40,15 @@ export default function UploaderModal(props) {
       return;
     }
 
-    const asset = await (upload ? upload.result : null);
-    if (batch.completed !== batch.size && await okayToClose('Some files haven\'t finished uploading and will be lost.')) {
-      onClose(asset);
-      props.toggle();
+    if (batch.completed !== batch.size && !await okayToClose()) {
       return;
     }
 
-    if (controls && controls.dirty) {
-      const upload = batch.get(activeUpload);
-      if (!await okayToClose(`You have unsaved changes on ${upload.file.name} that will be lost.`)) {
-        return;
-      }
+    if (controls && controls.dirty && !await okayToClose(`Unsaved changes on ${upload.file.name} will be lost.`)) {
+      return;
     }
 
+    const asset = await (upload && upload.status === uploadStatus.COMPLETED ? upload.result : null);
     onClose(asset);
     props.toggle();
   };
@@ -67,7 +63,7 @@ export default function UploaderModal(props) {
       return;
     }
 
-    if (!await okayToClose(`You have unsaved changes on ${upload.file.name} that will be lost.`, 'OK')) {
+    if (!await okayToClose(`Unsaved changes on ${upload.file.name} will be lost.`, 'OK')) {
       return;
     }
 
@@ -75,13 +71,15 @@ export default function UploaderModal(props) {
   };
 
   const handleCloseUpload = () => {
-    batch.remove(activeUpload);
+    if (batch.has(activeUpload)) {
+      batch.get(activeUpload).remove();
+    }
     setActiveUpload(null); // select next one automatically?  eh
   };
 
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
-      <ModalHeader toggle={props.toggle}>Upload Files</ModalHeader>
+      <ModalHeader toggle={handleCloseModal}>Upload Files</ModalHeader>
       <ModalBody className="p-0 modal-scrollable">
         <div className="dam-uploader-wrapper">
           <div className="dam-content">
@@ -90,16 +88,26 @@ export default function UploaderModal(props) {
                 <Uploader {...props} batch={batch} />
               </div>
               <div className="dam-file-queue">
-                <FileList {...props} batch={batch} onSelectUpload={handleSelectUpload} />
+                <FileList
+                  {...props}
+                  batch={batch}
+                  activeUpload={activeUpload}
+                  onSelectUpload={handleSelectUpload}
+                />
               </div>
             </div>
             <div className="meta-form border-left">
               <Card className="pt-3 px-3 pb-1 mb-0">
                 {activeUpload && (
-                  <AssetForm batch={batch} uploadHash={activeUpload} controls={controlsRef} />
+                  <AssetForm
+                    batch={batch}
+                    uploadHash={activeUpload}
+                    controls={controlsRef}
+                    onRemoveUpload={handleCloseUpload}
+                  />
                 )}
                 {!activeUpload && batch.size > 0 && (
-                  <p>Select a file on the left to edit.</p>
+                  <p>Click a file on the left to edit.</p>
                 )}
                 {!activeUpload && batch.size === 0 && (
                   <p>Drop files on the left.</p>
@@ -116,9 +124,6 @@ export default function UploaderModal(props) {
             <>
               Uploaded {batch.completed} of {batch.size} items
             </>
-          )}
-          {batch.size === 0 && (
-            <>no items</>
           )}
         </div>
         <div className="ms-auto pe-3">

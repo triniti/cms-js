@@ -26,7 +26,7 @@ const okayToDelete = async (nodeRef) => {
     reverseButtons: true,
   });
 
-  return result.value;
+  return !!result.value;
 };
 
 const okayToLeave = async () => {
@@ -41,7 +41,7 @@ const okayToLeave = async () => {
     allowEscapeKey: false,
   });
 
-  return result.value;
+  return !!result.value;
 };
 
 // fixme: ncr policy checks and flags

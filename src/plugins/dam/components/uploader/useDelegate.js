@@ -55,5 +55,9 @@ export default (props) => {
     await form.submit();
   };
 
+  delegate.patchAssets = async (field) => {
+    /// yaaass
+  };
+
   return delegate;
 };
