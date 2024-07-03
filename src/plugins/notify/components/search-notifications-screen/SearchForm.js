@@ -1,10 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, ButtonGroup, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
+import {
+  Badge,
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  CardFooter,
+  Col,
+  Collapse,
+  Form,
+  InputGroup,
+  Row
+} from 'reactstrap';
 import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
-import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
+import {
+  ActionButton,
+  CheckboxField,
+  DatePickerField,
+  Icon,
+  NumberField,
+  useDebounce
+} from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NotificationSendStatusField from '@triniti/cms/plugins/notify/components/notification-send-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
@@ -102,15 +121,15 @@ export default function SearchForm(props) {
               const curie = SchemaCurie.fromString(str);
               const type = curie.getMessage();
               return (
-                  <CheckboxField
-                      id={type}
-                      key={type}
-                      name="types"
-                      inline
-                      button
-                      value={type}
-                      label={type.replace('-notification', '')}
-                  />
+                <CheckboxField
+                  id={type}
+                  key={type}
+                  name="types"
+                  inline
+                  button
+                  value={type}
+                  label={type.replace('-notification', '')}
+                />
               );
             })}
           </ButtonGroup>
