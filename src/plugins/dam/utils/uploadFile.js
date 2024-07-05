@@ -18,6 +18,9 @@ export default async (options) => {
     });
 
     failed = response.status !== 200;
+    if (failed) {
+      error = `s3.put:${response.statusText}`;
+    }
   } catch (e) {
     failed = true;
     error = getFriendlyErrorMessage(e);
