@@ -12,7 +12,7 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import MezzanineCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzanineCard.js';
 import videoLanguages from '@triniti/app/config/videoLanguages.js';
 
-const LinkedMediaCard = lazy(() => import('@triniti/cms/plugins/dam/components/linked-images-tab/index.js'));
+const LinkedMediaCard = () => <></>;//lazy(() => import('@triniti/cms/plugins/dam/components/linked-images-tab/index.js'));
 
 export default function MediaTab(props) {
   const { tab, nodeRef, node } = props;
