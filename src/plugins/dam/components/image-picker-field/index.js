@@ -107,6 +107,7 @@ export default function ImagePickerField(props) {
             modal={ImagePickerModal}
             modalProps={{
               onDone: handleDone,
+              allowMultiple: false,
               linkedRef: nodeRef,
               label: label,
               accept: ['image/gif', 'image/jpeg', 'image/png'],

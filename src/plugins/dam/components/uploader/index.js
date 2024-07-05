@@ -30,12 +30,12 @@ export default function UploaderModal(props) {
   const {
     onDone = noop,
     onEnrich = noop,
-    linkedRefs,
+    linkedRef,
     galleryRef,
     gallerySeqIncrementer = null
   } = props;
   const activeUpload = useRef();
-  const batch = useBatch({ onEnrich, linkedRefs, galleryRef, gallerySeqIncrementer });
+  const batch = useBatch({ onEnrich, linkedRef, galleryRef, gallerySeqIncrementer });
   const controls = controlsRef.current.delegate ? controlsRef.current : false;
   const upload = activeUpload.current ? batch.get(activeUpload.current) : null;
 
