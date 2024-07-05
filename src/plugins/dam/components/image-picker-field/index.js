@@ -8,7 +8,7 @@ import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
 const ImagePickerModal = lazy(() => import('@triniti/cms/plugins/dam/components/image-picker-field/ImagePickerModal.js'));
 
-const validate = async (value) => {
+const validate = (value) => {
   if (!value) {
     return undefined;
   }

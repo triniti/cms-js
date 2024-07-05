@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Card, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Swal from 'sweetalert2';
 import noop from 'lodash-es/noop.js';
@@ -7,8 +7,8 @@ import AssetForm from '@triniti/cms/plugins/dam/components/uploader/AssetForm.js
 import Uploader from '@triniti/cms/plugins/dam/components/uploader/Uploader.js';
 import FileList from '@triniti/cms/plugins/dam/components/uploader/FileList.js';
 import useBatch from '@triniti/cms/plugins/dam/components/uploader/useBatch.js';
-import '@triniti/cms/plugins/dam/components/uploader/styles.scss';
 import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
+import '@triniti/cms/plugins/dam/components/uploader/styles.scss';
 
 const okayToClose = async (msg = 'Files that haven\'t uploaded will be lost.', btn = 'OK, Close!') => {
   const result = await Swal.fire({
