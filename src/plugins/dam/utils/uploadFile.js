@@ -1,8 +1,7 @@
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 
 export default async (options) => {
-  const { assetId, s3PresignedUrl, file, controller } = options;
-  // await delay(3000); // for testing UI states
+  const { s3PresignedUrl, file, controller } = options;
   let failed;
   let error;
 
@@ -22,7 +21,7 @@ export default async (options) => {
   } catch (e) {
     failed = true;
     error = getFriendlyErrorMessage(e);
-    console.error('uploadFile', assetId, s3PresignedUrl, error);
+    console.error('uploadFile', s3PresignedUrl, e);
   }
 
   if (failed) {

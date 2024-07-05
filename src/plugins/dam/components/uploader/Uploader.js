@@ -64,14 +64,18 @@ const createAsset = async (upload, app, dispatch, batch) => {
     .set('file_size', new BigNumber(upload.file.size || 0));
 
   if (id.getType() === 'image') {
-    const { width, height } = await getImageDimensions(damUrl(id));
-    asset.set('width', width);
-    asset.set('height', height);
+    try {
+      const { width, height } = await getImageDimensions(damUrl(id));
+      asset.set('width', width || 0);
+      asset.set('height', height || 0);
+    } catch (e) {
+      console.error('Uploader.createAsset.getImageDimensions', upload, asset.toObject(), e);
+    }
   }
 
   const { linkedRefs, galleryRef, onEnrich = noop } = batch.config;
   if (linkedRefs) {
-    asset.addToSet('linked_refs', linkedRefs);
+    asset.addToSet('linked_refs', linkedRefs.map(ref => NodeRef.fromString(`${ref}`)));
   }
 
   if (galleryRef) {
@@ -124,7 +128,7 @@ export default function Uploader(props) {
         return;
       }
     } catch (e) {
-      console.error('Uploader.getUploadUrls', getFriendlyErrorMessage(e), names);
+      console.error('Uploader.getUploadUrls', names, e);
       if (!isMounted.current) {
         return;
       }
@@ -175,7 +179,6 @@ export default function Uploader(props) {
         let asset;
         try {
           await uploadFile({
-            assetId: upload.assetId,
             s3PresignedUrl: upload.s3PresignedUrl,
             file: upload.file,
             controller: upload.controller,

@@ -72,7 +72,7 @@ function ImageVariant(props) {
 
     try {
       const s3PresignedUrl = await getUploadUrl(assetId, version);
-      await uploadFile({ assetId, s3PresignedUrl, file: files[0], controller: myController });
+      await uploadFile({ s3PresignedUrl, file: files[0], controller: myController });
       // send purge cache command now too?
 
       if (!isMounted.current) {
@@ -81,7 +81,7 @@ function ImageVariant(props) {
 
       setPreviewUrl(getPreviewUrl(assetId, version));
     } catch (e) {
-      console.error('VariantsTab.handleDropAccepted', node.toObject(), version, getFriendlyErrorMessage(e));
+      console.error('VariantsTab.handleDropAccepted', node.toObject(), version, e);
       if (!isMounted.current) {
         return;
       }
