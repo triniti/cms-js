@@ -41,7 +41,6 @@ export default function UploaderModal(props) {
 
   const handleDone = async () => {
     if (batch.size === 0) {
-      onDone(null, []);
       props.toggle();
       return;
     }
