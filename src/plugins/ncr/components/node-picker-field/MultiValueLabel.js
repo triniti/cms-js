@@ -51,7 +51,7 @@ export default function MultiValueLabel(props) {
         <Badge pill className={`status-${status}`}>{status}</Badge>
       )}
       {(showLink && (
-        <a href={url} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="m-1 ms-2 me-2">
+        <a href={url} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="m-1 ms-2 me-2 enable-pointer-events">
           <Icon imgSrc="external" size="sm" />
         </a>
       ))}

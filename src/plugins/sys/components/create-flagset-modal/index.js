@@ -83,5 +83,5 @@ function CreateFlagsetModal(props) {
 const ModalWithForm = withPbj(withForm(CreateFlagsetModal), '*:sys:node:flagset:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:flagset:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

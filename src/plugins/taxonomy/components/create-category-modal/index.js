@@ -69,5 +69,5 @@ function CreateCategoryModal(props) {
 const ModalWithForm = withPbj(withForm(CreateCategoryModal), '*:taxonomy:node:category:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:category:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

@@ -83,5 +83,5 @@ function CreatePicklistModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePicklistModal), '*:sys:node:picklist:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:picklist:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

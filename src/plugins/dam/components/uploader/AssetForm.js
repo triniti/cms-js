@@ -25,6 +25,7 @@ function AssetDetails(props) {
 
   const schema = node.schema();
   const label = schema.getCurie().getMessage();
+  const id = node.get('_id');
 
   useEffect(() => {
     controls.current.submitDisabled = submitDisabled;
@@ -35,7 +36,7 @@ function AssetDetails(props) {
 
   return (
     <>
-      <Row>
+      <Row key={`${id}-preview`}>
         <Col sm={4} xl={4}>
           <AssetPreview asset={node} />
         </Col>
@@ -61,7 +62,7 @@ function AssetDetails(props) {
         </Col>
       </Row>
 
-      <Form key={label} onSubmit={handleSubmit} autoComplete="off">
+      <Form key={`${id}-form`} onSubmit={handleSubmit} autoComplete="off">
         <TextField name="title" label="Title" required />
         <TextField name="display_title" label="Display Title" />
         {schema.hasField('alt_text') && (
@@ -123,14 +124,19 @@ function AssetDetails(props) {
 const AssetDetailsWithForm = withForm(AssetDetails);
 
 export default function AssetForm(props) {
-  const { batch, uploadHash, onRemoveUpload } = props;
+  const { batch, controls, uploadHash } = props;
   const upload = batch.get(uploadHash);
   const [nodeRef, setNodeRef] = useState(null);
   const { node, refreshNode, setNode, isRefreshing, pbjxError } = useNode(nodeRef);
   const status = upload ? upload.status : null;
+  const key = `${uploadHash}-${status || ''}`;
 
   useEffect(() => {
     if (!upload || !status || status !== uploadStatus.COMPLETED) {
+      controls.current.submitDisabled = true;
+      controls.current.dirty = false;
+      controls.current.valid = false;
+      batch.refresh();
       setNodeRef(null);
       setNode(null);
       return;
@@ -142,33 +148,34 @@ export default function AssetForm(props) {
   }, [upload, status]);
 
   if (!upload) {
-    return <Loading error="Upload doesn't exist." />;
+    return <Loading key={key} error="Upload doesn't exist." />;
   }
 
   if (upload.error) {
     return (
-      <Alert color="danger">
+      <Alert key={key} color="danger">
         {upload.error}
         <a onClick={upload.retry}>Retry</a> -
-        <a onClick={onRemoveUpload}>Remove</a>
+        <a onClick={upload.remove}>Remove</a>
       </Alert>
     );
   }
 
   if (!node) {
     return (
-      <Loading>
-        Uploading {upload.name}... <a onClick={upload.cancel}>Cancel</a>
+      <Loading key={key}>
+        Uploading {upload.name}...{upload.cancelable && <a onClick={upload.cancel}>Cancel</a>}
       </Loading>
     );
   }
 
   if (pbjxError) {
-    return <Loading error={`${upload.name}: ${pbjxError}`} />;
+    return <Loading key={key} error={`${upload.name}: ${pbjxError}`} />;
   }
 
   return (
     <AssetDetailsWithForm
+      key={key}
       editMode
       pbj={node}
       node={node}

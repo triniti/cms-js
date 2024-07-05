@@ -92,5 +92,5 @@ function SlotModal(props) {
 const ModalWithForm = withForm(SlotModal);
 
 export default function ModalWithSlot(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:slot:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

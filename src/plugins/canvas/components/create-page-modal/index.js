@@ -68,5 +68,5 @@ function CreatePageModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePageModal), '*:canvas:node:page:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:page:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

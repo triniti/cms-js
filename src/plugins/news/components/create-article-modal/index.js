@@ -97,5 +97,5 @@ function CreateArticleModal(props) {
 const ModalWithForm = withPbj(withForm(CreateArticleModal), '*:news:node:article:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:article:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

@@ -68,5 +68,5 @@ function CreateVideoModal(props) {
 const ModalWithForm = withPbj(withForm(CreateVideoModal), '*:ovp:node:video:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:video:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

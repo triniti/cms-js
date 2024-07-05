@@ -68,5 +68,5 @@ function CreateGalleryModal(props) {
 const ModalWithForm = withPbj(withForm(CreateGalleryModal), '*:curator:node:gallery:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:gallery:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

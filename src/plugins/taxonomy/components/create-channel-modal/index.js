@@ -68,5 +68,5 @@ function CreateChannelModal(props) {
 const ModalWithForm = withPbj(withForm(CreateChannelModal), '*:taxonomy:node:channel:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:channel:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

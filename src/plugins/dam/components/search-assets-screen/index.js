@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Button, Card, Input, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
@@ -14,6 +14,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen/SearchForm.js';
 import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/search-assets-screen/AssetIcon.js';
+import incrementer from '@triniti/cms/utils/incrementer.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
 
@@ -29,13 +30,31 @@ function SearchAssetsScreen(props) {
     return null;
   }
 
+  const sequencer = incrementer(0, 500);
+
   return (
     <Screen
       header="Assets"
       contentWidth="1600px"
       primaryActions={
         <>
-          {canCreate && <CreateModalButton text="Upload Files" color="primary" modal={UploaderModal} />}
+          {canCreate && (
+            <CreateModalButton
+              text="Upload Files"
+              color="primary"
+              modal={UploaderModal}
+              modalProps={{
+                onDone: (ref, refs) => {
+                  console.log('onDone', ref, refs);
+                  run();
+                },
+                onEnrich: (...args) => {
+                  console.log('onEnrich', args);
+                },
+                gallerySeqIncrementer: sequencer,
+              }}
+            />
+          )}
         </>
       }
     >
@@ -77,11 +96,22 @@ function SearchAssetsScreen(props) {
               {response.get('nodes', []).map(node => {
                 const schema = node.schema();
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const seq = node.get('gallery_seq');
+                const transcodingStatus = node.get('transcoding_status');
+
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                     <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="text-center"><AssetIcon asset={node} /></td>
-                    <td>{node.get('title')}</td>
+                    <td>
+                      {seq > 0 && (
+                        <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
+                      )}
+                      {node.get('title')}
+                      {transcodingStatus && (
+                        <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
+                      )}
+                    </td>
                     <td className="text-nowrap">{node.get('mime_type')}</td>
                     <td>{formatBytes(node.get('file_size'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>

@@ -64,26 +64,28 @@ const createAsset = async (upload, app, dispatch, batch) => {
     .set('file_size', new BigNumber(upload.file.size || 0));
 
   if (id.getType() === 'image') {
-    const { width, height } = await getImageDimensions(damUrl(id));
-    asset.set('width', width);
-    asset.set('height', height);
+    try {
+      const { width, height } = await getImageDimensions(damUrl(id));
+      asset.set('width', width || 0);
+      asset.set('height', height || 0);
+    } catch (e) {
+      console.error('Uploader.createAsset.getImageDimensions', upload, asset.toObject(), e);
+    }
   }
 
-  const { linkedRefs, galleryRef, gallerySeq = 0, enricher = noop } = batch.config;
+  const { linkedRefs, galleryRef, onEnrich = noop } = batch.config;
   if (linkedRefs) {
-    asset.addToSet('linked_refs', linkedRefs);
+    asset.addToSet('linked_refs', linkedRefs.map(ref => NodeRef.fromString(`${ref}`)));
   }
 
   if (galleryRef) {
     asset.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
+    if (upload.gallerySeq !== null) {
+      asset.set('gallery_seq', upload.gallerySeq);
+    }
   }
 
-  // todo: sequencer on creation of uploads in handle drop.
-  if (gallerySeq) {
-    asset.set('gallery_seq', gallerySeq);
-  }
-
-  enricher(asset, upload, app);
+  await onEnrich(asset, upload, app);
   const CreateNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:create-node:v1');
   const command = CreateNodeV1.create().set('node', asset);
   await pbjx.send(command);
@@ -93,6 +95,8 @@ const createAsset = async (upload, app, dispatch, batch) => {
 export default function Uploader(props) {
   const {
     batch,
+    onUploadCompleted = noop,
+    onRemoveUpload = noop,
     allowMultiple = true,
     maxFiles = 200,
     accept = []
@@ -124,7 +128,7 @@ export default function Uploader(props) {
         return;
       }
     } catch (e) {
-      console.error('Uploader.getUploadUrls', getFriendlyErrorMessage(e), names);
+      console.error('Uploader.getUploadUrls', names, e);
       if (!isMounted.current) {
         return;
       }
@@ -151,10 +155,16 @@ export default function Uploader(props) {
         assetId,
         s3PresignedUrl,
         status: uploadStatus.UPLOADING,
+        cancelable: true,
         error: null,
         controller: new AbortController(),
         running: true,
+        gallerySeq: null,
       };
+
+      if (batch.config.galleryRef && batch.config.gallerySeqIncrementer) {
+        upload.gallerySeq = batch.config.gallerySeqIncrementer();
+      }
 
       const process = async () => {
         if (upload.status === uploadStatus.COMPLETED) {
@@ -162,13 +172,13 @@ export default function Uploader(props) {
         }
 
         upload.status = uploadStatus.UPLOADING;
+        upload.cancelable = true;
         upload.running = true;
         batch.refresh();
 
         let asset;
         try {
           await uploadFile({
-            assetId: upload.assetId,
             s3PresignedUrl: upload.s3PresignedUrl,
             file: upload.file,
             controller: upload.controller,
@@ -178,12 +188,18 @@ export default function Uploader(props) {
             return;
           }
 
+          upload.cancelable = false;
+          batch.refresh();
           asset = await createAsset(upload, app, dispatch, batch);
         } catch (e) {
           upload.error = getFriendlyErrorMessage(e);
           upload.status = upload.controller.signal.aborted ? uploadStatus.CANCELED : uploadStatus.FAILED;
           upload.running = false;
           batch.refresh();
+          return;
+        }
+
+        if (!isMounted.current) {
           return;
         }
 
@@ -194,6 +210,7 @@ export default function Uploader(props) {
         upload.running = false;
         upload.asset = asset;
         dispatch(receiveNodes([asset]));
+        onUploadCompleted(upload.nameHash, asset);
         batch.refresh();
         return asset;
       };
@@ -205,6 +222,10 @@ export default function Uploader(props) {
       };
 
       upload.cancel = () => {
+        if (!upload.cancelable || upload.status === uploadStatus.COMPLETED) {
+          return;
+        }
+
         upload.status = uploadStatus.CANCELED;
         upload.error = uploadStatus.CANCELED;
         upload.running = false;
@@ -218,6 +239,7 @@ export default function Uploader(props) {
         upload.process = noop;
         upload.running = false;
         upload.asset = null;
+        onRemoveUpload(upload.nameHash);
         batch.remove(upload.nameHash);
       };
 
@@ -230,8 +252,7 @@ export default function Uploader(props) {
   };
 
   const dropzone = useDropzone({
-    disabled: processing,
-    //autoFocus: true, // wtf does this do?
+    disabled: processing || !allowMultiple && batch.size > 0,
     multiple: allowMultiple,
     maxFiles: allowMultiple ? maxFiles : 1,
     // convert ['text/html'] to accept['text/html'] = [];
@@ -260,8 +281,17 @@ export default function Uploader(props) {
 
         {!dropzone.isDragActive && !processing && (
           <>
-            <Icon imgSrc="cloud-upload" />
-            <p>Drop files here, or click to select files to upload.</p>
+            {(allowMultiple || batch.size === 0) && (
+              <>
+                <Icon imgSrc="cloud-upload" />
+                <p>Drop files here, or click to select files to upload.</p>
+              </>
+            )}
+            {!allowMultiple && batch.size > 0 && (
+              <>
+                <a onClick={batch.clear}>Clear uploads and start over.</a>
+              </>
+            )}
           </>
         )}
 
