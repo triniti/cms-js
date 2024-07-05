@@ -4,7 +4,7 @@ import { ActionButton, Loading, withForm } from '@triniti/cms/components/index.j
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid-old/index.js';
 import UploaderButton from '@triniti/cms/plugins/dam/components/uploader-button/index.js';
 import Icon from '@triniti/cms/components/icon/index.js';
 import noop from 'lodash-es/noop.js';

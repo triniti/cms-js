@@ -4,7 +4,7 @@ import { Loading, withForm } from '@triniti/cms/components/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid-old/index.js';
 import noop from 'lodash-es/noop.js';
 
 function GalleryImages(props) {
