@@ -1,26 +1,18 @@
-import React, { useEffect } from 'react';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import React from 'react';
 import { Loading, withForm } from '@triniti/cms/components/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
-import noop from 'lodash-es/noop.js';
+import SearchForm from './SearchForm.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid-old/index.js';
 
-function GalleryImages(props) {
-  const { request, nodeRef, selectImage, toggle } = props;
-  const { response, pbjxError } = useRequest(request, true);
-
-  useEffect(() => {
-    if (!request || !nodeRef) {
-      return noop;
-    }
-
-    request.set('gallery_ref', NodeRef.fromString(nodeRef));
-  }, [nodeRef, request]);
+function SearchImages(props) {
+  const { request, selectImage, toggle } = props;
+  const { response, run, isRunning, pbjxError } = useRequest(request, true);
 
   return(
     <>
+      <SearchForm {...props} isRunning={isRunning} run={run} />
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && response.has('nodes') && (
         <ImageGrid
@@ -29,16 +21,17 @@ function GalleryImages(props) {
             selectImage(node.generateNodeRef());
             toggle();
           }}
+          selectedImages={[]}
           />
       )}
     </>
   );
 }
 
-export default withRequest(withForm(GalleryImages), 'triniti:dam:request:search-assets-request', {
-  count: 150,
+export default withRequest(withForm(SearchImages), 'triniti:dam:request:search-assets-request', {
   channel: 'picker',
   initialData: {
+    count: 60,
     sort: SearchAssetsSort.RELEVANCE.getValue(),
     types: ['image-asset'],
     autocomplete: true,

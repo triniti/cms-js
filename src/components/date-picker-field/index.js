@@ -21,7 +21,7 @@ export default function DatePickerField(props) {
 
   const formContext = useFormContext();
   const { editMode } = formContext;
-  const showSetToNow = !!nowable || !formContext.delegate.handleSearchFromFilters;
+  const showSetToNow = !!nowable || (!formContext.delegate.handleSearchFromFilters && !nestedPbj);
   const { input, meta, pbjField } = useField({ ...props }, formContext);
 
   const rootClassName = classNames(groupClassName, 'form-group');
@@ -78,13 +78,13 @@ export default function DatePickerField(props) {
             />
             {showSetToNow && !input.value && (
               <Button
-                id={`set-to-now-${name}`}
+                id={`set-to-now-${name.replace('.', '_')}`}
                 color="hover"
                 size="sd"
                 onClick={handleSetToNow}
               >
                  <Icon imgSrc="alarm" />
-                 <UncontrolledTooltip target={`set-to-now-${name}`}>
+                 <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
                    Set to current date and time
                  </UncontrolledTooltip>
               </Button>

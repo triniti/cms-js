@@ -73,9 +73,9 @@ const createAsset = async (upload, app, dispatch, batch) => {
     }
   }
 
-  const { linkedRefs, galleryRef, onEnrich = noop } = batch.config;
-  if (linkedRefs) {
-    asset.addToSet('linked_refs', linkedRefs.map(ref => NodeRef.fromString(`${ref}`)));
+  const { linkedRef, galleryRef, onEnrich = noop } = batch.config;
+  if (linkedRef) {
+    asset.addToSet('linked_refs', [NodeRef.fromString(`${linkedRef}`)]);
   }
 
   if (galleryRef) {

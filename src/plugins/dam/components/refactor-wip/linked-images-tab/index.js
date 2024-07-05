@@ -6,7 +6,7 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid-old/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';

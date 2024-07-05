@@ -13,7 +13,7 @@ import {
   Input,
   InputGroup,
 } from 'reactstrap';
-import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid/index.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid-old/index.js';
 import debounce from 'lodash-es/debounce.js';
 
 const ImageSearch = (props) => {
