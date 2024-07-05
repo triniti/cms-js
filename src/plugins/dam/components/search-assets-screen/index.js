@@ -14,6 +14,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen/SearchForm.js';
 import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/search-assets-screen/AssetIcon.js';
+import incrementer from '@triniti/cms/utils/incrementer.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
 
@@ -29,13 +30,31 @@ function SearchAssetsScreen(props) {
     return null;
   }
 
+  const sequencer = incrementer(0, 500);
+
   return (
     <Screen
       header="Assets"
       contentWidth="1600px"
       primaryActions={
         <>
-          {canCreate && <CreateModalButton text="Upload Files" color="primary" modal={UploaderModal} />}
+          {canCreate && (
+            <CreateModalButton
+              text="Upload Files"
+              color="primary"
+              modal={UploaderModal}
+              modalProps={{
+                onDone: (ref, refs) => {
+                  console.log('onDone', ref, refs);
+                  run();
+                },
+                onEnrich: (...args) => {
+                  console.log('onEnrich', args);
+                },
+                gallerySeqIncrementer: sequencer,
+              }}
+            />
+          )}
         </>
       }
     >

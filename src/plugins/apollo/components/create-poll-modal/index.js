@@ -67,5 +67,5 @@ function CreatePollModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePollModal), '*:apollo:node:poll:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:poll:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

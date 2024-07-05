@@ -64,6 +64,11 @@ export default (config = {}) => {
       return;
     }
 
+    batchRef.current.forEach((upload) => {
+      upload.cancel();
+      upload.remove();
+    });
+
     batchRef.current = new Map();
     refresh();
   };

@@ -76,5 +76,5 @@ function AnswerModal(props) {
 const ModalWithForm = withForm(AnswerModal);
 
 export default function ModalWithAnswer(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:poll-answer:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

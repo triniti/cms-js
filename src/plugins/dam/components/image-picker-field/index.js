@@ -39,7 +39,8 @@ export default function ImagePickerField(props) {
 
   const rootClassName = classNames(groupClassName, 'form-group');
 
-  const handleChange = (ref) => {
+  const handleDone = (ref, refs) => {
+    console.log('handleDone', ref, refs);
     input.onChange(`${ref || ''}` || undefined);
     input.onBlur();
   };
@@ -105,7 +106,7 @@ export default function ImagePickerField(props) {
             color="light"
             modal={ImagePickerModal}
             modalProps={{
-              onClose: handleChange,
+              onDone: handleDone,
               linkedRef: nodeRef,
               label: label,
               accept: ['image/gif', 'image/jpeg', 'image/png'],

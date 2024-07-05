@@ -90,5 +90,5 @@ function CreateRedirectModal(props) {
 const ModalWithForm = withPbj(withForm(CreateRedirectModal), '*:sys:node:redirect:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:redirect:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

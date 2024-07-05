@@ -78,5 +78,5 @@ function CreateUserModal(props) {
 const ModalWithForm = withPbj(withForm(CreateUserModal), '*:iam:node:user:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:user:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

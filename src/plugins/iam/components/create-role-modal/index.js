@@ -83,5 +83,5 @@ function CreateRoleModal(props) {
 const ModalWithForm = withPbj(withForm(CreateRoleModal), '*:iam:node:role:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:role:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

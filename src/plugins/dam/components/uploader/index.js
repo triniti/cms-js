@@ -27,15 +27,21 @@ const okayToClose = async (msg = 'Files that haven\'t uploaded will be lost.', b
 
 export default function UploaderModal(props) {
   const controlsRef = useRef({});
-  const { onClose = noop, linkedRefs, galleryRef, gallerySequence = 0 } = props;
-  const [activeUpload, setActiveUpload] = useState();
-  const batch = useBatch({ linkedRefs, galleryRef, gallerySequence });
+  const {
+    onDone = noop,
+    onEnrich = noop,
+    linkedRefs,
+    galleryRef,
+    gallerySeqIncrementer = null
+  } = props;
+  const activeUpload = useRef();
+  const batch = useBatch({ onEnrich, linkedRefs, galleryRef, gallerySeqIncrementer });
   const controls = controlsRef.current.delegate ? controlsRef.current : false;
-  const upload = activeUpload ? batch.get(activeUpload) : null;
+  const upload = activeUpload.current ? batch.get(activeUpload.current) : null;
 
-  const handleCloseModal = async () => {
+  const handleDone = async () => {
     if (batch.size === 0) {
-      onClose(null);
+      onDone(null, []);
       props.toggle();
       return;
     }
@@ -49,67 +55,89 @@ export default function UploaderModal(props) {
     }
 
     const asset = await (upload && upload.status === uploadStatus.COMPLETED ? upload.result : null);
-    onClose(asset);
+    const assetRef = asset ? asset.generateNodeRef() : null;
+    const assets = await Promise.all(batch.values()
+      .filter(o => o.status === uploadStatus.COMPLETED)
+      .map(o => o.result)
+    );
+    await onDone(assetRef, assets.map(a => a.generateNodeRef()));
     props.toggle();
   };
 
-  const handleSelectUpload = async (hash) => {
-    if (hash === activeUpload) {
+  const handleSelectUpload = async (nameHash) => {
+    if (nameHash === activeUpload.current) {
       return;
     }
 
     if (!controls || !controls.dirty) {
-      setActiveUpload(hash);
+      activeUpload.current = nameHash;
+      batch.refresh();
       return;
     }
 
-    if (!await okayToClose(`Unsaved changes on ${upload.file.name} will be lost.`, 'OK')) {
+    const currentUpload = batch.get(activeUpload.current);
+    if (currentUpload && !await okayToClose(`Unsaved changes on ${currentUpload.file.name} will be lost.`, 'OK')) {
       return;
     }
 
-    setActiveUpload(hash);
+    activeUpload.current = nameHash;
+    batch.refresh();
   };
 
-  const handleCloseUpload = () => {
-    if (batch.has(activeUpload)) {
-      batch.get(activeUpload).remove();
+  const handleUploadCompleted = (nameHash) => {
+    if (activeUpload.current || activeUpload.current === nameHash) {
+      return;
     }
-    setActiveUpload(null); // select next one automatically?  eh
+
+    activeUpload.current = nameHash;
+    batch.refresh();
+  };
+
+  const handleRemoveUpload = (nameHash) => {
+    if (activeUpload.current === nameHash) {
+      activeUpload.current = null;
+    }
+
+    batch.refresh();
   };
 
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
-      <ModalHeader toggle={handleCloseModal}>Upload Files</ModalHeader>
+      <ModalHeader toggle={handleDone}>Upload Files</ModalHeader>
       <ModalBody className="p-0 modal-scrollable">
         <div className="dam-uploader-wrapper">
           <div className="dam-content">
             <div className="dam-left-col">
               <div className="dam-drop-zone">
-                <Uploader {...props} batch={batch} />
+                <Uploader
+                  {...props}
+                  batch={batch}
+                  onUploadCompleted={handleUploadCompleted}
+                  onRemoveUpload={handleRemoveUpload}
+                />
               </div>
               <div className="dam-file-queue">
                 <FileList
                   {...props}
                   batch={batch}
-                  activeUpload={activeUpload}
+                  activeUpload={activeUpload.current}
                   onSelectUpload={handleSelectUpload}
                 />
               </div>
             </div>
             <div className="meta-form border-left">
               <Card className="pt-3 px-3 pb-1 mb-0">
-                {activeUpload && (
+                {upload && (
                   <AssetForm
                     batch={batch}
-                    uploadHash={activeUpload}
+                    uploadHash={upload.nameHash}
                     controls={controlsRef}
-                    onRemoveUpload={handleCloseUpload}
                   />
                 )}
-                {!activeUpload && batch.size > 0 && (
+                {!upload && batch.size > 0 && (
                   <p>Click a file on the left to edit.</p>
                 )}
-                {!activeUpload && batch.size === 0 && (
+                {!upload && batch.size === 0 && (
                   <p>Drop files on the left.</p>
                 )}
               </Card>
@@ -137,20 +165,12 @@ export default function UploaderModal(props) {
                   color="primary"
                 />
               )}
-              {!controls.dirty && (
-                <ActionButton
-                  text={`Close ${upload.file.name}`}
-                  onClick={handleCloseUpload}
-                  icon="close-sm"
-                  color="light"
-                />
-              )}
             </>
           )}
           <ActionButton
-            text="Close"
-            onClick={handleCloseModal}
-            icon="close-sm"
+            text="Done"
+            onClick={handleDone}
+            icon="save"
             color="light"
             tabIndex="-1"
           />

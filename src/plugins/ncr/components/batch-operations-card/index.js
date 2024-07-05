@@ -73,7 +73,6 @@ export default function BatchOperationsCard(props) {
   const canMarkAsPending = isPublishable && policy.isGranted(`${qname}:mark-as-pending`);
   const canUnpublish = isPublishable && policy.isGranted(`${qname}:unpublish`);
 
-
   return (
     <fieldset className="mb-3 d-flex align-items-center">
       <ButtonGroup className="btn-group--white flex-wrap shadow-sm">

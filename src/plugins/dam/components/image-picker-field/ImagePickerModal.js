@@ -6,27 +6,27 @@ import { ActionButton } from '@triniti/cms/components/index.js';
 
 export default function ImagePickerModal(props) {
   const controlsRef = useRef({});
-  const { onClose = noop, linkedRef, label } = props;
+  const { onDone = noop, linkedRef, label } = props;
   const [activeUpload, setActiveUpload] = useState();
 
-  const handleCloseModal = () => {
-    onClose('tcd:image-asset:image_jpg_20240703_3152be3786ea45928253681c379a5df1');
+  const handleDone = () => {
+    onDone('tcd:image-asset:image_jpg_20240703_3152be3786ea45928253681c379a5df1');
     props.toggle();
   };
 
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
-      <ModalHeader toggle={handleCloseModal}>Select {startCase(label)}</ModalHeader>
+      <ModalHeader toggle={handleDone}>Select {startCase(label)}</ModalHeader>
       <ModalBody className="modal-scrollable">
         <p>stuff</p>
       </ModalBody>
 
       <ModalFooter>
         <ActionButton
-          text="Close"
-          onClick={handleCloseModal}
-          icon="close-sm"
-          color="light"
+          text="Done"
+          onClick={handleDone}
+          icon="save"
+          color="primary"
           tabIndex="-1"
         />
       </ModalFooter>

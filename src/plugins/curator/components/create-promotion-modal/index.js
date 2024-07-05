@@ -66,5 +66,5 @@ function CreatePromotionModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePromotionModal), '*:curator:node:promotion:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:promotion:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

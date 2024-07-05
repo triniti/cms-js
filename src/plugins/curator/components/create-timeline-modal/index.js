@@ -68,5 +68,5 @@ function CreateTimelineModal(props) {
 const ModalWithForm = withPbj(withForm(CreateTimelineModal), '*:curator:node:timeline:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:timeline:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

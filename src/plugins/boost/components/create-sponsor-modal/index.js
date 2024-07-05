@@ -68,5 +68,5 @@ function CreateSponsorModal(props) {
 const ModalWithForm = withPbj(withForm(CreateSponsorModal), '*:boost:node:sponsor:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:sponsor:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

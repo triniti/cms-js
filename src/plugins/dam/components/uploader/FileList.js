@@ -9,10 +9,8 @@ function UploadingItem(props) {
     onSelectUpload(upload.nameHash);
   };
 
-  //onClick={upload.cancel}
   return (
     <Button
-      outline
       size="sm"
       className="d-inline-block text-truncate w-100 ml-0 mr-0"
       color="info"
@@ -33,13 +31,12 @@ function CompletedItem(props) {
 
   return (
     <Button
-      outline
       size="sm"
       className="d-inline-block text-truncate w-100 ml-0 mr-0"
       color="success"
       onClick={handleClick}
     >
-      {isActive ? '(x) ' : ''}{upload.name} completed
+      {isActive ? '(x) ' : ''}{upload.name}
     </Button>
   );
 }
@@ -53,7 +50,6 @@ function FailedItem(props) {
 
   return (
     <Button
-      outline
       size="sm"
       className="d-inline-block text-truncate w-100 ml-0 mr-0"
       color="danger"
