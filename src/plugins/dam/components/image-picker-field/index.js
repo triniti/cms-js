@@ -39,8 +39,7 @@ export default function ImagePickerField(props) {
 
   const rootClassName = classNames(groupClassName, 'form-group');
 
-  const handleDone = (ref, refs) => {
-    console.log('handleDone', ref, refs);
+  const handleSelectImage = (ref) => {
     input.onChange(`${ref || ''}` || undefined);
     input.onBlur();
   };
@@ -87,9 +86,9 @@ export default function ImagePickerField(props) {
       )}
 
       {imageRef && (
-        <div className="d-block">
+        <div key={previewUrl} className="d-block">
           <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
-            <Media src={previewUrl} alt="" width="200" height="auto" object />
+            <Media src={previewUrl} alt="" width="200" height={200} object />
           </a>
         </div>
       )}
@@ -106,7 +105,7 @@ export default function ImagePickerField(props) {
             color="light"
             modal={ImagePickerModal}
             modalProps={{
-              onDone: handleDone,
+              onSelectImage: handleSelectImage,
               allowMultiple: false,
               linkedRef: nodeRef,
               label: label,
