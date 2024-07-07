@@ -14,7 +14,7 @@ const CreateTimelineModal = lazy(() => import('@triniti/cms/plugins/curator/comp
 
 function SearchTimelinesScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:timeline:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:timeline:update`);

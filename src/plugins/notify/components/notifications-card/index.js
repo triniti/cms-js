@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Button, Card, CardBody, CardHeader, CardText, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardText, Spinner, Table } from 'reactstrap';
 import { CreateModalButton, Icon, Loading, } from '@triniti/cms/components/index.js';
 import { Link } from 'react-router-dom';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
@@ -16,24 +16,30 @@ const editable = { draft: true, scheduled: true };
 
 function NotificationsCard(props) {
   const { contentRef, request } = props;
-  request.set('content_ref', NodeRef.fromString(contentRef));
-  const { response, pbjxError } = useRequest(request, true);
+  request.set('content_ref', NodeRef.fromString(`${contentRef}`));
+  const { response, pbjxError, run, isRunning } = useRequest(request);
   const policy = usePolicy();
-  const canCreate = policy.isGranted(`${APP_VENDOR}:notify:create`);
+  const canCreate = policy.isGranted(`${APP_VENDOR}:notification:create`);
 
   return (
     <>
       <Card>
         <CardHeader>
-          Notifications
-          {canCreate && (
-            <CreateModalButton
-              text="Create Notification"
-              icon="plus-outline"
-              modal={CreateNotificationModal}
-              modalProps={{ contentRef: contentRef }}
-            />
-          )}
+          <span>Notifications {isRunning && <Spinner />}</span>
+          <span>
+            {canCreate && (
+              <CreateModalButton
+                text="Create Notification"
+                icon="plus-outline"
+                size="sm"
+                modal={CreateNotificationModal}
+                modalProps={{ contentRef: contentRef }}
+              />
+            )}
+            <Button color="light" size="sm" onClick={run} disabled={isRunning}>
+              <Icon imgSrc="refresh" />
+            </Button>
+          </span>
         </CardHeader>
         <CardBody>
           {(!response || pbjxError) && <Loading error={pbjxError} />}
@@ -100,7 +106,7 @@ export default withRequest(NotificationsCard, 'triniti:notify:request:search-not
   channel: 'tab',
   initialData: {
     sort: SearchNotificationsSort.CREATED_AT_DESC.getValue(),
-    count: 50,
+    count: 100,
     track_total_hits: false,
   }
 });

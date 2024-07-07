@@ -20,7 +20,7 @@ function NodeHistoryCard(props) {
     .set('node_ref', nodeRef)
     .set('count', 5);
 
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const [lastOccurredAts, setLastOccurredAts] = useState([null]);
 
   useEffect(scrollToTop, [response]);
@@ -48,7 +48,7 @@ function NodeHistoryCard(props) {
     <Card>
       <CardHeader id={`${nodeRefStr}-history`}>
         History
-        {response && isRunning && <Spinner />}
+        {isRunning && <Spinner />}
         <Button color="light" size="sm" onClick={handleRefresh} disabled={isRunning}>
           <Icon imgSrc="refresh" />
         </Button>

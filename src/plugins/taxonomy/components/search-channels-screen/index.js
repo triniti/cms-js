@@ -12,7 +12,7 @@ const CreateChannelModal = lazy(() => import('@triniti/cms/plugins/taxonomy/comp
 
 function SearchChannelsScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:channel:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:channel:update`);

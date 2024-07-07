@@ -19,7 +19,7 @@ function SelectDocument(props) {
     selectedDocumentNode,
     setSelectedDocumentNode
   } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
 
   delegate.handleSubmit = (values) => {
     request.set('q', values.q);

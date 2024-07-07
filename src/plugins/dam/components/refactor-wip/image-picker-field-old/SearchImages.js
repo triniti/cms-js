@@ -8,7 +8,7 @@ import ImageGrid from '@triniti/cms/plugins/dam/components/image-grid-old/index.
 
 function SearchImages(props) {
   const { request, selectImage, toggle } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
 
   return(
     <>

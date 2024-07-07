@@ -15,13 +15,12 @@ import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import MedialiveChannelStateButton from '@triniti/cms/plugins/ovp/components/livestreams-screen/MedialiveChannelStateButton.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
+import delay from '@triniti/cms/utils/delay.js';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
   return acc;
 }, {});
-
-const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
 const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((node, id) => {
   const app = getInstance();

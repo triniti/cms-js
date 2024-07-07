@@ -14,7 +14,7 @@ const CreateGalleryModal = lazy(() => import('@triniti/cms/plugins/curator/compo
 
 function SearchGalleriesScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:gallery:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:gallery:update`);

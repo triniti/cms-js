@@ -14,7 +14,7 @@ const CreatePollModal = lazy(() => import('@triniti/cms/plugins/apollo/component
 
 function SearchPollsScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:poll:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:poll:update`);

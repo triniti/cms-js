@@ -19,7 +19,7 @@ function SelectAudio(props) {
     selectedAudioNode,
     setSelectedAudioNode
   } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
 
   delegate.handleSubmit = (values) => {
     request.set('q', values.q);

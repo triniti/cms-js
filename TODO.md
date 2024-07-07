@@ -34,3 +34,4 @@
 * add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
 * for consistency should be name all "media" tabs to "assets"?
+* dynamically determine duration of uploaded video or audio (like image dimensions)

@@ -9,13 +9,14 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/ovp/components/search-videos-screen/SearchForm.js';
-import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const CreateVideoModal = lazy(() => import('@triniti/cms/plugins/ovp/components/create-video-modal/index.js'));
 
 function SearchVideosScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:video:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:video:update`);

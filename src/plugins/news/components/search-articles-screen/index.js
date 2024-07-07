@@ -9,13 +9,14 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/news/components/search-articles-screen/SearchForm.js';
-import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const CreateArticleModal = lazy(() => import('@triniti/cms/plugins/news/components/create-article-modal/index.js'));
 
 function SearchArticlesScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:article:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);

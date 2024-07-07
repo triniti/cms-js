@@ -14,7 +14,7 @@ import CaptionAssetPickerField from '@triniti/cms/plugins/dam/components/caption
 import MezzanineCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzanineCard.js';
 import videoLanguages from '@triniti/app/config/videoLanguages.js';
 
-const LinkedMediaCard = () => <></>;//lazy(() => import('@triniti/cms/plugins/dam/components/linked-images-tab/index.js'));
+const LinkedAssetsCard = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/index.js'));
 
 export default function MediaTab(props) {
   const { tab, nodeRef, node } = props;
@@ -57,7 +57,7 @@ export default function MediaTab(props) {
 
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
-          <LinkedMediaCard nodeRef={nodeRef} />
+          <LinkedAssetsCard linkedRef={nodeRef} />
         </ErrorBoundary>
       </Suspense>
     </>

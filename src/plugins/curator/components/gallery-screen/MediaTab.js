@@ -22,7 +22,7 @@ import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import SortableGrid from '@triniti/cms/plugins/curator/components/sortable-grid/index.js';
 import BatchEditButton from '@triniti/cms/plugins/dam/components/batch-edit-button/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-
+import delay from '@triniti/cms/utils/delay.js';
 import getUpdatedNodeSequenceNumbers from '@triniti/cms/plugins/curator/components/gallery-screen/utils/getUpdatedNodeSequenceNumbers.js';
 import moveNodeByGallerySequence from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByGallerySequence.js';
 import moveNodeByIndex from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByIndex.js';
@@ -31,8 +31,6 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import { STATUS_FULFILLED } from '@triniti/cms/constants.js';
 
 const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/link-assets-modal/index.js'));
-
-const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
 const MAX_IMAGES_PER_ROW = 11;
 const MIN_IMAGES_PER_ROW = 1;
@@ -96,7 +94,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     }
   });
 
-  const { response, pbjxError, pbjxStatus, run } = useRequest(request, true);
+  const { response, pbjxError, pbjxStatus, run } = useRequest(request);
   if (
     pbjxStatus === STATUS_FULFILLED &&
     response &&

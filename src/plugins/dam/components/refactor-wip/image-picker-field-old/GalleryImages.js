@@ -9,7 +9,7 @@ import noop from 'lodash-es/noop.js';
 
 function GalleryImages(props) {
   const { request, nodeRef, selectImage, toggle } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
 
   useEffect(() => {
     if (!request || !nodeRef) {

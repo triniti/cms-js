@@ -16,11 +16,10 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import receiveNodes from '@triniti/cms/plugins/ncr/actions/receiveNodes.js';
 import getExt from '@triniti/cms/utils/getExt.js';
+import delay from '@triniti/cms/utils/delay.js';
 import getImageDimensions from '@triniti/cms/plugins/dam/utils/getImageDimensions.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
-
-const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
 
 const getFileExtension = (file) => {
   // Return quick for known types

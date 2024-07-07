@@ -11,7 +11,7 @@ import noop from 'lodash-es/noop.js';
 
 function LinkedImages(props) {
   const { request, nodeRef, selectActiveTab, selectImage, toggle, onUploadedImageComplete: handleUploadedImageComplete = noop} = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
 
   useEffect(() => {
     if (!request || !nodeRef) {

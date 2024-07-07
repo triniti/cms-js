@@ -50,7 +50,7 @@ function LinkedImagesTab(props) {
   const { request, nodeRef } = props;
   request.set('linked_ref', NodeRef.fromString(nodeRef));
 
-  const { response, run: reloadMedia, pbjxError } = useRequest(request, true);
+  const { response, run: reloadMedia, pbjxError } = useRequest(request);
   const nodes = response ? response.get('nodes', []) : [];
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:asset:update`);

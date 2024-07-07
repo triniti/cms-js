@@ -22,7 +22,7 @@ const resolveComponent = (curie) => {
 function CreateNotificationModal(props) {
   const policy = usePolicy();
   const { request, contentRef } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const [appRef, setAppRef] = useState();
   const [curie, setCurie] = useState();
 

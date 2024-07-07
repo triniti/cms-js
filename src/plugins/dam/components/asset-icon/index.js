@@ -1,9 +1,10 @@
 import React from 'react';
 import { Media } from 'reactstrap';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
-function ArchiveAsset({ asset }) {
+function ArchiveAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
       <Icon imgSrc="zip" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
@@ -11,7 +12,7 @@ function ArchiveAsset({ asset }) {
   );
 }
 
-function CodeAsset({ asset }) {
+function CodeAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
       <Icon imgSrc="code" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
@@ -19,7 +20,7 @@ function CodeAsset({ asset }) {
   );
 }
 
-function AudioAsset({ asset }) {
+function AudioAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
       <Icon imgSrc="audio" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
@@ -27,7 +28,7 @@ function AudioAsset({ asset }) {
   );
 }
 
-function DocumentAsset({ asset }) {
+function DocumentAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
       <Icon imgSrc="document" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
@@ -35,10 +36,10 @@ function DocumentAsset({ asset }) {
   );
 }
 
-function ImageAsset({ asset }) {
+function ImageAsset({ id }) {
   return (
     <Media
-      src={damUrl(asset, '1by1', 'xs')}
+      src={damUrl(id, '1by1', 'xs')}
       alt=""
       width="44"
       height="44"
@@ -48,7 +49,7 @@ function ImageAsset({ asset }) {
   );
 }
 
-function UnknownAsset({ asset }) {
+function UnknownAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
       <Icon imgSrc="question-outline" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
@@ -56,7 +57,7 @@ function UnknownAsset({ asset }) {
   );
 }
 
-function VideoAsset({ asset }) {
+function VideoAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
       <Icon imgSrc="video" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
@@ -65,18 +66,19 @@ function VideoAsset({ asset }) {
 }
 
 const components = {
-  'archive-asset': ArchiveAsset,
-  'audio-asset': AudioAsset,
-  'code-asset': CodeAsset,
-  'document-asset': DocumentAsset,
-  'image-asset': ImageAsset,
-  'unknown-asset': UnknownAsset,
-  'video-asset': VideoAsset,
+  'archive': ArchiveAsset,
+  'audio': AudioAsset,
+  'code': CodeAsset,
+  'document': DocumentAsset,
+  'image': ImageAsset,
+  'unknown': UnknownAsset,
+  'video': VideoAsset,
 };
 
-export default function AssetIcon({ asset }) {
-  const downloadUrl = damUrl(asset);
-  const Component = components[asset.schema().getCurie().getMessage()] || components['unknown-asset'];
+export default function AssetIcon({ id }) {
+  const assetId = id instanceof AssetId ? id : AssetId.fromString(`${id}`);
+  const downloadUrl = damUrl(assetId);
+  const Component = components[assetId.getType()] || components['unknown'];
 
   return (
     <a
@@ -85,9 +87,8 @@ export default function AssetIcon({ asset }) {
       className="hover-box-shadow d-block rounded-2"
       style={{ minWidth: '44px' }}
       rel="noopener noreferrer"
-      title={`Download ${asset.get('title')}`}
     >
-      <Component asset={asset} />
+      <Component id={assetId} />
     </a>
   );
 }
