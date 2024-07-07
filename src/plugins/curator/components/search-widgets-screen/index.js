@@ -16,7 +16,7 @@ const CreateWidgetModal = lazy(() => import('@triniti/cms/plugins/curator/compon
 
 function SearchWidgetsScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:widget:create`);
   const batch = useBatch(response);

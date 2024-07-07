@@ -15,7 +15,7 @@ const CreateVideoModal = lazy(() => import('@triniti/cms/plugins/ovp/components/
 
 function SearchVideosScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:video:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:video:update`);

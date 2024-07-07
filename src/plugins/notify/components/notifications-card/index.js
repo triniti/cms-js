@@ -17,9 +17,9 @@ const editable = { draft: true, scheduled: true };
 function NotificationsCard(props) {
   const { contentRef, request } = props;
   request.set('content_ref', NodeRef.fromString(contentRef));
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
-  const canCreate = policy.isGranted(`${APP_VENDOR}:notify:create`);
+  const canCreate = policy.isGranted(`${APP_VENDOR}:notification:create`);
 
   return (
     <>

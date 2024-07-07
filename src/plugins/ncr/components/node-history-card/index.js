@@ -20,7 +20,7 @@ function NodeHistoryCard(props) {
     .set('node_ref', nodeRef)
     .set('count', 5);
 
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const [lastOccurredAts, setLastOccurredAts] = useState([null]);
 
   useEffect(scrollToTop, [response]);

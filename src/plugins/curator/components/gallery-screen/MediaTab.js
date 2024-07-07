@@ -96,7 +96,7 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     }
   });
 
-  const { response, pbjxError, pbjxStatus, run } = useRequest(request, true);
+  const { response, pbjxError, pbjxStatus, run } = useRequest(request);
   if (
     pbjxStatus === STATUS_FULFILLED &&
     response &&

@@ -21,7 +21,7 @@ function SelectArticle(props) {
     selectedArticleNode,
     setSelectedArticleNode
   } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
 

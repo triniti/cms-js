@@ -19,7 +19,7 @@ const makeRequest = async (request, enricher) => {
   return await pbjx.request(newRequest);
 };
 
-export default (request, runImmediately = false, enricher = noop) => {
+export default (request, runImmediately = true, enricher = noop) => {
   const [response, setResponse] = useState();
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(constants.STATUS_NONE);

@@ -16,7 +16,7 @@ const CreateTeaserModal = lazy(() => import('@triniti/cms/plugins/curator/compon
 
 function SearchTeasersScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:teaser:create`);
   const batch = useBatch(response);

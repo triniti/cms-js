@@ -14,7 +14,7 @@ const CreateRedirectModal = lazy(() => import('@triniti/cms/plugins/sys/componen
 
 function SearchRedirectsScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:redirect:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:redirect:update`);

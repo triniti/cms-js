@@ -15,7 +15,7 @@ import revokeRolesFromApp from '@triniti/cms/plugins/iam/actions/revokeRolesFrom
 
 function RolesForm(props) {
   const { node, nodeRef, request, refreshNode } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const dispatch = useDispatch();
   const policy = usePolicy();
   const [grants, setGrants] = useState({});

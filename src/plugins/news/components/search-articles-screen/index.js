@@ -15,7 +15,7 @@ const CreateArticleModal = lazy(() => import('@triniti/cms/plugins/news/componen
 
 function SearchArticlesScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:article:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);

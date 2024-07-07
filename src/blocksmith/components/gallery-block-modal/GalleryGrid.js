@@ -13,7 +13,7 @@ const GalleryGrid = (props) => {
     request,
   } = props;
 
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
 
   return(
     <>

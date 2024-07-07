@@ -14,7 +14,7 @@ const CreatePromotionModal = lazy(() => import('@triniti/cms/plugins/curator/com
 
 function SearchPromotionsScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:promotion:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:promotion:update`);

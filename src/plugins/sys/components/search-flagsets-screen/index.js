@@ -12,7 +12,7 @@ const CreateFlagsetModal = lazy(() => import('@triniti/cms/plugins/sys/component
 
 function SearchFlagsetsScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:flagset:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:flagset:update`);

@@ -12,7 +12,7 @@ const CreatePicklistModal = lazy(() => import('@triniti/cms/plugins/sys/componen
 
 function SearchPicklistsScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:picklist:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:picklist:update`);

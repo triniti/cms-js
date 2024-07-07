@@ -12,7 +12,7 @@ const CreateRoleModal = lazy(() => import('@triniti/cms/plugins/iam/components/c
 
 function SearchRolesScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:role:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:role:update`);
