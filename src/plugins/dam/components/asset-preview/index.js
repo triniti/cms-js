@@ -1,10 +1,11 @@
 import React from 'react';
 import { Media } from 'reactstrap';
+import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
-function ArchiveAsset({ asset, downloadUrl }) {
+function ArchiveAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
@@ -14,13 +15,13 @@ function ArchiveAsset({ asset, downloadUrl }) {
   );
 }
 
-function AudioAsset({ asset, downloadUrl }) {
+function AudioAsset({ downloadUrl }) {
   return (
     <audio controls src={downloadUrl} />
   );
 }
 
-function CodeAsset({ asset, downloadUrl }) {
+function CodeAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
@@ -30,7 +31,7 @@ function CodeAsset({ asset, downloadUrl }) {
   );
 }
 
-function DocumentAsset({ asset, downloadUrl }) {
+function DocumentAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
@@ -40,8 +41,8 @@ function DocumentAsset({ asset, downloadUrl }) {
   );
 }
 
-function ImageAsset({ asset, downloadUrl }) {
-  const previewUrl = damUrl(asset, '1by1', 'sm');
+function ImageAsset({ id, downloadUrl }) {
+  const previewUrl = damUrl(id, '1by1', 'sm');
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <Media src={previewUrl} alt="" width="100%" height="auto" object className="rounded-3" />
@@ -49,7 +50,7 @@ function ImageAsset({ asset, downloadUrl }) {
   );
 }
 
-function UnknownAsset({ asset, downloadUrl }) {
+function UnknownAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
@@ -59,25 +60,26 @@ function UnknownAsset({ asset, downloadUrl }) {
   );
 }
 
-function VideoAsset({ asset, downloadUrl }) {
-  const previewUrl = artifactUrl(asset, 'video');
+function VideoAsset({ id }) {
+  const previewUrl = artifactUrl(id, 'video');
   return (
     <video className="ratio ratio-16x9" controls src={previewUrl} />
   );
 }
 
 const components = {
-  'archive-asset': ArchiveAsset,
-  'audio-asset': AudioAsset,
-  'code-asset': CodeAsset,
-  'document-asset': DocumentAsset,
-  'image-asset': ImageAsset,
-  'unknown-asset': UnknownAsset,
-  'video-asset': VideoAsset,
+  'archive': ArchiveAsset,
+  'audio': AudioAsset,
+  'code': CodeAsset,
+  'document': DocumentAsset,
+  'image': ImageAsset,
+  'unknown': UnknownAsset,
+  'video': VideoAsset,
 };
 
-export default function AssetPreview({ asset }) {
-  const downloadUrl = damUrl(asset);
-  const Component = components[asset.schema().getCurie().getMessage()] || components['unknown-asset'];
-  return <Component asset={asset} downloadUrl={downloadUrl} />;
+export default function AssetPreview({ id }) {
+  const assetId = id instanceof AssetId ? id : AssetId.fromString(`${id}`);
+  const downloadUrl = damUrl(assetId);
+  const Component = components[assetId.getType()] || components['unknown'];
+  return <Component id={assetId} downloadUrl={downloadUrl} />;
 }

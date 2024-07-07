@@ -30,7 +30,7 @@ export default function DetailsTab(props) {
         <CardBody>
           <Row>
             <Col sm={4} xl={4}>
-              <AssetPreview asset={node} />
+              <AssetPreview id={node.get('_id')} />
             </Col>
             <Col sm={8} xl={8}>
               <Table className="border-bottom">

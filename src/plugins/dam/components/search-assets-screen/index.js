@@ -13,7 +13,7 @@ import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen/SearchForm.js';
 import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
-import AssetIcon from '@triniti/cms/plugins/dam/components/search-assets-screen/AssetIcon.js';
+import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
 
@@ -98,7 +98,7 @@ function SearchAssetsScreen(props) {
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
                     <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
-                    <td className="text-center"><AssetIcon asset={node} /></td>
+                    <td className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td>
                       {seq > 0 && (
                         <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
