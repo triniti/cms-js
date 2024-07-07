@@ -41,7 +41,7 @@ export default function DetailsTab(props) {
           <TextField name="partner_text" label="Partner Text" />
           <UrlField name="partner_url" label="Partner Url" />
           {schema.hasMixin('triniti:common:mixin:themeable') && (
-            <PicklistField name="theme" label="Theme" picklist={`${label}-themes`} />
+            <PicklistField picklist={`${label}-themes`} name="theme" label="Theme" />
           )}
         </CardBody>
       </Card>

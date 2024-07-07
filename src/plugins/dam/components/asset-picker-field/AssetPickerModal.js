@@ -1,19 +1,24 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import noop from 'lodash-es/noop.js';
-import startCase from 'lodash-es/startCase.js';
 import { ActionButton, ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
-const LinkedTab = lazy(() => import('@triniti/cms/plugins/dam/components/image-picker-field/LinkedTab.js'));
-const SearchTab = lazy(() => import('@triniti/cms/plugins/dam/components/image-picker-field/SearchTab.js'));
+const LinkedTab = lazy(() => import('@triniti/cms/plugins/dam/components/asset-picker-field/LinkedTab.js'));
+const SearchTab = lazy(() => import('@triniti/cms/plugins/dam/components/asset-picker-field/SearchTab.js'));
 
-export default function ImagePickerModal(props) {
-  const { onSelectImage = noop, label } = props;
+export default function AssetPickerModal(props) {
+  const {
+    onSelectAsset = noop,
+    header = 'Select Asset',
+    defaultTab = 'linked',
+    linkedRef,
+    uploaderProps = {},
+  } = props;
   const [uploaderOpen, setUploaderOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('linked');
+  const [activeTab, setActiveTab] = useState(defaultTab);
 
-  const handleSelectImage = async (ref) => {
+  const handleSelectAsset = async (ref) => {
     if (!ref) {
       if (uploaderOpen) {
         setUploaderOpen(false);
@@ -21,7 +26,7 @@ export default function ImagePickerModal(props) {
       return;
     }
 
-    await onSelectImage(ref);
+    await onSelectAsset(ref);
     props.toggle();
   };
 
@@ -37,7 +42,13 @@ export default function ImagePickerModal(props) {
     return (
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
-          <UploaderModal {...props} onDone={handleSelectImage} toggle={handleSelectImage} />
+          <UploaderModal
+            {...uploaderProps}
+            linkedRef={linkedRef}
+            allowMultiple={false}
+            onDone={handleSelectAsset}
+            toggle={handleSelectAsset}
+          />
         </ErrorBoundary>
       </Suspense>
     );
@@ -45,17 +56,17 @@ export default function ImagePickerModal(props) {
 
   return (
     <Modal isOpen backdrop="static" size="xl" centered>
-      <ModalHeader toggle={props.toggle}>Select {startCase(label)}</ModalHeader>
+      <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="p-0">
         <Nav className="nav-underline">
           <NavItem>
             <NavLink data-tab="linked" active={activeTab === 'linked'} onClick={handleClickTab}>
-              Linked Images
+              Linked
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink data-tab="search" active={activeTab === 'search'} onClick={handleClickTab}>
-              Search Images
+              Search
             </NavLink>
           </NavItem>
         </Nav>
@@ -68,7 +79,7 @@ export default function ImagePickerModal(props) {
                   {...props}
                   activeTab={activeTab}
                   onClickTab={handleClickTab}
-                  onSelectImage={handleSelectImage}
+                  onSelectAsset={handleSelectAsset}
                   onUpload={handleUpload}
                 />
               </ErrorBoundary>
@@ -81,7 +92,7 @@ export default function ImagePickerModal(props) {
                   {...props}
                   activeTab={activeTab}
                   onClickTab={handleClickTab}
-                  onSelectImage={handleSelectImage}
+                  onSelectAsset={handleSelectAsset}
                   onUpload={handleUpload}
                 />
               </ErrorBoundary>

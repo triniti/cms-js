@@ -14,7 +14,7 @@ import {
 } from '@triniti/cms/components/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
@@ -32,7 +32,7 @@ const resolveComponent = (label) => {
 };
 
 export default function DetailsTab(props) {
-  const { label, node, nodeRef } = props;
+  const { label, node } = props;
   const FieldsComponent = resolveComponent(label);
   const schema = node.schema();
 
@@ -59,14 +59,14 @@ export default function DetailsTab(props) {
             <DatePickerField name="expires_at" label="Expires At" />
           )}
 
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <ImageAssetPickerField name="image_ref" label="Primary Image" />
 
           {schema.hasMixin('triniti:common:mixin:swipeable') && (
             <PicklistField picklist="teaser-swipes" name="swipe" label="Swipe" />
           )}
 
           <TextField name="caption" label="Caption" />
-          <PicklistField name="credit" label="Credit" picklist="teaser-credits" />
+          <PicklistField picklist="teaser-credits" name="credit" label="Credit" />
           <UrlField name="credit_url" label="Credit URL" />
           <TextField name="cta_text" label="Call To Action" />
           <TextareaField name="description" label="Description" rows={3} />

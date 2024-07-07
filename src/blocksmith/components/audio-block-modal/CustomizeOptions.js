@@ -1,6 +1,6 @@
 import React from 'react';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
@@ -26,7 +26,7 @@ export default function CustomizeOptions(props) {
         height="calc(4em + 2px)"
         src={`${damUrl(selectedAudioNode)}`}
       />
-      <ImagePickerField
+      <ImageAssetPickerField
         label="Image"
         name="node_ref"
         nodeRef={nodeRef}

@@ -7,7 +7,7 @@ export default function TetrisWidgetFields() {
     <Card>
       <CardHeader>Tetris Widget Configuration</CardHeader>
       <CardBody>
-        <PicklistField name="layout" label="Layout" picklist="tetris-widget-layouts" />
+        <PicklistField picklist="tetris-widget-layouts" name="layout" label="Layout" />
       </CardBody>
     </Card>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Media } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
 function ArchiveAsset({ asset, downloadUrl }) {
@@ -40,7 +41,7 @@ function DocumentAsset({ asset, downloadUrl }) {
 }
 
 function ImageAsset({ asset, downloadUrl }) {
-  const previewUrl = damUrl(asset, '1by1', 'md');
+  const previewUrl = damUrl(asset, '1by1', 'sm');
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <Media src={previewUrl} alt="" width="100%" height="auto" object className="rounded-3" />
@@ -59,8 +60,9 @@ function UnknownAsset({ asset, downloadUrl }) {
 }
 
 function VideoAsset({ asset, downloadUrl }) {
+  const previewUrl = artifactUrl(asset, 'video');
   return (
-    <video className="ratio ratio-16x9" controls src={downloadUrl} />
+    <video className="ratio ratio-16x9" controls src={previewUrl} />
   );
 }
 

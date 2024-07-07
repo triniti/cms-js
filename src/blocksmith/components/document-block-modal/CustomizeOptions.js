@@ -3,7 +3,7 @@ import { Label } from 'reactstrap';
 import ReactSelect from 'react-select';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import AspectRatio from '@triniti/schemas/triniti/common/enums/AspectRatio.js';
 
 // todo: use the enum-field for aspect ratio, wtf
@@ -42,7 +42,7 @@ export default function CustomizeOptions(props) {
 
   return (
     <div className="container-lg p-5">
-      <ImagePickerField
+      <ImageAssetPickerField
         name="node_ref"
         label="Image"
         nodeRef={nodeRef}

@@ -6,7 +6,7 @@ import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 
 export default function DetailsTab(props) {
-  const { node, nodeRef } = props;
+  const { node } = props;
   const schema = node.schema();
 
   return (
@@ -15,7 +15,7 @@ export default function DetailsTab(props) {
         <CardHeader>Details</CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
-          <SlugField nodeRef={nodeRef} />
+          <SlugField />
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
             <DatePickerField name="expires_at" label="Expires At" />
           )}

@@ -4,7 +4,7 @@ import { SwitchField, TextareaField } from '@triniti/cms/components/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import Preview from '@triniti/cms/blocksmith/components/facebook-video-block-modal/Preview.js';
 import MoreInfo from '@triniti/cms/blocksmith/components/more-info/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 
 const FB_VIDEO_REGEX = new RegExp('(?:(?:https?:)?\\/\\/)?(?:www\\.)?facebook\\.com\\/[a-zA-Z0-9\\.]+\\/videos\\/(?:[a-z0-9\\.]+\\/)?([0-9]+)\\/?(?:\\?.*)?');
 const FB_VIDEO_AUTOPLAY_ATTR_REGEX = new RegExp('data-autoplay=".+?"');
@@ -46,7 +46,7 @@ function FacebookVideoBlockModal(props) {
       <ModalBody>
         <TextareaField name="href" label="URL" placeholder="enter url or embed code" parse={handleHref} />
         {valid && (<Preview {...props} width="526" />)}
-        <ImagePickerField name="poster_image_ref" previewImage={false} />
+        <ImageAssetPickerField name="poster_image_ref" previewImage={false} />
         <SwitchField name="autoplay" label="Autoplay" />
         <SwitchField name="show_captions" label="Show Captions" />
         <SwitchField name="show_text" label="Show Text" />

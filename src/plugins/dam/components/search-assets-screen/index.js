@@ -35,7 +35,22 @@ function SearchAssetsScreen(props) {
       contentWidth="1600px"
       primaryActions={
         <>
-          {canCreate && <CreateModalButton text="Upload Files" color="primary" modal={UploaderModal} />}
+          {canCreate && (
+            <CreateModalButton
+              text="Upload Files"
+              color="primary"
+              modal={UploaderModal}
+              modalProps={{
+                onDone: (ref, refs) => {
+                  if (!refs.length) {
+                    return;
+                  }
+
+                  run();
+                }
+              }}
+            />
+          )}
         </>
       }
     >
@@ -65,7 +80,7 @@ function SearchAssetsScreen(props) {
               <thead>
               <tr>
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
-                <th style={{ width: '44px' }} ></th>
+                <th style={{ width: '44px' }}></th>
                 <th>Title</th>
                 <th>Mime Type</th>
                 <th>File Size</th>
@@ -90,7 +105,8 @@ function SearchAssetsScreen(props) {
                       )}
                       {node.get('title')}
                       {transcodingStatus && (
-                        <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
+                        <Badge pill
+                               className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                       )}
                     </td>
                     <td className="text-nowrap">{node.get('mime_type')}</td>

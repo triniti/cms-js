@@ -13,7 +13,7 @@ import { BackgroundImage } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
 export default function ImageGrid(props) {
-  const { nodes, onSelectImage } = props;
+  const { nodes, onSelectAsset } = props;
 
   return (
     <Container fluid className="gallery-grid-container h-100">
@@ -24,7 +24,7 @@ export default function ImageGrid(props) {
           return (
             <Col key={nodeRef.getId()} xs={12} sm={6} md={4} lg={3} xl="2p">
               <Card
-                onClick={() => onSelectImage(nodeRef)}
+                onClick={() => onSelectAsset(nodeRef)}
                 inverse
                 role="button"
                 className={classNames('shadow', 'p-1', 'image-grid-card')}

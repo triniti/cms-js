@@ -9,6 +9,8 @@ import {
   UrlField
 } from '@triniti/cms/components/index.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
+import AudioAssetPickerField from '@triniti/cms/plugins/dam/components/audio-asset-picker-field/index.js';
+import CaptionAssetPickerField from '@triniti/cms/plugins/dam/components/caption-asset-picker-field/index.js';
 import MezzanineCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzanineCard.js';
 import videoLanguages from '@triniti/app/config/videoLanguages.js';
 
@@ -42,8 +44,8 @@ export default function MediaTab(props) {
       <Card>
         <CardHeader>Captions</CardHeader>
         <CardBody>
-          <p>audio picker</p>
-          <p>caption picker</p>
+          <AudioAssetPickerField name="audio_ref" label="Audio Asset" />
+          <CaptionAssetPickerField name="caption_ref" label="Caption Asset" />
           <KeyValuesField
             name="caption_urls"
             label="Caption URLs"

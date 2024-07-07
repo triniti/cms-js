@@ -4,6 +4,7 @@ import {
 } from '@triniti/cms/components/index.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field/index.js';
 
 export default function MezzanineCard(props) {
   const { nodeRef, node } = props;
@@ -14,7 +15,7 @@ export default function MezzanineCard(props) {
       <Card>
         <CardHeader>Mezzanine</CardHeader>
         <CardBody>
-          <p>mezzanine picker</p>
+          <VideoAssetPickerField name="mezzanine_ref" label="Mezzanine Asset" />
           <UrlField name="mezzanine_url" label="Mezzanine URL" />
         </CardBody>
       </Card>
