@@ -35,7 +35,4 @@
 * add icon to teaser screen header?
 * for consistency should be name all "media" tabs to "assets"?
 * dynamically determine duration of uploaded video or audio (like image dimensions)
-<<<<<<< HEAD
 * add type drop down to asset linker modal
-=======
->>>>>>> origin/v2.x
