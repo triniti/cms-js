@@ -48,7 +48,7 @@ function NodeHistoryCard(props) {
     <Card>
       <CardHeader id={`${nodeRefStr}-history`}>
         History
-        {response && isRunning && <Spinner />}
+        {isRunning && <Spinner />}
         <Button color="light" size="sm" onClick={handleRefresh} disabled={isRunning}>
           <Icon imgSrc="refresh" />
         </Button>

@@ -9,7 +9,8 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/ovp/components/search-videos-screen/SearchForm.js';
-import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const CreateVideoModal = lazy(() => import('@triniti/cms/plugins/ovp/components/create-video-modal/index.js'));
 

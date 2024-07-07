@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 
-const LinkedMediaCard = () => <>wip</>;//lazy(() => import('@triniti/cms/plugins/dam/components/linked-images-tab/index.js'));
+const LinkedAssetsCard = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/index.js'));
 
 export default function MediaTab(props) {
   const { tab, nodeRef } = props;
@@ -12,7 +12,7 @@ export default function MediaTab(props) {
   return (
     <Suspense fallback={<Loading />}>
       <ErrorBoundary>
-        <LinkedMediaCard nodeRef={nodeRef} />
+        <LinkedAssetsCard linkedRef={nodeRef} />
       </ErrorBoundary>
     </Suspense>
   );

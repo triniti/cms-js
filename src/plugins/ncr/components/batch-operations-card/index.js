@@ -8,9 +8,6 @@ import markNodeAsPending from '@triniti/cms/plugins/ncr/actions/markNodeAsPendin
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 import unpublishNode from '@triniti/cms/plugins/ncr/actions/unpublishNode.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import useBatch from '@triniti/cms/plugins/ncr/components/batch-operations-card/useBatch.js';
-
-export { useBatch };
 
 const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal/index.js'));
 

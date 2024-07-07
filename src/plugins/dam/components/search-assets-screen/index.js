@@ -12,7 +12,8 @@ import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen/SearchForm.js';
-import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));

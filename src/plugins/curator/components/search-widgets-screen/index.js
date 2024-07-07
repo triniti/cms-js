@@ -10,7 +10,8 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/curator/components/search-widgets-screen/SearchForm.js';
-import BatchOperationsCard, { useBatch } from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
+import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const CreateWidgetModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-widget-modal/index.js'));
 
