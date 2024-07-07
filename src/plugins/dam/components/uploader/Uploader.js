@@ -73,7 +73,7 @@ const createAsset = async (upload, app, dispatch, batch) => {
     }
   }
 
-  const { linkedRef, galleryRef, onEnrich = noop } = batch.config;
+  const { linkedRef, galleryRef, assetEnricher = noop } = batch.config;
   if (linkedRef) {
     asset.addToSet('linked_refs', [NodeRef.fromString(`${linkedRef}`)]);
   }
@@ -85,7 +85,7 @@ const createAsset = async (upload, app, dispatch, batch) => {
     }
   }
 
-  await onEnrich(asset, upload, app);
+  await assetEnricher(asset, upload, app);
   const CreateNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:create-node:v1');
   const command = CreateNodeV1.create().set('node', asset);
   await pbjx.send(command);

@@ -26,7 +26,7 @@ import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-
 import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
 
 const scrollToTop = () => {
-  const tabBody = document.getElementById('image-picker-search-body');
+  const tabBody = document.getElementById('asset-picker-search-body');
   if (!tabBody) {
     return;
   }
@@ -91,7 +91,7 @@ export default function SearchForm(props) {
                 <Icon imgSrc="filter" className="mx-1" />
                 <span className="me-1 d-none d-md-block">Filters</span>
               </Button>
-              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Images" />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Assets" />
               <Button color="secondary" disabled={isRunning} type="submit">
                 <Icon imgSrc="search" />
               </Button>
