@@ -35,7 +35,7 @@ const okayToUnlink = async () => {
 
 function LinkedAssetsCard(props) {
   const { linkedRef, request } = props;
-  request.set('linked_ref', NodeRef.fromString(linkedRef));
+  request.set('linked_ref', NodeRef.fromString(`${linkedRef}`));
   const { response, pbjxError, isRunning, run } = useRequest(request);
   const dispatch = useDispatch();
   const policy = usePolicy();
