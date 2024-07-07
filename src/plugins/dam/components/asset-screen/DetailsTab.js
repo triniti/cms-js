@@ -89,7 +89,7 @@ export default function DetailsTab(props) {
               description={`Length of the ${label.replace('-asset', '')} in seconds.`}
             />
           )}
-          <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+          <PicklistField picklist={`${label}-credits`} name="credit" label="Credit" />
           <UrlField name="credit_url" label="Credit URL" />
           <TextField name="cta_text" label="Call To Action" />
           <UrlField name="cta_url" label="Call To Action URL" />

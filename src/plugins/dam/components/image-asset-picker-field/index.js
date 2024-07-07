@@ -17,7 +17,7 @@ function Preview(props) {
   );
 }
 
-export default function ImagePickerField(props) {
+export default function ImageAssetPickerField(props) {
   return (
     <AssetPickerField
       {...props}

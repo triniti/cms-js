@@ -7,7 +7,7 @@ import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/in
 import slottingKeys from '@triniti/app/config/slottingKeys.js';
 
 export default function StoryTab(props) {
-  const { nodeRef, node } = props;
+  const { node } = props;
   const schema = node.schema();
 
   return (
@@ -16,7 +16,7 @@ export default function StoryTab(props) {
         <CardHeader>Story</CardHeader>
         <CardBody className="pb-0">
           <TextField name="title" label="Title" required />
-          <SlugField nodeRef={nodeRef} withDatedSlug />
+          <SlugField withDatedSlug />
           {schema.hasMixin('triniti:curator:mixin:teaserable') && (
             <DatePickerField name="order_date" label="Order Date" />
           )}

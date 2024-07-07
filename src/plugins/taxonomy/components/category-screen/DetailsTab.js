@@ -4,13 +4,13 @@ import { TextareaField, TextField } from '@triniti/cms/components/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/index.js';
 
 export default function DetailsTab(props) {
-  const { node, nodeRef } = props;
+  const { node } = props;
   const schema = node.schema();
 
   return (
@@ -19,9 +19,9 @@ export default function DetailsTab(props) {
         <CardHeader>Details</CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
-          <SlugField nodeRef={nodeRef} />
+          <SlugField />
           <TextareaField name="description" label="Description" />
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <ImageAssetPickerField name="image_ref" label="Primary Image" />
           {schema.hasMixin('triniti:common:mixin:themeable') && (
             <PicklistField picklist="category-themes" name="theme" label="Theme" />
           )}

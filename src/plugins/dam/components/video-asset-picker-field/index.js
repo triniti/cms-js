@@ -1,14 +1,14 @@
 import React from 'react';
 import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
 
-export default function AudioPickerField(props) {
+export default function VideoAssetPickerField(props) {
   return (
     <AssetPickerField
       {...props}
-      icon="audio"
-      type="audio-asset"
+      icon="video"
+      type="video-asset"
       uploaderProps={{
-        accept: ['application/*', 'audio/*'],
+        accept: ['application/*', 'video/*'],
       }}
     />
   );

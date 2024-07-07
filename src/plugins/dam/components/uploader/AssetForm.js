@@ -73,7 +73,7 @@ function AssetDetails(props) {
           <>
             <Row>
               <Col sm={8}>
-                <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+                <PicklistField picklist={`${label}-credits`} name="credit" label="Credit" />
               </Col>
               <Col sm={4}>
                 <Button
@@ -108,7 +108,7 @@ function AssetDetails(props) {
 
         {batch.completed === 1 && (
           <>
-            <PicklistField name="credit" label="Credit" picklist={`${label}-credits`} />
+            <PicklistField picklist={`${label}-credits`} name="credit" label="Credit" />
             {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
               <DatePickerField name="expires_at" label="Expires At" />
             )}

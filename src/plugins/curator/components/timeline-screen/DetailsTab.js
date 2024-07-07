@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
@@ -10,7 +10,7 @@ import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fiel
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
 
 export default function DetailsTab(props) {
-  const { node, nodeRef } = props;
+  const { node } = props;
   const schema = node.schema();
 
   return (
@@ -20,7 +20,7 @@ export default function DetailsTab(props) {
         <CardBody>
           <TextField name="title" label="Title" required />
           <TextField name="display_title" label="Display Title" />
-          <SlugField nodeRef={nodeRef} />
+          <SlugField />
 
           {schema.hasMixin('triniti:curator:mixin:teaserable') && (
             <DatePickerField name="order_date" label="Order Date" />
@@ -30,7 +30,7 @@ export default function DetailsTab(props) {
             <DatePickerField name="expires_at" label="Expires At" />
           )}
 
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <ImageAssetPickerField name="image_ref" label="Primary Image" />
           <TextareaField name="description" label="Description" rows={3} />
 
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (

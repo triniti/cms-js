@@ -21,7 +21,7 @@ const defaultAspectRatio = (aspectRatio) => {
   return aspectRatio ?? '4by3';
 }
 
-export default function ImagePickerField(props) {
+export default function ImageAssetPickerField(props) {
   const {
     groupClassName = '',
     label,

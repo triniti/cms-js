@@ -1,7 +1,7 @@
 import React from 'react';
 import AssetPickerField from '@triniti/cms/plugins/dam/components/asset-picker-field/index.js';
 
-export default function CaptionPickerField(props) {
+export default function CaptionAssetPickerField(props) {
   return (
     <AssetPickerField
       {...props}

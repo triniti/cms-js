@@ -9,7 +9,7 @@ import {
   UrlField
 } from '@triniti/cms/components/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field/index.js';
@@ -18,7 +18,7 @@ import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fiel
 import galleryLayouts from '@triniti/app/config/galleryLayouts.js';
 
 export default function DetailsTab(props) {
-  const { node, nodeRef } = props;
+  const { node } = props;
   const schema = node.schema();
 
   return (
@@ -27,7 +27,7 @@ export default function DetailsTab(props) {
         <CardHeader>Details</CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
-          <SlugField nodeRef={nodeRef} withDatedSlug />
+          <SlugField withDatedSlug />
 
           {schema.hasMixin('triniti:curator:mixin:teaserable') && (
             <DatePickerField name="order_date" label="Order Date" />
@@ -38,9 +38,9 @@ export default function DetailsTab(props) {
           )}
 
           <TextareaField name="description" label="Description" rows={3} />
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <ImageAssetPickerField name="image_ref" label="Primary Image" />
           <TextField name="launch_text" label="Launch Text" />
-          <PicklistField name="credit" label="Credit" picklist="gallery-credits" />
+          <PicklistField picklist="gallery-credits" name="credit" label="Credit" />
           <UrlField name="credit_url" label="Credit URL" />
           <SelectField name="layout" label="Layout" options={galleryLayouts} />
 
