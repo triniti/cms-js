@@ -33,3 +33,4 @@
 * create batch edit (aka patch assets) option from search assets (in batch operation)
 * add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
+* for consistency should be name all "media" tabs to "assets"?
