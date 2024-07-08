@@ -19,6 +19,7 @@ import {
   DatePickerField,
   Icon,
   NumberField,
+  SelectField,
   useDebounce
 } from '@triniti/cms/components/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
@@ -34,6 +35,16 @@ const scrollToTop = () => {
   tabBody.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+// ordered by frequency of use
+const assetTypes = [
+  { value: 'image-asset', label: 'Image' },
+  { value: 'video-asset', label: 'Video' },
+  { value: 'document-asset', label: 'Document' },
+  { value: 'audio-asset', label: 'Audio' },
+  { value: 'archive-asset', label: 'Archive' },
+  { value: 'code-asset', label: 'Code' },
+];
+
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +52,9 @@ export default function SearchForm(props) {
   const toggle = () => setIsOpen(!isOpen);
 
   delegate.handleSubmit = async (values) => {
+    values.types = values.type ? [values.type] : null;
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
+    request.clear('types');
     await FormMarshaler.unmarshal(values, { message: request });
     request.clear('cursor').set('page', 1);
     run();
@@ -57,9 +70,12 @@ export default function SearchForm(props) {
     event.stopPropagation();
     event.preventDefault();
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
+    request.clear('types');
     const values = FormMarshaler.marshal(request);
     values.count = 30;
     values.sort = SearchAssetsSort.RELEVANCE.getValue();
+    values.types = null;
+    values.type = null;
     form.reset(values);
     form.submit();
   };
@@ -81,6 +97,15 @@ export default function SearchForm(props) {
     form.submit();
   }, [q, request]);
 
+  useEffect(() => {
+    const type = formState.values.type || '';
+    if (!request || request.get('types', []).sort().join('') === type) {
+      return;
+    }
+
+    form.submit();
+  }, [formState.values.type, request]);
+
   return (
     <Form onSubmit={handleSubmit} autoComplete="off" className="sticky-top shadow-depth-2 w-100">
       <Card className="p-0">
@@ -91,6 +116,7 @@ export default function SearchForm(props) {
                 <Icon imgSrc="filter" className="mx-1" />
                 <span className="me-1 d-none d-md-block">Filters</span>
               </Button>
+              <SelectField name="type" options={assetTypes} placeholder="Select Type:" />
               <Field name="q" type="search" component="input" className="form-control" placeholder="Search Assets" />
               <Button color="secondary" disabled={isRunning} type="submit">
                 <Icon imgSrc="search" />

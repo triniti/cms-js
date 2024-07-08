@@ -8,7 +8,7 @@ import StatsCard from '@triniti/cms/plugins/news/components/article-screen/Stats
 import StoryTab from '@triniti/cms/plugins/news/components/article-screen/StoryTab.js';
 import DetailsTab from '@triniti/cms/plugins/news/components/article-screen/DetailsTab.js';
 import NotificationsTab from '@triniti/cms/plugins/news/components/article-screen/NotificationsTab.js';
-import MediaTab from '@triniti/cms/plugins/news/components/article-screen/MediaTab.js';
+import AssetsTab from '@triniti/cms/plugins/news/components/article-screen/AssetsTab.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
@@ -53,7 +53,7 @@ function ArticleScreen(props) {
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         { text: 'SEO', to: urls.tab('seo') },
         { text: 'Notifications', to: urls.tab('notifications') },
-        { text: 'Media', to: urls.tab('media') },
+        { text: 'Assets', to: urls.tab('assets') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -135,8 +135,8 @@ function ArticleScreen(props) {
           <TabPane tabId="notifications">
             <NotificationsTab {...props} />
           </TabPane>
-          <TabPane tabId="media">
-            <MediaTab {...props} />
+          <TabPane tabId="assets">
+            <AssetsTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />

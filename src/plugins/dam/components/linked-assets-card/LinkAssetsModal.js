@@ -1,35 +1,38 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import noop from 'lodash-es/noop.js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import { ActionButton, ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
-import SearchAssets from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchAssets.js';
+import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
+import { ActionButton, ErrorBoundary, Loading, Pager, withForm } from '@triniti/cms/components/index.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import linkAssets from '@triniti/cms/plugins/dam/actions/linkAssets.js';
 import delay from '@triniti/cms/utils/delay.js';
 import toast from '@triniti/cms/utils/toast.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
+import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
+import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
+import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
 
-export default function LinkAssetsModal(props) {
+function LinkAssetsModal(props) {
   const {
     onClose = noop,
     linkedRef,
     uploaderProps = {},
+    request,
+    delegate
   } = props;
-  const [uploaderOpen, setUploaderOpen] = useState(false);
-  const [refreshed, setRefreshed] = useState(0);
-  const controlsRef = useRef(null);
-  const batch = controlsRef.current ? controlsRef.current.batch : { size: 0 };
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      controlsRef.current = null;
-    };
-  }, []);
+  const dispatch = useDispatch();
+  const [uploaderOpen, setUploaderOpen] = useState(false);
+  const { response, pbjxError, isRunning, run } = useRequest(
+    request, !uploaderOpen, req => req.set('q', req.get('q', '') + ` -linked_refs:${linkedRef}`)
+  );
+  const batch = useBatch(response);
 
   const handleClose = () => {
     onClose();
@@ -53,31 +56,18 @@ export default function LinkAssetsModal(props) {
   };
 
   const handleLinkAssets = async () => {
-    if (!controlsRef.current) {
-      return;
-    }
-
     try {
       await progressIndicator.show('Linking Assets...');
       const assetRefs = Array.from(batch.values()).map(n => n.generateNodeRef());
       await dispatch(linkAssets(linkedRef, assetRefs));
       await delay(3000); // merely here to allow for all assets to be updated in elastic search.
-
-      if (controlsRef.current) {
-        await controlsRef.current.run();
-      }
-
+      run();
       await progressIndicator.close();
       toast({ title: 'Assets linked.' });
     } catch (e) {
       await progressIndicator.close();
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
     }
-  };
-
-  const updateControls = (newBatch, run) => {
-    controlsRef.current = { batch: newBatch, run };
-    setRefreshed(refreshed + 1);
   };
 
   if (uploaderOpen) {
@@ -99,11 +89,31 @@ export default function LinkAssetsModal(props) {
     <Modal isOpen backdrop="static" size="xl" centered>
       <ModalHeader toggle={handleClose}>Link Assets</ModalHeader>
       <ModalBody className="p-0">
-        <SearchAssets
-          {...props}
-          updateControls={updateControls}
-          searchEnricher={req => req.set('q', req.get('q', '') + ` -linked_refs:${linkedRef}`)}
-        />
+        <div id="asset-linker-search-body" className="scrollable-container bg-gray-400 modal-scrollable--tabs">
+          <SearchForm {...props} isRunning={isRunning} run={run} />
+          {(!response || pbjxError) && <Loading error={pbjxError} />}
+
+          {response && (
+            <div>
+              {!response.has('nodes') && (
+                <p>No assets found.</p>
+              )}
+
+              {response.has('nodes') && (
+                <AssetTable nodes={response.get('nodes')} batch={batch} />
+              )}
+
+              <Pager
+                disabled={isRunning}
+                hasMore={response.get('has_more')}
+                page={request.get('page')}
+                perPage={request.get('count')}
+                total={response.get('total')}
+                onChangePage={delegate.handleChangePage}
+              />
+            </div>
+          )}
+        </div>
       </ModalBody>
 
       <ModalFooter>
@@ -135,3 +145,12 @@ export default function LinkAssetsModal(props) {
     </Modal>
   );
 }
+
+export default withRequest(withForm(LinkAssetsModal), 'triniti:dam:request:search-assets-request', {
+  channel: 'modal',
+  initialData: {
+    count: 30,
+    sort: SearchAssetsSort.RELEVANCE.getValue(),
+    track_total_hits: true,
+  }
+});
