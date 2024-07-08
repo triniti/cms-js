@@ -119,6 +119,7 @@ function LinkAssetsModal(props) {
       <ModalFooter>
         <ActionButton
           text="Upload"
+          icon="cloud-upload"
           onClick={handleUpload}
           color="primary"
           tabIndex="-1"
