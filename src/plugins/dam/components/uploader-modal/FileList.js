@@ -18,7 +18,7 @@ function UploadingItem(props) {
       color="light"
       onClick={handleClick}
     >
-      <Spinner className="m-0 me-2" width="16" strokeWidth="8" size="sm" />
+      <Spinner className="me-2" width="16" strokeWidth="8" size="sm" color="info" />
       {upload.name}
     </Button>
   );
