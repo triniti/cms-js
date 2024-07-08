@@ -16,7 +16,7 @@ import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-opera
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 
-const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
+const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
 function SearchAssetsScreen(props) {
   const { request, delegate } = props;
