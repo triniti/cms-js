@@ -158,30 +158,36 @@ export default function AssetForm(props) {
 
   if (upload.error) {
     return (
-        <>
-          <Alert key={key} color="danger">
-            {upload.error}
-          </Alert>
-          <div className="d-flex justify-content-center mt-5">
-            <Button color="secondary" onClick={upload.retry} className="rounded-pill"><Icon imgSrc="refresh" className="me-1" />Retry</Button>
-            <Button color="danger" onClick={upload.remove} className="rounded-pill"><Icon imgSrc="trash" className="me-1" />Remove</Button>
-          </div>
-        </>
+      <React.Fragment key={key}>
+        <Alert key={key} color="danger">
+          {upload.error}
+        </Alert>
+        <div className="d-flex justify-content-center mt-5">
+          <Button color="secondary" onClick={upload.retry} className="rounded-pill">
+            <Icon imgSrc="refresh" className="me-1" />Retry
+          </Button>
+          <Button color="danger" onClick={upload.remove} className="rounded-pill">
+            <Icon imgSrc="trash" className="me-1" />Remove
+          </Button>
+        </div>
+      </React.Fragment>
     );
   }
 
   if (!node) {
     return (
-      <>
-        <Loading key={key} color="dark">
+      <React.Fragment key={key}>
+        <Loading color="dark">
           Uploading {upload.name}
         </Loading>
-        {upload.cancelable &&
+        {upload.cancelable && (
           <div className="d-flex justify-content-center">
-            <Button color="danger" onClick={upload.cancel} className="rounded-pill"><Icon imgSrc="pause-outline" className="me-1" />Cancel</Button>
+            <Button color="danger" onClick={upload.cancel} className="rounded-pill">
+              <Icon imgSrc="warning-outline-alt" className="me-1" />Cancel
+            </Button>
           </div>
-        }
-      </>
+        )}
+      </React.Fragment>
     );
   }
 
