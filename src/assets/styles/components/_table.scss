@@ -132,7 +132,8 @@ tr[class*=" status-"] {
     &:focus-visible {
       box-shadow: $focus-ring-box-shadow;
     }
-    .btn-hover {
+    .btn-hover,
+    .btn-hover-bg {
       margin-right: 0;
     }
   }

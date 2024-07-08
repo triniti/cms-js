@@ -3,10 +3,10 @@ $smallHeight: calc(100vh - 180px);
 $viewportMaxHeight: 950px;
 
 .dam-uploader-wrapper {
+
   @media (min-height: $viewportMaxHeight) {
     min-height: $normalHeight;
   }
-
   @media (max-height: $viewportMaxHeight - 1px) {
     height: $smallHeight;
     overflow: auto;
@@ -20,7 +20,7 @@ $viewportMaxHeight: 950px;
   height: 100%;
   min-height: 0;
 
-  @media (min-width: 550px) {
+  @media (min-width: 576px) {
     flex-direction: row;
   }
   @media (max-width: 767px) {
@@ -30,8 +30,7 @@ $viewportMaxHeight: 950px;
   }
 }
 
-.dam-left-col,
-.dam-pagination-col {
+.dam-left-col {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -39,20 +38,21 @@ $viewportMaxHeight: 950px;
   width: 100%;
   padding: 1rem 1rem 0 1rem;
 
-  @media (min-width: 550px) {
+  @media (min-width: 576px) {
     flex: 0 0 267px;
     width: 267px;
   }
 }
 
 .dam-pagination-col {
-  padding: 1rem;
+  padding-left: .25rem;
 }
 
 .dam-drop-zone {
   position: relative;
   display: flex;
   flex: 0 0 auto;
+  padding: 0 .25rem;
   width: 100%;
   height: 200px;
   margin: 0;
@@ -69,14 +69,17 @@ $viewportMaxHeight: 950px;
 }
 
 .meta-form {
+  flex: 1 1 auto;
+
+  @media (min-width: 576px) {
+    border-left: 1px solid var(--#{$prefix}border-color);
+  }
   @media (min-height: $viewportMaxHeight) {
     min-height: $normalHeight;
   }
-
   @media (max-height: $viewportMaxHeight - 1px) {
     min-height: $smallHeight;
   }
-  flex: 1 1 auto;
 }
 
 .dam-drop-zone-component {
@@ -143,6 +146,7 @@ $viewportMaxHeight: 950px;
   right: 0;
   left: 0;
   bottom: 0;
+  padding: .25rem .25rem 0 .25rem;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   -webkit-backface-visibility: hidden;
@@ -161,6 +165,9 @@ $viewportMaxHeight: 950px;
       margin-left: -5px !important;
     }
   }
+  button {
+    --bs-gradient: none;
+  }
 }
 
 .dam-media-container {
@@ -171,7 +178,7 @@ $viewportMaxHeight: 950px;
   }
 
   > div {
-    @media (min-width: 550px) {
+    @media (min-width: 576px) {
       height: 216px !important;
     }
   }

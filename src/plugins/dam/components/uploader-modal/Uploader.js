@@ -295,7 +295,7 @@ export default function Uploader(props) {
         )}
 
         {!dropzone.isDragActive && dropzone.fileRejections.map(({ file, errors }) => (
-          <div key={file.name}>
+          <div key={file.name} className="alert-container">
             {errors.map(e => (
               <Alert key={e.code} color="danger">
                 {e.message}

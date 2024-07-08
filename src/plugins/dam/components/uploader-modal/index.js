@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Card, CardBody, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Swal from 'sweetalert2';
 import noop from 'lodash-es/noop.js';
 import { ActionButton } from '@triniti/cms/components/index.js';
@@ -124,21 +124,23 @@ export default function UploaderModal(props) {
                 />
               </div>
             </div>
-            <div className="meta-form border-left">
-              <Card className="pt-3 px-3 pb-1 mb-0">
-                {upload && (
-                  <AssetForm
-                    batch={batch}
-                    uploadHash={upload.nameHash}
-                    controls={controlsRef}
-                  />
-                )}
-                {!upload && batch.size > 0 && (
-                  <p>Click a file on the left to edit.</p>
-                )}
-                {!upload && batch.size === 0 && (
-                  <p>Drop files on the left.</p>
-                )}
+            <div className="meta-form">
+              <Card className="mb-0">
+                <CardBody className="p-3">
+                  {upload && (
+                    <AssetForm
+                      batch={batch}
+                      uploadHash={upload.nameHash}
+                      controls={controlsRef}
+                    />
+                  )}
+                  {!upload && batch.size > 0 && (
+                    <p>Click a file on the left to edit.</p>
+                  )}
+                  {!upload && batch.size === 0 && (
+                    <p>Drop files on the left.</p>
+                  )}
+                </CardBody>
               </Card>
             </div>
           </div>
@@ -146,7 +148,7 @@ export default function UploaderModal(props) {
       </ModalBody>
 
       <ModalFooter>
-        <div className="align-self-start dam-pagination-col">
+        <div className="ps-1 me-auto">
           {batch.size > 0 && (
             <>
               Uploaded {batch.completed} of {batch.size} items

@@ -43,9 +43,6 @@
   .modal-dialog-centered.modal-align-bottom & {
     align-items: flex-end;
   }
-  @media (min-width: 576px) {
-    margin: 1.125rem auto .875rem auto;
-  }
 }
 
 
@@ -141,8 +138,8 @@
 
 .modal-footer {
 
-  @media(max-width: 575px) {
-    padding: .5rem !important;
+  @media (max-width: 575px) {
+    padding: .25rem !important;
   }
   & > .btn {
     margin-top: 0; // bootstrap adds .25 margins to > * in modal-footer

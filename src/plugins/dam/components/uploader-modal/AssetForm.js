@@ -3,6 +3,7 @@ import { Alert, Button, Col, Form, Row, Table } from 'reactstrap';
 import { useFormState } from 'react-final-form';
 import {
   DatePickerField,
+  Icon,
   Loading,
   TextareaField,
   TextField,
@@ -36,24 +37,26 @@ function AssetDetails(props) {
 
   return (
     <>
-      <Row key={`${id}-preview`}>
-        <Col sm={4} xl={4}>
-          <AssetPreview id={node.get('_id')} />
+      <Row key={`${id}-preview`} className="mb-4">
+        <Col sm={4}>
+          <div className="ratio ratio-1x1">
+            <AssetPreview id={node.get('_id')} />
+          </div>
         </Col>
-        <Col sm={8} xl={8}>
-          <Table className="border-bottom">
+        <Col sm={8}>
+          <Table className="border-bottom mt-3" size="sm">
             <tbody>
             <tr>
-              <th className="nowrap" scope="row">MIME Type:</th>
+              <th className="nowrap ps-0" scope="row">MIME Type:</th>
               <td className="w-100">{node.get('mime_type')}</td>
             </tr>
             <tr>
-              <th className="nowrap" scope="row">File Size:</th>
+              <th className="nowrap ps-0" scope="row">File Size:</th>
               <td className="w-100">{formatBytes(node.get('file_size'))}</td>
             </tr>
             {schema.hasMixin('triniti:dam:mixin:image-asset') && (
               <tr>
-                <th className="nowrap" scope="row">Dimensions:</th>
+                <th className="nowrap ps-0" scope="row">Dimensions:</th>
                 <td className="w-100">{node.get('width')}x{node.get('height')}</td>
               </tr>
             )}
@@ -71,7 +74,7 @@ function AssetDetails(props) {
 
         {batch.completed > 1 && (
           <>
-            <Row>
+            <Row className="align-items-end">
               <Col sm={8}>
                 <PicklistField picklist={`${label}-credits`} name="credit" label="Credit" />
               </Col>
@@ -81,13 +84,14 @@ function AssetDetails(props) {
                   outline
                   disabled={!values.credit}
                   onClick={() => delegate.handleApplyToAll('credit')}
+                  className="mb-4"
                 >
                   Apply to All
                 </Button>
               </Col>
             </Row>
             {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-              <Row>
+              <Row className="align-items-end">
                 <Col sm={8}>
                   <DatePickerField name="expires_at" label="Expires At" />
                 </Col>
@@ -97,6 +101,7 @@ function AssetDetails(props) {
                     outline
                     disabled={!values.expires_at}
                     onClick={() => delegate.handleApplyToAll('expires_at')}
+                    className="mb-4"
                   >
                     Apply to All
                   </Button>
@@ -153,19 +158,30 @@ export default function AssetForm(props) {
 
   if (upload.error) {
     return (
-      <Alert key={key} color="danger">
-        {upload.error}
-        <a onClick={upload.retry}>Retry</a> -
-        <a onClick={upload.remove}>Remove</a>
-      </Alert>
+        <>
+          <Alert key={key} color="danger">
+            {upload.error}
+          </Alert>
+          <div className="d-flex justify-content-center mt-5">
+            <Button color="secondary" onClick={upload.retry} className="rounded-pill"><Icon imgSrc="refresh" className="me-1" />Retry</Button>
+            <Button color="danger" onClick={upload.remove} className="rounded-pill"><Icon imgSrc="trash" className="me-1" />Remove</Button>
+          </div>
+        </>
     );
   }
 
   if (!node) {
     return (
-      <Loading key={key}>
-        Uploading {upload.name}...{upload.cancelable && <a onClick={upload.cancel}>Cancel</a>}
-      </Loading>
+      <>
+        <Loading key={key} color="dark">
+          Uploading {upload.name}
+        </Loading>
+        {upload.cancelable &&
+          <div className="d-flex justify-content-center">
+            <Button color="danger" onClick={upload.cancel} className="rounded-pill"><Icon imgSrc="pause-outline" className="me-1" />Cancel</Button>
+          </div>
+        }
+      </>
     );
   }
 

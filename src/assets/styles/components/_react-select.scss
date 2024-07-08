@@ -64,6 +64,7 @@ $status-height:         320px;
     }
   }
   a {
+    pointer-events: all;
     color: var(--#{$prefix}body-color);
 
     &:focus-visible {
