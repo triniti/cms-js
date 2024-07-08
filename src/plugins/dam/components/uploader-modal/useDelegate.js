@@ -48,9 +48,7 @@ export default (props) => {
         });
       } catch (e) {
         await progressIndicator.close();
-        const message = getFriendlyErrorMessage(e);
-        dispatch(sendAlert({ type: 'danger', message }));
-        return { [FORM_ERROR]: message };
+        return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
       }
     };
 
@@ -86,9 +84,7 @@ export default (props) => {
       setTimeout(refreshNode);
     } catch (e) {
       await progressIndicator.close();
-      const message = getFriendlyErrorMessage(e);
-      dispatch(sendAlert({ type: 'danger', message }));
-      return { [FORM_ERROR]: message };
+      dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
     }
   };
 
