@@ -16,9 +16,9 @@ import videoLanguages from '@triniti/app/config/videoLanguages.js';
 
 const LinkedAssetsCard = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/index.js'));
 
-export default function MediaTab(props) {
+export default function AssetsTab(props) {
   const { tab, nodeRef, node } = props;
-  if (tab !== 'media') {
+  if (tab !== 'assets') {
     return null;
   }
 

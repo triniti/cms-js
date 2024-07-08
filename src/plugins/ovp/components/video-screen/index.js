@@ -4,7 +4,7 @@ import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/ovp/components/video-screen/DetailsTab.js';
-import MediaTab from '@triniti/cms/plugins/ovp/components/video-screen/MediaTab.js';
+import AssetsTab from '@triniti/cms/plugins/ovp/components/video-screen/AssetsTab.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
@@ -44,9 +44,9 @@ function VideoScreen(props) {
       activeTab={tab}
       tabs={[
         { text: 'Details', to: urls.tab('details') },
-        { text: 'Media', to: urls.tab('media') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         { text: 'SEO', to: urls.tab('seo') },
+        { text: 'Assets', to: urls.tab('assets') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -112,14 +112,14 @@ function VideoScreen(props) {
           <TabPane tabId="details">
             <DetailsTab {...props} />
           </TabPane>
-          <TabPane tabId="media">
-            <MediaTab {...props} />
-          </TabPane>
           <TabPane tabId="taxonomy">
             <TaxonomyTab {...props} />
           </TabPane>
           <TabPane tabId="seo">
             <SeoTab {...props} />
+          </TabPane>
+          <TabPane tabId="assets">
+            <AssetsTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />

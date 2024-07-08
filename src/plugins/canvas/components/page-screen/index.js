@@ -4,6 +4,7 @@ import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/canvas/components/page-screen/DetailsTab.js';
+import AssetsTab from '@triniti/cms/plugins/canvas/components/page-screen/AssetsTab.js';
 import CodeTab from '@triniti/cms/plugins/common/components/code-tab/index.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
@@ -47,6 +48,7 @@ function PageScreen(props) {
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         { text: 'SEO', to: urls.tab('seo') },
         { text: 'Code', to: urls.tab('code') },
+        { text: 'Assets', to: urls.tab('assets') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -120,6 +122,9 @@ function PageScreen(props) {
           </TabPane>
           <TabPane tabId="code">
             <CodeTab {...props} />
+          </TabPane>
+          <TabPane tabId="assets">
+            <AssetsTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />
