@@ -40,6 +40,7 @@ function SearchAssetsScreen(props) {
             <CreateModalButton
               text="Upload Files"
               color="primary"
+              icon="cloud-upload"
               modal={UploaderModal}
               modalProps={{
                 onDone: (ref, refs) => {
@@ -106,8 +107,7 @@ function SearchAssetsScreen(props) {
                       )}
                       {node.get('title')}
                       {transcodingStatus && (
-                        <Badge pill
-                               className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
+                        <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                       )}
                     </td>
                     <td className="text-nowrap">{node.get('mime_type')}</td>
