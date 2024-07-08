@@ -90,7 +90,7 @@ function LinkedAssetsCard(props) {
                 modalProps={{
                   linkedRef,
                   onClose: handleLinkedAssets,
-              }}
+                }}
               />
             )}
             <Button color="light" size="sm" onClick={run} disabled={isRunning}>
