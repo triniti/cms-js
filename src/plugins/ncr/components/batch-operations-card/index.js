@@ -76,7 +76,9 @@ export default function BatchOperationsCard(props) {
         {canPublish && (
           <CreateModalButton
             text="Publish"
-            color="outline-primary"
+            color="primary"
+            icon="globe"
+            outline
             modal={BatchOperationModal}
             modalProps={() => ({
               header: `Publish Nodes (${batch.size})`,
@@ -90,7 +92,9 @@ export default function BatchOperationsCard(props) {
         {canMarkAsDraft && (
           <CreateModalButton
             text="Mark As Draft"
-            color="outline-light"
+            color="light"
+            icon="edit"
+            outline
             modal={BatchOperationModal}
             modalProps={() => ({
               header: `Mark Nodes (${batch.size}) As Draft`,
@@ -104,7 +108,9 @@ export default function BatchOperationsCard(props) {
         {canMarkAsPending && (
           <CreateModalButton
             text="Mark As Pending"
-            color="outline-light"
+            color="info"
+            icon="legal"
+            outline
             modal={BatchOperationModal}
             modalProps={() => ({
               header: `Mark Nodes (${batch.size}) As Pending`,
@@ -118,7 +124,9 @@ export default function BatchOperationsCard(props) {
         {canUnpublish && (
           <CreateModalButton
             text="Unpublish"
-            color="outline-warning"
+            color="warning"
+            icon="archive"
+            outline
             modal={BatchOperationModal}
             modalProps={() => ({
               header: `Unpublish Nodes (${batch.size})`,
@@ -132,7 +140,9 @@ export default function BatchOperationsCard(props) {
         {canDelete && (
           <CreateModalButton
             text="Delete"
-            color="outline-danger"
+            color="danger"
+            icon="trash"
+            outline
             modal={BatchOperationModal}
             modalProps={() => ({
               header: `Delete Nodes (${batch.size})`,

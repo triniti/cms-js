@@ -44,8 +44,8 @@ function SlotModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Slot</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
-      <ModalBody>
+      <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField
             name="name"

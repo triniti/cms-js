@@ -62,9 +62,9 @@ export default function withNotificationModal(ModalFields) {
     return (
       <>
         <ModalHeader>Create {label}</ModalHeader>
-        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <ModalBody className="modal-scrollable">
+            {hasSubmitErrors && <FormErrors errors={submitErrors} />}
             <ContentRefField contentRef={contentRef} />
             <SendOptionsField contentStatus={contentStatus} />
             {!values.content_ref && (

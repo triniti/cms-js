@@ -12,7 +12,7 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import AssetPreview from '@triniti/cms/plugins/dam/components/asset-preview/index.js';
 import formatBytes from '@triniti/cms/utils/formatBytes.js';
-import useDelegate from '@triniti/cms/plugins/dam/components/uploader/useDelegate.js';
+import useDelegate from '@triniti/cms/plugins/dam/components/uploader-modal/useDelegate.js';
 import { uploadStatus } from '@triniti/cms/plugins/dam/constants.js';
 
 function AssetDetails(props) {

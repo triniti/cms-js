@@ -16,7 +16,7 @@ import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/A
 import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 
-const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
+const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
 function LinkAssetsModal(props) {
   const {

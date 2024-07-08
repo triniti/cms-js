@@ -67,8 +67,8 @@ function CreateArticleModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Article</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
           <TextField name="slug" label="Slug" value={slug} onChange={handleChange} />

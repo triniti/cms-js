@@ -39,8 +39,8 @@ function CreatePageModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Page</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
         </Form>

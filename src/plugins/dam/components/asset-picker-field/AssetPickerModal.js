@@ -3,7 +3,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, TabC
 import noop from 'lodash-es/noop.js';
 import { ActionButton, ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 
-const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader/index.js'));
+const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 const LinkedTab = lazy(() => import('@triniti/cms/plugins/dam/components/asset-picker-field/LinkedTab.js'));
 const SearchTab = lazy(() => import('@triniti/cms/plugins/dam/components/asset-picker-field/SearchTab.js'));
 

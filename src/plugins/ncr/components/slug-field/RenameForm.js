@@ -72,8 +72,8 @@ function RenameForm(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Rename {label}</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField
             name="slug"
