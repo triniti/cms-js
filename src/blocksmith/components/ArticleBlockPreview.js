@@ -1,12 +1,11 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
+import withBlockPreview from '@triniti/cms/blocksmith/components/withBlockPreview.js';
 
-export default function ArticleBlockPreview(props) {
+function ArticleBlockPreview(props) {
   const { pbj } = props;
   return (
-    <Alert color="info">
-      <h1>Article Block</h1>
-      <p>{JSON.stringify(pbj)}</p>
-    </Alert>
-  )
+    <p>{JSON.stringify(pbj)}</p>
+  );
 }
+
+export default withBlockPreview(ArticleBlockPreview);

@@ -12,7 +12,6 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 const LowPriority = 1;
 
@@ -21,7 +20,7 @@ function Divider() {
 }
 
 export default function ToolbarPlugin(props) {
-  const { showModal } = props;
+  const { onCreateBlock } = props;
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
@@ -30,16 +29,6 @@ export default function ToolbarPlugin(props) {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
-
-  const handleCreateBlock = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    const type = event.target.dataset.type;
-    const curie = `${APP_VENDOR}:canvas:block:${type}`;
-    const Component = resolveComponent(curie, 'Modal');
-    const Modal = () => (p) => <Component curie={curie} {...p} />;
-    showModal(Modal);
-  };
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -167,14 +156,14 @@ export default function ToolbarPlugin(props) {
         <i className="format justify-align" />
       </button>
       <button
-        onClick={handleCreateBlock}
+        onClick={onCreateBlock}
         data-type="youtube-video-block"
         className="toolbar-item"
         aria-label="YoutubeVideoBlock">
         youtube video
       </button>
       <button
-        onClick={handleCreateBlock}
+        onClick={onCreateBlock}
         data-type="article-block"
         className="toolbar-item"
         aria-label="ArticleBlock">
