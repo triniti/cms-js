@@ -1,43 +1,44 @@
 import React from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 
 const theme = {
-  code: 'editor-code',
+  code: 'blocksmith-code',
   heading: {
-    h1: 'editor-heading-h1',
-    h2: 'editor-heading-h2',
-    h3: 'editor-heading-h3',
-    h4: 'editor-heading-h4',
-    h5: 'editor-heading-h5',
+    h1: 'blocksmith-heading-h1',
+    h2: 'blocksmith-heading-h2',
+    h3: 'blocksmith-heading-h3',
+    h4: 'blocksmith-heading-h4',
+    h5: 'blocksmith-heading-h5',
   },
-  image: 'editor-image',
-  link: 'editor-link',
+  image: 'blocksmith-image',
+  link: 'blocksmith-link',
   list: {
-    listitem: 'editor-listitem',
+    listitem: 'blocksmith-listitem',
     nested: {
-      listitem: 'editor-nested-listitem',
+      listitem: 'blocksmith-nested-listitem',
     },
-    ol: 'editor-list-ol',
-    ul: 'editor-list-ul',
+    ol: 'blocksmith-list-ol',
+    ul: 'blocksmith-list-ul',
   },
   ltr: 'ltr',
-  paragraph: 'editor-paragraph',
-  placeholder: 'editor-placeholder',
-  quote: 'editor-quote',
+  paragraph: 'blocksmith-paragraph',
+  placeholder: 'blocksmith-placeholder',
+  quote: 'blocksmith-quote',
   rtl: 'rtl',
   text: {
-    bold: 'editor-text-bold',
-    code: 'editor-text-code',
-    hashtag: 'editor-text-hashtag',
-    italic: 'editor-text-italic',
-    overflowed: 'editor-text-overflowed',
-    strikethrough: 'editor-text-strikethrough',
-    underline: 'editor-text-underline',
-    underlineStrikethrough: 'editor-text-underlineStrikethrough',
+    bold: 'blocksmith-text-bold',
+    code: 'blocksmith-text-code',
+    hashtag: 'blocksmith-text-hashtag',
+    italic: 'blocksmith-text-italic',
+    overflowed: 'blocksmith-text-overflowed',
+    strikethrough: 'blocksmith-text-strikethrough',
+    underline: 'blocksmith-text-underline',
+    underlineStrikethrough: 'blocksmith-text-underlineStrikethrough',
   },
 };
 
@@ -51,19 +52,30 @@ const config = {
 };
 
 export default function Blocksmith(props) {
+  const { blocks, editMode, node, onChange } = props;
+
+  const handleChange = (editorState) => {
+    const state = editorState.toJSON();
+    const nodes = state?.root?.children || [];
+    console.log('handleChange', state);
+    nodes.map(n => console.log(n.type, n));
+  };
+
+  const initialConfig = {...config, editable: editMode };
 
   return (
-    <LexicalComposer initialConfig={config}>
-      <div className="editor-container">
+    <LexicalComposer initialConfig={initialConfig}>
+      <div className="blocksmith">
         <ToolbarPlugin />
-        <div className="editor-inner">
+        <OnChangePlugin onChange={handleChange} ignoreSelectionChange={true} />
+        <div className="blocksmith-inner">
           <RichTextPlugin
             contentEditable={
               <ContentEditable
-                className="editor-input"
-                aria-placeholder="enter stuff"
+                className="blocksmith-input"
+                aria-placeholder="Start writing..."
                 placeholder={
-                  <div className="editor-placeholder">enter stuff</div>
+                  <div className="blocksmith-placeholder">Start writing...</div>
                 }
               />
             }

@@ -35,6 +35,7 @@
     "worker-loader": "^3.0.8"
   },
   "devDependencies": {
+    "@wbtcd/schemas": "^3.0.1",
     "resolve-url-loader": "^5.0.0"
   }
 }

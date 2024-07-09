@@ -1,61 +1,5 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-body {
-  margin: 0;
-  background: #eee;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular',
-    sans-serif;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.other h2 {
-  font-size: 18px;
-  color: #444;
-  margin-bottom: 7px;
-}
-
-.other a {
-  color: #777;
-  text-decoration: underline;
-  font-size: 14px;
-}
-
-.other ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-.App {
-  font-family: sans-serif;
-  text-align: center;
-}
-
-h1 {
-  font-size: 24px;
-  color: #333;
-}
-
-.ltr {
-  text-align: left;
-}
-
-.rtl {
-  text-align: right;
-}
-
-.editor-container {
-  margin: 20px auto 20px auto;
+.blocksmith {
   border-radius: 2px;
-  max-width: 600px;
   color: #000;
   position: relative;
   line-height: 20px;
@@ -65,13 +9,13 @@ h1 {
   border-top-right-radius: 10px;
 }
 
-.editor-inner {
+.blocksmith-inner {
   background: #fff;
   position: relative;
 }
 
-.editor-input {
-  min-height: 150px;
+.blocksmith-input {
+  min-height: 250px;
   resize: none;
   font-size: 15px;
   caret-color: rgb(5, 5, 5);
@@ -82,7 +26,7 @@ h1 {
   caret-color: #444;
 }
 
-.editor-placeholder {
+.blocksmith-placeholder {
   color: #999;
   overflow: hidden;
   position: absolute;
@@ -95,55 +39,39 @@ h1 {
   pointer-events: none;
 }
 
-.editor-text-bold {
+.blocksmith-text-bold {
   font-weight: bold;
 }
 
-.editor-text-italic {
+.blocksmith-text-italic {
   font-style: italic;
 }
 
-.editor-text-underline {
+.blocksmith-text-underline {
   text-decoration: underline;
 }
 
-.editor-text-strikethrough {
+.blocksmith-text-strikethrough {
   text-decoration: line-through;
 }
 
-.editor-text-underlineStrikethrough {
+.blocksmith-text-underlineStrikethrough {
   text-decoration: underline line-through;
 }
 
-.editor-text-code {
+.blocksmith-text-code {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
 }
 
-.editor-link {
+.blocksmith-link {
   color: rgb(33, 111, 219);
   text-decoration: none;
 }
 
-.tree-view-output {
-  display: block;
-  background: #222;
-  color: #fff;
-  padding: 5px;
-  font-size: 12px;
-  white-space: pre-wrap;
-  margin: 1px auto 10px auto;
-  max-height: 250px;
-  position: relative;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  overflow: auto;
-  line-height: 14px;
-}
-
-.editor-code {
+.blocksmith-code {
   background-color: rgb(240, 242, 245);
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
@@ -159,7 +87,7 @@ h1 {
   position: relative;
 }
 
-.editor-code:before {
+.blocksmith-code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: #eee;
@@ -172,7 +100,7 @@ h1 {
   text-align: right;
   min-width: 25px;
 }
-.editor-code:after {
+.blocksmith-code:after {
   content: attr(data-highlight-language);
   top: 0;
   right: 3px;
@@ -183,49 +111,49 @@ h1 {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.editor-tokenComment {
+.blocksmith-tokenComment {
   color: slategray;
 }
 
-.editor-tokenPunctuation {
+.blocksmith-tokenPunctuation {
   color: #999;
 }
 
-.editor-tokenProperty {
+.blocksmith-tokenProperty {
   color: #905;
 }
 
-.editor-tokenSelector {
+.blocksmith-tokenSelector {
   color: #690;
 }
 
-.editor-tokenOperator {
+.blocksmith-tokenOperator {
   color: #9a6e3a;
 }
 
-.editor-tokenAttr {
+.blocksmith-tokenAttr {
   color: #07a;
 }
 
-.editor-tokenVariable {
+.blocksmith-tokenVariable {
   color: #e90;
 }
 
-.editor-tokenFunction {
+.blocksmith-tokenFunction {
   color: #dd4a68;
 }
 
-.editor-paragraph {
+.blocksmith-paragraph {
   margin: 0;
   margin-bottom: 8px;
   position: relative;
 }
 
-.editor-paragraph:last-child {
+.blocksmith-paragraph:last-child {
   margin-bottom: 0;
 }
 
-.editor-heading-h1 {
+.blocksmith-heading-h1 {
   font-size: 24px;
   color: rgb(5, 5, 5);
   font-weight: 400;
@@ -234,7 +162,7 @@ h1 {
   padding: 0;
 }
 
-.editor-heading-h2 {
+.blocksmith-heading-h2 {
   font-size: 15px;
   color: rgb(101, 103, 107);
   font-weight: 700;
@@ -244,7 +172,7 @@ h1 {
   text-transform: uppercase;
 }
 
-.editor-quote {
+.blocksmith-quote {
   margin: 0;
   margin-left: 20px;
   font-size: 15px;
@@ -255,23 +183,23 @@ h1 {
   padding-left: 16px;
 }
 
-.editor-list-ol {
+.blocksmith-list-ol {
   padding: 0;
   margin: 0;
   margin-left: 16px;
 }
 
-.editor-list-ul {
+.blocksmith-list-ul {
   padding: 0;
   margin: 0;
   margin-left: 16px;
 }
 
-.editor-listitem {
+.blocksmith-listitem {
   margin: 8px 32px 8px 32px;
 }
 
-.editor-nested-listitem {
+.blocksmith-nested-listitem {
   list-style-type: none;
 }
 
@@ -284,47 +212,7 @@ pre::-webkit-scrollbar-thumb {
   background: #999;
 }
 
-.debug-timetravel-panel {
-  overflow: hidden;
-  padding: 0 0 10px 0;
-  margin: auto;
-  display: flex;
-}
-
-.debug-timetravel-panel-slider {
-  padding: 0;
-  flex: 8;
-}
-
-.debug-timetravel-panel-button {
-  padding: 0;
-  border: 0;
-  background: none;
-  flex: 1;
-  color: #fff;
-  font-size: 12px;
-}
-
-.debug-timetravel-panel-button:hover {
-  text-decoration: underline;
-}
-
-.debug-timetravel-button {
-  border: 0;
-  padding: 0;
-  font-size: 12px;
-  top: 10px;
-  right: 15px;
-  position: absolute;
-  background: none;
-  color: #fff;
-}
-
-.debug-timetravel-button:hover {
-  text-decoration: underline;
-}
-
-.toolbar {
+.blocksmith .toolbar {
   display: flex;
   margin-bottom: 1px;
   background: #fff;
@@ -334,7 +222,7 @@ pre::-webkit-scrollbar-thumb {
   vertical-align: middle;
 }
 
-.toolbar button.toolbar-item {
+.blocksmith .toolbar button.toolbar-item {
   border: 0;
   display: flex;
   background: none;
@@ -344,15 +232,15 @@ pre::-webkit-scrollbar-thumb {
   vertical-align: middle;
 }
 
-.toolbar button.toolbar-item:disabled {
+.blocksmith .toolbar button.toolbar-item:disabled {
   cursor: not-allowed;
 }
 
-.toolbar button.toolbar-item.spaced {
+.blocksmith .toolbar button.toolbar-item.spaced {
   margin-right: 2px;
 }
 
-.toolbar button.toolbar-item i.format {
+.blocksmith .toolbar button.toolbar-item i.format {
   background-size: contain;
   display: inline-block;
   height: 18px;
@@ -363,29 +251,29 @@ pre::-webkit-scrollbar-thumb {
   opacity: 0.6;
 }
 
-.toolbar button.toolbar-item:disabled i.format {
+.blocksmith .toolbar button.toolbar-item:disabled i.format {
   opacity: 0.2;
 }
 
-.toolbar button.toolbar-item.active {
+.blocksmith .toolbar button.toolbar-item.active {
   background-color: rgba(223, 232, 250, 0.3);
 }
 
-.toolbar button.toolbar-item.active i {
+.blocksmith .toolbar button.toolbar-item.active i {
   opacity: 1;
 }
 
-.toolbar .toolbar-item:hover:not([disabled]) {
+.blocksmith .toolbar .toolbar-item:hover:not([disabled]) {
   background-color: #eee;
 }
 
-.toolbar .divider {
+.blocksmith .toolbar .divider {
   width: 1px;
   background-color: #eee;
   margin: 0 4px;
 }
 
-.toolbar .toolbar-item .text {
+.blocksmith .toolbar .toolbar-item .text {
   display: flex;
   line-height: 20px;
   width: 200px;
@@ -399,7 +287,7 @@ pre::-webkit-scrollbar-thumb {
   text-align: left;
 }
 
-.toolbar .toolbar-item .icon {
+.blocksmith .toolbar .toolbar-item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -409,42 +297,42 @@ pre::-webkit-scrollbar-thumb {
   background-size: contain;
 }
 
-i.undo {
+.blocksmith i.undo {
   background-image: url(./icons/arrow-counterclockwise.svg);
 }
 
-i.redo {
+.blocksmith i.redo {
   background-image: url(./icons/arrow-clockwise.svg);
 }
 
-i.bold {
+.blocksmith i.bold {
   background-image: url(./icons/type-bold.svg);
 }
 
-i.italic {
+.blocksmith i.italic {
   background-image: url(./icons/type-italic.svg);
 }
 
-i.underline {
+.blocksmith i.underline {
   background-image: url(./icons/type-underline.svg);
 }
 
-i.strikethrough {
+.blocksmith i.strikethrough {
   background-image: url(./icons/type-strikethrough.svg);
 }
 
-i.left-align {
+.blocksmith i.left-align {
   background-image: url(./icons/text-left.svg);
 }
 
-i.center-align {
+.blocksmith i.center-align {
   background-image: url(./icons/text-center.svg);
 }
 
-i.right-align {
+.blocksmith i.right-align {
   background-image: url(./icons/text-right.svg);
 }
 
-i.justify-align {
+.blocksmith i.justify-align {
   background-image: url(./icons/justify.svg);
 }

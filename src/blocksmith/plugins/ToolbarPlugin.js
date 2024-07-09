@@ -74,88 +74,82 @@ export default function ToolbarPlugin() {
     );
   }, [editor, $updateToolbar]);
 
+  // we don't want buttons submitting the main form
+  const createHandler = (command, payload) => {
+    return (event) => {
+      editor.dispatchCommand(command, payload);
+      event.preventDefault();
+      event.stopPropagation();
+    };
+  };
+
   return (
     <div className="toolbar" ref={toolbarRef}>
+      {/*<button*/}
+      {/*  disabled={!canUndo}*/}
+      {/*  onClick={() => {*/}
+      {/*    editor.dispatchCommand(UNDO_COMMAND, undefined);*/}
+      {/*  }}*/}
+      {/*  className="toolbar-item spaced"*/}
+      {/*  aria-label="Undo">*/}
+      {/*  <i className="format undo" />*/}
+      {/*</button>*/}
+      {/*<button*/}
+      {/*  disabled={!canRedo}*/}
+      {/*  onClick={() => {*/}
+      {/*    editor.dispatchCommand(REDO_COMMAND, undefined);*/}
+      {/*  }}*/}
+      {/*  className="toolbar-item"*/}
+      {/*  aria-label="Redo">*/}
+      {/*  <i className="format redo" />*/}
+      {/*</button>*/}
+      {/*<Divider />*/}
+
       <button
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-        className="toolbar-item spaced"
-        aria-label="Undo">
-        <i className="format undo" />
-      </button>
-      <button
-        disabled={!canRedo}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-        className="toolbar-item"
-        aria-label="Redo">
-        <i className="format redo" />
-      </button>
-      <Divider />
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
-        }}
+        onClick={createHandler(FORMAT_TEXT_COMMAND, 'bold')}
         className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
         aria-label="Format Bold">
         <i className="format bold" />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
-        }}
+        onClick={createHandler(FORMAT_TEXT_COMMAND, 'italic')}
         className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
         aria-label="Format Italics">
         <i className="format italic" />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
-        }}
+        onClick={createHandler(FORMAT_TEXT_COMMAND, 'underline')}
         className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
         aria-label="Format Underline">
         <i className="format underline" />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
-        }}
+        onClick={createHandler(FORMAT_TEXT_COMMAND, 'strikethrough')}
         className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
         aria-label="Format Strikethrough">
         <i className="format strikethrough" />
       </button>
       <Divider />
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
-        }}
+        onClick={createHandler(FORMAT_ELEMENT_COMMAND, 'left')}
         className="toolbar-item spaced"
         aria-label="Left Align">
         <i className="format left-align" />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
-        }}
+        onClick={createHandler(FORMAT_ELEMENT_COMMAND, 'center')}
         className="toolbar-item spaced"
         aria-label="Center Align">
         <i className="format center-align" />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
-        }}
+        onClick={createHandler(FORMAT_ELEMENT_COMMAND, 'right')}
         className="toolbar-item spaced"
         aria-label="Right Align">
         <i className="format right-align" />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
-        }}
+        onClick={createHandler(FORMAT_ELEMENT_COMMAND, 'justify')}
         className="toolbar-item"
         aria-label="Justify Align">
         <i className="format justify-align" />
