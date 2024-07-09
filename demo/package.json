@@ -11,10 +11,10 @@
     "@babel/plugin-proposal-export-default-from": "^7.24.1",
     "@babel/preset-env": "^7.24.5",
     "@babel/preset-react": "^7.24.1",
+    "@gdbots/schemas": "file:../node_modules/@gdbots/schemas/",
     "@triniti/app": "file:./src/",
     "@triniti/cms": "file:../src/",
     "@triniti/schemas": "file:../node_modules/@triniti/schemas/",
-    "@gdbots/schemas": "file:../node_modules/@gdbots/schemas/",
     "autoprefixer": "^10.4.19",
     "babel-loader": "^9.1.3",
     "buffer": "^6.0.3",
@@ -33,5 +33,8 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "worker-loader": "^3.0.8"
+  },
+  "devDependencies": {
+    "@wbtcd/schemas": "^3.0.1"
   }
 }

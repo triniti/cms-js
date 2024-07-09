@@ -264,44 +264,43 @@ export default function Uploader(props) {
 
   return (
     <div {...dropzone.getRootProps()} className="dam-drop-zone-component m-3 mb-2 text-center rounded-3 border border-2 d-flex justify-content-center flex-column px-2">
-        <input {...dropzone.getInputProps()} />
+      <input {...dropzone.getInputProps()} />
+      {processing && (
+        <Loading>Processing Files...</Loading>
+      )}
 
-        {processing && (
-          <Loading>Processing Files...</Loading>
-        )}
+      {dropzone.isDragActive && (
+        <>
+          <Icon imgSrc="cloud-upload" />
+          <p className="mb-0">Drop the files here.</p>
+        </>
+      )}
 
-        {dropzone.isDragActive && (
-          <>
-            <Icon imgSrc="cloud-upload" />
-            <p className="mb-0">Drop the files here.</p>
-          </>
-        )}
+      {!dropzone.isDragActive && !processing && (
+        <>
+          {(allowMultiple || batch.size === 0) && (
+            <>
+              <Icon imgSrc="cloud-upload" />
+              <p className="mb-0">Drop files here, or click to select files to upload.</p>
+            </>
+          )}
+          {!allowMultiple && batch.size > 0 && (
+            <>
+              <a onClick={batch.clear}>Clear uploads and start over.</a>
+            </>
+          )}
+        </>
+      )}
 
-        {!dropzone.isDragActive && !processing && (
-          <>
-            {(allowMultiple || batch.size === 0) && (
-              <>
-                <Icon imgSrc="cloud-upload" />
-                <p className="mb-0">Drop files here, or click to select files to upload.</p>
-              </>
-            )}
-            {!allowMultiple && batch.size > 0 && (
-              <>
-                <a onClick={batch.clear}>Clear uploads and start over.</a>
-              </>
-            )}
-          </>
-        )}
-
-        {!dropzone.isDragActive && dropzone.fileRejections.map(({ file, errors }) => (
-          <div key={file.name} className="alert-container">
-            {errors.map(e => (
-              <Alert key={e.code} color="danger">
-                {e.message}
-              </Alert>
-            ))}
-          </div>
-        ))}
+      {!dropzone.isDragActive && dropzone.fileRejections.map(({ file, errors }) => (
+        <div key={file.name} className="alert-container">
+          {errors.map(e => (
+            <Alert key={e.code} color="danger">
+              {e.message}
+            </Alert>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
