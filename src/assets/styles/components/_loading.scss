@@ -29,6 +29,9 @@
   .modal-body .sticky-top + & {
     min-height: 184px;
   }
+  .card-body > & {
+    min-height: 120px;
+  }
   &.loading-fixed,
   .loading-fixed & { // use with creat-modal-button component so loader will appear centered in page instead of inline with button
     position: fixed;
@@ -60,7 +63,7 @@
 
 .loading-children {
   font-weight: 600;
-  color: $text-muted !important;
+  color: $text-muted;
   margin-top: .5rem;
 
   .loading-inline & {

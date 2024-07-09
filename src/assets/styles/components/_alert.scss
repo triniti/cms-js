@@ -7,7 +7,7 @@
   letter-spacing: .01em;
   font-weight: 500;
 
-  .card-body > &,
+  .card-body &,
   .alert-container & {
     border-radius: $border-radius;
   }

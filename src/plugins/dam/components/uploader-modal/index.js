@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Card, CardBody, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Swal from 'sweetalert2';
 import noop from 'lodash-es/noop.js';
 import { ActionButton } from '@triniti/cms/components/index.js';
@@ -104,49 +104,46 @@ export default function UploaderModal(props) {
     <Modal isOpen backdrop="static" size="lg" centered>
       <ModalHeader toggle={handleDone}>Upload Files</ModalHeader>
       <ModalBody className="p-0 modal-scrollable">
-        <div className="dam-uploader-wrapper">
-          <div className="dam-content">
-            <div className="dam-left-col">
-              <div className="dam-drop-zone">
-                <Uploader
-                  {...props}
-                  batch={batch}
-                  onUploadCompleted={handleUploadCompleted}
-                  onRemoveUpload={handleRemoveUpload}
-                />
-              </div>
-              <div className="dam-file-queue">
-                <FileList
-                  {...props}
-                  batch={batch}
-                  activeUpload={activeUpload.current}
-                  onSelectUpload={handleSelectUpload}
-                />
-              </div>
-            </div>
-            <div className="meta-form border-left">
-              <Card className="pt-3 px-3 pb-1 mb-0">
-                {upload && (
-                  <AssetForm
-                    batch={batch}
-                    uploadHash={upload.nameHash}
-                    controls={controlsRef}
-                  />
-                )}
-                {!upload && batch.size > 0 && (
-                  <p>Click a file on the left to edit.</p>
-                )}
-                {!upload && batch.size === 0 && (
-                  <p>Drop files on the left.</p>
-                )}
-              </Card>
+        <div className="d-flex flex-column flex-md-row flex-nowrap">
+          <div className="dam-col-start d-flex flex-column flex-fill flex-shrink-0">
+            <Uploader
+              {...props}
+              batch={batch}
+              onUploadCompleted={handleUploadCompleted}
+              onRemoveUpload={handleRemoveUpload}
+            />
+            <div className="d-flex position-relative flex-fill">
+              <FileList
+                {...props}
+                batch={batch}
+                activeUpload={activeUpload.current}
+                onSelectUpload={handleSelectUpload}
+              />
             </div>
           </div>
+
+          <Card className="dam-col-end flex-fill mb-0">
+            <CardBody className="p-3 pb-0">
+              {upload && (
+                <AssetForm
+                  batch={batch}
+                  uploadHash={upload.nameHash}
+                  controls={controlsRef}
+                />
+              )}
+              {!upload && batch.size > 0 && (
+                <p>Click a file <span className="d-none d-md-inline">on the left</span><span className="d-inline d-md-none">above</span> to edit.</p>
+              )}
+              {!upload && batch.size === 0 && (
+                <p>Drop files <span className="d-none d-md-inline">on the left</span><span className="d-inline d-md-none">above</span>.</p>
+              )}
+            </CardBody>
+          </Card>
         </div>
       </ModalBody>
 
       <ModalFooter>
-        <div className="align-self-start dam-pagination-col">
+        <div className="ps-1 me-auto">
           {batch.size > 0 && (
             <>
               Uploaded {batch.completed} of {batch.size} items
@@ -171,7 +168,6 @@ export default function UploaderModal(props) {
             onClick={handleDone}
             icon="save"
             color="light"
-            tabIndex="-1"
           />
         </div>
       </ModalFooter>

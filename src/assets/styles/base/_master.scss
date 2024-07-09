@@ -14,7 +14,11 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-feature-settings: 'kern' 1;
   -moz-font-feature-settings: 'kern' 1;
-  background-color: var(--#{$prefix}dark-bg-subtle); //  $dark-bg-subtle
+  background-color: #e6e7e8;
+
+  [data-bs-theme=dark] & {
+    background-color: var(--#{$prefix}dark-bg-subtle); //  $dark-bg-subtle
+  }
 }
 
 .login-screen {
@@ -142,6 +146,9 @@ a {
 
   &:focus {
     box-shadow: none;
+  }
+  &:focus-visible {
+    box-shadow: $focus-ring-box-shadow;
   }
   &.disabled {
     cursor: no-drop;
@@ -280,6 +287,10 @@ hr {
 
 .text-light {
   color: $dark !important;
+}
+
+.text-muted {
+  color: #{$text-muted} !important;
 }
 
 .text-body-light {
