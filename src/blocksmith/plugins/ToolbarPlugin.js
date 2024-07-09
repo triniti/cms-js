@@ -12,7 +12,7 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import { INSERT_CANVAS_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/CanvasBlockPlugin.js';
+import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 const LowPriority = 1;
 
@@ -20,7 +20,8 @@ function Divider() {
   return <div className="divider" />;
 }
 
-export default function ToolbarPlugin() {
+export default function ToolbarPlugin(props) {
+  const { showModal } = props;
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
@@ -29,6 +30,16 @@ export default function ToolbarPlugin() {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+
+  const handleCreateBlock = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const type = event.target.dataset.type;
+    const curie = `${APP_VENDOR}:canvas:block:${type}`;
+    const Component = resolveComponent(curie, 'Modal');
+    const Modal = () => (p) => <Component curie={curie} {...p} />;
+    showModal(Modal);
+  };
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -78,9 +89,9 @@ export default function ToolbarPlugin() {
   // we don't want buttons submitting the main form
   const createHandler = (command, payload) => {
     return (event) => {
-      editor.dispatchCommand(command, payload);
       event.preventDefault();
       event.stopPropagation();
+      editor.dispatchCommand(command, payload);
     };
   };
 
@@ -156,13 +167,15 @@ export default function ToolbarPlugin() {
         <i className="format justify-align" />
       </button>
       <button
-        onClick={createHandler(INSERT_CANVAS_BLOCK_COMMAND, `${APP_VENDOR}:canvas:block:youtube-video-block`)}
+        onClick={handleCreateBlock}
+        data-type="youtube-video-block"
         className="toolbar-item"
         aria-label="YoutubeVideoBlock">
         youtube video
       </button>
       <button
-        onClick={createHandler(INSERT_CANVAS_BLOCK_COMMAND, `${APP_VENDOR}:canvas:block:article-block`)}
+        onClick={handleCreateBlock}
+        data-type="article-block"
         className="toolbar-item"
         aria-label="ArticleBlock">
         article

@@ -1,56 +1,55 @@
-import React from 'react';
-import { $getRoot } from 'lexical';
-import { $generateHtmlFromNodes } from '@lexical/html';
+import React, { useCallback, useRef, useState } from 'react';
+import noop from 'lodash-es/noop.js';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import CanvasBlockNode from '@triniti/cms/blocksmith/nodes/CanvasBlockNode.js';
-import CanvasBlockPlugin from '@triniti/cms/blocksmith/plugins/CanvasBlockPlugin.js';
+import BlocksmithModal from '@triniti/cms/blocksmith/components/BlocksmithModal.js';
+import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
-import TextBlockV1 from '@triniti/acme-schemas/acme/canvas/block/TextBlockV1.js';
 
 const theme = {
-  code: 'blocksmith-code',
+  code: 'code',
   heading: {
-    h1: 'blocksmith-heading-h1',
-    h2: 'blocksmith-heading-h2',
-    h3: 'blocksmith-heading-h3',
-    h4: 'blocksmith-heading-h4',
-    h5: 'blocksmith-heading-h5',
+    h1: 'heading-h1',
+    h2: 'heading-h2',
+    h3: 'heading-h3',
+    h4: 'heading-h4',
+    h5: 'heading-h5',
   },
-  image: 'blocksmith-image',
-  link: 'blocksmith-link',
+  image: 'image',
+  link: 'link',
   list: {
-    listitem: 'blocksmith-listitem',
+    listitem: 'listitem',
     nested: {
-      listitem: 'blocksmith-nested-listitem',
+      listitem: 'nested-listitem',
     },
-    ol: 'blocksmith-list-ol',
-    ul: 'blocksmith-list-ul',
+    ol: 'list-ol',
+    ul: 'list-ul',
   },
   ltr: 'ltr',
-  paragraph: 'blocksmith-paragraph',
-  placeholder: 'blocksmith-placeholder',
-  quote: 'blocksmith-quote',
+  paragraph: 'paragraph',
+  placeholder: 'placeholder',
+  quote: 'quote',
   rtl: 'rtl',
   text: {
-    bold: 'blocksmith-text-bold',
-    code: 'blocksmith-text-code',
-    hashtag: 'blocksmith-text-hashtag',
-    italic: 'blocksmith-text-italic',
-    overflowed: 'blocksmith-text-overflowed',
-    strikethrough: 'blocksmith-text-strikethrough',
-    underline: 'blocksmith-text-underline',
-    underlineStrikethrough: 'blocksmith-text-underlineStrikethrough',
+    bold: 'text-bold',
+    code: 'text-code',
+    hashtag: 'text-hashtag',
+    italic: 'text-italic',
+    overflowed: 'text-overflowed',
+    strikethrough: 'text-strikethrough',
+    underline: 'text-underline',
+    underlineStrikethrough: 'text-underlineStrikethrough',
   },
 };
 
 const config = {
   namespace: 'blocksmith',
   nodes: [
-    CanvasBlockNode,
+    BlocksmithNode,
   ],
   onError(error) {
     console.error(error);
@@ -59,23 +58,21 @@ const config = {
 };
 
 export default function Blocksmith(props) {
-  const { blocks, editMode, node, onChange } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalComponent, setModalComponent] = useState();
+  const { pbj, blocks, editMode, node, onChange } = props;
+  const delegateRef = useRef({
+    TextBlockV1: pbj.schema().getClassProto(),
+    handleChange: noop,
+  });
 
-  const handleChange = (editorState) => {
-    const blocks = [];
-    editorState.read(() => {
-      $getRoot().getChildren().map((n) => {
-        console.log('n', n);
-        if (n.__type === 'paragraph') {
-          blocks.push(TextBlockV1.create().set('text', JSON.stringify(n)));
-          //$generateHtmlFromNodes(editorState.editor, n)
-        } else if (n.__type === 'canvas-block') {
-          blocks.push(n.exportJSON().pbj);
-        }
-      });
-    });
+  const showModal = (Modal) => {
+    setModalComponent(Modal);
+    setIsModalOpen(true);
+  };
 
-    console.log('handleChange', blocks);
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const initialConfig = { ...config, editable: editMode };
@@ -83,24 +80,24 @@ export default function Blocksmith(props) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="blocksmith">
-        <ToolbarPlugin />
-        <CanvasBlockPlugin />
-        <OnChangePlugin onChange={handleChange} ignoreSelectionChange={true} />
+        <BlocksmithPlugin delegateRef={delegateRef} />
+        <OnChangePlugin onChange={delegateRef.current.handleChange} ignoreSelectionChange={true} />
+        <ToolbarPlugin showModal={showModal} />
         <div className="blocksmith-inner">
           <RichTextPlugin
             contentEditable={
-              <ContentEditable
-                className="blocksmith-input"
-                aria-placeholder="Start writing..."
-                placeholder={
-                  <div className="blocksmith-placeholder">Start writing...</div>
-                }
-              />
+              <ContentEditable className="blocksmith-input" />
             }
+            placeholder="Start writing..."
             ErrorBoundary={LexicalErrorBoundary}
           />
         </div>
       </div>
+      <BlocksmithModal
+        toggle={toggleModal}
+        isOpen={isModalOpen}
+        modal={modalComponent}
+      />
     </LexicalComposer>
   );
 }

@@ -6,7 +6,7 @@ export default function ArticleBlockPreview(props) {
   return (
     <Alert color="info">
       <h1>Article Block</h1>
-      <p>{pbj.schema().getId().toString()}</p>
+      <p>{JSON.stringify(pbj)}</p>
     </Alert>
   )
 }
