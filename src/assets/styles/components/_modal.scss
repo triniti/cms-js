@@ -108,7 +108,7 @@
 }
 
 .modal-scrollable {
-  max-height: calc(100vh - 160px); // subtract modal-header modal-footer
+  max-height: calc(100vh - 130px);
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
@@ -118,6 +118,9 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -ms-overflow-style: none;
 
+  @media (min-width: 576px) {
+    max-height: calc(100vh - 180px);
+  }
   .modal-fullscreen & {
     max-height: none;
   }

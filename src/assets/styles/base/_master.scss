@@ -147,6 +147,9 @@ a {
   &:focus {
     box-shadow: none;
   }
+  &:focus-visible {
+    box-shadow: $focus-ring-box-shadow;
+  }
   &.disabled {
     cursor: no-drop;
   }

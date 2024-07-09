@@ -14,7 +14,7 @@ function UploadingItem(props) {
     <Button
       outline
       size="sm"
-      className="d-inline-block text-truncate w-100 ms-0 me-0 text-start"
+      className="d-block text-truncate w-100 ms-0 me-0 text-start"
       color="light"
       onClick={handleClick}
     >
@@ -34,7 +34,7 @@ function CompletedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-inline-block text-truncate w-100 ms-0 me-0 text-start" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={"d-block text-truncate w-100 text-start" + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="success"
       onClick={handleClick}
     >
@@ -54,7 +54,7 @@ function FailedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-inline-block text-truncate w-100 ms-0 me-0 text-start" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={"d-block text-truncate w-100 text-start" + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="danger"
       onClick={handleClick}
     >
@@ -75,7 +75,7 @@ export default function FileList(props) {
   const { activeUpload, batch, onSelectUpload } = props;
 
   return (
-    <div className="dam-file-list">
+    <div className="dam-file-list px-3 py-1">
       {batch.values().map((upload) => {
         const Item = components[upload.status];
         return (

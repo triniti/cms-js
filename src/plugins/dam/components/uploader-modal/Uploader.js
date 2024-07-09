@@ -263,8 +263,7 @@ export default function Uploader(props) {
   });
 
   return (
-    <div {...dropzone.getRootProps()} className="dam-drop-zone-component">
-      <div className="dam-drop-zone-content">
+    <div {...dropzone.getRootProps()} className="dam-drop-zone-component m-3 mb-2 text-center rounded-3 border border-2 d-flex justify-content-center flex-column px-2">
         <input {...dropzone.getInputProps()} />
 
         {processing && (
@@ -274,7 +273,7 @@ export default function Uploader(props) {
         {dropzone.isDragActive && (
           <>
             <Icon imgSrc="cloud-upload" />
-            <p>Drop the files here.</p>
+            <p className="mb-0">Drop the files here.</p>
           </>
         )}
 
@@ -283,7 +282,7 @@ export default function Uploader(props) {
             {(allowMultiple || batch.size === 0) && (
               <>
                 <Icon imgSrc="cloud-upload" />
-                <p>Drop files here, or click to select files to upload.</p>
+                <p className="mb-0">Drop files here, or click to select files to upload.</p>
               </>
             )}
             {!allowMultiple && batch.size > 0 && (
@@ -303,7 +302,6 @@ export default function Uploader(props) {
             ))}
           </div>
         ))}
-      </div>
     </div>
   );
 }

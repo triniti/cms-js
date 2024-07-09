@@ -104,46 +104,41 @@ export default function UploaderModal(props) {
     <Modal isOpen backdrop="static" size="lg" centered>
       <ModalHeader toggle={handleDone}>Upload Files</ModalHeader>
       <ModalBody className="p-0 modal-scrollable">
-        <div className="dam-uploader-wrapper">
-          <div className="dam-content">
-            <div className="dam-left-col">
-              <div className="dam-drop-zone">
-                <Uploader
-                  {...props}
-                  batch={batch}
-                  onUploadCompleted={handleUploadCompleted}
-                  onRemoveUpload={handleRemoveUpload}
-                />
-              </div>
-              <div className="dam-file-queue">
-                <FileList
-                  {...props}
-                  batch={batch}
-                  activeUpload={activeUpload.current}
-                  onSelectUpload={handleSelectUpload}
-                />
-              </div>
-            </div>
-            <div className="meta-form">
-              <Card className="mb-0">
-                <CardBody className="p-3">
-                  {upload && (
-                    <AssetForm
-                      batch={batch}
-                      uploadHash={upload.nameHash}
-                      controls={controlsRef}
-                    />
-                  )}
-                  {!upload && batch.size > 0 && (
-                    <p>Click a file on the left to edit.</p>
-                  )}
-                  {!upload && batch.size === 0 && (
-                    <p>Drop files on the left.</p>
-                  )}
-                </CardBody>
-              </Card>
+        <div className="d-flex flex-column flex-md-row flex-nowrap">
+          <div className="dam-col-start d-flex flex-column flex-fill flex-shrink-0">
+            <Uploader
+              {...props}
+              batch={batch}
+              onUploadCompleted={handleUploadCompleted}
+              onRemoveUpload={handleRemoveUpload}
+            />
+            <div className="d-flex position-relative flex-fill">
+              <FileList
+                {...props}
+                batch={batch}
+                activeUpload={activeUpload.current}
+                onSelectUpload={handleSelectUpload}
+              />
             </div>
           </div>
+
+          <Card className="dam-col-end flex-fill mb-0">
+            <CardBody className="p-3 pb-0">
+              {upload && (
+                <AssetForm
+                  batch={batch}
+                  uploadHash={upload.nameHash}
+                  controls={controlsRef}
+                />
+              )}
+              {!upload && batch.size > 0 && (
+                <p>Click a file <span className="d-none d-md-inline">on the left</span><span className="d-inline d-md-none">above</span> to edit.</p>
+              )}
+              {!upload && batch.size === 0 && (
+                <p>Drop files <span className="d-none d-md-inline">on the left</span><span className="d-inline d-md-none">above</span>.</p>
+              )}
+            </CardBody>
+          </Card>
         </div>
       </ModalBody>
 
