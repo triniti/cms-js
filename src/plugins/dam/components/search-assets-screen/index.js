@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
@@ -24,6 +25,7 @@ function SearchAssetsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:asset:create`);
   const batch = useBatch(response);
+  const navigate = useNavigate();
 
   const curies = useCuries('triniti:dam:mixin:asset:v1');
   if (!curies) {
@@ -98,10 +100,10 @@ function SearchAssetsScreen(props) {
                 const transcodingStatus = node.get('transcoding_status');
 
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} style={{cursor: 'pointer'}}>
                     <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="text-center"><AssetIcon id={node.get('_id')} /></td>
-                    <td>
+                    <td onClick={() => navigate(nodeUrl(node, 'view'))}>
                       {seq > 0 && (
                         <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
                       )}
@@ -110,9 +112,9 @@ function SearchAssetsScreen(props) {
                         <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                       )}
                     </td>
-                    <td className="text-nowrap">{node.get('mime_type')}</td>
-                    <td>{formatBytes(node.get('file_size'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                    <td className="text-nowrap" onClick={() => navigate(nodeUrl(node, 'view'))}>{node.get('mime_type')}</td>
+                    <td onClick={() => navigate(nodeUrl(node, 'view'))}>{formatBytes(node.get('file_size'))}</td>
+                    <td className="text-nowrap" onClick={() => navigate(nodeUrl(node, 'view'))}>{formatDate(node.get('created_at'))}</td>
                     <td className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
