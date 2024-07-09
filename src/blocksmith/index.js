@@ -1,10 +1,15 @@
 import React from 'react';
+import { $getRoot } from 'lexical';
+import { $generateHtmlFromNodes } from '@lexical/html';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import CanvasBlockNode from '@triniti/cms/blocksmith/nodes/CanvasBlockNode.js';
+import CanvasBlockPlugin from '@triniti/cms/blocksmith/plugins/CanvasBlockPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
+import TextBlockV1 from '@triniti/acme-schemas/acme/canvas/block/TextBlockV1.js';
 
 const theme = {
   code: 'blocksmith-code',
@@ -44,7 +49,9 @@ const theme = {
 
 const config = {
   namespace: 'blocksmith',
-  nodes: [],
+  nodes: [
+    CanvasBlockNode,
+  ],
   onError(error) {
     console.error(error);
   },
@@ -55,18 +62,29 @@ export default function Blocksmith(props) {
   const { blocks, editMode, node, onChange } = props;
 
   const handleChange = (editorState) => {
-    const state = editorState.toJSON();
-    const nodes = state?.root?.children || [];
-    console.log('handleChange', state);
-    nodes.map(n => console.log(n.type, n));
+    const blocks = [];
+    editorState.read(() => {
+      $getRoot().getChildren().map((n) => {
+        console.log('n', n);
+        if (n.__type === 'paragraph') {
+          blocks.push(TextBlockV1.create().set('text', JSON.stringify(n)));
+          //$generateHtmlFromNodes(editorState.editor, n)
+        } else if (n.__type === 'canvas-block') {
+          blocks.push(n.exportJSON().pbj);
+        }
+      });
+    });
+
+    console.log('handleChange', blocks);
   };
 
-  const initialConfig = {...config, editable: editMode };
+  const initialConfig = { ...config, editable: editMode };
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="blocksmith">
         <ToolbarPlugin />
+        <CanvasBlockPlugin />
         <OnChangePlugin onChange={handleChange} ignoreSelectionChange={true} />
         <div className="blocksmith-inner">
           <RichTextPlugin

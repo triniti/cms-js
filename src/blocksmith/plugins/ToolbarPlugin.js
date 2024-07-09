@@ -12,6 +12,7 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
+import { INSERT_CANVAS_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/CanvasBlockPlugin.js';
 
 const LowPriority = 1;
 
@@ -153,6 +154,18 @@ export default function ToolbarPlugin() {
         className="toolbar-item"
         aria-label="Justify Align">
         <i className="format justify-align" />
+      </button>
+      <button
+        onClick={createHandler(INSERT_CANVAS_BLOCK_COMMAND, `${APP_VENDOR}:canvas:block:youtube-video-block`)}
+        className="toolbar-item"
+        aria-label="YoutubeVideoBlock">
+        youtube video
+      </button>
+      <button
+        onClick={createHandler(INSERT_CANVAS_BLOCK_COMMAND, `${APP_VENDOR}:canvas:block:article-block`)}
+        className="toolbar-item"
+        aria-label="ArticleBlock">
+        article
       </button>
       {' '}
     </div>
