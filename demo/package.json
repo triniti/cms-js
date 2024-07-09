@@ -25,6 +25,7 @@
     "node-sass": "^9.0.0",
     "postcss": "^8.4.38",
     "postcss-loader": "^8.1.1",
+    "resolve-url-loader": "^5.0.0",
     "sass-loader": "^14.2.1",
     "sass-resources-loader": "^2.2.5",
     "stream-browserify": "^3.0.0",
@@ -33,9 +34,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "worker-loader": "^3.0.8"
-  },
-  "devDependencies": {
-    "@wbtcd/schemas": "^3.0.1",
-    "resolve-url-loader": "^5.0.0"
   }
 }
