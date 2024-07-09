@@ -7,16 +7,13 @@ import BlocksmithNode, {
   $createBlocksmithNode,
   $isBlocksmithNode
 } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
-import { withPbj } from '@triniti/cms/components/index.js';
-import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
 
 export default function BlocksmithPlugin(props) {
-  const { delegateRef, showModal } = props;
+  const { delegateRef } = props;
   const [editor] = useLexicalComposerContext();
   const TextBlockV1 = delegateRef.current.TextBlockV1;
-
 
   useEffect(() => {
     if (!editor.hasNodes([BlocksmithNode])) {
