@@ -13,6 +13,10 @@ export default function StoryTab(props) {
   return (
     <>
       <Card>
+        <BlocksmithField />
+      </Card>
+
+      <Card>
         <CardHeader>Story</CardHeader>
         <CardBody className="pb-0">
           <TextField name="title" label="Title" required />
@@ -34,12 +38,6 @@ export default function StoryTab(props) {
         </CardBody>
       </Card>
 
-      <Card>
-        <CardHeader>Content</CardHeader>
-        <CardBody>
-          <BlocksmithField name="blocks" />
-        </CardBody>
-      </Card>
     </>
   );
 }

@@ -111,6 +111,9 @@ module.exports = (webpackEnv = {}) => {
         },
         {
           test: /\.svg$/,
+          include: [
+            resolve(__dirname, '../src/components/'),
+          ],
           type: 'asset/source',
         },
         {
@@ -133,8 +136,11 @@ module.exports = (webpackEnv = {}) => {
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 3,
+                importLoaders: 4,
               },
+            },
+            {
+              loader: 'resolve-url-loader',
             },
             {
               loader: 'postcss-loader',
