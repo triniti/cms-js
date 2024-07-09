@@ -57,7 +57,7 @@
     -ms-overflow-style: none;
   }
   button {
-    --bs-gradient: none;
+    --#{$prefix}gradient: none;
   }
 }
 

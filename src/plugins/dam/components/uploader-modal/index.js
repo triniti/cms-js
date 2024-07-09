@@ -168,7 +168,6 @@ export default function UploaderModal(props) {
             onClick={handleDone}
             icon="save"
             color="light"
-            tabIndex="-1"
           />
         </div>
       </ModalFooter>
