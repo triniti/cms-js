@@ -16,7 +16,7 @@ import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen
 import BatchOperationsCard from '@triniti/cms/plugins/dam/components/search-assets-screen/BatchOperationsCard.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
-import nodeClickNavigator from '@triniti/cms/utils/nodeClickNavigator.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -99,12 +99,12 @@ function SearchAssetsScreen(props) {
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                 const seq = node.get('gallery_seq');
                 const transcodingStatus = node.get('transcoding_status');
-                const handleNodeClick = nodeClickNavigator(navigate, node);
+                const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} style={{cursor: 'pointer'}} onClick={handleNodeClick}>
-                    <td data-ignore-node-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
-                    <td data-ignore-node-click className="text-center"><AssetIcon id={node.get('_id')} /></td>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`} onClick={handleRowClick}>
+                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                    <td data-ignore-row-click className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td>
                       {seq > 0 && (
                         <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
@@ -117,7 +117,7 @@ function SearchAssetsScreen(props) {
                     <td className="text-nowrap">{node.get('mime_type')}</td>
                     <td>{formatBytes(node.get('file_size'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                    <td data-ignore-node-click className="td-icons">
+                    <td data-ignore-row-click className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />
