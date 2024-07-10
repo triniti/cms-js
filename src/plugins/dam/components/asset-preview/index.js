@@ -9,7 +9,13 @@ function ArchiveAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
-        <Icon imgSrc="zip" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="xxl" />
+        <Icon
+          imgSrc="zip"
+          className="position-absolute top-50 start-50 translate-middle"
+          color="dark"
+          size="xxl"
+          alt=""
+        />
       </div>
     </a>
   );
@@ -25,7 +31,13 @@ function CodeAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
-        <Icon imgSrc="code" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="xxl" />
+        <Icon
+          imgSrc="code"
+          className="position-absolute top-50 start-50 translate-middle"
+          color="dark"
+          size="xxl"
+          alt=""
+        />
       </div>
     </a>
   );
@@ -35,7 +47,13 @@ function DocumentAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
-        <Icon imgSrc="document" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="xxl" />
+        <Icon
+          imgSrc="document"
+          className="position-absolute top-50 start-50 translate-middle"
+          color="dark"
+          size="xxl"
+          alt=""
+        />
       </div>
     </a>
   );
@@ -54,18 +72,24 @@ function UnknownAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
       <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
-        <Icon imgSrc="question-outline" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="xxl" />
+        <Icon
+          imgSrc="question-outline"
+          className="position-absolute top-50 start-50 translate-middle"
+          color="dark"
+          size="xxl"
+          alt=""
+        />
       </div>
     </a>
   );
 }
 
 function VideoAsset({ id }) {
-  const previewUrl = artifactUrl(id, 'video');
+  const previewUrl = id.getExt() === 'mxf' ? artifactUrl(id, 'video') : damUrl(id);
   return (
-      <div className="ratio ratio-16x9">
-          <video controls src={previewUrl} />
-      </div>
+    <div className="ratio ratio-16x9">
+      <video controls src={previewUrl} />
+    </div>
   );
 }
 
