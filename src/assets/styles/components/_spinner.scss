@@ -3,6 +3,9 @@
 .spinner-border {
   color: $text-muted;
 
+  &.text-light {
+    color: $text-muted !important;
+  }
   .card-header & {
     margin-left: .5rem;
     margin-right: auto;

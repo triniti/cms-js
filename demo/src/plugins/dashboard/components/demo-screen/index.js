@@ -3634,7 +3634,6 @@ function DemoScreen() {
           <Spinner color="warning" size="sm" className="me-2" />
           <Spinner color="danger" size="sm" className="me-2" />
           <Spinner color="dark" size="sm" className="me-2" />
-          <Spinner color="muted" size="sm" className="me-2" />
           <Spinner color="light" size="sm" className="me-2" />
           <Label className="mt-5">Spinner color="white" size="sm"</Label>
           <Button size="sm"><Spinner color="white" size="sm" className="me-2" />Spinner in a Button</Button>
