@@ -3,7 +3,7 @@
 // using same colors
 // expired, processing, running
 // canceled, deleted
-// completed, published
+// completed, published, sent
 // failed, pending
 // draft, unknown
 
@@ -221,7 +221,8 @@ tr.status-pending,
 }
 
 .status-published,
-.status-completed {
+.status-completed,
+.status-sent {
   background-color: var(--#{$prefix}body-bg) !important;
 
   .select__option &,
