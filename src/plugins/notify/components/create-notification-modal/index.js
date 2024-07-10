@@ -61,13 +61,13 @@ function CreateNotificationModal(props) {
 
                     return (
                       <ListGroupItem
-                          data-curie={`${vendor}:notify:node:${label}`}
-                          data-app-ref={ref.toString()}
-                          onClick={handleAppClick}
-                          key={ref.toString()}
-                          tag="a"
-                          action
-                          tabIndex="0"
+                        data-curie={`${vendor}:notify:node:${label}`}
+                        data-app-ref={ref.toString()}
+                        onClick={handleAppClick}
+                        key={ref.toString()}
+                        tag="a"
+                        action
+                        tabIndex="0"
                       >{node.get('title')}
                       </ListGroupItem>
                     );
