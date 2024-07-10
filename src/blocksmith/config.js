@@ -8,6 +8,8 @@ export default {
   onError(error) {
     console.error(error);
   },
+  // todo: remove need for all this theme stuff and just style the elements
+  // like .blocksmith h1, .blocksmith ol, etc.  we don't need theming fanciness rn
   theme: {
     code: 'code',
     heading: {
@@ -17,7 +19,6 @@ export default {
       h4: 'heading-h4',
       h5: 'heading-h5',
     },
-    image: 'image',
     link: 'link',
     list: {
       listitem: 'listitem',

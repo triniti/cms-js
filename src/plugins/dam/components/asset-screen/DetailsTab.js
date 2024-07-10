@@ -33,7 +33,7 @@ export default function DetailsTab(props) {
               <AssetPreview id={node.get('_id')} />
             </Col>
             <Col sm={8} xl={8}>
-              <Table className="border-bottom">
+              <Table className="border-bottom mt-3">
                 <tbody>
                 <tr>
                   <th className="nowrap" scope="row">Asset ID:</th>

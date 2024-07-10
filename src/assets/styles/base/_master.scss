@@ -492,7 +492,7 @@ hr {
 .column-gap-0 {column-gap: 0;}
 
 .cursor-pointer {cursor: pointer;}
-
+.cursor-pointer td {cursor: pointer;}
 
 // Modal & Alert Animations
 
@@ -537,7 +537,7 @@ hr {
 
 
 // Aspect Ratio
-
+/*
 .aspect-ratio {
   position: relative;
   display: block !important;
@@ -581,6 +581,7 @@ hr {
 .aspect-ratio-3by1::before {
   padding-bottom: 33.3333%;
 }
+*/
 
 
 // gradient overlay

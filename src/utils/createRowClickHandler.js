@@ -6,6 +6,7 @@ export default (navigate, node) => {
     if (e.target.closest('[data-ignore-row-click]')) {
       return;
     }
+
     navigate(nodeUrl(node, 'view'));
-  }
-}
+  };
+};
