@@ -9,9 +9,9 @@ function Preview(props) {
   const previewUrl = damUrl(assetRef, '1by1', 'sm');
 
   return (
-    <div className="d-block">
-      <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
-        <Media src={previewUrl} alt="" width={200} height={200} object />
+    <div className="d-block mb-3">
+      <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-inline-block rounded-3">
+        <Media src={previewUrl} alt="" width={200} height={200} object className="rounded-3" />
       </a>
     </div>
   );

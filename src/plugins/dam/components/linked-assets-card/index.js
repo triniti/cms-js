@@ -98,11 +98,11 @@ function LinkedAssetsCard(props) {
             </Button>
           </span>
         </CardHeader>
-        <CardBody>
+        <CardBody className="p-0">
           {(!response || pbjxError) && <Loading error={pbjxError} />}
 
           {response && !response.has('nodes') && (
-            <CardText>
+            <CardText className="p-5">
               No assets have been linked to this {request.get('linked_ref').getLabel()}.
             </CardText>
           )}

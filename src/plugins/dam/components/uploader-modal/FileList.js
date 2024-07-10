@@ -14,7 +14,7 @@ function UploadingItem(props) {
     <Button
       outline
       size="sm"
-      className="d-block text-truncate w-100 ms-0 me-0 text-start"
+      className="d-flex justify-content-start text-truncate w-100 ms-0 me-0"
       color="light"
       onClick={handleClick}
     >
@@ -34,7 +34,7 @@ function CompletedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-block text-truncate w-100 text-start" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={"d-flex justify-content-start text-truncate w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="success"
       onClick={handleClick}
     >
@@ -54,7 +54,7 @@ function FailedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-block text-truncate w-100 text-start" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={"d-flex justify-content-start text-truncate w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="danger"
       onClick={handleClick}
     >

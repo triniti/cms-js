@@ -77,12 +77,12 @@ export default function AssetPickerField(props) {
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && (
         <>
-          <Label className="d-inline-block w-auto me-1" htmlFor={name}>
+          <Label className="d-inline-block w-auto" htmlFor={name}>
             {label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}
           </Label>
           {assetRef && (
             <a className="d-inline-block" href={assetUrl} target="_blank" rel="noopener noreferrer">
-              <Button color="hover" tag="span">
+              <Button color="hover" tag="span" size="sm" className="mb-1">
                 <Icon imgSrc="external" alt="view" />
               </Button>
             </a>
@@ -109,6 +109,7 @@ export default function AssetPickerField(props) {
               header: `Select ${label}`,
               ...rest
             }}
+            outline
           />
           {assetRef && (
             <ActionButton

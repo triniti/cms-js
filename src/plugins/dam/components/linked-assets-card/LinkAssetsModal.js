@@ -89,14 +89,14 @@ function LinkAssetsModal(props) {
     <Modal isOpen backdrop="static" size="xl" centered>
       <ModalHeader toggle={handleClose}>Link Assets</ModalHeader>
       <ModalBody className="p-0">
-        <div id="asset-linker-search-body" className="scrollable-container bg-gray-400 modal-scrollable--tabs">
+        <div id="asset-linker-search-body" className="scrollable-container modal-scrollable--tabs">
           <SearchForm {...props} isRunning={isRunning} run={run} />
           {(!response || pbjxError) && <Loading error={pbjxError} />}
 
           {response && (
-            <div>
+            <div className="border-top border-light-subtle border-3">
               {!response.has('nodes') && (
-                <p>No assets found.</p>
+                <p className="p-5">No assets found.</p>
               )}
 
               {response.has('nodes') && (
