@@ -7,6 +7,7 @@ export default function DocumentAssetPickerField(props) {
       {...props}
       icon="document"
       type="document-asset"
+      searchEnricher={req => req.set('q', req.get('q', '') + ' -mime_type:(text/srt OR text/vtt)')}
       uploaderProps={{
         accept: ['application/*', 'text/*'],
       }}

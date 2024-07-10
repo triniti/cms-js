@@ -1,6 +1,7 @@
 import React from 'react';
 import { Media } from 'reactstrap';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
+import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
@@ -77,7 +78,7 @@ const components = {
 
 export default function AssetIcon({ id }) {
   const assetId = id instanceof AssetId ? id : AssetId.fromString(`${id}`);
-  const downloadUrl = damUrl(assetId);
+  const downloadUrl = assetId.getType() === 'video' ? artifactUrl(assetId, 'video') : damUrl(assetId);
   const Component = components[assetId.getType()] || components['unknown'];
 
   return (

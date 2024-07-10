@@ -25,7 +25,7 @@ export default function AssetTable(props) {
       </thead>
       <tbody>
       {nodes.map(node => {
-        const transcodingStatus = node.get('transcoding_status');
+        const transcodingStatus = `${node.get('transcoding_status', '')}`;
         return (
           <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
             <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
