@@ -14,5 +14,5 @@ export default function UserLink({ userRef }) {
     return 'SYSTEM';
   }
 
-  return <Link to={nodeUrl(user, 'view')}>{user.get('title') || user.get('email')}</Link>
+  return <Link to={nodeUrl(user, 'view')}>{user.get('title') || user.get('email')}</Link>;
 }

@@ -74,13 +74,37 @@ export default function BatchOperationModal(props) {
       <ModalFooter>
         <ActionButton
           text={delegate.isCompleted ? 'Close' : 'Cancel'}
-          onClick={() => { if (delegate.isCompleted) { onComplete(); } props.toggle()}}
+          onClick={() => {
+            delegate.isCompleted ? onComplete() : props.toggle()
+          }}
           color="light"
+          icon="close-sm"
           tabIndex="-1"
         />
-        {!delegate.isStarted && <ActionButton text="Start" onClick={delegate.start} color="primary" />}
-        {delegate.isRunning && <ActionButton text="Pause" onClick={delegate.pause} color="danger" />}
-        {delegate.isPaused && <ActionButton text="Resume" onClick={delegate.start} color="primary" />}
+        {!delegate.isStarted && (
+          <ActionButton
+            text="Start"
+            onClick={delegate.start}
+            color="primary"
+            icon="bolt-outline"
+          />
+        )}
+        {delegate.isRunning && (
+          <ActionButton
+            text="Pause"
+            onClick={delegate.pause}
+            color="danger"
+            icon="pause-outline"
+          />
+        )}
+        {delegate.isPaused && (
+          <ActionButton
+            text="Resume"
+            onClick={delegate.start}
+            color="warning"
+            icon="play-outline"
+          />
+        )}
       </ModalFooter>
     </Modal>
   );

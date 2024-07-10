@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import createSlug from '@gdbots/pbj/utils/createSlug.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
@@ -23,14 +22,12 @@ function CreatePromotionModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Promotion...');
-
-      values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
 
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
-      toast({ title: 'Promotion Created.' });
+      toast({ title: 'Promotion created.' });
     } catch (e) {
       await progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -40,8 +37,8 @@ function CreatePromotionModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Promotion</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
         </Form>
@@ -50,6 +47,7 @@ function CreatePromotionModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -57,6 +55,7 @@ function CreatePromotionModal(props) {
           text="Create Promotion"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -67,5 +66,5 @@ function CreatePromotionModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePromotionModal), '*:curator:node:promotion:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:promotion:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

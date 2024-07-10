@@ -3,6 +3,6 @@ import PersonPickerField from '@triniti/cms/plugins/people/components/person-pic
 
 export default function PersonTeaserFields() {
   return (
-    <PersonPickerField name="target_ref" label="Target Person" readOnly />
+    <PersonPickerField name="target_ref" label="Target Person" required readOnly />
   );
 }

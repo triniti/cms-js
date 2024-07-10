@@ -4,7 +4,7 @@ import { SelectField, SwitchField, TextareaField, TextField, UrlField } from '@t
 import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/index.js';
@@ -16,7 +16,7 @@ const bioSourceOptions = [
 ];
 
 export default function DetailsTab(props) {
-  const { node, nodeRef } = props;
+  const { node } = props;
   const schema = node.schema();
 
   return (
@@ -25,11 +25,11 @@ export default function DetailsTab(props) {
         <CardHeader>Details</CardHeader>
         <CardBody>
           <TextField name="title" label="Title" required />
-          <SlugField nodeRef={nodeRef} />
-          <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
+          <SlugField />
+          <ImageAssetPickerField name="image_ref" label="Primary Image" />
           <SelectField name="bio_source" label="Bio Source" options={bioSourceOptions} />
-          <TextareaField name="bio" label="Bio" rows={6} maxCharsConfig={{charsMax: 300, charsWarning: 150}} parse={value => value && value.replace('\n', '')} />
-          <SwitchField name="is_celebrity" label="Is Celebrity?" />
+          <TextareaField name="bio" label="Bio" rows={6} />
+          <SwitchField name="is_celebrity" label="Is Celebrity" />
           <UrlField name="imdb_url" label="Imdb Url" />
           <TextField name="twitter_username" label="Twitter Username" />
           {schema.hasMixin('triniti:common:mixin:themeable') && (
@@ -40,12 +40,16 @@ export default function DetailsTab(props) {
           )}
         </CardBody>
       </Card>
-      <Card>
-        <CardHeader>Content</CardHeader>
-        <CardBody>
-          <BlocksmithField name="blocks" />
-        </CardBody>
-      </Card>
+
+      {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
+        <Card>
+          <CardHeader>Content</CardHeader>
+          <CardBody>
+            <BlocksmithField />
+          </CardBody>
+        </Card>
+      )}
+
       <AdvertisingFields />
       <TaggableFields />
     </>

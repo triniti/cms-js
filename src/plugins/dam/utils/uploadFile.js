@@ -1,23 +1,9 @@
-import { getInstance } from '@triniti/app/main.js';
-import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 
-const delay = (s) => new Promise((resolve) => setTimeout(resolve, s));
-
-export const getUploadUrls = async (files, variant = {}) => {
-  const app = getInstance();
-  const pbjx = await app.getPbjx();
-  const fileNames = Object.keys(files).map((hashName) => files[hashName].uuidName);
-  const request = GetUploadUrlsRequestV1.create().addToList('files', fileNames);
-  if (variant.version && variant.asset) {
-    request.set('version', variant.version);
-    request.set('asset_id', variant.asset.get('_id'));
-  }
-  return pbjx.request(request);
-};
-
-const uploadToS3 = async (file, s3PresignedUrl, controller) => {
+export default async (options) => {
+  const { s3PresignedUrl, file, controller } = options;
   let failed;
+  let error;
 
   try {
     const response = await fetch(s3PresignedUrl, {
@@ -32,64 +18,17 @@ const uploadToS3 = async (file, s3PresignedUrl, controller) => {
     });
 
     failed = response.status !== 200;
+    if (failed) {
+      error = `s3.put:${response.statusText}`;
+    }
   } catch (e) {
-    console.error('uploadToS3', getFriendlyErrorMessage(e));
     failed = true;
+    error = getFriendlyErrorMessage(e);
+    console.error('uploadFile', s3PresignedUrl, e);
   }
 
   if (failed) {
-    throw new Error(controller.signal.aborted ? `Upload canceled for ${file.name}.` : `Upload failed for ${file.name}.`);
+    throw new Error(controller.signal.aborted ? `Upload canceled for ${file.name}.` : `Upload failed for ${file.name}. ${error}`);
   }
 };
 
-const getTestUrl = (s3PresignedUrl, tenantId) => {
-  const s3Url = new URL(s3PresignedUrl);
-  let url = UGC_BASE_URL.substring(0, UGC_BASE_URL.length - 1);
-
-  if (s3Url.host.includes('-static.')) {
-    url = url.replace('ugc.', 'static.') + s3Url.pathname;
-  } else if (s3Url.host.includes('-ugc-incoming.')) {
-    return null;
-  } else {
-    url = url + '/' + tenantId + s3Url.pathname;
-  }
-
-  return url;
-};
-
-const checkUrl = async (url) => {
-  const response = await fetch(url, {
-    method: 'HEAD',
-    /*
-    credentials: 'include',
-    mode: 'cors',
-     */
-    cache: 'no-cache',
-  });
-
-  if (response.status === 200 || response.status === 304) {
-    return;
-  }
-
-  throw new Error(`${url} doesn't exist.`);
-};
-
-const MAX_CHECKS = 3;
-export default async (file, postUrl, controller) => {
-  //await delay(3000); // for testing UI states
-  await uploadToS3(file, postUrl, controller);
-  return;
-
-
-  const testUrl = getTestUrl(s3PresignedUrl, response.get('ctx_tenant_id'));
-  if (testUrl) {
-    for (let checked = 0; checked < MAX_CHECKS; checked += 1) {
-      try {
-        await checkUrl(testUrl);
-        break;
-      } catch (e) {
-        await delay(1000);
-      }
-     }
-  }
-};

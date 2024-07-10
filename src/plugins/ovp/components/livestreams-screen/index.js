@@ -7,14 +7,14 @@ import LivestreamsCard from '@triniti/cms/plugins/ovp/components/livestreams-scr
 
 function LivestreamsScreen(props) {
   const { request } = props;
-  const { response, pbjxError, run } = useRequest(request, true);
+  const { response, pbjxError, run } = useRequest(request);
   const nodes = response ? response.get('nodes', []) : [];
   const metas = response ? response.get('metas', {}) : {};
 
   return (
     <Screen
-      title="Livestreams"
       header="Livestreams"
+      activeNav="Content"
       contentWidth="1200px"
     >
       {(!response || pbjxError) && <Loading error={pbjxError} />}

@@ -43,9 +43,6 @@
   .modal-dialog-centered.modal-align-bottom & {
     align-items: flex-end;
   }
-  @media (min-width: 576px) {
-    margin: 1.125rem auto .875rem auto;
-  }
 }
 
 
@@ -111,7 +108,7 @@
 }
 
 .modal-scrollable {
-  max-height: calc(100vh - 160px); // subtract modal-header modal-footer
+  max-height: calc(100vh - 130px);
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
@@ -121,6 +118,9 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -ms-overflow-style: none;
 
+  @media (min-width: 576px) {
+    max-height: calc(100vh - 180px);
+  }
   .modal-fullscreen & {
     max-height: none;
   }
@@ -141,8 +141,8 @@
 
 .modal-footer {
 
-  @media(max-width: 575px) {
-    padding: .5rem !important;
+  @media (max-width: 575px) {
+    padding: .25rem !important;
   }
   & > .btn {
     margin-top: 0; // bootstrap adds .25 margins to > * in modal-footer

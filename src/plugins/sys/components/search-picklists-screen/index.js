@@ -7,25 +7,23 @@ import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 const CreatePicklistModal = lazy(() => import('@triniti/cms/plugins/sys/components/create-picklist-modal/index.js'));
 
 function SearchPicklistsScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:picklist:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:picklist:update`);
 
   return (
     <Screen
-      title="Picklists"
       header="Picklists"
+      activeNav="Admin"
       primaryActions={
         <>
-          {canCreate && <CreateModalButton text="Create Picklist" modal={CreatePicklistModal} />}
+          {canCreate && <CreateModalButton text="Create Picklist" icon="plus-outline" modal={CreatePicklistModal} />}
         </>
       }
     >
@@ -33,20 +31,20 @@ function SearchPicklistsScreen(props) {
 
       {response && response.has('nodes') && (
         <Card>
-          <Table responsive>
+          <Table hover responsive>
             <tbody>
             {response.get('nodes').map(node => (
               <tr key={`${node.get('_id')}`}>
-                <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                <td>{node.get('title')}</td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover">
+                    <Button color="hover" tag="span">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button color="hover">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>
@@ -65,7 +63,7 @@ function SearchPicklistsScreen(props) {
 export default withRequest(SearchPicklistsScreen, 'triniti:sys:request:search-picklists-request', {
   persist: true,
   initialData: {
-    count: 50,
+    count: 100,
     sort: SearchPicklistsSort.TITLE_ASC.getValue(),
   }
 });

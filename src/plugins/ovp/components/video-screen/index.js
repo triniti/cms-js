@@ -1,16 +1,14 @@
 import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
-import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
-import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
-import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/ovp/components/video-screen/DetailsTab.js';
-import MediaTab from '@triniti/cms/plugins/ovp/components/video-screen/MediaTab.js';
-import ActiveEditsNotificationModal from '@triniti/cms/plugins/raven/components/active-edits-notification-modal/index.js';
-import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
+import AssetsTab from '@triniti/cms/plugins/ovp/components/video-screen/AssetsTab.js';
+import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
+import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
+import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
+import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 
 function VideoScreen(props) {
   const {
@@ -36,8 +34,9 @@ function VideoScreen(props) {
 
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
+      activeNav="Content"
+      activeSubNav="Videos"
       breadcrumbs={[
         { text: 'Videos', to: '/ovp/videos' },
         { text: node.get('title') },
@@ -46,20 +45,20 @@ function VideoScreen(props) {
       tabs={[
         { text: 'Details', to: urls.tab('details') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
-        { text: 'Seo', to: urls.tab('seo') },
-        { text: 'Media', to: urls.tab('media') },
+        { text: 'SEO', to: urls.tab('seo') },
+        { text: 'Assets', to: urls.tab('assets') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
       primaryActions={
         <>
-          <Collaborators nodeRef={nodeRef} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
             text="Close"
             onClick={delegate.handleClose}
             disabled={submitting || isRefreshing}
+            icon="back"
             color="light"
             outline
           />
@@ -69,13 +68,14 @@ function VideoScreen(props) {
                 text="Save"
                 onClick={delegate.handleSave}
                 disabled={submitDisabled}
-                icon="save"
+                icon="save-diskette"
                 color="primary"
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
                 onClick={delegate.handleSwitchMode}
                 disabled={submitting || isRefreshing}
+                icon={editMode ? 'eye' : 'edit'}
                 color="light"
                 outline
               />
@@ -90,11 +90,9 @@ function VideoScreen(props) {
                 <ActionButton
                   text="Delete"
                   onClick={delegate.handleDelete}
-                  icon="delete"
+                  icon="trash"
                   color="danger"
                   outline
-                  role="menuitem"
-                  tabIndex="0"
                 />
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -108,7 +106,6 @@ function VideoScreen(props) {
       }
     >
       {!editMode && <ViewModeWarning />}
-      {editMode && <ActiveEditsNotificationModal nodeRef={nodeRef} />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
@@ -121,8 +118,8 @@ function VideoScreen(props) {
           <TabPane tabId="seo">
             <SeoTab {...props} />
           </TabPane>
-          <TabPane tabId="media">
-            <MediaTab {...props} />
+          <TabPane tabId="assets">
+            <AssetsTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />
@@ -138,6 +135,5 @@ function VideoScreen(props) {
 
 export default withNodeScreen(VideoScreen, {
   label: 'video',
-  defaultTab: 'details',
   leaveUrl: '/ovp/videos',
 });

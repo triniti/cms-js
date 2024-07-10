@@ -1,29 +1,21 @@
 import React from 'react';
-import { SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import ImagePickerField from '@triniti/cms/plugins/dam/components/image-picker-field/index.js';
+import { Card, CardBody, CardHeader } from 'reactstrap';
+import { SwitchField, TextareaField, TextField } from '@triniti/cms/components/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 
-export default function ShowtimesWidgetFields(props) {
-  const { node, nodeRef } = props;
-
+export default function ShowtimesWidgetFields() {
   return (
-    <>
-      <PicklistField name="show" label="Show" picklist="video-shows" />
-      <TextField name="headline" label="Headline" />
-      <TextareaField name="excerpt" label="Excerpt" />
-      <ImagePickerField name="image_ref" label="Image" nodeRef={nodeRef} />
-      <SwitchField name="show_header" label="Show Header" />
-      <SwitchField name="show_border" label="Show Border" />
-      <SwitchField name="include_latest_episode" label="Include Latest Episode" />
-      <SwitchField name="include_latest_promo" label="Include Latest Promo" />
-      <TextField name="header_text" label="Header Text" />
-      {node.schema().hasMixin('triniti:common:mixin:themeable') && (
-        <PicklistField name="theme" label="Theme" picklist="showtimes-widget-themes" />
-      )}
-      <TextField name="view_all_text" label="View All Text" />
-      <UrlField name="view_all_url" label="View All Url" />
-      <TextField name="partner_text" label="Partner Text" />
-      <UrlField name="partner_url" label="Partner Url" />
-    </>
+    <Card>
+      <CardHeader>Showtimes Widget Configuration</CardHeader>
+      <CardBody>
+        <TextField name="headline" label="Headline" />
+        <TextareaField name="excerpt" label="Excerpt" rows={2} />
+        <ImageAssetPickerField name="image_ref" label="Image" />
+        <PicklistField picklist="showtimes-widget-shows" name="show" label="Show" />
+        <SwitchField name="include_latest_episode" label="Include Latest Episode" />
+        <SwitchField name="include_latest_promo" label="Include Latest Promo" />
+      </CardBody>
+    </Card>
   );
 }

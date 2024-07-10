@@ -39,8 +39,8 @@ function CreateWidgetForm(props) {
   return (
     <>
       <ModalHeader>Create {label}</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Name" required />
         </Form>
@@ -55,6 +55,7 @@ function CreateWidgetForm(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -62,6 +63,7 @@ function CreateWidgetForm(props) {
           text={`Create ${label}`}
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>

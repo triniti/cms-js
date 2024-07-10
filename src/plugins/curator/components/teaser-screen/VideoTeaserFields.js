@@ -3,6 +3,6 @@ import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-f
 
 export default function VideoTeaserFields() {
   return (
-    <VideoPickerField name="target_ref" label="Target Video" readOnly />
+    <VideoPickerField name="target_ref" label="Target Video" required readOnly />
   );
 }

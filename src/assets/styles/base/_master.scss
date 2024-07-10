@@ -14,7 +14,11 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-feature-settings: 'kern' 1;
   -moz-font-feature-settings: 'kern' 1;
-  background-color: var(--#{$prefix}dark-bg-subtle); //  $dark-bg-subtle
+  background-color: #e6e7e8;
+
+  [data-bs-theme=dark] & {
+    background-color: var(--#{$prefix}dark-bg-subtle); //  $dark-bg-subtle
+  }
 }
 
 .login-screen {
@@ -142,6 +146,9 @@ a {
 
   &:focus {
     box-shadow: none;
+  }
+  &:focus-visible {
+    box-shadow: $focus-ring-box-shadow;
   }
   &.disabled {
     cursor: no-drop;
@@ -280,6 +287,10 @@ hr {
 
 .text-light {
   color: $dark !important;
+}
+
+.text-muted {
+  color: #{$text-muted} !important;
 }
 
 .text-body-light {
@@ -481,7 +492,7 @@ hr {
 .column-gap-0 {column-gap: 0;}
 
 .cursor-pointer {cursor: pointer;}
-
+.cursor-pointer td {cursor: pointer;}
 
 // Modal & Alert Animations
 
@@ -526,7 +537,7 @@ hr {
 
 
 // Aspect Ratio
-
+/*
 .aspect-ratio {
   position: relative;
   display: block !important;
@@ -570,6 +581,7 @@ hr {
 .aspect-ratio-3by1::before {
   padding-bottom: 33.3333%;
 }
+*/
 
 
 // gradient overlay
@@ -641,6 +653,11 @@ nav + div:not(.screen) {
 
 
 // Triniti Specific Styles
+
+// so links within node pickers work when in view mode
+.enable-pointer-events {
+  pointer-events: all;
+}
 
 // Gallery Grid Container
 

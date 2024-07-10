@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
+import { Badge, Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SearchPromotionsSort from '@triniti/schemas/triniti/curator/enums/SearchPromotionsSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
@@ -7,7 +7,6 @@ import { ActionButton, DatePickerField, Icon, NumberField, useDebounce } from '@
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
-import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
@@ -22,13 +21,19 @@ export default function SearchForm(props) {
     run();
   };
 
+  delegate.handleChangePage = (page) => {
+    request.set('page', page);
+    run();
+    scrollToTop();
+  };
+
   delegate.handleResetFilters = (event) => {
     event.stopPropagation();
     event.preventDefault();
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
     const values = FormMarshaler.marshal(request);
     values.count = 25;
-    values.sort = SearchPromotionsSort.RELEVANCE.getValue();
+    values.sort = SearchPromotionsSort.TITLE_ASC.getValue();
     form.reset(values);
     form.submit();
   };
@@ -44,7 +49,7 @@ export default function SearchForm(props) {
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -53,7 +58,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -63,17 +68,24 @@ export default function SearchForm(props) {
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
         <CardBody>
-          <InputGroup>
-            <Button color="light" onClick={toggle} className="text-dark px-2">
-              <Icon imgSrc="filter" className="mx-1" />
-              <span className="me-1 d-none d-md-block">Filters</span>
-            </Button>
-            <NodeStatusField />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Promotions" />
-            <Button color="secondary" disabled={isRunning} type="submit">
-              <Icon imgSrc="search" />
-            </Button>
-          </InputGroup>
+          <div className="position-relative">
+            <InputGroup>
+              <Button color="light" onClick={toggle} className="text-dark px-2">
+                <Icon imgSrc="filter" className="mx-1" />
+                <span className="me-1 d-none d-md-block">Filters</span>
+              </Button>
+              <NodeStatusField />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Promotions" />
+              <Button color="secondary" disabled={isRunning} type="submit">
+                <Icon imgSrc="search" />
+              </Button>
+            </InputGroup>
+            {isRunning && (
+              <Badge color="light" pill className="badge-searching">
+                <span className="badge-animated">Searching</span>
+              </Badge>
+            )}
+          </div>
         </CardBody>
 
         <Collapse isOpen={isOpen}>

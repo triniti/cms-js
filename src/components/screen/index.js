@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, NavItem } from 'reactstrap';
 import kebabCase from 'lodash-es/kebabCase.js';
+import { useDispatch } from 'react-redux';
 import { Icon, Nav, RouterLink } from '@triniti/cms/components/index.js';
 import AlertBar from '@triniti/cms/components/screen/AlertBar.js';
 import PrimaryActions from '@triniti/cms/components/screen/PrimaryActions.js';
+import changeNavbar from '@triniti/cms/actions/changeNavbar.js';
 
 let screenBody = null;
 export const scrollToTop = (behavior = 'smooth') => {
@@ -16,6 +18,8 @@ export const scrollToTop = (behavior = 'smooth') => {
 
 export default function Screen(props) {
   const {
+    activeNav = '',
+    activeSubNav = '',
     activeTab = '',
     badge = null,
     breadcrumbs = [],
@@ -31,7 +35,8 @@ export default function Screen(props) {
     title = null,
   } = props;
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const dispatch = useDispatch();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidenavOpen, setIsSidenavOpen] = useState(true);
   const screenBodyRef = useRef(null);
 
@@ -49,8 +54,10 @@ export default function Screen(props) {
   }, []);
 
   useEffect(() => {
-    document.title = title || 'Triniti';
-  }, [title]);
+    const t = title || header;
+    document.title = t || 'Triniti';
+    dispatch(changeNavbar(activeNav || t, activeSubNav || t));
+  }, [title, header]);
 
   return (
     <div className="screen">
@@ -112,6 +119,9 @@ export default function Screen(props) {
         {tabs.length > 0 && (
           <Nav underline className="screen-navtabs">
             {tabs.map((tab) => {
+              if (!tab) {
+                return null;
+              }
               const isActive = kebabCase(tab.text) === activeTab;
               return (
                 <NavItem key={tab.to} onClick={() => scrollToTop('auto')} active={isActive}>

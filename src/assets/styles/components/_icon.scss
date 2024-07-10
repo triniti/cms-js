@@ -20,6 +20,12 @@
     margin-top: 0;
     margin-bottom: 0;
   }
+  .btn-sm & {
+    margin-top: -1px;
+  }
+  .btn-sm.d-block & {
+    margin-top: -3px;
+  }
   .btn-action & {
     margin-right: .25rem;
   }

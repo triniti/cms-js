@@ -21,6 +21,7 @@
   &:hover,
   &:focus {
     cursor: pointer;
+    // color: var(--#{$prefix}btn-color);
   }
   &:focus-visible,
   &.active:focus-visible,
@@ -90,17 +91,19 @@
     box-shadow: none !important;
   }
   a:focus-visible > & {
-    box-shadow: $focus-ring-box-shadow !important;
+    box-shadow: none !important;
   }
   &:hover,
   &.active {
     opacity: 1;
   }
-  .td-icons > & {
-    margin-right: .25rem;
+  .td-icons > &,
+  .td-icons > a & {
     padding: 0;
     width: 2.125rem;
     height: 2.125rem;
+    min-height: 2.125rem;
+    border-radius: 50%;
   }
   tr.bg-selected & {
     color: $white !important;
@@ -126,7 +129,7 @@ a {
   &:hover,
   &.active {
     opacity: 1;
-    background-color: rgba($black, .05); // #f2f2f4 $gray-300
+    background-color: $gray-rgba-100; // #f2f2f4 $gray-300
 
     [data-bs-theme=dark] & {
       background-color: $white-rgba-100;
@@ -136,7 +139,39 @@ a {
   [id^="form-group-"] & {
     box-shadow: none !important;
   }
+  &.disabled {
+    opacity: .625;
+    background-color: transparent;
+    cursor: not-allowed;
+  }
+  .td-icons > &,
+  .td-icons > a & {
+    padding: 0;
+    width: 2.125rem;
+    height: 2.125rem;
+    min-height: 2.125rem;
+    border-radius: 50%;
+  }
+  tr.bg-selected & {
+    color: $white !important;
+  }
 }
+
+.focus-ring-box-shadow {
+  box-shadow: $focus-ring-box-shadow;
+  --bs-btn-active-shadow: #{$focus-ring-box-shadow};
+}
+
+.hover-box-shadow {
+
+  &:hover {
+    box-shadow: $focus-ring-box-shadow;
+  }
+  &.btn-hover:hover {
+    box-shadow: $focus-ring-box-shadow !important;
+  }
+}
+
 
 
 // scss-docs-start btn-variant-loops
@@ -219,6 +254,14 @@ a {
     --#{$prefix}btn-disabled-border-color: var(--#{$prefix}border-color);
     --#{$prefix}gradient: #{$gradient};
     background-image: var(--#{$prefix}gradient);
+
+    .btn-group--white & {
+      --#{$prefix}btn-bg: #{$white};
+
+      [data-bs-theme=dark] & {
+        --#{$prefix}btn-bg: var(--#{$prefix}secondary-bg);
+      }
+    }
 
     &.active {
       background-image: none;

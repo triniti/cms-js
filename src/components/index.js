@@ -24,8 +24,6 @@ export RouterLink from '@triniti/cms/components/router-link/index.js';
 export Screen from '@triniti/cms/components/screen/index.js';
 export ScrollableContainer from '@triniti/cms/components/scrollable-container/index.js';
 export SelectField from '@triniti/cms/components/select-field/index.js';
-export SortableList from '@triniti/cms/components/sortable-list/index.js';
-export SortableListField from '@triniti/cms/components/sortable-list-field/index.js';
 export SwitchField from '@triniti/cms/components/switch-field/index.js';
 export TextField from '@triniti/cms/components/text-field/index.js';
 export TextareaField from '@triniti/cms/components/textarea-field/index.js';

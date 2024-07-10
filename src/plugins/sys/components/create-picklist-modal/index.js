@@ -54,8 +54,8 @@ function CreatePicklistModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Picklist</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required validator={titleValidator} />
         </Form>
@@ -64,6 +64,7 @@ function CreatePicklistModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -71,6 +72,7 @@ function CreatePicklistModal(props) {
           text="Create Picklist"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -81,5 +83,5 @@ function CreatePicklistModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePicklistModal), '*:sys:node:picklist:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:picklist:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

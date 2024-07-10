@@ -12,14 +12,14 @@ const CreateAppModal = lazy(() => import('@triniti/cms/plugins/iam/components/cr
 
 function SearchAppsScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:app:create`);
 
   return (
     <Screen
-      title="Apps"
       header="Apps"
+      activeNav="Admin"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create App" icon="plus-outline" modal={CreateAppModal} />}
@@ -45,13 +45,13 @@ function SearchAppsScreen(props) {
                 </td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover" tabIndex="-1">
+                    <Button color="hover" tag="span">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button color="hover" tabIndex="-1">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>

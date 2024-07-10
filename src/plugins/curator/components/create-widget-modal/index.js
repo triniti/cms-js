@@ -9,8 +9,8 @@ import CreateWidgetForm from '@triniti/cms/plugins/curator/components/create-wid
 export default function CreateWidgetModal(props) {
   const policy = usePolicy();
   const [curie, setCurie] = useState();
-  const widgetCuries = useCuries('triniti:curator:mixin:widget:v1');
-  if (!widgetCuries) {
+  const curies = useCuries('triniti:curator:mixin:widget:v1');
+  if (!curies) {
     return null;
   }
 
@@ -31,7 +31,7 @@ export default function CreateWidgetModal(props) {
           <ModalHeader toggle={props.toggle}>Create Widget</ModalHeader>
           <ModalBody className="modal-scrollable">
             <ListGroup>
-              {widgetCuries.map(str => {
+              {curies.map(str => {
                 const curie = SchemaCurie.fromString(str);
                 const canCreate = policy.isGranted(`${curie.getQName()}:create`);
                 if (!canCreate) {
@@ -47,8 +47,7 @@ export default function CreateWidgetModal(props) {
                     >{curie.getMessage()}</a>
                   </ListGroupItem>
                 );
-              }
-              )}
+              })}
             </ListGroup>
           </ModalBody>
 
@@ -56,6 +55,7 @@ export default function CreateWidgetModal(props) {
             <ActionButton
               text="Cancel"
               onClick={props.toggle}
+              icon="close-sm"
               color="light"
               tabIndex="-1"
             />

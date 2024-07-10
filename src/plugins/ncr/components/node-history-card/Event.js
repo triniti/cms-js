@@ -6,7 +6,7 @@ import findNodeDiff from '@triniti/cms/plugins/ncr/components/node-history-card/
 export default function Event({ event }) {
   const schema = event.schema();
 
-  if (schema.usesCurie('gdbots:ncr:mixin:node-updated')) {
+  if (schema.usesCurie('gdbots:ncr:event:node-updated') || schema.usesCurie('gdbots:ncr:mixin:node-updated')) {
     if (event.get('new_etag') === event.get('old_etag')) {
       return <div key="a"><strong className="text-black-50 ps-2 pe-2">No Changes</strong></div>;
     }
@@ -26,7 +26,7 @@ export default function Event({ event }) {
     return <PropertiesTable data={filterData(diffNode)} />;
   }
 
-  if (schema.usesCurie('gdbots:ncr:event:node-created')) {
+  if (schema.usesCurie('gdbots:ncr:event:node-created') || schema.usesCurie('gdbots:ncr:mixin:node-created')) {
     return <PropertiesTable data={filterData(event.get('node').toObject())} />;
   }
 

@@ -13,8 +13,8 @@ export default function DetailsTab() {
           <TextField name="first_name" label="First Name" />
           <TextField name="last_name" label="Last Name" />
           <EmailField name="email" label="Email" readOnly />
-          <SwitchField name="is_staff" label="Is Staff?" />
-          <SwitchField name="is_blocked" label="Is Blocked?" />
+          <SwitchField name="is_staff" label="Is Staff" />
+          <SwitchField name="is_blocked" label="Is Blocked" />
         </CardBody>
       </Card>
       <TaggableFields />

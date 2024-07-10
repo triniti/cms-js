@@ -12,7 +12,7 @@ function AnswerModal(props) {
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
 
-  delegate.handleSave = form.submit;
+  delegate.handleDone = form.submit;
   delegate.handleSubmit = async (values) => {
     try {
       const oldObj = FormMarshaler.marshal(pbj, { skipValidation: true });
@@ -25,8 +25,12 @@ function AnswerModal(props) {
         const app = getInstance();
         const pbjx = await app.getPbjx();
         await pbjx.triggerLifecycle(newPbj);
-        props.onSubmit(newPbj);
+        // todo: review this modal closing during form update issue, seems jank
+        setTimeout(() => {
+          props.onSubmit(newPbj);
+        });
       }
+
       props.toggle();
     } catch (e) {
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -36,11 +40,11 @@ function AnswerModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Poll Answer</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
-      <ModalBody>
+      <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" />
-          <UrlField name="url" label="Answer Link" />
+          <UrlField name="url" label="URL" />
           <NumberField name="initial_votes" label="Initial Votes" />
         </Form>
       </ModalBody>
@@ -51,13 +55,15 @@ function AnswerModal(props) {
             <ActionButton
               text="Cancel"
               onClick={props.toggle}
+              icon="close-sm"
               color="light"
               tabIndex="-1"
             />
             <ActionButton
-              text="Save"
-              onClick={delegate.handleSave}
+              text="Done"
+              onClick={delegate.handleDone}
               disabled={submitDisabled}
+              icon="save"
               color="primary"
             />
           </>
@@ -70,5 +76,5 @@ function AnswerModal(props) {
 const ModalWithForm = withForm(AnswerModal);
 
 export default function ModalWithAnswer(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:answer:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

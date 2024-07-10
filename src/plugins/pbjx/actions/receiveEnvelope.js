@@ -1,6 +1,7 @@
 import swal from 'sweetalert2';
 import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code.js';
 import clearAlerts from '@triniti/cms/actions/clearAlerts.js';
+import logout from '@triniti/cms/plugins/iam/actions/logout.js';
 import { actionTypes } from '@triniti/cms/plugins/pbjx/constants.js';
 
 /**
@@ -36,7 +37,7 @@ export default (envelope) => (dispatch) => {
           + '</ol>'
           + '</p>',
       }).then((result) => {
-        if (result.isDismissed) {
+        if (result.isDismissed && result.dismiss === 'cancel') {
           dispatch(logout());
         }
       }).catch(console.error);

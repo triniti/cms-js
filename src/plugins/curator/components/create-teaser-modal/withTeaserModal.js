@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
-import { Form, ModalFooter, ModalHeader } from 'reactstrap';
+import { Form, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import startCase from 'lodash-es/startCase.js';
 import { getInstance } from '@triniti/app/main.js';
 import { ActionButton, FormErrors, withForm } from '@triniti/cms/components/index.js';
@@ -15,7 +15,7 @@ import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 
 const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
 
-export default function withTeaserModal(ModalBody) {
+export default function withTeaserModal(ModalFields) {
   return withForm(function TeaserModal(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -48,14 +48,11 @@ export default function withTeaserModal(ModalBody) {
     return (
       <>
         <ModalHeader>Create {label}</ModalHeader>
-        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <ModalBody
-            {...props}
-            className="modal-scrollable"
-            delegate={delegate}
-            submitDisabled={submitDisabled}
-          />
+          <ModalBody className="modal-scrollable">
+            {hasSubmitErrors && <FormErrors errors={submitErrors} />}
+            <ModalFields {...props} />
+          </ModalBody>
         </Form>
         <ModalFooter>
           <ActionButton
@@ -67,6 +64,7 @@ export default function withTeaserModal(ModalBody) {
           <ActionButton
             text="Cancel"
             onClick={props.toggle}
+            icon="close-sm"
             color="light"
             tabIndex="-1"
           />
@@ -74,6 +72,7 @@ export default function withTeaserModal(ModalBody) {
             text={`Create ${label}`}
             onClick={delegate.handleCreate}
             disabled={submitDisabled}
+            icon="plus-outline"
             color="primary"
           />
         </ModalFooter>

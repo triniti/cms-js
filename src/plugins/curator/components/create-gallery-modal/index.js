@@ -23,8 +23,9 @@ function CreateGalleryModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Gallery...');
-      values.slug =  addDateToSlug(createSlug(values.title, true));
+      values.slug = addDateToSlug(createSlug(values.title));
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -38,8 +39,8 @@ function CreateGalleryModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Gallery</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
         </Form>
@@ -48,6 +49,7 @@ function CreateGalleryModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +57,7 @@ function CreateGalleryModal(props) {
           text="Create Gallery"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -65,5 +68,5 @@ function CreateGalleryModal(props) {
 const ModalWithForm = withPbj(withForm(CreateGalleryModal), '*:curator:node:gallery:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:gallery:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

@@ -1,108 +1,162 @@
 import React, { lazy } from 'react';
-import { Card, CardBody } from 'reactstrap';
+import { ButtonGroup} from 'reactstrap';
+import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import { CreateModalButton } from '@triniti/cms/components/index.js';
 import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
 import markNodeAsDraft from '@triniti/cms/plugins/ncr/actions/markNodeAsDraft.js';
+import markNodeAsPending from '@triniti/cms/plugins/ncr/actions/markNodeAsPending.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import noop from 'lodash-es/noop.js';
+import unpublishNode from '@triniti/cms/plugins/ncr/actions/unpublishNode.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 
 const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal/index.js'));
 
-const BATCH_OPERATION_PUBLISH = 'publish';
-const BATCH_OPERATION_DRAFT = 'draft';
-const BATCH_OPERATION_DELETE = 'delete';
-
-const batchOperation = action => async (dispatch, node) => {
-  switch (action) {
-    case BATCH_OPERATION_PUBLISH:
-      await dispatch(publishNode(NodeRef.fromNode(node)));
-      break;
-    case BATCH_OPERATION_DRAFT:
-      await dispatch(markNodeAsDraft(NodeRef.fromNode(node)));
-      break;
-    case BATCH_OPERATION_DELETE:
-      await dispatch(deleteNode(NodeRef.fromNode(node)));
-      break;
-    default:
-      throw new Error('Unsupported action.');
-      break;
+const publishOperation = async (dispatch, node) => {
+  if (node.get('status') === NodeStatus.PUBLISHED) {
+    throw new Error('Node is already published.');
   }
+
+  await dispatch(publishNode(node.generateNodeRef()));
 };
 
-const BatchOperationsCard = ({
-  nodes,
-  run,
-  selected = [],
-  setSelected = noop,
-  setAllSelected = noop,
-  canDelete = true,
-  canDraft = true,
-  canPublish = true,
-}) => {
-  if (!selected.length) {
-    return null;
+const markAsDraftOperation = async (dispatch, node) => {
+  if (node.get('status') === NodeStatus.PUBLISHED) {
+    throw new Error('Node must first be unpublished.');
   }
 
-  const filteredNodes = nodes.filter((node) => selected.includes(`${node.get('_id')}`));
-  const handleCompleted = () => {
-    setSelected([]);
-    setAllSelected(false);
-    run();
-  };
+  if (node.get('status') === NodeStatus.DRAFT) {
+    throw new Error('Node is already marked as draft.');
+  }
+
+  await dispatch(markNodeAsDraft(node.generateNodeRef()));
+};
+
+const markAsPendingOperation = async (dispatch, node) => {
+  if (node.get('status') === NodeStatus.PUBLISHED) {
+    throw new Error('Node must first be unpublished.');
+  }
+
+  if (node.get('status') === NodeStatus.PENDING) {
+    throw new Error('Node is already marked as pending.');
+  }
+
+  await dispatch(markNodeAsPending(node.generateNodeRef()));
+};
+
+const unpublishOperation = async (dispatch, node) => {
+  if (node.get('status') !== NodeStatus.PUBLISHED) {
+    throw new Error('Node is not published.');
+  }
+
+  await dispatch(unpublishNode(node.generateNodeRef()));
+};
+
+const deleteOperation = async (dispatch, node) => {
+  if (node.get('status') === NodeStatus.DELETED) {
+    throw new Error('Node is already deleted.');
+  }
+
+  await dispatch(deleteNode(node.generateNodeRef()));
+};
+
+export default function BatchOperationsCard(props) {
+  const { batch, schema, onComplete } = props;
+  const qname = schema.getQName();
+  const policy = usePolicy();
+  const canDelete = policy.isGranted(`${qname}:delete`);
+  const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
+  const canPublish = isPublishable && policy.isGranted(`${qname}:publish`);
+  const canMarkAsDraft = isPublishable && policy.isGranted(`${qname}:mark-as-draft`);
+  const canMarkAsPending = isPublishable && policy.isGranted(`${qname}:mark-as-pending`);
+  const canUnpublish = isPublishable && policy.isGranted(`${qname}:unpublish`);
 
   return (
-  <Card>
-    <CardBody className="d-flex flex-row">
-      <div>
-        <div className="btn-group" role="group" aria-label="Basic example">
-          {canPublish && <CreateModalButton
+    <fieldset className="mb-3 d-flex align-items-center">
+      <ButtonGroup className="btn-group--white flex-wrap shadow-sm">
+        {canPublish && (
+          <CreateModalButton
             text="Publish"
+            color="primary"
+            icon="globe"
+            outline
             modal={BatchOperationModal}
-            modalProps={{
-              header: 'Publish Article(s)',
-              runningText: 'Publishing...',
-              completedText: 'Published.',
-              nodes: filteredNodes,
-              operation: batchOperation(BATCH_OPERATION_PUBLISH),
-              onComplete: handleCompleted,
-            }}
-            color="outline-primary"
-          />}
-          {canDraft && <CreateModalButton
-            text="Draft"
+            modalProps={() => ({
+              header: `Publish Nodes (${batch.size})`,
+              completedText: 'Published',
+              nodes: Array.from(batch.values()),
+              operation: publishOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canMarkAsDraft && (
+          <CreateModalButton
+            text="Mark As Draft"
+            color="light"
+            icon="edit"
+            outline
             modal={BatchOperationModal}
-            modalProps={{
-              header: 'Mark Article(s) as Draft',
-              runningText: 'Saving as draft...',
-              completedText: 'Draft saved.',
-              nodes: filteredNodes,
-              operation: batchOperation(BATCH_OPERATION_DRAFT),
-              onComplete: handleCompleted,
-            }}
-            color="outline-warning"
-          />}
-          {canDelete && <CreateModalButton
+            modalProps={() => ({
+              header: `Mark Nodes (${batch.size}) As Draft`,
+              completedText: 'Marked As Draft',
+              nodes: Array.from(batch.values()),
+              operation: markAsDraftOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canMarkAsPending && (
+          <CreateModalButton
+            text="Mark As Pending"
+            color="info"
+            icon="legal"
+            outline
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Mark Nodes (${batch.size}) As Pending`,
+              completedText: 'Marked As Pending',
+              nodes: Array.from(batch.values()),
+              operation: markAsPendingOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canUnpublish && (
+          <CreateModalButton
+            text="Unpublish"
+            color="warning"
+            icon="archive"
+            outline
+            modal={BatchOperationModal}
+            modalProps={() => ({
+              header: `Unpublish Nodes (${batch.size})`,
+              completedText: 'Unpublished',
+              nodes: Array.from(batch.values()),
+              operation: unpublishOperation,
+              onComplete,
+            })}
+          />
+        )}
+        {canDelete && (
+          <CreateModalButton
             text="Delete"
+            color="danger"
+            icon="trash"
+            outline
             modal={BatchOperationModal}
-            modalProps={{
-              header: 'Delete Articles',
-              runningText: 'Deleting...',
-              completedText: 'Deleted.',
-              nodes: filteredNodes,
-              operation: batchOperation(BATCH_OPERATION_DELETE),
-              onComplete: handleCompleted,
-            }}
-            color="outline-danger"
-          />}
-        </div>
-      </div>
-      <div style={{ marginLeft: '1rem', marginTop: '10px', textTransform: 'uppercase', color: '#8a8a8c', fontWeight: 500 }} className='align-middle'>
-        {selected.length} items
-      </div>
-    </CardBody>
-  </Card>
+            modalProps={() => ({
+              header: `Delete Nodes (${batch.size})`,
+              completedText: 'Deleted',
+              nodes: Array.from(batch.values()),
+              operation: deleteOperation,
+              onComplete,
+            })}
+          />
+        )}
+      </ButtonGroup>
+      <legend className="h3 mb-0">
+        <span className="badge bg-info rounded-pill">{batch.size}</span> <span className="h4">{batch.size > 1 ? 'nodes' : 'node'}</span>
+      </legend>
+    </fieldset>
   );
 }
-
-export default BatchOperationsCard;

@@ -3,31 +3,33 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useFormState } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import { Form, ModalFooter, ModalHeader } from 'reactstrap';
+import { Form, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import startCase from 'lodash-es/startCase.js';
 import { getInstance } from '@triniti/app/main.js';
-import { ActionButton, FormErrors, withForm } from '@triniti/cms/components/index.js';
+import { ActionButton, FormErrors, TextareaField, TextField, withForm } from '@triniti/cms/components/index.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
+import ContentRefField from '@triniti/cms/plugins/notify/components/content-ref-field/index.js';
+import SendOptionsField from '@triniti/cms/plugins/notify/components/send-options-field/index.js';
 
 const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
 
-export default function withNotificationModal(ModalBody) {
+export default function withNotificationModal(ModalFields) {
   return withForm(function NotificationModal(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { appRef, delegate, form, formState, handleSubmit, pbj } = props;
+    const { appRef, contentRef, delegate, form, formState, handleSubmit, pbj } = props;
     const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
     const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
 
     const label = startCase(pbj.schema().getQName().getMessage());
     const { values } = useFormState({ subscription: { values: true } });
-    const articleStatus = values.content_ref && getContent(values.content_ref).get('status').value;
+    const contentStatus = values.content_ref && getContent(values.content_ref).get('status').getValue();
 
     delegate.handleCreate = form.submit;
     delegate.handleSubmit = async (values) => {
@@ -38,6 +40,12 @@ export default function withNotificationModal(ModalBody) {
         const content = getContent(values.content_ref);
         if (content) {
           values.title = content.get('title');
+        } else {
+          values.send_on_publish = false;
+        }
+
+        if (values.send_on_publish) {
+          values.send_at = null;
         }
 
         await dispatch(createNode(values, form, pbj));
@@ -54,15 +62,19 @@ export default function withNotificationModal(ModalBody) {
     return (
       <>
         <ModalHeader>Create {label}</ModalHeader>
-        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <ModalBody
-            {...props}
-            className="modal-scrollable"
-            articleStatus={articleStatus}
-            delegate={delegate}
-            submitDisabled={submitDisabled}
-          />
+          <ModalBody className="modal-scrollable">
+            {hasSubmitErrors && <FormErrors errors={submitErrors} />}
+            <ContentRefField contentRef={contentRef} />
+            <SendOptionsField contentStatus={contentStatus} />
+            {!values.content_ref && (
+              <>
+                <TextField name="title" label="Title" required />
+                <TextareaField name="body" label="Body" rows={3} required />
+              </>
+            )}
+            <ModalFields {...props} contentStatus={contentStatus} />
+          </ModalBody>
         </Form>
         <ModalFooter>
           <ActionButton
@@ -74,6 +86,7 @@ export default function withNotificationModal(ModalBody) {
           <ActionButton
             text="Cancel"
             onClick={props.toggle}
+            icon="close-sm"
             color="light"
             tabIndex="-1"
           />
@@ -81,6 +94,7 @@ export default function withNotificationModal(ModalBody) {
             text={`Create ${label}`}
             onClick={delegate.handleCreate}
             disabled={submitDisabled}
+            icon="plus-outline"
             color="primary"
           />
         </ModalFooter>

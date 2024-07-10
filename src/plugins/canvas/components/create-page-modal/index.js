@@ -25,10 +25,11 @@ function CreatePageModal(props) {
       await progressIndicator.show('Creating Page...');
       values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
-      toast({ title: 'Page Created.' });
+      toast({ title: 'Page created.' });
     } catch (e) {
       await progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -38,8 +39,8 @@ function CreatePageModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Page</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
         </Form>
@@ -48,6 +49,7 @@ function CreatePageModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +57,7 @@ function CreatePageModal(props) {
           text="Create Page"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -65,5 +68,5 @@ function CreatePageModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePageModal), '*:canvas:node:page:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:page:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

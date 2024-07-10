@@ -1,6 +1,6 @@
 import React, { lazy, useState } from 'react';
 import startCase from 'lodash-es/startCase.js';
-import { Badge, ListGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort.js';
 import { ActionButton, Loading, withPbj } from '@triniti/cms/components/index.js';
@@ -22,7 +22,7 @@ const resolveComponent = (curie) => {
 function CreateNotificationModal(props) {
   const policy = usePolicy();
   const { request, contentRef } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const [appRef, setAppRef] = useState();
   const [curie, setCurie] = useState();
 
@@ -50,28 +50,24 @@ function CreateNotificationModal(props) {
             {response && response.has('nodes') && (
               <ListGroup>
                 {response.get('nodes').map(node => {
-                    const appCurie = node.schema().getCurie();
-                    const vendor = appCurie.getVendor();
-                    const label = appCurie.getMessage().replace('-app', '-notification');
+                    const ref = node.generateNodeRef();
+                    const qname = ref.getQName();
+                    const vendor = qname.getVendor();
+                    const label = qname.getMessage().replace('-app', '-notification');
                     const canCreate = policy.isGranted(`${vendor}:${label}:create`);
                     if (!canCreate) {
                       return;
                     }
 
-                    const ref = node.generateNodeRef().toString();
-                    const curie = `${vendor}:notify:node:${label}`;
-
                     return (
-                      <a
-                        key={ref}
-                        className="list-group-item list-group-item-action list-group-item-light d-flex justify-content-between align-items-center"
-                        data-curie={curie}
-                        data-app-ref={ref}
-                        onClick={handleAppClick}
-                      >
-                        {node.get('title')}
-                        <Badge pill color="primary" className="ms-2">{appCurie.getMessage()}</Badge>
-                      </a>
+                      <ListGroupItem key={ref.toString()}>
+                        <a
+                          className="text-info"
+                          data-curie={`${vendor}:notify:node:${label}`}
+                          data-app-ref={ref.toString()}
+                          onClick={handleAppClick}
+                        >{node.get('title')}</a>
+                      </ListGroupItem>
                     );
                   }
                 )}
@@ -83,6 +79,7 @@ function CreateNotificationModal(props) {
             <ActionButton
               text="Cancel"
               onClick={props.toggle}
+              icon="close-sm"
               color="light"
               tabIndex="-1"
             />
@@ -103,7 +100,7 @@ function CreateNotificationModal(props) {
 }
 
 export default withRequest(CreateNotificationModal, 'gdbots:iam:request:search-apps-request', {
-  channel: 'create-notification-modal',
+  channel: 'modal',
   initialData: {
     count: 50,
     sort: SearchAppsSort.TITLE_ASC.getValue(),

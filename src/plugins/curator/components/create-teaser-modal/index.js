@@ -20,8 +20,8 @@ const resolveComponent = (curie) => {
 export default function CreateTeaserModal(props) {
   const policy = usePolicy();
   const [curie, setCurie] = useState();
-  const teaserCuries = useCuries('triniti:curator:mixin:teaser:v1');
-  if (!teaserCuries) {
+  const curies = useCuries('triniti:curator:mixin:teaser:v1');
+  if (!curies) {
     return null;
   }
 
@@ -41,7 +41,7 @@ export default function CreateTeaserModal(props) {
           <ModalHeader toggle={props.toggle}>Create Teaser</ModalHeader>
           <ModalBody>
             <ListGroup>
-              {teaserCuries.map(str => {
+              {curies.map(str => {
                 const curie = SchemaCurie.fromString(str);
                 const canCreate = policy.isGranted(`${curie.getQName()}:create`);
                 if (!canCreate) {
@@ -64,6 +64,7 @@ export default function CreateTeaserModal(props) {
             <ActionButton
               text="Cancel"
               onClick={props.toggle}
+              icon="close-sm"
               color="light"
               tabIndex="-1"
             />

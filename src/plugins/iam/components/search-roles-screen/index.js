@@ -12,15 +12,15 @@ const CreateRoleModal = lazy(() => import('@triniti/cms/plugins/iam/components/c
 
 function SearchRolesScreen(props) {
   const { request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:role:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:role:update`);
 
   return (
     <Screen
-      title="Roles"
       header="Roles"
+      activeNav="Admin"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Role" icon="plus-outline" modal={CreateRoleModal} />}
@@ -38,13 +38,13 @@ function SearchRolesScreen(props) {
                 <td>{node.get('title')}</td>
                 <td className="td-icons">
                   <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover" tabIndex="-1">
+                    <Button color="hover" tag="span">
                       <Icon imgSrc="eye" alt="view" />
                     </Button>
                   </Link>
                   {canUpdate && (
                     <Link to={nodeUrl(node, 'edit')}>
-                      <Button color="hover" tabIndex="-1">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="pencil" alt="edit" />
                       </Button>
                     </Link>
@@ -63,7 +63,7 @@ function SearchRolesScreen(props) {
 export default withRequest(SearchRolesScreen, 'gdbots:iam:request:search-roles-request', {
   persist: true,
   initialData: {
-    count: 50,
+    count: 100,
     sort: SearchRolesSort.TITLE_ASC.getValue(),
   }
 });

@@ -1,7 +1,4 @@
-import swal from 'sweetalert2';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Table } from 'reactstrap';
 import { ActionButton } from '@triniti/cms/components/index.js';
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
@@ -18,6 +15,7 @@ import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import MedialiveChannelStateButton from '@triniti/cms/plugins/ovp/components/livestreams-screen/MedialiveChannelStateButton.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import { useDispatch } from 'react-redux';
+import delay from '@triniti/cms/utils/delay.js';
 
 const statusColorMap = Object.values(NodeStatus).reduce((acc, cur) => {
   acc[cur.toString()] = cur.toString();
@@ -132,7 +130,7 @@ const LivestreamsCard = ({ nodes, metas, reloadChannelState }) => nodes.map((nod
     }
   }
 
-  const handleStopChannels = async (nodeRef) => {
+  const handleStopChannels = async (nodeRef, channelState) => {
     await swal.fire({
       icon: 'warning',
       titleText: 'Are you sure you want to stop the channel?',

@@ -50,7 +50,7 @@
 }
 
 .table-hover tr:hover {
-  cursor: pointer;
+  cursor: default;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) > *,
@@ -126,13 +126,14 @@ tr[class*=" status-"] {
   }
   a {
     display: inline-block;
-    margin: .125rem;
+    margin-right: .125rem;
     border-radius: 10rem;
 
     &:focus-visible {
       box-shadow: $focus-ring-box-shadow;
     }
-    .btn-hover {
+    .btn-hover,
+    .btn-hover-bg {
       margin-right: 0;
     }
   }

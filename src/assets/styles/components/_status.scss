@@ -1,5 +1,13 @@
 // Status Background Colors
 
+// using same colors
+// expired, processing, running
+// canceled, deleted
+// completed, published
+// failed, pending
+// draft, unknown
+
+
 :root {
   --#{$prefix}status-archived:          #{$status-archived};
   --#{$prefix}status-archived-hover:    #{$status-archived-hover};
@@ -86,7 +94,8 @@ tr.status-archived,
   }
 }
 
-.status-deleted {
+.status-deleted,
+.status-canceled {
   background-color: var(--#{$prefix}status-deleted) !important;
 
   .select__option:hover &,
@@ -108,6 +117,7 @@ tr.status-archived,
 }
 
 tr.status-deleted,
+tr.status-canceled,
 .status-deleted-border {
   box-shadow: inset 3px 0 0 var(--#{$prefix}warning);
 
@@ -116,7 +126,8 @@ tr.status-deleted,
   }
 }
 
-.status-draft {
+.status-draft,
+.status-unknown {
   background-color: var(--#{$prefix}status-draft) !important;
 
   .select__option:hover &,
@@ -127,7 +138,7 @@ tr.status-deleted,
   }
   &.badge,
   &.status-copy {
-    background-color: #eaeaed !important;
+    background-color: $gray-400 !important; // #eaeaed
     color: #7a7a7c;
 
     [data-bs-theme=dark] & {
@@ -138,6 +149,7 @@ tr.status-deleted,
 }
 
 tr.status-draft,
+tr.status-unknown,
 .status-draft-border {
   box-shadow: inset 3px 0 0 var(--#{$prefix}dark);
 
@@ -146,7 +158,8 @@ tr.status-draft,
   }
 }
 
-.status-expired {
+.status-expired,
+.status-processing {
   background-color: var(--#{$prefix}status-expired) !important;
 
   .select__option:hover &,
@@ -176,7 +189,8 @@ tr.status-expired,
   }
 }
 
-.status-pending {
+.status-pending,
+.status-failed {
   background-color: var(--#{$prefix}status-pending) !important;
 
   .select__option:hover &,
@@ -206,7 +220,8 @@ tr.status-pending,
   }
 }
 
-.status-published {
+.status-published,
+.status-completed {
   background-color: var(--#{$prefix}body-bg) !important;
 
   .select__option &,
@@ -235,6 +250,7 @@ tr.status-pending,
 }
 
 tr.status-published,
+// tr.status-completed,
 .status-published-border {
   background-color: var(--#{$prefix}body-bg) !important;
   box-shadow: inset 3px 0 0 var(--#{$prefix}success);
@@ -335,7 +351,8 @@ tr.status-none {
   }
 }
 
-tr.status-running {
+tr.status-running,
+tr.status-processing {
   background-color: var(--#{$prefix}status-expired) !important;
   box-shadow: inset 3px 0 0 var(--#{$prefix}info);
   // todo: check if body-color var needed
@@ -381,7 +398,8 @@ button:not(.disabled):focus-visible {
     background: var(--#{$prefix}status-draft-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}dark);
   }
-  &.status-expired {
+  &.status-expired,
+  &.status-processing {
     background: var(--#{$prefix}status-expired-hover) !important;
     box-shadow: inset 2px 0 0 var(--#{$prefix}info);
   }

@@ -58,19 +58,20 @@ function CreateRedirectModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Redirect</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <UriField name="title" label="Request URI" required />
           <UriField name="redirect_to" label="Redirect URI" required />
-          <SwitchField name="is_vanity" label="Is Vanity URL?" />
-          <SwitchField name="is_permanent" label="Is Permanent?" />
+          <SwitchField name="is_vanity" label="Is Vanity URL" />
+          <SwitchField name="is_permanent" label="Is Permanent" />
         </Form>
       </ModalBody>
       <ModalFooter>
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -78,6 +79,7 @@ function CreateRedirectModal(props) {
           text="Create Redirect"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -88,5 +90,5 @@ function CreateRedirectModal(props) {
 const ModalWithForm = withPbj(withForm(CreateRedirectModal), '*:sys:node:redirect:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:redirect:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

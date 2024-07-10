@@ -25,6 +25,7 @@ function CreatePersonModal(props) {
       await progressIndicator.show('Creating Person...');
       values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -38,8 +39,8 @@ function CreatePersonModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Person</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
         </Form>
@@ -48,6 +49,7 @@ function CreatePersonModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +57,7 @@ function CreatePersonModal(props) {
           text="Create Person"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -65,5 +68,5 @@ function CreatePersonModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePersonModal), '*:people:node:person:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:person:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

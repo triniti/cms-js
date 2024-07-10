@@ -3,19 +3,18 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { addDateToSlug, createSlug } from '@gdbots/pbj/utils/index.js';
+import { addDateToSlug, createSlug, isValidSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import isValidSlug from '@gdbots/pbj/utils/isValidSlug.js';
 import trimStart from 'lodash-es/trimStart.js';
 
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
-const validDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value)) ? true : false;
+const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
@@ -30,14 +29,15 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      if(slug && validDatedSlug(slug)){
+      if (slug && isValidDatedSlug(slug)) {
         values.slug = slug;
-      }else if(slug && !validDatedSlug(slug)){
+      } else if (slug && !isValidDatedSlug(slug)) {
         values.slug = addDateToSlug(slug);
       } else {
-        values.slug =  addDateToSlug(createSlug(values.title, true));
+        values.slug = addDateToSlug(createSlug(values.title));
       }
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -48,27 +48,27 @@ function CreateArticleModal(props) {
     }
   };
 
-  const handleBlur = e => {
-    if(e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value, true)));
+  const handleBlur = (e) => {
+    if (e.target.value && !slug) {
+      setSlug(addDateToSlug(createSlug(e.target.value)));
     }
-  }
+  };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value, true)));
+      setSlug(addDateToSlug(createSlug(e.target.value)));
     }
-  }
+  };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSlug(e.target.value);
-  }
+  };
 
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Article</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
           <TextField name="slug" label="Slug" value={slug} onChange={handleChange} />
@@ -78,6 +78,7 @@ function CreateArticleModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -85,6 +86,7 @@ function CreateArticleModal(props) {
           text="Create Article"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -95,5 +97,5 @@ function CreateArticleModal(props) {
 const ModalWithForm = withPbj(withForm(CreateArticleModal), '*:news:node:article:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:article:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

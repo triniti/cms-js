@@ -34,7 +34,7 @@
   display: flex;
   min-height: $header-height + 8;
   padding: .125rem 1rem .25rem 1rem;
-  border-bottom: 1px solid var(--#{$prefix}border-color-translucent);
+  border-bottom: 1px solid $gray-600;
   border-radius: 0 !important;
   background-color: var(--#{$prefix}body-bg);
   align-items: center;
@@ -51,6 +51,9 @@
     padding-right: 1.5rem;
     padding-left: 1.5rem;
   }
+  [data-bs-theme=dark] & {
+    border-color: var(--#{$prefix}border-color-translucent);
+  }
 }
 
 .screen-header-title {
@@ -60,7 +63,6 @@
   margin-bottom: 0;
   padding: .5rem 0;
   letter-spacing: .01em;
-  text-transform: capitalize;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -212,7 +214,7 @@
     .screen-sidebar-is-open & {
       right: auto;
       left: -24px;
-      z-index: 4;
+      z-index: 7;
     }
   }
   &:focus {

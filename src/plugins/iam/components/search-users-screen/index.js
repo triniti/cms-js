@@ -14,15 +14,15 @@ const CreateUserModal = lazy(() => import('@triniti/cms/plugins/iam/components/c
 
 function SearchUsersScreen(props) {
   const { request, delegate } = props;
-  const { response, run, isRunning, pbjxError } = useRequest(request, true);
+  const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:user:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:user:update`);
 
   return (
     <Screen
-      title="Users"
       header="Users"
+      activeNav="Admin"
       contentWidth="1200px"
       primaryActions={
         <>
@@ -62,13 +62,13 @@ function SearchUsersScreen(props) {
                   <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                   <td className="td-icons">
                     <Link to={nodeUrl(node, 'view')}>
-                      <Button color="hover" tabIndex="-1">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
                     {canUpdate && (
                       <Link to={nodeUrl(node, 'edit')}>
-                        <Button color="hover" tabIndex="-1">
+                        <Button color="hover" tag="span">
                           <Icon imgSrc="pencil" alt="edit" />
                         </Button>
                       </Link>

@@ -11,6 +11,7 @@ import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
+
 function CreateCategoryModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function CreateCategoryModal(props) {
       await progressIndicator.show('Creating Category...');
       values.slug = createSlug(values.title);
       await dispatch(createNode(values, form, pbj));
+
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
@@ -38,8 +40,8 @@ function CreateCategoryModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Category</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
         </Form>
@@ -48,6 +50,7 @@ function CreateCategoryModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +58,7 @@ function CreateCategoryModal(props) {
           text="Create Category"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -65,5 +69,5 @@ function CreateCategoryModal(props) {
 const ModalWithForm = withPbj(withForm(CreateCategoryModal), '*:taxonomy:node:category:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:category:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

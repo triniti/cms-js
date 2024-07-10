@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
+import { Badge, Button, ButtonGroup, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
-import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';
+import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
@@ -12,10 +12,9 @@ import CategoryPickerField from '@triniti/cms/plugins/taxonomy/components/catego
 import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel-picker-field/index.js';
 import PersonPickerField from '@triniti/cms/plugins/people/components/person-picker-field/index.js';
 import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
-import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {
-  const { request, form, formState, delegate, handleSubmit, isRunning, run, teaserCuries } = props;
+  const { request, form, formState, delegate, handleSubmit, isRunning, run, curies } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -27,13 +26,19 @@ export default function SearchForm(props) {
     run();
   };
 
+  delegate.handleChangePage = (page) => {
+    request.set('page', page);
+    run();
+    scrollToTop();
+  };
+
   delegate.handleResetFilters = (event) => {
     event.stopPropagation();
     event.preventDefault();
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
     const values = FormMarshaler.marshal(request);
     values.count = 25;
-    values.sort = SearchTeasersSort.RELEVANCE.getValue();
+    values.sort = SearchTeasersSort.ORDER_DATE_DESC.getValue();
     form.reset(values);
     form.submit();
   };
@@ -47,10 +52,9 @@ export default function SearchForm(props) {
   };
 
   const q = useDebounce(formState.values.q || '', 500);
-
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -59,7 +63,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -67,8 +71,8 @@ export default function SearchForm(props) {
 
   useEffect(() => {
     const types = formState.values.types || [];
-    if (!request || `${request.get('types', [])}` === types) {
-      return noop;
+    if (!request || request.get('types', []).sort().join('') === types.sort().join('')) {
+      return;
     }
 
     form.submit();
@@ -77,40 +81,50 @@ export default function SearchForm(props) {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
-        <CardBody className="pb-2">
-          <InputGroup>
-            <Button color="light" onClick={toggle} className="text-dark px-2">
-              <Icon imgSrc="filter" className="mx-1" />
-              <span className="me-1 d-none d-md-block">Filters</span>
-            </Button>
-            <NodeStatusField />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Teasers" />
-            <Button color="secondary" disabled={isRunning} type="submit">
-              <Icon imgSrc="search" />
-            </Button>
-          </InputGroup>
-          <div className="mt-3">
-            {teaserCuries.map(str => {
+        <CardBody>
+          <div className="position-relative">
+            <InputGroup>
+              <Button color="light" onClick={toggle} className="text-dark px-2">
+                <Icon imgSrc="filter" className="mx-1" />
+                <span className="me-1 d-none d-md-block">Filters</span>
+              </Button>
+              <NodeStatusField />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Teasers" />
+              <Button color="secondary" disabled={isRunning} type="submit">
+                <Icon imgSrc="search" />
+              </Button>
+            </InputGroup>
+            {isRunning && (
+              <Badge color="light" pill className="badge-searching">
+                <span className="badge-animated">Searching</span>
+              </Badge>
+            )}
+          </div>
+          <ButtonGroup className="mt-3 flex-wrap">
+            {curies.map(str => {
               const curie = SchemaCurie.fromString(str);
-              const teaserType = curie.getMessage();
+              const type = curie.getMessage();
               return (
                 <CheckboxField
-                  inline
-                  id={teaserType}
-                  key={teaserType}
+                  id={type}
+                  key={type}
                   name="types"
-                  className="form-check--button"
-                  value={teaserType}
-                  label={teaserType.replace('-teaser', '')}
+                  inline
+                  button
+                  value={type}
+                  label={type.replace('-teaser', '')}
                 />
               );
-            })
-            }
-          </div>
+            })}
+          </ButtonGroup>
         </CardBody>
+
         <Collapse isOpen={isOpen}>
           <CardBody className="pt-1 pb-0">
             <Row>
+              <Col sm={6} xl={3}>
+                <TimelinePickerField name="timeline_ref" label="Timeline" />
+              </Col>
               <Col sm={6} xl={3}>
                 <ChannelPickerField name="channel_ref" label="Channel" />
               </Col>
@@ -120,10 +134,8 @@ export default function SearchForm(props) {
               <Col sm={6} xl={3}>
                 <PersonPickerField name="person_refs" label="People" isMulti />
               </Col>
-              <Col sm={6} xl={3}>
-                <TimelinePickerField name="timeline_ref" label="Timlines" />
-              </Col>
             </Row>
+
             <Row>
               <Col sm={6} xl={3}>
                 <DatePickerField name="created_after" label="Created After" />
@@ -151,12 +163,6 @@ export default function SearchForm(props) {
               </Col>
               <Col sm={6} xl={3}>
                 <NumberField name="count" label="Count" />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col sm={6} xl={3}>
-                <TrinaryField name="is_unlisted" label="Unlisted" unknownLabel="ANY" />
               </Col>
             </Row>
 

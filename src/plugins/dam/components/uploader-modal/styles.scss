@@ -1,0 +1,70 @@
+.dam-col-start {
+
+  @media (min-width: 768px) {
+    width: 267px;
+    border-right: 1px solid var(--#{$prefix}border-color-translucent);
+  }
+}
+
+.dam-drop-zone-component {
+  height: 194px;
+  --#{$prefix}border-style: dashed;
+  transition: border 100ms ease-out, background-color 100ms ease-out;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    --#{$prefix}border-color: #{$primary};
+    background-color: var(--#{$prefix}light-bg-subtle);
+    cursor: pointer;
+
+    .icon {
+      color: $primary
+    }
+  }
+  &:focus-visible {
+    outline: none;
+    box-shadow: $focus-ring-box-shadow;
+  }
+  .icon {
+    width: 7.5rem;
+    height: 7.5rem;
+    transition: color 100ms ease-out;
+
+    svg {
+      width: 7.5rem;
+      height: 7.5rem;
+    }
+  }
+  .loading-container {
+    height: 194px;
+  }
+}
+
+.dam-file-list {
+  width: 100%;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -ms-overflow-style: none;
+  }
+  button {
+    --#{$prefix}gradient: none;
+  }
+}
+
+.dam-col-end {
+  min-height: 750px;
+
+  .loading-container {
+    height: 120px;
+  }
+}

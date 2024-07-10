@@ -9,6 +9,7 @@ const omitKeys = [
   'ctx_cloud',
   'ctx_correlator_ref',
   'ctx_ip',
+  'ctx_ipv6',
   'ctx_tenant_id',
   'ctx_ua',
   'ctx_ua_parsed',
@@ -21,7 +22,6 @@ const omitKeys = [
   'is_weekend',
   'last_event_ref',
   'month_of_year',
-  'node_ref',
   'occurred_at',
   'ts_ym',
   'ts_ymd',
@@ -30,8 +30,4 @@ const omitKeys = [
   'updater_ref',
 ];
 
-/**
- * filter out object keys that may not need to display in event stream
- * @param data [object]
- */
 export default (data) => omit(data, omitKeys);

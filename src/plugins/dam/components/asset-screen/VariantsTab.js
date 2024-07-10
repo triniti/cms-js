@@ -1,137 +1,166 @@
-import React, { useState } from 'react';
-import { Card, CardBody, CardHeader, Spinner } from 'reactstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Alert, Card, CardBody, CardHeader, CardText } from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
-import variants from '@triniti/cms/plugins/dam/components/asset-screen/variants.js';
-import Dropzone from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
+import md5 from 'md5';
 import GetUploadUrlsRequestV1 from '@triniti/schemas/triniti/dam/request/GetUploadUrlsRequestV1.js';
 import { getInstance } from '@triniti/app/main.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
-import fileToUuidName from '@triniti/cms/plugins/dam/utils/fileToUuidName.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import { Loading } from '@triniti/cms/components/index.js';
 
-import '@triniti/cms/plugins/dam/components/asset-screen/variants.scss';
-
-// Error messages
-const ERROR_MIME_TYPE = 'Invalid Action: Trying to upload invalid file type.';
-const ERROR_ORIG_VERSION = 'Invalid Action: Original version cannot be overwritten.';
-const ERROR_UPLOAD = 'Issue uploading file. Please try again.';
-
-// State
-const STATE_UPLOADING = 'uploading';
-
-const getVariantSrc = (asset, version) => {
-  const rand = `?r=${(new Date()).getTime()}`;
-  return `${damUrl(asset, version, 'sm')}${rand}`;
+const variants = {
+  '16by9': 'Widescreen - 16:9',
+  '5by4': 'Horizontal - 5:4',
+  '4by3': 'Horizontal - 4:3',
+  '3by2': 'Horizontal - 3:2',
+  '1by1': 'Square - 1:1',
+  '2by3': 'Vertical - 2:3',
+  '3by4': 'Vertical - 3:4',
+  '4by5': 'Vertical - 4:5',
+  '5by6': 'Gallery - 5:6',
+  '6by5': 'Gallery - 6:5',
+  '9by16': 'Long Vertical - 9:16',
 };
 
-const aspectRatioToCssClass = (aspectRatio) => `ratio ratio-${aspectRatio.replace('by','x')}`;
-
-const getUploadUrls = async (file, asset, version) => {
+const getUploadUrl = async (assetId, version) => {
+  const filename = `${assetId.getUuid()}_${version}.${assetId.getExt()}`;
+  const filenameHash = md5(filename);
   const app = getInstance();
   const pbjx = await app.getPbjx();
-  const uuidName = fileToUuidName(file);
-  const request = GetUploadUrlsRequestV1.create().addToList('files', [uuidName]);
-  if (asset && version) {
-    request.set('version', version);
-    request.set('asset_id', asset.get('_id'));
-  }
-  return pbjx.request(request);
+  const request = GetUploadUrlsRequestV1.create()
+    .addToList('files', [filename])
+    .set('asset_id', assetId)
+    .set('version', version);
+  const response = await pbjx.request(request);
+  return response.getFromMap('s3_presigned_urls', filenameHash);
 };
 
-export default function VariantsTab({ type, asset, editMode }) {
+const getPreviewUrl = (assetId, version) => {
+  const d = new Date();
+  const rand = `?r=${d.getTime()}${d.getMilliseconds()}`;
+  return `${damUrl(assetId, version, 'sm')}${rand}`;
+};
 
-  const variantScope = variants[type];
-  const appDispatch = useDispatch();
-  const myController = new AbortController();
-  const [ variantState, setVariantState ] = useState({});
+function ImageVariant(props) {
+  const dispatch = useDispatch();
+  const [previewUrl, setPreviewUrl] = useState(props.previewUrl);
+  const [uploading, setUploading] = useState(false);
+  const [controller, setController] = useState(null);
+  const isMounted = useRef(false);
 
-  const handleFileDrop = (asset, version) => {
-    return async (files) => {
-      const file = files[0];
-
-      // Display error if wrong mime type
-      // Note: Variants only supports image right now
-      if (file.type !== asset.get('mime_type')) {
-        appDispatch(sendAlert({
-          type: 'danger',
-          isDismissible: true,
-          message: ERROR_MIME_TYPE,
-        }));
-        return;
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      if (controller) {
+        controller.abort();
       }
-
-      // Original version cannot be overwritten
-      if (version === 'o') {
-        appDispatch(sendAlert({
-          type: 'danger',
-          isDismissible: true,
-          message: ERROR_ORIG_VERSION,
-        }));
-        return;
-      }
-
-      // Get URLs
-      try {
-        const uploadUrls = await getUploadUrls(file, asset, version);
-        const s3PresignedUrls = uploadUrls.get('s3_presigned_urls');
-        const postUrl = s3PresignedUrls[Object.keys(s3PresignedUrls)[0]];
-
-        setVariantState({ ...variantState, [version]: STATE_UPLOADING });
-        await uploadFile(file, postUrl, myController);
-        setVariantState({ ...variantState, [version]: null });
-
-      } catch (e) {
-        console.log('Asset Variant:', e);
-        appDispatch(sendAlert({
-          type: 'danger',
-          isDismissible: true,
-          message: ERROR_UPLOAD,
-        }));
-      }
-
+      isMounted.current = false;
     };
-  }
+  }, []);
+
+  const { node, version } = props;
+
+  const handleDropAccepted = async (files) => {
+    setUploading(true);
+    const myController = new AbortController;
+    setController(myController);
+    const assetId = node.get('_id');
+
+    try {
+      const s3PresignedUrl = await getUploadUrl(assetId, version);
+      await uploadFile({ s3PresignedUrl, file: files[0], controller: myController });
+      // send purge cache command now too?
+
+      if (!isMounted.current) {
+        return;
+      }
+
+      setPreviewUrl(getPreviewUrl(assetId, version));
+    } catch (e) {
+      console.error('VariantsTab.handleDropAccepted', node.toObject(), version, e);
+      if (!isMounted.current) {
+        return;
+      }
+
+      dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
+    }
+
+    setController(null);
+    setUploading(false);
+  };
+
+  const dropzone = useDropzone({
+    disabled: uploading || props.disabled,
+    multiple: false,
+    maxFiles: 1,
+    accept: { [node.get('mime_type')]: [] },
+    onDropAccepted: handleDropAccepted,
+  });
+
+  return (
+    <fieldset className="g-col-12 g-col-sm-6">
+      <legend>{variants[version]}</legend>
+      <div {...dropzone.getRootProps()} className={`ratio ratio-${version.replace('by', 'x')} hover-box-shadow`}>
+        <input {...dropzone.getInputProps()} />
+        {uploading && (
+          <Loading overlay>Uploading File...</Loading>
+        )}
+
+        {dropzone.isDragActive && (
+          <p>Drop the file here to replace the {variants[version]}.</p>
+        )}
+
+        {!dropzone.isDragActive && !uploading && (
+          <img
+            src={previewUrl}
+            alt={variants[version]}
+            width={200}
+            height={200}
+            className="bg-body-secondary object-fit-contain" style={{ objectPosition: 'top left' }}
+          />
+        )}
+
+        {!dropzone.isDragActive && dropzone.fileRejections.map(({ file, errors }) => (
+          <div key={file.path}>
+            {errors.map(e => (
+              <Alert key={e.code} color="danger">
+                {e.message}
+              </Alert>
+            ))}
+          </div>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+export default function VariantsTab(props) {
+  const { node, qname } = props;
+  const policy = usePolicy();
+  const canUpdate = policy.isGranted(`${qname}:update`);
 
   return (
     <Card>
       <CardHeader>Variants</CardHeader>
-        <CardBody className="pl-0 pe-0 pt-0 variants-body">
-        <p>
-            Click an image you would like to replace or drag a new image over it.
-        </p>
-        <div>
-        {Object.keys(variantScope).map((version) => {
-          const label = variantScope[version];
+      <CardBody>
+        {canUpdate && <CardText>Click an image you would like to replace or drag a new image over it.</CardText>}
+        <div className="grid" style={{ alignItems: 'start' }}>
+          {Object.keys(variants).map((version) => {
+            const previewUrl = damUrl(node, version, 'sm');
             return (
-              <fieldset key={version} className="thumbnail">
-                <legend>{label}</legend>
-                <Dropzone
-                  accept={{[asset.get('mime_type')]: []}}
-                  multiple={false}
-                  onDropAccepted={handleFileDrop(asset, version)}
-                  disabled={!editMode}
-                  >
-                    {({ getRootProps, getInputProps }) => (
-                    <>
-                    <div {...getRootProps()} className={aspectRatioToCssClass(version)}>
-                    {variantState[version] === STATE_UPLOADING ? (
-                      <div id="spinner-box" className='container d-flex align-items-center justify-content-center'>
-                        <Spinner className="position-absolute text-info" />
-                      </div>
-                    ) : (
-                      <>
-                        <input {...getInputProps()} />
-                        <img src={getVariantSrc(asset, version)} alt={label} className={editMode ? 'editable' : ''} />
-                      </>
-                    )}
-                    </div>
-                    </>
-                    )}
-                </Dropzone>
-              </fieldset>
+              <ImageVariant
+                disabled={!canUpdate}
+                key={version}
+                version={version}
+                previewUrl={previewUrl}
+                {...props}
+              />
             );
-        })}
+          })}
         </div>
       </CardBody>
     </Card>

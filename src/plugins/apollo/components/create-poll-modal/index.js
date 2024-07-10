@@ -27,7 +27,7 @@ function CreatePollModal(props) {
       props.toggle();
       await progressIndicator.close();
       await navigate(nodeUrl(pbj, 'edit'));
-      toast({ title: 'Poll Created.' });
+      toast({ title: 'Poll created.' });
     } catch (e) {
       await progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -37,8 +37,8 @@ function CreatePollModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Poll</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
           <TextField name="question" label="Question" required />
@@ -48,6 +48,7 @@ function CreatePollModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -55,6 +56,7 @@ function CreatePollModal(props) {
           text="Create Poll"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -65,5 +67,5 @@ function CreatePollModal(props) {
 const ModalWithForm = withPbj(withForm(CreatePollModal), '*:apollo:node:poll:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:poll:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

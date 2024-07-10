@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
+import { Badge, Button, ButtonGroup, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
+import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort.js';
+import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { ActionButton, CheckboxField, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
-import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
-import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort.js';
-import noop from 'lodash-es/noop.js';
 
 export default function SearchForm(props) {
-  const { request, form, formState, delegate, handleSubmit, isRunning, run, widgetCuries } = props;
+  const { request, form, formState, delegate, handleSubmit, isRunning, run, curies } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -21,6 +20,12 @@ export default function SearchForm(props) {
     await FormMarshaler.unmarshal(values, { message: request });
     request.clear('cursor').set('page', 1);
     run();
+  };
+
+  delegate.handleChangePage = (page) => {
+    request.set('page', page);
+    run();
+    scrollToTop();
   };
 
   delegate.handleResetFilters = (event) => {
@@ -43,10 +48,9 @@ export default function SearchForm(props) {
   };
 
   const q = useDebounce(formState.values.q || '', 500);
-
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -55,7 +59,7 @@ export default function SearchForm(props) {
   useEffect(() => {
     const status = formState.values.status || '';
     if (!request || `${request.get('status', '')}` === status) {
-      return noop;
+      return;
     }
 
     form.submit();
@@ -63,8 +67,8 @@ export default function SearchForm(props) {
 
   useEffect(() => {
     const types = formState.values.types || [];
-    if (!request || `${request.get('types', [])}` === types) {
-      return noop;
+    if (!request || request.get('types', []).sort().join('') === types.sort().join('')) {
+      return;
     }
 
     form.submit();
@@ -73,37 +77,44 @@ export default function SearchForm(props) {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <Card>
-        <CardBody className="pb-2">
-          <InputGroup>
-            <Button color="light" onClick={toggle} className="text-dark px-2">
-              <Icon imgSrc="filter" className="mx-1" />
-              <span className="me-1 d-none d-md-block">Filters</span>
-            </Button>
-            <NodeStatusField preset="minimal" />
-            <Field name="q" type="search" component="input" className="form-control" placeholder="Search Widgets" />
-            <Button color="secondary" disabled={isRunning} type="submit">
-              <Icon imgSrc="search" />
-            </Button>
-          </InputGroup>
-          <div className="mt-3">
-            {widgetCuries.map(str => {
-              const curie = SchemaCurie.fromString(str);
-              const widgetType = curie.getMessage();
-              return (
-                <CheckboxField
-                  inline
-                  id={widgetType}
-                  key={widgetType}
-                  name="types"
-                  className="form-check--button"
-                  value={widgetType}
-                  label={widgetType.replace('-widget', '')}
-                />
-              );
-            })
-            }
+        <CardBody>
+          <div className="position-relative">
+            <InputGroup>
+              <Button color="light" onClick={toggle} className="text-dark px-2">
+                <Icon imgSrc="filter" className="mx-1" />
+                <span className="me-1 d-none d-md-block">Filters</span>
+              </Button>
+              <NodeStatusField preset="minimal" />
+              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Widgets" />
+              <Button color="secondary" disabled={isRunning} type="submit">
+                <Icon imgSrc="search" />
+              </Button>
+            </InputGroup>
+            {isRunning && (
+              <Badge color="light" pill className="badge-searching">
+                <span className="badge-animated">Searching</span>
+              </Badge>
+            )}
           </div>
+          <ButtonGroup className="mt-3 flex-wrap">
+            {curies.map(str => {
+              const curie = SchemaCurie.fromString(str);
+              const type = curie.getMessage();
+              return (
+                  <CheckboxField
+                      id={type}
+                      key={type}
+                      name="types"
+                      inline
+                      button
+                      value={type}
+                      label={type.replace('-widget', '')}
+                  />
+              );
+            })}
+          </ButtonGroup>
         </CardBody>
+
         <Collapse isOpen={isOpen}>
           <CardBody className="pt-1 pb-0">
             <Row>
@@ -120,6 +131,7 @@ export default function SearchForm(props) {
                 <DatePickerField name="updated_before" label="Updated Before" />
               </Col>
             </Row>
+
             <Row>
               <Col sm={6} xl={3}>
                 <SortField enumClass={SearchWidgetsSort} />

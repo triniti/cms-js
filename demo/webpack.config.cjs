@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const { resolve } = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 /**
  * @link https://webpack.js.org/configuration/
@@ -63,7 +64,7 @@ module.exports = (webpackEnv = {}) => {
         //constants: false,
         crypto: require.resolve('crypto-browserify'),
         fs: false,
-        path: false,
+        // path: false,
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         vm: false,
@@ -111,6 +112,9 @@ module.exports = (webpackEnv = {}) => {
         },
         {
           test: /\.svg$/,
+          include: [
+            resolve(__dirname, '../src/components/'),
+          ],
           type: 'asset/source',
         },
         {
@@ -133,8 +137,11 @@ module.exports = (webpackEnv = {}) => {
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 3,
+                importLoaders: 4,
               },
+            },
+            {
+              loader: 'resolve-url-loader',
             },
             {
               loader: 'postcss-loader',
@@ -153,6 +160,8 @@ module.exports = (webpackEnv = {}) => {
       ],
     },
     plugins: [
+      new NodePolyfillPlugin(),
+
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: 'chunks/[id].css',

@@ -54,8 +54,8 @@ function CreateFlagsetModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Flagset</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required validator={titleValidator} />
         </Form>
@@ -64,6 +64,7 @@ function CreateFlagsetModal(props) {
         <ActionButton
           text="Cancel"
           onClick={props.toggle}
+          icon="close-sm"
           color="light"
           tabIndex="-1"
         />
@@ -71,6 +72,7 @@ function CreateFlagsetModal(props) {
           text="Create Flagset"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
+          icon="plus-outline"
           color="primary"
         />
       </ModalFooter>
@@ -81,5 +83,5 @@ function CreateFlagsetModal(props) {
 const ModalWithForm = withPbj(withForm(CreateFlagsetModal), '*:sys:node:flagset:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:flagset:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

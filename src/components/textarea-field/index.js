@@ -53,7 +53,7 @@ export default function TextareaField(props) {
       />
       {description && <FormText color="dark">{description}</FormText>}
       {maxCharsConfigFin && (
-        <FormText color={maxCharsStyle} className="ml-1">
+        <FormText color={maxCharsStyle} className="ms-1">
           {maxCharsConfigFin.charsMax - input.value.length} characters remaining.
         </FormText>
       )}

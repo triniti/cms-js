@@ -46,13 +46,13 @@ function CreateUserModal(props) {
   return (
     <Modal isOpen backdrop="static">
       <ModalHeader toggle={props.toggle}>Create User</ModalHeader>
-      {hasSubmitErrors && <FormErrors errors={submitErrors} />}
       <ModalBody className="modal-scrollable">
+        {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="first_name" label="First Name" required />
           <TextField name="last_name" label="Last Name" required />
           <EmailField name="email" label="Email" required />
-          <SwitchField name="is_staff" label="Is Staff?" />
+          <SwitchField name="is_staff" label="Is Staff" />
         </Form>
       </ModalBody>
       <ModalFooter>
@@ -78,5 +78,5 @@ function CreateUserModal(props) {
 const ModalWithForm = withPbj(withForm(CreateUserModal), '*:iam:node:user:v1');
 
 export default function ModalWithNewNode(props) {
-  return <ModalWithForm formName={`${APP_VENDOR}:user:new`} editMode {...props} />;
+  return <ModalWithForm editMode {...props} />;
 }

@@ -5,7 +5,7 @@ import { EncryptedField, TextField } from '@triniti/cms/components/index.js';
 export default function TwitterAppFields() {
   return (
     <Card>
-      <CardHeader>Configuration</CardHeader>
+      <CardHeader>Twitter Configuration</CardHeader>
       <CardBody>
         <CardText className="pb-2">
           The app should be using <a href="https://developer.twitter.com/en/docs/authentication/oauth-1-0a" rel="noopener noreferrer" target="_blank">OAuth 1.0a</a>.
