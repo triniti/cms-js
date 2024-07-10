@@ -24,7 +24,6 @@
 * add title length warning on article "title"
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)
 * add "create article" into navbar?
-* dam plugin cleanup, significant improvement needed.
 * do we need a duration field (assets with duration?)
 * add unlink option to dam asset screen LinkedNodesCard?
 * send purge cache command when asset variant is replaced.
@@ -34,5 +33,4 @@
 * add icon to teaser screen header?
 * dynamically determine duration of uploaded video or audio (like image dimensions)
 * matt, drop downs/pickers go behind modal scrollable (e.g. create article teaser)
-* matt, lost some styles on the asset preview, see a document for example
 * make sure all scrollTo or scroll into view stuff works in major browsers
