@@ -102,6 +102,7 @@ export default function AssetPickerField(props) {
             text={`Select ${label}`}
             icon={icon}
             color="light"
+            outline
             modal={AssetPickerModal}
             modalProps={{
               onSelectAsset: handleSelectAsset,
@@ -109,7 +110,6 @@ export default function AssetPickerField(props) {
               header: `Select ${label}`,
               ...rest
             }}
-            outline
           />
           {assetRef && (
             <ActionButton

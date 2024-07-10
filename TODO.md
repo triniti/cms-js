@@ -30,7 +30,6 @@
 * send purge cache command when asset variant is replaced.
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
 * with-form handleRestore from sessionstorage when dirty?
-* create batch edit (aka patch assets) option from search assets (in batch operation)
 * add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
 * dynamically determine duration of uploaded video or audio (like image dimensions)

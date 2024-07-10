@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { $getRoot, $getSelection, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
-import { $generateHtmlFromNodes } from '@lexical/html';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot } from '@lexical/utils';
 import BlocksmithNode, {
   $createBlocksmithNode,
   $isBlocksmithNode
 } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import nodeToHtml from '@triniti/cms/blocksmith/utils/nodeToHtml.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
 
@@ -23,16 +23,16 @@ export default function BlocksmithPlugin(props) {
     delegateRef.current.handleChange = (editorState) => {
       const blocks = [];
       editorState.read(() => {
-        $getRoot().getChildren().map((n) => {
-          if ($isBlocksmithNode(n)) {
-            blocks.push(n.exportJSON().__pbj);
+        const nodes = $getRoot().getChildren();
+        for (let i = 0; i < nodes.length; i++) {
+          const node = nodes[i];
+          if ($isBlocksmithNode(node)) {
+            blocks.push(node.exportJSON().__pbj);
           } else {
-            const dom = n.exportDOM(editor);
-            const html = dom.element.innerHTML;
-            //const html = $generateHtmlFromNodes(editor, $getSelection());
+            const html = nodeToHtml(editor, node);
             blocks.push(TextBlockV1.create().set('text', html).toObject());
           }
-        });
+        }
       });
 
       console.log('handleChange.blocks', blocks);

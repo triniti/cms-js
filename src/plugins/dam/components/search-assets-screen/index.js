@@ -98,7 +98,7 @@ function SearchAssetsScreen(props) {
                 const transcodingStatus = node.get('transcoding_status');
 
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+                  <tr key={`${node.get('_id')}`} className={`cursor-pointer status-${node.get('status')}`}>
                     <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td className="text-break w-100">
