@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { $getRoot, $getSelection, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import { $getRoot, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot } from '@lexical/utils';
 import BlocksmithNode, {
