@@ -13,7 +13,9 @@ export const scrollToTop = (behavior = 'smooth') => {
     return;
   }
 
-  screenBody.scrollTo({ top: 0, behavior });
+  setTimeout(() => {
+    screenBody.scrollTo({ top: 0, behavior });
+  }, 5);
 };
 
 export default function Screen(props) {

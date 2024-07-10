@@ -98,7 +98,7 @@ function SearchAssetsScreen(props) {
                 const schema = node.schema();
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                 const seq = node.get('gallery_seq');
-                const transcodingStatus = node.get('transcoding_status');
+                const transcodingStatus = `${node.get('transcoding_status', '')}`;
                 const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (

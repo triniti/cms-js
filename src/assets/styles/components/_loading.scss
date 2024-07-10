@@ -66,6 +66,9 @@
   color: $text-muted;
   margin-top: .5rem;
 
+  &.text-light {
+    color: $text-muted !important;
+  }
   .loading-inline & {
     margin-top: 0;
     margin-left: .5rem;
@@ -82,7 +85,6 @@
       color: $gray-700 !important;
     }
   }
-
 }
 
 .loading-inline {

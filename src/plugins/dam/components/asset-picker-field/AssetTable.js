@@ -23,7 +23,7 @@ export default function AssetTable(props) {
         <tbody>
         {nodes.map(node => {
           const nodeRef = node.generateNodeRef();
-          const transcodingStatus = node.get('transcoding_status');
+          const transcodingStatus = `${node.get('transcoding_status', '')}`;
 
           return (
             <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>

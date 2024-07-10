@@ -33,7 +33,7 @@ export default function AssetsTab(props) {
           <KeyValuesField name="source_urls" label="Source URLs" component={UrlField} />
           <SwitchField name="is_live" label="Is Live Stream" />
           <UrlField name="live_m3u8_url" label="Live M3U8 URL" />
-          {!schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
+          {schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
             <TextField name="medialive_channel_arn" label="MediaLive Channel ARN" />
           )}
         </CardBody>

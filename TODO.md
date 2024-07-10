@@ -35,3 +35,4 @@
 * dynamically determine duration of uploaded video or audio (like image dimensions)
 * matt, drop downs/pickers go behind modal scrollable (e.g. create article teaser)
 * matt, lost some styles on the asset preview, see a document for example
+* make sure all scrollTo or scroll into view stuff works in major browsers
