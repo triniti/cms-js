@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
@@ -15,6 +16,7 @@ import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen
 import BatchOperationsCard from '@triniti/cms/plugins/dam/components/search-assets-screen/BatchOperationsCard.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -24,6 +26,7 @@ function SearchAssetsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:asset:create`);
   const batch = useBatch(response);
+  const navigate = useNavigate();
 
   const curies = useCuries('triniti:dam:mixin:asset:v1');
   if (!curies) {
@@ -96,11 +99,12 @@ function SearchAssetsScreen(props) {
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                 const seq = node.get('gallery_seq');
                 const transcodingStatus = node.get('transcoding_status');
+                const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (
-                  <tr key={`${node.get('_id')}`} className={`cursor-pointer status-${node.get('status')}`}>
-                    <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
-                    <td className="text-center"><AssetIcon id={node.get('_id')} /></td>
+                  <tr key={`${node.get('_id')}`} className={`cursor-pointer status-${node.get('status')}`} onClick={handleRowClick}>
+                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                    <td data-ignore-row-click className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td className="text-break w-100">
                       {seq > 0 && (
                         <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
@@ -113,7 +117,7 @@ function SearchAssetsScreen(props) {
                     <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
                     <td className="text-nowrap d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
                     <td className="text-nowrap d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
-                    <td className="td-icons">
+                    <td data-ignore-row-click className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />
