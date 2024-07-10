@@ -28,6 +28,7 @@ async function fetchUser(accessToken) {
       code = e.getCode() || code;
     }
 
+    console.error('fetchUser', e);
     return EnvelopeV1.create()
       .set('ok', false)
       .set('code', code)
