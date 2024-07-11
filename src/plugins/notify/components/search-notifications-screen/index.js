@@ -34,8 +34,7 @@ function SearchNotificationsScreen(props) {
       contentWidth="1200px"
       primaryActions={
         <>
-          {canCreate &&
-            <CreateModalButton text="Create Notification" icon="plus-outline" modal={CreateNotificationModal} />}
+          {canCreate && <CreateModalButton text="Create Notification" icon="plus-outline" modal={CreateNotificationModal} />}
         </>
       }
     >

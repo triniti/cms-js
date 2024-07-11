@@ -11,7 +11,7 @@ const TableRow = ({ idx, node }) => {
   const navigate = useNavigate();
   const handleRowClick = createRowClickHandler(navigate, node);
   return (
-    <tr className={`status-${node.get('status')}`} key={node.get('_id')} onClick={handleRowClick}>
+    <tr className={`status-${node.get('status')} cursor-pointer`} key={node.get('_id')} onClick={handleRowClick}>
       <td style={{ width: '1px', textAlign: 'right' }}>{idx + 1}.</td>
       <td>
         {node.get('title')}

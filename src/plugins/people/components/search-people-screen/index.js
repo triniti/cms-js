@@ -58,8 +58,7 @@ function SearchPeopleScreen(props) {
               <tbody>
               {response.get('nodes', []).map(node => {
                 const handleRowClick = createRowClickHandler(navigate, node);
-
-                return(
+                return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td className="text-center py-2 pe-1">
                       <Media
