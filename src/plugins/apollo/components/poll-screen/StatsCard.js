@@ -23,7 +23,7 @@ export default function StatsCard(props) {
   }, {});
 
   return (
-    <Card className="border-top">
+    <Card className="border-top border-dark-subtle">
       <CardHeader>
         <span>Stats {isRefreshing && <Spinner />}</span>
         <Button color="light" size="sm" onClick={refreshNode} disabled={isRefreshing}>

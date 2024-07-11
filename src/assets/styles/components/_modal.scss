@@ -12,11 +12,16 @@
   -ms-overflow-style: none;
 }
 
+.modal {
+
+  @media (max-height: 768px) {
+    --#{$prefix}modal-margin: .5rem;
+  }
+}
+
 
 // Shell div to position the modal with bottom padding
 .modal-dialog {
-  margin-left: auto;
-  margin-right: auto;
 
   .modal.fade & {
     transform: none;
@@ -108,7 +113,7 @@
 }
 
 .modal-scrollable {
-  max-height: calc(100vh - 130px);
+  max-height: calc(100vh - 136px);
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
@@ -118,8 +123,11 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -ms-overflow-style: none;
 
-  @media (min-width: 576px) {
-    max-height: calc(100vh - 180px);
+  @media (min-width: 768px) {
+    max-height: calc(100vh - 160px);
+  }
+  @media (max-height: 768px) {
+    max-height: calc(100vh - 136px);
   }
   .modal-fullscreen & {
     max-height: none;
@@ -130,11 +138,11 @@
 }
 
 .modal-scrollable--tabs {
-  height: calc(100vh - 155px); // subtract modal-header modal-footer and search field
+  height: calc(100vh - 156px); // subtract modal-header modal-footer and search field
   max-height: none;
 
   .nav-underline + .tab-content & {
-    height: calc(100vh - 230px); // subtract modal-header modal-footer and search field
+    height: calc(100vh - 212px); // subtract modal-header modal-footer and search field
     max-height: none;
   }
 }
@@ -152,6 +160,7 @@
 
 // Max-width of modal sizes
 .modal-dialog {
+
   @media (max-width: 767px) {
     max-width: calc(100% - 1rem) !important;
   }
@@ -173,15 +182,15 @@
 
 @media (min-width: 768px) {
   .modal-lg {
-    width: calc(100% - 1rem);
+    --bs-modal-width: calc(100% - 1rem);
     max-width: $modal-lg;
   }
   .modal-xl {
-    width: calc(100% - 1rem);
+    --bs-modal-width: calc(100% - 1rem);
     max-width: $modal-xl;
   }
   .modal-xxl {
-    width: calc(100% - 1rem);
+    --bs-modal-width: calc(100% - 1rem);
     max-width: $modal-xxl;
   }
 }
@@ -214,7 +223,7 @@
     background: rgba($navbar-theme-dark, .25);
 
     [data-bs-theme=dark] & {
-      background: var(--bs-dropdown-bg);
+      background: var(--#{$prefix}dropdown-bg);
     }
   }
 }

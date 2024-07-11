@@ -664,13 +664,13 @@ nav + div:not(.screen) {
 .gallery-grid-container,
 .image-grid-container {
   min-height: 286px;
-  padding: .5rem 0;
+  padding: 0 .25rem;
 
   @media (min-width: 360px) {
-    padding: 1rem .5rem;
+    padding: .25rem .5rem;
   }
   @media (min-width: 480px) {
-    padding: 1rem;
+    padding: .5rem .75rem;
   }
 }
 

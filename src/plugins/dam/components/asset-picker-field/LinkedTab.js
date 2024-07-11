@@ -23,12 +23,10 @@ function LinkedTab(props) {
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && (
-        <div>
+        <div className="p-4">
           {!response.has('nodes') && (
             <p>
-              No linked assets. You can
-              <a onClick={onUpload}>upload</a> or
-              <a onClick={onClickTab} data-tab="search">search</a>.
+              No linked assets. You can <a className="text-underline" onClick={onUpload}>upload</a> or <a className="text-underline" onClick={onClickTab} data-tab="search">search</a>.
             </p>
           )}
 

@@ -17,7 +17,7 @@ export default function ImageGrid(props) {
 
   return (
     <Container fluid className="gallery-grid-container h-100">
-      <Row gutter="sm" className="m-0">
+      <Row className="m-0 g-2">
         {nodes.map(node => {
           const nodeRef = node.generateNodeRef();
           const previewUrl = damUrl(node.get('_id'), '1by1', 'sm');
@@ -27,10 +27,10 @@ export default function ImageGrid(props) {
                 onClick={() => onSelectAsset(nodeRef)}
                 inverse
                 role="button"
-                className={classNames('shadow', 'p-1', 'image-grid-card')}
+                className={classNames('shadow', 'p-1', 'mb-0', 'image-grid-card')}
                 style={{ cursor: 'pointer' }}
               >
-                <Media className="ratio ratio-1x1 mt-0 border border-4 hover-box-shadow"
+                <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 hover-box-shadow"
                        style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
                   <BackgroundImage imgSrc={previewUrl} alt="thumbnail" />
                   <CardImgOverlay>
