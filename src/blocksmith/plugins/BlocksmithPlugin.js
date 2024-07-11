@@ -11,13 +11,14 @@ import htmlToNode from '@triniti/cms/blocksmith/utils/htmlToNode.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
+export const BLOCKSMITH_DIRTY_SYMBOL = Symbol('BLOCKSMITH_DIRTY');
 
 export default function BlocksmithPlugin(props) {
-  const { beforeSubmitRef, delegateRef, field } = props;
-  const formContext = useFormContext();
-  const { editMode, form, node } = formContext;
-  const [editor] = useLexicalComposerContext();
+  const { name = 'blocks', delegateRef } = props;
   const TextBlockV1 = delegateRef.current.TextBlockV1;
+  const formContext = useFormContext();
+  const { editMode, form, pbj } = formContext;
+  const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
     if (!editor.hasNodes([BlocksmithNode])) {
@@ -27,40 +28,8 @@ export default function BlocksmithPlugin(props) {
     // just want to keep track of dirty whenever editor changes
     delegateRef.current.handleChange = (editorState) => {
       console.log('editorState', JSON.stringify(editorState.toJSON()));
-      form.change('blocks', []);
+      form.change('blocks', BLOCKSMITH_DIRTY_SYMBOL);
     };
-
-    // final form beforeSubmit on the "blocks" field.
-    // this is where we convert lexical the final form (pbj) format
-    beforeSubmitRef.current = () => {
-      const editorState = editor.getEditorState();
-
-      const blocks = [];
-      editorState.read(() => {
-        const nodes = $getRoot().getChildren();
-        for (let i = 0; i < nodes.length; i++) {
-          const node = nodes[i];
-          if ($isBlocksmithNode(node)) {
-            blocks.push(node.exportJSON().__pbj);
-          } else {
-            const html = nodeToHtml(editor, node);
-            if (html) {
-              blocks.push(TextBlockV1.create().set('text', html).toObject());
-            }
-          }
-        }
-      });
-
-      form.change('blocks', blocks);
-    };
-
-    editor.update(() => {
-      const parser = new DOMParser();
-      const dom = parser.parseFromString('<p>test <strong>wtf</strong></p>', 'text/html');
-      const nodes = htmlToNode(editor, dom);
-      $getRoot().clear().select();
-      $insertNodes(nodes);
-    }, { discrete: true });
 
     return editor.registerCommand(
       INSERT_BLOCKSMITH_BLOCK_COMMAND,
@@ -72,6 +41,65 @@ export default function BlocksmithPlugin(props) {
       COMMAND_PRIORITY_EDITOR,
     );
   }, [editor]);
+
+  useEffect(() => {
+    editor.setEditable(editMode);
+  }, [editMode]);
+
+  useEffect(() => {
+    if (!pbj) {
+      return;
+    }
+
+    const subscriber = (fieldState) => console.log('blocksmith.fieldState', name, fieldState);
+    const unsubscribe = form.registerField(name, subscriber, { values: true }, {
+      validate: (value) => {
+        console.log('blocksmith.validate', name, value);
+      },
+      beforeSubmit: () => {
+        const editorState = editor.getEditorState();
+
+        const blocks = [];
+        editorState.read(() => {
+          const nodes = $getRoot().getChildren();
+          for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
+            if ($isBlocksmithNode(node)) {
+              blocks.push(node.exportJSON().__pbj);
+            } else {
+              const html = nodeToHtml(editor, node);
+              if (html) {
+                blocks.push(TextBlockV1.create().set('text', html).toObject());
+              }
+            }
+          }
+        });
+
+        form.change('blocks', blocks);
+      }
+    });
+
+    editor.update(() => {
+      const parser = new DOMParser();
+      const nodes = [];
+      for (const block of pbj.get('blocks', [])) {
+        const curie = block.schema().getCurie();
+        if (curie.getMessage() === 'text-block') {
+          const dom = parser.parseFromString(block.get('text'), 'text/html');
+          nodes.push(...htmlToNode(editor, dom));
+        } else {
+          nodes.push($createBlocksmithNode(curie.toString(), block.toObject()));
+        }
+      }
+
+      $getRoot().clear().select();
+      $insertNodes(nodes);
+    }, { discrete: true });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [pbj]);
 
   return null;
 }

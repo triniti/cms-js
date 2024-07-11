@@ -9,19 +9,14 @@ import BlocksmithModal from '@triniti/cms/blocksmith/components/BlocksmithModal.
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
-import { useFormContext } from '@triniti/cms/components/index.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
 export default function Blocksmith(props) {
-  const formContext = useFormContext();
-  const { editMode, node } = formContext;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalComponent, setModalComponent] = useState();
-  const { pbj, beforeSubmitRef, field } = props;
-  const delegateRef = useRef({
-    TextBlockV1: pbj.schema().getClassProto(),
-    handleChange: noop,
-  });
+  const { pbj } = props;
+  const TextBlockV1 = pbj.schema().getClassProto();
+  const delegateRef = useRef({ TextBlockV1, handleChange: noop });
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -38,16 +33,10 @@ export default function Blocksmith(props) {
     setIsModalOpen(true);
   };
 
-  const initialConfig = { ...config, editable: editMode };
-
   return (
-    <LexicalComposer initialConfig={initialConfig}>
+    <LexicalComposer initialConfig={config}>
       <div className="blocksmith">
-        <BlocksmithPlugin
-          delegateRef={delegateRef}
-          beforeSubmitRef={beforeSubmitRef}
-          field={field}
-        />
+        <BlocksmithPlugin delegateRef={delegateRef} />
         <OnChangePlugin onChange={delegateRef.current.handleChange} ignoreSelectionChange={true} />
         <ToolbarPlugin onCreateBlock={handleCreateBlock} />
         <div className="blocksmith-inner">
