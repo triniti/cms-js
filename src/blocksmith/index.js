@@ -11,12 +11,10 @@ import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
-export default function Blocksmith(props) {
+export default function Blocksmith() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalComponent, setModalComponent] = useState();
-  const { pbj } = props;
-  const TextBlockV1 = pbj.schema().getClassProto();
-  const delegateRef = useRef({ TextBlockV1, handleChange: noop });
+  const delegateRef = useRef({ handleChange: noop });
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
