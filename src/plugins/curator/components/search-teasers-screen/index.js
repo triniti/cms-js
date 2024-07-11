@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Badge, Button, Card, Input, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -12,6 +12,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/curator/components/search-teasers-screen/SearchForm.js';
 import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const CreateTeaserModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-teaser-modal/index.js'));
 
@@ -21,6 +22,7 @@ function SearchTeasersScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:teaser:create`);
   const batch = useBatch(response);
+  const navigate = useNavigate();
 
   const curies = useCuries('triniti:curator:mixin:teaser:v1');
   if (!curies) {
@@ -75,9 +77,11 @@ function SearchTeasersScreen(props) {
               {response.get('nodes', []).map(node => {
                 const schema = node.schema();
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const handleRowClick = createRowClickHandler(navigate, node);
+
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                    <td><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
+                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td>
                       {node.get('title')}
                         <Badge className="ms-1" color="light" pill>
@@ -91,7 +95,7 @@ function SearchTeasersScreen(props) {
                     </td>
                     <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
-                    <td className="td-icons">
+                    <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />

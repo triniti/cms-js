@@ -1,12 +1,13 @@
 import React, { lazy } from 'react';
 import { Button, Card, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchFlagsetsSort from '@triniti/schemas/triniti/sys/enums/SearchFlagsetsSort.js';
 import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const CreateFlagsetModal = lazy(() => import('@triniti/cms/plugins/sys/components/create-flagset-modal/index.js'));
 
@@ -16,6 +17,7 @@ function SearchFlagsetsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:flagset:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:flagset:update`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -33,25 +35,29 @@ function SearchFlagsetsScreen(props) {
         <Card>
           <Table hover responsive>
             <tbody>
-            {response.get('nodes').map(node => (
-              <tr key={`${node.get('_id')}`}>
-                <td>{node.get('title')}</td>
-                <td className="td-icons">
-                  <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover" tag="span">
-                      <Icon imgSrc="eye" alt="view" />
-                    </Button>
-                  </Link>
-                  {canUpdate && (
-                    <Link to={nodeUrl(node, 'edit')}>
+            {response.get('nodes').map(node => {
+              const handleRowClick = createRowClickHandler(navigate, node);
+
+              return (
+                <tr key={`${node.get('_id')}`} className='cursor-pointer' onClick={handleRowClick}>
+                  <td>{node.get('title')}</td>
+                  <td className="td-icons" data-ignore-row-click>
+                    <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">
-                        <Icon imgSrc="pencil" alt="edit" />
+                        <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
-                  )}
-                </td>
-              </tr>
-            ))}
+                    {canUpdate && (
+                      <Link to={nodeUrl(node, 'edit')}>
+                        <Button color="hover" tag="span">
+                          <Icon imgSrc="pencil" alt="edit" />
+                        </Button>
+                      </Link>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
             </tbody>
           </Table>
         </Card>
