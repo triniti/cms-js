@@ -40,8 +40,7 @@ export default function TopArticles(props) {
                 const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`}
-                      onClick={handleRowClick}>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                     <td>
                       {node.has('slotting')
