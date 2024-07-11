@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Button, Card, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -10,6 +10,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/notify/components/search-notifications-screen/SearchForm.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const CreateNotificationModal = lazy(() => import('@triniti/cms/plugins/notify/components/create-notification-modal/index.js'));
 
@@ -20,6 +21,7 @@ function SearchNotificationsScreen(props) {
   const { response, run, isRunning, pbjxError } = useRequest(request);
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:notification:create`);
+  const navigate = useNavigate();
 
   const curies = useCuries('triniti:notify:mixin:notification:v1');
   if (!curies) {
@@ -65,8 +67,10 @@ function SearchNotificationsScreen(props) {
                 const sendStatus = node.get('send_status').toString();
                 const type = schema.getCurie().getMessage().replace('-notification', '');
                 const canUpdate = editable[sendStatus] && policy.isGranted(`${schema.getQName()}:update`);
+                const handleRowClick = createRowClickHandler(navigate, node);
+
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${sendStatus}`}>
+                  <tr key={`${node.get('_id')}`} className={`status-${sendStatus} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>
                     <td className="text-nowrap">
                       {type}
@@ -75,7 +79,7 @@ function SearchNotificationsScreen(props) {
                     <td className="text-nowrap">{sendStatus}</td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>
-                    <td className="td-icons">
+                    <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />

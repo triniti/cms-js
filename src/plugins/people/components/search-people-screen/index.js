@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Button, Card, Media, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchPeopleSort from '@triniti/schemas/triniti/people/enums/SearchPeopleSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
@@ -11,6 +11,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/people/components/search-people-screen/SearchForm.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const CreatePersonModal = lazy(() => import('@triniti/cms/plugins/people/components/create-person-modal/index.js'));
 
@@ -20,6 +21,7 @@ function SearchPeopleScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:person:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:person:update`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -54,42 +56,46 @@ function SearchPeopleScreen(props) {
               </tr>
               </thead>
               <tbody>
-              {response.get('nodes', []).map(node => (
-                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                  <td className="text-center py-2 pe-1">
-                    <Media
-                      src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
-                      alt=""
-                      width="32"
-                      height="32"
-                      object
-                      className="rounded-2"
-                    />
-                  </td>
-                  <td>{node.get('title')}</td>
-                  <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                  <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
-                  <td className="td-icons">
-                    <Link to={nodeUrl(node, 'view')}>
-                      <Button color="hover" tag="span">
-                        <Icon imgSrc="eye" alt="view" />
-                      </Button>
-                    </Link>
-                    {canUpdate && (
-                      <Link to={nodeUrl(node, 'edit')}>
+              {response.get('nodes', []).map(node => {
+                const handleRowClick = createRowClickHandler(navigate, node);
+
+                return(
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
+                    <td className="text-center py-2 pe-1">
+                      <Media
+                        src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
+                        alt=""
+                        width="32"
+                        height="32"
+                        object
+                        className="rounded-2"
+                      />
+                    </td>
+                    <td>{node.get('title')}</td>
+                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                    <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                    <td className="td-icons" data-ignore-row-click>
+                      <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
-                          <Icon imgSrc="pencil" alt="edit" />
+                          <Icon imgSrc="eye" alt="view" />
                         </Button>
                       </Link>
-                    )}
-                    <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                      <Button color="hover" tag="span">
-                        <Icon imgSrc="external" alt="open" />
-                      </Button>
-                    </a>
-                  </td>
-                </tr>
-              ))}
+                      {canUpdate && (
+                        <Link to={nodeUrl(node, 'edit')}>
+                          <Button color="hover" tag="span">
+                            <Icon imgSrc="pencil" alt="edit" />
+                          </Button>
+                        </Link>
+                      )}
+                      <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                        <Button color="hover" tag="span">
+                          <Icon imgSrc="external" alt="open" />
+                        </Button>
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
               </tbody>
             </Table>
           </Card>

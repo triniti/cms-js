@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Button, Card, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchCategoriesSort from '@triniti/schemas/triniti/taxonomy/enums/SearchCategoriesSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -9,6 +9,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/taxonomy/components/search-categories-screen/SearchForm.js';
+import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const CreateCategoryModal = lazy(() => import('@triniti/cms/plugins/taxonomy/components/create-category-modal/index.js'));
 
@@ -18,6 +19,7 @@ function SearchCategoriesScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:category:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:category:update`);
+  const navigate = useNavigate();
 
   return (
     <Screen
@@ -51,32 +53,36 @@ function SearchCategoriesScreen(props) {
               </tr>
               </thead>
               <tbody>
-              {response.get('nodes', []).map(node => (
-                <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
-                  <td>{node.get('title')}</td>
-                  <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                  <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
-                  <td className="td-icons">
-                    <Link to={nodeUrl(node, 'view')}>
-                      <Button color="hover" tabIndex="-1">
-                        <Icon imgSrc="eye" alt="view" />
-                      </Button>
-                    </Link>
-                    {canUpdate && (
-                      <Link to={nodeUrl(node, 'edit')}>
+              {response.get('nodes', []).map(node => {
+                const handleRowClick = createRowClickHandler(navigate, node);
+
+                return (
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
+                    <td>{node.get('title')}</td>
+                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+                    <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                    <td className="td-icons" data-ignore-row-click>
+                      <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tabIndex="-1">
-                          <Icon imgSrc="pencil" alt="edit" />
+                          <Icon imgSrc="eye" alt="view" />
                         </Button>
                       </Link>
-                    )}
-                    <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                      <Button color="hover">
-                        <Icon imgSrc="external" alt="open" />
-                      </Button>
-                    </a>
-                  </td>
-                </tr>
-              ))}
+                      {canUpdate && (
+                        <Link to={nodeUrl(node, 'edit')}>
+                          <Button color="hover" tabIndex="-1">
+                            <Icon imgSrc="pencil" alt="edit" />
+                          </Button>
+                        </Link>
+                      )}
+                      <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                        <Button color="hover">
+                          <Icon imgSrc="external" alt="open" />
+                        </Button>
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
               </tbody>
             </Table>
           </Card>
