@@ -67,11 +67,19 @@ const sanitizeHtml = (html) => {
     .replaceAll('<b>', '')
     .replaceAll('</b>', '')
     .replaceAll('<i>', '<em>')
-    .replaceAll('</i>', '</em>');
+    .replaceAll('</i>', '</em>')
+    .replaceAll('<em><em>', '<em>')
+    .replaceAll('</em></em>', '</em>')
+    ;
 };
 
 export default (editor, node) => {
   const container = document.createElement('div');
   appendNode(editor, node, container);
-  return sanitizeHtml(container.innerHTML);
+  const html = sanitizeHtml(container.innerHTML);
+  if (html === '<p><br></p>') {
+    return '';
+  }
+
+  return html;
 };

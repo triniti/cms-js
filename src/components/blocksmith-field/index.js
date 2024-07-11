@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import { useField, useFormContext, withPbj } from '@triniti/cms/components/index.js';
 
 const BlocksmithWithTextBlock = withPbj(Blocksmith, `${APP_VENDOR}:canvas:block:text-block`);
 
+const defaultBeforeSubmit = (...args) => {
+  console.log('defaultBeforeSubmit', args);
+};
+
 export default function BlocksmithField(props) {
   const formContext = useFormContext();
-  const { input } = useField({ name: 'blocks', ...props }, formContext);
+  const beforeSubmitRef = useRef(defaultBeforeSubmit);
+
+  const field = useField({
+      name: 'blocks',
+      beforeSubmit: beforeSubmitRef.current,
+      ...props
+    },
+    formContext
+  );
+
   return (
     <div>
       <BlocksmithWithTextBlock
-        blocks={input.value}
-        editMode={formContext.editMode}
-        node={formContext.pbj}
-        onChange={input.onChange}
+        field={field}
+        beforeSubmitRef={beforeSubmitRef}
       />
     </div>
   );

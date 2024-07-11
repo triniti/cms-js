@@ -102,7 +102,7 @@ function SearchAssetsScreen(props) {
                 const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (
-                  <tr key={`${node.get('_id')}`} className={`cursor-pointer status-${node.get('status')}`} onClick={handleRowClick}>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td data-ignore-row-click className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td className="text-break w-100">

@@ -1,14 +1,19 @@
 import React from 'react';
 import { Media } from 'reactstrap';
 import AssetId from '@triniti/schemas/triniti/dam/AssetId.js';
-import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
 
 function ArchiveAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
-      <Icon imgSrc="zip" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+      <Icon
+        imgSrc="zip"
+        className="position-absolute top-50 start-50 translate-middle"
+        color="dark"
+        size="lg"
+        alt=""
+      />
     </div>
   );
 }
@@ -16,7 +21,13 @@ function ArchiveAsset() {
 function CodeAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
-      <Icon imgSrc="code" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+      <Icon
+        imgSrc="code"
+        className="position-absolute top-50 start-50 translate-middle"
+        color="dark"
+        size="lg"
+        alt=""
+      />
     </div>
   );
 }
@@ -24,7 +35,13 @@ function CodeAsset() {
 function AudioAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
-      <Icon imgSrc="audio" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+      <Icon
+        imgSrc="audio"
+        className="position-absolute top-50 start-50 translate-middle"
+        color="dark"
+        size="lg"
+        alt=""
+      />
     </div>
   );
 }
@@ -32,7 +49,13 @@ function AudioAsset() {
 function DocumentAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
-      <Icon imgSrc="document" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+      <Icon
+        imgSrc="document"
+        className="position-absolute top-50 start-50 translate-middle"
+        color="dark"
+        size="lg"
+        alt=""
+      />
     </div>
   );
 }
@@ -41,11 +64,11 @@ function ImageAsset({ id }) {
   return (
     <Media
       src={damUrl(id, '1by1', 'xs')}
-      alt=""
+      className="rounded-2"
       width="44"
       height="44"
       object
-      className="rounded-2"
+      alt=""
     />
   );
 }
@@ -53,7 +76,13 @@ function ImageAsset({ id }) {
 function UnknownAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
-      <Icon imgSrc="question-outline" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+      <Icon
+        imgSrc="question-outline"
+        className="position-absolute top-50 start-50 translate-middle"
+        color="dark"
+        size="lg"
+        alt=""
+      />
     </div>
   );
 }
@@ -61,7 +90,13 @@ function UnknownAsset() {
 function VideoAsset() {
   return (
     <div className="ratio ratio-1x1 bg-body-secondary rounded-2">
-      <Icon imgSrc="video" alt="" className="position-absolute top-50 start-50 translate-middle" color="dark" size="lg" />
+      <Icon
+        imgSrc="video"
+        className="position-absolute top-50 start-50 translate-middle"
+        color="dark"
+        size="lg"
+        alt=""
+      />
     </div>
   );
 }
@@ -78,7 +113,7 @@ const components = {
 
 export default function AssetIcon({ id }) {
   const assetId = id instanceof AssetId ? id : AssetId.fromString(`${id}`);
-  const downloadUrl = assetId.getType() === 'video' ? artifactUrl(assetId, 'video') : damUrl(assetId);
+  const downloadUrl = damUrl(assetId);
   const Component = components[assetId.getType()] || components['unknown'];
 
   return (

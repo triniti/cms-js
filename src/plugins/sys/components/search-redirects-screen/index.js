@@ -56,7 +56,6 @@ function SearchRedirectsScreen(props) {
               <tbody>
               {response.get('nodes', []).map(node => {
                 const handleRowClick = createRowClickHandler(navigate, node);
-
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>

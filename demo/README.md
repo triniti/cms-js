@@ -8,8 +8,9 @@ Do not actually use `acme` anywhere. Wherever it says `acme` below, you need to 
 + Enter the repo `$ cd cms-js`
 + Run `$ nvm use`
 + Run `$ npm install`
-+ Go to the demo directory `$ cd demo`
 + Install your vendor schemas `$ npm install --no-save @yourvendor/schemas`
++ Go to the demo directory `$ cd demo`
++ Run `$ npm install`
 + Create a `.env` file with the desired vendor env information (see example below)
 + Create a `src/schemas.js` file that imports and exports your vendor schemas (see example below)
 + Run `$ npm start`

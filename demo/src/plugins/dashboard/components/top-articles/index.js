@@ -28,12 +28,12 @@ export default function TopArticles(props) {
           <CardBody className="p-0">
             <Table responsive>
               <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Slotting</th>
-                  <th>Order Date</th>
-                  <th></th>
-                </tr>
+              <tr>
+                <th>Title</th>
+                <th>Slotting</th>
+                <th>Order Date</th>
+                <th></th>
+              </tr>
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
@@ -41,7 +41,7 @@ export default function TopArticles(props) {
 
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                    <td>{node.get('title')}  <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
+                    <td>{node.get('title')} <Collaborators nodeRef={NodeRef.fromNode(node)} /></td>
                     <td>
                       {node.has('slotting')
                         ? Object.entries(node.get('slotting')).map(([key, slot]) => (
@@ -69,7 +69,7 @@ export default function TopArticles(props) {
                       </a>
                     </td>
                   </tr>
-                )
+                );
               })}
               </tbody>
             </Table>

@@ -33,33 +33,33 @@ export default function DetailsTab(props) {
               <AssetPreview id={node.get('_id')} />
             </Col>
             <Col sm={8} xl={8}>
-              <Table className="border-bottom mt-3">
+              <Table className="border-bottom mt-2" size="sm">
                 <tbody>
                 <tr>
-                  <th className="nowrap" scope="row">Asset ID:</th>
+                  <th className="nowrap ps-2" scope="row">Asset ID:</th>
                   <td className="w-100 text-break">{`${id}`}</td>
                 </tr>
                 <tr>
-                  <th className="nowrap" scope="row">MIME Type:</th>
+                  <th className="nowrap ps-2" scope="row">MIME Type:</th>
                   <td className="w-100">{node.get('mime_type')}</td>
                 </tr>
                 <tr>
-                  <th className="nowrap" scope="row">File Etag:</th>
+                  <th className="nowrap ps-2" scope="row">File Etag:</th>
                   <td className="w-100 text-break">{node.get('file_etag')}</td>
                 </tr>
                 <tr>
-                  <th className="nowrap" scope="row">File Size:</th>
+                  <th className="nowrap ps-2" scope="row">File Size:</th>
                   <td className="w-100">{formatBytes(node.get('file_size'))}</td>
                 </tr>
                 {schema.hasField('duration') && (
                   <tr>
-                    <th className="nowrap" scope="row">Duration:</th>
+                    <th className="nowrap ps-2" scope="row">Duration:</th>
                     <td className="w-100">{node.get('duration')} seconds</td>
                   </tr>
                 )}
                 {schema.hasMixin('triniti:dam:mixin:image-asset') && (
                   <tr>
-                    <th className="nowrap" scope="row">Dimensions:</th>
+                    <th className="nowrap ps-2" scope="row">Dimensions:</th>
                     <td className="w-100">{node.get('width')}x{node.get('height')}</td>
                   </tr>
                 )}

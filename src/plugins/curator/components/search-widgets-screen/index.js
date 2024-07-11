@@ -77,15 +77,14 @@ function SearchWidgetsScreen(props) {
                 const schema = node.schema();
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                 const handleRowClick = createRowClickHandler(navigate, node);
-
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td>
                       {node.get('title')}
-                        <Badge className="ms-1" color="light" pill>
-                          {schema.getCurie().getMessage().replace('-widget', '')}
-                        </Badge>
+                      <Badge className="ms-1" color="light" pill>
+                        {schema.getCurie().getMessage().replace('-widget', '')}
+                      </Badge>
                     </td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>

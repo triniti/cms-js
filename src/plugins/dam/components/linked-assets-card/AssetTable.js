@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge, Button, Input, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { Icon } from '@triniti/cms/components/index.js';
 import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
@@ -40,11 +39,11 @@ export default function AssetTable(props) {
             <td className="d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
             <td className="text-nowrap d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
             <td className="td-icons">
-              <Link to={nodeUrl(node, 'view')}>
+              <a href={nodeUrl(node, 'view')} target="_blank" rel="noopener noreferrer">
                 <Button color="hover" tag="span">
                   <Icon imgSrc="eye" alt="view" />
                 </Button>
-              </Link>
+              </a>
             </td>
           </tr>
         );

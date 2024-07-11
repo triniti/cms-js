@@ -1,4 +1,3 @@
-import('@triniti/acme-schemas');
 import('ignore-styles');
 
 global.__webpack_public_path__ = {};

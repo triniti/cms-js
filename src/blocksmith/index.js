@@ -9,12 +9,15 @@ import BlocksmithModal from '@triniti/cms/blocksmith/components/BlocksmithModal.
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
+import { useFormContext } from '@triniti/cms/components/index.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
 export default function Blocksmith(props) {
+  const formContext = useFormContext();
+  const { editMode, node } = formContext;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalComponent, setModalComponent] = useState();
-  const { pbj, blocks, editMode, node, onChange } = props;
+  const { pbj, beforeSubmitRef, field } = props;
   const delegateRef = useRef({
     TextBlockV1: pbj.schema().getClassProto(),
     handleChange: noop,
@@ -40,15 +43,17 @@ export default function Blocksmith(props) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="blocksmith">
-        <BlocksmithPlugin delegateRef={delegateRef} />
+        <BlocksmithPlugin
+          delegateRef={delegateRef}
+          beforeSubmitRef={beforeSubmitRef}
+          field={field}
+        />
         <OnChangePlugin onChange={delegateRef.current.handleChange} ignoreSelectionChange={true} />
         <ToolbarPlugin onCreateBlock={handleCreateBlock} />
         <div className="blocksmith-inner">
           <RichTextPlugin
-            contentEditable={
-              <ContentEditable className="blocksmith-input" />
-            }
-            placeholder="Start writing..."
+            contentEditable={<ContentEditable className="blocksmith-input" />}
+            placeholder={<div className="blocksmith-placeholder">Start writing...</div>}
             ErrorBoundary={LexicalErrorBoundary}
           />
         </div>

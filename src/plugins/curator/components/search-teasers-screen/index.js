@@ -78,15 +78,14 @@ function SearchTeasersScreen(props) {
                 const schema = node.schema();
                 const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
                 const handleRowClick = createRowClickHandler(navigate, node);
-
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td>
                       {node.get('title')}
-                        <Badge className="ms-1" color="light" pill>
-                          {schema.getCurie().getMessage().replace('-teaser', '')}
-                        </Badge>
+                      <Badge className="ms-1" color="light" pill>
+                        {schema.getCurie().getMessage().replace('-teaser', '')}
+                      </Badge>
                     </td>
                     <td>
                       {node.has('slotting') ? Object.entries(node.get('slotting')).map(([key, slot]) => (

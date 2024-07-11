@@ -38,30 +38,29 @@ function SearchAppsScreen(props) {
               const schema = node.schema();
               const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
               const handleRowClick = createRowClickHandler(navigate, node);
-
               return (
-              <tr key={`${node.get('_id')}`} className='cursor-pointer' onClick={handleRowClick}>
-                <td>
-                  {node.get('title')}
-                  <Badge className="ms-1" color="light" pill>
-                    {schema.getCurie().getMessage().replace('-app', '')}
-                  </Badge>
-                </td>
-                <td className="td-icons" data-ignore-row-click>
-                  <Link to={nodeUrl(node, 'view')}>
-                    <Button color="hover" tag="span">
-                      <Icon imgSrc="eye" alt="view" />
-                    </Button>
-                  </Link>
-                  {canUpdate && (
-                    <Link to={nodeUrl(node, 'edit')}>
+                <tr key={`${node.get('_id')}`} className="cursor-pointer" onClick={handleRowClick}>
+                  <td>
+                    {node.get('title')}
+                    <Badge className="ms-1" color="light" pill>
+                      {schema.getCurie().getMessage().replace('-app', '')}
+                    </Badge>
+                  </td>
+                  <td className="td-icons" data-ignore-row-click>
+                    <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">
-                        <Icon imgSrc="pencil" alt="edit" />
+                        <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
-                  )}
-                </td>
-              </tr>
+                    {canUpdate && (
+                      <Link to={nodeUrl(node, 'edit')}>
+                        <Button color="hover" tag="span">
+                          <Icon imgSrc="pencil" alt="edit" />
+                        </Button>
+                      </Link>
+                    )}
+                  </td>
+                </tr>
               );
             })}
             </tbody>
