@@ -1,4 +1,3 @@
-import startCase from 'lodash-es/startCase.js';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import { lazy } from 'react';
 

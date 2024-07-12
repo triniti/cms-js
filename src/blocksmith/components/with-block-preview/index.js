@@ -28,7 +28,6 @@ function BlockPreview(props) {
 
 export default function withBlockPreview(Component) {
   return function ComponentWithBlockPreview(props) {
-    console.log('ComponentWithBlockPreview', props);
     const { curie, pbj, nodeKey } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const ModalComponent = useMemo(() => withPbj(resolveComponent(curie, 'modal'), curie, pbj), [curie, pbj]);
