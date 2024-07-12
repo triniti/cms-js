@@ -75,6 +75,10 @@ export default function ToolbarPlugin() {
     };
   };
 
+  if (!editor.isEditable()) {
+    return null;
+  }
+
   return (
     <>
       <div className="toolbar sticky-top" ref={toolbarRef}>
