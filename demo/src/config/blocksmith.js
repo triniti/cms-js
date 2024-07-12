@@ -5,8 +5,8 @@ export default {
   nodes: [
     BlocksmithNode,
   ],
-  onError(error) {
-    console.error(error);
+  onError: (error) => {
+    console.error('blocksmith.error', error);
   },
   // todo: remove need for all this theme stuff and just style the elements
   // like .blocksmith h1, .blocksmith ol, etc.  we don't need theming fanciness rn
@@ -43,5 +43,14 @@ export default {
       underline: 'text-underline',
       underlineStrikethrough: 'text-underlineStrikethrough',
     },
+  },
+  toolbar: {
+    blocks: [
+      { type: 'article-block', text: 'Article' },
+      { type: 'youtube-video-block', text: 'YouTube Video' },
+      'separator',
+      { type: 'image-block', text: 'Image' },
+      { type: 'video-block', text: 'Video' },
+    ],
   },
 };
