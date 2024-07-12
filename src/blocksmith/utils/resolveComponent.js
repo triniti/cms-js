@@ -1,4 +1,3 @@
-import startCase from 'lodash-es/startCase.js';
 import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import { lazy } from 'react';
 
@@ -9,7 +8,7 @@ export default (curie, type) => {
     return components[key];
   }
 
-  const file = startCase(SchemaCurie.fromString(curie).getMessage()).replace(/\s/g, '');
-  components[key] = lazy(() => import(`@triniti/cms/blocksmith/components/${file}${type}.js`));
+  const file = SchemaCurie.fromString(curie).getMessage();
+  components[key] = lazy(() => import(`@triniti/cms/blocksmith/components/${file}-${type}/index.js`));
   return components[key];
 };

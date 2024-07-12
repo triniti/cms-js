@@ -70,7 +70,7 @@ function RenameForm(props) {
   // todo: add inline alert about 404 when renaming a published node
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Rename {label}</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}

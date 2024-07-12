@@ -42,7 +42,7 @@ function PatchAssetsModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Patch Assets ({nodes.length})</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}

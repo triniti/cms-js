@@ -34,3 +34,4 @@
 * dynamically determine duration of uploaded video or audio (like image dimensions)
 * matt, drop downs/pickers go behind modal scrollable (e.g. create article teaser)
 * make sure all scrollTo or scroll into view stuff works in major browsers
+* fix ui jank when loading some modals (useMemo fixes a lot of this, ref blocksmith)

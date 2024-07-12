@@ -25,7 +25,7 @@ export default function CreateWidgetModal(props) {
   const ComponentWithPbj = curie && withPbj(CreateWidgetForm, curie);
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Widget</ModalHeader>

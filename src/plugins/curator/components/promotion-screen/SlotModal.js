@@ -42,7 +42,7 @@ function SlotModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Slot</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}

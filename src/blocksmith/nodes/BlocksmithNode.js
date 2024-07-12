@@ -1,24 +1,24 @@
 import React, { Suspense } from 'react';
-import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents.js';
 import { DecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode.js';
 import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 function BlocksmithComponent(props) {
-  const { className, nodeKey, curie, pbj = {} } = props;
+  const { className, nodeKey, curie, pbj = {}, ...rest } = props;
   if (!curie) {
     return null;
   }
 
-  const Component = resolveComponent(curie, 'Preview');
+  const type = curie.split(':').pop();
+  const Component = resolveComponent(curie, 'preview');
   return (
-    <BlockWithAlignableContents className={className} nodeKey={nodeKey}>
+    <div key={nodeKey} className={`${className} blocksmith-${type}`}>
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
-          <Component curie={curie} pbj={pbj} />
+          <Component curie={curie} pbj={pbj} nodeKey={nodeKey} {...rest} />
         </ErrorBoundary>
       </Suspense>
-    </BlockWithAlignableContents>
+    </div>
   );
 }
 

@@ -20,7 +20,7 @@ export default function BatchOperationModal(props) {
   const delegate = useDelegate(nodes, operation);
 
   return (
-    <Modal isOpen size={size} backdrop="static" className="modal-dialog-centered">
+    <Modal isOpen centered size={size} backdrop="static">
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="modal-scrollable p-0">
         <Table className="sticky-thead mb-0">

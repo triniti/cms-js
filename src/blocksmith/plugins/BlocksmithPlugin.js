@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import noop from 'lodash-es/noop.js';
 import { COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
@@ -76,9 +77,7 @@ export default function BlocksmithPlugin(props) {
       const blocks = pbj.get('blocks', []);
       blocksToEditor(blocks, editor);
       initialValueRef.current = blocks.length > 0 ? blocks.map(b => b.toObject()) : undefined;
-
-      const subscriber = (fieldState) => console.log('blocksmith.fieldState', name, fieldState);
-      form.registerField(name, subscriber, { values: true }, {
+      form.registerField(name, noop, {}, {
         isEqual: areBlocksEqual,
         initialValue: initialValueRef.current,
         beforeSubmit: () => {
