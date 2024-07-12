@@ -3,7 +3,8 @@ import { TextField } from '@triniti/cms/components/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import getYouTubeId from '@triniti/cms/utils/getYouTubeId.js';
 
-function YoutubeVideoBlockModal() {
+function YoutubeVideoBlockModal(props) {
+  console.log('YoutubeVideoBlockModal', props);
   return (
     <>
       <TextField
