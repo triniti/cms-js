@@ -11,7 +11,7 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import { INSERT_BLOCKSMITH_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 function BlockModal(props) {
-  const { editMode, editor, ModalFields, delegate, form, formState, handleSubmit, pbj } = props;
+  const { editMode, ModalFields, delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
   const schema = pbj.schema();
@@ -24,12 +24,7 @@ function BlockModal(props) {
       paths.forEach(path => delete oldObj[path]);
       const newObj = { ...oldObj, ...values };
       const newPbj = await FormMarshaler.unmarshal(newObj);
-
-      editor.dispatchCommand(
-        INSERT_BLOCKSMITH_BLOCK_COMMAND,
-        { curie: newPbj.schema().getCurie().toString(), pbj: newPbj.toObject() }
-      );
-
+      props.onDone(newPbj);
       props.toggle();
     } catch (e) {
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -80,6 +75,14 @@ export default function withBlockModal(Component) {
     const [editor] = useLexicalComposerContext();
     const formContext = useFormContext();
     const { editMode } = formContext;
+
+    const onDone = props.onDone ? props.onDone : (newPbj) => {
+      editor.dispatchCommand(
+        INSERT_BLOCKSMITH_BLOCK_COMMAND,
+        { curie: newPbj.schema().getCurie().toString(), pbj: newPbj.toObject() }
+      );
+    };
+
     return (
       <BlockModalWithPbj
         {...props}
@@ -87,6 +90,7 @@ export default function withBlockModal(Component) {
         editor={editor}
         editMode={editMode}
         containerFormContext={formContext}
+        onDone={onDone}
       />
     );
   };

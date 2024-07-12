@@ -5,7 +5,7 @@ import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 function BlocksmithComponent(props) {
-  const { className, nodeKey, curie, pbj = {} } = props;
+  const { className, nodeKey, curie, pbj = {}, ...rest } = props;
   if (!curie) {
     return null;
   }
@@ -15,7 +15,7 @@ function BlocksmithComponent(props) {
     <BlockWithAlignableContents className={className} nodeKey={nodeKey}>
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
-          <Component curie={curie} pbj={pbj} />
+          <Component curie={curie} pbj={pbj} nodeKey={nodeKey} {...rest} />
         </ErrorBoundary>
       </Suspense>
     </BlockWithAlignableContents>
