@@ -8,16 +8,20 @@ import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal
 import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 
 function BlockPreview(props) {
-  const { Component, onEdit, onRemove, pbj, ...rest } = props;
+  const { Component, onEdit, onRemove, pbj, editMode, ...rest } = props;
   const schema = pbj.schema();
 
   return (
     <Alert color="info">
       <legend>{schema.getCurie().getMessage()}</legend>
       <Component {...rest} pbj={pbj} />
-      <button onClick={onEdit}>edit</button>
-      -
-      <button onClick={onRemove}>remove</button>
+      {editMode && (
+        <>
+          <button onClick={onEdit}>edit</button>
+          -
+          <button onClick={onRemove}>remove</button>
+        </>
+      )}
     </Alert>
   );
 }
@@ -40,6 +44,10 @@ export default function withBlockPreview(Component) {
     };
 
     const handleRemove = () => {
+      if (!editMode) {
+        return;
+      }
+
       editor.update(() => {
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
@@ -49,6 +57,10 @@ export default function withBlockPreview(Component) {
     };
 
     const handleEditDone = (newPbj) => {
+      if (!editMode) {
+        return;
+      }
+
       editor.update(() => {
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
