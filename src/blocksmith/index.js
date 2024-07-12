@@ -1,20 +1,17 @@
-import React, { useRef, useState } from 'react';
-import noop from 'lodash-es/noop.js';
+import React, { useState } from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/BlocksmithModal.js';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
-export default function Blocksmith() {
+export default function Blocksmith(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalComponent, setModalComponent] = useState();
-  const delegateRef = useRef({ handleChange: noop });
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -34,8 +31,7 @@ export default function Blocksmith() {
   return (
     <LexicalComposer initialConfig={config}>
       <div className="blocksmith">
-        <BlocksmithPlugin delegateRef={delegateRef} />
-        <OnChangePlugin onChange={delegateRef.current.handleChange} ignoreSelectionChange={true} />
+        <BlocksmithPlugin {...props} />
         <ToolbarPlugin onCreateBlock={handleCreateBlock} />
         <div className="blocksmith-inner">
           <RichTextPlugin

@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import {
   Card,
   CardImgOverlay,
@@ -27,8 +26,7 @@ export default function ImageGrid(props) {
                 onClick={() => onSelectAsset(nodeRef)}
                 inverse
                 role="button"
-                className={classNames('shadow', 'p-1', 'mb-0', 'image-grid-card')}
-                style={{ cursor: 'pointer' }}
+                className="shadow p-1 mb-0 image-grid-card cursor-pointer"
               >
                 <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 hover-box-shadow"
                        style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>

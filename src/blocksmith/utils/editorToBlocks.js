@@ -91,6 +91,7 @@ const nodeToHtml = (editor, node) => {
 const createTextBlock = (html) => {
   return {
     _schema: `pbj:${APP_VENDOR}:canvas:block:text-block:1-0-0`,
+    aside: false,
     text: html,
   };
 };

@@ -8,6 +8,7 @@ import {
   ArtificialNode__DO_NOT_USE
 } from 'lexical';
 import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import { BLOCKSMITH_HYDRATION } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 const getConversionFunction = (domNode, editor) => {
   const { nodeName } = domNode;
@@ -200,5 +201,5 @@ export default (blocks, editor) => {
 
     $getRoot().clear().select();
     $insertNodes(nodes);
-  }, { discrete: true });
+  }, { discrete: true, tag: BLOCKSMITH_HYDRATION });
 };
