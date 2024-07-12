@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
+  CheckboxField,
   DatePickerField,
+  KeyValuesField,
   SwitchField,
   TextareaField,
   TextField
@@ -15,6 +17,7 @@ import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-pi
 import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-picker-field/index.js';
 import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field/index.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
+import TranscodeableCard from '@triniti/cms/plugins/ovp/components/video-screen/TranscodeableCard.js';
 import getYouTubeId from '@triniti/cms/utils/getYouTubeId.js';
 
 export default function DetailsTab(props) {
@@ -47,6 +50,20 @@ export default function DetailsTab(props) {
             <PicklistField picklist="video-swipes" name="swipe" label="Swipe" />
           )}
 
+          {/* todo: Caption Field */}
+
+          <KeyValuesField name="caption_urls" label="Caption URLs" component={TextField} selectKeyProps={{options: [{value: 'en', label: 'en'}, {value: 'es', label: 'es'}, {value: 'fr', label: 'fr'}]}} />
+
+          {/* todo: Video Picker Field */}
+
+          <TextField label="Mezzanine URL" name="mezzanine_url" placeholder="mezzanine url" />
+
+          {!schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && (
+            <TextField name="live_m3u8_url" label="Live M3U8 URL" />
+          )}
+
+          <DatePickerField label="Original Air Date" name="original_air_date" />
+
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
           )}
@@ -55,10 +72,48 @@ export default function DetailsTab(props) {
             <PicklistField picklist="video-themes" name="theme" label="Theme" />
           )}
 
-          <SwitchField name="allow_comments" label="Allow Comments" />
-          <SwitchField name="sharing_enabled" label="Sharing Enabled" />
+          <div className="pb-1 d-flex">
+            <CheckboxField
+              name="is_live"
+              label="Is Live"
+              className="flex-fill"
+            />
+            <CheckboxField
+              label="Allow Comments"
+              name="allow_comments"
+              className="flex-fill"
+            />
+            <CheckboxField
+              label="Sharing Enabled"
+              name="sharing_enabled"
+              className="flex-fill"
+            />
+            <CheckboxField
+              label="Is Full Episode"
+              name="is_full_episode"
+              className="flex-fill"
+            />
+            <CheckboxField
+              label="Is Promo"
+              name="is_promo"
+              className="flex-fill"
+            />
+            <CheckboxField
+              label="Xumo Enabled"
+              name="xumo_enabled"
+              className="flex-fill"
+            />
+          </div>
+
+          {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
+            <SponsorPickerField label="Sponsor" name="sponsor_refs" />
+          )}
         </CardBody>
       </Card>
+
+      {node.has('mezzanine_ref') && (
+        <TranscodeableCard node={node} nodeRef={node.get('mezzanine_ref')} />
+      )}
 
       {schema.hasMixin('triniti:ovp.jwplayer:mixin:has-media') && (
         <Card>
