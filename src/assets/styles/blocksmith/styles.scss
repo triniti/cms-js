@@ -1,29 +1,23 @@
 .blocksmith {
-  border-radius: 2px;
-  color: #000;
   position: relative;
-  line-height: 20px;
-  font-weight: 400;
-  text-align: left;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 
 .blocksmith-inner {
-  background: #fff;
   position: relative;
 }
 
 .blocksmith-input {
   min-height: 250px;
   resize: none;
-  font-size: 15px;
-  caret-color: rgb(5, 5, 5);
   position: relative;
   tab-size: 1;
   outline: 0;
-  padding: 15px 10px;
-  caret-color: #444;
+  padding: .75rem 1rem;
+  caret-color: var(--bs-tertiary-color);
+
+  .paragraph {
+    font-size: .9375rem;
+  }
 }
 
 .blocksmith-placeholder {
@@ -31,8 +25,8 @@
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 15px;
-  left: 10px;
+  top: 12px;
+  left: 16px;
   font-size: 15px;
   user-select: none;
   display: inline-block;
@@ -214,19 +208,15 @@ pre::-webkit-scrollbar-thumb {
 
 .blocksmith .toolbar {
   display: flex;
-  margin-bottom: 1px;
-  background: #fff;
   padding: 4px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  vertical-align: middle;
+  border-bottom: 1px solid var(--bs-dark-border-subtle);
 }
 
 .blocksmith .toolbar button.toolbar-item {
   border: 0;
   display: flex;
   background: none;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 8px;
   cursor: pointer;
   vertical-align: middle;
@@ -269,7 +259,7 @@ pre::-webkit-scrollbar-thumb {
 
 .blocksmith .toolbar .divider {
   width: 1px;
-  background-color: #eee;
+  background-color: var(--bs-dark-border-subtle);
   margin: 0 4px;
 }
 

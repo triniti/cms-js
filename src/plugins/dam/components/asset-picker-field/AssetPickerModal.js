@@ -55,7 +55,7 @@ export default function AssetPickerModal(props) {
   }
 
   return (
-    <Modal isOpen backdrop="static" size="xl" centered>
+    <Modal isOpen backdrop="static" size="xxl" centered>
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="p-0">
         <Nav className="nav-underline">

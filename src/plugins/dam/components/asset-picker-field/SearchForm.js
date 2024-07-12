@@ -82,8 +82,8 @@ export default function SearchForm(props) {
   }, [q, request]);
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off" className="sticky-top shadow-depth-2 w-100">
-      <Card className="p-0">
+    <Form onSubmit={handleSubmit} autoComplete="off" className="sticky-top shadow-depth-3 w-100">
+      <Card className="p-0 mb-0">
         <CardBody>
           <div className="position-relative">
             <InputGroup>

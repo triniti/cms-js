@@ -1,77 +1,93 @@
-import { useEffect } from 'react';
-import { $getRoot, $insertNodes, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import { useEffect, useRef } from 'react';
+import { COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $insertNodeToNearestRoot } from '@lexical/utils';
-import BlocksmithNode, {
-  $createBlocksmithNode,
-  $isBlocksmithNode
-} from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
-import nodeToHtml from '@triniti/cms/blocksmith/utils/nodeToHtml.js';
-import htmlToNode from '@triniti/cms/blocksmith/utils/htmlToNode.js';
+import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
+import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
+import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
+import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
+import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
+export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
+export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
 export default function BlocksmithPlugin(props) {
-  const { beforeSubmitRef, delegateRef, field } = props;
+  const { name = 'blocks' } = props;
   const formContext = useFormContext();
-  const { editMode, form, node } = formContext;
+  const { editMode, form, pbj } = formContext;
   const [editor] = useLexicalComposerContext();
-  const TextBlockV1 = delegateRef.current.TextBlockV1;
+  const initialValueRef = useRef(null);
 
   useEffect(() => {
     if (!editor.hasNodes([BlocksmithNode])) {
       throw new Error('BlocksmithPlugin: BlocksmithNode not registered on editor');
     }
 
-    // just want to keep track of dirty whenever editor changes
-    delegateRef.current.handleChange = (editorState) => {
-      console.log('editorState', JSON.stringify(editorState.toJSON()));
-      form.change('blocks', []);
+    const checkDirtyOnBlurListener = () => {
+      const blocks = editorToBlocks(editor);
+      const newValue = blocks.length > 0 ? blocks : undefined;
+      if (areBlocksEqual(newValue, initialValueRef.current)) {
+        form.change(name, initialValueRef.current);
+      }
     };
 
-    // final form beforeSubmit on the "blocks" field.
-    // this is where we convert lexical the final form (pbj) format
-    beforeSubmitRef.current = () => {
-      const editorState = editor.getEditorState();
-
-      const blocks = [];
-      editorState.read(() => {
-        const nodes = $getRoot().getChildren();
-        for (let i = 0; i < nodes.length; i++) {
-          const node = nodes[i];
-          if ($isBlocksmithNode(node)) {
-            blocks.push(node.exportJSON().__pbj);
-          } else {
-            const html = nodeToHtml(editor, node);
-            if (html) {
-              blocks.push(TextBlockV1.create().set('text', html).toObject());
-            }
-          }
+    return mergeRegister(
+      editor.registerRootListener((rootElement, prevRootElement) => {
+        if (rootElement) {
+          rootElement.addEventListener('blur', checkDirtyOnBlurListener);
         }
-      });
+        if (prevRootElement) {
+          prevRootElement.removeEventListener('blur', checkDirtyOnBlurListener);
+        }
+      }),
+      editor.registerUpdateListener((details) => {
+        const { dirtyElements, dirtyLeaves, prevEditorState, tags } = details;
+        if (tags.has(BLOCKSMITH_HYDRATION)) {
+          return;
+        }
 
-      form.change('blocks', blocks);
-    };
+        if ((dirtyElements.size === 0 && dirtyLeaves.size === 0) || tags.has('history-merge') || prevEditorState.isEmpty()) {
+          // this dirty check seems kinda flaky, nodes have subtle changes when using formatting
+          //form.change(name, editorStateRef.current);
+          return;
+        }
 
-    editor.update(() => {
-      const parser = new DOMParser();
-      const dom = parser.parseFromString('<p>test <strong>wtf</strong></p>', 'text/html');
-      const nodes = htmlToNode(editor, dom);
-      $getRoot().clear().select();
-      $insertNodes(nodes);
-    }, { discrete: true });
-
-    return editor.registerCommand(
-      INSERT_BLOCKSMITH_BLOCK_COMMAND,
-      (payload) => {
+        form.change(name, BLOCKSMITH_DIRTY);
+      }),
+      editor.registerCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, (payload) => {
         const node = $createBlocksmithNode(payload.curie, payload.pbj);
         $insertNodeToNearestRoot(node);
         return true;
-      },
-      COMMAND_PRIORITY_EDITOR,
+      }, COMMAND_PRIORITY_EDITOR)
     );
   }, [editor]);
+
+  useEffect(() => {
+    editor.setEditable(editMode);
+  }, [editMode]);
+
+  useEffect(() => {
+    if (!pbj) {
+      return;
+    }
+
+    setTimeout(() => {
+      const blocks = pbj.get('blocks', []);
+      blocksToEditor(blocks, editor);
+      initialValueRef.current = blocks.length > 0 ? blocks.map(b => b.toObject()) : undefined;
+
+      const subscriber = (fieldState) => console.log('blocksmith.fieldState', name, fieldState);
+      form.registerField(name, subscriber, { values: true }, {
+        isEqual: areBlocksEqual,
+        initialValue: initialValueRef.current,
+        beforeSubmit: () => {
+          const blocks = editorToBlocks(editor);
+          form.change('blocks', blocks);
+        }
+      });
+    });
+  }, [pbj]);
 
   return null;
 }

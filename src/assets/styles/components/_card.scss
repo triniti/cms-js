@@ -184,7 +184,8 @@ h3.card-title {
 .card-img-overlay {
   top: auto; // only covers bottom up, based on content height
   padding: .75rem;
-  background-color: $gray-rgba-700;
+  background-color: $gray-rgba-800;
+  height: auto;
 
   .card-title {
     display: block;

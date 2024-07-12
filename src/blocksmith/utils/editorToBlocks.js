@@ -1,5 +1,6 @@
-import { $isElementNode } from 'lexical';
+import { $getRoot, $isElementNode } from 'lexical';
 import { isHTMLElement } from '@lexical/utils';
+import { $isBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 
 const removeAttributes = (element) => {
   if (!isHTMLElement(element)) {
@@ -73,13 +74,46 @@ const sanitizeHtml = (html) => {
     ;
 };
 
-export default (editor, node) => {
+const nodeToHtml = (editor, node) => {
   const container = document.createElement('div');
   appendNode(editor, node, container);
-  const html = sanitizeHtml(container.innerHTML);
+  const html = sanitizeHtml(container.innerHTML) || '';
   if (html === '<p><br></p>') {
     return '';
   }
 
   return html;
+};
+
+// do we need to handle css_class and updated_date on text? one wonders. i hope the fuck not.
+// seems like we could do it fairly easily though with a blocksmithnode generation of
+// the text and store data on custom text nodes. will noodle later, if needed.
+const createTextBlock = (html) => {
+  return {
+    _schema: `pbj:${APP_VENDOR}:canvas:block:text-block:1-0-0`,
+    aside: false,
+    text: html,
+  };
+};
+
+export default (editor) => {
+  const editorState = editor.getEditorState();
+  const blocks = [];
+
+  editorState.read(() => {
+    const nodes = $getRoot().getChildren();
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      if ($isBlocksmithNode(node)) {
+        blocks.push(node.exportJSON().__pbj);
+      } else {
+        const html = nodeToHtml(editor, node).trim();
+        if (html) {
+          blocks.push(createTextBlock(html));
+        }
+      }
+    }
+  });
+
+  return blocks;
 };

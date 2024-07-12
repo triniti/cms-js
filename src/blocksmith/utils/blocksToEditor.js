@@ -1,30 +1,14 @@
 import { isBlockDomNode } from '@lexical/utils';
 import {
   $createLineBreakNode,
-  $createParagraphNode,
+  $createParagraphNode, $getRoot, $insertNodes,
   $isBlockElementNode,
   $isElementNode,
   $isRootOrShadowRoot,
   ArtificialNode__DO_NOT_USE
 } from 'lexical';
-
-export default (editor, dom) => {
-  const elements = dom.body ? dom.body.childNodes : [];
-  let lexicalNodes = [];
-  const allArtificialNodes = []
-  for (let i = 0; i < elements.length; i++) {
-    const element = elements[i]
-    if (!IGNORE_TAGS.has(element.nodeName)) {
-      const lexicalNode = createNodesFromDom(element, editor, allArtificialNodes, false);
-      if (lexicalNode !== null) {
-        lexicalNodes = lexicalNodes.concat(lexicalNode);
-      }
-    }
-  }
-
-  unwrapArtificalNodes(allArtificialNodes);
-  return lexicalNodes;
-}
+import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import { BLOCKSMITH_HYDRATION } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 const getConversionFunction = (domNode, editor) => {
   const { nodeName } = domNode;
@@ -92,8 +76,8 @@ const createNodesFromDom = (node, editor, allArtificialNodes, hasBlockAncestorLe
   let childLexicalNodes = [];
 
   const hasBlockAncestorLexicalNodeForChildren = currentLexicalNode != null && $isRootOrShadowRoot(currentLexicalNode)
-      ? false
-      : (currentLexicalNode != null && $isBlockElementNode(currentLexicalNode)) || hasBlockAncestorLexicalNode;
+    ? false
+    : (currentLexicalNode != null && $isBlockElementNode(currentLexicalNode)) || hasBlockAncestorLexicalNode;
 
   for (let i = 0; i < children.length; i++) {
     childLexicalNodes.push(
@@ -179,4 +163,43 @@ const unwrapArtificalNodes = (allArtificialNodes) => {
     }
     node.remove();
   }
+};
+
+const htmlToNode = (editor, dom) => {
+  const elements = dom.body ? dom.body.childNodes : [];
+  let lexicalNodes = [];
+  const allArtificialNodes = []
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i]
+    if (!IGNORE_TAGS.has(element.nodeName)) {
+      const lexicalNode = createNodesFromDom(element, editor, allArtificialNodes, false);
+      if (lexicalNode !== null) {
+        lexicalNodes = lexicalNodes.concat(lexicalNode);
+      }
+    }
+  }
+
+  unwrapArtificalNodes(allArtificialNodes);
+  return lexicalNodes;
+};
+
+export default (blocks, editor) => {
+  editor.update(() => {
+    const parser = new DOMParser();
+    const nodes = [];
+    for (const block of blocks) {
+      const curie = block.schema().getCurie();
+      if (curie.getMessage() === 'text-block') {
+        if (block.has('text')) {
+          const dom = parser.parseFromString(block.get('text'), 'text/html');
+          nodes.push(...htmlToNode(editor, dom));
+        }
+      } else {
+        nodes.push($createBlocksmithNode(curie.toString(), block.toObject()));
+      }
+    }
+
+    $getRoot().clear().select();
+    $insertNodes(nodes);
+  }, { discrete: true, tag: BLOCKSMITH_HYDRATION });
 };

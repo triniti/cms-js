@@ -47,7 +47,6 @@ export default function ToolbarPlugin(props) {
   const createHandler = (command, payload) => {
     return (event) => {
       event.preventDefault();
-      event.stopPropagation();
       editor.dispatchCommand(command, payload);
     };
   };

@@ -8,7 +8,8 @@
   font-weight: 500;
 
   .card-body &,
-  .alert-container & {
+  .alert-container &,
+  .blocksmith & {
     border-radius: $border-radius;
   }
   .alert-container & {
