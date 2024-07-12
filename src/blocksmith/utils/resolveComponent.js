@@ -1,4 +1,3 @@
-import SchemaCurie from '@gdbots/pbj/SchemaCurie.js';
 import { lazy } from 'react';
 
 const components = {};
@@ -8,7 +7,7 @@ export default (curie, type) => {
     return components[key];
   }
 
-  const file = SchemaCurie.fromString(curie).getMessage();
+  const file = curie.split(':').pop();
   components[key] = lazy(() => import(`@triniti/cms/blocksmith/components/${file}-${type}/index.js`));
   return components[key];
 };

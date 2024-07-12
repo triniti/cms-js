@@ -8,7 +8,7 @@ import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal
 import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 
 function BlockPreview(props) {
-  const { Component, onEdit, onRemove, pbj, editMode, ...rest } = props;
+  const { Component, onEdit, onDelete, pbj, editMode, ...rest } = props;
   const schema = pbj.schema();
 
   return (
@@ -19,7 +19,7 @@ function BlockPreview(props) {
         <>
           <button onClick={onEdit}>edit</button>
           -
-          <button onClick={onRemove}>remove</button>
+          <button onClick={onDelete}>delete</button>
         </>
       )}
     </Alert>
@@ -42,7 +42,7 @@ export default function withBlockPreview(Component) {
       toggleModal();
     };
 
-    const handleRemove = () => {
+    const handleDelete = () => {
       if (!editMode) {
         return;
       }
@@ -78,7 +78,7 @@ export default function withBlockPreview(Component) {
           editMode={editMode}
           containerFormContext={formContext}
           onEdit={handleEdit}
-          onRemove={handleRemove}
+          onDelete={handleDelete}
         />
         <BlocksmithModal
           toggle={toggleModal}

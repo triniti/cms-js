@@ -8,8 +8,10 @@ import {
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
+import config from '@triniti/app/config/blocksmith.js';
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -21,9 +23,8 @@ export default function ToolbarPlugin() {
   };
 
   const handleCreateBlock = (event) => {
-    event.stopPropagation();
     event.preventDefault();
-    const type = event.target.dataset.type;
+    const type = event.currentTarget.dataset.type;
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
     const Modal = () => (p) => <Component curie={curie} {...p} />;
@@ -74,9 +75,13 @@ export default function ToolbarPlugin() {
     };
   };
 
+  if (!editor.isEditable()) {
+    return null;
+  }
+
   return (
     <>
-      <div className="toolbar" ref={toolbarRef}>
+      <div className="toolbar sticky-top" ref={toolbarRef}>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'bold')}
           className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
@@ -102,21 +107,27 @@ export default function ToolbarPlugin() {
           <i className="format strikethrough" />
         </button>
         <div className="divider" />
-        <button
-          onClick={handleCreateBlock}
-          data-type="youtube-video-block"
-          className="toolbar-item"
-          aria-label="YoutubeVideoBlock">
-          youtube video
-        </button>
-        <button
-          onClick={handleCreateBlock}
-          data-type="article-block"
-          className="toolbar-item"
-          aria-label="ArticleBlock">
-          article
-        </button>
-        {' '}
+        <UncontrolledDropdown>
+          <DropdownToggle>
+            Insert Block
+          </DropdownToggle>
+          <DropdownMenu>
+            {config.toolbar.blocks.map((item, index) => {
+              if (item === 'separator') {
+                return (
+                  <hr key={`${item}${index}`} />
+                );
+              }
+
+              return (
+                <DropdownItem key={`${item.type}${index}`} onClick={handleCreateBlock} data-type={item.type}>
+                  <i className={`icon ${item.type}`} />
+                  <span className="text">{item.text}</span>
+                </DropdownItem>
+              );
+            })}
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </div>
       <BlocksmithModal toggle={toggleModal} isOpen={isModalOpen} modal={modalComponent} />
     </>
