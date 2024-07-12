@@ -10,7 +10,7 @@ function BlocksmithComponent(props) {
     return null;
   }
 
-  const Component = resolveComponent(curie, 'Preview');
+  const Component = resolveComponent(curie, 'preview');
   return (
     <BlockWithAlignableContents className={className} nodeKey={nodeKey}>
       <Suspense fallback={<Loading />}>

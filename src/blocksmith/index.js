@@ -3,7 +3,7 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import BlocksmithModal from '@triniti/cms/blocksmith/components/BlocksmithModal.js';
+import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
@@ -22,7 +22,7 @@ export default function Blocksmith(props) {
     event.preventDefault();
     const type = event.target.dataset.type;
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
-    const Component = resolveComponent(curie, 'Modal');
+    const Component = resolveComponent(curie, 'modal');
     const Modal = () => (p) => <Component curie={curie} {...p} />;
     setModalComponent(Modal);
     setIsModalOpen(true);
