@@ -41,7 +41,7 @@ function CreateNotificationModal(props) {
   const ComponentWithPbj = curie && withPbj(resolveComponent(curie), curie);
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       {(!response || pbjxError) && <Loading error={pbjxError} />}
       {!curie && (
         <>

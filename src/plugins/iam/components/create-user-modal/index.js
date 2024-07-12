@@ -44,7 +44,7 @@ function CreateUserModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Create User</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}

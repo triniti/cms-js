@@ -37,7 +37,7 @@ function CreateVideoModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Video</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
