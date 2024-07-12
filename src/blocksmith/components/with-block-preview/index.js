@@ -19,7 +19,7 @@ function BlockPreview(props) {
         <>
           <button onClick={onEdit}>edit</button>
           -
-          <button onClick={onDelete}>remove</button>
+          <button onClick={onDelete}>delete</button>
         </>
       )}
     </Alert>
