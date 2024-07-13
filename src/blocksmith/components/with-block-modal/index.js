@@ -32,7 +32,7 @@ function BlockModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static" centered>
+    <Modal isOpen backdrop="static" size="lg" centered>
       <ModalHeader toggle={props.toggle}>{startCase(schema.getCurie().getMessage())}</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
