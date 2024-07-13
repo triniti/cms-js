@@ -8,16 +8,19 @@ import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal
 import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 
 function BlockPreview(props) {
-  const { Component, onEdit, onDelete, pbj, editMode, ...rest } = props;
+  const { Component, onDelete, onOpen, pbj, editMode, ...rest } = props;
   const schema = pbj.schema();
 
   return (
     <Alert color="info">
       <legend>{schema.getCurie().getMessage()}</legend>
       <Component {...rest} pbj={pbj} />
+      {!editMode && (
+        <button onClick={onOpen}>view</button>
+      )}
       {editMode && (
         <>
-          <button onClick={onEdit}>edit</button>
+        <button onClick={onOpen}>edit</button>
           -
           <button onClick={onDelete}>delete</button>
         </>
@@ -37,7 +40,7 @@ export default function withBlockPreview(Component) {
     const { editMode } = formContext;
 
     const toggleModal = () => setIsModalOpen(!isModalOpen);
-    const handleEdit = (event) => {
+    const handleOpen = (event) => {
       event.preventDefault();
       toggleModal();
     };
@@ -55,7 +58,7 @@ export default function withBlockPreview(Component) {
       });
     };
 
-    const handleEditDone = (newPbj) => {
+    const handleUpdate = (newPbj) => {
       if (!editMode) {
         return;
       }
@@ -77,14 +80,14 @@ export default function withBlockPreview(Component) {
           editor={editor}
           editMode={editMode}
           containerFormContext={formContext}
-          onEdit={handleEdit}
+          onOpen={handleOpen}
           onDelete={handleDelete}
         />
         <BlocksmithModal
           toggle={toggleModal}
           isOpen={isModalOpen}
           modal={ModalComponent}
-          onDone={handleEditDone}
+          onUpdate={handleUpdate}
         />
       </>
     );

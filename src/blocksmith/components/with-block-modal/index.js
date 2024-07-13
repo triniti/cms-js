@@ -11,12 +11,12 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import { INSERT_BLOCKSMITH_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 function BlockModal(props) {
-  const { editMode, ModalFields, delegate, form, formState, handleSubmit, pbj } = props;
+  const { isNew, editMode, ModalFields, delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
   const schema = pbj.schema();
 
-  delegate.handleDone = form.submit;
+  delegate.handleUpdate = form.submit;
   delegate.handleSubmit = async (values) => {
     try {
       const oldObj = FormMarshaler.marshal(pbj, { skipValidation: true });
@@ -24,7 +24,7 @@ function BlockModal(props) {
       paths.forEach(path => delete oldObj[path]);
       const newObj = { ...oldObj, ...values };
       const newPbj = await FormMarshaler.unmarshal(newObj);
-      props.onDone(newPbj);
+      props.onUpdate(newPbj);
       props.toggle();
     } catch (e) {
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
@@ -52,10 +52,10 @@ function BlockModal(props) {
               tabIndex="-1"
             />
             <ActionButton
-              text="Done"
-              onClick={delegate.handleDone}
+              text={isNew ? 'Add Block' : 'Update Block'}
+              onClick={delegate.handleUpdate}
               disabled={submitDisabled}
-              icon="save"
+              icon={isNew ? 'plus-outline' : 'save'}
               color="primary"
             />
           </>
@@ -76,7 +76,8 @@ export default function withBlockModal(Component) {
     const formContext = useFormContext();
     const { editMode } = formContext;
 
-    const onDone = props.onDone ? props.onDone : (newPbj) => {
+    const isNew = !props.onUpdate;
+    const onUpdate = props.onUpdate ? props.onUpdate : (newPbj) => {
       editor.dispatchCommand(
         INSERT_BLOCKSMITH_BLOCK_COMMAND,
         { curie: newPbj.schema().getCurie().toString(), pbj: newPbj.toObject() }
@@ -90,7 +91,8 @@ export default function withBlockModal(Component) {
         editor={editor}
         editMode={editMode}
         containerFormContext={formContext}
-        onDone={onDone}
+        onUpdate={onUpdate}
+        isNew={isNew}
       />
     );
   };
