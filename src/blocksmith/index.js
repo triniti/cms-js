@@ -10,8 +10,8 @@ import { useFormContext } from '@triniti/cms/components/index.js';
 import config from '@triniti/app/config/blocksmith.js';
 
 export default function Blocksmith(props) {
-  const formContext = useFormContext();
-  const { editMode } = formContext;
+  const { editMode } = useFormContext();
+  config.editable = editMode;
 
   return (
     <LexicalComposer initialConfig={config}>
