@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister } from '@lexical/utils';
 import {
   $getSelection,
   $isRangeSelection,
@@ -8,45 +7,73 @@ import {
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
+import { $findMatchingParent, mergeRegister } from '@lexical/utils';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import {
+  $isListNode,
+  INSERT_CHECK_LIST_COMMAND,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+  ListNode,
+} from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
+import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
+import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import config from '@triniti/app/config/blocksmith.js';
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalComponent, setModalComponent] = useState();
+  const modalComponentRef = useRef();
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleCreateBlock = (event) => {
+  const handleInsertBlock = (event) => {
     event.preventDefault();
     const type = event.currentTarget.dataset.type;
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
-    const Modal = () => (p) => <Component curie={curie} {...p} />;
-    setModalComponent(Modal);
+    modalComponentRef.current = (p) => <Component curie={curie} {...p} />;
+    setIsModalOpen(true);
+  };
+
+  const handleInsertLink = (event) => {
+    event.preventDefault();
+    modalComponentRef.current = LinkModal;
     setIsModalOpen(true);
   };
 
   const toolbarRef = useRef(null);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
+  const [isLink, setIsLink] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
-      setIsUnderline(selection.hasFormat('underline'));
-      setIsStrikethrough(selection.hasFormat('strikethrough'));
-      setIsHighlight(selection.hasFormat('highlight'));
+    if (!$isRangeSelection(selection)) {
+      return;
+    }
+
+    setIsBold(selection.hasFormat('bold'));
+    setIsItalic(selection.hasFormat('italic'));
+    setIsUnderline(selection.hasFormat('underline'));
+    setIsStrikethrough(selection.hasFormat('strikethrough'));
+    // todo: fix highlight
+    setIsHighlight(selection.hasFormat('highlight'));
+
+    const node = getSelectedNode(selection);
+    const parent = node.getParent();
+    if ($isLinkNode(parent) || $isLinkNode(node)) {
+      setIsLink(true);
+    } else {
+      setIsLink(false);
     }
   }, []);
 
@@ -113,6 +140,13 @@ export default function ToolbarPlugin() {
           aria-label="Format Highlight">
           <i className="format highlight" />
         </button>
+        <button
+          onClick={handleInsertLink}
+          className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
+          aria-label="Insert link">
+          <i className="format link" />
+        </button>
+
         <div className="divider" />
         <UncontrolledDropdown>
           <DropdownToggle>
@@ -127,7 +161,7 @@ export default function ToolbarPlugin() {
               }
 
               return (
-                <DropdownItem key={`${item.type}${index}`} onClick={handleCreateBlock} data-type={item.type}>
+                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
                   <i className={`icon ${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
@@ -136,7 +170,7 @@ export default function ToolbarPlugin() {
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
-      <BlocksmithModal toggle={toggleModal} isOpen={isModalOpen} modal={modalComponent} />
+      <BlocksmithModal toggle={toggleModal} isOpen={isModalOpen} modal={modalComponentRef.current} />
     </>
   );
 }
