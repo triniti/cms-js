@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  UrlField
-} from '@triniti/cms/components/index.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
+import { UrlField } from '@triniti/cms/components/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
-import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field/index.js';
 import TranscodeableCard from '@triniti/cms/plugins/dam/components/asset-screen/TranscodeableCard.js';
+import VideoAssetPickerField from '@triniti/cms/plugins/dam/components/video-asset-picker-field/index.js';
 
 export default function MezzanineCard(props) {
   const { node } = props;
