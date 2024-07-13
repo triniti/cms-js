@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import Swal from 'sweetalert2';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getNodeByKey } from 'lexical';
 import { Alert } from 'reactstrap';
@@ -6,6 +7,20 @@ import { useFormContext, withPbj } from '@triniti/cms/components/index.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+
+const okayToDelete = async () => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    reverseButtons: true,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  });
+
+  return !!result.value;
+};
 
 function BlockPreview(props) {
   const { Component, onDelete, onOpen, pbj, editMode, ...rest } = props;
@@ -45,8 +60,12 @@ export default function withBlockPreview(Component) {
       toggleModal();
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
       if (!editMode) {
+        return;
+      }
+
+      if (!await okayToDelete()) {
         return;
       }
 

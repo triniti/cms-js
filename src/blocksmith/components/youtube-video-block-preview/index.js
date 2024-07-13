@@ -6,7 +6,7 @@ function YoutubeVideoBlockPreview(props) {
   const { pbj } = props;
 
   let url = `https://www.youtube.com/watch?v=${pbj.get('id')}`;
-  if (pbj.has('start_at')) {
+  if (pbj.get('start_at') > 0) {
     url += `&t=${pbj.get('start_at')}`;
   }
 
