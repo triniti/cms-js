@@ -1,6 +1,7 @@
 import React from 'react';
-import { Badge, Card, Table } from 'reactstrap';
-import { ActionButton } from '@triniti/cms/components/index.js';
+import { Badge, Button, Card, Table } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Icon } from '@triniti/cms/components/index.js';
 import formatBytes from '@triniti/cms/utils/formatBytes.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -24,11 +25,19 @@ export default function AssetTable(props) {
         {nodes.map(node => {
           const nodeRef = node.generateNodeRef();
           const transcodingStatus = `${node.get('transcoding_status', '')}`;
+          const handleRowClick = (e) => {
+            // Do nothing if element contains `data-ignore-row-click` attribute
+            if (e.target.closest('[data-ignore-row-click]')) {
+              return;
+            }
+
+            onSelectAsset(nodeRef);
+          }
 
           return (
-            <tr key={`${node.get('_id')}`} className={`status-${node.get('status')}`}>
+            <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
               <td>
-                <a href={nodeUrl(node, 'view')} target="_blank" rel="noopener noreferrer">{node.get('title')}</a>
+                {node.get('title')}
                 {transcodingStatus && (
                   <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                 )}
@@ -36,16 +45,12 @@ export default function AssetTable(props) {
               <td className="text-nowrap">{node.get('mime_type')}</td>
               <td>{formatBytes(node.get('file_size'))}</td>
               <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-              <td className="td-icons">
-                <ActionButton
-                  text="Select"
-                  onClick={() => onSelectAsset(nodeRef)}
-                  icon="save"
-                  color="light"
-                  outline
-                  tag="span"
-                  size="sm"
-                />
+              <td className="td-icons" data-ignore-row-click>
+                <Link to={nodeUrl(node, 'view')} target="_blank" rel="noopener noreferrer">
+                  <Button color="hover" tag="span">
+                    <Icon imgSrc="eye" alt="view" />
+                  </Button>
+                </Link>
               </td>
             </tr>
           );
