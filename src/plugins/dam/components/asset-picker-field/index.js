@@ -42,8 +42,9 @@ export default function AssetPickerField(props) {
     ...rest
   } = props;
   const formContext = useFormContext();
-  const { editMode, nodeRef, pbj } = formContext;
+  const { editMode, pbj } = formContext;
   const { input, meta } = useField({ ...props, validate }, formContext);
+  const nodeRef = props.nodeRef || formContext.nodeRef || null;
 
   const rootClassName = classNames(groupClassName, 'form-group');
 
