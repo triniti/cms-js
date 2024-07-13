@@ -37,15 +37,16 @@ export default function ToolbarPlugin() {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isHighlight, setIsHighlight] = useState(false);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
-      // Update text format
       setIsBold(selection.hasFormat('bold'));
       setIsItalic(selection.hasFormat('italic'));
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikethrough(selection.hasFormat('strikethrough'));
+      setIsHighlight(selection.hasFormat('highlight'));
     }
   }, []);
 
@@ -105,6 +106,12 @@ export default function ToolbarPlugin() {
           className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
           aria-label="Format Strikethrough">
           <i className="format strikethrough" />
+        </button>
+        <button
+          onClick={createHandler(FORMAT_TEXT_COMMAND, 'highlight')}
+          className={'toolbar-item spaced ' + (isHighlight ? 'active' : '')}
+          aria-label="Format Highlight">
+          <i className="format highlight" />
         </button>
         <div className="divider" />
         <UncontrolledDropdown>

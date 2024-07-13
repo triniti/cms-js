@@ -2,12 +2,6 @@
 
 > some notes so we don't forget, no explicit plans yet.  v2 is alpha stage.
 
-* Remove all use of moment.
-* simplify blocksmith modals and previews even further.
-  * eliminate embedding of external sdks (twitter, facebook, etc.)
-  * improve the parsing from social embeds and/or just provide the fields
-  * move blocksmith to its own top level dir or into plugins/canvas/blocksmith
-  * big question is to we have to move away from draftjs, since it's no longer maintained.
 * simplify raven and collaboration.  more can be done here, need to think more on this.
   * starting works and worker path resolution is not working atm.
 * media resorting and gallery management can use some tlc.
@@ -36,3 +30,4 @@
 * make sure all scrollTo or scroll into view stuff works in major browsers
 * fix ui jank when loading some modals (useMemo fixes a lot of this, ref blocksmith)
 * add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
+* fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"

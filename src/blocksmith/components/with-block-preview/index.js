@@ -60,7 +60,9 @@ export default function withBlockPreview(Component) {
       toggleModal();
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (event) => {
+      event.preventDefault();
+
       if (!editMode) {
         return;
       }

@@ -53,6 +53,10 @@
   text-decoration: underline line-through;
 }
 
+.blocksmith .text-highlight {
+  background-color: yellow;
+}
+
 .blocksmith .text-code {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
@@ -309,6 +313,11 @@ pre::-webkit-scrollbar-thumb {
 
 .blocksmith i.strikethrough {
   background-image: url(./icons/type-strikethrough.svg);
+}
+
+.blocksmith i.highlight {
+  background-image: url(./icons/type-underline.svg);
+  background-color: yellow;
 }
 
 .blocksmith i.left-align {
