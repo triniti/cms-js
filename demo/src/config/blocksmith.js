@@ -20,6 +20,7 @@ export default {
       { type: 'audio-block', text: 'Audio' },
       { type: 'document-block', text: 'Document' },
       { type: 'divider-block', text: 'Divider' },
+      { type: 'eme-form-block', text: 'EME Form' },
       { type: 'code-block', text: 'Code' },
     ],
   },
