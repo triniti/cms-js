@@ -11,7 +11,18 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import { INSERT_BLOCKSMITH_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 function BlockModal(props) {
-  const { isNew, editMode, ModalFields, delegate, form, formState, handleSubmit, pbj } = props;
+  const {
+    isNew,
+    canUpdate = true,
+    canCreate = true,
+    editMode,
+    ModalFields,
+    delegate,
+    form,
+    formState,
+    handleSubmit,
+    pbj
+  } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
   const schema = pbj.schema();
@@ -31,9 +42,11 @@ function BlockModal(props) {
     }
   };
 
+  const name = startCase(schema.getCurie().getMessage());
+
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
-      <ModalHeader toggle={props.toggle}>{startCase(schema.getCurie().getMessage())}</ModalHeader>
+      <ModalHeader toggle={props.toggle}>{name}</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
@@ -41,24 +54,21 @@ function BlockModal(props) {
         </Form>
       </ModalBody>
       <ModalFooter>
-        {!editMode && <ActionButton text="Close" onClick={props.toggle} />}
-        {editMode && (
-          <>
-            <ActionButton
-              text="Cancel"
-              onClick={props.toggle}
-              icon="close-sm"
-              color="light"
-              tabIndex="-1"
-            />
-            <ActionButton
-              text={isNew ? 'Add Block' : 'Update Block'}
-              onClick={delegate.handleUpdate}
-              disabled={submitDisabled}
-              icon={isNew ? 'plus-outline' : 'save'}
-              color="primary"
-            />
-          </>
+        <ActionButton
+          text={isNew ? 'Cancel' : 'Close'}
+          onClick={props.toggle}
+          icon="close-sm"
+          color="light"
+          tabIndex="-1"
+        />
+        {editMode && ((!isNew && canUpdate) || (isNew && canCreate)) && (
+          <ActionButton
+            text={isNew ? `Add ${name}` : `Update ${name}`}
+            onClick={delegate.handleUpdate}
+            disabled={submitDisabled}
+            icon={isNew ? 'plus-outline' : 'save'}
+            color="primary"
+          />
         )}
       </ModalFooter>
     </Modal>
@@ -77,11 +87,8 @@ export default function withBlockModal(Component) {
     const { editMode } = formContext;
 
     const isNew = !props.onUpdate;
-    const onUpdate = props.onUpdate ? props.onUpdate : (newPbj) => {
-      editor.dispatchCommand(
-        INSERT_BLOCKSMITH_BLOCK_COMMAND,
-        { curie: newPbj.schema().getCurie().toString(), pbj: newPbj.toObject() }
-      );
+    const onUpdate = !isNew ? props.onUpdate : (newPbj) => {
+      editor.dispatchCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, newPbj);
     };
 
     return (

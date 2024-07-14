@@ -11,6 +11,7 @@ import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
 export const REMOVE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
+export const REPLACE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
 export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
@@ -57,15 +58,26 @@ export default function BlocksmithPlugin(props) {
 
         form.change(name, BLOCKSMITH_DIRTY);
       }),
-      editor.registerCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, (payload) => {
-        const $node = $createBlocksmithNode(payload.curie, payload.pbj);
+      editor.registerCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, (newPbj) => {
+        const curie = newPbj.schema().getCurie().toString();
+        const $node = $createBlocksmithNode(curie, newPbj.toObject());
         $insertNodeToNearestRoot($node);
         return true;
       }, COMMAND_PRIORITY_EDITOR),
       editor.registerCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, (nodeKey) => {
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
-          $node.replace($createParagraphNode());
+          $node.remove();
+          //$node.replace($createParagraphNode());
+        }
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(REPLACE_BLOCKSMITH_BLOCK_COMMAND, (payload) => {
+        const { nodeKey, newPbj } = payload;
+        const $node = $getNodeByKey(nodeKey);
+        if ($node) {
+          const curie = newPbj.schema().getCurie().toString();
+          $node.replace($createBlocksmithNode(curie, newPbj.toObject()));
         }
         return true;
       }, COMMAND_PRIORITY_EDITOR)

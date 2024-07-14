@@ -124,6 +124,10 @@ export default (editor) => {
     }
   });
 
+  if (blocks.length === 0) {
+    return blocks;
+  }
+
   do {
     if (!isEmptyBlock(blocks[0])) {
       break;
