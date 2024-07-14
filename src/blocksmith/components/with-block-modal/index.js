@@ -42,11 +42,11 @@ function BlockModal(props) {
     }
   };
 
-  const name = startCase(schema.getCurie().getMessage());
+  const type = startCase(schema.getCurie().getMessage());
 
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
-      <ModalHeader toggle={props.toggle}>{name}</ModalHeader>
+      <ModalHeader toggle={props.toggle}>{type}</ModalHeader>
       <ModalBody className="modal-scrollable">
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
@@ -63,7 +63,7 @@ function BlockModal(props) {
         />
         {editMode && ((!isNew && canUpdate) || (isNew && canCreate)) && (
           <ActionButton
-            text={isNew ? `Add ${name}` : `Update ${name}`}
+            text={isNew ? `Add ${type}` : `Update ${type}`}
             onClick={delegate.handleUpdate}
             disabled={submitDisabled}
             icon={isNew ? 'plus-outline' : 'save'}
