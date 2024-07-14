@@ -6,6 +6,7 @@ export default {
       'separator',
       { type: 'image-block', text: 'Image' },
       { type: 'video-block', text: 'Video' },
+      { type: 'audio-block', text: 'Audio' },
     ],
   },
 };
