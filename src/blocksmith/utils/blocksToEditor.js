@@ -206,11 +206,12 @@ export default (blocks, editor) => {
 
     // better user experience to have this at the end when
     // the last node was blocksmith block.
-    if (addParagraph) {
+    if (addParagraph && editor.isEditable()) {
       $nodes.push($createParagraphNode());
     }
 
     $getRoot().clear().select();
     $insertNodes($nodes);
+    $getRoot().selectStart();
   }, { discrete: true, tag: BLOCKSMITH_HYDRATION });
 };
