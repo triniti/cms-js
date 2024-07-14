@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop.js';
-import { COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import { $createParagraphNode, $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
@@ -10,6 +10,7 @@ import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
 import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
+export const REMOVE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
 export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
@@ -57,8 +58,15 @@ export default function BlocksmithPlugin(props) {
         form.change(name, BLOCKSMITH_DIRTY);
       }),
       editor.registerCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, (payload) => {
-        const node = $createBlocksmithNode(payload.curie, payload.pbj);
-        $insertNodeToNearestRoot(node);
+        const $node = $createBlocksmithNode(payload.curie, payload.pbj);
+        $insertNodeToNearestRoot($node);
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, (nodeKey) => {
+        const $node = $getNodeByKey(nodeKey);
+        if ($node) {
+          $node.replace($createParagraphNode());
+        }
         return true;
       }, COMMAND_PRIORITY_EDITOR)
     );

@@ -7,6 +7,7 @@ import { useFormContext, withPbj } from '@triniti/cms/components/index.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import { REMOVE_BLOCKSMITH_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 const okayToDelete = async () => {
   const result = await Swal.fire({
@@ -71,12 +72,7 @@ export default function withBlockPreview(Component) {
         return;
       }
 
-      editor.update(() => {
-        const $node = $getNodeByKey(nodeKey);
-        if ($node) {
-          $node.remove();
-        }
-      });
+      editor.dispatchCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, nodeKey);
     };
 
     const handleUpdate = (newPbj) => {

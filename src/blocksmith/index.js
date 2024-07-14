@@ -4,6 +4,7 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
@@ -19,6 +20,7 @@ export default function Blocksmith(props) {
       <Card className="blocksmith">
         <BlocksmithPlugin {...props} />
         <LinkPlugin />
+        <ListPlugin />
         <ToolbarPlugin />
         <div className="blocksmith-inner">
           <RichTextPlugin

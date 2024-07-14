@@ -10,23 +10,24 @@ const removeAttributes = (element) => {
   element.removeAttribute('style');
   element.removeAttribute('dir');
   element.removeAttribute('class');
+  element.removeAttribute('value');
 
   for (const child of element.children) {
     removeAttributes(child);
   }
 };
 
-const appendNode = (editor, node, container) => {
-  const shouldExclude = $isElementNode(node) && node.excludeFromCopy('html');
-  const children = $isElementNode(node) ? node.getChildren() : [];
-  const registeredNode = editor._nodes.get(node.getType());
+const appendNode = (editor, $node, container) => {
+  const shouldExclude = $isElementNode($node) && $node.excludeFromCopy('html');
+  const $children = $isElementNode($node) ? $node.getChildren() : [];
+  const $registeredNode = editor._nodes.get($node.getType());
 
   // Use HTMLConfig overrides, if available.
   let exportOutput;
-  if (registeredNode && registeredNode.exportDOM !== undefined) {
-    exportOutput = registeredNode.exportDOM(editor, node);
+  if ($registeredNode && $registeredNode.exportDOM !== undefined) {
+    exportOutput = $registeredNode.exportDOM(editor, $node);
   } else {
-    exportOutput = node.exportDOM(editor);
+    exportOutput = $node.exportDOM(editor);
   }
 
   const { element, after } = exportOutput;
@@ -36,8 +37,8 @@ const appendNode = (editor, node, container) => {
 
   removeAttributes(element);
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < children.length; i++) {
-    appendNode(editor, children[i], fragment);
+  for (let i = 0; i < $children.length; i++) {
+    appendNode(editor, $children[i], fragment);
   }
 
   if (shouldExclude) {
@@ -52,7 +53,7 @@ const appendNode = (editor, node, container) => {
   container.append(element);
 
   if (after) {
-    const newElement = after.call(node, element);
+    const newElement = after.call($node, element);
     removeAttributes(newElement);
     if (newElement) {
       element.replaceWith(newElement);
@@ -74,15 +75,23 @@ const sanitizeHtml = (html) => {
     ;
 };
 
-const nodeToHtml = (editor, node) => {
+const nodeToHtml = (editor, $node) => {
   const container = document.createElement('div');
-  appendNode(editor, node, container);
-  const html = sanitizeHtml(container.innerHTML) || '';
-  if (html === '<p><br></p>') {
-    return '';
+  appendNode(editor, $node, container);
+  return sanitizeHtml(container.innerHTML) || '';
+};
+
+const EMPTY_TEXT_BLOCKS = ['<p><br></p>', '<ol><li></li></ol>', '<ul><li></li></ul>'];
+const isEmptyBlock = (block) => {
+  if (!block._schema.includes('text-block')) {
+    return false;
   }
 
-  return html;
+  for (let i = 0; i < EMPTY_TEXT_BLOCKS.length; i++) {
+    if (block.text === EMPTY_TEXT_BLOCKS[i]) {
+      return true;
+    }
+  }
 };
 
 // do we need to handle css_class and updated_date on text? one wonders. i hope the fuck not.
@@ -101,19 +110,33 @@ export default (editor) => {
   const blocks = [];
 
   editorState.read(() => {
-    const nodes = $getRoot().getChildren();
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-      if ($isBlocksmithNode(node)) {
-        blocks.push(node.exportJSON().__pbj);
+    const $nodes = $getRoot().getChildren();
+    for (let i = 0; i < $nodes.length; i++) {
+      const $node = $nodes[i];
+      if ($isBlocksmithNode($node)) {
+        blocks.push($node.exportJSON().__pbj);
       } else {
-        const html = nodeToHtml(editor, node).trim();
+        const html = nodeToHtml(editor, $node).trim();
         if (html) {
           blocks.push(createTextBlock(html));
         }
       }
     }
   });
+
+  do {
+    if (!isEmptyBlock(blocks[0])) {
+      break;
+    }
+    blocks.shift();
+  } while (blocks.length > 0);
+
+  do {
+    if (!isEmptyBlock(blocks[blocks.length - 1])) {
+      break;
+    }
+    blocks.pop();
+  } while (blocks.length > 0);
 
   return blocks;
 };
