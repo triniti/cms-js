@@ -26,11 +26,11 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Widgets</CardHeader>
         <CardBody>
-          <CardText>
+          <CardText className="pb-2">
             A single promotion can handle an entire screen of a website or application.
             Widgets are placed into slots using the
             new <a href="https://github.com/triniti/schemas/blob/master/schemas/triniti/curator/slot/latest.xml" rel="noopener noreferrer" target="_blank">slot</a> object
-            which determines how the widget is loaded and where it renders.<br/><br/>
+            which determines how the widget is loaded and where it renders.
           </CardText>
           <SortableSlots />
         </CardBody>

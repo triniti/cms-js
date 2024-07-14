@@ -1,7 +1,9 @@
 import { isBlockDomNode } from '@lexical/utils';
 import {
   $createLineBreakNode,
-  $createParagraphNode, $getRoot, $insertNodes,
+  $createParagraphNode,
+  $getRoot,
+  $insertNodes,
   $isBlockElementNode,
   $isElementNode,
   $isRootOrShadowRoot,
@@ -186,20 +188,29 @@ const htmlToNode = (editor, dom) => {
 export default (blocks, editor) => {
   editor.update(() => {
     const parser = new DOMParser();
-    const nodes = [];
+    const $nodes = [];
+    let addParagraph = false;
     for (const block of blocks) {
       const curie = block.schema().getCurie();
       if (curie.getMessage() === 'text-block') {
         if (block.has('text')) {
           const dom = parser.parseFromString(block.get('text'), 'text/html');
-          nodes.push(...htmlToNode(editor, dom));
+          $nodes.push(...htmlToNode(editor, dom));
+          addParagraph = false;
         }
       } else {
-        nodes.push($createBlocksmithNode(curie.toString(), block.toObject()));
+        $nodes.push($createBlocksmithNode(curie.toString(), block.toObject()));
+        addParagraph = true;
       }
     }
 
+    // better user experience to have this at the end when
+    // the last node was blocksmith block.
+    if (addParagraph) {
+      $nodes.push($createParagraphNode());
+    }
+
     $getRoot().clear().select();
-    $insertNodes(nodes);
+    $insertNodes($nodes);
   }, { discrete: true, tag: BLOCKSMITH_HYDRATION });
 };

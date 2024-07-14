@@ -3,18 +3,18 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import {
   $getSelection,
   $isRangeSelection,
+  $isRootOrShadowRoot,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import { $findMatchingParent, mergeRegister } from '@lexical/utils';
+import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import {
   $isListNode,
-  INSERT_CHECK_LIST_COMMAND,
-  INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND,
   ListNode,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
@@ -26,8 +26,18 @@ import config from '@triniti/cms/blocksmith/config.js';
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef();
+  const toolbarRef = useRef(null);
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isLink, setIsLink] = useState(false);
+  const [isUnderline, setIsUnderline] = useState(false);
+  const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isHighlight, setIsHighlight] = useState(false);
   const [selectedLink, setSelectedLink] = useState(null);
-  const modalComponentRef = useRef();
+  const [blockType, setBlockType] = useState('paragraph');
+  const isBulletList = blockType === 'bullet';
+  const isNumberList = blockType === 'number';
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -38,23 +48,15 @@ export default function ToolbarPlugin() {
     const type = event.currentTarget.dataset.type;
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
-    modalComponentRef.current = (p) => <Component curie={curie} {...p} />;
+    modalRef.current = (p) => <Component curie={curie} {...p} />;
     setIsModalOpen(true);
   };
 
   const handleInsertLink = (event) => {
     event.preventDefault();
-    modalComponentRef.current = LinkModal;
+    modalRef.current = LinkModal;
     setIsModalOpen(true);
   };
-
-  const toolbarRef = useRef(null);
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isLink, setIsLink] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const [isHighlight, setIsHighlight] = useState(false);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -66,6 +68,7 @@ export default function ToolbarPlugin() {
       setIsHighlight(false);
       setIsLink(false);
       setSelectedLink(null);
+      setBlockType('paragraph');
       return;
     }
 
@@ -76,18 +79,41 @@ export default function ToolbarPlugin() {
     // todo: fix highlight
     setIsHighlight(selection.hasFormat('highlight'));
 
-    const node = getSelectedNode(selection);
-    const parent = node.getParent();
-    if ($isLinkNode(parent)) {
+    const $node = getSelectedNode(selection);
+    const $parent = $node.getParent();
+    if ($isLinkNode($parent)) {
       setIsLink(true);
-      setSelectedLink(parent.exportJSON());
-    } else if ($isLinkNode(node)) {
+      setSelectedLink($parent.exportJSON());
+    } else if ($isLinkNode($node)) {
       setIsLink(true);
-      setSelectedLink(node.exportJSON());
+      setSelectedLink($node.exportJSON());
     } else {
       setIsLink(false);
       setSelectedLink(null);
     }
+
+    const anchorNode = selection.anchor.getNode();
+    let element = anchorNode.getKey() === 'root'
+      ? anchorNode
+      : $findMatchingParent(anchorNode, (e) => {
+        const parent = e.getParent();
+        return parent !== null && $isRootOrShadowRoot(parent);
+      });
+
+    if (element === null) {
+      element = anchorNode.getTopLevelElementOrThrow();
+    }
+
+    const elementKey = element.getKey();
+    const elementDOM = editor.getElementByKey(elementKey);
+    let newBlockType = element.getType();
+
+    if (elementDOM !== null && $isListNode(element)) {
+      const parentList = $getNearestNodeOfType(anchorNode, ListNode);
+      newBlockType = parentList ? parentList.getListType() : element.getListType();
+    }
+
+    setBlockType(newBlockType);
   }, []);
 
   useEffect(() => {
@@ -153,12 +179,24 @@ export default function ToolbarPlugin() {
           aria-label="Format Highlight">
           <i className="format highlight" />
         </button>
+        <button
+          onClick={createHandler(isNumberList ? REMOVE_LIST_COMMAND : INSERT_ORDERED_LIST_COMMAND)}
+          className={'toolbar-item spaced ' + (isNumberList ? 'active' : '')}
+          aria-label="Ordered List">
+          <i className="format ordered-list" />OL
+        </button>
+        <button
+          onClick={createHandler(isBulletList ? REMOVE_LIST_COMMAND : INSERT_UNORDERED_LIST_COMMAND)}
+          className={'toolbar-item spaced ' + (isBulletList ? 'active' : '')}
+          aria-label="Unordered List">
+          <i className="format unordered" />UL
+        </button>
         {!isLink && (
           <button
             onClick={handleInsertLink}
             className="toolbar-item spaced"
             aria-label="Insert link">
-            <i className="format link" />
+            <i className="format link" />Link
           </button>
         )}
         {isLink && (
@@ -167,13 +205,13 @@ export default function ToolbarPlugin() {
               onClick={handleInsertLink}
               className="toolbar-item spaced active"
               aria-label="Edit link">
-              <i className="format unlink" />
+              <i className="format unlink" />Link
             </button>
             <button
               onClick={createHandler(TOGGLE_LINK_COMMAND, null)}
               className="toolbar-item spaced active"
               aria-label="Remove link">
-              <i className="format unlink" />
+              <i className="format unlink" />Remove Link
             </button>
           </>
         )}
@@ -204,7 +242,7 @@ export default function ToolbarPlugin() {
       <BlocksmithModal
         toggle={toggleModal}
         isOpen={isModalOpen}
-        modal={modalComponentRef.current}
+        modal={modalRef.current}
         selectedLink={selectedLink}
       />
     </>

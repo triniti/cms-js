@@ -1,5 +1,6 @@
 import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
 import customConfig from '@triniti/app/config/blocksmith.js';
 
 const config = {
@@ -7,6 +8,8 @@ const config = {
   nodes: [
     BlocksmithNode,
     LinkNode,
+    ListNode,
+    ListItemNode,
   ],
   onError: (error) => {
     // todo: send errors to raven?
