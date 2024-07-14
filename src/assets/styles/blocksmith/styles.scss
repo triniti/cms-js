@@ -53,88 +53,13 @@
   text-decoration: underline line-through;
 }
 
-.blocksmith .text-code {
-  background-color: rgb(240, 242, 245);
-  padding: 1px 0.25rem;
-  font-family: Menlo, Consolas, Monaco, monospace;
-  font-size: 94%;
+.blocksmith .text-highlight {
+  background-color: yellow;
 }
 
-.blocksmith .link {
+.blocksmith a {
   color: rgb(33, 111, 219);
   text-decoration: none;
-}
-
-.blocksmith .code {
-  background-color: rgb(240, 242, 245);
-  font-family: Menlo, Consolas, Monaco, monospace;
-  display: block;
-  padding: 8px 8px 8px 52px;
-  line-height: 1.53;
-  font-size: 13px;
-  margin: 0;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  tab-size: 2;
-  /* white-space: pre; */
-  overflow-x: auto;
-  position: relative;
-}
-
-.blocksmith .code:before {
-  content: attr(data-gutter);
-  position: absolute;
-  background-color: #eee;
-  left: 0;
-  top: 0;
-  border-right: 1px solid #ccc;
-  padding: 8px;
-  color: #777;
-  white-space: pre-wrap;
-  text-align: right;
-  min-width: 25px;
-}
-.blocksmith .code:after {
-  content: attr(data-highlight-language);
-  top: 0;
-  right: 3px;
-  padding: 3px;
-  font-size: 10px;
-  text-transform: uppercase;
-  position: absolute;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.blocksmith .tokenComment {
-  color: slategray;
-}
-
-.blocksmith .tokenPunctuation {
-  color: #999;
-}
-
-.blocksmith .tokenProperty {
-  color: #905;
-}
-
-.blocksmith .tokenSelector {
-  color: #690;
-}
-
-.blocksmith .tokenOperator {
-  color: #9a6e3a;
-}
-
-.blocksmith .tokenAttr {
-  color: #07a;
-}
-
-.blocksmith .tokenVariable {
-  color: #e90;
-}
-
-.blocksmith .tokenFunction {
-  color: #dd4a68;
 }
 
 .blocksmith .paragraph {
@@ -145,36 +70,6 @@
 
 .blocksmith .paragraph:last-child {
   margin-bottom: 0;
-}
-
-.blocksmith .heading-h1 {
-  font-size: 24px;
-  color: rgb(5, 5, 5);
-  font-weight: 400;
-  margin: 0;
-  margin-bottom: 12px;
-  padding: 0;
-}
-
-.blocksmith .heading-h2 {
-  font-size: 15px;
-  color: rgb(101, 103, 107);
-  font-weight: 700;
-  margin: 0;
-  margin-top: 10px;
-  padding: 0;
-  text-transform: uppercase;
-}
-
-.blocksmith .quote {
-  margin: 0;
-  margin-left: 20px;
-  font-size: 15px;
-  color: rgb(101, 103, 107);
-  border-left-color: rgb(206, 208, 212);
-  border-left-width: 4px;
-  border-left-style: solid;
-  padding-left: 16px;
 }
 
 .blocksmith .list-ol {
@@ -287,16 +182,13 @@ pre::-webkit-scrollbar-thumb {
   background-size: contain;
 }
 
-.blocksmith i.undo {
-  background-image: url(./icons/arrow-counterclockwise.svg);
-}
-
-.blocksmith i.redo {
-  background-image: url(./icons/arrow-clockwise.svg);
-}
-
 .blocksmith i.bold {
   background-image: url(./icons/type-bold.svg);
+}
+
+.blocksmith i.highlight {
+  background-image: url(./icons/type-underline.svg);
+  background-color: yellow;
 }
 
 .blocksmith i.italic {
@@ -311,18 +203,3 @@ pre::-webkit-scrollbar-thumb {
   background-image: url(./icons/type-strikethrough.svg);
 }
 
-.blocksmith i.left-align {
-  background-image: url(./icons/text-left.svg);
-}
-
-.blocksmith i.center-align {
-  background-image: url(./icons/text-center.svg);
-}
-
-.blocksmith i.right-align {
-  background-image: url(./icons/text-right.svg);
-}
-
-.blocksmith i.justify-align {
-  background-image: url(./icons/justify.svg);
-}
