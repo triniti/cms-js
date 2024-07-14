@@ -16,6 +16,7 @@ export default {
       { type: 'youtube-video-block', text: 'YouTube Video' },
       'separator',
       { type: 'image-block', text: 'Image' },
+      { type: 'gallery-block', text: 'Gallery' },
       { type: 'video-block', text: 'Video' },
       { type: 'audio-block', text: 'Audio' },
       { type: 'document-block', text: 'Document' },
