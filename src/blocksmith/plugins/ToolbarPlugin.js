@@ -17,6 +17,7 @@ import {
   INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
@@ -24,6 +25,7 @@ import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
 export default function ToolbarPlugin() {
+  const policy = usePolicy();
   const [editor] = useLexicalComposerContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef();
@@ -48,7 +50,7 @@ export default function ToolbarPlugin() {
     const type = event.currentTarget.dataset.type;
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
-    modalRef.current = (p) => <Component curie={curie} {...p} />;
+    modalRef.current = (p) => <Component curie={curie} canCreate {...p} />;
     setIsModalOpen(true);
   };
 
@@ -227,6 +229,10 @@ export default function ToolbarPlugin() {
                 return (
                   <hr key={`${item}${index}`} />
                 );
+              }
+
+              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+                return null;
               }
 
               return (
