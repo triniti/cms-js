@@ -77,7 +77,7 @@ function BlockModal(props) {
 
 export default function withBlockModal(Component) {
   return function ComponentWithBlockModal(props) {
-    const { curie, pbj } = props;
+    const { curie, pbj, canUpdate = false, canCreate = false } = props;
     const BlockModalWithPbj = useMemo(() => {
       return pbj instanceof Message ? withForm(BlockModal) : withPbj(withForm(BlockModal), curie, pbj);
     }, [curie, pbj]);
@@ -96,7 +96,7 @@ export default function withBlockModal(Component) {
         {...props}
         ModalFields={Component}
         editor={editor}
-        editMode={editMode}
+        editMode={editMode && (canUpdate || canCreate)}
         containerFormContext={formContext}
         onUpdate={onUpdate}
         isNew={isNew}

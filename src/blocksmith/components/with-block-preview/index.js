@@ -32,8 +32,8 @@ function BlockPreview(props) {
     onOpen,
     pbj,
     editMode,
-    canUpdate = true,
-    canDelete = true,
+    canUpdate = false,
+    canDelete = false,
     ...rest
   } = props;
   const schema = pbj.schema();
@@ -42,16 +42,8 @@ function BlockPreview(props) {
     <Alert color="info">
       <legend>{schema.getCurie().getMessage()}</legend>
       <Component {...rest} pbj={pbj} />
-      {!editMode && (
-        <button onClick={onOpen}>view</button>
-      )}
-      {editMode && (
-        <>
-          {canUpdate && <button onClick={onOpen}>edit</button>}
-          -
-          {canDelete && <button onClick={onDelete}>delete</button>}
-        </>
-      )}
+      <button onClick={onOpen}>{editMode && canUpdate ? 'edit' : 'view'}</button>
+      {editMode && canDelete && <button onClick={onDelete}>delete</button>}
     </Alert>
   );
 }
