@@ -21,6 +21,7 @@ export default {
       { type: 'document-block', text: 'Document' },
       { type: 'divider-block', text: 'Divider' },
       { type: 'eme-form-block', text: 'EME Form' },
+      { type: 'facebook-post-block', text: 'Facebook Post' },
       { type: 'code-block', text: 'Code' },
     ],
   },
