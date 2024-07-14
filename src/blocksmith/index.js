@@ -8,7 +8,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
-import config from '@triniti/app/config/blocksmith.js';
+import config from '@triniti/cms/blocksmith/config.js';
 
 export default function Blocksmith(props) {
   const { editMode } = useFormContext();

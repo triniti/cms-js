@@ -21,7 +21,7 @@ import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js'
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
-import config from '@triniti/app/config/blocksmith.js';
+import config from '@triniti/cms/blocksmith/config.js';
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
