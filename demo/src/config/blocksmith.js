@@ -14,11 +14,12 @@ export default {
     blocks: [
       { type: 'article-block', text: 'Article' },
       { type: 'youtube-video-block', text: 'YouTube Video' },
-      { type: 'divider-block', text: 'Divider' },
       'separator',
       { type: 'image-block', text: 'Image' },
       { type: 'video-block', text: 'Video' },
       { type: 'audio-block', text: 'Audio' },
+      { type: 'document-block', text: 'Document' },
+      { type: 'divider-block', text: 'Divider' },
       { type: 'code-block', text: 'Code' },
     ],
   },
