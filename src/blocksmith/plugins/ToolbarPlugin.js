@@ -26,6 +26,7 @@ import config from '@triniti/app/config/blocksmith.js';
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedLink, setSelectedLink] = useState(null);
   const modalComponentRef = useRef();
 
   const toggleModal = () => {
@@ -58,6 +59,13 @@ export default function ToolbarPlugin() {
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if (!$isRangeSelection(selection)) {
+      setIsBold(false);
+      setIsItalic(false);
+      setIsUnderline(false);
+      setIsStrikethrough(false);
+      setIsHighlight(false);
+      setIsLink(false);
+      setSelectedLink(null);
       return;
     }
 
@@ -70,10 +78,15 @@ export default function ToolbarPlugin() {
 
     const node = getSelectedNode(selection);
     const parent = node.getParent();
-    if ($isLinkNode(parent) || $isLinkNode(node)) {
+    if ($isLinkNode(parent)) {
       setIsLink(true);
+      setSelectedLink(parent.exportJSON());
+    } else if ($isLinkNode(node)) {
+      setIsLink(true);
+      setSelectedLink(node.exportJSON());
     } else {
       setIsLink(false);
+      setSelectedLink(null);
     }
   }, []);
 
@@ -93,7 +106,7 @@ export default function ToolbarPlugin() {
         COMMAND_PRIORITY_LOW,
       ),
     );
-  }, [editor, $updateToolbar]);
+  }, [editor, $updateToolbar, isModalOpen]);
 
   // we don't want buttons submitting the main form
   const createHandler = (command, payload) => {
@@ -140,12 +153,30 @@ export default function ToolbarPlugin() {
           aria-label="Format Highlight">
           <i className="format highlight" />
         </button>
-        <button
-          onClick={handleInsertLink}
-          className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
-          aria-label="Insert link">
-          <i className="format link" />
-        </button>
+        {!isLink && (
+          <button
+            onClick={handleInsertLink}
+            className="toolbar-item spaced"
+            aria-label="Insert link">
+            <i className="format link" />
+          </button>
+        )}
+        {isLink && (
+          <>
+            <button
+              onClick={handleInsertLink}
+              className="toolbar-item spaced active"
+              aria-label="Edit link">
+              <i className="format unlink" />
+            </button>
+            <button
+              onClick={createHandler(TOGGLE_LINK_COMMAND, null)}
+              className="toolbar-item spaced active"
+              aria-label="Remove link">
+              <i className="format unlink" />
+            </button>
+          </>
+        )}
 
         <div className="divider" />
         <UncontrolledDropdown>
@@ -170,7 +201,12 @@ export default function ToolbarPlugin() {
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
-      <BlocksmithModal toggle={toggleModal} isOpen={isModalOpen} modal={modalComponentRef.current} />
+      <BlocksmithModal
+        toggle={toggleModal}
+        isOpen={isModalOpen}
+        modal={modalComponentRef.current}
+        selectedLink={selectedLink}
+      />
     </>
   );
 }

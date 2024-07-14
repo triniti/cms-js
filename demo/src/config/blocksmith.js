@@ -1,9 +1,11 @@
 import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import { LinkNode } from '@lexical/link';
 
 export default {
   namespace: 'blocksmith',
   nodes: [
     BlocksmithNode,
+    LinkNode,
   ],
   onError: (error) => {
     console.error('blocksmith.error', error);
