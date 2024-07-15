@@ -23,6 +23,7 @@ export default {
       { type: 'audio-block', text: 'Audio' },
       { type: 'document-block', text: 'Document' },
       { type: 'divider-block', text: 'Divider' },
+      { type: 'page-break-block', text: 'Page Break' },
       { type: 'eme-form-block', text: 'EME Form' },
       { type: 'facebook-post-block', text: 'Facebook Post' },
       { type: 'facebook-video-block', text: 'Facebook Video' },
@@ -31,6 +32,7 @@ export default {
       { type: 'iframe-block', text: 'Iframe' },
       { type: 'imgur-post-block', text: 'Imgur Post' },
       { type: 'instagram-media-block', text: 'Instagram Media' },
+      { type: 'pinterest-pin-block', text: 'Pinterest Pin' },
     ],
   },
 };
