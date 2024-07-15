@@ -20,6 +20,7 @@ export default {
       { type: 'poll-grid-block', text: 'Poll Grid' },
       { type: 'twitter-tweet-block', text: 'Twitter Tweet' },
       { type: 'youtube-video-block', text: 'YouTube Video' },
+      { type: 'youtube-playlist-block', text: 'YouTube Playlist' },
       'separator',
       { type: 'image-block', text: 'Image' },
       { type: 'gallery-block', text: 'Gallery' },
