@@ -37,6 +37,7 @@ export default {
       { type: 'instagram-media-block', text: 'Instagram Media' },
       { type: 'pinterest-pin-block', text: 'Pinterest Pin' },
       { type: 'soundcloud-audio-block', text: 'SoundCloud Audio' },
+      { type: 'spotify-embed-block', text: 'Spotify Embed' },
     ],
   },
 };
