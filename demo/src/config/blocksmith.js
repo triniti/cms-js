@@ -24,6 +24,7 @@ export default {
       { type: 'eme-form-block', text: 'EME Form' },
       { type: 'facebook-post-block', text: 'Facebook Post' },
       { type: 'facebook-video-block', text: 'Facebook Video' },
+      { type: 'google-map-block', text: 'Google Map' },
       { type: 'code-block', text: 'Code' },
     ],
   },
