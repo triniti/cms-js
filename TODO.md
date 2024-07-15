@@ -29,3 +29,4 @@
 * blocksmith -- add emojis inserter thingy
 * blocksmith -- add draggable nodes feature
 * blocksmith -- add word count indicator (dynamic or nah?)
+* blocksmith -- text undo/redo?
