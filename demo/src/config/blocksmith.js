@@ -38,6 +38,8 @@ export default {
       { type: 'pinterest-pin-block', text: 'Pinterest Pin' },
       { type: 'soundcloud-audio-block', text: 'SoundCloud Audio' },
       { type: 'spotify-embed-block', text: 'Spotify Embed' },
+      { type: 'tiktok-embed-block', text: 'TikTok Embed' },
+      { type: 'tumblr-post-block', text: 'Tumblr Post' },
     ],
   },
 };
