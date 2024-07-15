@@ -23,8 +23,9 @@ function BlockModal(props) {
     handleSubmit,
     pbj
   } = props;
+
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
-  const submitDisabled = submitting || !dirty || (!valid && !hasSubmitErrors);
+  const submitDisabled = submitting || !valid || (!isNew && !dirty);
   const schema = pbj.schema();
 
   delegate.handleUpdate = form.submit;
