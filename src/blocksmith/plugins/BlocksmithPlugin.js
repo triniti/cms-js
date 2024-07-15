@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop.js';
-import { $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import { $createParagraphNode, $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
@@ -68,8 +68,8 @@ export default function BlocksmithPlugin(props) {
       editor.registerCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, (nodeKey) => {
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
-          $node.remove();
-          //$node.replace($createParagraphNode());
+          //$node.remove();
+          $node.replace($createParagraphNode());
         }
         return true;
       }, COMMAND_PRIORITY_EDITOR),

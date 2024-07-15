@@ -137,7 +137,7 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar, isModalOpen]);
 
   // we don't want buttons submitting the main form
-  const createHandler = (command, payload) => {
+  const createHandler = (command, payload = null) => {
     return (event) => {
       event.preventDefault();
       editor.dispatchCommand(command, payload);
@@ -153,66 +153,57 @@ export default function ToolbarPlugin() {
       <div className="toolbar sticky-top" ref={toolbarRef}>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'bold')}
-          className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
-          aria-label="Format Bold">
+          className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
+        >
           <i className="format bold" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'italic')}
-          className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
-          aria-label="Format Italics">
+          className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
+        >
           <i className="format italic" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'underline')}
-          className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
-          aria-label="Format Underline">
+          className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
+        >
           <i className="format underline" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'strikethrough')}
-          className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
-          aria-label="Format Strikethrough">
+          className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`}
+        >
           <i className="format strikethrough" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'highlight')}
-          className={'toolbar-item spaced ' + (isHighlight ? 'active' : '')}
-          aria-label="Format Highlight">
+          className={`toolbar-item spaced ${isHighlight ? 'active' : ''}`}
+        >
           <i className="format highlight" />
         </button>
         <button
           onClick={createHandler(isNumberList ? REMOVE_LIST_COMMAND : INSERT_ORDERED_LIST_COMMAND)}
-          className={'toolbar-item spaced ' + (isNumberList ? 'active' : '')}
-          aria-label="Ordered List">
-          <i className="format ordered-list" />OL
+          className={`toolbar-item spaced ${isNumberList ? 'active' : ''}`}
+        >
+          <i className="format number-list" />OL
         </button>
         <button
           onClick={createHandler(isBulletList ? REMOVE_LIST_COMMAND : INSERT_UNORDERED_LIST_COMMAND)}
-          className={'toolbar-item spaced ' + (isBulletList ? 'active' : '')}
-          aria-label="Unordered List">
-          <i className="format unordered" />UL
+          className={`toolbar-item spaced ${isBulletList ? 'active' : ''}`}
+        >
+          <i className="format bullet-list" />UL
         </button>
         {!isLink && (
-          <button
-            onClick={handleInsertLink}
-            className="toolbar-item spaced"
-            aria-label="Insert link">
+          <button onClick={handleInsertLink} className="toolbar-item spaced">
             <i className="format link" />Link
           </button>
         )}
         {isLink && (
           <>
-            <button
-              onClick={handleInsertLink}
-              className="toolbar-item spaced active"
-              aria-label="Edit link">
+            <button onClick={handleInsertLink} className="toolbar-item spaced active">
               <i className="format unlink" />Link
             </button>
-            <button
-              onClick={createHandler(TOGGLE_LINK_COMMAND, null)}
-              className="toolbar-item spaced active"
-              aria-label="Remove link">
+            <button onClick={createHandler(TOGGLE_LINK_COMMAND)} className="toolbar-item spaced active">
               <i className="format unlink" />Remove Link
             </button>
           </>
@@ -225,6 +216,31 @@ export default function ToolbarPlugin() {
           </DropdownToggle>
           <DropdownMenu>
             {config.toolbar.blocks.map((item, index) => {
+              if (item === 'separator') {
+                return (
+                  <hr key={`${item}${index}`} />
+                );
+              }
+
+              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+                return null;
+              }
+
+              return (
+                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
+                  <i className={`icon ${item.type}`} />
+                  <span className="text">{item.text}</span>
+                </DropdownItem>
+              );
+            })}
+          </DropdownMenu>
+        </UncontrolledDropdown>
+        <UncontrolledDropdown>
+          <DropdownToggle>
+            Insert Social Block
+          </DropdownToggle>
+          <DropdownMenu>
+            {config.toolbar.externalBlocks.map((item, index) => {
               if (item === 'separator') {
                 return (
                   <hr key={`${item}${index}`} />
