@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop.js';
-import { $createParagraphNode, $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import { $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
@@ -8,6 +8,7 @@ import { useFormContext } from '@triniti/cms/components/index.js';
 import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
 import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
 import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
+import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm.js';
 
 export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
 export const REMOVE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
@@ -96,7 +97,7 @@ export default function BlocksmithPlugin(props) {
     setTimeout(() => {
       const blocks = pbj.get('blocks', []);
       blocksToEditor(blocks, editor);
-      initialValueRef.current = blocks.length > 0 ? blocks.map(b => b.toObject()) : undefined;
+      initialValueRef.current = blocks.length > 0 ? blocks.map(b => marshalToFinalForm(b.toObject())) : undefined;
       form.registerField(name, noop, {}, {
         isEqual: areBlocksEqual,
         initialValue: initialValueRef.current,
