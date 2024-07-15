@@ -28,6 +28,5 @@
 * add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
 * fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
 * blocksmith -- add emojis inserter thingy
-* blocksmith -- add lists insert to toolbar
 * blocksmith -- add draggable nodes feature
 * blocksmith -- add word count indicator (dynamic or nah?)
