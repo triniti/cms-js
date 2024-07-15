@@ -13,6 +13,7 @@ export default {
   toolbar: {
     blocks: [
       { type: 'article-block', text: 'Article' },
+      { type: 'heading-block', text: 'Heading' },
       { type: 'youtube-video-block', text: 'YouTube Video' },
       'separator',
       { type: 'image-block', text: 'Image' },
@@ -26,6 +27,7 @@ export default {
       { type: 'facebook-video-block', text: 'Facebook Video' },
       { type: 'google-map-block', text: 'Google Map' },
       { type: 'code-block', text: 'Code' },
+      { type: 'iframe-block', text: 'Iframe' },
     ],
   },
 };

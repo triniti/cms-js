@@ -1,6 +1,7 @@
 import { $getRoot, $isElementNode } from 'lexical';
 import { isHTMLElement } from '@lexical/utils';
 import { $isBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm.js';
 
 const removeAttributes = (element) => {
   if (!isHTMLElement(element)) {
@@ -114,7 +115,7 @@ export default (editor) => {
     for (let i = 0; i < $nodes.length; i++) {
       const $node = $nodes[i];
       if ($isBlocksmithNode($node)) {
-        blocks.push($node.exportJSON().__pbj);
+        blocks.push(marshalToFinalForm($node.exportJSON().__pbj));
       } else {
         const html = nodeToHtml(editor, $node).trim();
         if (html) {
