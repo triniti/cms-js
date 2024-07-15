@@ -41,6 +41,7 @@ export default {
       { type: 'spotify-embed-block', text: 'Spotify Embed' },
       { type: 'tiktok-embed-block', text: 'TikTok Embed' },
       { type: 'tumblr-post-block', text: 'Tumblr Post' },
+      { type: 'vimeo-video-block', text: 'Vimeo Video' },
     ],
   },
 };
