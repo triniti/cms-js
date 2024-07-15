@@ -18,6 +18,7 @@ export default {
       { type: 'quote-block', text: 'Quote' },
       { type: 'poll-block', text: 'Poll' },
       { type: 'poll-grid-block', text: 'Poll Grid' },
+      { type: 'twitter-tweet-block', text: 'Twitter Tweet' },
       { type: 'youtube-video-block', text: 'YouTube Video' },
       'separator',
       { type: 'image-block', text: 'Image' },
