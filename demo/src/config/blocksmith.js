@@ -15,6 +15,7 @@ export default {
       { type: 'image-block', text: 'Image' },
       { type: 'heading-block', text: 'Heading' },
       { type: 'article-block', text: 'Article' },
+      { type: 'quote-block', text: 'Quote' },
       { type: 'poll-block', text: 'Poll' },
       { type: 'poll-grid-block', text: 'Poll Grid' },
       { type: 'youtube-video-block', text: 'YouTube Video' },
