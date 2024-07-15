@@ -29,6 +29,8 @@ export default {
       { type: 'google-map-block', text: 'Google Map' },
       { type: 'code-block', text: 'Code' },
       { type: 'iframe-block', text: 'Iframe' },
+      { type: 'imgur-post-block', text: 'Imgur Post' },
+      { type: 'instagram-media-block', text: 'Instagram Media' },
     ],
   },
 };
