@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Alert } from 'reactstrap';
-import { useFormContext, withPbj } from '@triniti/cms/components/index.js';
+import { Alert, Badge } from 'reactstrap';
+import { useFormContext, withPbj, ActionButton } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
@@ -39,11 +39,25 @@ function BlockPreview(props) {
   const schema = pbj.schema();
 
   return (
-    <Alert color="info">
-      <legend>{schema.getCurie().getMessage()}</legend>
+    <Alert color="dark">
+      <Badge color="dark">{schema.getCurie().getMessage()}</Badge>
       <Component {...rest} pbj={pbj} />
-      <button onClick={onOpen}>{editMode && canUpdate ? 'edit' : 'view'}</button>
-      {editMode && canDelete && <button onClick={onDelete}>delete</button>}
+      <ActionButton
+        onClick={onOpen}
+        text={editMode && canUpdate ? 'Edit' : 'View'}
+        icon={editMode && canUpdate ? 'pencil' : 'eye'}
+        color="light"
+        outline
+      />
+      {editMode && canDelete && (
+        <ActionButton
+          onClick={onDelete}
+          text="Delete"
+          icon="trash"
+          color="danger"
+          outline
+        />
+      )}
     </Alert>
   );
 }

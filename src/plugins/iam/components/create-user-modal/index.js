@@ -46,7 +46,7 @@ function CreateUserModal(props) {
   return (
     <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Create User</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="first_name" label="First Name" required />

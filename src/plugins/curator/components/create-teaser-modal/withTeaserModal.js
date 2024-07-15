@@ -49,7 +49,7 @@ export default function withTeaserModal(ModalFields) {
       <>
         <ModalHeader>Create {label}</ModalHeader>
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <ModalBody className="modal-scrollable">
+          <ModalBody>
             {hasSubmitErrors && <FormErrors errors={submitErrors} />}
             <ModalFields {...props} />
           </ModalBody>
