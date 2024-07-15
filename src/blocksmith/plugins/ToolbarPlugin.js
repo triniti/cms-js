@@ -235,6 +235,31 @@ export default function ToolbarPlugin() {
             })}
           </DropdownMenu>
         </UncontrolledDropdown>
+        <UncontrolledDropdown>
+          <DropdownToggle>
+            Insert Social Block
+          </DropdownToggle>
+          <DropdownMenu>
+            {config.toolbar.externalBlocks.map((item, index) => {
+              if (item === 'separator') {
+                return (
+                  <hr key={`${item}${index}`} />
+                );
+              }
+
+              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+                return null;
+              }
+
+              return (
+                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
+                  <i className={`icon ${item.type}`} />
+                  <span className="text">{item.text}</span>
+                </DropdownItem>
+              );
+            })}
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </div>
       <BlocksmithModal
         toggle={toggleModal}

@@ -48,7 +48,7 @@ function BlockModal(props) {
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
       <ModalHeader toggle={props.toggle}>{type}</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <ModalFields {...props} />
