@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop.js';
-import { $createParagraphNode, $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import {
+  $createParagraphNode,
+  $getNodeByKey,
+  COMMAND_PRIORITY_EDITOR,
+  createCommand
+} from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
@@ -10,9 +15,10 @@ import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
 import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
 import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm.js';
 
-export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
-export const REMOVE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
-export const REPLACE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
+export const INSERT_BLOCK_COMMAND = createCommand();
+export const INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND = createCommand();
+export const REMOVE_BLOCK_COMMAND = createCommand();
+export const REPLACE_BLOCK_COMMAND = createCommand();
 export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
@@ -59,13 +65,13 @@ export default function BlocksmithPlugin(props) {
 
         form.change(name, BLOCKSMITH_DIRTY);
       }),
-      editor.registerCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, (newPbj) => {
+      editor.registerCommand(INSERT_BLOCK_COMMAND, (newPbj) => {
         const curie = newPbj.schema().getCurie().toString();
         const $node = $createBlocksmithNode(curie, newPbj.toObject());
         $insertNodeToNearestRoot($node);
         return true;
       }, COMMAND_PRIORITY_EDITOR),
-      editor.registerCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, (nodeKey) => {
+      editor.registerCommand(REMOVE_BLOCK_COMMAND, (nodeKey) => {
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
           //$node.remove();
@@ -73,7 +79,7 @@ export default function BlocksmithPlugin(props) {
         }
         return true;
       }, COMMAND_PRIORITY_EDITOR),
-      editor.registerCommand(REPLACE_BLOCKSMITH_BLOCK_COMMAND, (payload) => {
+      editor.registerCommand(REPLACE_BLOCK_COMMAND, (payload) => {
         const { nodeKey, newPbj } = payload;
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
@@ -81,7 +87,14 @@ export default function BlocksmithPlugin(props) {
           $node.replace($createBlocksmithNode(curie, newPbj.toObject()));
         }
         return true;
-      }, COMMAND_PRIORITY_EDITOR)
+      }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND, (nodeKey) => {
+        const $node = $getNodeByKey(nodeKey);
+        if ($node) {
+          $node.insertAfter($createParagraphNode());
+        }
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
     );
   }, [editor]);
 

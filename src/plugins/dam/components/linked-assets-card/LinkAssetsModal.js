@@ -100,7 +100,7 @@ function LinkAssetsModal(props) {
               )}
 
               {response.has('nodes') && (
-                <AssetTable nodes={response.get('nodes')} batch={batch} />
+                <AssetTable nodes={response.get('nodes')} batch={batch} inModal />
               )}
 
               <Pager

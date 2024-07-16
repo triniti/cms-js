@@ -2,13 +2,15 @@ import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { Alert, Badge } from 'reactstrap';
-import { useFormContext, withPbj, ActionButton } from '@triniti/cms/components/index.js';
+import { useFormContext, withPbj, ActionButton, Loading } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import {
-  REMOVE_BLOCKSMITH_BLOCK_COMMAND,
-  REPLACE_BLOCKSMITH_BLOCK_COMMAND
+  INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND,
+  REMOVE_BLOCK_COMMAND,
+  REPLACE_BLOCK_COMMAND
 } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 const okayToDelete = async () => {
@@ -30,6 +32,7 @@ function BlockPreview(props) {
     Component,
     onDelete,
     onOpen,
+    onInsertParagraphAfter,
     pbj,
     editMode,
     canUpdate = false,
@@ -37,11 +40,24 @@ function BlockPreview(props) {
     ...rest
   } = props;
   const schema = pbj.schema();
+  const { node, pbjxError } = useNode(pbj.get('node_ref'));
+  if (pbj.has('node_ref')) {
+    const nodeType = node ? node.schema().getCurie().getMessage() : 'node';
+    rest[nodeType] = node;
+  }
 
   return (
     <Alert color="dark">
       <Badge color="dark">{schema.getCurie().getMessage()}</Badge>
-      <Component {...rest} pbj={pbj} />
+
+      {pbj.has('node_ref') && (
+        <>
+          {(!node || pbjxError) && <Loading error={pbjxError} />}
+          {node && <Component {...rest} pbj={pbj} />}
+        </>
+      )}
+      {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} />}
+
       <ActionButton
         onClick={onOpen}
         text={editMode && canUpdate ? 'Edit' : 'View'}
@@ -55,6 +71,16 @@ function BlockPreview(props) {
           text="Delete"
           icon="trash"
           color="danger"
+          outline
+        />
+      )}
+
+      {editMode && (
+        <ActionButton
+          onClick={onInsertParagraphAfter}
+          text="Insert Paragraph After"
+          icon="plus-outline"
+          color="primary"
           outline
         />
       )}
@@ -94,7 +120,7 @@ export default function withBlockPreview(Component) {
         return;
       }
 
-      editor.dispatchCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, nodeKey);
+      editor.dispatchCommand(REMOVE_BLOCK_COMMAND, nodeKey);
     };
 
     const handleUpdate = (newPbj) => {
@@ -102,7 +128,11 @@ export default function withBlockPreview(Component) {
         return;
       }
 
-      editor.dispatchCommand(REPLACE_BLOCKSMITH_BLOCK_COMMAND, { nodeKey, newPbj });
+      editor.dispatchCommand(REPLACE_BLOCK_COMMAND, { nodeKey, newPbj });
+    };
+
+    const handleInsertParagraphAfter = () => {
+      editor.dispatchCommand(INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND, nodeKey);
     };
 
     return (
@@ -117,6 +147,7 @@ export default function withBlockPreview(Component) {
           onDelete={handleDelete}
           canDelete={canDelete}
           canUpdate={canUpdate}
+          onInsertParagraphAfter={handleInsertParagraphAfter}
         />
         <BlocksmithModal
           toggle={toggleModal}

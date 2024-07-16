@@ -8,7 +8,7 @@ import Message from '@gdbots/pbj/Message.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import getRootFields from '@triniti/cms/utils/getRootFields.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-import { INSERT_BLOCKSMITH_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 function BlockModal(props) {
   const {
@@ -89,7 +89,7 @@ export default function withBlockModal(Component) {
 
     const isNew = !props.onUpdate;
     const onUpdate = !isNew ? props.onUpdate : (newPbj) => {
-      editor.dispatchCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, newPbj);
+      editor.dispatchCommand(INSERT_BLOCK_COMMAND, newPbj);
     };
 
     return (

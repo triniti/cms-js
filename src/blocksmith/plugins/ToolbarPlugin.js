@@ -6,6 +6,7 @@ import {
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
+  INSERT_PARAGRAPH_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
@@ -14,7 +15,8 @@ import {
   $isListNode,
   ListNode,
   INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
+  INSERT_UNORDERED_LIST_COMMAND,
+  REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { Icon } from '@triniti/cms/components/index.js';
@@ -49,6 +51,12 @@ export default function ToolbarPlugin() {
   const handleInsertBlock = (event) => {
     event.preventDefault();
     const type = event.currentTarget.dataset.type;
+
+    if (type === 'text-block') {
+      editor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, null);
+      return;
+    }
+
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
     modalRef.current = (p) => <Component curie={curie} canCreate {...p} />;

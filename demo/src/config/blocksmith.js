@@ -26,6 +26,7 @@ export default {
       { type: 'divider-block', text: 'Divider' },
       { type: 'heading-block', text: 'Heading' },
       { type: 'page-break-block', text: 'Page Break' },
+      { type: 'text-block', text: 'Paragraph' },
       'separator',
       { type: 'code-block', text: 'Code' },
       { type: 'iframe-block', text: 'Iframe' },
