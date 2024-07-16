@@ -22,7 +22,6 @@
 * add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
 * dynamically determine duration of uploaded video or audio (like image dimensions)
-* matt, drop downs/pickers go behind modal scrollable (e.g. create article teaser)
 * make sure all scrollTo or scroll into view stuff works in major browsers
 * fix ui jank when loading some modals (useMemo fixes a lot of this, ref blocksmith)
 * add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
@@ -30,3 +29,4 @@
 * blocksmith -- add emojis inserter thingy
 * blocksmith -- add draggable nodes feature
 * blocksmith -- add word count indicator (dynamic or nah?)
+* blocksmith -- text undo/redo?

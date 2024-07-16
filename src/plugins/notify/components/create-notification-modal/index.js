@@ -46,7 +46,7 @@ function CreateNotificationModal(props) {
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Notification</ModalHeader>
-          <ModalBody className="modal-scrollable">
+          <ModalBody>
             {response && response.has('nodes') && (
               <ListGroup>
                 {response.get('nodes').map(node => {

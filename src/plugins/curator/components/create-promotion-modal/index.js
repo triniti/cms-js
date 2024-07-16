@@ -37,7 +37,7 @@ function CreatePromotionModal(props) {
   return (
     <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Create Promotion</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />

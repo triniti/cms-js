@@ -44,7 +44,7 @@ function PatchAssetsModal(props) {
   return (
     <Modal isOpen centered backdrop="static">
       <ModalHeader toggle={props.toggle}>Patch Assets ({nodes.length})</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Alert color="warning">
           Only the fields you edit below will be updated on {nodes.length} assets.
