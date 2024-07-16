@@ -6,12 +6,10 @@
   * starting works and worker path resolution is not working atm.
 * media resorting and gallery management can use some tlc.
 * add headline fragments components, this is a wonky one, might be partially site specific.
-* add alert for dirty form when leaving page (used to be apart of useBlocker?)
 * Review sorting on all search screens and pickers.
 * Add node labels component
 * review sortable on node picker, interaction is wonky af.  does node picker need this? (redo this so the sorting is done outside of the picker, i absolute hate the way it is rn)
 * review/simplify node history and reverting.
-* make sure track total results is used on search screens but not pickers
 * lock node features?
 * add title length warning on article "title"
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)

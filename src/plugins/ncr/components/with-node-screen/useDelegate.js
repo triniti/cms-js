@@ -16,6 +16,7 @@ import duplicateNode from '@triniti/cms/plugins/ncr/actions/duplicateNode.js';
 import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 import useBlocker from '@triniti/cms/plugins/ncr/components/with-node-screen/useBlocker.js';
+import { useEffect } from 'react';
 
 const okayToDelete = async (nodeRef) => {
   const result = await Swal.fire({
@@ -68,6 +69,29 @@ export default (props) => {
 
     return !(await okayToLeave());
   }, editMode && formState.dirty);
+
+  useEffect(() => {
+    if (!editMode || !formState.dirty) {
+      return;
+    }
+
+    const confirmUnloadIfDirty = (event) => {
+      event.preventDefault();
+      const start = setTimeout(() => {
+        const cancel = setTimeout(() => {
+          clearTimeout(cancel);
+          // user canceled leaving/closing the page
+        });
+        clearTimeout(start);
+      });
+      event.returnValue = 'Unsaved changes detected.'; // required to work in Chrome
+    };
+
+    window.addEventListener('beforeunload', confirmUnloadIfDirty);
+    return () => {
+      window.removeEventListener('beforeunload', confirmUnloadIfDirty);
+    };
+  }, [editMode, formState.dirty]);
 
   delegate.handleCancel = async () => {
     await navigate(urls.leave);
