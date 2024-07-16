@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
+import camelCase from 'lodash-es/camelCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { Alert, Badge, Button } from 'reactstrap';
 import { useFormContext, withPbj, ActionButton, Loading, Icon } from '@triniti/cms/components/index.js';
@@ -46,7 +47,7 @@ function BlockPreview(props) {
   let nodeType = 'unknown';
   let nodeStatus = 'unknown';
   if (pbj.has('node_ref')) {
-    nodeType = node ? node.schema().getCurie().getMessage() : 'unknown';
+    nodeType = node ? camelCase(node.schema().getCurie().getMessage()) : 'unknown';
     rest[nodeType] = node;
     nodeStatus = node ? node.get('status').getValue() : 'unknown';
   }
@@ -69,14 +70,15 @@ function BlockPreview(props) {
           </>
         )}
 
-        {pbj.has('node_ref') && (
-          <>
-            {(!node || pbjxError) && <Loading error={pbjxError} />}
-            {node && <Component {...rest} pbj={pbj} />}
-          </>
-        )}
-
-        {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} />}
+        <div className="block-preview">
+          {pbj.has('node_ref') && (
+            <>
+              {(!node || pbjxError) && <Loading error={pbjxError} />}
+              {node && <Component {...rest} pbj={pbj} block={pbj} />}
+            </>
+          )}
+          {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
+        </div>
 
         <ActionButton
           onClick={onOpen}

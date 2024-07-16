@@ -207,7 +207,6 @@ export default function ToolbarPlugin() {
             <button onClick={handleInsertLink} className="toolbar-item">
               <Icon imgSrc="link" />
             </button>
-            <div style={{width: '34px'}}></div>
           </>
         )}
         {isLink && (

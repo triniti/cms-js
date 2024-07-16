@@ -28,4 +28,4 @@
 * blocksmith -- add emojis inserter thingy
 * blocksmith -- add word count indicator (dynamic or nah?)
 * blocksmith -- sometimes cursor disappears after drag/drop
-*
+* blocksmith -- copy / paste block (text already works)
