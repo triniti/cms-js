@@ -5,7 +5,8 @@ import {
   $isRangeSelection,
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_LOW,
-  FORMAT_TEXT_COMMAND, INSERT_PARAGRAPH_COMMAND,
+  FORMAT_TEXT_COMMAND,
+  INSERT_PARAGRAPH_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
@@ -14,7 +15,8 @@ import {
   $isListNode,
   ListNode,
   INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
+  INSERT_UNORDERED_LIST_COMMAND,
+  REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { Icon } from '@triniti/cms/components/index.js';

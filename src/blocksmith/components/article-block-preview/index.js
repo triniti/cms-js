@@ -2,9 +2,13 @@ import React from 'react';
 import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-preview/index.js';
 
 function ArticleBlockPreview(props) {
-  const { pbj } = props;
+  const { pbj, article } = props;
+
   return (
-    <p>{JSON.stringify(pbj)}</p>
+    <>
+      <p>{pbj.get('title', article.get('title'))}</p>
+      <p>{pbj.schema().getId().getCurie().toString()}</p>
+    </>
   );
 }
 
