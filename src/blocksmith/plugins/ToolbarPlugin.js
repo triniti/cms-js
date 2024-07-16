@@ -17,6 +17,7 @@ import {
   INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
@@ -153,72 +154,75 @@ export default function ToolbarPlugin() {
       <div className="toolbar sticky-top" ref={toolbarRef}>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'bold')}
-          className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
+          className={`toolbar-item ${isBold ? 'active' : ''}`}
         >
-          <i className="format bold" />
+          <Icon imgSrc="bold" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'italic')}
-          className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
+          className={`toolbar-item ${isItalic ? 'active' : ''}`}
         >
-          <i className="format italic" />
+          <Icon imgSrc="italic" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'underline')}
-          className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
+          className={`toolbar-item ${isUnderline ? 'active' : ''}`}
         >
-          <i className="format underline" />
+          <Icon size="sd" imgSrc="underline" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'strikethrough')}
-          className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`}
+          className={`toolbar-item ${isStrikethrough ? 'active' : ''}`}
         >
-          <i className="format strikethrough" />
+          <Icon size="sd" imgSrc="strikethrough" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'highlight')}
-          className={`toolbar-item spaced ${isHighlight ? 'active' : ''}`}
+          className={`toolbar-item ${isHighlight ? 'active' : ''}`}
         >
-          <i className="format highlight" />
+          <Icon size="sd" imgSrc="highlight" />
         </button>
         <button
           onClick={createHandler(isNumberList ? REMOVE_LIST_COMMAND : INSERT_ORDERED_LIST_COMMAND)}
-          className={`toolbar-item spaced ${isNumberList ? 'active' : ''}`}
+          className={`toolbar-item ${isNumberList ? 'active' : ''}`}
         >
-          <i className="format number-list" />OL
+          <Icon size="sd" imgSrc="ordered-list" />
         </button>
         <button
           onClick={createHandler(isBulletList ? REMOVE_LIST_COMMAND : INSERT_UNORDERED_LIST_COMMAND)}
-          className={`toolbar-item spaced ${isBulletList ? 'active' : ''}`}
+          className={`toolbar-item ${isBulletList ? 'active' : ''}`}
         >
-          <i className="format bullet-list" />UL
+          <Icon size="sd" imgSrc="list" />
         </button>
         {!isLink && (
-          <button onClick={handleInsertLink} className="toolbar-item spaced">
-            <i className="format link" />Link
-          </button>
+          <>
+            <button onClick={handleInsertLink} className="toolbar-item">
+              <Icon imgSrc="link" />
+            </button>
+            <div style={{width: '34px'}}></div>
+          </>
         )}
         {isLink && (
           <>
-            <button onClick={handleInsertLink} className="toolbar-item spaced active">
-              <i className="format unlink" />Link
+            <button onClick={handleInsertLink} className="toolbar-item active">
+              <Icon imgSrc="link" />
             </button>
-            <button onClick={createHandler(TOGGLE_LINK_COMMAND)} className="toolbar-item spaced active">
-              <i className="format unlink" />Remove Link
+            <button onClick={createHandler(TOGGLE_LINK_COMMAND)} className="toolbar-item active">
+              <Icon imgSrc="unlink" />
             </button>
           </>
         )}
 
-        <div className="divider" />
+        <div className="divider-vertical mx-1" />
         <UncontrolledDropdown>
-          <DropdownToggle>
-            Insert Block
+          <DropdownToggle className="mb-0 btn-sm toolbar-item shadow-none" color="light">
+            <Icon size="sm" imgSrc="plus-outline" className="me-2" />Insert Block
           </DropdownToggle>
-          <DropdownMenu>
+          <DropdownMenu className="rounded-3">
             {config.toolbar.blocks.map((item, index) => {
               if (item === 'separator') {
                 return (
-                  <hr key={`${item}${index}`} />
+                  <div key={`${item}${index}`}  tabIndex="-1" className="dropdown-divider"></div>
                 );
               }
 
@@ -228,7 +232,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon ${item.type}`} />
+                  <i className={`icon icon-sm me-2 icon-${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );
@@ -236,10 +240,10 @@ export default function ToolbarPlugin() {
           </DropdownMenu>
         </UncontrolledDropdown>
         <UncontrolledDropdown>
-          <DropdownToggle>
-            Insert Social Block
+          <DropdownToggle className="mb-0 btn-sm toolbar-item shadow-none" color="light">
+            <Icon size="sm" imgSrc="plus-outline" className="me-2" /> Embed Social
           </DropdownToggle>
-          <DropdownMenu>
+          <DropdownMenu className="rounded-3">
             {config.toolbar.externalBlocks.map((item, index) => {
               if (item === 'separator') {
                 return (
@@ -253,7 +257,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon ${item.type}`} />
+                  <i className={`icon icon-sm me-2 icon-${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );

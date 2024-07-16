@@ -46,7 +46,7 @@ export default function LinkModal(props) {
   return (
     <Modal isOpen backdrop="static" centered>
       <ModalHeader toggle={props.toggle}>{isNew ? 'Add Link' : 'Update Link'}</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         <Form onSubmit={handleUpdate} autoComplete="off">
           <div className="form-group">
             <Label htmlFor="link-url">URL</Label>

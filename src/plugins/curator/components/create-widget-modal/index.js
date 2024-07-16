@@ -29,7 +29,7 @@ export default function CreateWidgetModal(props) {
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Widget</ModalHeader>
-          <ModalBody className="modal-scrollable">
+          <ModalBody>
             <ListGroup>
               {curies.map(str => {
                 const curie = SchemaCurie.fromString(str);
