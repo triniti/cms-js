@@ -8,6 +8,7 @@ export default class RavenPlugin extends Plugin {
     super('triniti', 'raven');
   }
 
+  /*
   async configure(app) {
     this.reducer = reducer;
     this.saga = saga;
@@ -20,5 +21,5 @@ export default class RavenPlugin extends Plugin {
     app.subscribe('gdbots:ncr:mixin:node-updated.raven', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh');
     app.subscribe('gdbots:ncr:event:node-updated.raven', serviceIds.NODE_CHANGE_WATCHER, 'forceRefresh'); // Future proof vodka
   }
-
+  */
 }
