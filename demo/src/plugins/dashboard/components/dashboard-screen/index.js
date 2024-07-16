@@ -27,19 +27,13 @@ const HomePageDraft = withRequest(TopArticles, 'triniti:news:request:search-arti
   }
 });
 
-export default function DashboardScreen({ tab='default' }) {
+export default function DashboardScreen({ tab = 'default' }) {
   return (
     <Screen
       title="Dashboard"
       tabs={[
-        {
-          to: '/',
-          text: 'News',
-        },
-        {
-          to: '/active-edits',
-          text: 'Active Edits',
-        },
+        { to: '/', text: 'News' },
+        { to: '/active-edits', text: 'Active Edits' },
       ]}
       contentWidth="100%"
     >
@@ -54,10 +48,10 @@ export default function DashboardScreen({ tab='default' }) {
             </Col>
           </Row>
         </TabPane>
-        <TabPane tabId='active-edits'>
+        <TabPane tabId="active-edits">
           <Row>
             <Col lg="12">
-              <p>active edits</p>
+              <p>active edits coming soon.</p>
             </Col>
           </Row>
         </TabPane>
