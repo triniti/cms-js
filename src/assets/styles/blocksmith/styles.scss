@@ -54,7 +54,7 @@
 }
 
 .blocksmith .text-highlight {
-  background-color: yellow;
+  // background-color: yellow; handled by mark
 }
 
 .blocksmith a {
@@ -63,8 +63,7 @@
 }
 
 .blocksmith .paragraph {
-  margin: 0;
-  margin-bottom: 8px;
+  margin: 0 0 8px 0;
   position: relative;
 }
 
@@ -72,20 +71,15 @@
   margin-bottom: 0;
 }
 
-.blocksmith .list-ol {
-  padding: 0;
-  margin: 0;
-  margin-left: 16px;
-}
-
+.blocksmith .list-ol,
 .blocksmith .list-ul {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
+  margin: 0 0 0 16px;
+  font-size: .9375rem;
 }
 
 .blocksmith .listitem {
-  margin: 8px 32px 8px 32px;
+  margin: 8px 16px;
 }
 
 .blocksmith .nested-listitem {
@@ -104,103 +98,169 @@ pre::-webkit-scrollbar-thumb {
 .blocksmith .toolbar {
   display: flex;
   padding: 4px;
-  border-bottom: 1px solid var(--bs-dark-border-subtle);
-  background-color: #fff;
+  // border-bottom: 1px solid var(--bs-dark-border-subtle);
+  background-color: var(--bs-body-bg);
+  box-shadow: $box-shadow-sm;
 }
 
-.blocksmith .toolbar button.toolbar-item {
+.blocksmith .toolbar-item {
   border: 0;
-  display: flex;
+  display: inline-flex;
   background: none;
   border-radius: 6px;
-  padding: 8px;
+  padding: 5px 8px;
   cursor: pointer;
-  vertical-align: middle;
+  justify-content: center;
+  margin: 0 1px;
+  color: var(--bs-body-color);
 }
 
-.blocksmith .toolbar button.toolbar-item:disabled {
+.blocksmith .toolbar-item:disabled {
   cursor: not-allowed;
 }
 
-.blocksmith .toolbar button.toolbar-item.spaced {
-  margin-right: 2px;
+.blocksmith .toolbar-item.active {
+  background-color: var(--#{$prefix}status-expired);
 }
 
-.blocksmith .toolbar button.toolbar-item i.format {
-  background-size: contain;
-  display: inline-block;
-  height: 18px;
-  width: 18px;
-  margin-top: 2px;
-  vertical-align: -0.25em;
-  display: flex;
-  opacity: 0.6;
+.blocksmith .toolbar-item:hover:not([disabled]) {
+  background-color: $gray-rgba-100;
 }
 
-.blocksmith .toolbar button.toolbar-item:disabled i.format {
-  opacity: 0.2;
+.blocksmith .dropdown-item {
+  --bs-dropdown-item-padding-x: .75rem;
 }
 
-.blocksmith .toolbar button.toolbar-item.active {
-  background-color: rgba(223, 232, 250, 0.3);
-}
-
-.blocksmith .toolbar button.toolbar-item.active i {
+.blocksmith .active .icon {
   opacity: 1;
 }
 
-.blocksmith .toolbar .toolbar-item:hover:not([disabled]) {
-  background-color: #eee;
+.blocksmith button:disabled .icon {
+  opacity: 0.2;
 }
 
-.blocksmith .toolbar .divider {
-  width: 1px;
-  background-color: var(--bs-dark-border-subtle);
-  margin: 0 4px;
+// icons
+
+.icon-article-block {
+  background-image: url(../../img/icons/book-open.svg);
 }
 
-.blocksmith .toolbar .toolbar-item .text {
-  display: flex;
-  line-height: 20px;
-  width: 200px;
-  vertical-align: middle;
-  font-size: 14px;
-  color: #777;
-  text-overflow: ellipsis;
-  width: 70px;
-  overflow: hidden;
-  height: 20px;
-  text-align: left;
+.icon-audio-block {
+  background-image: url(../../img/icons/audio.svg);
 }
 
-.blocksmith .toolbar .toolbar-item .icon {
-  display: flex;
-  width: 20px;
-  height: 20px;
-  user-select: none;
-  margin-right: 8px;
-  line-height: 16px;
-  background-size: contain;
+.icon-document-block {
+  background-image: url(../../img/icons/document.svg);
 }
 
-.blocksmith i.bold {
-  background-image: url(./icons/type-bold.svg);
+.icon-eme-form-block {
+  background-image: url(../../img/icons/short-text.svg);
 }
 
-.blocksmith i.highlight {
-  background-image: url(./icons/type-underline.svg);
-  background-color: yellow;
+.icon-gallery-block {
+  background-image: url(../../img/icons/gallery.svg);
 }
 
-.blocksmith i.italic {
-  background-image: url(./icons/type-italic.svg);
+.icon-image-block {
+  background-image: url(../../img/icons/camera.svg);
 }
 
-.blocksmith i.underline {
-  background-image: url(./icons/type-underline.svg);
+.icon-poll-block {
+  background-image: url(../../img/icons/poll.svg);
 }
 
-.blocksmith i.strikethrough {
-  background-image: url(./icons/type-strikethrough.svg);
+.icon-poll-grid-block {
+  background-image: url(../../img/icons/poll-grid.svg);
 }
 
+.icon-quote-block {
+  background-image: url(../../img/icons/quote.svg);
+}
+
+.icon-video-block {
+  background-image: url(../../img/icons/play-outline.svg);
+}
+
+.icon-divider-block {
+  background-image: url(../../img/icons/minus-line.svg);
+}
+
+.icon-heading-block {
+  background-image: url(../../img/icons/header.svg);
+}
+
+.icon-page-break-block {
+  background-image: url(../../img/icons/page-break.svg);
+}
+
+.icon-code-block {
+  background-image: url(../../img/icons/code.svg);
+}
+
+.icon-iframe-block {
+  background-image: url(../../img/icons/iframe.svg);
+}
+
+.icon-facebook-post-block {
+  background-image: url(../../img/icons/facebook-circle.svg);
+}
+
+.icon-facebook-video-block {
+  background-image: url(../../img/icons/facebook.svg);
+}
+
+.icon-google-map-block {
+  background-image: url(../../img/icons/google.svg);
+}
+
+.icon-imgur-post-block {
+  background-image: url(../../img/icons/imgur.svg);
+}
+
+.icon-instagram-media-block {
+  background-image: url(../../img/icons/instagram.svg);
+}
+
+.icon-pinterest-pin-block {
+  background-image: url(../../img/icons/pinterest.svg);
+}
+
+.icon-soundcloud-audio-block {
+  background-image: url(../../img/icons/soundcloud.svg);
+}
+
+.icon-spotify-embed-block {
+  background-image: url(../../img/icons/spotify.svg);
+}
+
+.icon-tiktok-embed-block {
+  background-image: url(../../img/icons/tiktok.svg);
+}
+
+.icon-tumblr-post-block {
+  background-image: url(../../img/icons/tumblr.svg);
+}
+
+.icon-twitter-tweet-block {
+  background-image: url(../../img/icons/x.svg);
+}
+
+.icon-vimeo-video-block {
+  background-image: url(../../img/icons/vimeo.svg);
+}
+
+.icon-youtube-playlist-block {
+  background-image: url(../../img/icons/playlist.svg);
+}
+
+.icon-youtube-video-block {
+  background-image: url(../../img/icons/youtube.svg);
+}
+
+i.icon {
+
+  [data-bs-theme=dark] & {
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+  }
+}
