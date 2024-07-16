@@ -334,6 +334,10 @@ export default function DraggableBlockPlugin({ anchorElem }) {
     hideTargetLine(targetLineRef.current);
   };
 
+  if (!editor.isEditable()) {
+    return null;
+  }
+
   return createPortal(
     <>
       <div

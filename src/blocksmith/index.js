@@ -22,12 +22,12 @@ export default function Blocksmith(props) {
     <LexicalComposer initialConfig={config}>
       <Card className="blocksmith">
         <BlocksmithPlugin {...props} />
+        <LinkPlugin />
+        <ListPlugin />
         {editMode && (
           <>
             {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} />}
             <HistoryPlugin />
-            <LinkPlugin />
-            <ListPlugin />
             <ToolbarPlugin />
           </>
         )}
