@@ -17,13 +17,13 @@ import {
   INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import config from '@triniti/cms/blocksmith/config.js';
-import { Icon } from '@triniti/cms/components/index.js';
 
 export default function ToolbarPlugin() {
   const policy = usePolicy();

@@ -3,6 +3,7 @@ import { Card } from 'reactstrap';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
@@ -22,6 +23,7 @@ export default function Blocksmith(props) {
         <LinkPlugin />
         <ListPlugin />
         <ToolbarPlugin />
+        <HistoryPlugin />
         <div className="blocksmith-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="blocksmith-input" />}
