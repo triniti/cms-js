@@ -11,7 +11,7 @@ import NotifyPlugin from '@triniti/cms/plugins/notify/index.js';
 import OvpPlugin from '@triniti/cms/plugins/ovp/index.js';
 import PbjxPlugin from '@triniti/cms/plugins/pbjx/index.js';
 import PeoplePlugin from '@triniti/cms/plugins/people/index.js';
-import RavenPlugin from '@triniti/cms/plugins/raven/index.js';
+//import RavenPlugin from '@triniti/cms/plugins/raven/index.js';
 import SysPlugin from '@triniti/cms/plugins/sys/index.js';
 import TaxonomyPlugin from '@triniti/cms/plugins/taxonomy/index.js';
 import createPreloadedState from './config/preloadedState.js';
@@ -28,7 +28,7 @@ const plugins = [
   new OvpPlugin,
   new PbjxPlugin,
   new PeoplePlugin,
-  new RavenPlugin,
+  //new RavenPlugin,
   new SysPlugin,
   new TaxonomyPlugin,
 ];

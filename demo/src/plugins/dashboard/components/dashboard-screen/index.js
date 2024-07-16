@@ -5,7 +5,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
 import TopArticles from '../top-articles/index.js';
-import ActiveEditsTable from '@triniti/cms/plugins/raven/components/active-edits-table/index.js';
+//import ActiveEditsTable from '@triniti/cms/plugins/raven/components/active-edits-table/index.js';
 
 const HomePagePublished = withRequest(TopArticles, 'triniti:news:request:search-articles-request', {
   channel: 'homepage-published',
@@ -57,7 +57,7 @@ export default function DashboardScreen({ tab='default' }) {
         <TabPane tabId='active-edits'>
           <Row>
             <Col lg="12">
-              <ActiveEditsTable />
+              <p>active edits</p>
             </Col>
           </Row>
         </TabPane>

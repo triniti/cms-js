@@ -32,7 +32,6 @@ function Root() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(isAuthenticated);
 
-  // fixme: cleanup the login/user fetch/raven/etc. process
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(loadUser());
