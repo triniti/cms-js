@@ -42,64 +42,71 @@ function BlockPreview(props) {
   } = props;
   const schema = pbj.schema();
   const { node, pbjxError } = useNode(pbj.get('node_ref'));
-  let nodeStatus = null;
+
+  let nodeType = 'unknown';
+  let nodeStatus = 'unknown';
   if (pbj.has('node_ref')) {
-    const nodeType = node ? node.schema().getCurie().getMessage() : 'node';
+    nodeType = node ? node.schema().getCurie().getMessage() : 'unknown';
     rest[nodeType] = node;
-    nodeStatus = node ? node.get('status').getValue() : null;
+    nodeStatus = node ? node.get('status').getValue() : 'unknown';
   }
 
+  const type = schema.getCurie().getMessage();
+  const typeFriendly = type.replace('-block', '');
+
   return (
-    <Alert color="dark">
-      <Badge color="dark">{schema.getCurie().getMessage()}</Badge>
-      {node && (
-        <>
-          <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
-          <a href={nodeUrl(node, 'view')} target="_blank">
-            <Button color="hover" tag="span">
-              <Icon imgSrc="eye" alt="view" />
-            </Button>
-          </a>
-        </>
-      )}
+    <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
+      <Alert color="dark">
+        <Badge color="dark">{typeFriendly}</Badge>
+        {node && (
+          <>
+            <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+            <a href={nodeUrl(node, 'view')} target="_blank">
+              <Button color="hover" tag="span">
+                <Icon imgSrc="eye" alt="view" />
+              </Button>
+            </a>
+          </>
+        )}
 
-      {pbj.has('node_ref') && (
-        <>
-          {(!node || pbjxError) && <Loading error={pbjxError} />}
-          {node && <Component {...rest} pbj={pbj} />}
-        </>
-      )}
+        {pbj.has('node_ref') && (
+          <>
+            {(!node || pbjxError) && <Loading error={pbjxError} />}
+            {node && <Component {...rest} pbj={pbj} />}
+          </>
+        )}
 
-      {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} />}
+        {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} />}
 
-      <ActionButton
-        onClick={onOpen}
-        text={editMode && canUpdate ? 'Edit' : 'View'}
-        icon={editMode && canUpdate ? 'pencil' : 'eye'}
-        color="light"
-        outline
-      />
-
-      {editMode && canDelete && (
         <ActionButton
-          onClick={onDelete}
-          text="Delete"
-          icon="trash"
-          color="danger"
+          onClick={onOpen}
+          text={editMode && canUpdate ? 'Edit' : 'View'}
+          icon={editMode && canUpdate ? 'pencil' : 'eye'}
+          color="light"
           outline
         />
-      )}
 
-      {editMode && (
-        <ActionButton
-          onClick={onInsertParagraphAfter}
-          text="Insert Paragraph After"
-          icon="plus-outline"
-          color="primary"
-          outline
-        />
-      )}
-    </Alert>
+        {editMode && canDelete && (
+          <ActionButton
+            onClick={onDelete}
+            text="Delete"
+            icon="trash"
+            color="danger"
+            outline
+          />
+        )}
+
+        {editMode && (
+          <ActionButton
+            onClick={onInsertParagraphAfter}
+            text="Insert Paragraph After"
+            icon="plus-outline"
+            color="primary"
+            outline
+          />
+        )}
+      </Alert>
+    </div>
   );
 }
 
