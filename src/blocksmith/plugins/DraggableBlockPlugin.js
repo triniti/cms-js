@@ -22,11 +22,11 @@ import { calculateZoomLevel, isHTMLElement, mergeRegister } from '@lexical/utils
 import { Point } from '@triniti/cms/blocksmith/utils/point.js';
 import { Rect } from '@triniti/cms/blocksmith/utils/rect.js';
 
-const SPACE = 4;
+const SPACE = 1;
 const TARGET_LINE_HALF_HEIGHT = 2;
 const DRAGGABLE_BLOCK_MENU_CLASSNAME = 'draggable-block-menu';
 const DRAG_DATA_FORMAT = 'application/x-lexical-drag-block';
-const TEXT_BOX_HORIZONTAL_PADDING = 28;
+const TEXT_BOX_HORIZONTAL_PADDING = 10;
 
 const Downward = 1;
 const Upward = -1;
