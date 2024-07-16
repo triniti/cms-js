@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import camelCase from 'lodash-es/camelCase.js';
+import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { Alert, Badge, Button } from 'reactstrap';
 import { useFormContext, withPbj, ActionButton, Loading, Icon } from '@triniti/cms/components/index.js';
@@ -53,12 +54,14 @@ function BlockPreview(props) {
   }
 
   const type = schema.getCurie().getMessage();
-  const typeFriendly = type.replace('-block', '');
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
       <Alert color="dark">
-        <Badge color="dark">{typeFriendly}</Badge>
+        <Badge color="light">
+          <i className={`icon icon-sm me-2 icon-${type}`} />
+          {startCase(type.replace('-block', ''))}
+        </Badge>
         {node && (
           <>
             <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
