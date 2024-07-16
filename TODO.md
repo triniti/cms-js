@@ -21,12 +21,11 @@
 * with-form handleRestore from sessionstorage when dirty?
 * add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
-* dynamically determine duration of uploaded video or audio (like image dimensions)
-* make sure all scrollTo or scroll into view stuff works in major browsers
+* dynamically determine duration of uploaded video or audio (like image dimensions)?
 * fix ui jank when loading some modals (useMemo fixes a lot of this, ref blocksmith)
 * add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
-* fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
+* blocksmith -- fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
 * blocksmith -- add emojis inserter thingy
-* blocksmith -- add draggable nodes feature
 * blocksmith -- add word count indicator (dynamic or nah?)
-* blocksmith -- text undo/redo?
+* blocksmith -- sometimes cursor disappears after drag/drop
+*

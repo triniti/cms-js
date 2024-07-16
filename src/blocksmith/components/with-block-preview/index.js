@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Alert, Badge } from 'reactstrap';
-import { useFormContext, withPbj, ActionButton, Loading } from '@triniti/cms/components/index.js';
+import { Alert, Badge, Button } from 'reactstrap';
+import { useFormContext, withPbj, ActionButton, Loading, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import {
@@ -41,14 +42,26 @@ function BlockPreview(props) {
   } = props;
   const schema = pbj.schema();
   const { node, pbjxError } = useNode(pbj.get('node_ref'));
+  let nodeStatus = null;
   if (pbj.has('node_ref')) {
     const nodeType = node ? node.schema().getCurie().getMessage() : 'node';
     rest[nodeType] = node;
+    nodeStatus = node ? node.get('status').getValue() : null;
   }
 
   return (
     <Alert color="dark">
       <Badge color="dark">{schema.getCurie().getMessage()}</Badge>
+      {node && (
+        <>
+          <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+          <a href={nodeUrl(node, 'view')} target="_blank">
+            <Button color="hover" tag="span">
+              <Icon imgSrc="eye" alt="view" />
+            </Button>
+          </a>
+        </>
+      )}
 
       {pbj.has('node_ref') && (
         <>
@@ -56,6 +69,7 @@ function BlockPreview(props) {
           {node && <Component {...rest} pbj={pbj} />}
         </>
       )}
+
       {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} />}
 
       <ActionButton
@@ -65,6 +79,7 @@ function BlockPreview(props) {
         color="light"
         outline
       />
+
       {editMode && canDelete && (
         <ActionButton
           onClick={onDelete}
