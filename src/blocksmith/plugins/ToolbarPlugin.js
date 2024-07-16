@@ -5,7 +5,7 @@ import {
   $isRangeSelection,
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_LOW,
-  FORMAT_TEXT_COMMAND,
+  FORMAT_TEXT_COMMAND, INSERT_PARAGRAPH_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
@@ -49,6 +49,12 @@ export default function ToolbarPlugin() {
   const handleInsertBlock = (event) => {
     event.preventDefault();
     const type = event.currentTarget.dataset.type;
+
+    if (type === 'text-block') {
+      editor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, null);
+      return;
+    }
+
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
     modalRef.current = (p) => <Component curie={curie} canCreate {...p} />;
