@@ -1,6 +1,10 @@
 import { $isAtNodeEnd } from '@lexical/selection';
 
 export default (selection) => {
+  if (!selection || !selection.anchor) {
+    return null;
+  }
+
   const anchor = selection.anchor;
   const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();

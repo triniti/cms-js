@@ -78,7 +78,13 @@ function BlockModal(props) {
 
 export default function withBlockModal(Component) {
   return function ComponentWithBlockModal(props) {
-    const { curie, pbj, canUpdate = false, canCreate = false } = props;
+    const {
+      curie,
+      pbj,
+      canUpdate = false,
+      canCreate = false,
+      afterNodeKey = null
+    } = props;
     const BlockModalWithPbj = useMemo(() => {
       return pbj instanceof Message ? withForm(BlockModal) : withPbj(withForm(BlockModal), curie, pbj);
     }, [curie, pbj]);
@@ -89,7 +95,7 @@ export default function withBlockModal(Component) {
 
     const isNew = !props.onUpdate;
     const onUpdate = !isNew ? props.onUpdate : (newPbj) => {
-      editor.dispatchCommand(INSERT_BLOCK_COMMAND, newPbj);
+      editor.dispatchCommand(INSERT_BLOCK_COMMAND, { newPbj, afterNodeKey });
     };
 
     return (

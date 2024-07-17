@@ -10,11 +10,8 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
-import {
-  INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND,
-  REMOVE_BLOCK_COMMAND,
-  REPLACE_BLOCK_COMMAND
-} from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import { REMOVE_BLOCK_COMMAND, REPLACE_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 
 const okayToDelete = async () => {
   const result = await Swal.fire({
@@ -35,7 +32,7 @@ function BlockPreview(props) {
     Component,
     onDelete,
     onOpen,
-    onInsertParagraphAfter,
+    onAddBlock,
     pbj,
     editMode,
     canUpdate = false,
@@ -103,8 +100,8 @@ function BlockPreview(props) {
 
         {editMode && (
           <ActionButton
-            onClick={onInsertParagraphAfter}
-            text="Insert Paragraph After"
+            onClick={onAddBlock}
+            text="Add Block"
             icon="plus-outline"
             color="primary"
             outline
@@ -158,8 +155,8 @@ export default function withBlockPreview(Component) {
       editor.dispatchCommand(REPLACE_BLOCK_COMMAND, { nodeKey, newPbj });
     };
 
-    const handleInsertParagraphAfter = () => {
-      editor.dispatchCommand(INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND, nodeKey);
+    const handleAddBlock = () => {
+      editor.dispatchCommand(SHOW_BLOCK_SELECTOR_COMMAND, nodeKey);
     };
 
     return (
@@ -174,7 +171,7 @@ export default function withBlockPreview(Component) {
           onDelete={handleDelete}
           canDelete={canDelete}
           canUpdate={canUpdate}
-          onInsertParagraphAfter={handleInsertParagraphAfter}
+          onAddBlock={handleAddBlock}
         />
         <BlocksmithModal
           toggle={toggleModal}
