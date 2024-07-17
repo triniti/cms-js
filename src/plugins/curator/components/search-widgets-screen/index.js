@@ -126,7 +126,7 @@ function SearchWidgetsScreen(props) {
 export default withRequest(withForm(SearchWidgetsScreen), 'triniti:curator:request:search-widgets-request', {
   persist: true,
   initialData: {
-    sort: SearchWidgetsSort.RELEVANCE.getValue(),
+    sort: SearchWidgetsSort.TITLE_ASC.getValue(),
     track_total_hits: true,
   }
 });
