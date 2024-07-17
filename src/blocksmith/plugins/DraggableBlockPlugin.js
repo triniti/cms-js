@@ -21,12 +21,13 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { calculateZoomLevel, isHTMLElement, mergeRegister } from '@lexical/utils';
 import { Point } from '@triniti/cms/blocksmith/utils/point.js';
 import { Rect } from '@triniti/cms/blocksmith/utils/rect.js';
+import { Icon } from '@triniti/cms/components/index.js';
 
 const SPACE = 1;
 const TARGET_LINE_HALF_HEIGHT = 2;
 const DRAGGABLE_BLOCK_MENU_CLASSNAME = 'draggable-block-menu';
 const DRAG_DATA_FORMAT = 'application/x-lexical-drag-block';
-const TEXT_BOX_HORIZONTAL_PADDING = 10;
+const TEXT_BOX_HORIZONTAL_PADDING = 24;
 
 const Downward = 1;
 const Upward = -1;
@@ -341,13 +342,13 @@ export default function DraggableBlockPlugin({ anchorElem }) {
   return createPortal(
     <>
       <div
-        className="iconwtf draggable-block-menu"
+        className="draggable-block-menu"
         ref={menuRef}
         draggable={true}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
       >
-        <div className="icon" />
+        <Icon imgSrc="drag" />
       </div>
       <div className="draggable-block-target-line" ref={targetLineRef} />
     </>,

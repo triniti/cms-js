@@ -10,7 +10,7 @@
   .card-body &,
   .alert-container &,
   .blocksmith & {
-    border-radius: $border-radius;
+    border-radius: 4px; // $border-radius
   }
   .alert-container & {
     border-radius: 3px;

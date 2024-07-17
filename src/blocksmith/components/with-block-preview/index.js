@@ -57,7 +57,7 @@ function BlockPreview(props) {
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
-      <Alert color="dark">
+      <Alert color="dark" className="mb-0">
         <Badge color="light">
           <i className={`icon icon-sm me-2 icon-${type}`} />
           {startCase(type.replace('-block', ''))}

@@ -239,7 +239,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sm me-2 icon-${item.type}`} />
+                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );
@@ -264,7 +264,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sm me-2 icon-${item.type}`} />
+                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );
