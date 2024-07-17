@@ -120,7 +120,7 @@ function AssetDetails(props) {
           </>
         )}
 
-        <TextareaField name="description" label="Description" rows={3} />
+        <TextareaField name="description" label="Description" rows={5} />
       </Form>
     </>
   );

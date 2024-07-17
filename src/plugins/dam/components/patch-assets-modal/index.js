@@ -57,7 +57,7 @@ function PatchAssetsModal(props) {
           <UrlField name="credit_url" label="Credit URL" />
           <TextField name="cta_text" label="Call To Action" />
           <UrlField name="cta_url" label="Call To Action URL" />
-          <TextareaField name="description" label="Description" rows={3} />
+          <TextareaField name="description" label="Description" rows={5} />
         </Form>
       </ModalBody>
       <ModalFooter>
