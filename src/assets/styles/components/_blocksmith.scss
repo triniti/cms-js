@@ -98,7 +98,7 @@
   display: inline-flex;
   background: none;
   border-radius: 6px;
-  padding: 5px 8px;
+  padding: 5px 7px;
   cursor: pointer;
   justify-content: center;
   margin: 0 1px;
@@ -121,7 +121,7 @@
     }
   }
   &:hover:not([disabled]):not(.active) {
-    background-color: var(--#{$prefix}secondary-bg);
+    background-color: var(--#{$prefix}dark-bg-subtle);
   }
   .icon {
     margin: 0;
@@ -258,8 +258,8 @@
 i.icon {
 
   [data-bs-theme=dark] & {
-    filter: invert(100%);
-    -webkit-filter: invert(100%);
+    filter: invert(90%);
+    -webkit-filter: invert(90%);
   }
 }
 

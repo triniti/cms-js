@@ -14,10 +14,10 @@ export default function BlockSelectorModal(props) {
   const policy = usePolicy();
 
   return (
-    <Modal isOpen size="xl" backdrop="static" centered>
+    <Modal isOpen size="md" backdrop="static" centered>
       <ModalHeader toggle={props.toggle}>Insert Block</ModalHeader>
       <ModalBody>
-        <div>
+        <div className="grid gap-3 row-gap-2">
           {config.toolbar.blocks.map((item, index) => {
             if (item === 'separator') {
               return null;
@@ -32,15 +32,16 @@ export default function BlockSelectorModal(props) {
                 key={`${item.type}${index}`}
                 onClick={onInsertBlock}
                 data-type={item.type}
-                data-after-node-key={afterNodeKey}>
+                data-after-node-key={afterNodeKey}
+                className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
                 <i className={`icon icon-sd me-2 icon-${item.type}`} />
                 <span className="text">{item.text}</span>
               </a>
             );
           })}
         </div>
-
-        <div>
+        <hr/>
+        <div className="grid gap-3 row-gap-2">
           {config.toolbar.externalBlocks.map((item, index) => {
             if (item === 'separator') {
               return null;
@@ -55,8 +56,9 @@ export default function BlockSelectorModal(props) {
                 key={`${item.type}${index}`}
                 onClick={onInsertBlock}
                 data-type={item.type}
-                data-after-node-key={afterNodeKey}>
-                <i className={`icon icon-sd me-2 icon-${item.type}`} />
+                data-after-node-key={afterNodeKey}
+                className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
+                <i className={`icon icon me-2 icon-${item.type}`} />
                 <span className="text">{item.text}</span>
               </a>
             );
