@@ -69,9 +69,9 @@ export default function BlocksmithPlugin(props) {
         form.change(name, BLOCKSMITH_DIRTY);
       }),
       editor.registerCommand(INSERT_BLOCK_COMMAND, (payload) => {
-        const { newPbj, paragraph = false, afterNodeKey = null } = payload;
+        const { newPbj = null, afterNodeKey = null } = payload;
         let $node;
-        if (paragraph) {
+        if (!newPbj) {
           $node = $createParagraphNode();
         } else {
           const curie = newPbj.schema().getCurie().toString();

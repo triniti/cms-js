@@ -18,15 +18,17 @@ import { ActionButton, Icon } from '@triniti/cms/components/index.js';
 export default function LinkModal(props) {
   const [editor] = useLexicalComposerContext();
   const { selectedLink } = props;
-  const [url, setUrl] = useState(selectedLink && selectedLink.url);
+  const [url, setUrl] = useState(selectedLink ? selectedLink.url : '');
   const [target, setTarget] = useState(selectedLink && selectedLink.target);
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
+  const [touched, setTouched] = useState(false);
   const isNew = !selectedLink;
 
   const handleToggle = () => {
-    setUrl(null);
+    setUrl('');
     setTarget(null);
     setIsValid(false);
+    setTouched(false);
     props.toggle();
   };
 
@@ -56,10 +58,11 @@ export default function LinkModal(props) {
       value = value.replace('http://', 'https://');
     }
     setUrl(value);
+    setIsValid(isValidUrl(value));
   };
 
   const handleBlur = () => {
-    setIsValid(isValidUrl(url));
+    setTouched(true);
   };
 
   return (
@@ -76,14 +79,14 @@ export default function LinkModal(props) {
               <input
                 id="link-url"
                 name="url"
-                className={`form-control ${url && isValid && 'is-valid'} ${url && !isValid && 'is-invalid'}`}
+                className={`form-control ${touched && isValid && 'is-valid'} ${touched && !isValid && 'is-invalid'}`}
                 type="url"
                 value={url}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
             </InputGroup>
-            {!isValid && url && <FormText color="danger">Please enter a valid URL.</FormText>}
+            {touched && !isValid && <FormText color="danger">Please enter a valid URL.</FormText>}
           </div>
 
           <div className="form-check">
@@ -119,7 +122,7 @@ export default function LinkModal(props) {
         <ActionButton
           text={isNew ? 'Add Link' : 'Update Link'}
           onClick={handleUpdate}
-          disabled={!isValid || !url}
+          disabled={isNew ? (!touched || !isValid) : !isValid}
           icon="link"
           color="primary"
           tabIndex="-1"
