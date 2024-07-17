@@ -39,6 +39,15 @@ export default function BlocksmithPlugin(props) {
     }
 
     const checkDirtyOnBlurListener = () => {
+      const { form } = formContext;
+      const state = form.getState();
+      if (state.submitting) {
+        // if a user clicks the save button immediately after an edit
+        // on blocksmith this listener would potentially change
+        // the value of the field wiping out whatever beforeSubmit did.
+        return;
+      }
+
       const blocks = editorToBlocks(editor);
       const newValue = blocks.length > 0 ? blocks : undefined;
       if (areBlocksEqual(newValue, initialValueRef.current)) {
@@ -173,7 +182,10 @@ export default function BlocksmithPlugin(props) {
         initialValue: initialValueRef.current,
         beforeSubmit: () => {
           const blocks = editorToBlocks(editor);
-          form.change('blocks', blocks);
+          const newValue = blocks.length > 0 ? blocks : undefined;
+          if (!areBlocksEqual(newValue, initialValueRef.current)) {
+            form.change(name, newValue);
+          }
         }
       });
     });
