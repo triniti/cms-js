@@ -4,6 +4,7 @@ import {
   $createParagraphNode,
   $getNodeByKey,
   $getSelection,
+  $getRoot,
   $insertNodes,
   $isRootOrShadowRoot,
   createCommand,
@@ -104,7 +105,6 @@ export default function BlocksmithPlugin(props) {
           const $selectedNode = getSelectedNode(selection);
           if ($selectedNode) {
             if ($isRootOrShadowRoot($selectedNode)) {
-              //$selectedNode.insertNode($node);
               $insertNodes([$node]);
               return true;
             }
@@ -121,7 +121,8 @@ export default function BlocksmithPlugin(props) {
           }
         }
 
-        $insertNodes([$node]);
+        const $root = $getRoot();
+        $root.append($node);
         return true;
       }, COMMAND_PRIORITY_EDITOR),
       editor.registerCommand(REMOVE_BLOCK_COMMAND, (nodeKey) => {
