@@ -40,9 +40,7 @@ export default function BlocksmithPlugin(props) {
     }
 
     const checkDirtyOnBlurListener = () => {
-      const { form } = formContext;
-      const state = form.getState();
-      if (state.submitting) {
+      if (form.getState().submitting) {
         // if a user clicks the save button immediately after an edit
         // on blocksmith this listener would potentially change
         // the value of the field wiping out whatever beforeSubmit did.
@@ -111,7 +109,6 @@ export default function BlocksmithPlugin(props) {
 
             const $parent = $selectedNode.getParent();
             if ($isRootOrShadowRoot($parent)) {
-              //$parent.insertNode($node);
               $insertNodes([$node]);
             } else {
               $parent.insertAfter($node);
