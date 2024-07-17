@@ -15,7 +15,7 @@ export default function BlockSelectorModal(props) {
 
   return (
     <Modal isOpen size="xl" backdrop="static" centered>
-      <ModalHeader toggle={props.toggle}>Add Block</ModalHeader>
+      <ModalHeader toggle={props.toggle}>Insert Block</ModalHeader>
       <ModalBody>
         <div>
           {config.toolbar.blocks.map((item, index) => {

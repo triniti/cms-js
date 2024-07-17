@@ -56,11 +56,12 @@ export default function ToolbarPlugin() {
 
   const handleInsertBlock = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     const type = event.currentTarget.dataset.type;
     const afterNodeKey = event.currentTarget.dataset.afterNodeKey;
 
     if (type === 'text-block') {
-      editor.dispatchCommand(INSERT_BLOCK_COMMAND, { paragraph: true, afterNodeKey });
+      editor.dispatchCommand(INSERT_BLOCK_COMMAND, { afterNodeKey });
       modalRef.current = null;
       setIsModalOpen(false);
       return;
@@ -80,6 +81,7 @@ export default function ToolbarPlugin() {
 
   const handleInsertLink = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     modalRef.current = LinkModal;
     setIsModalOpen(true);
   };
@@ -168,6 +170,7 @@ export default function ToolbarPlugin() {
   const createHandler = (command, payload = null) => {
     return (event) => {
       event.preventDefault();
+      event.stopPropagation();
       editor.dispatchCommand(command, payload);
     };
   };
@@ -203,12 +206,17 @@ export default function ToolbarPlugin() {
         >
           <Icon size="sd" imgSrc="strikethrough" />
         </button>
+        {/*
+        this is broken in lexical atm
+        https://github.com/facebook/lexical/issues/4641
+        once fixed we'll re-enable
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'highlight')}
           className={`toolbar-item ${isHighlight ? 'active' : ''}`}
         >
           <Icon size="sd" imgSrc="highlight" />
         </button>
+        */}
         <button
           onClick={createHandler(isNumberList ? REMOVE_LIST_COMMAND : INSERT_ORDERED_LIST_COMMAND)}
           className={`toolbar-item ${isNumberList ? 'active' : ''}`}
