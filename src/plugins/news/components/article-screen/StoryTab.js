@@ -4,7 +4,7 @@ import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
 import { DatePickerField, KeyValuesField, NumberField, SwitchField, TextField } from '@triniti/cms/components/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
-import HeadlineFragmentsCard from '../headline-fragments-card/index.js';
+import HeadlineFragmentsCard from '@triniti/cms/plugins/news/components/headline-fragments-card/index.js';
 import slottingKeys from '@triniti/app/config/slottingKeys.js';
 
 export default function StoryTab(props) {
