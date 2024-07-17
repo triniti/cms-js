@@ -156,10 +156,16 @@ export default (props) => {
         await dispatch(updateNode(values, form, node));
 
         if (action === 'save-and-close') {
-          await progressIndicator.close();
-          toast({ title: `${startCase(ref.getLabel())} saved.` });
-          dispatch(clearAlerts());
-          await navigate(urls.leave);
+          delegate.shouldReinitialize = true;
+          delegate.onAfterReinitialize = () => {
+            progressIndicator.close();
+            toast({ title: `${startCase(ref.getLabel())} saved.` });
+            dispatch(clearAlerts());
+            setTimeout(() => {
+              navigate(urls.leave);
+            });
+          };
+          setTimeout(refreshNode);
           return;
         }
 
