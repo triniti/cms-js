@@ -11,6 +11,7 @@ import {
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister } from '@lexical/utils';
+import { LinkNode } from '@lexical/link';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
@@ -136,6 +137,27 @@ export default function BlocksmithPlugin(props) {
   useEffect(() => {
     editor.setEditable(editMode);
   }, [editMode]);
+
+  // when in view mode, we don't want a user to accidentally
+  // get taken away if clicking on a link within blocksmith
+  useEffect(() => {
+    if (!editor || editMode) {
+      return;
+    }
+
+    return editor.registerNodeTransform(LinkNode, ($node) => {
+        if (!$node) {
+          return;
+        }
+
+        if ($node.__target === '_blank') {
+          return;
+        }
+
+        $node.setTarget('_blank');
+      }
+    );
+  }, [editor, editMode]);
 
   useEffect(() => {
     if (!pbj) {
