@@ -19,8 +19,8 @@ const OPTIONS_SIZE = [
   { label: 'XXS', value: 6 },
 ];
 
-export default function HeadlineFragmentsField(props) {
-  const { pbjName, groupClassName = '' } = props;
+export default function HeadlineFragmentsCard(props) {
+  const { groupClassName = '' } = props;
 
   const rootClassName = classNames(groupClassName, 'form-group');
   const { fields } = useFieldArray('hf');
@@ -29,18 +29,18 @@ export default function HeadlineFragmentsField(props) {
     <Card>
       <CardHeader>Headline Fragments</CardHeader>
       <CardBody className="pb-0">
-        <div className={rootClassName} id={`form-group-${pbjName || name}`}>
+        <div className={rootClassName} id={`form-group-headline-fragments`}>
           {fields.map((field, index) => {
             return (
               <Row className="gx-2" key={field}>
                 <Col>
-                  <TextField name={field} pbjName={name} />
+                  <TextField name={field} pbjName={field} />
                 </Col>
                 <Col xs="2">
-                  <SelectField name={`hf_styles[${index}]`} options={OPTIONS_STYLES} />
+                  <SelectField name={`hf_styles[${index}]`} pbjName={`hf_styles[${index}]`} options={OPTIONS_STYLES} />
                 </Col>
                 <Col xs="2">
-                  <SelectField name={`hf_size[${index}]`} options={OPTIONS_SIZE} />
+                  <SelectField name={`hf_size[${index}]`} pbjName={`hf_size[${index}]`} options={OPTIONS_SIZE} />
                 </Col>
               </Row>
             );
