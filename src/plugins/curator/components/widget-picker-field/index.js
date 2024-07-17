@@ -4,7 +4,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 function WidgetPickerField(props) {
-  return <NodePickerField {...props} showImage={false} showType />;
+  return <NodePickerField {...props} showImage={false} showType stretch />;
 }
 
 export default withRequest(WidgetPickerField, 'triniti:curator:request:search-widgets-request', {

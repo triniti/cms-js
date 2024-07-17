@@ -64,6 +64,7 @@ export default function MultiSelectField(props) {
     readOnly = false,
     required = false,
     showImage = true,
+    stretch = false,
     sortable = false,
     components = {
       MultiValue: SortableMultiValue,
@@ -86,6 +87,7 @@ export default function MultiSelectField(props) {
 
   const className = classNames(
     'select',
+    stretch && 'select-stretch',
     showImage && 'select-with-image',
     meta.touched && !meta.valid && 'is-invalid',
     meta.touched && meta.valid && 'is-valid',
