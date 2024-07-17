@@ -1,12 +1,4 @@
-@import "draggable";
-
-.blocksmith {
-  position: relative;
-}
-
-.blocksmith-inner {
-  position: relative;
-}
+// blocksmith
 
 .blocksmith-input {
   min-height: 250px;
@@ -14,94 +6,90 @@
   position: relative;
   tab-size: 1;
   outline: 0;
-  padding: .75rem 1rem;
-  caret-color: var(--bs-tertiary-color);
+  padding: .75rem 1.5rem 1.5rem 1.5rem;
+  caret-color: var(--#{$prefix}tertiary-color);
 
+  &:empty {
+    padding-top: 1.25rem;
+  }
+  &:focus-visible {
+    box-shadow: none; // inset 0 0 0 1px $focus-ring-color
+  }
   .paragraph {
     font-size: .9375rem;
   }
 }
 
 .blocksmith-placeholder {
-  color: #999;
+  color: var(--#{$prefix}dark-text-emphasis);
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 12px;
-  left: 16px;
-  font-size: 15px;
+  top: 1.25rem;
+  left: 1.5rem;
+  font-size: .9375rem;
   user-select: none;
   display: inline-block;
   pointer-events: none;
 }
 
-.blocksmith .text-bold {
-  font-weight: bold;
+.blocksmith {
+
+  .text-bold {
+    font-weight: bold;
+  }
+  .text-italic {
+    font-style: italic;
+  }
+  .text-underline {
+    text-decoration: underline;
+  }
+  .text-strikethrough {
+    text-decoration: line-through;
+  }
+  .text-underlineStrikethrough {
+    text-decoration: underline line-through;
+  }
+  a {
+    color: $secondary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
-.blocksmith .text-italic {
-  font-style: italic;
+.blocksmith-block {
+  padding: 8px 0;
 }
 
-.blocksmith .text-underline {
-  text-decoration: underline;
-}
+.blocksmith {
 
-.blocksmith .text-strikethrough {
-  text-decoration: line-through;
-}
-
-.blocksmith .text-underlineStrikethrough {
-  text-decoration: underline line-through;
-}
-
-.blocksmith .text-highlight {
-  // background-color: yellow; handled by mark
-}
-
-.blocksmith a {
-  color: rgb(33, 111, 219);
-  text-decoration: none;
-}
-
-.blocksmith .paragraph {
-  margin: 0 0 8px 0;
-  position: relative;
-}
-
-.blocksmith .paragraph:last-child {
-  margin-bottom: 0;
-}
-
-.blocksmith .list-ol,
-.blocksmith .list-ul {
-  padding: 0;
-  margin: 0 0 0 16px;
-  font-size: .9375rem;
-}
-
-.blocksmith .listitem {
-  margin: 8px 16px;
-}
-
-.blocksmith .nested-listitem {
-  list-style-type: none;
-}
-
-pre::-webkit-scrollbar {
-  background: transparent;
-  width: 10px;
-}
-
-pre::-webkit-scrollbar-thumb {
-  background: #999;
+  .paragraph {
+    padding: 8px 0;
+    margin-bottom: 0;
+    background-color: var(--#{$prefix}body-bg);
+  }
+  .listitem {
+    margin: 0 16px;
+    padding: 4px 0;
+  }
+  .list-ol,
+  .list-ul {
+    padding: 4px 0;
+    margin: 0 0 0 16px;
+    font-size: .9375rem;
+  }
+  .nested-listitem {
+    list-style-type: none;
+  }
 }
 
 .blocksmith .toolbar {
   display: flex;
   padding: 4px;
-  // border-bottom: 1px solid var(--bs-dark-border-subtle);
-  background-color: var(--bs-body-bg);
+  background-color: var(--#{$prefix}body-bg);
   box-shadow: $box-shadow-sm;
 }
 
@@ -114,32 +102,36 @@ pre::-webkit-scrollbar-thumb {
   cursor: pointer;
   justify-content: center;
   margin: 0 1px;
-  color: var(--bs-body-color);
-}
+  color: var(--#{$prefix}body-color);
 
-.blocksmith .toolbar-item:disabled {
-  cursor: not-allowed;
-}
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &.active {
+    background-color: var(--#{$prefix}status-expired);
 
-.blocksmith .toolbar-item.active {
-  background-color: var(--#{$prefix}status-expired);
-}
+    .icon {
+      opacity: 1;
+    }
+  }
+  &:disabled {
 
-.blocksmith .toolbar-item:hover:not([disabled]) {
-  background-color: $gray-rgba-100;
+    .icon {
+      opacity: 0.2;
+    }
+  }
+  &:hover:not([disabled]):not(.active) {
+    background-color: var(--#{$prefix}secondary-bg);
+  }
+  .icon {
+    margin: 0;
+  }
 }
 
 .blocksmith .dropdown-item {
   --bs-dropdown-item-padding-x: .75rem;
 }
 
-.blocksmith .active .icon {
-  opacity: 1;
-}
-
-.blocksmith button:disabled .icon {
-  opacity: 0.2;
-}
 
 // icons
 
@@ -235,6 +227,10 @@ pre::-webkit-scrollbar-thumb {
   background-image: url(../../img/icons/spotify.svg);
 }
 
+.icon-text-block {
+  background-image: url(../../img/icons/paragraph.svg);
+}
+
 .icon-tiktok-embed-block {
   background-image: url(../../img/icons/tiktok.svg);
 }
@@ -265,4 +261,40 @@ i.icon {
     filter: invert(100%);
     -webkit-filter: invert(100%);
   }
+}
+
+
+// draggable
+
+.draggable-block-menu {
+  border-radius: 4px;
+  padding: 2px 0;
+  cursor: grab;
+  opacity: 0;
+  position: absolute;
+  left: 3px;
+  top: 10px;
+  will-change: transform;
+  color: var(--#{$prefix}light-text-emphasis);
+
+  &:hover {
+    background-color: var(--#{$prefix}dark-bg-subtle);
+    color: var(--#{$prefix}tertiary-color);
+  }
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.draggable-block-target-line {
+  pointer-events: none;
+  background: var(--#{$prefix}border-color);
+  border: 1px solid $info;
+  height: 3px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  border-radius: 3px;
+  will-change: transform;
 }

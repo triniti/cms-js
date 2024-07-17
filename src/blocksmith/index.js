@@ -20,7 +20,7 @@ export default function Blocksmith(props) {
 
   return (
     <LexicalComposer initialConfig={config}>
-      <Card className="blocksmith">
+      <Card className="blocksmith mb-0">
         <BlocksmithPlugin {...props} />
         <LinkPlugin />
         <ListPlugin />
@@ -31,7 +31,7 @@ export default function Blocksmith(props) {
             <ToolbarPlugin />
           </>
         )}
-        <div className="blocksmith-inner">
+        <div className="position-relative">
           <RichTextPlugin
             contentEditable={
               <div className="blocksmith-editor" ref={editorRef}>

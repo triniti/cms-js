@@ -6,12 +6,11 @@
   * starting works and worker path resolution is not working atm.
 * media resorting and gallery management can use some tlc.
 * add headline fragments components, this is a wonky one, might be partially site specific.
-* add alert for dirty form when leaving page (used to be apart of useBlocker?)
+* with-form -- finish up this save dirty form when leaving page so we can restore it on mount again.
 * Review sorting on all search screens and pickers.
 * Add node labels component
 * review sortable on node picker, interaction is wonky af.  does node picker need this? (redo this so the sorting is done outside of the picker, i absolute hate the way it is rn)
 * review/simplify node history and reverting.
-* make sure track total results is used on search screens but not pickers
 * lock node features?
 * add title length warning on article "title"
 * add save and publish and save and close buttons on article-screen (delegate already handles it, just need the save button drop down)
@@ -21,12 +20,11 @@
 * with-form handleRestore from sessionstorage when dirty?
 * add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
-* dynamically determine duration of uploaded video or audio (like image dimensions)
-* make sure all scrollTo or scroll into view stuff works in major browsers
+* dynamically determine duration of uploaded video or audio (like image dimensions)?
 * fix ui jank when loading some modals (useMemo fixes a lot of this, ref blocksmith)
 * add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
-* fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
+* blocksmith -- fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
 * blocksmith -- add emojis inserter thingy
-* blocksmith -- add draggable nodes feature
 * blocksmith -- add word count indicator (dynamic or nah?)
-* blocksmith -- text undo/redo?
+* blocksmith -- sometimes cursor disappears after drag/drop
+* blocksmith -- copy / paste block (text already works)

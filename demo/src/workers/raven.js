@@ -1,6 +1,6 @@
 import setWebpackPublicPath from './webpackPublicPath.js';
 import '../schemas.js';
-import Raven from '@triniti/cms/plugins/raven/services/Raven.js';
+//import Raven from '@triniti/cms/plugins/raven/services/Raven.js';
 import mqtt from 'mqtt';
 
 setWebpackPublicPath();

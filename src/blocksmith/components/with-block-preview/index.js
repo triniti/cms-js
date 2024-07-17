@@ -1,17 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
+import camelCase from 'lodash-es/camelCase.js';
+import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Alert, Badge } from 'reactstrap';
-import { useFormContext, withPbj, ActionButton, Loading } from '@triniti/cms/components/index.js';
+import { Alert, Badge, Button } from 'reactstrap';
+import { useFormContext, withPbj, ActionButton, Loading, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
-import {
-  INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND,
-  REMOVE_BLOCK_COMMAND,
-  REPLACE_BLOCK_COMMAND
-} from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import { REMOVE_BLOCK_COMMAND, REPLACE_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 
 const okayToDelete = async () => {
   const result = await Swal.fire({
@@ -32,7 +32,7 @@ function BlockPreview(props) {
     Component,
     onDelete,
     onOpen,
-    onInsertParagraphAfter,
+    onAddBlock,
     pbj,
     editMode,
     canUpdate = false,
@@ -41,50 +41,74 @@ function BlockPreview(props) {
   } = props;
   const schema = pbj.schema();
   const { node, pbjxError } = useNode(pbj.get('node_ref'));
+
+  let nodeType = 'unknown';
+  let nodeStatus = 'unknown';
   if (pbj.has('node_ref')) {
-    const nodeType = node ? node.schema().getCurie().getMessage() : 'node';
+    nodeType = node ? camelCase(node.schema().getCurie().getMessage()) : 'unknown';
     rest[nodeType] = node;
+    nodeStatus = node ? node.get('status').getValue() : 'unknown';
   }
 
+  const type = schema.getCurie().getMessage();
+
   return (
-    <Alert color="dark">
-      <Badge color="dark">{schema.getCurie().getMessage()}</Badge>
+    <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
+      <Alert color="dark" className="mb-0">
+        <Badge color="light">
+          <i className={`icon icon-sm me-2 icon-${type}`} />
+          {startCase(type.replace('-block', ''))}
+        </Badge>
+        {node && (
+          <>
+            <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+            <a href={nodeUrl(node, 'view')} target="_blank">
+              <Button color="hover" tag="span">
+                <Icon imgSrc="eye" alt="view" />
+              </Button>
+            </a>
+          </>
+        )}
 
-      {pbj.has('node_ref') && (
-        <>
-          {(!node || pbjxError) && <Loading error={pbjxError} />}
-          {node && <Component {...rest} pbj={pbj} />}
-        </>
-      )}
-      {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} />}
+        <div className="block-preview">
+          {pbj.has('node_ref') && (
+            <>
+              {(!node || pbjxError) && <Loading error={pbjxError} />}
+              {node && <Component {...rest} pbj={pbj} block={pbj} />}
+            </>
+          )}
+          {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
+        </div>
 
-      <ActionButton
-        onClick={onOpen}
-        text={editMode && canUpdate ? 'Edit' : 'View'}
-        icon={editMode && canUpdate ? 'pencil' : 'eye'}
-        color="light"
-        outline
-      />
-      {editMode && canDelete && (
         <ActionButton
-          onClick={onDelete}
-          text="Delete"
-          icon="trash"
-          color="danger"
+          onClick={onOpen}
+          text={editMode && canUpdate ? 'Edit' : 'View'}
+          icon={editMode && canUpdate ? 'pencil' : 'eye'}
+          color="light"
           outline
         />
-      )}
 
-      {editMode && (
-        <ActionButton
-          onClick={onInsertParagraphAfter}
-          text="Insert Paragraph After"
-          icon="plus-outline"
-          color="primary"
-          outline
-        />
-      )}
-    </Alert>
+        {editMode && canDelete && (
+          <ActionButton
+            onClick={onDelete}
+            text="Delete"
+            icon="trash"
+            color="danger"
+            outline
+          />
+        )}
+
+        {editMode && (
+          <ActionButton
+            onClick={onAddBlock}
+            text="Add Block"
+            icon="plus-outline"
+            color="primary"
+            outline
+          />
+        )}
+      </Alert>
+    </div>
   );
 }
 
@@ -131,8 +155,8 @@ export default function withBlockPreview(Component) {
       editor.dispatchCommand(REPLACE_BLOCK_COMMAND, { nodeKey, newPbj });
     };
 
-    const handleInsertParagraphAfter = () => {
-      editor.dispatchCommand(INSERT_PARAGRAPH_AFTER_BLOCK_COMMAND, nodeKey);
+    const handleAddBlock = () => {
+      editor.dispatchCommand(SHOW_BLOCK_SELECTOR_COMMAND, nodeKey);
     };
 
     return (
@@ -147,7 +171,7 @@ export default function withBlockPreview(Component) {
           onDelete={handleDelete}
           canDelete={canDelete}
           canUpdate={canUpdate}
-          onInsertParagraphAfter={handleInsertParagraphAfter}
+          onAddBlock={handleAddBlock}
         />
         <BlocksmithModal
           toggle={toggleModal}

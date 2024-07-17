@@ -4,9 +4,10 @@ import {
   $getSelection,
   $isRangeSelection,
   $isRootOrShadowRoot,
+  createCommand,
+  COMMAND_PRIORITY_EDITOR,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
-  INSERT_PARAGRAPH_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
@@ -23,13 +24,18 @@ import { Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
+import BlockSelectorModal from '@triniti/cms/blocksmith/components/block-selector-modal/index.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
+import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import config from '@triniti/cms/blocksmith/config.js';
+
+export const SHOW_BLOCK_SELECTOR_COMMAND = createCommand();
 
 export default function ToolbarPlugin() {
   const policy = usePolicy();
   const [editor] = useLexicalComposerContext();
+  const [refreshed, setRefreshed] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef();
   const toolbarRef = useRef(null);
@@ -51,15 +57,24 @@ export default function ToolbarPlugin() {
   const handleInsertBlock = (event) => {
     event.preventDefault();
     const type = event.currentTarget.dataset.type;
+    const afterNodeKey = event.currentTarget.dataset.afterNodeKey;
 
     if (type === 'text-block') {
-      editor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, null);
+      editor.dispatchCommand(INSERT_BLOCK_COMMAND, { paragraph: true, afterNodeKey });
+      modalRef.current = null;
+      setIsModalOpen(false);
       return;
     }
 
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
-    modalRef.current = (p) => <Component curie={curie} canCreate {...p} />;
+    modalRef.current = (p) => <Component curie={curie} afterNodeKey={afterNodeKey} canCreate {...p} />;
+    setIsModalOpen(true);
+    setRefreshed(refreshed + 1); // merely forces reload of this component
+  };
+
+  const handleShowBlockSelector = (nodeKey) => {
+    modalRef.current = (p) => <BlockSelectorModal afterNodeKey={nodeKey} {...p} />;
     setIsModalOpen(true);
   };
 
@@ -142,6 +157,10 @@ export default function ToolbarPlugin() {
         },
         COMMAND_PRIORITY_LOW,
       ),
+      editor.registerCommand(SHOW_BLOCK_SELECTOR_COMMAND, (nodeKey) => {
+        handleShowBlockSelector(nodeKey);
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
     );
   }, [editor, $updateToolbar, isModalOpen]);
 
@@ -207,7 +226,6 @@ export default function ToolbarPlugin() {
             <button onClick={handleInsertLink} className="toolbar-item">
               <Icon imgSrc="link" />
             </button>
-            <div style={{width: '34px'}}></div>
           </>
         )}
         {isLink && (
@@ -240,7 +258,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sm me-2 icon-${item.type}`} />
+                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );
@@ -265,7 +283,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sm me-2 icon-${item.type}`} />
+                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );
@@ -278,6 +296,7 @@ export default function ToolbarPlugin() {
         isOpen={isModalOpen}
         modal={modalRef.current}
         selectedLink={selectedLink}
+        onInsertBlock={handleInsertBlock}
       />
     </>
   );

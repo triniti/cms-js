@@ -27,4 +27,4 @@ export const getInstance = () => app;
       <Root />
     </Provider>
   );
-})();
+})().catch(console.error);
