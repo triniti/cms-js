@@ -56,6 +56,7 @@ export default function ToolbarPlugin() {
 
   const handleInsertBlock = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     const type = event.currentTarget.dataset.type;
     const afterNodeKey = event.currentTarget.dataset.afterNodeKey;
 
@@ -80,6 +81,7 @@ export default function ToolbarPlugin() {
 
   const handleInsertLink = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     modalRef.current = LinkModal;
     setIsModalOpen(true);
   };
@@ -168,6 +170,7 @@ export default function ToolbarPlugin() {
   const createHandler = (command, payload = null) => {
     return (event) => {
       event.preventDefault();
+      event.stopPropagation();
       editor.dispatchCommand(command, payload);
     };
   };

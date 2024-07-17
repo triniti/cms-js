@@ -32,7 +32,7 @@ function BlockPreview(props) {
     Component,
     onDelete,
     onOpen,
-    onAddBlock,
+    onInsertBlock,
     pbj,
     editMode,
     canUpdate = false,
@@ -100,8 +100,8 @@ function BlockPreview(props) {
 
         {editMode && (
           <ActionButton
-            onClick={onAddBlock}
-            text="Add Block"
+            onClick={onInsertBlock}
+            text="Insert Block"
             icon="plus-outline"
             color="primary"
             outline
@@ -130,11 +130,13 @@ export default function withBlockPreview(Component) {
     const toggleModal = () => setIsModalOpen(!isModalOpen);
     const handleOpen = (event) => {
       event.preventDefault();
+      event.stopPropagation();
       toggleModal();
     };
 
     const handleDelete = async (event) => {
       event.preventDefault();
+      event.stopPropagation();
 
       if (!editMode || !canDelete) {
         return;
@@ -155,7 +157,9 @@ export default function withBlockPreview(Component) {
       editor.dispatchCommand(REPLACE_BLOCK_COMMAND, { nodeKey, newPbj });
     };
 
-    const handleAddBlock = () => {
+    const handleInsertBlock = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       editor.dispatchCommand(SHOW_BLOCK_SELECTOR_COMMAND, nodeKey);
     };
 
@@ -171,7 +175,7 @@ export default function withBlockPreview(Component) {
           onDelete={handleDelete}
           canDelete={canDelete}
           canUpdate={canUpdate}
-          onAddBlock={handleAddBlock}
+          onInsertBlock={handleInsertBlock}
         />
         <BlocksmithModal
           toggle={toggleModal}

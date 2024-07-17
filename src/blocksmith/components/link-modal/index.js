@@ -34,6 +34,8 @@ export default function LinkModal(props) {
 
   const handleUpdate = (event) => {
     event.preventDefault();
+    event.stopPropagation();
+
     if (!isValid) {
       return;
     }
@@ -48,6 +50,7 @@ export default function LinkModal(props) {
 
   const handleRemove = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     handleToggle();
   };
