@@ -6,6 +6,7 @@
   * starting works and worker path resolution is not working atm.
 * media resorting and gallery management can use some tlc.
 * add headline fragments components, this is a wonky one, might be partially site specific.
+* with-form -- finish up this save dirty form when leaving page so we can restore it on mount again.
 * Review sorting on all search screens and pickers.
 * Add node labels component
 * review sortable on node picker, interaction is wonky af.  does node picker need this? (redo this so the sorting is done outside of the picker, i absolute hate the way it is rn)

@@ -23,6 +23,13 @@ export default function LinkModal(props) {
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
   const isNew = !selectedLink;
 
+  const handleToggle = () => {
+    setUrl(null);
+    setTarget(null);
+    setIsValid(false);
+    props.toggle();
+  };
+
   const handleUpdate = (event) => {
     event.preventDefault();
     if (!isValid) {
@@ -34,13 +41,25 @@ export default function LinkModal(props) {
       payload.rel = 'noopener noreferrer';
     }
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, payload);
-    props.toggle();
+    handleToggle();
   };
 
   const handleRemove = (event) => {
     event.preventDefault();
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    props.toggle();
+    handleToggle();
+  };
+
+  const handleChange = (event) => {
+    let value = event.target.value || '';
+    if (value.startsWith('http:')) {
+      value = value.replace('http://', 'https://');
+    }
+    setUrl(value);
+  };
+
+  const handleBlur = () => {
+    setIsValid(isValidUrl(url));
   };
 
   return (
@@ -57,14 +76,14 @@ export default function LinkModal(props) {
               <input
                 id="link-url"
                 name="url"
-                className={`form-control ${isValid ? 'is-valid' : 'is-invalid'}`}
+                className={`form-control ${url && isValid && 'is-valid'} ${url && !isValid && 'is-invalid'}`}
                 type="url"
                 value={url}
-                onChange={event => setUrl(event.target.value)}
-                onBlur={() => setIsValid(isValidUrl(url))}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </InputGroup>
-            {!isValid && <FormText color="danger">Please enter a valid URL.</FormText>}
+            {!isValid && url && <FormText color="danger">Please enter a valid URL.</FormText>}
           </div>
 
           <div className="form-check">
@@ -83,7 +102,7 @@ export default function LinkModal(props) {
       <ModalFooter>
         <ActionButton
           text="Close"
-          onClick={props.toggle}
+          onClick={handleToggle}
           icon="close-sm"
           color="light"
           tabIndex="-1"
@@ -100,7 +119,7 @@ export default function LinkModal(props) {
         <ActionButton
           text={isNew ? 'Add Link' : 'Update Link'}
           onClick={handleUpdate}
-          disabled={!isValid}
+          disabled={!isValid || !url}
           icon="link"
           color="primary"
           tabIndex="-1"
