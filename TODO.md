@@ -11,7 +11,6 @@
 * add title length warning on article "title"
 * send purge cache command when asset variant is replaced.
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
-* add thumbnail to more search screens (like people)?
 * add icon to teaser screen header?
 * dynamically determine duration of uploaded video or audio (like image dimensions)?
 * add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
