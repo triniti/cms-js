@@ -69,6 +69,7 @@
   .paragraph {
     padding: 8px 0;
     margin-bottom: 0;
+    border-radius: $border-radius-lg;
     background-color: var(--#{$prefix}body-bg);
   }
   .listitem {
@@ -132,6 +133,44 @@
   --bs-dropdown-item-padding-x: .75rem;
 }
 
+.blocksmith-block {
+
+  .card {
+    border-radius: $border-radius-lg;
+    border: 1px solid var(--#{$prefix}border-color);
+    background: var(--#{$prefix}secondary-bg);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  .card-header {
+    padding: 0 1rem;
+    background-color: transparent;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+  }
+}
+
+.btn-insert-block {
+  position: absolute;
+  bottom: -15px;
+  margin: 0 .5rem;
+  padding: 0;
+  width: calc(100% - 1rem);
+  min-height: 30px;
+  border: none;
+  box-shadow: none !important;
+
+  > div {
+    color: $white;
+    background-color: var(--#{$prefix}btn-bg);
+    box-shadow: $box-shadow;
+    opacity: 0;
+    transition: opacity $transition;
+  }
+  &:hover {
+    > div {
+      opacity: 1;
+    }
+  }
+}
 
 // icons
 

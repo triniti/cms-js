@@ -756,11 +756,14 @@ button.close {
   justify-content: start;
   margin: 0;
   border-radius: 50rem;
+  box-shadow: none !important;
+  --bs-btn-bg: transparent;
+  // --bs-btn-hover-bg: #{$gray-rgba-100};
 
   .modal & {
-    --bs-btn-bg: transparent;
 
     [data-bs-theme=dark] & {
+      --bs-btn-bg: transparent;
       --bs-btn-hover-bg: var(--bs-secondary-bg);
     }
   }

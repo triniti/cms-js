@@ -3,8 +3,8 @@ import Swal from 'sweetalert2';
 import camelCase from 'lodash-es/camelCase.js';
 import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Alert, Badge, Button } from 'reactstrap';
-import { useFormContext, withPbj, ActionButton, Loading, Icon } from '@triniti/cms/components/index.js';
+import { Badge, Button, Card, CardBody, CardHeader } from 'reactstrap';
+import { useFormContext, withPbj, Loading, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -54,23 +54,34 @@ function BlockPreview(props) {
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
-      <Alert color="dark" className="mb-0">
-        <Badge color="light">
-          <i className={`icon icon-sm me-2 icon-${type}`} />
-          {startCase(type.replace('-block', ''))}
-        </Badge>
-        {node && (
-          <>
-            <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
-            <a href={nodeUrl(node, 'view')} target="_blank">
-              <Button color="hover" tag="span">
-                <Icon imgSrc="eye" alt="view" />
-              </Button>
-            </a>
-          </>
-        )}
+      <Card className="mb-0">
+        <CardHeader>
+          <span className="d-inline-flex">
+            <i className={`icon icon-lg icon-${type}`} style={{ marginRight: ".25rem" }} />
+            <div className="divider-vertical"></div>
+            {startCase(type.replace('-block', ''))}
+          </span>
 
-        <div className="block-preview">
+          <span>
+            {editMode && canUpdate ? (
+              <Button color="hover" className="rounded-circle me-0" onClick={onOpen}>
+                <Icon imgSrc="pencil" alt="Edit" />
+              </Button>
+            ) : (
+              <Button color="hover" className="rounded-circle me-0" onClick={onOpen}>
+                <Icon imgSrc="eye" alt="View" />
+              </Button>
+            )}
+
+            {editMode && canDelete && (
+              <Button color="hover" className="rounded-circle me-0" onClick={onDelete}>
+                <Icon imgSrc="trash" alt="Delete" />
+              </Button>
+            )}
+          </span>
+        </CardHeader>
+
+        <CardBody className="p-3">
           {pbj.has('node_ref') && (
             <>
               {(!node || pbjxError) && <Loading error={pbjxError} />}
@@ -78,36 +89,29 @@ function BlockPreview(props) {
             </>
           )}
           {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
-        </div>
 
-        <ActionButton
-          onClick={onOpen}
-          text={editMode && canUpdate ? 'Edit' : 'View'}
-          icon={editMode && canUpdate ? 'pencil' : 'eye'}
-          color="light"
-          outline
-        />
+          {node && (
+            <a href={nodeUrl(node, 'view')} target="_blank">
+              <Button color="hover" tag="span" size="sm" className="mb-0 me-2">
+                <Icon imgSrc="external" alt="view" />
+              </Button>
+            </a>
+          )}
 
-        {editMode && canDelete && (
-          <ActionButton
-            onClick={onDelete}
-            text="Delete"
-            icon="trash"
-            color="danger"
-            outline
-          />
-        )}
+          {node && (
+            <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+          )}
+        </CardBody>
 
         {editMode && (
-          <ActionButton
-            onClick={onInsertBlock}
-            text="Insert Block"
-            icon="plus-outline"
-            color="primary"
-            outline
-          />
+          <Button color="insert-block" onClick={onInsertBlock}>
+            <div className="rounded-circle btn-primary p-1">
+              <Icon imgSrc="plus" alt="Insert Block" size="md" />
+            </div>
+          </Button>
         )}
-      </Alert>
+
+      </Card>
     </div>
   );
 }

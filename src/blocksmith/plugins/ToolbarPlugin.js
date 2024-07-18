@@ -266,7 +266,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
+                  <Icon imgSrc={item.icon} className="me-2" size="sd" />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );
@@ -291,7 +291,7 @@ export default function ToolbarPlugin() {
 
               return (
                 <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon me-2 icon-${item.type}`} />
+                  <Icon imgSrc={item.icon} className="me-2" />
                   <span className="text">{item.text}</span>
                 </DropdownItem>
               );

@@ -453,13 +453,15 @@ hr {
 
 .divider-vertical {
   width: 1px;
-  background-color: var(--bs-dark-border-subtle);
+  align-self: stretch;
+  background-color: var(--#{$prefix}border-color);
+  margin: 0 .625rem;
 }
 
 .divider-horizontal {
   height: 1px;
   width: 100%;
-  background-color: var(--bs-dark-border-subtle);
+  background-color: var(--#{$prefix}dark-border-subtle);
 }
 
 

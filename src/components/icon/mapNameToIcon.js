@@ -135,6 +135,7 @@ import numberSign from '@triniti/cms/components/icon/number-sign.svg';
 import orderedList from '@triniti/cms/components/icon/ordered-list.svg';
 import pageBreak from '@triniti/cms/components/icon/page-break.svg';
 import paperclip from '@triniti/cms/components/icon/paperclip.svg';
+import paragraph from '@triniti/cms/components/icon/paragraph.svg';
 import pause from '@triniti/cms/components/icon/pause.svg';
 import pauseOutline from '@triniti/cms/components/icon/pause-outline.svg';
 import pen from '@triniti/cms/components/icon/pen.svg';
@@ -193,6 +194,7 @@ import tagOutline from '@triniti/cms/components/icon/tag-outline.svg';
 import tagOutlineSlanted from '@triniti/cms/components/icon/tag-outline-slanted.svg';
 import tagSlanted from '@triniti/cms/components/icon/tag-slanted.svg';
 import tagSolid from '@triniti/cms/components/icon/tag-solid.svg';
+import tumblr from '@triniti/cms/components/icon/tumblr.svg';
 import tiktok from '@triniti/cms/components/icon/tiktok.svg';
 import timeline from '@triniti/cms/components/icon/timeline.svg';
 import trash from '@triniti/cms/components/icon/trash.svg';
@@ -220,6 +222,7 @@ import warningSolid from '@triniti/cms/components/icon/warning-solid.svg';
 import warningSolidAlt from '@triniti/cms/components/icon/warning-solid-alt.svg';
 import warningSolidTriangle from '@triniti/cms/components/icon/warning-solid-triangle.svg';
 import weight from '@triniti/cms/components/icon/weight.svg';
+import x from '@triniti/cms/components/icon/x.svg';
 import youtube from '@triniti/cms/components/icon/youtube.svg';
 import zip from '@triniti/cms/components/icon/zip.svg';
 import zoomIn from '@triniti/cms/components/icon/zoom-in.svg';
@@ -363,6 +366,7 @@ const icons = {
   'ordered-list': orderedList,
   paperclip,
   'page-break': pageBreak,
+  paragraph,
   pause,
   'pause-outline': pauseOutline,
   pen,
@@ -425,6 +429,7 @@ const icons = {
   timeline,
   trash,
   triniti,
+  tumblr,
   tweet,
   twitter,
   underline,
@@ -448,6 +453,7 @@ const icons = {
   'warning-solid-alt': warningSolidAlt,
   'warning-solid-triangle': warningSolidTriangle,
   weight,
+  x,
   youtube,
   zip,
   'zoom-in': zoomIn,
