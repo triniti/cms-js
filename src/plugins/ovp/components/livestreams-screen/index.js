@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort.js';
-import { Loading, Screen } from '@triniti/cms/components/index.js';
+import { Button } from 'reactstrap';
+import { Icon, Loading, Screen } from '@triniti/cms/components/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import MediaLiveCard from '@triniti/cms/plugins/ovp/components/livestreams-screen/MediaLiveCard.js';
@@ -10,7 +11,18 @@ function LivestreamsScreen(props) {
   const { response, pbjxError, isRunning, run } = useRequest(request);
 
   return (
-    <Screen header="Livestreams" activeNav="Content">
+    <Screen
+      header="Livestreams"
+      activeNav="Content"
+      primaryActions={
+        <a href="https://players.akamai.com/hls/" target="_blank" rel="noopener noreferrer">
+          <Button color="hover" tag="span">
+            <Icon imgSrc="external" alt="open" className="me-2" />
+            HLS Player
+          </Button>
+        </a>
+      }
+    >
       {(!response || pbjxError) && <Loading error={pbjxError} />}
 
       {response && !response.has('nodes') && (

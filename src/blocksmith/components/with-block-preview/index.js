@@ -12,6 +12,7 @@ import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js'
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import { REMOVE_BLOCK_COMMAND, REPLACE_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
+import config from '@triniti/cms/blocksmith/config.js';
 
 const okayToDelete = async () => {
   const result = await Swal.fire({
@@ -51,27 +52,23 @@ function BlockPreview(props) {
   }
 
   const type = schema.getCurie().getMessage();
+  const icon = config.blocks[type]?.icon || type;
+  const title = config.blocks[type]?.title || startCase(type.replace('-block', ''));
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
-      <Card className="mb-0">
-        <CardHeader>
+      <Card className="mb-0 block-preview">
+        <CardHeader className="block-preview-header">
           <span className="d-inline-flex">
-            <i className={`icon icon-lg icon-${type}`} style={{ marginRight: ".25rem" }} />
+            <Icon imgSrc={icon} alt="" />
             <div className="divider-vertical"></div>
-            {startCase(type.replace('-block', ''))}
+            {title}
           </span>
 
           <span>
-            {editMode && canUpdate ? (
-              <Button color="hover" className="rounded-circle me-0" onClick={onOpen}>
-                <Icon imgSrc="pencil" alt="Edit" />
-              </Button>
-            ) : (
-              <Button color="hover" className="rounded-circle me-0" onClick={onOpen}>
-                <Icon imgSrc="eye" alt="View" />
-              </Button>
-            )}
+            <Button color="hover" className="rounded-circle me-0" onClick={onOpen}>
+              {editMode && canUpdate ? <Icon imgSrc="pencil" alt="Edit" /> : <Icon imgSrc="eye" alt="View" />}
+            </Button>
 
             {editMode && canDelete && (
               <Button color="hover" className="rounded-circle me-0" onClick={onDelete}>
@@ -81,7 +78,7 @@ function BlockPreview(props) {
           </span>
         </CardHeader>
 
-        <CardBody className="p-3">
+        <CardBody className="p-3 block-preview-body">
           {pbj.has('node_ref') && (
             <>
               {(!node || pbjxError) && <Loading error={pbjxError} />}
@@ -91,15 +88,14 @@ function BlockPreview(props) {
           {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
 
           {node && (
-            <a href={nodeUrl(node, 'view')} target="_blank">
-              <Button color="hover" tag="span" size="sm" className="mb-0 me-2">
-                <Icon imgSrc="external" alt="view" />
-              </Button>
-            </a>
-          )}
-
-          {node && (
-            <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+            <>
+              <a href={nodeUrl(node, 'view')} target="_blank">
+                <Button color="hover" tag="span" size="sm" className="mb-0 me-0">
+                  <Icon imgSrc="external" alt="view" />
+                </Button>
+              </a>
+              <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+            </>
           )}
         </CardBody>
 
@@ -110,7 +106,6 @@ function BlockPreview(props) {
             </div>
           </Button>
         )}
-
       </Card>
     </div>
   );

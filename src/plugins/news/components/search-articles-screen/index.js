@@ -75,8 +75,7 @@ function SearchArticlesScreen(props) {
               {response.get('nodes', []).map(node => {
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`}
-                      onClick={handleRowClick}>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="text-center py-2 pe-1">
                       <Media
