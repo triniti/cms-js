@@ -29,7 +29,7 @@ function ImageBlockPreview(props) {
           <tbody>
           <tr>
             <th className="nowrap ps-2 pt-0" scope="row">Title:</th>
-            <td className="w-100 text-break pt-0">{block.get('title', imageAsset.get('title'), '')}</td>
+            <td className="w-100 text-break pt-0">{block.get('title') || imageAsset.get('display_title') || imageAsset.get('title', '')}</td>
           </tr>
           {block.has('caption') && (
             <tr>
