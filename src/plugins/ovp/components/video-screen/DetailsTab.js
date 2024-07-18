@@ -37,7 +37,7 @@ export default function DetailsTab(props) {
             <DatePickerField name="expires_at" label="Expires At" />
           )}
 
-          <TextareaField name="description" label="Description" rows={3} />
+          <TextareaField name="description" label="Description" rows={5} />
           <ImageAssetPickerField name="image_ref" label="Primary Image" />
           <ImageAssetPickerField name="poster_image_ref" label="Poster Image" />
           <TextField name="launch_text" label="Launch Text" />

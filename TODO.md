@@ -13,7 +13,6 @@
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
 * add icon to teaser screen header?
 * dynamically determine duration of uploaded video or audio (like image dimensions)?
-* add derefs to useNode (might need for ovp livestreams card if we add that to video screen)
 * blocksmith -- fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
 * blocksmith -- add emojis inserter thingy
 * blocksmith -- add word count indicator (dynamic or nah?)
