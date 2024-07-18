@@ -60,4 +60,5 @@ registerTemplates({
   [`${APP_VENDOR}:video.canonical`]: '{+web_base_url}videos/{slug}/',
   [`${APP_VENDOR}:video-teaser.canonical`]: '{+web_base_url}t/video/{_id}/',
   [`${APP_VENDOR}:youtube-video-teaser.canonical`]: '{+web_base_url}t/youtube-video/{_id}/',
+  'eme-form-block.canonical': '{+web_base_url}form/{id}',
 });
