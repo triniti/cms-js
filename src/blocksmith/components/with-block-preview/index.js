@@ -86,17 +86,6 @@ function BlockPreview(props) {
             </>
           )}
           {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
-
-          {node && (
-            <div className="d-flex justify-content-between mt-1">
-              <a href={nodeUrl(node, 'view')} target="_blank">
-                <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{minHeight: 'initial'}}>
-                  <Icon imgSrc="external" alt="view" />
-                </Button>
-              </a>
-              <Badge color="dark" className={`align-self-end status-${nodeStatus}`}>{nodeStatus}</Badge>
-            </div>
-          )}
         </CardBody>
 
         {editMode && (
