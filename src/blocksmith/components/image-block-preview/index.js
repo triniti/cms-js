@@ -48,8 +48,8 @@ function ImageBlockPreview(props) {
           <tr>
             <th colSpan={2} className="nowrap ps-2" scope="row">
               <Badge color="dark" className={`align-self-end status-${status}`}>{status}</Badge>
-              <a href={nodeUrl(imageAsset, 'view')} target="_blank">
-                <Button color="hover" tag="span" size="sm" className="ms-3 mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
+              <a href={nodeUrl(imageAsset, 'view')} className="ms-3" target="_blank">
+                <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
                   <Icon imgSrc="external" alt="view" />
                 </Button>
               </a>
