@@ -15,16 +15,14 @@ function ImageBlockPreview(props) {
   return (
     <Row className="gx-2" >
       <Col xs={2}>
-        <a href={nodeUrl(imageAsset, 'view')} className="hover-box-shadow d-inline-block rounded-2" target="_blank">
-          <Media
-              className={`block-image rounded-2 ratio-${version.replace('by', 'x')}`}
-              src={imageUrl}
-              alt=""
-              width="100%"
-              height="auto"
-              object
-          />
-        </a>
+        <Media
+          className={`block-image rounded-2 ratio-${version.replace('by', 'x')}`}
+          src={imageUrl}
+          alt=""
+          width="100%"
+          height="auto"
+          object
+        />
       </Col>
       <Col>
         <Table borderless size="sm">
