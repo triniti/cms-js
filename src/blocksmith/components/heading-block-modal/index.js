@@ -15,7 +15,7 @@ function HeadingBlockModal() {
   return (
     <>
       <TextareaField name="text" label="Text" row={2} required />
-      <SelectField name="size" label="Size" options={sizes} ignoreUnknownOptions />
+      <SelectField name="size" label="Size" options={sizes} ignoreUnknownOptions required />
       <UrlField name="url" label="URL" />
     </>
   );
