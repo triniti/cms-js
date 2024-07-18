@@ -145,6 +145,29 @@
     padding: 0 1rem;
     background-color: transparent;
     border-radius: $border-radius-lg $border-radius-lg 0 0;
+    box-shadow: none;
+  }
+}
+
+.card-header {
+
+  .blocksmith-block-node-status-archived & {
+    background-color: var(--#{$prefix}status-archived) !important;
+  }
+  .blocksmith-block-node-status-deleted & {
+    background-color: var(--#{$prefix}status-deleted) !important;
+  }
+  .blocksmith-block-node-status-draft & {
+    background-color: var(--#{$prefix}status-draft) !important;
+  }
+  .blocksmith-block-node-status-expired & {
+    background-color: var(--#{$prefix}status-expired) !important;
+  }
+  .blocksmith-block-node-status-pending & {
+    background-color: var(--#{$prefix}status-pending) !important;
+  }
+  .blocksmith-block-node-status-scheduled & {
+    background-color: var(--#{$prefix}status-scheduled) !important;
   }
 }
 

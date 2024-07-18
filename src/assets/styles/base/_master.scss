@@ -454,7 +454,7 @@ hr {
 .divider-vertical {
   width: 1px;
   align-self: stretch;
-  background-color: var(--#{$prefix}border-color);
+  background-color: var(--#{$prefix}border-color-translucent);
   margin: 0 .625rem;
 }
 
