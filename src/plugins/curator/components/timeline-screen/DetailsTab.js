@@ -31,7 +31,7 @@ export default function DetailsTab(props) {
           )}
 
           <ImageAssetPickerField name="image_ref" label="Primary Image" />
-          <TextareaField name="description" label="Description" rows={3} />
+          <TextareaField name="description" label="Description" rows={5} />
 
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />

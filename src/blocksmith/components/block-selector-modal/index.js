@@ -14,50 +14,58 @@ export default function BlockSelectorModal(props) {
   const policy = usePolicy();
 
   return (
-    <Modal isOpen size="xl" backdrop="static" centered>
+    <Modal isOpen size="md" backdrop="static" centered>
       <ModalHeader toggle={props.toggle}>Insert Block</ModalHeader>
       <ModalBody>
-        <div>
-          {config.toolbar.blocks.map((item, index) => {
-            if (item === 'separator') {
+        <div className="grid gap-3 row-gap-2">
+          {config.toolbar.blocks.map((type, index) => {
+            if (type === 'separator') {
               return null;
             }
 
-            if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+            if (!policy.isGranted(`blocksmith:${type}:create`)) {
               return null;
             }
+
+            const icon = type;//config.blocks[type]?.icon || type;
+            const title = config.blocks[type]?.title || type;
 
             return (
               <a
-                key={`${item.type}${index}`}
+                key={`${type}${index}`}
                 onClick={onInsertBlock}
-                data-type={item.type}
-                data-after-node-key={afterNodeKey}>
-                <i className={`icon icon-sd me-2 icon-${item.type}`} />
-                <span className="text">{item.text}</span>
+                data-type={type}
+                data-after-node-key={afterNodeKey}
+                className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
+                <i className={`icon icon-sd me-2 icon-${icon}`} />
+                <span className="text">{title}</span>
               </a>
             );
           })}
         </div>
-
-        <div>
-          {config.toolbar.externalBlocks.map((item, index) => {
-            if (item === 'separator') {
+        <hr/>
+        <div className="grid gap-3 row-gap-2">
+          {config.toolbar.externalBlocks.map((type, index) => {
+            if (type === 'separator') {
               return null;
             }
 
-            if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+            if (!policy.isGranted(`blocksmith:${type}:create`)) {
               return null;
             }
+
+            const icon = type;//config.blocks[type]?.icon || type;
+            const title = config.blocks[type]?.title || type;
 
             return (
               <a
-                key={`${item.type}${index}`}
+                key={`${type}${index}`}
                 onClick={onInsertBlock}
-                data-type={item.type}
-                data-after-node-key={afterNodeKey}>
-                <i className={`icon icon-sd me-2 icon-${item.type}`} />
-                <span className="text">{item.text}</span>
+                data-type={type}
+                data-after-node-key={afterNodeKey}
+                className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
+                <i className={`icon icon me-2 icon-${icon}`} />
+                <span className="text">{title}</span>
               </a>
             );
           })}

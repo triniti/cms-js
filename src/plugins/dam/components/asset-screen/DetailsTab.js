@@ -78,7 +78,7 @@ export default function DetailsTab(props) {
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
             <DatePickerField name="expires_at" label="Expires At" />
           )}
-          <TextareaField name="description" label="Description" rows={3} />
+          <TextareaField name="description" label="Description" rows={5} />
           {schema.hasField('alt_text') && (
             <TextField name="alt_text" label="Alt Text" />
           )}

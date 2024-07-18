@@ -69,7 +69,7 @@ export default function DetailsTab(props) {
           <PicklistField picklist="teaser-credits" name="credit" label="Credit" />
           <UrlField name="credit_url" label="Credit URL" />
           <TextField name="cta_text" label="Call To Action" />
-          <TextareaField name="description" label="Description" rows={3} />
+          <TextareaField name="description" label="Description" rows={5} />
           <TimelinePickerField name="timeline_ref" label="Timeline" />
 
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (

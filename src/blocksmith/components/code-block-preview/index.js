@@ -2,9 +2,11 @@ import React from 'react';
 import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-preview/index.js';
 
 function CodeBlockPreview(props) {
-  const { pbj } = props;
+  const { block } = props;
   return (
-    <p>{JSON.stringify(pbj)}</p>
+    <textarea className="form-control" rows={3} readOnly>
+      {block.get('code')}
+    </textarea>
   );
 }
 

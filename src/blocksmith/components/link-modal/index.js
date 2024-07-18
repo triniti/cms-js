@@ -69,7 +69,7 @@ export default function LinkModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static" centered>
+    <Modal isOpen size="lg" backdrop="static" centered>
       <ModalHeader toggle={props.toggle}>{isNew ? 'Add Link' : 'Update Link'}</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleUpdate} autoComplete="off">

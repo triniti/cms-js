@@ -69,6 +69,7 @@
   .paragraph {
     padding: 8px 0;
     margin-bottom: 0;
+    border-radius: $border-radius-lg;
     background-color: var(--#{$prefix}body-bg);
   }
   .listitem {
@@ -98,7 +99,7 @@
   display: inline-flex;
   background: none;
   border-radius: 6px;
-  padding: 5px 8px;
+  padding: 5px 7px;
   cursor: pointer;
   justify-content: center;
   margin: 0 1px;
@@ -121,7 +122,7 @@
     }
   }
   &:hover:not([disabled]):not(.active) {
-    background-color: var(--#{$prefix}secondary-bg);
+    background-color: var(--#{$prefix}dark-bg-subtle);
   }
   .icon {
     margin: 0;
@@ -132,6 +133,68 @@
   --bs-dropdown-item-padding-x: .75rem;
 }
 
+.blocksmith-block {
+
+  .card {
+    border-radius: $border-radius-lg;
+    border: 1px solid var(--#{$prefix}border-color);
+    background: var(--#{$prefix}secondary-bg);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  .card-header {
+    padding: 0 1rem;
+    min-height: 44px;
+    background-color: transparent;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    box-shadow: none;
+  }
+}
+
+.card-header {
+
+  .blocksmith-block-node-status-archived & {
+    background-color: var(--#{$prefix}status-archived) !important;
+  }
+  .blocksmith-block-node-status-deleted & {
+    background-color: var(--#{$prefix}status-deleted) !important;
+  }
+  .blocksmith-block-node-status-draft & {
+    background-color: var(--#{$prefix}status-draft) !important;
+  }
+  .blocksmith-block-node-status-expired & {
+    background-color: var(--#{$prefix}status-expired) !important;
+  }
+  .blocksmith-block-node-status-pending & {
+    background-color: var(--#{$prefix}status-pending) !important;
+  }
+  .blocksmith-block-node-status-scheduled & {
+    background-color: var(--#{$prefix}status-scheduled) !important;
+  }
+}
+
+.btn-insert-block {
+  position: absolute;
+  bottom: -15px;
+  margin: 0 .5rem;
+  padding: 0;
+  width: calc(100% - 1rem);
+  min-height: 30px;
+  border: none;
+  box-shadow: none !important;
+
+  > div {
+    color: $white;
+    background-color: var(--#{$prefix}btn-bg);
+    box-shadow: $box-shadow;
+    opacity: 0;
+    transition: opacity $transition;
+  }
+  &:hover {
+    > div {
+      opacity: 1;
+    }
+  }
+}
 
 // icons
 
@@ -258,8 +321,8 @@
 i.icon {
 
   [data-bs-theme=dark] & {
-    filter: invert(100%);
-    -webkit-filter: invert(100%);
+    filter: invert(90%);
+    -webkit-filter: invert(90%);
   }
 }
 

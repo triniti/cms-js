@@ -1,8 +1,10 @@
 import React, { lazy } from 'react';
-import { Badge, Button, Card, Input, Table } from 'reactstrap';
+import { Badge, Button, Card, Input, Media, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
@@ -66,6 +68,7 @@ function SearchTeasersScreen(props) {
               <thead>
               <tr>
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
+                <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
                 <th>Slotting</th>
                 <th>Order Date</th>
@@ -81,6 +84,16 @@ function SearchTeasersScreen(props) {
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                    <td className="text-center py-2 pe-1">
+                      <Media
+                        src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
+                        alt=""
+                        width="32"
+                        height="32"
+                        object
+                        className="rounded-2"
+                      />
+                    </td>
                     <td>
                       {node.get('title')}
                       <Badge className="ms-1" color="light" pill>

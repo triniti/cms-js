@@ -28,7 +28,7 @@ export default function DetailsTab(props) {
           <SlugField />
           <ImageAssetPickerField name="image_ref" label="Primary Image" />
           <SelectField name="bio_source" label="Bio Source" options={bioSourceOptions} />
-          <TextareaField name="bio" label="Bio" rows={6} />
+          <TextareaField name="bio" label="Bio" rows={10} />
           <SwitchField name="is_celebrity" label="Is Celebrity" />
           <UrlField name="imdb_url" label="Imdb Url" />
           <TextField name="twitter_username" label="Twitter Username" />

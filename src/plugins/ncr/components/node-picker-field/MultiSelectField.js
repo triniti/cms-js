@@ -87,6 +87,7 @@ export default function MultiSelectField(props) {
   const className = classNames(
     'select',
     showImage && 'select-with-image',
+    sortable && 'select-stacked',
     meta.touched && !meta.valid && 'is-invalid',
     meta.touched && meta.valid && 'is-valid',
   );

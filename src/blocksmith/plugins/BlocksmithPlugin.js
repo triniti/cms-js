@@ -4,6 +4,7 @@ import {
   $createParagraphNode,
   $getNodeByKey,
   $getSelection,
+  $getRoot,
   $insertNodes,
   $isRootOrShadowRoot,
   createCommand,
@@ -11,6 +12,7 @@ import {
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister } from '@lexical/utils';
+import { LinkNode } from '@lexical/link';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
@@ -38,6 +40,13 @@ export default function BlocksmithPlugin(props) {
     }
 
     const checkDirtyOnBlurListener = () => {
+      if (form.getState().submitting) {
+        // if a user clicks the save button immediately after an edit
+        // on blocksmith this listener would potentially change
+        // the value of the field wiping out whatever beforeSubmit did.
+        return;
+      }
+
       const blocks = editorToBlocks(editor);
       const newValue = blocks.length > 0 ? blocks : undefined;
       if (areBlocksEqual(newValue, initialValueRef.current)) {
@@ -94,14 +103,12 @@ export default function BlocksmithPlugin(props) {
           const $selectedNode = getSelectedNode(selection);
           if ($selectedNode) {
             if ($isRootOrShadowRoot($selectedNode)) {
-              //$selectedNode.insertNode($node);
               $insertNodes([$node]);
               return true;
             }
 
             const $parent = $selectedNode.getParent();
             if ($isRootOrShadowRoot($parent)) {
-              //$parent.insertNode($node);
               $insertNodes([$node]);
             } else {
               $parent.insertAfter($node);
@@ -111,7 +118,8 @@ export default function BlocksmithPlugin(props) {
           }
         }
 
-        $insertNodes([$node]);
+        const $root = $getRoot();
+        $root.append($node);
         return true;
       }, COMMAND_PRIORITY_EDITOR),
       editor.registerCommand(REMOVE_BLOCK_COMMAND, (nodeKey) => {
@@ -137,6 +145,27 @@ export default function BlocksmithPlugin(props) {
     editor.setEditable(editMode);
   }, [editMode]);
 
+  // when in view mode, we don't want a user to accidentally
+  // get taken away if clicking on a link within blocksmith
+  useEffect(() => {
+    if (!editor || editMode) {
+      return;
+    }
+
+    return editor.registerNodeTransform(LinkNode, ($node) => {
+        if (!$node) {
+          return;
+        }
+
+        if ($node.__target === '_blank') {
+          return;
+        }
+
+        $node.setTarget('_blank');
+      }
+    );
+  }, [editor, editMode]);
+
   useEffect(() => {
     if (!pbj) {
       return;
@@ -151,7 +180,10 @@ export default function BlocksmithPlugin(props) {
         initialValue: initialValueRef.current,
         beforeSubmit: () => {
           const blocks = editorToBlocks(editor);
-          form.change('blocks', blocks);
+          const newValue = blocks.length > 0 ? blocks : undefined;
+          if (!areBlocksEqual(newValue, initialValueRef.current)) {
+            form.change(name, newValue);
+          }
         }
       });
     });

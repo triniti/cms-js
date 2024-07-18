@@ -253,21 +253,24 @@ export default function ToolbarPlugin() {
             <Icon size="sm" imgSrc="plus-outline" className="me-2" />Insert Block
           </DropdownToggle>
           <DropdownMenu className="rounded-3">
-            {config.toolbar.blocks.map((item, index) => {
-              if (item === 'separator') {
+            {config.toolbar.blocks.map((type, index) => {
+              if (type === 'separator') {
                 return (
-                  <div key={`${item}${index}`}  tabIndex="-1" className="dropdown-divider"></div>
+                  <div key={`${type}${index}`} tabIndex="-1" className="dropdown-divider"></div>
                 );
               }
 
-              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+              if (!policy.isGranted(`blocksmith:${type}:create`)) {
                 return null;
               }
 
+              const icon = config.blocks[type]?.icon || type;
+              const title = config.blocks[type]?.title || type;
+
               return (
-                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
-                  <span className="text">{item.text}</span>
+                <DropdownItem key={`${type}${index}`} onClick={handleInsertBlock} data-type={type}>
+                  <Icon imgSrc={icon} className="me-2" size="sd" />
+                  <span className="text">{title}</span>
                 </DropdownItem>
               );
             })}
@@ -278,21 +281,24 @@ export default function ToolbarPlugin() {
             <Icon size="sm" imgSrc="plus-outline" className="me-2" /> Embed Social
           </DropdownToggle>
           <DropdownMenu className="rounded-3">
-            {config.toolbar.externalBlocks.map((item, index) => {
-              if (item === 'separator') {
+            {config.toolbar.externalBlocks.map((type, index) => {
+              if (type === 'separator') {
                 return (
-                  <hr key={`${item}${index}`} />
+                  <div key={`${type}${index}`} tabIndex="-1" className="dropdown-divider"></div>
                 );
               }
 
-              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
+              if (!policy.isGranted(`blocksmith:${type}:create`)) {
                 return null;
               }
 
+              const icon = config.blocks[type]?.icon || type;
+              const title = config.blocks[type]?.title || type;
+
               return (
-                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon icon-sd me-2 icon-${item.type}`} />
-                  <span className="text">{item.text}</span>
+                <DropdownItem key={`${type}${index}`} onClick={handleInsertBlock} data-type={type}>
+                  <Icon imgSrc={icon} className="me-2" />
+                  <span className="text">{title}</span>
                 </DropdownItem>
               );
             })}

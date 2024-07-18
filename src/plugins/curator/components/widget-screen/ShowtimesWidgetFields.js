@@ -10,7 +10,7 @@ export default function ShowtimesWidgetFields() {
       <CardHeader>Showtimes Widget Configuration</CardHeader>
       <CardBody>
         <TextField name="headline" label="Headline" />
-        <TextareaField name="excerpt" label="Excerpt" rows={2} />
+        <TextareaField name="excerpt" label="Excerpt" rows={3} />
         <ImageAssetPickerField name="image_ref" label="Image" />
         <PicklistField picklist="showtimes-widget-shows" name="show" label="Show" />
         <SwitchField name="include_latest_episode" label="Include Latest Episode" />

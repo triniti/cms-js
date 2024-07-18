@@ -138,7 +138,7 @@ function RolesForm(props) {
                 <ListGroup className="border rounded">
                   {(!response || pbjxError) && (
                     <div className="py-3 bg-transparent">
-                      <Loading size="md" error={pbjxError}>Loading Roles...</Loading>
+                      <Loading error={pbjxError}>Loading Roles...</Loading>
                     </div>
                   )}
                   {response && response.get('nodes', []).map((role) => {

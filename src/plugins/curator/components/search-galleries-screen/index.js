@@ -1,8 +1,10 @@
 import React, { lazy } from 'react';
-import { Button, Card, Table } from 'reactstrap';
+import { Button, Card, Media, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchGalleriesSort from '@triniti/schemas/triniti/curator/enums/SearchGalleriesSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
@@ -46,6 +48,7 @@ function SearchGalleriesScreen(props) {
             <Table hover responsive>
               <thead>
               <tr>
+                <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
                 <th>Order Date</th>
                 <th>Published At</th>
@@ -57,6 +60,16 @@ function SearchGalleriesScreen(props) {
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
+                    <td className="text-center py-2 pe-1">
+                      <Media
+                        src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
+                        alt=""
+                        width="32"
+                        height="32"
+                        object
+                        className="rounded-2"
+                      />
+                    </td>
                     <td>{node.get('title')}</td>
                     <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>

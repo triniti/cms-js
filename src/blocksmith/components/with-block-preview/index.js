@@ -3,8 +3,8 @@ import Swal from 'sweetalert2';
 import camelCase from 'lodash-es/camelCase.js';
 import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Alert, Badge, Button } from 'reactstrap';
-import { useFormContext, withPbj, ActionButton, Loading, Icon } from '@triniti/cms/components/index.js';
+import { Badge, Button, Card, CardBody, CardHeader } from 'reactstrap';
+import { useFormContext, withPbj, Loading, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -12,6 +12,7 @@ import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js'
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import { REMOVE_BLOCK_COMMAND, REPLACE_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
+import config from '@triniti/cms/blocksmith/config.js';
 
 const okayToDelete = async () => {
   const result = await Swal.fire({
@@ -51,26 +52,33 @@ function BlockPreview(props) {
   }
 
   const type = schema.getCurie().getMessage();
+  const icon = config.blocks[type]?.icon || type;
+  const title = config.blocks[type]?.title || startCase(type.replace('-block', ''));
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
-      <Alert color="dark" className="mb-0">
-        <Badge color="light">
-          <i className={`icon icon-sm me-2 icon-${type}`} />
-          {startCase(type.replace('-block', ''))}
-        </Badge>
-        {node && (
-          <>
-            <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
-            <a href={nodeUrl(node, 'view')} target="_blank">
-              <Button color="hover" tag="span">
-                <Icon imgSrc="eye" alt="view" />
-              </Button>
-            </a>
-          </>
-        )}
+      <Card className="mb-0 block-preview">
+        <CardHeader className="block-preview-header">
+          <span className="d-inline-flex">
+            <Icon imgSrc={icon} alt="" />
+            <div className="divider-vertical"></div>
+            {title}
+          </span>
 
-        <div className="block-preview">
+          <span>
+            <Button color="hover" className="rounded-circle me-0" onClick={onOpen}>
+              {editMode && canUpdate ? <Icon imgSrc="pencil" alt="Edit" /> : <Icon imgSrc="eye" alt="View" />}
+            </Button>
+
+            {editMode && canDelete && (
+              <Button color="hover" className="rounded-circle me-0" onClick={onDelete}>
+                <Icon imgSrc="trash" alt="Delete" />
+              </Button>
+            )}
+          </span>
+        </CardHeader>
+
+        <CardBody className="p-3 block-preview-body">
           {pbj.has('node_ref') && (
             <>
               {(!node || pbjxError) && <Loading error={pbjxError} />}
@@ -78,36 +86,27 @@ function BlockPreview(props) {
             </>
           )}
           {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
-        </div>
 
-        <ActionButton
-          onClick={onOpen}
-          text={editMode && canUpdate ? 'Edit' : 'View'}
-          icon={editMode && canUpdate ? 'pencil' : 'eye'}
-          color="light"
-          outline
-        />
-
-        {editMode && canDelete && (
-          <ActionButton
-            onClick={onDelete}
-            text="Delete"
-            icon="trash"
-            color="danger"
-            outline
-          />
-        )}
+          {node && (
+            <>
+              <a href={nodeUrl(node, 'view')} target="_blank">
+                <Button color="hover" tag="span" size="sm" className="mb-0 me-0">
+                  <Icon imgSrc="external" alt="view" />
+                </Button>
+              </a>
+              <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
+            </>
+          )}
+        </CardBody>
 
         {editMode && (
-          <ActionButton
-            onClick={onInsertBlock}
-            text="Insert Block"
-            icon="plus-outline"
-            color="primary"
-            outline
-          />
+          <Button color="insert-block" onClick={onInsertBlock}>
+            <div className="rounded-circle btn-primary p-1">
+              <Icon imgSrc="plus" alt="Insert Block" size="md" />
+            </div>
+          </Button>
         )}
-      </Alert>
+      </Card>
     </div>
   );
 }
