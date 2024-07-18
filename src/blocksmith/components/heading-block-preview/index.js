@@ -4,15 +4,15 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 
 function HeadingBlockPreview(props) {
   const { block } = props;
-  const Tag = `H${block.get('size', 1)}`;
+  const Tag = `h${block.get('size', 1)}`;
 
   if (!block.has('url')) {
-    return <Tag><Badge color="dark" className="me-2">{Tag}</Badge>{block.get('text')}</Tag>;
+    return <Tag><Badge color="dark" className="me-2 text-uppercase">{Tag}</Badge>{block.get('text')}</Tag>;
   }
 
   return (
     <Tag>
-      <Badge color="dark" className="me-2">{Tag}</Badge>
+      <Badge color="dark" className="me-2 text-uppercase">{Tag}</Badge>
       <a href={block.get('url')} target="_blank" rel="noreferrer noopener">{block.get('text')}</a>
     </Tag>
   );
