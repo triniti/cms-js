@@ -11,7 +11,7 @@ function ImageBlockPreview(props) {
 
   return (
     <Row className="gx-2" >
-      <Col xs={3}>
+      <Col xs={2}>
         <Media
           className={`block-image rounded-3 xxratio xxratio-${version.replace('by', 'x')}`}
           src={imageUrl}
@@ -25,8 +25,8 @@ function ImageBlockPreview(props) {
         <Table borderless size="sm">
           <tbody>
           <tr>
-            <th className="nowrap ps-2" scope="row">Title:</th>
-            <td className="w-100 text-break">{block.get('title', imageAsset.get('title'), '')}</td>
+            <th className="nowrap ps-2 pt-0" scope="row">Title:</th>
+            <td className="w-100 text-break pt-0">{block.get('title', imageAsset.get('title'), '')}</td>
           </tr>
           {block.has('caption') && (
             <tr>

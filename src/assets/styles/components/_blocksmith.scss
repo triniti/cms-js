@@ -198,10 +198,22 @@
 
 .blocksmith {
 
-  .table-borderless {
-    td, th {
-      font-size: .9rem;
-    }
+  td, th {
+    font-size: .9rem;
+    line-height: 1.1;
+  }
+}
+
+.blocksmith-code-block {
+
+  textarea {
+    margin: -1rem;
+    width: calc(100% + 2rem);
+    max-width: initial;
+    border-radius: 0 0 $border-radius-lg $border-radius-lg;
+  }
+  .form-control[readonly] {
+    border: none !important;
   }
 }
 
