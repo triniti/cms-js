@@ -1,32 +1,8 @@
-.blocksmith-divider-block .divider-block {
-  display: inline-block;
-  width: 100%;
-  vertical-align: middle;
-  position: relative;
-  border-top-width: 3px;
-  border-top-style: solid;
-  margin-bottom: .5rem;
+// moved to src
 
-  h5 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    margin-top: -9px;
-    margin-bottom: 0;
-    padding-right: 6px;
-    font-size: 14px;
-    line-height: 1;
-    font-weight: bold;
-    text-transform: uppercase;
-    background-color: var(--bs-secondary-bg);
-  }
-}
-
-.blocksmith-divider-block .divider-block-primary {
-  border-color: red;
-}
-
-.blocksmith-divider-block .divider-block-secondary {
-  border-color: blue;
+.blocksmith-divider-block {
+  --#{$prefix}divider-block-primary: #{$danger};
+  --#{$prefix}divider-block-secondary: var(--#{$prefix}dark-text-emphasis);
+  --#{$prefix}divider-block-border-width: 2px;
+  --#{$prefix}divider-block-font-family: inherit;
 }

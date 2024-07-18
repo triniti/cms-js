@@ -15,14 +15,16 @@ function ImageBlockPreview(props) {
   return (
     <Row className="gx-2" >
       <Col xs={2}>
-        <Media
-          className={`block-image rounded-3 xxratio xxratio-${version.replace('by', 'x')}`}
-          src={imageUrl}
-          alt=""
-          width="100%"
-          height="auto"
-          object
-        />
+        <a href={nodeUrl(imageAsset, 'view')} className="hover-box-shadow d-inline-block rounded-2" target="_blank">
+          <Media
+              className={`block-image rounded-2 ratio-${version.replace('by', 'x')}`}
+              src={imageUrl}
+              alt=""
+              width="100%"
+              height="auto"
+              object
+          />
+        </a>
       </Col>
       <Col>
         <Table borderless size="sm">
@@ -43,16 +45,18 @@ function ImageBlockPreview(props) {
               <td className="w-100 text-break">{block.get('launch_text')}</td>
             </tr>
           )}
+          <tr>
+            <th colSpan={2} className="nowrap ps-2" scope="row">
+              <Badge color="dark" className={`align-self-end status-${status}`}>{status}</Badge>
+              <a href={nodeUrl(imageAsset, 'view')} target="_blank">
+                <Button color="hover" tag="span" size="sm" className="ms-3 mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
+                  <Icon imgSrc="external" alt="view" />
+                </Button>
+              </a>
+            </th>
+          </tr>
           </tbody>
         </Table>
-        <p>
-          <a href={nodeUrl(imageAsset, 'view')} target="_blank">
-            <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
-              <Icon imgSrc="external" alt="view" />
-            </Button>
-          </a>
-          <Badge color="dark" className={`align-self-end status-${status}`}>{status}</Badge>
-        </p>
       </Col>
     </Row>
   );
