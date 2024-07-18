@@ -1,0 +1,27 @@
+.blocksmith-divider-block .block-text {
+  display: inline-block;
+}
+
+.blocksmith-divider-block .block-stroke-primary-solid hr {
+  border: 3px solid red;
+}
+
+.blocksmith-divider-block .block-stroke-primary-dashed hr {
+  border: 3px dashed red;
+}
+
+.blocksmith-divider-block .block-stroke-primary-dotted hr {
+  border: 3px dotted red;
+}
+
+.blocksmith-divider-block .block-stroke-secondary-solid hr {
+  border: 3px solid blue;
+}
+
+.blocksmith-divider-block .block-stroke-secondary-dashed hr {
+  border: 3px dashed blue;
+}
+
+.blocksmith-divider-block .block-stroke-secondary-dotted hr {
+  border: 3px dotted blue;
+}
