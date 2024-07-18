@@ -22,6 +22,6 @@ export default (blocks, editor) => {
 
     $getRoot().clear().select();
     $insertNodes($nodes);
-    $getRoot().selectStart();
+    $getRoot().selectStart(); // not sure if we need this
   }, { discrete: true, tag: BLOCKSMITH_HYDRATION });
 };
