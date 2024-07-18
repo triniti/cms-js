@@ -143,6 +143,7 @@
   }
   .card-header {
     padding: 0 1rem;
+    min-height: 44px;
     background-color: transparent;
     border-radius: $border-radius-lg $border-radius-lg 0 0;
     box-shadow: none;
