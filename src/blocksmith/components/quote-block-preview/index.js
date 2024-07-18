@@ -5,7 +5,7 @@ function QuoteBlockPreview(props) {
   const { block } = props;
   return (
     <blockquote className="blockquote">
-      <span className="quote-text">{block.get('text')}</span>
+      <span className="quote-text me-2">{block.get('text')}</span>
       {block.has('source') && (
         <span className="quote-source">
           {block.has('source_url') && (
