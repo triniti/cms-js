@@ -22,6 +22,7 @@ export default {
     'quote-block': { title: 'Quote', icon: 'quote' },
     'soundcloud-audio-block': { title: 'SoundCloud Audio', icon: 'soundcloud' },
     'spotify-embed-block': { title: 'Spotify Embed', icon: 'spotify' },
+    'spotify-track-block': { title: 'Spotify Track', icon: 'spotify' },
     'text-block': { title: 'Paragraph', icon: 'paragraph' },
     'tiktok-embed-block': { title: 'TikTok Embed', icon: 'tiktok' },
     'tumblr-post-block': { title: 'Tumblr Post', icon: 'tumblr' },
