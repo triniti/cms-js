@@ -18,11 +18,7 @@ export default function BlockSelectorModal(props) {
       <ModalHeader toggle={props.toggle}>Insert Block</ModalHeader>
       <ModalBody>
         <div className="grid gap-3 row-gap-2">
-          {config.toolbar.blocks.map((type, index) => {
-            if (type === 'separator') {
-              return null;
-            }
-
+          {config.selector.blocks.map((type, index) => {
             if (!policy.isGranted(`blocksmith:${type}:create`)) {
               return null;
             }
@@ -45,11 +41,7 @@ export default function BlockSelectorModal(props) {
         </div>
         <hr/>
         <div className="grid gap-3 row-gap-2">
-          {config.toolbar.externalBlocks.map((type, index) => {
-            if (type === 'separator') {
-              return null;
-            }
-
+          {config.selector.externalBlocks.map((type, index) => {
             if (!policy.isGranted(`blocksmith:${type}:create`)) {
               return null;
             }
