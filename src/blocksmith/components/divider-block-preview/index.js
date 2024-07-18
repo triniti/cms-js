@@ -6,9 +6,8 @@ function DividerBlockPreview(props) {
   const color = block.get('stroke_color', 'primary');
   const style = block.get('stroke_style', 'solid');
   return (
-    <div className={`block-stroke-${color}-${style}`}>
-      <span className="block-text">{block.get('text')}</span>
-      <hr />
+    <div className={`divider-block divider-block-${color}`} style={{ borderTopStyle: style }}>
+      <h5>{block.get('text')}</h5>
     </div>
   );
 }

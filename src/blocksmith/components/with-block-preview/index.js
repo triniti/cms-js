@@ -57,7 +57,7 @@ function BlockPreview(props) {
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
-      <Card className="mb-0 block-preview">
+      <Card className="mb-0 block-preview-card">
         <CardHeader className="block-preview-header">
           <span className="d-inline-flex">
             <Icon imgSrc={icon} size="lg" alt="" />
@@ -78,7 +78,7 @@ function BlockPreview(props) {
           </span>
         </CardHeader>
 
-        <CardBody className="p-3 block-preview-body">
+        <CardBody className="p-3 block-preview">
           {pbj.has('node_ref') && (
             <>
               {(!node || pbjxError) && <Loading error={pbjxError} />}

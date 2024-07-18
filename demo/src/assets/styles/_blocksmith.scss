@@ -1,27 +1,32 @@
-.blocksmith-divider-block .block-text {
+.blocksmith-divider-block .divider-block {
   display: inline-block;
+  width: 100%;
+  vertical-align: middle;
+  position: relative;
+  border-top-width: 3px;
+  border-top-style: solid;
+  margin-bottom: .5rem;
+
+  h5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    margin-top: -9px;
+    margin-bottom: 0;
+    padding-right: 6px;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--bs-secondary-bg);
+  }
 }
 
-.blocksmith-divider-block .block-stroke-primary-solid hr {
-  border: 3px solid red;
+.blocksmith-divider-block .divider-block-primary {
+  border-color: red;
 }
 
-.blocksmith-divider-block .block-stroke-primary-dashed hr {
-  border: 3px dashed red;
-}
-
-.blocksmith-divider-block .block-stroke-primary-dotted hr {
-  border: 3px dotted red;
-}
-
-.blocksmith-divider-block .block-stroke-secondary-solid hr {
-  border: 3px solid blue;
-}
-
-.blocksmith-divider-block .block-stroke-secondary-dashed hr {
-  border: 3px dashed blue;
-}
-
-.blocksmith-divider-block .block-stroke-secondary-dotted hr {
-  border: 3px dotted blue;
+.blocksmith-divider-block .divider-block-secondary {
+  border-color: blue;
 }
