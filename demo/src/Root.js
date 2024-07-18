@@ -17,7 +17,7 @@ function LoggedIn() {
   }
 
   return (
-    <div id="wrapper" data-slidedirection>
+    <div id="wrapper" className={`app-env-${APP_ENV}`} data-slidedirection>
       <Navbar />
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
