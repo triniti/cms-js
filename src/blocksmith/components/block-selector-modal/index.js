@@ -5,7 +5,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
-import { ActionButton } from '@triniti/cms/components/index.js';
+import { ActionButton, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
@@ -27,7 +27,7 @@ export default function BlockSelectorModal(props) {
               return null;
             }
 
-            const icon = type;//config.blocks[type]?.icon || type;
+            const icon = config.blocks[type]?.icon || type;
             const title = config.blocks[type]?.title || type;
 
             return (
@@ -37,7 +37,7 @@ export default function BlockSelectorModal(props) {
                 data-type={type}
                 data-after-node-key={afterNodeKey}
                 className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
-                <i className={`icon icon-sd me-2 icon-${icon}`} />
+                <Icon imgSrc={icon} size="sd" alt="" className="me-2" />
                 <span className="text">{title}</span>
               </a>
             );
@@ -54,7 +54,7 @@ export default function BlockSelectorModal(props) {
               return null;
             }
 
-            const icon = type;//config.blocks[type]?.icon || type;
+            const icon = config.blocks[type]?.icon || type;
             const title = config.blocks[type]?.title || type;
 
             return (
@@ -64,7 +64,7 @@ export default function BlockSelectorModal(props) {
                 data-type={type}
                 data-after-node-key={afterNodeKey}
                 className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
-                <i className={`icon icon me-2 icon-${icon}`} />
+                <Icon imgSrc={icon} alt="" className="me-2" />
                 <span className="text">{title}</span>
               </a>
             );

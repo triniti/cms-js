@@ -196,8 +196,19 @@
   }
 }
 
+.blocksmith {
+
+  .table-borderless {
+    td, th {
+      font-size: .9rem;
+    }
+  }
+}
+
+
 // icons
 
+/*
 .icon-article-block {
   background-image: url(../../img/icons/book-open.svg);
 }
@@ -325,7 +336,7 @@ i.icon {
     -webkit-filter: invert(90%);
   }
 }
-
+*/
 
 // draggable
 

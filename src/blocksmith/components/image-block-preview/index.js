@@ -10,19 +10,19 @@ function ImageBlockPreview(props) {
   const imageUrl = damUrl(imageAsset.get('_id'), version, 'sm');
 
   return (
-    <Row>
-      <Col sm={4} xl={4}>
+    <Row className="gx-2" >
+      <Col xs={3}>
         <Media
-          className={`block-image rounded-3 ratioxx xxratio-${version.replace('by', 'x')}`}
+          className={`block-image rounded-3 xxratio xxratio-${version.replace('by', 'x')}`}
           src={imageUrl}
           alt=""
-          width="100"
+          width="100%"
           height="auto"
           object
         />
       </Col>
-      <Col sm={8} xl={8}>
-        <Table className="border-bottom mt-2" size="sm">
+      <Col>
+        <Table borderless size="sm">
           <tbody>
           <tr>
             <th className="nowrap ps-2" scope="row">Title:</th>
