@@ -1,7 +1,7 @@
 // blocksmith
 
 .blocksmith-input {
-  min-height: 100px;
+  min-height: 250px;
   resize: none;
   position: relative;
   tab-size: 1;
@@ -219,139 +219,6 @@
     border: none !important;
   }
 }
-
-
-// icons
-
-/*
-.icon-article-block {
-  background-image: url(../../img/icons/book-open.svg);
-}
-
-.icon-audio-block {
-  background-image: url(../../img/icons/audio.svg);
-}
-
-.icon-document-block {
-  background-image: url(../../img/icons/document.svg);
-}
-
-.icon-eme-form-block {
-  background-image: url(../../img/icons/short-text.svg);
-}
-
-.icon-gallery-block {
-  background-image: url(../../img/icons/gallery.svg);
-}
-
-.icon-image-block {
-  background-image: url(../../img/icons/camera.svg);
-}
-
-.icon-poll-block {
-  background-image: url(../../img/icons/poll.svg);
-}
-
-.icon-poll-grid-block {
-  background-image: url(../../img/icons/poll-grid.svg);
-}
-
-.icon-quote-block {
-  background-image: url(../../img/icons/quote.svg);
-}
-
-.icon-video-block {
-  background-image: url(../../img/icons/play-outline.svg);
-}
-
-.icon-divider-block {
-  background-image: url(../../img/icons/minus-line.svg);
-}
-
-.icon-heading-block {
-  background-image: url(../../img/icons/header.svg);
-}
-
-.icon-page-break-block {
-  background-image: url(../../img/icons/page-break.svg);
-}
-
-.icon-code-block {
-  background-image: url(../../img/icons/code.svg);
-}
-
-.icon-iframe-block {
-  background-image: url(../../img/icons/iframe.svg);
-}
-
-.icon-facebook-post-block {
-  background-image: url(../../img/icons/facebook-circle.svg);
-}
-
-.icon-facebook-video-block {
-  background-image: url(../../img/icons/facebook.svg);
-}
-
-.icon-google-map-block {
-  background-image: url(../../img/icons/google.svg);
-}
-
-.icon-imgur-post-block {
-  background-image: url(../../img/icons/imgur.svg);
-}
-
-.icon-instagram-media-block {
-  background-image: url(../../img/icons/instagram.svg);
-}
-
-.icon-pinterest-pin-block {
-  background-image: url(../../img/icons/pinterest.svg);
-}
-
-.icon-soundcloud-audio-block {
-  background-image: url(../../img/icons/soundcloud.svg);
-}
-
-.icon-spotify-embed-block {
-  background-image: url(../../img/icons/spotify.svg);
-}
-
-.icon-text-block {
-  background-image: url(../../img/icons/paragraph.svg);
-}
-
-.icon-tiktok-embed-block {
-  background-image: url(../../img/icons/tiktok.svg);
-}
-
-.icon-tumblr-post-block {
-  background-image: url(../../img/icons/tumblr.svg);
-}
-
-.icon-twitter-tweet-block {
-  background-image: url(../../img/icons/x.svg);
-}
-
-.icon-vimeo-video-block {
-  background-image: url(../../img/icons/vimeo.svg);
-}
-
-.icon-youtube-playlist-block {
-  background-image: url(../../img/icons/playlist.svg);
-}
-
-.icon-youtube-video-block {
-  background-image: url(../../img/icons/youtube.svg);
-}
-
-i.icon {
-
-  [data-bs-theme=dark] & {
-    filter: invert(90%);
-    -webkit-filter: invert(90%);
-  }
-}
-*/
 
 // draggable
 
