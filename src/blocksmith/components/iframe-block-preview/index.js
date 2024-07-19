@@ -3,10 +3,29 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 
 function IframeBlockPreview(props) {
   const { block } = props;
+
+  const attribs = { src: block.get('src'), loading: 'lazy' };
+
+  if (block.has('width')) {
+    attribs.width = block.get('width');
+  }
+
+  if (block.has('height')) {
+    attribs.height = block.get('height');
+  }
+
+  attribs.scrolling = block.get('scrolling_enabled') ? 'auto' : 'no';
+
+  if (block.has('data')) {
+    for (const [key, value] of Object.entries(block.get('data'))) {
+      attribs[`data-${key}`] = value;
+    }
+  }
+
   return (
-    <p>
-      <a href={block.get('src')} target="_blank" rel="noreferrer noopener">{block.get('src')}</a>
-    </p>
+    <div className={`embed-responsive text-${block.get('align', 'center')}`}>
+      <iframe {...attribs}></iframe>
+    </div>
   );
 }
 
