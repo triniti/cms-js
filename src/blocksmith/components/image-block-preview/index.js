@@ -48,6 +48,14 @@ function ImageBlockPreview(props) {
               <td className="w-100 text-break">{block.get('launch_text')}</td>
             </tr>
           )}
+          {block.has('url') && (
+            <tr>
+              <th className="nowrap ps-2" scope="row">URL:</th>
+              <td className="w-100 text-break">
+                <a href={block.get('url')} target="_blank" rel="noreferrer">{block.get('url')}</a>
+              </td>
+            </tr>
+          )}
           <tr>
             <th colSpan={2} className="nowrap ps-2" scope="row">
               <Badge color="dark" className={`align-self-end status-${status}`}>{status}</Badge>
