@@ -4,9 +4,7 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 function CodeBlockPreview(props) {
   const { block } = props;
   return (
-    <textarea className="form-control" rows={4} readOnly>
-      {block.get('code')}
-    </textarea>
+    <textarea className="form-control" rows={4} readOnly value={block.get('code')} />
   );
 }
 
