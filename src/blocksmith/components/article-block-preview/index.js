@@ -13,13 +13,13 @@ function ArticleBlockPreview(props) {
 
   return (
     <Row className="gx-2">
-      <Col xs={2}>
-        {block.get('show_image') && imageUrl && (
+      {block.get('show_image') && imageUrl && (
+        <Col xs={2}>
           <a href={url} className="hover-box-shadow d-inline-block rounded-2" target="_blank">
             <Media src={imageUrl} className="rounded-2 ratio-1x1" alt="" width="100%" height="auto" object />
           </a>
-        )}
-      </Col>
+        </Col>
+      )}
       <Col>
         <Table borderless size="sm">
           <tbody>

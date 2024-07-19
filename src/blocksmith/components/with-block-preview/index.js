@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
-import camelCase from 'lodash-es/camelCase.js';
 import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { Button, Card, CardBody, CardHeader } from 'reactstrap';
