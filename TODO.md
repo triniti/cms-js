@@ -5,6 +5,7 @@
 * blocksmith -- copy / paste block (text already works)
 * blocksmith -- add emojis inserter thingy
 * blocksmith -- fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
+* blocksmith -- send errors (see config) to raven errors endpoint.
 * with-form -- finish up this save dirty and handleRestore form when leaving page so we can restore it on mount again.
 * raven -- refactor and simplify! more can be done here, need to think more on this.
 * media resorting and gallery management can use some tlc.

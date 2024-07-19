@@ -1,1 +1,1 @@
-Copyright 2019 Warner Bros. Entertainment Inc. All rights reserved.
+Copyright 2024 Warner Bros. Discovery, Inc. All rights reserved.
