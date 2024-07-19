@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Badge,
   DropdownMenu,
   DropdownToggle,
   Nav,
@@ -146,7 +145,6 @@ export default function Navbar() {
         </Nav>
       </div>
       <Backdrop onClick={toggleNav} />
-      <Badge color="info" className="app-env-version">{APP_ENV}.v{APP_VERSION}</Badge>
       <UserNav />
     </NavbarRS>
   );
