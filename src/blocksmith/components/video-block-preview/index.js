@@ -37,9 +37,9 @@ function VideoBlockPreview(props) {
             </tr>
           )}
           <tr>
-            <th colSpan={2} className="nowrap ps-2" scope="row">
-              <Badge color="dark" className={`align-self-end status-${status}`}>{status}</Badge>
-              <a href={url} className="ms-1" target="_blank">
+            <th colSpan={2} className="nowrap ps-2 fs-5" scope="row">
+              <Badge color="dark" className={`rounded-pill status-${status}`}>{status}</Badge>
+              <a href={url} className="ms-2" target="_blank">
                 <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
                   <Icon imgSrc="external" alt="view" />
                 </Button>

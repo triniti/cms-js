@@ -23,7 +23,7 @@ function IframeBlockPreview(props) {
   }
 
   return (
-    <div className={`embed-responsive text-${block.get('align', 'center')}`}>
+    <div className={`text-${block.get('align', 'center')}`}>
       <iframe {...attribs}></iframe>
     </div>
   );
