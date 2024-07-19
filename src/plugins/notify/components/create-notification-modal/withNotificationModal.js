@@ -63,14 +63,14 @@ export default function withNotificationModal(ModalFields) {
       <>
         <ModalHeader>Create {label}</ModalHeader>
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <ModalBody className="modal-scrollable">
+          <ModalBody>
             {hasSubmitErrors && <FormErrors errors={submitErrors} />}
             <ContentRefField contentRef={contentRef} />
             <SendOptionsField contentStatus={contentStatus} />
             {!values.content_ref && (
               <>
                 <TextField name="title" label="Title" required />
-                <TextareaField name="body" label="Body" rows={3} required />
+                <TextareaField name="body" label="Body" rows={5} required />
               </>
             )}
             <ModalFields {...props} contentStatus={contentStatus} />

@@ -5,7 +5,7 @@ import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/
 function QuoteBlockModal() {
   return (
     <>
-      <TextareaField name="text" label="Text" />
+      <TextareaField name="text" label="Text" required />
       <TextField name="source" label="Source" />
       <UrlField name="source_url" label="Source URL" />
       <SwitchField name="is_pull_quote" label="Is Pull Quote" />

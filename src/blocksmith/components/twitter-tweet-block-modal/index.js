@@ -7,7 +7,7 @@ function TwitterTweetBlockModal() {
     <>
       <TextField name="screen_name" label="Screen Name" required />
       <TextField name="tweet_id" label="Tweet ID" required />
-      <TextareaField name="tweet_text" label="Tweet Text" rows={2} />
+      <TextareaField name="tweet_text" label="Tweet Text" rows={3} />
       <SwitchField name="hide_media" label="Hide Media" />
       <SwitchField name="hide_thread" label="Hide Thread" />
     </>

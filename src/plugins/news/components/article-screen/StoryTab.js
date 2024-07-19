@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
-import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
+import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import { DatePickerField, KeyValuesField, NumberField, SwitchField, TextField } from '@triniti/cms/components/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import HeadlineFragmentsCard from '@triniti/cms/plugins/news/components/headline-fragments-card/index.js';
@@ -13,9 +13,9 @@ export default function StoryTab(props) {
 
   return (
     <>
-      <Card>
-        <BlocksmithField />
-      </Card>
+      {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
+        <Blocksmith />
+      )}
 
       <Card>
         <CardHeader>Story</CardHeader>
@@ -38,7 +38,6 @@ export default function StoryTab(props) {
           />
         </CardBody>
       </Card>
-
       {schema.hasMixin('triniti:news:mixin:headline-fragments') && (
         <HeadlineFragmentsCard />
       )}

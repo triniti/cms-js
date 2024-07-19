@@ -5,7 +5,7 @@ import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-fie
 export default withRequest(NodePickerField, 'triniti:ovp:request:search-videos-request', {
   channel: 'picker',
   initialData: {
-    sort: SearchVideosSort.CREATED_AT_DESC.getValue(),
+    sort: SearchVideosSort.ORDER_DATE_DESC.getValue(),
     autocomplete: true,
   }
 });

@@ -23,7 +23,7 @@ const validate = (value) => {
 function DefaultPreview(props) {
   const { assetRef } = props;
   return (
-    <input className="form-control" readOnly value={assetRef.getId()} />
+    <input className="form-control mb-2" readOnly value={assetRef.getId()} />
   );
 }
 

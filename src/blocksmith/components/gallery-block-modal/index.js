@@ -24,7 +24,7 @@ function GalleryBlockModal(props) {
       />
       <EnumField enumClass={AspectRatio} name="aspect_ratio" label="Aspect Ratio" />
       <TextField name="title" label="Custom Title" description="When not set, the gallery's title will be used." />
-      <TextField name="launch_text" label="Launch Text" />
+      <TextField name="launch_text" label="Launch Text" description="When not set, the gallery's launch text will be used." />
       <AsideField />
     </>
   );

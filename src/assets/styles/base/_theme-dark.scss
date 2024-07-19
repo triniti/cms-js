@@ -70,7 +70,7 @@
     // color: $white-rgba-700 !important;
   }
   .border {
-    border-color: var(--#{$prefix}border-color) !important;
+    // border-color: var(--#{$prefix}border-color) !important;
   }
   .bg-light {
     background-color: var(--#{$prefix}light-bg-subtle) !important; // #444e5c
@@ -133,7 +133,7 @@
   // Save these styles
 
   .svg-highlight + path {
-    color: var(--#{$prefix}body-color);
+    color: var(--#{$prefix}body-bg);
   }
 
   // webkit invert todo: check

@@ -1,0 +1,301 @@
+// blocksmith
+
+.blocksmith-input {
+  min-height: 250px;
+  resize: none;
+  position: relative;
+  tab-size: 1;
+  outline: 0;
+  padding: .75rem 1.5rem 1.5rem 1.5rem;
+  caret-color: var(--#{$prefix}tertiary-color);
+
+  &:empty {
+    padding-top: 1.25rem;
+  }
+  &:focus-visible {
+    box-shadow: none; // inset 0 0 0 1px $focus-ring-color
+  }
+  .paragraph {
+    font-size: .9375rem;
+  }
+}
+
+.blocksmith-placeholder {
+  color: var(--#{$prefix}dark-text-emphasis);
+  overflow: hidden;
+  position: absolute;
+  text-overflow: ellipsis;
+  top: 1.25rem;
+  left: 1.5rem;
+  font-size: .9375rem;
+  user-select: none;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.blocksmith {
+
+  .text-bold {
+    font-weight: bold;
+  }
+  .text-italic {
+    font-style: italic;
+  }
+  .text-underline {
+    text-decoration: underline;
+  }
+  .text-strikethrough {
+    text-decoration: line-through;
+  }
+  .text-underlineStrikethrough {
+    text-decoration: underline line-through;
+  }
+  a {
+    color: $secondary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.blocksmith-block {
+  padding: 8px 0;
+}
+
+.blocksmith {
+
+  .paragraph {
+    padding: 8px 0;
+    margin-bottom: 0;
+    border-radius: $border-radius-lg;
+    background-color: var(--#{$prefix}body-bg);
+  }
+  .listitem {
+    margin: 0 16px;
+    padding: 4px 0;
+  }
+  .list-ol,
+  .list-ul {
+    padding: 4px 0;
+    margin: 0 0 0 16px;
+    font-size: .9375rem;
+  }
+  .nested-listitem {
+    list-style-type: none;
+  }
+}
+
+.blocksmith .toolbar {
+  display: flex;
+  padding: 4px;
+  background-color: var(--#{$prefix}body-bg);
+  box-shadow: $box-shadow-sm;
+}
+
+.blocksmith .toolbar-item {
+  border: 0;
+  display: inline-flex;
+  background: none;
+  border-radius: 6px;
+  padding: 5px 7px;
+  cursor: pointer;
+  justify-content: center;
+  margin: 0 1px;
+  color: var(--#{$prefix}body-color);
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &.active {
+    background-color: var(--#{$prefix}status-expired);
+
+    .icon {
+      opacity: 1;
+    }
+  }
+  &:disabled {
+
+    .icon {
+      opacity: 0.2;
+    }
+  }
+  &:hover:not([disabled]):not(.active) {
+    background-color: var(--#{$prefix}dark-bg-subtle);
+  }
+  .icon {
+    margin: 0;
+  }
+}
+
+.blocksmith .dropdown-item {
+  --bs-dropdown-item-padding-x: .75rem;
+}
+
+.blocksmith-block {
+
+  .card {
+    border-radius: $border-radius-lg;
+    border: 1px solid var(--#{$prefix}border-color);
+    background: var(--#{$prefix}secondary-bg);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  .card-header {
+    padding: 0 1rem;
+    min-height: 44px;
+    background-color: transparent;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    box-shadow: none;
+  }
+}
+
+.card-header {
+
+  .blocksmith-block-node-status-archived & {
+    background-color: var(--#{$prefix}status-archived) !important;
+  }
+  .blocksmith-block-node-status-deleted & {
+    background-color: var(--#{$prefix}status-deleted) !important;
+  }
+  .blocksmith-block-node-status-draft & {
+    background-color: var(--#{$prefix}status-draft) !important;
+  }
+  .blocksmith-block-node-status-expired & {
+    background-color: var(--#{$prefix}status-expired) !important;
+  }
+  .blocksmith-block-node-status-pending & {
+    background-color: var(--#{$prefix}status-pending) !important;
+  }
+  .blocksmith-block-node-status-scheduled & {
+    background-color: var(--#{$prefix}status-scheduled) !important;
+  }
+}
+
+.btn-insert-block {
+  position: absolute;
+  bottom: -15px;
+  margin: 0 .5rem;
+  padding: 0;
+  width: calc(100% - 1rem);
+  min-height: 30px;
+  border: none;
+  box-shadow: none !important;
+
+  > div {
+    color: $white;
+    background-color: var(--#{$prefix}btn-bg);
+    box-shadow: $box-shadow;
+    opacity: 0;
+    transition: opacity $transition;
+  }
+  &:hover {
+    > div {
+      opacity: 1;
+    }
+  }
+}
+
+.blocksmith {
+
+  tr td,
+  tr th {
+    padding: 0.25rem 0.25rem;
+    font-size: .9rem;
+    line-height: 1.2;
+    vertical-align: top;
+  }
+}
+
+.blocksmith-code-block {
+
+  textarea {
+    margin: -1rem;
+    width: calc(100% + 2rem);
+    max-width: initial;
+    border-radius: 0 0 $border-radius-lg $border-radius-lg;
+  }
+  .form-control[readonly] {
+    border: none !important;
+  }
+}
+
+// draggable
+
+.draggable-block-menu {
+  border-radius: 4px;
+  padding: 2px 0;
+  cursor: grab;
+  opacity: 0;
+  position: absolute;
+  left: 3px;
+  top: 10px;
+  will-change: transform;
+  color: var(--#{$prefix}light-text-emphasis);
+
+  &:hover {
+    background-color: var(--#{$prefix}dark-bg-subtle);
+    color: var(--#{$prefix}tertiary-color);
+  }
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.draggable-block-target-line {
+  pointer-events: none;
+  background: var(--#{$prefix}border-color);
+  border: 1px solid $info;
+  height: 3px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  border-radius: 3px;
+  will-change: transform;
+}
+
+
+// Blocks
+// Divider Block
+
+.blocksmith-divider-block{
+
+  --#{$prefix}divider-block-primary: #{$danger};
+  --#{$prefix}divider-block-secondary: var(--#{$prefix}dark-text-emphasis);
+  --#{$prefix}divider-block-border-width: 2px;
+  --#{$prefix}divider-block-font-family: inherit;
+
+  .divider-block {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    position: relative;
+    border-top-width: var(--#{$prefix}divider-block-border-width);
+    border-top-style: solid;
+    margin-bottom: .5rem;
+  }
+  h5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    margin-top: -9px;
+    margin-bottom: 0;
+    padding-right: 6px;
+    font-size: 14px;
+    font-family: var(--#{$prefix}divider-block-font-family);
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--#{$prefix}secondary-bg);
+  }
+  .divider-block-primary {
+    border-color: var(--#{$prefix}divider-block-primary);
+    color: var(--#{$prefix}divider-block-primary);
+  }
+  .divider-block-secondary {
+    border-color: var(--#{$prefix}divider-block-secondary);
+    color: var(--#{$prefix}divider-block-secondary);
+  }
+}

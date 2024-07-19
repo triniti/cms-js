@@ -1,18 +1,29 @@
 import { useEffect, useRef } from 'react';
 import noop from 'lodash-es/noop.js';
-import { $createParagraphNode, $getNodeByKey, COMMAND_PRIORITY_EDITOR, createCommand } from 'lexical';
+import {
+  $createParagraphNode,
+  $getNodeByKey,
+  $getSelection,
+  $getRoot,
+  $insertNodes,
+  $isRootOrShadowRoot,
+  createCommand,
+  COMMAND_PRIORITY_EDITOR
+} from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
+import { mergeRegister } from '@lexical/utils';
+import { LinkNode } from '@lexical/link';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
 import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
 import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
+import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm.js';
 
-export const INSERT_BLOCKSMITH_BLOCK_COMMAND = createCommand();
-export const REMOVE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
-export const REPLACE_BLOCKSMITH_BLOCK_COMMAND = createCommand();
+export const INSERT_BLOCK_COMMAND = createCommand();
+export const REMOVE_BLOCK_COMMAND = createCommand();
+export const REPLACE_BLOCK_COMMAND = createCommand();
 export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
@@ -29,6 +40,13 @@ export default function BlocksmithPlugin(props) {
     }
 
     const checkDirtyOnBlurListener = () => {
+      if (form.getState().submitting) {
+        // if a user clicks the save button immediately after an edit
+        // on blocksmith this listener would potentially change
+        // the value of the field wiping out whatever beforeSubmit did.
+        return;
+      }
+
       const blocks = editorToBlocks(editor);
       const newValue = blocks.length > 0 ? blocks : undefined;
       if (areBlocksEqual(newValue, initialValueRef.current)) {
@@ -59,21 +77,59 @@ export default function BlocksmithPlugin(props) {
 
         form.change(name, BLOCKSMITH_DIRTY);
       }),
-      editor.registerCommand(INSERT_BLOCKSMITH_BLOCK_COMMAND, (newPbj) => {
-        const curie = newPbj.schema().getCurie().toString();
-        const $node = $createBlocksmithNode(curie, newPbj.toObject());
-        $insertNodeToNearestRoot($node);
+      editor.registerCommand(INSERT_BLOCK_COMMAND, (payload) => {
+        const { newPbj = null, afterNodeKey = null } = payload;
+        let $node;
+        if (!newPbj) {
+          $node = $createParagraphNode();
+        } else {
+          const curie = newPbj.schema().getCurie().toString();
+          $node = $createBlocksmithNode(curie, newPbj.toObject());
+        }
+
+        if (afterNodeKey) {
+          const $target = $getNodeByKey(afterNodeKey);
+          if ($target) {
+            $target.insertAfter($node);
+            return true;
+          }
+        }
+
+        // prolly simpler way to do this, but i'm tired rn
+        // find the nearest block level element (no links and what not)
+        // and insert the block after that or fallback to append in root
+        const selection = $getSelection();
+        if (selection) {
+          const $selectedNode = getSelectedNode(selection);
+          if ($selectedNode) {
+            if ($isRootOrShadowRoot($selectedNode)) {
+              $insertNodes([$node]);
+              return true;
+            }
+
+            const $parent = $selectedNode.getParent();
+            if ($isRootOrShadowRoot($parent)) {
+              $insertNodes([$node]);
+            } else {
+              $parent.insertAfter($node);
+            }
+
+            return true;
+          }
+        }
+
+        const $root = $getRoot();
+        $root.append($node);
         return true;
       }, COMMAND_PRIORITY_EDITOR),
-      editor.registerCommand(REMOVE_BLOCKSMITH_BLOCK_COMMAND, (nodeKey) => {
+      editor.registerCommand(REMOVE_BLOCK_COMMAND, (nodeKey) => {
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
-          //$node.remove();
-          $node.replace($createParagraphNode());
+          $node.remove();
         }
         return true;
       }, COMMAND_PRIORITY_EDITOR),
-      editor.registerCommand(REPLACE_BLOCKSMITH_BLOCK_COMMAND, (payload) => {
+      editor.registerCommand(REPLACE_BLOCK_COMMAND, (payload) => {
         const { nodeKey, newPbj } = payload;
         const $node = $getNodeByKey(nodeKey);
         if ($node) {
@@ -81,13 +137,34 @@ export default function BlocksmithPlugin(props) {
           $node.replace($createBlocksmithNode(curie, newPbj.toObject()));
         }
         return true;
-      }, COMMAND_PRIORITY_EDITOR)
+      }, COMMAND_PRIORITY_EDITOR),
     );
   }, [editor]);
 
   useEffect(() => {
     editor.setEditable(editMode);
   }, [editMode]);
+
+  // when in view mode, we don't want a user to accidentally
+  // get taken away if clicking on a link within blocksmith
+  useEffect(() => {
+    if (!editor || editMode) {
+      return;
+    }
+
+    return editor.registerNodeTransform(LinkNode, ($node) => {
+        if (!$node) {
+          return;
+        }
+
+        if ($node.__target === '_blank') {
+          return;
+        }
+
+        $node.setTarget('_blank');
+      }
+    );
+  }, [editor, editMode]);
 
   useEffect(() => {
     if (!pbj) {
@@ -103,7 +180,10 @@ export default function BlocksmithPlugin(props) {
         initialValue: initialValueRef.current,
         beforeSubmit: () => {
           const blocks = editorToBlocks(editor);
-          form.change('blocks', blocks);
+          const newValue = blocks.length > 0 ? blocks : undefined;
+          if (!areBlocksEqual(newValue, initialValueRef.current)) {
+            form.change(name, newValue);
+          }
         }
       });
     });

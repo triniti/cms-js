@@ -18,13 +18,24 @@ import { ActionButton, Icon } from '@triniti/cms/components/index.js';
 export default function LinkModal(props) {
   const [editor] = useLexicalComposerContext();
   const { selectedLink } = props;
-  const [url, setUrl] = useState(selectedLink && selectedLink.url);
+  const [url, setUrl] = useState(selectedLink ? selectedLink.url : '');
   const [target, setTarget] = useState(selectedLink && selectedLink.target);
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
+  const [touched, setTouched] = useState(false);
   const isNew = !selectedLink;
+
+  const handleToggle = () => {
+    setUrl('');
+    setTarget(null);
+    setIsValid(false);
+    setTouched(false);
+    props.toggle();
+  };
 
   const handleUpdate = (event) => {
     event.preventDefault();
+    event.stopPropagation();
+
     if (!isValid) {
       return;
     }
@@ -34,19 +45,33 @@ export default function LinkModal(props) {
       payload.rel = 'noopener noreferrer';
     }
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, payload);
-    props.toggle();
+    handleToggle();
   };
 
   const handleRemove = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    props.toggle();
+    handleToggle();
+  };
+
+  const handleChange = (event) => {
+    let value = event.target.value || '';
+    if (value.startsWith('http:')) {
+      value = value.replace('http://', 'https://');
+    }
+    setUrl(value);
+    setIsValid(isValidUrl(value));
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
   };
 
   return (
-    <Modal isOpen backdrop="static" centered>
+    <Modal isOpen size="lg" backdrop="static" centered>
       <ModalHeader toggle={props.toggle}>{isNew ? 'Add Link' : 'Update Link'}</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         <Form onSubmit={handleUpdate} autoComplete="off">
           <div className="form-group">
             <Label htmlFor="link-url">URL</Label>
@@ -57,14 +82,14 @@ export default function LinkModal(props) {
               <input
                 id="link-url"
                 name="url"
-                className={`form-control ${isValid ? 'is-valid' : 'is-invalid'}`}
+                className={`form-control ${touched && isValid && 'is-valid'} ${touched && !isValid && 'is-invalid'}`}
                 type="url"
                 value={url}
-                onChange={event => setUrl(event.target.value)}
-                onBlur={() => setIsValid(isValidUrl(url))}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </InputGroup>
-            {!isValid && <FormText color="danger">Please enter a valid URL.</FormText>}
+            {touched && !isValid && <FormText color="danger">Please enter a valid URL.</FormText>}
           </div>
 
           <div className="form-check">
@@ -83,7 +108,7 @@ export default function LinkModal(props) {
       <ModalFooter>
         <ActionButton
           text="Close"
-          onClick={props.toggle}
+          onClick={handleToggle}
           icon="close-sm"
           color="light"
           tabIndex="-1"
@@ -100,7 +125,7 @@ export default function LinkModal(props) {
         <ActionButton
           text={isNew ? 'Add Link' : 'Update Link'}
           onClick={handleUpdate}
-          disabled={!isValid}
+          disabled={isNew ? (!touched || !isValid) : !isValid}
           icon="link"
           color="primary"
           tabIndex="-1"

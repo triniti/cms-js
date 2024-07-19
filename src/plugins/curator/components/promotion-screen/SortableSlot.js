@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Badge, Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
 import { useSortable } from '@dnd-kit/sortable';
@@ -40,6 +40,7 @@ export default function SortableSlot(props) {
   };
 
   const conditionalProps = asOverlay ? {} : { ref: setNodeRef, 'data-id': key };
+  const SlotModalWithPbj = useMemo(() => withPbj(SlotModal, curie, input.value), [curie, input.value]);
 
   return (
     <li
@@ -82,7 +83,7 @@ export default function SortableSlot(props) {
           color="hover"
           className="me-0 mb-0 rounded-circle"
           icon={editMode ? 'pencil' : 'eye'}
-          modal={withPbj(SlotModal, curie, input.value)}
+          modal={SlotModalWithPbj}
           modalProps={{
             editMode,
             curie,

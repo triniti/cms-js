@@ -57,6 +57,9 @@ export default function UserNav() {
           Toggle Dark Mode
         </DropdownItem>
         */}
+        <DropdownItem text>
+          {APP_ENV} ({APP_VERSION})
+        </DropdownItem>
         <DropdownItem onClick={handleLogout}>
           Logout
         </DropdownItem>

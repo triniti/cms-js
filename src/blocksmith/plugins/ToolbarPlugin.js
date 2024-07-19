@@ -4,6 +4,8 @@ import {
   $getSelection,
   $isRangeSelection,
   $isRootOrShadowRoot,
+  createCommand,
+  COMMAND_PRIORITY_EDITOR,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
@@ -14,19 +16,24 @@ import {
   $isListNode,
   ListNode,
   INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND
+  INSERT_UNORDERED_LIST_COMMAND,
+  REMOVE_LIST_COMMAND
 } from '@lexical/list';
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
+import BlockSelectorModal from '@triniti/cms/blocksmith/components/block-selector-modal/index.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
-import config from '@triniti/cms/blocksmith/config.js';
+import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+
+export const SHOW_BLOCK_SELECTOR_COMMAND = createCommand();
 
 export default function ToolbarPlugin() {
   const policy = usePolicy();
   const [editor] = useLexicalComposerContext();
+  const [refreshed, setRefreshed] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef();
   const toolbarRef = useRef(null);
@@ -47,15 +54,32 @@ export default function ToolbarPlugin() {
 
   const handleInsertBlock = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     const type = event.currentTarget.dataset.type;
+    const afterNodeKey = event.currentTarget.dataset.afterNodeKey;
+
+    if (type === 'text-block') {
+      editor.dispatchCommand(INSERT_BLOCK_COMMAND, { afterNodeKey });
+      modalRef.current = null;
+      setIsModalOpen(false);
+      return;
+    }
+
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
-    modalRef.current = (p) => <Component curie={curie} canCreate {...p} />;
+    modalRef.current = (p) => <Component curie={curie} afterNodeKey={afterNodeKey} canCreate {...p} />;
+    setIsModalOpen(true);
+    setRefreshed(refreshed + 1); // merely forces reload of this component
+  };
+
+  const handleShowBlockSelector = (nodeKey) => {
+    modalRef.current = (p) => <BlockSelectorModal afterNodeKey={nodeKey} {...p} />;
     setIsModalOpen(true);
   };
 
   const handleInsertLink = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     modalRef.current = LinkModal;
     setIsModalOpen(true);
   };
@@ -133,6 +157,10 @@ export default function ToolbarPlugin() {
         },
         COMMAND_PRIORITY_LOW,
       ),
+      editor.registerCommand(SHOW_BLOCK_SELECTOR_COMMAND, (nodeKey) => {
+        handleShowBlockSelector(nodeKey);
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
     );
   }, [editor, $updateToolbar, isModalOpen]);
 
@@ -140,8 +168,15 @@ export default function ToolbarPlugin() {
   const createHandler = (command, payload = null) => {
     return (event) => {
       event.preventDefault();
+      event.stopPropagation();
       editor.dispatchCommand(command, payload);
     };
+  };
+
+  const handleInsertBlockClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    handleShowBlockSelector();
   };
 
   if (!editor.isEditable()) {
@@ -153,119 +188,81 @@ export default function ToolbarPlugin() {
       <div className="toolbar sticky-top" ref={toolbarRef}>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'bold')}
-          className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
+          className={`toolbar-item ${isBold ? 'active' : ''}`}
         >
-          <i className="format bold" />
+          <Icon imgSrc="bold" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'italic')}
-          className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
+          className={`toolbar-item ${isItalic ? 'active' : ''}`}
         >
-          <i className="format italic" />
+          <Icon imgSrc="italic" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'underline')}
-          className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
+          className={`toolbar-item ${isUnderline ? 'active' : ''}`}
         >
-          <i className="format underline" />
+          <Icon size="sd" imgSrc="underline" />
         </button>
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'strikethrough')}
-          className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`}
+          className={`toolbar-item ${isStrikethrough ? 'active' : ''}`}
         >
-          <i className="format strikethrough" />
+          <Icon size="sd" imgSrc="strikethrough" />
         </button>
+        {/*
+        this is broken in lexical atm
+        https://github.com/facebook/lexical/issues/4641
+        once fixed we'll re-enable
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'highlight')}
-          className={`toolbar-item spaced ${isHighlight ? 'active' : ''}`}
+          className={`toolbar-item ${isHighlight ? 'active' : ''}`}
         >
-          <i className="format highlight" />
+          <Icon size="sd" imgSrc="highlight" />
         </button>
+        */}
         <button
           onClick={createHandler(isNumberList ? REMOVE_LIST_COMMAND : INSERT_ORDERED_LIST_COMMAND)}
-          className={`toolbar-item spaced ${isNumberList ? 'active' : ''}`}
+          className={`toolbar-item ${isNumberList ? 'active' : ''}`}
         >
-          <i className="format number-list" />OL
+          <Icon size="sd" imgSrc="ordered-list" />
         </button>
         <button
           onClick={createHandler(isBulletList ? REMOVE_LIST_COMMAND : INSERT_UNORDERED_LIST_COMMAND)}
-          className={`toolbar-item spaced ${isBulletList ? 'active' : ''}`}
+          className={`toolbar-item ${isBulletList ? 'active' : ''}`}
         >
-          <i className="format bullet-list" />UL
+          <Icon size="sd" imgSrc="list" />
         </button>
         {!isLink && (
-          <button onClick={handleInsertLink} className="toolbar-item spaced">
-            <i className="format link" />Link
-          </button>
+          <>
+            <button onClick={handleInsertLink} className="toolbar-item">
+              <Icon imgSrc="link" />
+            </button>
+          </>
         )}
         {isLink && (
           <>
-            <button onClick={handleInsertLink} className="toolbar-item spaced active">
-              <i className="format unlink" />Link
+            <button onClick={handleInsertLink} className="toolbar-item active">
+              <Icon imgSrc="link" />
             </button>
-            <button onClick={createHandler(TOGGLE_LINK_COMMAND)} className="toolbar-item spaced active">
-              <i className="format unlink" />Remove Link
+            <button onClick={createHandler(TOGGLE_LINK_COMMAND)} className="toolbar-item active">
+              <Icon imgSrc="unlink" />
             </button>
           </>
         )}
 
-        <div className="divider" />
-        <UncontrolledDropdown>
-          <DropdownToggle>
-            Insert Block
-          </DropdownToggle>
-          <DropdownMenu>
-            {config.toolbar.blocks.map((item, index) => {
-              if (item === 'separator') {
-                return (
-                  <hr key={`${item}${index}`} />
-                );
-              }
-
-              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
-                return null;
-              }
-
-              return (
-                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon ${item.type}`} />
-                  <span className="text">{item.text}</span>
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </UncontrolledDropdown>
-        <UncontrolledDropdown>
-          <DropdownToggle>
-            Insert Social Block
-          </DropdownToggle>
-          <DropdownMenu>
-            {config.toolbar.externalBlocks.map((item, index) => {
-              if (item === 'separator') {
-                return (
-                  <hr key={`${item}${index}`} />
-                );
-              }
-
-              if (!policy.isGranted(`blocksmith:${item.type}:create`)) {
-                return null;
-              }
-
-              return (
-                <DropdownItem key={`${item.type}${index}`} onClick={handleInsertBlock} data-type={item.type}>
-                  <i className={`icon ${item.type}`} />
-                  <span className="text">{item.text}</span>
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </UncontrolledDropdown>
+        <div className="divider-vertical mx-1" />
+        <button onClick={handleInsertBlockClick} className="mb-0 btn-sm toolbar-item shadow-none">
+          <Icon size="sm" imgSrc="plus-outline" className="me-2" />Insert Block
+        </button>
       </div>
+
       <BlocksmithModal
         toggle={toggleModal}
         isOpen={isModalOpen}
         modal={modalRef.current}
         selectedLink={selectedLink}
+        onInsertBlock={handleInsertBlock}
       />
     </>
   );

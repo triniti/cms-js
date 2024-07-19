@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button, CardText } from 'reactstrap';
 import { useField } from 'react-final-form';
 import { useSortable } from '@dnd-kit/sortable';
@@ -31,6 +31,7 @@ export default function SortableAnswer(props) {
   };
 
   const conditionalProps = asOverlay ? {} : { ref: setNodeRef, 'data-id': key };
+  const AnswerModalWithPbj = useMemo(() => withPbj(AnswerModal, curie, input.value), [curie, input.value]);
 
   return (
     <li
@@ -58,7 +59,7 @@ export default function SortableAnswer(props) {
           color="hover"
           className="me-0 mb-0 rounded-circle"
           icon={editMode ? 'pencil' : 'eye'}
-          modal={withPbj(AnswerModal, curie, input.value)}
+          modal={AnswerModalWithPbj}
           modalProps={{
             editMode,
             curie,

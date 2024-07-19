@@ -4,21 +4,20 @@ import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 function BlocksmithComponent(props) {
-  const { className, nodeKey, curie, pbj = {}, ...rest } = props;
+  const { nodeKey, curie, pbj = {}, ...rest } = props;
   if (!curie) {
     return null;
   }
 
-  const type = curie.split(':').pop();
   const Component = resolveComponent(curie, 'preview');
   return (
-    <div key={nodeKey} className={`${className} blocksmith-${type}`}>
+    <React.Fragment key={nodeKey}>
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
           <Component curie={curie} pbj={pbj} nodeKey={nodeKey} {...rest} />
         </ErrorBoundary>
       </Suspense>
-    </div>
+    </React.Fragment>
   );
 }
 
@@ -66,7 +65,6 @@ export default class BlocksmithNode extends DecoratorBlockNode {
   decorate(_editor, config) {
     return (
       <BlocksmithComponent
-        className="blocksmith-block"
         nodeKey={this.getKey()}
         pbj={this.getPbj()}
         curie={this.getCurie()}

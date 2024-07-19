@@ -136,6 +136,10 @@ export default (editor) => {
     blocks.shift();
   } while (blocks.length > 0);
 
+  if (blocks.length === 0) {
+    return blocks;
+  }
+
   do {
     if (!isEmptyBlock(blocks[blocks.length - 1])) {
       break;

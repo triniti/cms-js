@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGroup, Row } from 'reactstrap';
 import { Field } from 'react-final-form';
-import SearchRedirectsSort from '@triniti/schemas/triniti/sys/enums/SearchRedirectsSort.js';
+import SearchCategoriesSort from '@triniti/schemas/triniti/taxonomy/enums/SearchCategoriesSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { ActionButton, DatePickerField, Icon, NumberField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
@@ -33,7 +33,7 @@ export default function SearchForm(props) {
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
     const values = FormMarshaler.marshal(request);
     values.count = 25;
-    values.sort = SearchRedirectsSort.TITLE_ASC.getValue();
+    values.sort = SearchCategoriesSort.TITLE_ASC.getValue();
     form.reset(values);
     form.submit();
   };
@@ -107,7 +107,7 @@ export default function SearchForm(props) {
 
             <Row>
               <Col sm={6} xl={3}>
-                <SortField enumClass={SearchRedirectsSort} />
+                <SortField enumClass={SearchCategoriesSort} />
               </Col>
               <Col sm={6} xl={3}>
                 <NumberField name="count" label="Count" />

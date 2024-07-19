@@ -30,7 +30,7 @@ export default function CreateAppModal(props) {
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create App</ModalHeader>
-          <ModalBody className="modal-scrollable">
+          <ModalBody>
             <ListGroup>
               {appCuries.map(str => {
                   const curie = SchemaCurie.fromString(str);

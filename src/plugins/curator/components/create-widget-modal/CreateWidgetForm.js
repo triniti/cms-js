@@ -39,7 +39,7 @@ function CreateWidgetForm(props) {
   return (
     <>
       <ModalHeader>Create {label}</ModalHeader>
-      <ModalBody className="modal-scrollable">
+      <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Name" required />

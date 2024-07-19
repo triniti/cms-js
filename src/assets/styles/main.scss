@@ -57,9 +57,7 @@
 @import "base/avatar";
 @import "base/print";
 
-@import "blocksmith/styles";
-
-// components
+// bootstrap components
 @import "components/alert";
 @import "components/backdrop";
 @import "components/backdrop-image";
@@ -83,18 +81,21 @@
 @import "components/popover";
 @import "components/primary-actions";
 @import "components/progress";
-@import "components/react-datepicker";
-@import "components/react-select";
 @import "components/screen";
 @import "components/scrollable-container";
 @import "components/sidebar"; // triniti not eme
 @import "components/slider";
-@import "components/sortable-field";
 @import "components/spinner";
 @import "components/status";
-@import "components/sweetalert";
 @import "components/switch-field";
 @import "components/table";
 @import "components/toasts";
+
+// triniti components
+@import "components/blocksmith";
+@import "components/react-datepicker";
+@import "components/react-select";
+@import "components/sweetalert";
+@import "components/sortable-field";
 
 @import "base/theme-dark";

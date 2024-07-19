@@ -634,6 +634,10 @@ a {
       // text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     }
   }
+  .alert-dismissible & {
+    margin-right: .375rem;
+    padding: 0.9375rem;
+  }
 }
 
 
@@ -705,6 +709,8 @@ button.close {
 
 // blocksmith button styles
 
+// todo: remove below if not used
+/*
 .btn-blocksmith {
   margin: .25rem;
   display: inline-block;
@@ -739,4 +745,26 @@ button.close {
 
 .block-buttons-holder .btn:focus {
   box-shadow: none;
+}
+*/
+
+.btn-list {
+  border: none;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-image: none;
+  justify-content: start;
+  margin: 0;
+  border-radius: 50rem;
+  box-shadow: none !important;
+  --bs-btn-bg: transparent;
+  // --bs-btn-hover-bg: #{$gray-rgba-100};
+
+  .modal & {
+
+    [data-bs-theme=dark] & {
+      --bs-btn-bg: transparent;
+      --bs-btn-hover-bg: var(--bs-secondary-bg);
+    }
+  }
 }

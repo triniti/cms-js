@@ -7,7 +7,7 @@ function YoutubePlaylistBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
   return (
     <>
-      <TextField name="playlist_id" label="YouTube Playlist ID" />
+      <TextField name="playlist_id" label="YouTube Playlist ID" required />
       <TextField name="video_id" label="YouTube Video ID" />
       <SwitchField name="autoplay" label="Autoplay" />
       <ImageAssetPickerField name="poster_image_ref" label="Poster Image" nodeRef={containerRef} />

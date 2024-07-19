@@ -7,14 +7,17 @@ import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
 import loadUser from '@triniti/cms/plugins/iam/actions/loadUser.js';
 import AppRoutes from './config/Routes.js';
 
-const LoggedIn = () => {
+const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen/index.js'));
+const LoggedOut = () => <Routes><Route path="*" element={<Login />} /></Routes>;
+
+function LoggedIn() {
   const user = useSelector(getUser);
   if (!user) {
     return <Loading />;
   }
 
   return (
-    <div id="wrapper" data-slidedirection>
+    <div id="wrapper" className={`app-env-${APP_ENV}`} data-slidedirection>
       <Navbar />
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
@@ -25,14 +28,10 @@ const LoggedIn = () => {
   );
 }
 
-const Login = lazy(() => import('@triniti/cms/plugins/iam/components/login-screen/index.js'));
-const LoggedOut = () => <Routes><Route path="*" element={<Login />} /></Routes>;
-
-function Root() {
+export default function Root() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(isAuthenticated);
 
-  // fixme: cleanup the login/user fetch/raven/etc. process
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(loadUser());
@@ -47,5 +46,3 @@ function Root() {
     </Suspense>
   );
 }
-
-export default Root;

@@ -68,7 +68,7 @@
   }
 
   .swal2-popup .swal2-styled.swal2-cancel {
-    color: var(--bs-body-color);
+    color: var(--#{$prefix}body-color);
     margin-bottom: .5rem;
     background-color: $light;
     border: 1px solid $gray-600 !important;
