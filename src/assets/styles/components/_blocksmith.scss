@@ -1,7 +1,6 @@
 // blocksmith
 
 .blocksmith-input {
-  min-height: 250px;
   resize: none;
   position: relative;
   tab-size: 1;
@@ -193,6 +192,10 @@
     > div {
       opacity: 1;
     }
+  }
+  .blocksmith-input > div:last-child & {
+    padding-bottom: 18px;
+    bottom: -33px;
   }
 }
 
