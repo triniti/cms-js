@@ -3,12 +3,12 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 
 function SpotifyEmbedBlockPreview(props) {
   const { block } = props;
-  const url = `https://open.spotify.com/${block.get('spotify_type')}/${block.get('spotify_id')}`;
+  const url = `https://open.spotify.com/embed/${block.get('spotify_type')}/${block.get('spotify_id')}?theme=0`;
 
   return (
-    <p>
-      <a href={url} target="_blank" rel="noreferrer noopener">{url}</a>
-    </p>
+    <div className="embed-responsive text-center">
+      <iframe src={url} width="100%" height={152} loading="lazy"></iframe>
+    </div>
   );
 }
 

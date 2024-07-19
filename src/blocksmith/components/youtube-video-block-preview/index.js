@@ -49,7 +49,7 @@ function YoutubeVideoBlockPreview(props) {
 
   return (
     <div className="embed-responsive embed-responsive-16by9 text-center">
-      <iframe width="560" height="315" src={url}></iframe>
+      <iframe src={url} width={560} height={315} loading="lazy"></iframe>
     </div>
   );
 }
