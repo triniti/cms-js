@@ -52,7 +52,7 @@ function ImageBlockPreview(props) {
             <tr>
               <th className="nowrap ps-2" scope="row">URL:</th>
               <td className="w-100 text-break">
-                <a href={block.get('url')} target="_blank" rel="noreferrer">{block.get('url')}</a>
+                <a href={block.get('url')} target="_blank" rel="noreferrer noopener">{block.get('url')}</a>
               </td>
             </tr>
           )}
