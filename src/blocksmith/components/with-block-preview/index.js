@@ -1,13 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
-import camelCase from 'lodash-es/camelCase.js';
 import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Badge, Button, Card, CardBody, CardHeader } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader } from 'reactstrap';
 import { useFormContext, withPbj, Loading, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
-import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import { REMOVE_BLOCK_COMMAND, REPLACE_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
@@ -43,11 +41,8 @@ function BlockPreview(props) {
   const schema = pbj.schema();
   const { node, pbjxError } = useNode(pbj.get('node_ref'));
 
-  let nodeType = 'unknown';
   let nodeStatus = 'unknown';
   if (pbj.has('node_ref')) {
-    nodeType = node ? camelCase(node.schema().getCurie().getMessage()) : 'unknown';
-    rest[nodeType] = node;
     nodeStatus = node ? node.get('status').getValue() : 'unknown';
   }
 
@@ -57,10 +52,10 @@ function BlockPreview(props) {
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
-      <Card className="mb-0 block-preview">
+      <Card className="mb-0 block-preview-card">
         <CardHeader className="block-preview-header">
           <span className="d-inline-flex">
-            <Icon imgSrc={icon} alt="" />
+            <Icon imgSrc={icon} size="lg" alt="" />
             <div className="divider-vertical"></div>
             {title}
           </span>
@@ -78,25 +73,14 @@ function BlockPreview(props) {
           </span>
         </CardHeader>
 
-        <CardBody className="p-3 block-preview-body">
+        <CardBody className="p-3 block-preview">
           {pbj.has('node_ref') && (
             <>
               {(!node || pbjxError) && <Loading error={pbjxError} />}
-              {node && <Component {...rest} pbj={pbj} block={pbj} />}
+              {node && <Component {...rest} pbj={pbj} block={pbj} node={node} />}
             </>
           )}
           {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
-
-          {node && (
-            <>
-              <a href={nodeUrl(node, 'view')} target="_blank">
-                <Button color="hover" tag="span" size="sm" className="mb-0 me-0">
-                  <Icon imgSrc="external" alt="view" />
-                </Button>
-              </a>
-              <Badge color="dark" className={`status-${nodeStatus}`}>{nodeStatus}</Badge>
-            </>
-          )}
         </CardBody>
 
         {editMode && (

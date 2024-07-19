@@ -1,32 +1,40 @@
 import React from 'react';
-import { Col, Media, Row, Table } from 'reactstrap';
+import { Badge, Button, Col, Media, Row, Table } from 'reactstrap';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import { Icon } from '@triniti/cms/components/index.js';
 import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-preview/index.js';
 
 function ImageBlockPreview(props) {
-  const { block, imageAsset } = props;
+  const { block, node } = props;
   const ratio = `${block.get('aspect_ratio', '1by1')}`;
   const version = ratio === 'auto' ? '1by1' : ratio;
-  const imageUrl = damUrl(imageAsset.get('_id'), version, 'sm');
+  const imageUrl = damUrl(node.get('_id'), version, 'sm');
+  const status = node.get('status').getValue();
+  const url = nodeUrl(node, 'view');
 
   return (
-    <Row>
-      <Col sm={4} xl={4}>
-        <Media
-          className={`block-image rounded-3 ratioxx xxratio-${version.replace('by', 'x')}`}
-          src={imageUrl}
-          alt=""
-          width="100"
-          height="auto"
-          object
-        />
+    <Row className="gx-2">
+      <Col xs={2}>
+        <a href={url} className="hover-box-shadow d-inline-block rounded-2" target="_blank">
+          <Media
+            src={imageUrl}
+            className={`rounded-2 ratio-${version.replace('by', 'x')}`}
+            alt=""
+            width="100%"
+            height="auto"
+            object
+          />
+        </a>
       </Col>
-      <Col sm={8} xl={8}>
-        <Table className="border-bottom mt-2" size="sm">
+      <Col>
+        <Table borderless size="sm">
           <tbody>
           <tr>
-            <th className="nowrap ps-2" scope="row">Title:</th>
-            <td className="w-100 text-break">{block.get('title', imageAsset.get('title'), '')}</td>
+            <th className="nowrap ps-2 pt-0" scope="row">Title:</th>
+            <td className="w-100 text-break pt-0">
+              {block.get('title') || node.get('display_title') || node.get('title')}
+            </td>
           </tr>
           {block.has('caption') && (
             <tr>
@@ -40,6 +48,24 @@ function ImageBlockPreview(props) {
               <td className="w-100 text-break">{block.get('launch_text')}</td>
             </tr>
           )}
+          {block.has('url') && (
+            <tr>
+              <th className="nowrap ps-2" scope="row">URL:</th>
+              <td className="w-100 text-break">
+                <a href={block.get('url')} target="_blank" rel="noreferrer noopener">{block.get('url')}</a>
+              </td>
+            </tr>
+          )}
+          <tr>
+            <th colSpan={2} className="nowrap ps-2" scope="row">
+              <Badge color="dark" className={`align-self-end status-${status}`}>{status}</Badge>
+              <a href={url} className="ms-1" target="_blank">
+                <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
+                  <Icon imgSrc="external" alt="view" />
+                </Button>
+              </a>
+            </th>
+          </tr>
           </tbody>
         </Table>
       </Col>

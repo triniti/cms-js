@@ -18,3 +18,5 @@
 * blocksmith -- add word count indicator (dynamic or nah?)
 * blocksmith -- sometimes cursor disappears after drag/drop
 * blocksmith -- copy / paste block (text already works)
+* blocksmith -- delete old icons in assets dir if not using them? and revert webpack special config for them.
+* blocksmith -- need social embed parsers so we can get proper ids and what not version users trying to figure it out

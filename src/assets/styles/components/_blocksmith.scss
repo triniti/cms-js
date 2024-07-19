@@ -1,7 +1,7 @@
 // blocksmith
 
 .blocksmith-input {
-  min-height: 250px;
+  min-height: 100px;
   resize: none;
   position: relative;
   tab-size: 1;
@@ -196,8 +196,34 @@
   }
 }
 
+.blocksmith {
+
+  tr td,
+  tr th {
+    padding: 0.25rem 0.25rem;
+    font-size: .9rem;
+    line-height: 1.2;
+    vertical-align: top;
+  }
+}
+
+.blocksmith-code-block {
+
+  textarea {
+    margin: -1rem;
+    width: calc(100% + 2rem);
+    max-width: initial;
+    border-radius: 0 0 $border-radius-lg $border-radius-lg;
+  }
+  .form-control[readonly] {
+    border: none !important;
+  }
+}
+
+
 // icons
 
+/*
 .icon-article-block {
   background-image: url(../../img/icons/book-open.svg);
 }
@@ -325,7 +351,7 @@ i.icon {
     -webkit-filter: invert(90%);
   }
 }
-
+*/
 
 // draggable
 
@@ -360,4 +386,49 @@ i.icon {
   opacity: 0;
   border-radius: 3px;
   will-change: transform;
+}
+
+
+// Blocks
+// Divider Block
+
+.blocksmith-divider-block{
+
+  --#{$prefix}divider-block-primary: #{$danger};
+  --#{$prefix}divider-block-secondary: var(--#{$prefix}dark-text-emphasis);
+  --#{$prefix}divider-block-border-width: 2px;
+  --#{$prefix}divider-block-font-family: inherit;
+
+  .divider-block {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    position: relative;
+    border-top-width: var(--#{$prefix}divider-block-border-width);
+    border-top-style: solid;
+    margin-bottom: .5rem;
+  }
+  h5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    margin-top: -9px;
+    margin-bottom: 0;
+    padding-right: 6px;
+    font-size: 14px;
+    font-family: var(--#{$prefix}divider-block-font-family);
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--#{$prefix}secondary-bg);
+  }
+  .divider-block-primary {
+    border-color: var(--#{$prefix}divider-block-primary);
+    color: var(--#{$prefix}divider-block-primary);
+  }
+  .divider-block-secondary {
+    border-color: var(--#{$prefix}divider-block-secondary);
+    color: var(--#{$prefix}divider-block-secondary);
+  }
 }

@@ -19,7 +19,6 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND
 } from '@lexical/list';
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
@@ -28,7 +27,6 @@ import BlockSelectorModal from '@triniti/cms/blocksmith/components/block-selecto
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
-import config from '@triniti/cms/blocksmith/config.js';
 
 export const SHOW_BLOCK_SELECTOR_COMMAND = createCommand();
 
@@ -175,6 +173,12 @@ export default function ToolbarPlugin() {
     };
   };
 
+  const handleInsertBlockClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    handleShowBlockSelector();
+  };
+
   if (!editor.isEditable()) {
     return null;
   }
@@ -248,63 +252,11 @@ export default function ToolbarPlugin() {
         )}
 
         <div className="divider-vertical mx-1" />
-        <UncontrolledDropdown>
-          <DropdownToggle className="mb-0 btn-sm toolbar-item shadow-none" color="light">
-            <Icon size="sm" imgSrc="plus-outline" className="me-2" />Insert Block
-          </DropdownToggle>
-          <DropdownMenu className="rounded-3">
-            {config.toolbar.blocks.map((type, index) => {
-              if (type === 'separator') {
-                return (
-                  <div key={`${type}${index}`} tabIndex="-1" className="dropdown-divider"></div>
-                );
-              }
-
-              if (!policy.isGranted(`blocksmith:${type}:create`)) {
-                return null;
-              }
-
-              const icon = config.blocks[type]?.icon || type;
-              const title = config.blocks[type]?.title || type;
-
-              return (
-                <DropdownItem key={`${type}${index}`} onClick={handleInsertBlock} data-type={type}>
-                  <Icon imgSrc={icon} className="me-2" size="sd" />
-                  <span className="text">{title}</span>
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </UncontrolledDropdown>
-        <UncontrolledDropdown>
-          <DropdownToggle className="mb-0 btn-sm toolbar-item shadow-none" color="light">
-            <Icon size="sm" imgSrc="plus-outline" className="me-2" /> Embed Social
-          </DropdownToggle>
-          <DropdownMenu className="rounded-3">
-            {config.toolbar.externalBlocks.map((type, index) => {
-              if (type === 'separator') {
-                return (
-                  <div key={`${type}${index}`} tabIndex="-1" className="dropdown-divider"></div>
-                );
-              }
-
-              if (!policy.isGranted(`blocksmith:${type}:create`)) {
-                return null;
-              }
-
-              const icon = config.blocks[type]?.icon || type;
-              const title = config.blocks[type]?.title || type;
-
-              return (
-                <DropdownItem key={`${type}${index}`} onClick={handleInsertBlock} data-type={type}>
-                  <Icon imgSrc={icon} className="me-2" />
-                  <span className="text">{title}</span>
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </UncontrolledDropdown>
+        <button onClick={handleInsertBlockClick} className="mb-0 btn-sm toolbar-item shadow-none">
+          <Icon size="sm" imgSrc="plus-outline" className="me-2" />Insert Block
+        </button>
       </div>
+
       <BlocksmithModal
         toggle={toggleModal}
         isOpen={isModalOpen}

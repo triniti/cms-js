@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { SelectField, SwitchField, TextareaField, TextField, UrlField } from '@triniti/cms/components/index.js';
-import BlocksmithField from '@triniti/cms/components/blocksmith-field/index.js';
+import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
@@ -42,12 +42,7 @@ export default function DetailsTab(props) {
       </Card>
 
       {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
-        <Card>
-          <CardHeader>Content</CardHeader>
-          <CardBody>
-            <BlocksmithField />
-          </CardBody>
-        </Card>
+        <Blocksmith />
       )}
 
       <AdvertisingFields />

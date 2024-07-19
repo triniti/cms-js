@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card } from 'reactstrap';
+import { Card, CardHeader } from 'reactstrap';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
@@ -20,7 +20,8 @@ export default function Blocksmith(props) {
 
   return (
     <LexicalComposer initialConfig={config}>
-      <Card className="blocksmith mb-0">
+      <Card className="blocksmith">
+        {!editMode && <CardHeader>Content</CardHeader>}
         <BlocksmithPlugin {...props} />
         <LinkPlugin />
         <ListPlugin />
