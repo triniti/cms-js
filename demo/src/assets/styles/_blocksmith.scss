@@ -1,8 +1,0 @@
-// moved to src
-
-.blocksmith-divider-block {
-  --#{$prefix}divider-block-primary: #{$danger};
-  --#{$prefix}divider-block-secondary: var(--#{$prefix}dark-text-emphasis);
-  --#{$prefix}divider-block-border-width: 2px;
-  --#{$prefix}divider-block-font-family: inherit;
-}

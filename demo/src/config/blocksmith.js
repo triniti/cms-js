@@ -45,10 +45,10 @@ export default {
       'iframe-block',
       'image-block',
       'page-break-block',
+      'text-block',
       'poll-block',
       'poll-grid-block',
       'quote-block',
-      'text-block',
       'video-block',
     ],
     externalBlocks: [
