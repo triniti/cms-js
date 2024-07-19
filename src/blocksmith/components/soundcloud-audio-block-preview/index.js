@@ -4,15 +4,15 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 function SoundcloudAudioBlockPreview(props) {
   const { block } = props;
   let url = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${block.get('track_id')}`;
-  url += `&auto_play=${block.get('auto_play') ? 'true' : 'false'}`;
+  // url += `&auto_play=${block.get('auto_play') ? 'true' : 'false'}`; // never autoplay with blocksmith
   url += `&hide_related=${block.get('hide_related') ? 'true' : 'false'}`;
   url += `&show_comments=${block.get('show_comments') ? 'true' : 'false'}`;
   url += `&visual=${block.get('visual') ? 'true' : 'false'}`;
 
   return (
-    <p>
-      <a href={url} target="_blank" rel="noreferrer noopener">{url}</a>
-    </p>
+    <div className="embed-responsive text-center">
+      <iframe src={url} width="100%" height={166} loading="lazy"></iframe>
+    </div>
   );
 }
 
