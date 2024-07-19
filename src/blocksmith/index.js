@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card, CardHeader } from 'reactstrap';
+import { Badge, Card, CardHeader } from 'reactstrap';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
@@ -14,14 +14,23 @@ import { useFormContext } from '@triniti/cms/components/index.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
 export default function Blocksmith(props) {
-  const { editMode } = useFormContext();
+  const { editMode, pbj } = useFormContext();
   const editorRef = useRef(null);
   config.editable = editMode;
 
   return (
     <LexicalComposer initialConfig={config}>
       <Card className="blocksmith">
-        {!editMode && <CardHeader>Content</CardHeader>}
+        {!editMode && (
+          <CardHeader>
+            Content
+            {pbj.get('word_count') > 0 && (
+              <span className="text-light">
+                Word Count: <Badge color="dark">{pbj.get('word_count')}</Badge>
+              </span>
+            )}
+          </CardHeader>
+        )}
         <BlocksmithPlugin {...props} />
         <LinkPlugin />
         <ListPlugin />

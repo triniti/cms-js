@@ -77,10 +77,10 @@ function BlockPreview(props) {
           {pbj.has('node_ref') && (
             <>
               {(!node || pbjxError) && <Loading error={pbjxError} />}
-              {node && <Component {...rest} pbj={pbj} block={pbj} node={node} />}
+              {node && <Component {...rest} block={pbj} node={node} />}
             </>
           )}
-          {!pbj.has('node_ref') && <Component {...rest} pbj={pbj} block={pbj} />}
+          {!pbj.has('node_ref') && <Component {...rest} block={pbj} />}
         </CardBody>
 
         {editMode && (
