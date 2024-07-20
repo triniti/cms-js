@@ -1,4 +1,3 @@
-import './config/webpackPublicPath.js';
 // do we still need these?
 //import 'core-js/stable/index.js';
 //import 'regenerator-runtime/runtime.js';

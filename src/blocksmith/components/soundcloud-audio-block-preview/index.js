@@ -10,7 +10,7 @@ function SoundcloudAudioBlockPreview(props) {
   url += `&visual=${block.get('visual') ? 'true' : 'false'}`;
 
   return (
-    <div className="embed-responsive text-center">
+    <div className="ms-auto me-auto" style={{ maxWidth: '560px' }}>
       <iframe src={url} width="100%" height={166} loading="lazy"></iframe>
     </div>
   );
