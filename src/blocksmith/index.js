@@ -25,8 +25,8 @@ export default function Blocksmith(props) {
           <CardHeader>
             Content
             {pbj.get('word_count') > 0 && (
-              <span className="text-light">
-                Word Count: <Badge color="dark">{pbj.get('word_count')}</Badge>
+              <span className="text-light fs-6 fw-semibold">
+                Word Count: <Badge color="dark" className="fs-6">{pbj.get('word_count')}</Badge>
               </span>
             )}
           </CardHeader>
