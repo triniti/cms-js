@@ -252,7 +252,7 @@ export default function ToolbarPlugin() {
         )}
 
         <div className="divider-vertical mx-1" />
-        <button onClick={handleInsertBlockClick} className="mb-0 btn-sm toolbar-item shadow-none">
+        <button onClick={handleInsertBlockClick} className="mb-0 btn-sm toolbar-item">
           <Icon size="sm" imgSrc="plus-outline" className="me-2" />Insert Block
         </button>
       </div>

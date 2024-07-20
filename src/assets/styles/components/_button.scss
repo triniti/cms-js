@@ -637,6 +637,10 @@ a {
   .alert-dismissible & {
     margin-right: .375rem;
     padding: 0.9375rem;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 }
 
