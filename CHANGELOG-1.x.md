@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.2
+* Fix casing on InsertBeforeExt to insertBeforeExt.
+
+
 ## v1.0.0-beta.1
 * Minor css fixes on blocksmith.
 * Remove use of SITE_BASE_URL, just use APP_BASE_URL.
