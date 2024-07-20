@@ -37,7 +37,6 @@ root
 
 ```
 APP_BASE_URL=http://localhost:3000/
-SITE_BASE_URL=http://localhost:3000/
 APP_ENV=dev
 APP_ID=acme-cms
 APP_VENDOR=acme
@@ -46,10 +45,9 @@ APP_VERSION=1.0.0
 APP_BUILD=20190925145136
 APP_DEPLOYMENT_ID=20190925145136
 APP_DEV_BRANCH=master
-CLIENT_PUBLIC_PATH=/
 DAM_BASE_URL=https://dam.dev.acme.com/
 IMAGE_BASE_URL=https://imagez-dev.acme.com/
-VIDEO_ASSET_BASE_URL=https://ovp.dev.acme.com/
+VIDEO_BASE_URL=https://ovp.dev.acme.com/
 
 AUTH0_AUDIENCE=https://api.dev.acme.com/
 AUTH0_CLIENT_ID=blahblahblahblahblahblah
