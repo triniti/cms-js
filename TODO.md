@@ -1,6 +1,5 @@
 # TODO
 
-* blocksmith -- need social embed parsers so we can get proper ids and what not version users trying to figure it out
 * blocksmith -- sometimes cursor disappears after drag/drop
 * blocksmith -- copy / paste block (text already works)
 * blocksmith -- add emojis inserter thingy
