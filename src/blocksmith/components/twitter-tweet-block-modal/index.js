@@ -6,7 +6,7 @@ import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/
 const EMBED_PATTERN = /.*(twitter|x)\.com\/(\w+)\/status\/(\d+).*/;
 
 function TwitterTweetBlockModal() {
-  const formContext = useFormContext();
+  const { editMode, form } = useFormContext();
   const [embed, setEmbed] = useState(null);
   const [embedError, setEmbedError] = useState(null);
 
@@ -38,7 +38,6 @@ function TwitterTweetBlockModal() {
       }
     }
 
-    const form = formContext.form;
     form.batch(() => {
       form.change('screen_name', user);
       form.change('tweet_id', id);
@@ -48,15 +47,17 @@ function TwitterTweetBlockModal() {
 
   return (
     <>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          rows={4}
-          placeholder="Paste in a Twitter URL or Embed Code"
-          onChange={handleChangeEmbed}
-        />
-        {embed && embedError && <FormText color="danger">{embedError}</FormText>}
-      </div>
+      {editMode && (
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            rows={4}
+            placeholder="Paste in a Twitter URL or Embed Code"
+            onChange={handleChangeEmbed}
+          />
+          {embed && embedError && <FormText color="danger">{embedError}</FormText>}
+        </div>
+      )}
       <TextField name="screen_name" label="Screen Name" required />
       <TextField name="tweet_id" label="Tweet ID" required />
       <TextareaField name="tweet_text" label="Tweet Text" rows={3} />

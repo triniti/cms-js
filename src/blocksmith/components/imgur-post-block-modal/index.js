@@ -6,7 +6,7 @@ import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/
 const EMBED_PATTERN = /.*imgur-embed-pub.*data-id=\"([^\"]+)\".*/;
 
 function ImgurPostBlockModal() {
-  const formContext = useFormContext();
+  const { editMode, form } = useFormContext();
   const [embed, setEmbed] = useState(null);
   const [embedError, setEmbedError] = useState(null);
 
@@ -24,7 +24,6 @@ function ImgurPostBlockModal() {
     setEmbedError(null);
     const id = value.match(EMBED_PATTERN)[1] || undefined;
 
-    const form = formContext.form;
     form.batch(() => {
       form.change('id', id);
       form.change('show_context', !value.includes('data-context="false"'));
@@ -33,15 +32,17 @@ function ImgurPostBlockModal() {
 
   return (
     <>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          rows={4}
-          placeholder="Paste in an Imgur Embed Code"
-          onChange={handleChangeEmbed}
-        />
-        {embed && embedError && <FormText color="danger">{embedError}</FormText>}
-      </div>
+      {editMode && (
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            rows={4}
+            placeholder="Paste in an Imgur Embed Code"
+            onChange={handleChangeEmbed}
+          />
+          {embed && embedError && <FormText color="danger">{embedError}</FormText>}
+        </div>
+      )}
       <TextField name="id" label="Imgur Post ID" required />
       <SwitchField name="show_context" label="Show Context" />
     </>

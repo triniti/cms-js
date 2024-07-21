@@ -15,7 +15,7 @@ const types = [
 ];
 
 function SpotifyEmbedBlockModal() {
-  const formContext = useFormContext();
+  const { editMode, form } = useFormContext();
   const [embed, setEmbed] = useState(null);
   const [embedError, setEmbedError] = useState(null);
 
@@ -35,7 +35,6 @@ function SpotifyEmbedBlockModal() {
     const type = matches[1] || undefined;
     const id = matches[2] || undefined;
 
-    const form = formContext.form;
     form.batch(() => {
       form.change('spotify_type', type);
       form.change('spotify_id', id);
@@ -44,15 +43,17 @@ function SpotifyEmbedBlockModal() {
 
   return (
     <>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          rows={4}
-          placeholder="Paste in a Spotify Embed Code"
-          onChange={handleChangeEmbed}
-        />
-        {embed && embedError && <FormText color="danger">{embedError}</FormText>}
-      </div>
+      {editMode && (
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            rows={4}
+            placeholder="Paste in a Spotify Embed Code"
+            onChange={handleChangeEmbed}
+          />
+          {embed && embedError && <FormText color="danger">{embedError}</FormText>}
+        </div>
+      )}
       <SelectField name="spotify_type" label="Spotify Type" options={types} required />
       <TextField name="spotify_id" label="Spotify ID" required />
     </>

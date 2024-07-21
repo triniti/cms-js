@@ -9,7 +9,7 @@ const USER_PATTERN = /.*\/\/vimeo\.com\/([\w\.-]+).*/;
 
 function VimeoVideoBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
-  const formContext = useFormContext();
+  const { editMode, form } = useFormContext();
   const [embed, setEmbed] = useState(null);
   const [embedError, setEmbedError] = useState(null);
 
@@ -52,7 +52,6 @@ function VimeoVideoBlockModal(props) {
       }
     }
 
-    const form = formContext.form;
     form.batch(() => {
       form.change('id', id);
       form.change('user_id', userId);
@@ -68,15 +67,17 @@ function VimeoVideoBlockModal(props) {
 
   return (
     <>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          rows={4}
-          placeholder="Paste in a Vimeo URL or Embed Code"
-          onChange={handleChangeEmbed}
-        />
-        {embed && embedError && <FormText color="danger">{embedError}</FormText>}
-      </div>
+      {editMode && (
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            rows={4}
+            placeholder="Paste in a Vimeo URL or Embed Code"
+            onChange={handleChangeEmbed}
+          />
+          {embed && embedError && <FormText color="danger">{embedError}</FormText>}
+        </div>
+      )}
       <TextField name="id" label="Vimeo Video ID" required />
       <ImageAssetPickerField name="poster_image_ref" label="Poster Image" nodeRef={containerRef} />
       <TextField name="title" label="Title" />
