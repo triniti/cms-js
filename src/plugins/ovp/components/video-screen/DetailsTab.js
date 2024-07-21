@@ -15,7 +15,7 @@ import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-pi
 import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-picker-field/index.js';
 import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field/index.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
-import getYouTubeId from '@triniti/cms/utils/getYouTubeId.js';
+import parseYouTubeId from '@triniti/cms/utils/parseYouTubeId.js';
 
 export default function DetailsTab(props) {
   const { node } = props;
@@ -74,7 +74,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>YouTube</CardHeader>
         <CardBody>
-          <TextField name="youtube_video_id" label="YouTube Video ID" parse={getYouTubeId} placeholder="Paste in a YouTube URL or Video ID" />
+          <TextField name="youtube_video_id" label="YouTube Video ID" parse={parseYouTubeId} placeholder="Paste in a YouTube URL or Video ID" />
           <TextField name="youtube_custom_id" label="YouTube Custom ID" />
         </CardBody>
       </Card>

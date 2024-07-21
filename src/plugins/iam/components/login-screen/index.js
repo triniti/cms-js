@@ -75,7 +75,7 @@ function Login() {
       <div className="login-card">
         <Card>
           <CardBody>
-            <div className="mt-4 pt-4">
+            <div className="mt-4 mb-4 pt-4">
               <div className="login-logo"><img src={logoLight} alt="Triniti" className="login-logo--light" /><img src={logoDark} alt="Triniti" className="login-logo--dark" /></div>
             </div>
             {(isLoading || errorMsg) && <Loading error={errorMsg} />}

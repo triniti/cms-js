@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.3
+* Add paste embed code for soundcloud-audio-block-modal.
+
+
 ## v1.0.0-beta.2
 * Fix casing on InsertBeforeExt to insertBeforeExt.
 
