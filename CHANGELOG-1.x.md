@@ -2,7 +2,13 @@
 
 
 ## v1.0.0-beta.3
-* Add paste embed code for soundcloud-audio-block-modal.
+* Add paste embed code feature for
+  * imgur-post-block-modal.
+  * soundcloud-audio-block-modal.
+  * spotify-embed-block-modal.
+  * tiktok-embed-block-modal.
+  * twitter-tweet-block-modal.
+  * vimeo-video-block-modal.
 
 
 ## v1.0.0-beta.2

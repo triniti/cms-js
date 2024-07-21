@@ -4,7 +4,7 @@ import { SwitchField, TextField, useFormContext } from '@triniti/cms/components/
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 
-const TRACK_PATTERN = /.*api\.soundcloud\.com\/tracks\/(\d+)&.*/;
+const EMBED_PATTERN = /.*api\.soundcloud\.com\/tracks\/(\d+)&.*/;
 
 function SoundcloudAudioBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
@@ -18,13 +18,13 @@ function SoundcloudAudioBlockModal(props) {
     const value = event.target.value || '';
     setEmbed(value);
 
-    if (!TRACK_PATTERN.test(value)) {
+    if (!EMBED_PATTERN.test(value)) {
       setEmbedError('This value doesn\'t look like a SoundCloud Track Embed code.');
       return;
     }
 
     setEmbedError(null);
-    const trackId = value.match(TRACK_PATTERN)[1] || undefined;
+    const trackId = value.match(EMBED_PATTERN)[1] || undefined;
 
     const form = formContext.form;
     form.batch(() => {

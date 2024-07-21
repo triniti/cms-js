@@ -4,16 +4,16 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 function VimeoVideoBlockPreview(props) {
   const { block } = props;
   let url = `https://player.vimeo.com/video/${block.get('id')}?`;
-  url += `autoplay=${block.get('auto_play') ? 'true' : 'false'}`;
-  url += `&loop=${block.get('loop') ? 'true' : 'false'}`;
-  url += `&title=${block.get('show_title') ? 'true' : 'false'}`;
-  url += `&byline=${block.get('show_byline') ? 'true' : 'false'}`;
-  url += `&portrait=${block.get('show_portrait') ? 'true' : 'false'}`;
+  // url += `autoplay=${block.get('auto_play') ? '1' : '0'}`; // never autoplay within blocksmith
+  url += `&loop=${block.get('loop') ? '1' : '0'}`;
+  url += `&title=${block.get('show_title') ? '1' : '0'}`;
+  url += `&byline=${block.get('show_byline') ? '1' : '0'}`;
+  url += `&portrait=${block.get('show_portrait') ? '1' : '0'}`;
 
   return (
-    <p>
-      <a href={url} target="_blank" rel="noreferrer noopener">{url}</a>
-    </p>
+    <div className="ratio ratio-16x9 ms-auto me-auto" style={{ maxWidth: '640px' }}>
+      <iframe src={url} width={640} height={439} loading="lazy"></iframe>
+    </div>
   );
 }
 
