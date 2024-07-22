@@ -458,6 +458,27 @@ const icons = {
   zip,
   'zoom-in': zoomIn,
   'zoom-out': zoomOut,
+
+  // curie message to icons mapping
+  'archive-asset': zip,
+  'audio-asset': audio,
+  'code-asset': code,
+  'document-asset': document,
+  'image-asset': camera,
+  'video-asset': play,
+
+  'article-teaser': bookOpen,
+  'asset-teaser': document,
+  'category-teaser': bookOpen,
+  'channel-teaser': bookOpen,
+  'gallery-teaser': gallery,
+  'link-teaser': link,
+  'page-teaser': document,
+  'person-teaser': user,
+  'poll-teaser': poll,
+  'timeline-teaser': timeline,
+  'video-teaser': play,
+  'youtube-video-teaser': youtube,
 };
 
 export default name => icons[name] || icons.unknown;

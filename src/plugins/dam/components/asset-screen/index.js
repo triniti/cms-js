@@ -39,12 +39,11 @@ function AssetScreen(props) {
     window.open(originalUrl, '_blank', 'noopener,noreferrer');
   };
 
-// todo: add asset icon to header?  eh, matt, thoughts?
   return (
     <Screen
-      title={node.get('title')}
       header={node.get('title')}
       activeNav="Assets"
+      badge={schema.getCurie().getMessage()}
       breadcrumbs={[
         { text: 'Assets', to: '/dam/assets' },
         { text: node.get('title') },

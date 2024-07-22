@@ -86,7 +86,9 @@ export default function Screen(props) {
       <div className="screen-main">
         {(header || primaryActions || (breadcrumbs && breadcrumbs.length > 0)) && (
           <div className="screen-header-container">
-            {badge && <div>{badge}</div>}
+            {badge && (
+              <Icon alert color="dark" imgSrc={badge} size="xs" className="me-3" />
+            )}
             {breadcrumbs && breadcrumbs.length > 0 && (
               <h1 className="screen-header-title">
                 <Breadcrumb>
