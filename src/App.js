@@ -40,9 +40,8 @@ export default class App {
 
     const parameters = instance.parameters;
     const appEnv = APP_ENV || 'dev';
-    parameters.set('app_base_url', APP_BASE_URL || SITE_BASE_URL || '/');
-    parameters.set('static_base_url', window.STATIC_BASE_URL || parameters.get('app_base_url'));
-    parameters.set('pbjx_endpoint', PBJX_ENDPOINT || (parameters.get('app_base_url') + 'pbjx'));
+    parameters.set('app_base_url', APP_BASE_URL || '/');
+    parameters.set('pbjx_endpoint', PBJX_ENDPOINT);
     parameters.set('app_env', appEnv);
     parameters.set('app_vendor', APP_VENDOR);
     parameters.set('app_name', APP_NAME);

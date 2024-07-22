@@ -38,6 +38,7 @@ function GalleryScreen(props) {
       header={node.get('title')}
       activeNav="Content"
       activeSubNav="Galleries"
+      contentWidth={tab === 'images' ? '100%' : '1008px'}
       breadcrumbs={[
         { text: 'Galleries', to: '/curator/galleries' },
         { text: node.get('title') },

@@ -26,7 +26,6 @@ import delay from '@triniti/cms/utils/delay.js';
 import getUpdatedNodeSequenceNumbers from '@triniti/cms/plugins/curator/components/gallery-screen/utils/getUpdatedNodeSequenceNumbers.js';
 import moveNodeByGallerySequence from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByGallerySequence.js';
 import moveNodeByIndex from '@triniti/cms/plugins/curator/components/gallery-screen/utils/moveNodeByIndex.js';
-import ResizeGallerySlider from '@triniti/cms/plugins/curator/components/gallery-screen/ResizeGallerySlider.js';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { STATUS_FULFILLED } from '@triniti/cms/constants.js';
 
@@ -409,14 +408,6 @@ export default function GalleryMedia ({ editMode, nodeRef }) {
     <Card>
       <CardHeader>
         <span className="pe-4" style={{ minWidth: '130px' }}>Images { nodesPreview.length ? `(${nodesPreview.length})` : ''}</span>
-        <ResizeGallerySlider
-          imagesPerRow={imagesPerRow}
-          maxImagesPerRow={MAX_IMAGES_PER_ROW}
-          minImagesPerRow={MIN_IMAGES_PER_ROW}
-          onDecreaseImagesPerRow={handleDecreaseImagesPerRow}
-          onIncreaseImagesPerRow={handleIncreaseImagesPerRow}
-          onSlideImagesPerRow={handleSlideImagesPerRow}
-        />
 
         <div className="d-inline-flex flex-wrap justify-content-end ms-2 my-1">
           <BatchEditButton

@@ -75,10 +75,9 @@ function Login() {
       <div className="login-card">
         <Card>
           <CardBody>
-            <div className="mb-4 mt-4 pt-4">
+            <div className="mt-4 mb-4 pt-4 pb-4">
               <div className="login-logo"><img src={logoLight} alt="Triniti" className="login-logo--light" /><img src={logoDark} alt="Triniti" className="login-logo--dark" /></div>
             </div>
-            <h1 className="mb-5">{APP_VENDOR} CMS</h1>
             {(isLoading || errorMsg) && <Loading error={errorMsg} />}
             {!isLoading && (
               <>
@@ -94,7 +93,7 @@ function Login() {
 }
 
 const authorizationParams = {
-  redirect_uri: SITE_BASE_URL + 'login',
+  redirect_uri: APP_BASE_URL + 'login',
   audience: AUTH0_AUDIENCE,
   scope: 'openid profile email',
 };

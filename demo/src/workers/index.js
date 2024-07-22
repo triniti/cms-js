@@ -2,10 +2,6 @@ import startWorkers from '@triniti/cms/actions/startWorkers.js';
 //import HelloWorker from './hello.js';
 //import RavenWorker from './raven.js';
 
-// todo: replace with CLOUD_PROVIDER var
-//const WORKER_PATH = CLOUD_PROVIDER === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
-const WORKER_PATH = 'private' === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cms').pop();
-
 /**
  * Derives the path from the generated bundle code from webpack
  * which may look something like this:
@@ -19,7 +15,7 @@ const WORKER_PATH = 'private' === 'private' ? '/' : CLIENT_PUBLIC_PATH.split('cm
  */
 const derivePath = fn => {
   const [path] = fn.toString().match(/([\w]+)\.?([a-z0-9]+)?\.worker\.js/);
-  return `${WORKER_PATH}${path}`;
+  return `/${path}`;
 };
 
 export default (app) => {

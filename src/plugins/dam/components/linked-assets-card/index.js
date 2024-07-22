@@ -78,6 +78,7 @@ function LinkedAssetsCard(props) {
                 text={`Unlink Assets (${batch.size})`}
                 icon="unlink"
                 size="sm"
+                color="danger"
                 onClick={handleUnlinkAssets}
               />
             )}

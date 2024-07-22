@@ -50,7 +50,7 @@ function YoutubePlaylistBlockPreview(props) {
   url += `?list=${block.get('playlist_id')}`;
 
   return (
-    <div className="embed-responsive embed-responsive-16by9 text-center">
+    <div className="ratio ratio-16x9 ms-auto me-auto" style={{ maxWidth: '560px' }}>
       <iframe src={url} width={560} height={315} loading="lazy"></iframe>
     </div>
   );

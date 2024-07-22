@@ -1,8 +1,3 @@
-import './config/webpackPublicPath.js';
-// do we still need these?
-//import 'core-js/stable/index.js';
-//import 'regenerator-runtime/runtime.js';
-//import 'whatwg-fetch';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';

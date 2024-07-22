@@ -18,7 +18,7 @@ export default function PrimaryActions(props) {
       <Button color="primary" className="btn-primary-actions-toggle" onClick={toggle}>
         <Icon imgSrc="status" className="me-0" size="md" />
       </Button>
-      <div className={classes}> {/* todo: fixmegbhack */}
+      <div className={classes}>
         <div className="screen-primary-actions-body">
           <div className="screen-primary-actions-close" onClick={toggle} />
           {props.children}

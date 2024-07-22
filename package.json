@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.3",
   "license": "Apache-2.0",
   "description": "A single page app for managing triniti schemas and services.",
   "repository": {
@@ -13,6 +13,7 @@
     "build:babel": "BABEL_ENV=build babel src --out-dir ./dist",
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist && cpx 'src/**/*.{jpg,png,scss,sass,svg}' ./dist",
     "clean": "rm -rf ./dist",
+    "pub": "npm run build && cd dist && npm publish --access public",
     "test": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--experimental-loader @node-loader/babel -r ./bootstrap.cjs\" tape-es './src/**/*.test.js*' | faucet"
   },
   "dependencies": {
