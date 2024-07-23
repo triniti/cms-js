@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.4
+* Add paste embed code feature for instagram-media-block.
+* Hide paste embed code on blocksmith modals when not in editMode.
+* Resolve blocksmith block title and icon config automatically by default.
+* Add icons to screen header for asset and teaser screen.
+* Disable etag validation on updateNode.js action until raven is integrated.
+* Gallery screen images tab has add/remove images, still need to finish sorting and patch assets (aka bulk edit).
+
+
 ## v1.0.0-beta.3
 * Add paste embed code feature for:
   * imgur-post-block-modal.

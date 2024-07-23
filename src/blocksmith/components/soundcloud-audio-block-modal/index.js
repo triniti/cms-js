@@ -8,7 +8,7 @@ const EMBED_PATTERN = /.*api\.soundcloud\.com\/tracks\/(\d+)&.*/;
 
 function SoundcloudAudioBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
-  const formContext = useFormContext();
+  const { editMode, form } = useFormContext();
   const [embed, setEmbed] = useState(null);
   const [embedError, setEmbedError] = useState(null);
 
@@ -26,7 +26,6 @@ function SoundcloudAudioBlockModal(props) {
     setEmbedError(null);
     const trackId = value.match(EMBED_PATTERN)[1] || undefined;
 
-    const form = formContext.form;
     form.batch(() => {
       form.change('track_id', trackId);
       form.change('auto_play', value.includes('auto_play=true'));
@@ -38,15 +37,17 @@ function SoundcloudAudioBlockModal(props) {
 
   return (
     <>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          rows={4}
-          placeholder="Paste in a SoundCloud Track Embed Code"
-          onChange={handleChangeEmbed}
-        />
-        {embed && embedError && <FormText color="danger">{embedError}</FormText>}
-      </div>
+      {editMode && (
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            rows={4}
+            placeholder="Paste in a SoundCloud Track Embed Code"
+            onChange={handleChangeEmbed}
+          />
+          {embed && embedError && <FormText color="danger">{embedError}</FormText>}
+        </div>
+      )}
       <TextField name="track_id" label="Soundcloud Track ID" required />
       <ImageAssetPickerField name="poster_image_ref" label="Poster Image" nodeRef={containerRef} />
       <SwitchField name="auto_play" label="Autoplay" />

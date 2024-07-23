@@ -1,11 +1,29 @@
 import React, { lazy, Suspense, useState } from 'react';
 import noop from 'lodash-es/noop.js';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import {
+  Card,
+  Col,
+  Container,
+  Media,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+  UncontrolledTooltip
+} from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import { ActionButton, ErrorBoundary, Loading, Pager, withForm } from '@triniti/cms/components/index.js';
+import {
+  ActionButton,
+  BackgroundImage,
+  ErrorBoundary,
+  Loading,
+  Pager,
+  withForm
+} from '@triniti/cms/components/index.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
-import linkAssets from '@triniti/cms/plugins/dam/actions/linkAssets.js';
+import reorderGalleryAssets from '@triniti/cms/plugins/dam/actions/reorderGalleryAssets.js';
 import delay from '@triniti/cms/utils/delay.js';
 import toast from '@triniti/cms/utils/toast.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
@@ -13,24 +31,17 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
-import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
-import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
+import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
+import SearchForm from '@triniti/cms/plugins/curator/components/gallery-screen/SearchForm.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
-function LinkAssetsModal(props) {
-  const {
-    onClose = noop,
-    linkedRef,
-    uploaderProps = {},
-    request,
-    delegate
-  } = props;
-
+function AddImagesModal(props) {
+  const { onClose = noop, galleryRef, gallerySeqIncrementer, request, delegate } = props;
   const dispatch = useDispatch();
   const [uploaderOpen, setUploaderOpen] = useState(false);
   const { response, pbjxError, isRunning, run } = useRequest(
-    request, !uploaderOpen, req => req.set('q', req.get('q', '') + ` -linked_refs:${linkedRef}`)
+    request, !uploaderOpen, req => req.set('q', req.get('q', '') + ' +_missing_:gallery_ref')
   );
   const batch = useBatch(response);
 
@@ -55,15 +66,19 @@ function LinkAssetsModal(props) {
     setUploaderOpen(true);
   };
 
-  const handleLinkAssets = async () => {
+  const handleAddImages = async () => {
     try {
-      await progressIndicator.show('Linking Assets...');
-      const assetRefs = Array.from(batch.values()).map(n => n.generateNodeRef());
-      await dispatch(linkAssets(linkedRef, assetRefs));
+      await progressIndicator.show('Adding Images...');
+      const gallerySeqs = {};
+      for (const asset of batch.values()) {
+        gallerySeqs[asset.get('_id').toString()] = gallerySeqIncrementer();
+      }
+
+      await dispatch(reorderGalleryAssets(galleryRef, gallerySeqs));
       await delay(3000); // merely here to allow for all assets to be updated in elastic search.
       run();
       await progressIndicator.close();
-      toast({ title: 'Assets linked.' });
+      toast({ title: 'Images added.' });
     } catch (e) {
       await progressIndicator.close();
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
@@ -75,8 +90,8 @@ function LinkAssetsModal(props) {
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
           <UploaderModal
-            {...uploaderProps}
-            linkedRef={linkedRef}
+            galleryRef={galleryRef}
+            gallerySeqIncrementer={gallerySeqIncrementer}
             onDone={handleUploaderDone}
             toggle={handleUploaderDone}
           />
@@ -87,7 +102,7 @@ function LinkAssetsModal(props) {
 
   return (
     <Modal isOpen backdrop="static" size="xl" centered>
-      <ModalHeader toggle={handleClose}>Link Assets</ModalHeader>
+      <ModalHeader toggle={handleClose}>Add Images</ModalHeader>
       <ModalBody className="p-0">
         <div id="asset-linker-search-body" className="scrollable-container modal-scrollable--tabs">
           <SearchForm {...props} isRunning={isRunning} run={run} />
@@ -96,11 +111,37 @@ function LinkAssetsModal(props) {
           {response && (
             <div className="border-top border-light-subtle border-3">
               {!response.has('nodes') && (
-                <p className="p-5">No assets found.</p>
+                <p className="p-5">No images found.</p>
               )}
 
               {response.has('nodes') && (
-                <AssetTable nodes={response.get('nodes')} batch={batch} inModal />
+                <Container fluid className="gallery-grid-container h-100">
+                  <Row className="m-0 g-2">
+                    {response.get('nodes').map(node => {
+                      const id = node.get('_id');
+                      const key = `image-${id.toString()}`;
+                      const previewUrl = damUrl(id, '1by1', 'sm');
+                      return (
+                        <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
+                          <Card
+                            inverse
+                            role="button"
+                            className={`shadow p-1 mb-0 image-grid-card cursor-pointer ${batch.has(node) ? 'selected' : ''}`}
+                            onClick={() => batch.toggle(node)}
+                          >
+                            <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 hover-box-shadow"
+                                   style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
+                              <BackgroundImage imgSrc={previewUrl} alt="" />
+                            </Media>
+                          </Card>
+                          <UncontrolledTooltip target={key} placement="bottom">
+                            {node.get('title')}
+                          </UncontrolledTooltip>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Container>
               )}
 
               <Pager
@@ -127,11 +168,11 @@ function LinkAssetsModal(props) {
 
         {batch.size > 0 && (
           <ActionButton
-            text={`Link Assets (${batch.size})`}
-            icon="link"
+            text={`Add Images (${batch.size})`}
+            icon="plus-outline"
             color="primary"
             tabIndex="-1"
-            onClick={handleLinkAssets}
+            onClick={handleAddImages}
           />
         )}
 
@@ -147,11 +188,12 @@ function LinkAssetsModal(props) {
   );
 }
 
-export default withRequest(withForm(LinkAssetsModal), 'triniti:dam:request:search-assets-request', {
+export default withRequest(withForm(AddImagesModal), 'triniti:dam:request:search-assets-request', {
   channel: 'modal',
   initialData: {
     count: 30,
     sort: SearchAssetsSort.RELEVANCE.getValue(),
+    types: ['image-asset'],
     track_total_hits: true,
   }
 });

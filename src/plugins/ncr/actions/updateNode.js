@@ -16,7 +16,7 @@ export default (values, form, oldNode) => async (dispatch, getState, app) => {
     .set('node_ref', oldNode.generateNodeRef())
     .set('old_node', oldNode)
     .set('new_node', newNode)
-    .set('expected_etag', oldNode.get('etag'))
+    //.set('expected_etag', oldNode.get('etag')) // todo: fix merging/state if updates occurred while editting
     .addToSet('paths', paths);
   await pbjx.send(command);
 };

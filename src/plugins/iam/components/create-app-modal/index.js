@@ -6,7 +6,6 @@ import { ActionButton, withPbj } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import CreateAppForm from '@triniti/cms/plugins/iam/components/create-app-modal/CreateAppForm.js';
 
-// todo: mgollnick to make nice grid or list of icons?
 export default function CreateAppModal(props) {
   const policy = usePolicy();
   const [curie, setCurie] = useState();

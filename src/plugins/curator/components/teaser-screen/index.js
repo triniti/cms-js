@@ -32,11 +32,14 @@ function TeaserScreen(props) {
   const canUpdate = policy.isGranted(`${qname}:update`);
   const canDuplicate = policy.isGranted(`${qname}:create`);
 
+  const schema = node.schema();
+
   return (
     <Screen
       header={node.get('title')}
       activeNav="Structure"
       activeSubNav="Teasers"
+      badge={schema.getCurie().getMessage()}
       breadcrumbs={[
         { text: 'Teasers', to: '/curator/teasers' },
         { text: node.get('title') },

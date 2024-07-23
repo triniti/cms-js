@@ -48,7 +48,7 @@ function BlockPreview(props) {
 
   const type = schema.getCurie().getMessage();
   const icon = config.blocks[type]?.icon || type;
-  const title = config.blocks[type]?.title || startCase(type.replace('-block', ''));
+  const title = config.blocks[type]?.title || startCase(type);
 
   return (
     <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>

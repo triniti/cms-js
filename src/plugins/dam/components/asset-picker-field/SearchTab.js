@@ -25,7 +25,7 @@ function SearchTab(props) {
       {response && (
         <div>
           {!response.has('nodes') && (
-            <p>No assets found.</p>
+            <p className="p-5">No assets found.</p>
           )}
 
           {response.has('nodes') && (
