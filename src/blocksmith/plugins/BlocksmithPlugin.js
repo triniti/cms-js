@@ -14,6 +14,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { mergeRegister } from '@lexical/utils';
 import { LinkNode } from '@lexical/link';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import { getScrollTop, scrollToTop } from '@triniti/cms/components/screen/index.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
 import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
@@ -28,11 +29,13 @@ export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
 export default function BlocksmithPlugin(props) {
-  const { name = 'blocks' } = props;
+  const { name = 'blocks', isVisible = false } = props;
   const formContext = useFormContext();
   const { editMode, form, pbj } = formContext;
   const [editor] = useLexicalComposerContext();
   const initialValueRef = useRef(null);
+  const isVisibleRef = useRef(isVisible);
+  isVisibleRef.current = isVisible;
 
   useEffect(() => {
     if (!editor.hasNodes([BlocksmithNode])) {
@@ -173,6 +176,7 @@ export default function BlocksmithPlugin(props) {
 
     setTimeout(() => {
       const blocks = pbj.get('blocks', []);
+      const top = getScrollTop();
       blocksToEditor(blocks, editor);
       initialValueRef.current = blocks.length > 0 ? blocks.map(b => marshalToFinalForm(b.toObject())) : undefined;
       form.registerField(name, noop, {}, {
@@ -186,6 +190,9 @@ export default function BlocksmithPlugin(props) {
           }
         }
       });
+      if (isVisibleRef.current) {
+        scrollToTop('auto', top);
+      }
     });
   }, [pbj]);
 

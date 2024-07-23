@@ -67,6 +67,7 @@ const appendNode = (editor, $node, container) => {
 const sanitizeHtml = (html) => {
   return html
     .replaceAll('<span>', '')
+    .replaceAll('<span style="">', '')
     .replaceAll('</span>', '')
     .replaceAll('<b>', '')
     .replaceAll('</b>', '')

@@ -2,7 +2,8 @@
 
 
 ## v1.0.0-beta.5
-* ?
+* First attempt at improving scroll position restoring on blocksmith after hydration.
+*
 
 
 ## v1.0.0-beta.4
