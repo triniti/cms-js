@@ -8,9 +8,10 @@ const removeAttributes = (element) => {
     return;
   }
 
-  element.removeAttribute('style');
-  element.removeAttribute('dir');
   element.removeAttribute('class');
+  element.removeAttribute('dir');
+  element.removeAttribute('style');
+  element.removeAttribute('title');
   element.removeAttribute('value');
 
   for (const child of element.children) {
