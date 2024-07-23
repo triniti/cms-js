@@ -10,7 +10,7 @@ const OPTIONS_STYLES = [
   { label: 'TitleCase', value: 'titlecase' },
   { label: 'no styling', value: 'none' },
 ];
-const OPTIONS_SIZE = [
+const OPTIONS_SIZES = [
   { label: 'XL', value: 1 },
   { label: 'L', value: 2 },
   { label: 'M', value: 3 },
@@ -40,7 +40,7 @@ export default function HeadlineFragmentsCard(props) {
                   <SelectField name={`hf_styles[${index}]`} isClearable={false} options={OPTIONS_STYLES} />
                 </Col>
                 <Col xs="2">
-                  <SelectField name={`hf_size[${index}]`} isClearable={false} options={OPTIONS_SIZE} />
+                  <SelectField name={`hf_sizes[${index}]`} isClearable={false} options={OPTIONS_SIZES} />
                 </Col>
               </Row>
             );

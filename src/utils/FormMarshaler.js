@@ -57,7 +57,7 @@ export default class FormMarshaler extends ObjectSerializer {
       if (!payload.hf) {
         payload.hf = (new Array(3)).fill('');
         payload.hf_styles = ['uppercase', 'uppercase', 'uppercase'];
-        payload.hf_size = [3, 1, 1];
+        payload.hf_sizes = [3, 1, 1];
       }
     }
 
@@ -84,6 +84,16 @@ export default class FormMarshaler extends ObjectSerializer {
 
     if (schema.getCurieMajor() !== schemaId.getCurieMajor()) {
       throw new InvalidResolvedSchema(schema, schemaId);
+    }
+
+    // Headline fragments
+    if (schema.hasMixin('triniti:news:mixin:headline-fragments')) {
+      obj.hf = obj.hf.map((item) => {
+        if (!item) {
+          return '';
+        }
+        return item;
+      });
     }
 
     for (const fieldName of Object.keys(obj)) {
