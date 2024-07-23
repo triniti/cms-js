@@ -131,7 +131,7 @@ function AddImagesModal(props) {
                           >
                             <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 hover-box-shadow"
                                    style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
-                              <BackgroundImage imgSrc={previewUrl} alt="thumbnail" />
+                              <BackgroundImage imgSrc={previewUrl} alt="" />
                             </Media>
                           </Card>
                           <UncontrolledTooltip target={key} placement="bottom">

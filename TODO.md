@@ -1,5 +1,6 @@
 # TODO
 
+* ncr -- updateNode.js fix merging/state if updates occurred while editting, then restore expected_etag check
 * review sortable on node picker, interaction is wonky af. does node picker need this? (redo this so the sorting is done outside of the picker, i absolute hate the way it is rn)
 * blocksmith -- sometimes cursor disappears after drag/drop
 * blocksmith -- copy / paste block (text already works)
