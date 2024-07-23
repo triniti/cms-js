@@ -178,4 +178,7 @@ function RolesForm(props) {
 
 export default withRequest(RolesForm, 'gdbots:iam:request:search-roles-request', {
   channel: 'roles-tab',
+  initialData: {
+    count: 100,
+  }
 });

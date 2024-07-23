@@ -4,17 +4,26 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 function IframeBlockPreview(props) {
   const { block } = props;
 
-  const attribs = { src: block.get('src'), loading: 'lazy' };
+  const attribs = {
+    src: block.get('src'),
+    width: block.get('width', '100%'),
+    height: block.get('height', '100%'),
+    scrolling: block.get('scrolling_enabled') ? 'auto' : 'no',
+    loading: 'lazy',
+  };
 
-  if (block.has('width')) {
-    attribs.width = block.get('width');
+  // Calculate ratio styles if both width and height are in pixels
+  const ratioStyle = {};
+  let ratioClass = '';
+
+  if (attribs.width.includes('px') && attribs.height.includes('px')) {
+    try {
+      ratioStyle.paddingTop = `${(parseInt(attribs.height, 10) / parseInt(attribs.width, 10) * 100)}%`;
+      ratioClass = 'ratio';
+    } catch (e) {
+      console.error('IframeBlockPreview.ratioError', e, block.toObject());
+    }
   }
-
-  if (block.has('height')) {
-    attribs.height = block.get('height');
-  }
-
-  attribs.scrolling = block.get('scrolling_enabled') ? 'auto' : 'no';
 
   if (block.has('data')) {
     for (const [key, value] of Object.entries(block.get('data'))) {
@@ -23,8 +32,10 @@ function IframeBlockPreview(props) {
   }
 
   return (
-    <div className={`text-${block.get('align', 'center')}`}>
-      <iframe {...attribs}></iframe>
+    <div className={`ratio-${block.get('align', 'center')}`} style={{ maxWidth: attribs.width }}>
+      <div className={ratioClass} style={ratioStyle}>
+        <iframe {...attribs}></iframe>
+      </div>
     </div>
   );
 }

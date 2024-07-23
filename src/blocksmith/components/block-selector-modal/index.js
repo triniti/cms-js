@@ -1,4 +1,5 @@
 import React from 'react';
+import startCase from 'lodash-es/startCase.js';
 import {
   Modal,
   ModalBody,
@@ -24,7 +25,7 @@ export default function BlockSelectorModal(props) {
             }
 
             const icon = config.blocks[type]?.icon || type;
-            const title = config.blocks[type]?.title || type;
+            const title = config.blocks[type]?.title || startCase(type.replace('-block', ''));
 
             return (
               <a
@@ -47,7 +48,7 @@ export default function BlockSelectorModal(props) {
             }
 
             const icon = config.blocks[type]?.icon || type;
-            const title = config.blocks[type]?.title || type;
+            const title = config.blocks[type]?.title || startCase(type.replace('-block', ''));
 
             return (
               <a
