@@ -6,13 +6,33 @@ function IframeBlockPreview(props) {
 
   const attribs = { src: block.get('src'), loading: 'lazy' };
 
+  // Set width if provided
   if (block.has('width')) {
-    attribs.width = block.get('width');
+    attribs.width = block.get('width', '100%');
   }
 
+  // Set height if provided
   if (block.has('height')) {
-    attribs.height = block.get('height');
+    attribs.height = block.get('height', '100%');
   }
+
+  // Calculate ratio styles if both width and height are in pixels
+  let myRatio = {};
+  let myClass = '';
+
+  if (attribs.width.includes("px") && attribs.height.includes("px")) {
+    const ratioPaddingTop = `${(parseInt(attribs.height, 10) / parseInt(attribs.width, 10) * 100)}%`;
+    myRatio = { paddingTop: ratioPaddingTop };
+    myClass = 'ratio';
+  }
+
+  // Determine alignment class
+  const alignClass = `ratio-${block.get('align', 'center')}`;
+
+  // Apply max-width style
+  const myMaxWidth = {
+    maxWidth: attribs.width
+  };
 
   attribs.scrolling = block.get('scrolling_enabled') ? 'auto' : 'no';
 
@@ -23,8 +43,10 @@ function IframeBlockPreview(props) {
   }
 
   return (
-    <div className={`text-${block.get('align', 'center')}`}>
-      <iframe {...attribs}></iframe>
+    <div className={alignClass} style={myMaxWidth}>
+      <div className={myClass} style={myRatio} >
+        <iframe {...attribs}></iframe>
+      </div>
     </div>
   );
 }

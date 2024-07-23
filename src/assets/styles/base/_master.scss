@@ -661,3 +661,14 @@ nav + div:not(.screen) {
   .container-sm {
     max-width: 540px; } }
 
+
+// text align fallbacks for iframe
+
+.ratio-right {
+  margin-left: auto;
+}
+
+.ratio-center {
+  margin-left: auto;
+  margin-right: auto;
+}
