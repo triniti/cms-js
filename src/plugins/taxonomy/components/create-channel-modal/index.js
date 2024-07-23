@@ -54,6 +54,7 @@ function CreateChannelModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Channel"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

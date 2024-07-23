@@ -54,6 +54,7 @@ function CreateGalleryModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Gallery"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

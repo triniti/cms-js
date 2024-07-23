@@ -54,6 +54,7 @@ function CreatePageModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Page"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

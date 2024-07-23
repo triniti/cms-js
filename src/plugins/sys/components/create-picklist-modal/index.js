@@ -69,6 +69,7 @@ function CreatePicklistModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Picklist"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

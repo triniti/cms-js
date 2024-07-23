@@ -69,6 +69,7 @@ export default function withTeaserModal(ModalFields) {
             tabIndex="-1"
           />
           <ActionButton
+            type="submit"
             text={`Create ${label}`}
             onClick={delegate.handleCreate}
             disabled={submitDisabled}

@@ -57,6 +57,7 @@ function CreateArticleModal(props) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.value && !slug) {
       setSlug(addDateToSlug(createSlug(e.target.value)));
+      setTimeout(form.submit);
     }
   };
 
@@ -83,6 +84,7 @@ function CreateArticleModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Article"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

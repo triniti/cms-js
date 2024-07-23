@@ -69,6 +69,7 @@ function CreateRoleModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Role"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

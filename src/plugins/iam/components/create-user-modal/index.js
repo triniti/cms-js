@@ -64,6 +64,7 @@ function CreateUserModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create User"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

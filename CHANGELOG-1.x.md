@@ -3,7 +3,7 @@
 
 ## v1.0.0-beta.5
 * First attempt at improving scroll position restoring on blocksmith after hydration.
-*
+* Add type submit to create modals so users can hit enter to create the node.
 
 
 ## v1.0.0-beta.4

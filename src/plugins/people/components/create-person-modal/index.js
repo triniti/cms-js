@@ -54,6 +54,7 @@ function CreatePersonModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Person"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
