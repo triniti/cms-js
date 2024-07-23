@@ -1894,6 +1894,10 @@ function DemoScreen() {
               <h6 className="text-light mt-3 mb-5">paperclip</h6>
             </Col>
             <Col className="text-center">
+              <Icon size="lg" imgSrc="paragraph" />
+              <h6 className="text-light mt-3 mb-5">paragraph</h6>
+            </Col>
+            <Col className="text-center">
               <Icon size="lg" imgSrc="pause" />
               <h6 className="text-light mt-3 mb-5">pause</h6>
             </Col>
@@ -2114,6 +2118,10 @@ function DemoScreen() {
               <h6 className="text-light mt-3 mb-5">trash</h6>
             </Col>
             <Col className="text-center">
+              <Icon size="lg" imgSrc="tumblr" />
+              <h6 className="text-light mt-3 mb-5">tumblr</h6>
+            </Col>
+            <Col className="text-center">
               <Icon size="lg" imgSrc="tweet" />
               <h6 className="text-light mt-3 mb-5">tweet</h6>
             </Col>
@@ -2192,6 +2200,10 @@ function DemoScreen() {
             <Col className="text-center">
               <Icon size="lg" imgSrc="weight" />
               <h6 className="text-light mt-3 mb-5">weight</h6>
+            </Col>
+            <Col className="text-center">
+              <Icon size="lg" imgSrc="x" />
+              <h6 className="text-light mt-3 mb-5">x</h6>
             </Col>
             <Col className="text-center">
               <Icon size="lg" imgSrc="zip" />
