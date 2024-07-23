@@ -12,8 +12,8 @@ function IframeBlockModal() {
   return (
     <>
       <UrlField name="src" label="Source URL" required />
-      <TextField name="width" label="Width" description="In pixels or percent, e.g. 200px or 100% " />
-      <TextField name="height" label="Height" required description="In pixels or percent, e.g. 200px or 100% " />
+      <TextField name="width" label="Width" description="In pixels or percent, e.g. 200px or 100%" />
+      <TextField name="height" label="Height" description="In pixels or percent, e.g. 200px or 100%" />
       <SelectField name="align" label="Align" options={align} ignoreUnknownOptions />
       <SwitchField name="scrolling_enabled" label="Scrolling Enabled" />
       <KeyValuesField name="data" label="HTML data-* Attributes" component={TextField} />

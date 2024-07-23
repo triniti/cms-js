@@ -458,27 +458,60 @@ const icons = {
   zip,
   'zoom-in': zoomIn,
   'zoom-out': zoomOut,
-
-  // curie message to icons mapping
-  'archive-asset': zip,
-  'audio-asset': audio,
-  'code-asset': code,
-  'document-asset': document,
-  'image-asset': camera,
-  'video-asset': play,
-
-  'article-teaser': bookOpen,
-  'asset-teaser': document,
-  'category-teaser': bookOpen,
-  'channel-teaser': bookOpen,
-  'gallery-teaser': gallery,
-  'link-teaser': link,
-  'page-teaser': document,
-  'person-teaser': user,
-  'poll-teaser': poll,
-  'timeline-teaser': timeline,
-  'video-teaser': play,
-  'youtube-video-teaser': youtube,
 };
+
+// curie message to icons mappings
+
+icons['article-block'] = icons['book-open'];
+icons['audio-block'] = icons['audio'];
+icons['code-block'] = icons['code'];
+icons['divider-block'] = icons['minus-line'];
+icons['document-block'] = icons['document'];
+icons['eme-form-block'] = icons['short-text'];
+icons['facebook-post-block'] = icons['facebook-circle'];
+icons['facebook-video-block'] = icons['facebook'];
+icons['gallery-block'] = icons['gallery'];
+icons['google-map-block'] = icons['google'];
+icons['heading-block'] = icons['header'];
+icons['iframe-block'] = icons['iframe'];
+icons['image-block'] = icons['camera'];
+icons['imgur-post-block'] = icons['imgur'];
+icons['instagram-media-block'] = icons['instagram'];
+icons['page-break-block'] = icons['page-break'];
+icons['pinterest-pin-block'] = icons['pinterest'];
+icons['poll-block'] = icons['poll'];
+icons['poll-grid-block'] = icons['poll-grid'];
+icons['quote-block'] = icons['quote'];
+icons['soundcloud-audio-block'] = icons['soundcloud'];
+icons['spotify-embed-block'] = icons['spotify'];
+icons['spotify-track-block'] = icons['spotify'];
+icons['text-block'] = icons['paragraph'];
+icons['tiktok-embed-block'] = icons['tiktok'];
+icons['tumblr-post-block'] = icons['tumblr'];
+icons['twitter-tweet-block'] = icons['x'];
+icons['video-block'] = icons['play-outline'];
+icons['vimeo-video-block'] = icons['vimeo'];
+icons['youtube-playlist-block'] = icons['playlist'];
+icons['youtube-video-block'] = icons['youtube'];
+
+icons['archive-asset'] = icons['zip'];
+icons['audio-asset'] = icons['audio'];
+icons['code-asset'] = icons['code'];
+icons['document-asset'] = icons['document-block'];
+icons['image-asset'] = icons['image-block'];
+icons['video-asset'] = icons['video-block'];
+
+icons['article-teaser'] = icons['article-block'];
+icons['asset-teaser'] = icons['document-block'];
+icons['category-teaser'] = icons['tag-outline'];
+icons['channel-teaser'] = icons['tag-outline'];
+icons['gallery-teaser'] = icons['gallery-block'];
+icons['link-teaser'] = icons['link'];
+icons['page-teaser'] = icons['document'];
+icons['person-teaser'] = icons['user'];
+icons['poll-teaser'] = icons['poll-block'];
+icons['timeline-teaser'] = icons['timeline'];
+icons['video-teaser'] = icons['video-block'];
+icons['youtube-video-teaser'] = icons['youtube'];
 
 export default name => icons[name] || icons.unknown;

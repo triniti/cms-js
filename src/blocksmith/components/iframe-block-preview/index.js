@@ -4,41 +4,26 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 function IframeBlockPreview(props) {
   const { block } = props;
 
-  const attribs = { src: block.get('src'), loading: 'lazy' };
-
-  // Set width if provided
-  if (block.has('width')) {
-    attribs.width = block.get('width');
-  } else {
-    attribs.width = '100%';
-  }
-
-  // Set height if provided
-  if (block.has('height')) {
-    attribs.height = block.get('height');
-  } else {
-    attribs.height = '100%';
-  }
-
-  // Calculate ratio styles if both width and height are in pixels
-  let myRatio = {};
-  let myClass = '';
-
-  if (attribs.width.includes("px") && attribs.height.includes("px")) {
-    const ratioPaddingTop = `${(parseInt(attribs.height, 10) / parseInt(attribs.width, 10) * 100)}%`;
-    myRatio = { paddingTop: ratioPaddingTop };
-    myClass = 'ratio';
-  }
-
-  // Determine alignment class
-  const alignClass = `ratio-${block.get('align', 'center')}`;
-
-  // Apply max-width style
-  const myMaxWidth = {
-    maxWidth: attribs.width
+  const attribs = {
+    src: block.get('src'),
+    width: block.get('width', '100%'),
+    height: block.get('height', '100%'),
+    scrolling: block.get('scrolling_enabled') ? 'auto' : 'no',
+    loading: 'lazy',
   };
 
-  attribs.scrolling = block.get('scrolling_enabled') ? 'auto' : 'no';
+  // Calculate ratio styles if both width and height are in pixels
+  const ratioStyle = {};
+  let ratioClass = '';
+
+  if (attribs.width.includes('px') && attribs.height.includes('px')) {
+    try {
+      ratioStyle.paddingTop = `${(parseInt(attribs.height, 10) / parseInt(attribs.width, 10) * 100)}%`;
+      ratioClass = 'ratio';
+    } catch (e) {
+      console.error('IframeBlockPreview.ratioError', e, block.toObject());
+    }
+  }
 
   if (block.has('data')) {
     for (const [key, value] of Object.entries(block.get('data'))) {
@@ -47,8 +32,8 @@ function IframeBlockPreview(props) {
   }
 
   return (
-    <div className={alignClass} style={myMaxWidth}>
-      <div className={myClass} style={myRatio} >
+    <div className={`ratio-${block.get('align', 'center')}`} style={{ maxWidth: attribs.width }}>
+      <div className={ratioClass} style={ratioStyle}>
         <iframe {...attribs}></iframe>
       </div>
     </div>

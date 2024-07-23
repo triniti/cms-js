@@ -46,13 +46,13 @@ function BlockModal(props) {
 
   const type = schema.getCurie().getMessage();
   const icon = config.blocks[type]?.icon || type;
-  const title = config.blocks[type]?.title || startCase(type.replace('-block', ''));
+  const title = config.blocks[type]?.title || startCase(type);
 
   return (
     <Modal isOpen backdrop="static" size="lg" centered>
       <ModalHeader toggle={props.toggle}>
         <Icon imgSrc={icon} size="lg" className="me-2" />
-        {title} Block
+        {title}
       </ModalHeader>
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
@@ -70,7 +70,7 @@ function BlockModal(props) {
         />
         {editMode && ((!isNew && canUpdate) || (isNew && canCreate)) && (
           <ActionButton
-            text={isNew ? `Add ${title} Block` : `Update ${title} Block`}
+            text={isNew ? `Add ${title}` : `Update ${title}`}
             onClick={delegate.handleUpdate}
             disabled={submitDisabled}
             icon={isNew ? 'plus-outline' : 'save'}
