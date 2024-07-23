@@ -8,12 +8,16 @@ function IframeBlockPreview(props) {
 
   // Set width if provided
   if (block.has('width')) {
-    attribs.width = block.get('width', '100%');
+    attribs.width = block.get('width');
+  } else {
+    attribs.width = '100%';
   }
 
   // Set height if provided
   if (block.has('height')) {
-    attribs.height = block.get('height', '100%');
+    attribs.height = block.get('height');
+  } else {
+    attribs.height = '100%';
   }
 
   // Calculate ratio styles if both width and height are in pixels
