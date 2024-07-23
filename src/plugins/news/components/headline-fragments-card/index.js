@@ -34,13 +34,13 @@ export default function HeadlineFragmentsCard(props) {
             return (
               <Row className="gx-2" key={field}>
                 <Col>
-                  <TextField name={field} pbjName={field} />
+                  <TextField name={field} />
                 </Col>
                 <Col xs="2">
-                  <SelectField name={`hf_styles[${index}]`} pbjName={`hf_styles[${index}]`} options={OPTIONS_STYLES} />
+                  <SelectField name={`hf_styles[${index}]`} isClearable={false} options={OPTIONS_STYLES} />
                 </Col>
                 <Col xs="2">
-                  <SelectField name={`hf_size[${index}]`} pbjName={`hf_size[${index}]`} options={OPTIONS_SIZE} />
+                  <SelectField name={`hf_size[${index}]`} isClearable={false} options={OPTIONS_SIZE} />
                 </Col>
               </Row>
             );

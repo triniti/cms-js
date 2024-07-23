@@ -52,6 +52,15 @@ export default class FormMarshaler extends ObjectSerializer {
       payload[fieldName] = value.map(v => type.encode(v, field, this)).filter(v => v !== null & v !== undefined);
     }
 
+    // Headline fragments
+    if (schema.hasMixin('triniti:news:mixin:headline-fragments')) {
+      if (!payload.hf) {
+        payload.hf = (new Array(3)).fill('');
+        payload.hf_styles = ['uppercase', 'uppercase', 'uppercase'];
+        payload.hf_size = [3, 1, 1];
+      }
+    }
+
     return payload;
   }
 
