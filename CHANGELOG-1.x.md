@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.5
+* ?
+
+
 ## v1.0.0-beta.4
 * Add paste embed code feature for instagram-media-block.
 * Hide paste embed code on blocksmith modals when not in editMode.
