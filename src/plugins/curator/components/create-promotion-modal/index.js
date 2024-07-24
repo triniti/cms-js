@@ -52,6 +52,7 @@ function CreatePromotionModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Promotion"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

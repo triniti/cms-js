@@ -664,6 +664,10 @@ nav + div:not(.screen) {
 
 // text align fallbacks for iframe
 
+div:not(.ratio) > iframe {
+  display: block;
+}
+
 .ratio-right {
   margin-left: auto;
 }

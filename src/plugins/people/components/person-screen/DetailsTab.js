@@ -16,7 +16,7 @@ const bioSourceOptions = [
 ];
 
 export default function DetailsTab(props) {
-  const { node } = props;
+  const { node, tab } = props;
   const schema = node.schema();
 
   return (
@@ -42,7 +42,7 @@ export default function DetailsTab(props) {
       </Card>
 
       {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
-        <Blocksmith />
+        <Blocksmith isVisible={tab === 'details'} />
       )}
 
       <AdvertisingFields />

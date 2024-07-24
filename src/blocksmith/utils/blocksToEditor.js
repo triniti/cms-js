@@ -20,8 +20,7 @@ export default (blocks, editor) => {
       }
     }
 
-    $getRoot().clear().select();
+    $getRoot().clear();
     $insertNodes($nodes);
-    $getRoot().selectStart(); // not sure if we need this
   }, { discrete: true, tag: BLOCKSMITH_HYDRATION });
 };

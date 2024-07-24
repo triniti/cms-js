@@ -92,6 +92,7 @@ function RenameForm(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text={`Rename ${label}`}
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

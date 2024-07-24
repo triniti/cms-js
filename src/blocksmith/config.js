@@ -18,6 +18,10 @@ const config = {
   // todo: remove need for all this theme stuff and just style the elements
   // like .blocksmith h1, .blocksmith ol, etc.  we don't need theming fanciness rn
   theme: {
+    blocksmith: {
+      base: 'blocksmith-block-wrapper',
+      focus: 'blocksmith-block-selected',
+    },
     link: 'link',
     list: {
       listitem: 'listitem',

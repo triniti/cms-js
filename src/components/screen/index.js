@@ -8,14 +8,22 @@ import PrimaryActions from '@triniti/cms/components/screen/PrimaryActions.js';
 import changeNavbar from '@triniti/cms/actions/changeNavbar.js';
 
 let screenBody = null;
-export const scrollToTop = (behavior = 'smooth') => {
+export const scrollToTop = (behavior = 'smooth', top = 0) => {
   if (!screenBody) {
     return;
   }
 
   setTimeout(() => {
-    screenBody.scrollTo({ top: 0, behavior });
+    screenBody.scrollTo({ top, behavior });
   }, 5);
+};
+
+export const getScrollTop = () => {
+  if (!screenBody) {
+    return 0;
+  }
+
+  return screenBody.scrollTop;
 };
 
 export default function Screen(props) {

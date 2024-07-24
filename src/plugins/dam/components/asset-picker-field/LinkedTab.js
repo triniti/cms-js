@@ -9,7 +9,7 @@ import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/Im
 
 function LinkedTab(props) {
   const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request } = props;
-  request.set('linked_ref', NodeRef.fromString(`${linkedRef}`));
+  request.set('linked_ref', linkedRef ? NodeRef.fromString(`${linkedRef}`) : null);
   request.clear('types').addToSet('types', [type]);
   const { response, pbjxError } = useRequest(request, activeTab === 'linked', searchEnricher);
   if (activeTab !== 'linked') {

@@ -57,18 +57,7 @@ module.exports = (webpackEnv = {}) => {
     },
     context: resolve(__dirname, 'src'),
     resolve: {
-      alias: {},
       extensions: ['*', '.js', '.jsx', '.json'],
-      fallback: {
-        buffer: require.resolve('buffer/'),
-        //constants: false,
-        crypto: require.resolve('crypto-browserify'),
-        fs: false,
-        // path: false,
-        stream: require.resolve('stream-browserify'),
-        util: require.resolve('util/'),
-        vm: false,
-      }
     },
     externals: {},
     module: {
@@ -154,11 +143,13 @@ module.exports = (webpackEnv = {}) => {
       ],
     },
     plugins: [
-      new NodePolyfillPlugin(),
-
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: 'chunks/[id].css',
+      }),
+
+      new NodePolyfillPlugin({
+        additionalAliases: ['process'],
       }),
 
       new webpack.DefinePlugin(Object.entries(env).reduce((acc, pair) => {
@@ -166,14 +157,6 @@ module.exports = (webpackEnv = {}) => {
         acc[key] = JSON.stringify(value);
         return acc;
       }, {})),
-
-      new webpack.ProvidePlugin({
-        process: 'process/browser.js',
-        Buffer: ['buffer', 'Buffer'],
-      }),
-
-      new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
-      new webpack.IgnorePlugin({ resourceRegExp: /\.md$/ }),
 
       //isProduction ? new BundleAnalyzerPlugin() : null,
     ].filter(v => v !== null),

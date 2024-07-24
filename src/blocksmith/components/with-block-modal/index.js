@@ -70,6 +70,7 @@ function BlockModal(props) {
         />
         {editMode && ((!isNew && canUpdate) || (isNew && canCreate)) && (
           <ActionButton
+            type="submit"
             text={isNew ? `Add ${title}` : `Update ${title}`}
             onClick={delegate.handleUpdate}
             disabled={submitDisabled}

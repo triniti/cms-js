@@ -54,6 +54,7 @@ function CreateSponsorModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Sponsor"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

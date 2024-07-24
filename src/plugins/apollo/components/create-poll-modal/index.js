@@ -53,6 +53,7 @@ function CreatePollModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Poll"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

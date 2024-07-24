@@ -55,6 +55,7 @@ function CreateCategoryModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Category"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

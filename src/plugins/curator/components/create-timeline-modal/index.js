@@ -54,6 +54,7 @@ function CreateTimelineModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Timeline"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
