@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ButtonToolbar, Card, Input, Media } from 'reactstrap';
+import { ButtonToolbar, Card, Input, Label, Media } from 'reactstrap';
 import { BackgroundImage, Icon } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -22,33 +22,24 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        className={`p-1 mb-0 cursor-pointer ${isSelected ? 'selected' : ''}`}
+        className={`cursor-default border mb-0 ${isSelected ? 'selected focus-ring-box-shadow' : ''}`}
       >
-        <Media className="ratio ratio-1x1 mt-0 mb-0 border">
+        <Media className="ratio ratio-1x1 mt-0 mb-0">
           <BackgroundImage imgSrc={previewUrl} alt="" />
         </Media>
-        <ButtonToolbar style={{
-          position: 'absolute',
-          left: '0',
-          top: '0',
-          bottom: '0',
-          padding: '.5rem',
-          width: '100%',
-          justifyContent: 'space-between',
-        }}>
+        {(isHovering || isSelected) && (
+          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black"></div>
+        )}
+        <ButtonToolbar className="position-absolute p-0 w-100 justify-content-between">
           {(isHovering || isSelected) && (
-            <Label>
-            <Input type="checkbox" onChange={() => batch.toggle(node)} checked={isSelected} />
+            <Label for={id} className="p-2 mb-0" style={{ zIndex: 2 }}>
+              <Input type="checkbox" id={id} onChange={() => batch.toggle(node)} checked={isSelected} />
             </Label>
           )}
           {isHovering && (
-            <div>
-              <a href={nodeUrl(node, 'view')} target="_blank" rel="noopener noreferrer">
-                <Button color="light" className="rounded-circle" tag="span">
-                  <Icon imgSrc="external" alt="view" />
-                </Button>
-              </a>
-            </div>
+            <a href={nodeUrl(node, 'view')} target="_blank" rel="noopener noreferrer" className='d-inline-block p-2 pb-1 text-white opacity-75'>
+              <Icon imgSrc="external" alt="view" size="md" />
+            </a>
           )}
         </ButtonToolbar>
       </Card>
