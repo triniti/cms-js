@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useState } from 'react';
+import clamp from 'lodash-es/clamp.js';
 import noop from 'lodash-es/noop.js';
 import {
   Card,
@@ -32,7 +33,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
-import SearchForm from '@triniti/cms/plugins/curator/components/gallery-screen/SearchForm.js';
+import SearchForm from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/SearchForm.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -75,7 +76,7 @@ function AddImagesModal(props) {
       }
 
       await dispatch(reorderGalleryAssets(galleryRef, gallerySeqs));
-      await delay(3000); // merely here to allow for all assets to be updated in elastic search.
+      await delay(clamp(1000 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
       run();
       await progressIndicator.close();
       toast({ title: 'Images added.' });

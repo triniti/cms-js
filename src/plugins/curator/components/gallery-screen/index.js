@@ -4,7 +4,7 @@ import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import DetailsTab from '@triniti/cms/plugins/curator/components/gallery-screen/DetailsTab.js';
-import ImagesTab from '@triniti/cms/plugins/curator/components/gallery-screen/ImagesTab.js';
+import ImagesTab from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/index.js';
 import CodeTab from '@triniti/cms/plugins/common/components/code-tab/index.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';

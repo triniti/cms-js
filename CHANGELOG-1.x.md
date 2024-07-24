@@ -2,7 +2,7 @@
 
 
 ## v1.0.0-beta.6
-*
+* Blocksmith :: fix tumblr-post-block-preview not showing its url.
 
 
 ## v1.0.0-beta.5

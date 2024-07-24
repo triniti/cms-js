@@ -1,11 +1,10 @@
-import React, { lazy, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import clamp from 'lodash-es/clamp.js';
-import { Button, Card, CardBody, CardHeader, CardText, Spinner } from 'reactstrap';
+import fastDeepEqual from 'fast-deep-equal/es6/index.js';
+import { arrayMove } from '@dnd-kit/sortable';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
-import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import { ActionButton, CreateModalButton, Icon, Loading } from '@triniti/cms/components/index.js';
 import delay from '@triniti/cms/utils/delay.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
@@ -14,12 +13,8 @@ import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
-import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import reorderGalleryAssets from '@triniti/cms/plugins/dam/actions/reorderGalleryAssets.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
-import SortableImages from '@triniti/cms/plugins/curator/components/gallery-screen/SortableImages.js';
-
-const AddImagesModal = lazy(() => import('@triniti/cms/plugins/curator/components/gallery-screen/AddImagesModal.js'));
 
 const okayToRemove = async () => {
   const result = await Swal.fire({
@@ -37,14 +32,15 @@ const okayToRemove = async () => {
 
 const SEQ_STEP = 500;
 
-function ImagesTab(props) {
-  const { nodeRef, request, tab } = props;
+export default (props) => {
+  const { nodeRef, editMode, request, tab } = props;
   request.set('gallery_ref', NodeRef.fromString(`${nodeRef}`));
   const { response, pbjxError, isRunning, run } = useRequest(request, tab === 'images');
   const dispatch = useDispatch();
   const policy = usePolicy();
-  const canUpdate = policy.isGranted('triniti:dam:command:reorder-gallery-assets');
   const batch = useBatch(response);
+
+  const canReorder = editMode && policy.isGranted('triniti:dam:command:reorder-gallery-assets');
   const highestSeq = response
     && response.has('nodes')
     && response.getFromListAt('nodes', 0).get('gallery_seq', 0) || 0;
@@ -53,6 +49,49 @@ function ImagesTab(props) {
     const start = highestSeq > 0 ? highestSeq + SEQ_STEP : 0;
     return incrementer(start, SEQ_STEP);
   }, [highestSeq]);
+
+  const initialSeq = useMemo(() => {
+    if (!response) {
+      return false;
+    }
+
+    let ids = [];
+    const nodes = {};
+    for (const node of response.get('nodes', [])) {
+      const id = node.get('_id').toString();
+      ids.push(id);
+      nodes[id] = node;
+    }
+
+    return { ids, nodes };
+  }, [response]);
+
+  const [ids, setIds] = useState([]);
+  const [seqChanged, setSeqChanged] = useState(false);
+
+  useEffect(() => {
+    if (!initialSeq) {
+      return;
+    }
+
+    setIds([...initialSeq.ids]);
+  }, [initialSeq]);
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (!active || !over) {
+      return;
+    }
+
+    const oldIndex = ids.indexOf(active.id);
+    const newIndex = ids.indexOf(over.id);
+
+    if (oldIndex !== newIndex) {
+      const newIds = arrayMove(ids, oldIndex, newIndex);
+      setIds(newIds);
+      setSeqChanged(!fastDeepEqual(initialSeq.ids, newIds));
+    }
+  };
 
   const handleRemoveImages = async () => {
     if (!await okayToRemove()) {
@@ -84,63 +123,29 @@ function ImagesTab(props) {
     run();
   };
 
-  return (
-    <Card>
-      <CardHeader>
-        <span>Images {isRunning && <Spinner />}</span>
-        <span>
-          {canUpdate && (
-            <>
-              {batch.size > 0 && (
-                <ActionButton
-                  text={`Remove Images (${batch.size})`}
-                  icon="minus-outline"
-                  size="sm"
-                  color="danger"
-                  onClick={handleRemoveImages}
-                />
-              )}
-              <CreateModalButton
-                text="Add Images"
-                icon="plus-outline"
-                size="sm"
-                modal={AddImagesModal}
-                modalProps={{
-                  galleryRef: nodeRef,
-                  gallerySeqIncrementer,
-                  onClose: handleImagesAdded,
-                }}
-              />
-            </>
-          )}
-          <Button color="light" size="sm" onClick={run} disabled={isRunning}>
-            <Icon imgSrc="refresh" />
-          </Button>
-        </span>
-      </CardHeader>
-      <CardBody className="p-0">
-        {(!response || pbjxError) && <Loading error={pbjxError} />}
+  const handleRefresh = () => {
+    run();
+  };
 
-        {response && !response.has('nodes') && (
-          <CardText className="p-5">
-            No images have been added to this gallery.
-          </CardText>
-        )}
 
-        {response && response.has('nodes') && (
-          <SortableImages response={response} batch={batch} />
-        )}
-      </CardBody>
-    </Card>
-  );
-}
+  const handleReorderImages = async () => {
 
-export default withRequest(ImagesTab, 'triniti:dam:request:search-assets-request', {
-  channel: 'tab',
-  initialData: {
-    count: 255,
-    sort: SearchAssetsSort.GALLERY_SEQ_DESC.getValue(),
-    types: ['image-asset'],
-    track_total_hits: true,
-  }
-});
+  };
+
+  return {
+    batch,
+    canReorder,
+    ids: ids,
+    nodes: initialSeq?.nodes || {},
+    canUpdate: canReorder,
+    gallerySeqIncrementer,
+    seqChanged,
+    handleDragEnd,
+    handleImagesAdded,
+    handleRefresh,
+    handleRemoveImages,
+    handleReorderImages,
+    pbjxError,
+    isRunning,
+  };
+};

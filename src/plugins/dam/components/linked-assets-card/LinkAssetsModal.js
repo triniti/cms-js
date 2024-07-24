@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useState } from 'react';
+import clamp from 'lodash-es/clamp.js';
 import noop from 'lodash-es/noop.js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { useDispatch } from 'react-redux';
@@ -60,7 +61,7 @@ function LinkAssetsModal(props) {
       await progressIndicator.show('Linking Assets...');
       const assetRefs = Array.from(batch.values()).map(n => n.generateNodeRef());
       await dispatch(linkAssets(linkedRef, assetRefs));
-      await delay(3000); // merely here to allow for all assets to be updated in elastic search.
+      await delay(clamp(1000 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
       run();
       await progressIndicator.close();
       toast({ title: 'Assets linked.' });
