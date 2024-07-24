@@ -2,8 +2,10 @@
 
 
 ## v1.0.0-beta.5
-* First attempt at improving scroll position restoring on blocksmith after hydration.
-* Add type submit to create modals so users can hit enter to create the node.
+* Add type submit to create modals submit buttons so users can hit enter to create the node.
+* Blocksmith :: don't allow blocks to be inserted within other block level elements.
+* Blocksmith :: don't hydrate if delegate.shouldReinitialize is false.
+* Blocksmith :: improve scroll position restoring after hydration.
 
 
 ## v1.0.0-beta.4
