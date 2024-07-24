@@ -6,12 +6,13 @@ import {
   $getSelection,
   $getRoot,
   $insertNodes,
+  $isBlockElementNode,
   $isRootOrShadowRoot,
   createCommand,
   COMMAND_PRIORITY_EDITOR
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister } from '@lexical/utils';
+import { $getNearestBlockElementAncestorOrThrow, mergeRegister } from '@lexical/utils';
 import { LinkNode } from '@lexical/link';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { getScrollTop, scrollToTop } from '@triniti/cms/components/screen/index.js';
@@ -113,11 +114,20 @@ export default function BlocksmithPlugin(props) {
             const $parent = $selectedNode.getParent();
             if ($isRootOrShadowRoot($parent)) {
               $insertNodes([$node]);
-            } else {
-              $parent.insertAfter($node);
+              return true;
             }
 
-            return true;
+            if ($isBlockElementNode($parent)) {
+              $parent.insertAfter($node);
+              return true;
+            }
+
+            try {
+              const $nearestBlock = $getNearestBlockElementAncestorOrThrow($parent);
+              $nearestBlock.insertAfter($node);
+              return true;
+            } catch (e) {
+            }
           }
         }
 
