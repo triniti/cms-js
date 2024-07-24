@@ -16,7 +16,7 @@ export default function AssetPickerModal(props) {
     uploaderProps = {},
   } = props;
   const [uploaderOpen, setUploaderOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [activeTab, setActiveTab] = useState(linkedRef ? defaultTab : 'search');
 
   const handleSelectAsset = async (ref) => {
     if (!ref) {
@@ -58,33 +58,37 @@ export default function AssetPickerModal(props) {
     <Modal isOpen backdrop="static" size="xxl" centered>
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="p-0">
-        <Nav className="nav-underline">
-          <NavItem>
-            <NavLink data-tab="linked" active={activeTab === 'linked'} onClick={handleClickTab}>
-              Linked
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink data-tab="search" active={activeTab === 'search'} onClick={handleClickTab}>
-              Search
-            </NavLink>
-          </NavItem>
-        </Nav>
+        {linkedRef && (
+          <Nav className="nav-underline">
+            <NavItem>
+              <NavLink data-tab="linked" active={activeTab === 'linked'} onClick={handleClickTab}>
+                Linked
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-tab="search" active={activeTab === 'search'} onClick={handleClickTab}>
+                Search
+              </NavLink>
+            </NavItem>
+          </Nav>
+        )}
 
         <TabContent activeTab={activeTab}>
-          <TabPane tabId="linked">
-            <Suspense fallback={<Loading />}>
-              <ErrorBoundary>
-                <LinkedTab
-                  {...props}
-                  activeTab={activeTab}
-                  onClickTab={handleClickTab}
-                  onSelectAsset={handleSelectAsset}
-                  onUpload={handleUpload}
-                />
-              </ErrorBoundary>
-            </Suspense>
-          </TabPane>
+          {linkedRef && (
+            <TabPane tabId="linked">
+              <Suspense fallback={<Loading />}>
+                <ErrorBoundary>
+                  <LinkedTab
+                    {...props}
+                    activeTab={activeTab}
+                    onClickTab={handleClickTab}
+                    onSelectAsset={handleSelectAsset}
+                    onUpload={handleUpload}
+                  />
+                </ErrorBoundary>
+              </Suspense>
+            </TabPane>
+          )}
           <TabPane tabId="search">
             <Suspense fallback={<Loading />}>
               <ErrorBoundary>

@@ -5,9 +5,6 @@ import {
   $getNodeByKey,
   $getSelection,
   $getRoot,
-  $insertNodes,
-  $isBlockElementNode,
-  $isRootOrShadowRoot,
   createCommand,
   COMMAND_PRIORITY_EDITOR
 } from 'lexical';
@@ -84,55 +81,40 @@ export default function BlocksmithPlugin(props) {
       editor.registerCommand(INSERT_BLOCK_COMMAND, (payload) => {
         const { newPbj = null, afterNodeKey = null } = payload;
         let $node;
+        let selectMethod;
         if (!newPbj) {
           $node = $createParagraphNode();
+          selectMethod = 'select';
         } else {
           const curie = newPbj.schema().getCurie().toString();
           $node = $createBlocksmithNode(curie, newPbj.toObject());
+          selectMethod = 'selectEnd';
         }
 
         if (afterNodeKey) {
           const $target = $getNodeByKey(afterNodeKey);
           if ($target) {
             $target.insertAfter($node);
+            $node[selectMethod]();
             return true;
           }
         }
 
-        // prolly simpler way to do this, but i'm tired rn
-        // find the nearest block level element (no links and what not)
-        // and insert the block after that or fallback to append in root
         const selection = $getSelection();
         if (selection) {
           const $selectedNode = getSelectedNode(selection);
-          if ($selectedNode) {
-            if ($isRootOrShadowRoot($selectedNode)) {
-              $insertNodes([$node]);
-              return true;
-            }
-
-            const $parent = $selectedNode.getParent();
-            if ($isRootOrShadowRoot($parent)) {
-              $insertNodes([$node]);
-              return true;
-            }
-
-            if ($isBlockElementNode($parent)) {
-              $parent.insertAfter($node);
-              return true;
-            }
-
-            try {
-              const $nearestBlock = $getNearestBlockElementAncestorOrThrow($parent);
-              $nearestBlock.insertAfter($node);
-              return true;
-            } catch (e) {
-            }
+          try {
+            const $nearestBlock = $getNearestBlockElementAncestorOrThrow($selectedNode);
+            $nearestBlock.insertAfter($node);
+            $node[selectMethod]();
+            return true;
+          } catch (e) {
           }
         }
 
         const $root = $getRoot();
         $root.append($node);
+        $node[selectMethod]();
         return true;
       }, COMMAND_PRIORITY_EDITOR),
       editor.registerCommand(REMOVE_BLOCK_COMMAND, (nodeKey) => {
@@ -184,8 +166,12 @@ export default function BlocksmithPlugin(props) {
       return;
     }
 
+    if (!formContext.delegate.shouldReinitialize) {
+      return;
+    }
+
     setTimeout(() => {
-      const blocks = pbj.get('blocks', []);
+      const blocks = pbj.get(name, []);
       const top = getScrollTop();
       blocksToEditor(blocks, editor);
       initialValueRef.current = blocks.length > 0 ? blocks.map(b => marshalToFinalForm(b.toObject())) : undefined;
