@@ -54,15 +54,12 @@ function CreateArticleModal(props) {
     }
   };
 
+  const handleChange = (e) => setSlug(e.target.value);
+
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value)));
+    if (e.key === 'Enter' && valid) {
       setTimeout(form.submit);
     }
-  };
-
-  const handleChange = (e) => {
-    setSlug(e.target.value);
   };
 
   return (
@@ -72,7 +69,7 @@ function CreateArticleModal(props) {
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
-          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} />
+          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} onKeyDown={handleKeyDown} />
         </Form>
       </ModalBody>
       <ModalFooter>
