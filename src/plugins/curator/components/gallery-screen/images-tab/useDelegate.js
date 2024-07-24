@@ -108,7 +108,7 @@ export default (props) => {
         oldGalleryRefs[assetId] = nodeRef;
       }
       await dispatch(reorderGalleryAssets(null, gallerySeqs, oldGalleryRefs));
-      await delay(clamp(1000 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
+      await delay(clamp(500 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
       await run();
       await progressIndicator.close();
       toast({ title: 'Images removed.' });

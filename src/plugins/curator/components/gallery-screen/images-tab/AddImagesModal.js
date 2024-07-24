@@ -76,7 +76,7 @@ function AddImagesModal(props) {
       }
 
       await dispatch(reorderGalleryAssets(galleryRef, gallerySeqs));
-      await delay(clamp(1000 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
+      await delay(clamp(500 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
       run();
       await progressIndicator.close();
       toast({ title: 'Images added.' });
