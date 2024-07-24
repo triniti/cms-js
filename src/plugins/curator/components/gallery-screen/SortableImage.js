@@ -22,7 +22,6 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        role="button"
         className={`p-1 mb-0 cursor-pointer ${isSelected ? 'selected' : ''}`}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0 border">
@@ -32,13 +31,15 @@ export default function SortableImage(props) {
           position: 'absolute',
           left: '0',
           top: '0',
+          bottom: '0',
           padding: '.5rem',
           width: '100%',
           justifyContent: 'space-between',
-          minHeight: '44px'
         }}>
           {(isHovering || isSelected) && (
+            <Label>
             <Input type="checkbox" onChange={() => batch.toggle(node)} checked={isSelected} />
+            </Label>
           )}
           {isHovering && (
             <div>

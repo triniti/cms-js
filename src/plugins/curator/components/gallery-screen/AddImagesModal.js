@@ -101,7 +101,7 @@ function AddImagesModal(props) {
   }
 
   return (
-    <Modal isOpen backdrop="static" size="xl" centered>
+    <Modal isOpen backdrop="static" size="xxl" centered>
       <ModalHeader toggle={handleClose}>Add Images</ModalHeader>
       <ModalBody className="p-0">
         <div id="asset-linker-search-body" className="scrollable-container modal-scrollable--tabs">
@@ -109,7 +109,7 @@ function AddImagesModal(props) {
           {(!response || pbjxError) && <Loading error={pbjxError} />}
 
           {response && (
-            <div className="border-top border-light-subtle border-3">
+            <div className="bg-gray-400">
               {!response.has('nodes') && (
                 <p className="p-5">No images found.</p>
               )}
@@ -125,12 +125,11 @@ function AddImagesModal(props) {
                         <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
                           <Card
                             inverse
-                            role="button"
-                            className={`shadow p-1 mb-0 image-grid-card cursor-pointer ${batch.has(node) ? 'selected' : ''}`}
+                            tag="button"
+                            className={`p-1 mb-0 image-grid-card cursor-pointer ${batch.has(node) ? 'selected' : ''}`}
                             onClick={() => batch.toggle(node)}
                           >
-                            <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 hover-box-shadow"
-                                   style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
+                            <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark">
                               <BackgroundImage imgSrc={previewUrl} alt="" />
                             </Media>
                           </Card>
