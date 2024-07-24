@@ -95,7 +95,7 @@ export default function Screen(props) {
         {(header || primaryActions || (breadcrumbs && breadcrumbs.length > 0)) && (
           <div className="screen-header-container">
             {badge && (
-              <Icon alert color="dark" imgSrc={badge} size="xs" className="me-3" />
+              <Icon imgSrc={badge} size="lg" className="m-0 me-3 text-body" />
             )}
             {breadcrumbs && breadcrumbs.length > 0 && (
               <h1 className="screen-header-title">
