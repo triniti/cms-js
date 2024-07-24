@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.6
+* ?
+
+
 ## v1.0.0-beta.5
 * Add type submit to create modals submit buttons so users can hit enter to create the node.
 * Blocksmith :: don't allow blocks to be inserted within other block level elements.
