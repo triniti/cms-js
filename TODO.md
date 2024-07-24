@@ -17,4 +17,4 @@
 * lock node features?
 * send purge cache command when asset variant is replaced.
 * dynamically determine duration of uploaded video or audio (like image dimensions)?
-* allow "enter" key to submit modals? when form is valid of course.
+* add save and close and save and publish on article screen? does anyone even use this?
