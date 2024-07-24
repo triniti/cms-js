@@ -1,4 +1,5 @@
 import React from 'react';
+import { useForm } from 'react-final-form'
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import classNames from 'classnames';
 import { Col, Row } from 'reactstrap';
@@ -21,9 +22,27 @@ const OPTIONS_SIZES = [
 
 export default function HeadlineFragmentsCard(props) {
   const { groupClassName = '' } = props;
-
   const rootClassName = classNames(groupClassName, 'form-group');
   const { fields } = useFieldArray('hf');
+  const form = useForm();
+
+  // Setup default values
+  if (!fields.length) {
+    fields.push('');
+    fields.push('');
+    fields.push('');
+    form.change('hf_styles[0]', 'uppercase');
+    form.change('hf_styles[1]', 'uppercase');
+    form.change('hf_styles[2]', 'uppercase');
+    form.change('hf_sizes[0]', 3); // M
+    form.change('hf_sizes[1]', 1); // XL
+    form.change('hf_sizes[2]', 1); // XL
+  }
+
+  const emptyFieldToString = (field) => {
+    if (!form.getFieldState(field).value)
+      form.change(field, '');
+  }
 
   return (
     <Card>
@@ -34,7 +53,7 @@ export default function HeadlineFragmentsCard(props) {
             return (
               <Row className="gx-2" key={field}>
                 <Col>
-                  <TextField name={field} />
+                  <TextField name={field} beforeSubmit={() => emptyFieldToString(field) } />
                 </Col>
                 <Col xs="2">
                   <SelectField name={`hf_styles[${index}]`} isClearable={false} options={OPTIONS_STYLES} />
