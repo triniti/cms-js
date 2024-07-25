@@ -13,7 +13,7 @@ const AddImagesModal = lazy(() => import('@triniti/cms/plugins/curator/component
 function ImagesTab(props) {
   const { nodeRef } = props;
   const delegate = useDelegate(props);
-  const { batch, canUpdate, ids, nodes, seqChanged, pbjxError, isRunning } = delegate;
+  const { batch, ids, nodes, total, canReorder, isReordering, pbjxError, isRunning } = delegate;
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -26,9 +26,9 @@ function ImagesTab(props) {
   return (
     <Card>
       <CardHeader>
-        <span>Images {isRunning && <Spinner />}</span>
+        <span>Images{total > 0 ? ` (${total})` : ''} {isRunning && <Spinner />}</span>
         <span>
-          {seqChanged && (
+          {canReorder && isReordering && (
             <ActionButton
               text="Reorder Images"
               icon="save"
@@ -37,7 +37,7 @@ function ImagesTab(props) {
               onClick={delegate.handleReorderImages}
             />
           )}
-          {canUpdate && !seqChanged && (
+          {canReorder && !isReordering && (
             <>
               {batch.size > 0 && (
                 <ActionButton
@@ -61,7 +61,7 @@ function ImagesTab(props) {
               />
             </>
           )}
-          {!seqChanged && (
+          {!isReordering && (
             <Button color="light" size="sm" onClick={delegate.handleRefresh} disabled={isRunning}>
               <Icon imgSrc="refresh" />
             </Button>
@@ -83,6 +83,10 @@ function ImagesTab(props) {
               <div className="p-3" style={{ minHeight: '152px' }}>
                 <Row className="m-0 g-1">
                   {ids.map((id, index) => {
+                    if (!nodes[id]) {
+                      return null;
+                    }
+
                     return (
                       <SortableImage
                         key={id}
@@ -90,7 +94,8 @@ function ImagesTab(props) {
                         index={index}
                         node={nodes[id]}
                         batch={batch}
-                        canUpdate={canUpdate}
+                        canReorder={canReorder}
+                        isReordering={isReordering}
                       />
                     );
                   })}

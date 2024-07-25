@@ -67,7 +67,7 @@ export default (props) => {
   }, [response]);
 
   const [ids, setIds] = useState([]);
-  const [seqChanged, setSeqChanged] = useState(false);
+  const [isReordering, setIsReordering] = useState(false);
 
   useEffect(() => {
     if (!initialSeq) {
@@ -89,7 +89,7 @@ export default (props) => {
     if (oldIndex !== newIndex) {
       const newIds = arrayMove(ids, oldIndex, newIndex);
       setIds(newIds);
-      setSeqChanged(!fastDeepEqual(initialSeq.ids, newIds));
+      setIsReordering(!fastDeepEqual(initialSeq.ids, newIds));
     }
   };
 
@@ -134,17 +134,17 @@ export default (props) => {
 
   return {
     batch,
-    canReorder,
     ids: ids,
     nodes: initialSeq?.nodes || {},
-    canUpdate: canReorder,
     gallerySeqIncrementer,
-    seqChanged,
+    canReorder,
+    isReordering,
     handleDragEnd,
     handleImagesAdded,
     handleRefresh,
     handleRemoveImages,
     handleReorderImages,
+    total: response ? response.get('total') : 0,
     pbjxError,
     isRunning,
   };
