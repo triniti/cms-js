@@ -53,7 +53,8 @@ function LinkedAssetsCard(props) {
       await progressIndicator.show('Unlinking Assets...');
       const assetRefs = Array.from(batch.values()).map(n => n.generateNodeRef());
       await dispatch(unlinkAssets(linkedRef, assetRefs));
-      await delay(clamp(500 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
+      // delay to give time for all assets to be updated in elastic search.
+      await delay(clamp(500 * batch.size, 3000, 10000));
       await run();
       await progressIndicator.close();
       toast({ title: 'Assets unlinked.' });

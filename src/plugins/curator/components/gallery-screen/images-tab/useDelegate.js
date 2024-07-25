@@ -40,7 +40,9 @@ export default (props) => {
   const policy = usePolicy();
   const batch = useBatch(response);
 
+  const canPatch = policy.isGranted(`${APP_VENDOR}:image-asset:patch`);
   const canReorder = editMode && policy.isGranted('triniti:dam:command:reorder-gallery-assets');
+
   const highestSeq = response
     && response.has('nodes')
     && response.getFromListAt('nodes', 0).get('gallery_seq', 0) || 0;
@@ -71,10 +73,12 @@ export default (props) => {
 
   useEffect(() => {
     if (!initialSeq) {
+      setIsReordering(false);
       return;
     }
 
     setIds([...initialSeq.ids]);
+    setIsReordering(false);
   }, [initialSeq]);
 
   const handleDragEnd = (event) => {
@@ -108,7 +112,8 @@ export default (props) => {
         oldGalleryRefs[assetId] = nodeRef;
       }
       await dispatch(reorderGalleryAssets(null, gallerySeqs, oldGalleryRefs));
-      await delay(clamp(500 * batch.size, 3000, 10000)); // merely here to allow for all assets to be updated in elastic search.
+      // delay to give time for all assets to be updated in elastic search.
+      await delay(clamp(1000 * batch.size, 3000, 20000));
       await run();
       await progressIndicator.close();
       toast({ title: 'Images removed.' });
@@ -127,16 +132,36 @@ export default (props) => {
     run();
   };
 
-
   const handleReorderImages = async () => {
+    try {
+      await progressIndicator.show('Reordering Images...');
+      const gallerySeqs = {};
+      //await dispatch(reorderGalleryAssets(nodeRef, gallerySeqs));
+      // delay to give time for all assets to be updated in elastic search.
+      const count = Object.keys(gallerySeqs).length;
+      await delay(clamp(1000 * count, 3000, 20000));
+      setIsReordering(false);
+      await run();
+      await progressIndicator.close();
+      toast({ title: 'Images reordered.' });
+    } catch (e) {
+      await progressIndicator.close();
+      dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
+    }
+  };
 
+  const handleRevertReordering = () => {
+    setIds([...initialSeq.ids]);
+    setIsReordering(false);
   };
 
   return {
     batch,
     ids: ids,
     nodes: initialSeq?.nodes || {},
+    total: response ? response.get('total') : 0,
     gallerySeqIncrementer,
+    canPatch,
     canReorder,
     isReordering,
     handleDragEnd,
@@ -144,7 +169,7 @@ export default (props) => {
     handleRefresh,
     handleRemoveImages,
     handleReorderImages,
-    total: response ? response.get('total') : 0,
+    handleRevertReordering,
     pbjxError,
     isRunning,
   };
