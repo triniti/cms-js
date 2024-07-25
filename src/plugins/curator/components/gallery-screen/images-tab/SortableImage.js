@@ -49,7 +49,8 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        className={`cursor-default border mb-0 ${isSelected ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`border mb-0 ${isSelected ? 'selected focus-ring-box-shadow' : ''}`}
+        style={{ cursor: 'grab'}}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0">
           <BackgroundImage imgSrc={previewUrl} alt="" />
@@ -59,7 +60,7 @@ export default function SortableImage(props) {
         )}
         <ButtonToolbar className="position-absolute p-0 w-100 justify-content-between">
           {(isHovering || isSelected) && (
-            <Label for={id} className="p-2 mb-0" style={{ zIndex: 2 }}>
+            <Label for={id} className="p-2 mb-0" style={{ zIndex: 2, cursor: 'pointer' }}>
               <Input type="checkbox" id={id} onChange={() => batch.toggle(node)} checked={isSelected} />
             </Label>
           )}
