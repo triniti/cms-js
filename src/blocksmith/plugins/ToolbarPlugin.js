@@ -7,7 +7,9 @@ import {
   createCommand,
   COMMAND_PRIORITY_EDITOR,
   COMMAND_PRIORITY_LOW,
+  COMMAND_PRIORITY_NORMAL,
   FORMAT_TEXT_COMMAND,
+  KEY_MODIFIER_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
@@ -20,7 +22,6 @@ import {
   REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { Icon } from '@triniti/cms/components/index.js';
-import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 import BlockSelectorModal from '@triniti/cms/blocksmith/components/block-selector-modal/index.js';
@@ -31,7 +32,6 @@ import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/Blocksmith
 export const SHOW_BLOCK_SELECTOR_COMMAND = createCommand();
 
 export default function ToolbarPlugin() {
-  const policy = usePolicy();
   const [editor] = useLexicalComposerContext();
   const [refreshed, setRefreshed] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -149,13 +149,21 @@ export default function ToolbarPlugin() {
           $updateToolbar();
         });
       }),
-      editor.registerCommand(
-        SELECTION_CHANGE_COMMAND,
-        (_payload, _newEditor) => {
+      editor.registerCommand(SELECTION_CHANGE_COMMAND, () => {
           $updateToolbar();
           return false;
         },
         COMMAND_PRIORITY_LOW,
+      ),
+      editor.registerCommand(KEY_MODIFIER_COMMAND, (event) => {
+          const {code, ctrlKey, metaKey} = event;
+          if (code === 'KeyK' && (ctrlKey || metaKey)) {
+            handleInsertLink(event);
+            return true;
+          }
+          return false;
+        },
+        COMMAND_PRIORITY_NORMAL,
       ),
       editor.registerCommand(SHOW_BLOCK_SELECTOR_COMMAND, (nodeKey) => {
         handleShowBlockSelector(nodeKey);

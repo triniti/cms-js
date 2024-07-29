@@ -2,6 +2,7 @@
 
 
 ## v1.0.0-beta.6
+* Blocksmith :: Add keyboard shortcut CMD+K to load link modal.
 * Blocksmith :: fix tumblr-post-block-preview not showing its url.
 * Don't add `(duplicate)` to the title of duplicated nodes.
 * Added gallery image management (add/remove/patch/reorder).
