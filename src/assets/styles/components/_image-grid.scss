@@ -1,18 +1,15 @@
 // image grid
 
 .image-grid-card {
+  box-shadow: var(--#{$prefix}box-shadow);
 
   .border {
-    --#{$prefix}border-color: var(--#{$prefix}light-border-subtle);
-  }
-  &.shadow .border {
     --#{$prefix}border-color: var(--#{$prefix}body-bg);
   }
   [data-bs-theme=dark] & {
     background-color: var(--#{$prefix}light-border-subtle);
 
-    .border,
-    &.shadow .border {
+    .border {
       --#{$prefix}border-color: var(--#{$prefix}light-border-subtle);
     }
   }
@@ -20,5 +17,13 @@
   &:focus-visible {
     background-color: var(--#{$prefix}secondary);
     outline: none;
+  }
+  &.selected {
+    background-color: var(--#{$prefix}primary);
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--#{$prefix}primary);
+    }
   }
 }

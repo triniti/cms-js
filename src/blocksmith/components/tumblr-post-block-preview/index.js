@@ -3,7 +3,7 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 
 function TumblrPostBlockPreview(props) {
   const { block } = props;
-  const url = block.get('canonical_url', block.get('url'));
+  const url = block.get('canonical_url', block.get('href'));
 
   return (
     <p>

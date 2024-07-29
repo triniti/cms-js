@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Button, Card, CardBody, CardHeader, CardText, Spinner } from 'reactstrap';
+import clamp from 'lodash-es/clamp.js';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
@@ -52,7 +53,8 @@ function LinkedAssetsCard(props) {
       await progressIndicator.show('Unlinking Assets...');
       const assetRefs = Array.from(batch.values()).map(n => n.generateNodeRef());
       await dispatch(unlinkAssets(linkedRef, assetRefs));
-      await delay(3000); // merely here to allow for all assets to be updated in elastic search.
+      // delay to give time for all assets to be updated in elastic search.
+      await delay(clamp(500 * batch.size, 3000, 10000));
       await run();
       await progressIndicator.close();
       toast({ title: 'Assets unlinked.' });
