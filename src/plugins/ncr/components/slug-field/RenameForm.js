@@ -27,7 +27,11 @@ const datedSlugValidator = (value) => {
 }
 
 const parseSlug = (value) => {
-  return value ? value.toLowerCase() : value;
+  return value ? createSlug(value).toLowerCase() : value;
+};
+
+const parseDatedSlug = (value) => {
+  return value ? createSlug(value, true).toLowerCase() : value;
 };
 
 function RenameForm(props) {
@@ -82,7 +86,7 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
-            parse={parseSlug}
+            parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />
         </Form>
