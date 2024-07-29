@@ -26,6 +26,9 @@ const datedSlugValidator = (value) => {
   return 'Slug requires date, e.g. YYYY/MM/DD/some-title';
 }
 
+const parseSlug = (value) => {
+  return value ? value.toLowerCase() : value;
+};
 
 function RenameForm(props) {
   const dispatch = useDispatch();
@@ -79,6 +82,7 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
+            parse={parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />
         </Form>

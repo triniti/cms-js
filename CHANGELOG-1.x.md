@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.7
+* slug-field :: ensure slug is lowercase when saved. (also fixed on create-article-modal)
+
+
 ## v1.0.0-beta.6
 * Blocksmith :: Add keyboard shortcut CMD+K to load link modal.
 * Blocksmith :: fix tumblr-post-block-preview not showing its url.
