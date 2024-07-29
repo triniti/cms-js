@@ -54,7 +54,7 @@ function RenameForm(props) {
       await progressIndicator.show(`Renaming ${label}...`);
 
       const oldSlug = pbj.get('slug');
-      const newSlug = createSlug(values.slug || '', withDatedSlug);
+      const newSlug = createSlug(values.slug || '', withDatedSlug).toLowerCase();
 
       if (oldSlug !== newSlug) {
         await dispatch(renameNode(nodeRef, oldSlug, newSlug));
