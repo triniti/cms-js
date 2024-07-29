@@ -1,7 +1,10 @@
 # TODO
 
+* slug field :: auto sluggify on change? and show errors on change?
 * ncr -- updateNode.js fix merging/state if updates occurred while editting, then restore expected_etag check
 * review sortable on node picker, interaction is wonky af. does node picker need this? (redo this so the sorting is done outside of the picker, i absolute hate the way it is rn)
+* blocksmith -- aspect ratio default to auto or handle on web?
+* blocksmith -- command + k to include hyperlink
 * blocksmith -- sometimes cursor disappears after drag/drop
 * blocksmith -- copy / paste block (text already works)
 * blocksmith -- add emojis inserter thingy

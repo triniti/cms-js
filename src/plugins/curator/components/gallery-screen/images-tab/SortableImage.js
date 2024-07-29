@@ -7,10 +7,11 @@ import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
 export default function SortableImage(props) {
-  const { id, index, node, batch, isReordering, canReorder } = props;
+  const { id, index, seq, image, batch, isReordering, canReorder } = props;
   const [isHovering, setIsHovering] = useState(false);
-  const previewUrl = damUrl(node.get('_id'), '1by1', 'sm');
-  const isSelected = !isReordering && batch.has(node);
+  const previewUrl = damUrl(image.get('_id'), '1by1', 'sm');
+  const isSelected = !isReordering && batch.has(image);
+  const isSeqDifferent = isReordering && image.get('gallery_seq') !== seq;
 
   const handleMouseLeave = () => setIsHovering(false);
   const handleMouseOver = () => setIsHovering(true);
@@ -52,7 +53,7 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        className={`border mb-0 ${isSelected ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`border mb-0 ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
         style={{ cursor: 'grab' }}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0">
@@ -68,13 +69,13 @@ export default function SortableImage(props) {
                 {(isReordering || !canReorder) && <span />}
                 {!isReordering && canReorder && (
                   <Label for={id} className="p-2 mb-0" style={{ zIndex: 2, cursor: 'pointer' }}>
-                    <Input type="checkbox" id={id} onChange={() => batch.toggle(node)} checked={isSelected} />
+                    <Input type="checkbox" id={id} onChange={() => batch.toggle(image)} checked={isSelected} />
                   </Label>
                 )}
               </>
             )}
             {isHovering && (
-              <a href={nodeUrl(node, 'view')} target="_blank" rel="noopener noreferrer"
+              <a href={nodeUrl(image, 'view')} target="_blank" rel="noopener noreferrer"
                  className='d-inline-block p-2 pb-1 text-white opacity-75'>
                 <Icon imgSrc="external" alt="view" size="md" />
               </a>

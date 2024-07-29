@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, CardText, Row, Spinner } from 'reac
 import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import { ActionButton, CreateModalButton, Icon, Loading } from '@triniti/cms/components/index.js';
+import { ActionButton, CreateModalButton, Icon, Loading, Pager } from '@triniti/cms/components/index.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useDelegate from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/useDelegate.js';
 import SortableImage from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/SortableImage.js';
@@ -12,16 +12,18 @@ const AddImagesModal = lazy(() => import('@triniti/cms/plugins/curator/component
 const PatchAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/patch-assets-modal/index.js'));
 
 function ImagesTab(props) {
-  const { nodeRef } = props;
+  const { nodeRef, request } = props;
   const delegate = useDelegate(props);
   const {
     batch,
     ids,
-    nodes,
+    seqs,
+    images,
     total,
     canPatch,
     canReorder,
     isReordering,
+    response,
     pbjxError,
     isRunning
   } = delegate;
@@ -91,7 +93,7 @@ function ImagesTab(props) {
                   modal={AddImagesModal}
                   modalProps={{
                     galleryRef: nodeRef,
-                    gallerySeqIncrementer: delegate.gallerySeqIncrementer,
+                    gallerySeqIncrementer: delegate.incrementer,
                     onClose: delegate.handleImagesAdded,
                   }}
                 />
@@ -118,9 +120,9 @@ function ImagesTab(props) {
           <DndContext onDragEnd={delegate.handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
             <SortableContext items={ids} strategy={rectSortingStrategy}>
               <div className="p-3" style={{ minHeight: '152px' }}>
-                <Row className="m-0 g-1">
+                <Row className="m-0 mb-2 g-1">
                   {ids.map((id, index) => {
-                    if (!nodes[id]) {
+                    if (!images[id]) {
                       return null;
                     }
 
@@ -129,7 +131,8 @@ function ImagesTab(props) {
                         key={id}
                         id={id}
                         index={index}
-                        node={nodes[id]}
+                        seq={seqs[index]}
+                        image={images[id]}
                         batch={batch}
                         canReorder={canReorder}
                         isReordering={isReordering}
@@ -137,6 +140,15 @@ function ImagesTab(props) {
                     );
                   })}
                 </Row>
+
+                <Pager
+                  disabled={isRunning}
+                  hasMore={response.get('has_more')}
+                  page={request.get('page')}
+                  perPage={request.get('count')}
+                  total={response.get('total')}
+                  onChangePage={delegate.handleChangePage}
+                />
               </div>
             </SortableContext>
           </DndContext>
