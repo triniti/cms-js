@@ -98,6 +98,16 @@
       border-color: #494e5a;  // todo use variable
     }
   }
+  &:focus-visible,
+  .form-group &:active {
+    box-shadow: 0 0 0 2px rgba($secondary, .3), $shadow-depth-5;
+    border-color: $secondary;
+    outline: none;
+
+    [data-bs-theme=dark] & {
+      border-color: #494e5a;  // todo use variable
+    }
+  }
 }
 
 .sortable-drag-handle {
