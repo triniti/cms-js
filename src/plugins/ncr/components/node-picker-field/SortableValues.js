@@ -23,7 +23,6 @@ import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
 
 const noop = (event) => {
-  console.log('noop');
   event.stopPropagation();
   event.preventDefault();
 };
@@ -73,7 +72,7 @@ function SortableValue(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate) || nodeUrl(node, 'view');
+  const url = nodeUrl(node, urlTemplate);
 
   return (
     <li

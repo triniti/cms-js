@@ -17,4 +17,4 @@
 * review/simplify node history and reverting.
 * send purge cache command when asset variant is replaced.
 * dynamically determine duration of uploaded video or audio (like image dimensions)?
-
+* can sortables with overlays be simplified? sortable node-picker works without overlay but sortable slots or poll answers doesn't, y tho?

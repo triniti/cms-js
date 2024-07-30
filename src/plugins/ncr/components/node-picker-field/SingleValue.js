@@ -34,7 +34,7 @@ export default function SingleValue(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate) || nodeUrl(node, 'view');
+  const url = nodeUrl(node, urlTemplate);
 
   return (
     <components.SingleValue {...props}>
