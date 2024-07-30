@@ -52,7 +52,7 @@ export default function MultiSelectField(props) {
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
-      {sortable && input.value.length && <SortableValues input={input} {...props} editMode={editMode} />}
+      {sortable && input.value.length > 0 && <SortableValues input={input} {...props} editMode={editMode} />}
       <AsyncPaginate
         {...input}
         {...rest}

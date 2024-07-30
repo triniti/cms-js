@@ -56,8 +56,6 @@ function SortableValue(props) {
   });
 
   const style = {
-    minWidth: '100px',
-    width: 'calc(10% - 8px)',
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Transform.toString(transform),
     transition,
