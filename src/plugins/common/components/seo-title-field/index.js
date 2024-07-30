@@ -15,7 +15,7 @@ function Warning(props) {
 
   return (
     <FormText color={length > 75 ? 'danger' : 'warning'} className="d-block">
-      Recommendation: keep title less than 60 characters to avoid title extending too long in search results.
+      Use less than 60 characters to avoid getting truncated in search results.
       ({length}/60)
     </FormText>
   );

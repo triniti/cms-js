@@ -45,7 +45,7 @@ export default function TextField(props) {
       />
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
-      {Warning && <Warning value={input.value} />}
+      {editMode && Warning && <Warning value={input.value} />}
     </div>
   );
 }
