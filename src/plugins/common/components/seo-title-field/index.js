@@ -29,7 +29,6 @@ export default function SeoTitleField(props) {
       name={name}
       label={label}
       required={required}
-      className="form-control-xlg"
       Warning={Warning}
     />
   );
