@@ -60,6 +60,7 @@ function CreateAppForm(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text={`Create ${label}`}
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

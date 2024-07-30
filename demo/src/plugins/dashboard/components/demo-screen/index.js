@@ -356,25 +356,28 @@ function DemoScreen() {
               <ListGroupItem action tag="a" href="#react-select" active={activeButton === 'button26'} onClick={() => handleClick('button26')}>
                 React Select
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#spinner" active={activeButton === 'button27'} onClick={() => handleClick('button27')}>
+              <ListGroupItem action tag="a" href="#sortable-list" active={activeButton === 'button27'} onClick={() => handleClick('button27')}>
+                Sortable List
+              </ListGroupItem>
+              <ListGroupItem action tag="a" href="#spinner" active={activeButton === 'button28'} onClick={() => handleClick('button28')}>
                 Spinner
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#sweet-alert" active={activeButton === 'button28'} onClick={() => handleClick('button28')}>
+              <ListGroupItem action tag="a" href="#sweet-alert" active={activeButton === 'button29'} onClick={() => handleClick('button29')}>
                 Sweet Alert
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#switch-field" active={activeButton === 'button29'} onClick={() => handleClick('button29')}>
+              <ListGroupItem action tag="a" href="#switch-field" active={activeButton === 'button30'} onClick={() => handleClick('button30')}>
                 Switch Field
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#table" active={activeButton === 'button30'} onClick={() => handleClick('button30')}>
+              <ListGroupItem action tag="a" href="#table" active={activeButton === 'button31'} onClick={() => handleClick('button31')}>
                 Table
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#tabs" active={activeButton === 'button31'} onClick={() => handleClick('button31')}>
+              <ListGroupItem action tag="a" href="#tabs" active={activeButton === 'button32'} onClick={() => handleClick('button32')}>
                 Tabs
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#toasts" active={activeButton === 'button32'} onClick={() => handleClick('button32')}>
+              <ListGroupItem action tag="a" href="#toasts" active={activeButton === 'button33'} onClick={() => handleClick('button33')}>
                 Toasts
               </ListGroupItem>
-              <ListGroupItem action tag="a" href="#tooltips" active={activeButton === 'button33'} onClick={() => handleClick('button33')}>
+              <ListGroupItem action tag="a" href="#tooltips" active={activeButton === 'button34'} onClick={() => handleClick('button34')}>
                 Tooltips
               </ListGroupItem>
             </ListGroup>
@@ -1894,6 +1897,10 @@ function DemoScreen() {
               <h6 className="text-light mt-3 mb-5">paperclip</h6>
             </Col>
             <Col className="text-center">
+              <Icon size="lg" imgSrc="paragraph" />
+              <h6 className="text-light mt-3 mb-5">paragraph</h6>
+            </Col>
+            <Col className="text-center">
               <Icon size="lg" imgSrc="pause" />
               <h6 className="text-light mt-3 mb-5">pause</h6>
             </Col>
@@ -2114,6 +2121,10 @@ function DemoScreen() {
               <h6 className="text-light mt-3 mb-5">trash</h6>
             </Col>
             <Col className="text-center">
+              <Icon size="lg" imgSrc="tumblr" />
+              <h6 className="text-light mt-3 mb-5">tumblr</h6>
+            </Col>
+            <Col className="text-center">
               <Icon size="lg" imgSrc="tweet" />
               <h6 className="text-light mt-3 mb-5">tweet</h6>
             </Col>
@@ -2192,6 +2203,10 @@ function DemoScreen() {
             <Col className="text-center">
               <Icon size="lg" imgSrc="weight" />
               <h6 className="text-light mt-3 mb-5">weight</h6>
+            </Col>
+            <Col className="text-center">
+              <Icon size="lg" imgSrc="x" />
+              <h6 className="text-light mt-3 mb-5">x</h6>
             </Col>
             <Col className="text-center">
               <Icon size="lg" imgSrc="zip" />
@@ -3615,6 +3630,68 @@ function DemoScreen() {
           </Row>
         </CardBody>
       </Card>
+
+      {/* Sortable List */}
+
+      <Card id="sortable-list">
+        <CardHeader>
+          Sortable List
+        </CardHeader>
+        <CardBody>
+          <ul className="sortable-list">
+            <li className="sortable-item d-flex flex-nowrap align-items-center">
+              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
+                <Button color="hover" className="sortable-drag-handle btn-hover-bg mb-0"><Icon imgSrc="drag" /></Button>
+              </div>
+              <div className="d-flex px-2">
+                <p className="card-text">
+                  <Badge color="light" pill className="me-2">html-head</Badge>
+                  <a href="#">ad :: desktop :: gridler15</a>
+                  <Badge color="primary" pill className="ms-2">lazy</Badge>
+                </p>
+              </div>
+              <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
+                <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="pencil" /></Button>
+                <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="trash" /></Button>
+              </div>
+            </li>
+            <li className="sortable-item d-flex flex-nowrap align-items-center">
+              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
+                <Button color="hover" className="sortable-drag-handle btn-hover-bg mb-0"><Icon imgSrc="drag" /></Button>
+              </div>
+              <div className="d-flex px-2">
+                <p className="card-text">
+                  <Badge color="light" pill className="me-2">html-head</Badge>
+                  <a href="#">code :: desktop :: main :: wibbitz</a>
+                  <Badge color="danger" pill className="ms-2">server</Badge>
+                </p>
+              </div>
+              <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
+                <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="pencil" /></Button>
+                <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="trash" /></Button>
+              </div>
+            </li>
+            <li className="sortable-item d-flex flex-nowrap align-items-center">
+              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
+                <Button color="hover" className="sortable-drag-handle btn-hover-bg mb-0"><Icon imgSrc="drag" /></Button>
+              </div>
+              <div className="d-flex px-2">
+                <p className="card-text">
+                  <Badge color="light" pill className="me-2">footer</Badge>
+                  <a href="#">code :: desktop :: jumbotron-top</a>
+                  <Badge color="secondary" pill className="ms-2">client</Badge>
+                </p>
+              </div>
+              <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
+                <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="pencil" /></Button>
+                <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="trash" /></Button>
+              </div>
+            </li>
+          </ul>
+          <Button color="light" className="btn-action"><Icon imgSrc="plus-outline" /> Add Slot</Button>
+        </CardBody>
+      </Card>
+
 
       {/* Spinner */}
 

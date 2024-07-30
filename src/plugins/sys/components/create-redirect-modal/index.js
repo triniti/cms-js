@@ -76,6 +76,7 @@ function CreateRedirectModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Redirect"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

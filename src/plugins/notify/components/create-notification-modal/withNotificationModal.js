@@ -91,6 +91,7 @@ export default function withNotificationModal(ModalFields) {
             tabIndex="-1"
           />
           <ActionButton
+            type="submit"
             text={`Create ${label}`}
             onClick={delegate.handleCreate}
             disabled={submitDisabled}

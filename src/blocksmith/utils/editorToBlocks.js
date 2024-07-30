@@ -8,9 +8,10 @@ const removeAttributes = (element) => {
     return;
   }
 
-  element.removeAttribute('style');
-  element.removeAttribute('dir');
   element.removeAttribute('class');
+  element.removeAttribute('dir');
+  element.removeAttribute('style');
+  element.removeAttribute('title');
   element.removeAttribute('value');
 
   for (const child of element.children) {
@@ -73,6 +74,7 @@ const sanitizeHtml = (html) => {
     .replaceAll('</i>', '</em>')
     .replaceAll('<em><em>', '<em>')
     .replaceAll('</em></em>', '</em>')
+    .replaceAll(' style=""', '');
     ;
 };
 

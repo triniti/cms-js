@@ -1,23 +1,24 @@
 import React, { Suspense } from 'react';
+import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
 import { DecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode.js';
 import { ErrorBoundary, Loading } from '@triniti/cms/components/index.js';
 import resolveComponent from '@triniti/cms/blocksmith/utils/resolveComponent.js';
 
 function BlocksmithComponent(props) {
-  const { nodeKey, curie, pbj = {}, ...rest } = props;
+  const { nodeKey, curie, pbj = {}, classes, ...rest } = props;
   if (!curie) {
     return null;
   }
 
   const Component = resolveComponent(curie, 'preview');
   return (
-    <React.Fragment key={nodeKey}>
+    <BlockWithAlignableContents key={nodeKey} nodeKey={nodeKey} className={classes}>
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
           <Component curie={curie} pbj={pbj} nodeKey={nodeKey} {...rest} />
         </ErrorBoundary>
       </Suspense>
-    </React.Fragment>
+    </BlockWithAlignableContents>
   );
 }
 
@@ -63,17 +64,20 @@ export default class BlocksmithNode extends DecoratorBlockNode {
   }
 
   decorate(_editor, config) {
+    const theme = config.theme.blocksmith || {};
+    const classes = {
+      base: theme.base || '',
+      focus: theme.focus || '',
+    };
+
     return (
       <BlocksmithComponent
         nodeKey={this.getKey()}
         pbj={this.getPbj()}
         curie={this.getCurie()}
+        classes={classes}
       />
     );
-  }
-
-  isTopLevel() {
-    return true;
   }
 }
 

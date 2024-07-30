@@ -12,6 +12,7 @@ const ignoredFields = [
   'expires_at',
   'published_at',
   'labels',
+  'sync_with_target',
 ];
 
 export default (node) => async (dispatch, getState, app) => {
@@ -25,8 +26,6 @@ export default (node) => async (dispatch, getState, app) => {
       newNode.clear(field);
     }
   }
-
-  newNode.set('title', node.get('title') + ' (duplicate)');
 
   const pbjx = app.getPbjx();
   const command = CreateNodeV1.create().set('node', newNode);

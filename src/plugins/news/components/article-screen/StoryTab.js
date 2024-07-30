@@ -8,13 +8,13 @@ import HeadlineFragmentsCard from '@triniti/cms/plugins/news/components/headline
 import slottingKeys from '@triniti/app/config/slottingKeys.js';
 
 export default function StoryTab(props) {
-  const { node } = props;
+  const { node, tab } = props;
   const schema = node.schema();
 
   return (
     <>
       {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
-        <Blocksmith />
+        <Blocksmith isVisible={tab === 'story'} />
       )}
 
       <Card>

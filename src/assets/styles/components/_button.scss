@@ -710,48 +710,6 @@ button.close {
   justify-content: center;
 }
 
-
-// blocksmith button styles
-
-// todo: remove below if not used
-/*
-.btn-blocksmith {
-  margin: .25rem;
-  display: inline-block;
-  vertical-align: top;
-  padding-top: 1rem;
-  width: 100px;
-  background-color: transparent;
-  border-color: transparent;
-  border-radius: 3px;
-  text-align: center;
-
-  &:hover,
-  &:focus {
-    border-color: var(--#{$prefix}secondary);
-  }
-  > div {
-    display: inline-block;
-    margin-top: 0.5rem;
-    margin-bottom: 0.25rem;
-  }
-  > span:last-child {
-    display: block;
-    min-height: 34px;
-    white-space: normal;
-    word-wrap: normal;
-    text-align: center;
-    line-height: 1.3;
-    margin-top: .375rem;
-    font-size: .75rem;
-  }
-}
-
-.block-buttons-holder .btn:focus {
-  box-shadow: none;
-}
-*/
-
 .btn-list {
   border: none;
   padding-left: 1rem;

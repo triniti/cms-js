@@ -26,10 +26,10 @@ export default function ImageGrid(props) {
               <Card
                 onClick={() => onSelectAsset(nodeRef)}
                 inverse
-                role="button"
-                className="shadow p-1 mb-0 image-grid-card cursor-pointer"
+                tag="button"
+                className="p-1 mb-0 image-grid-card cursor-pointer"
               >
-                <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 hover-box-shadow"
+                <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
                        style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
                   <BackgroundImage imgSrc={previewUrl} alt="" />
                 </Media>

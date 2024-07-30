@@ -5,15 +5,14 @@ import {
   $getNodeByKey,
   $getSelection,
   $getRoot,
-  $insertNodes,
-  $isRootOrShadowRoot,
   createCommand,
   COMMAND_PRIORITY_EDITOR
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister } from '@lexical/utils';
+import { $getNearestBlockElementAncestorOrThrow, mergeRegister } from '@lexical/utils';
 import { LinkNode } from '@lexical/link';
 import BlocksmithNode, { $createBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
+import { getScrollTop, scrollToTop } from '@triniti/cms/components/screen/index.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import areBlocksEqual from '@triniti/cms/blocksmith/utils/areBlocksEqual.js';
 import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
@@ -28,11 +27,13 @@ export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
 
 export default function BlocksmithPlugin(props) {
-  const { name = 'blocks' } = props;
+  const { name = 'blocks', isVisible = false } = props;
   const formContext = useFormContext();
   const { editMode, form, pbj } = formContext;
   const [editor] = useLexicalComposerContext();
   const initialValueRef = useRef(null);
+  const isVisibleRef = useRef(isVisible);
+  isVisibleRef.current = isVisible;
 
   useEffect(() => {
     if (!editor.hasNodes([BlocksmithNode])) {
@@ -80,46 +81,40 @@ export default function BlocksmithPlugin(props) {
       editor.registerCommand(INSERT_BLOCK_COMMAND, (payload) => {
         const { newPbj = null, afterNodeKey = null } = payload;
         let $node;
+        let selectMethod;
         if (!newPbj) {
           $node = $createParagraphNode();
+          selectMethod = 'select';
         } else {
           const curie = newPbj.schema().getCurie().toString();
           $node = $createBlocksmithNode(curie, newPbj.toObject());
+          selectMethod = 'selectEnd';
         }
 
         if (afterNodeKey) {
           const $target = $getNodeByKey(afterNodeKey);
           if ($target) {
             $target.insertAfter($node);
+            $node[selectMethod]();
             return true;
           }
         }
 
-        // prolly simpler way to do this, but i'm tired rn
-        // find the nearest block level element (no links and what not)
-        // and insert the block after that or fallback to append in root
         const selection = $getSelection();
         if (selection) {
           const $selectedNode = getSelectedNode(selection);
-          if ($selectedNode) {
-            if ($isRootOrShadowRoot($selectedNode)) {
-              $insertNodes([$node]);
-              return true;
-            }
-
-            const $parent = $selectedNode.getParent();
-            if ($isRootOrShadowRoot($parent)) {
-              $insertNodes([$node]);
-            } else {
-              $parent.insertAfter($node);
-            }
-
+          try {
+            const $nearestBlock = $getNearestBlockElementAncestorOrThrow($selectedNode);
+            $nearestBlock.insertAfter($node);
+            $node[selectMethod]();
             return true;
+          } catch (e) {
           }
         }
 
         const $root = $getRoot();
         $root.append($node);
+        $node[selectMethod]();
         return true;
       }, COMMAND_PRIORITY_EDITOR),
       editor.registerCommand(REMOVE_BLOCK_COMMAND, (nodeKey) => {
@@ -171,8 +166,13 @@ export default function BlocksmithPlugin(props) {
       return;
     }
 
+    if (!formContext.delegate.shouldReinitialize) {
+      return;
+    }
+
     setTimeout(() => {
-      const blocks = pbj.get('blocks', []);
+      const blocks = pbj.get(name, []);
+      const top = getScrollTop();
       blocksToEditor(blocks, editor);
       initialValueRef.current = blocks.length > 0 ? blocks.map(b => marshalToFinalForm(b.toObject())) : undefined;
       form.registerField(name, noop, {}, {
@@ -186,6 +186,9 @@ export default function BlocksmithPlugin(props) {
           }
         }
       });
+      if (isVisibleRef.current) {
+        scrollToTop('auto', top);
+      }
     });
   }, [pbj]);
 

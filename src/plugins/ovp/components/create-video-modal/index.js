@@ -54,6 +54,7 @@ function CreateVideoModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Video"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}

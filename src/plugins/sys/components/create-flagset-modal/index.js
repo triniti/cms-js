@@ -69,6 +69,7 @@ function CreateFlagsetModal(props) {
           tabIndex="-1"
         />
         <ActionButton
+          type="submit"
           text="Create Flagset"
           onClick={delegate.handleCreate}
           disabled={submitDisabled}
