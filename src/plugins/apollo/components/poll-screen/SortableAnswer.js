@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Button, CardText } from 'reactstrap';
+import { Button} from 'reactstrap';
 import { useField } from 'react-final-form';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -41,7 +41,7 @@ export default function SortableAnswer(props) {
       style={style}
     >
       {editMode && (
-        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
+        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
           {!asOverlay && (
             <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
               <Icon imgSrc="drag" />
@@ -50,8 +50,8 @@ export default function SortableAnswer(props) {
           {asOverlay && <span className="sortable-drag-handle btn-hover btn-hover-bg"><Icon imgSrc="drag" /></span>}
         </div>
       )}
-      <div className="d-flex px-2">
-        <CardText>{title}</CardText>
+      <div className="d-flex p-1 ps-2 align-items-center fs-6">
+        <span className="text-ellipsis me-2">{title}</span>
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
         <CreateModalButton

@@ -84,18 +84,18 @@ function SortableValue(props) {
       style={style}
     >
       {editMode && (
-        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-          <span
-            className="sortable-drag-handle btn-hover btn-hover-bg"
+        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
+          <button
+            className="sortable-drag-handle btn-hover btn-hover-bg py-2"
             {...attributes}
             {...listeners}
             onClick={noop}
           >
             <Icon imgSrc="drag" />
-          </span>
+          </button>
         </div>
       )}
-      <div className="d-flex px-2">
+      <div className="d-flex p-1 align-items-center fs-6">
         {showImage && (
           <Media
             src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
@@ -103,10 +103,10 @@ function SortableValue(props) {
             width="32"
             height="32"
             object
-            className="rounded-2"
+            className="rounded-2 me-1"
           />
         )}
-        <span>{node.get(labelField)}</span>
+        <span className="me-2 text-ellipsis ps-1">{node.get(labelField)}</span>
         {showType && (
           <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
         )}
