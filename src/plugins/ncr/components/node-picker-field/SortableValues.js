@@ -22,11 +22,6 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
 
-const noop = (event) => {
-  event.stopPropagation();
-  event.preventDefault();
-};
-
 function SortableValue(props) {
   const {
     editMode,
@@ -60,19 +55,20 @@ function SortableValue(props) {
     transition,
   };
 
-  if (!node) {
-    const error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
-    return (
-      <div>
-        <Loading inline size="sm" error={error}>Loading {nodeRef}...</Loading>
-      </div>
-    );
-  }
+  let error;
+  let status = 'unknown';
+  let schema;
+  let isPublishable = false;
+  let url = null;
 
-  const status = `${node.get('status')}`;
-  const schema = node.schema();
-  const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate);
+  if (node) {
+    status = `${node.get('status')}`;
+    schema = node.schema();
+    isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
+    url = nodeUrl(node, urlTemplate);
+  } else {
+    error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
+  }
 
   return (
     <li
@@ -85,39 +81,41 @@ function SortableValue(props) {
     >
       {editMode && (
         <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
-          <button
-            className="sortable-drag-handle btn-hover btn-hover-bg py-2"
-            {...attributes}
-            {...listeners}
-            onClick={noop}
-          >
+          <span className="sortable-drag-handle btn-hover btn-hover-bg py-2" {...attributes} {...listeners}>
             <Icon imgSrc="drag" />
-          </button>
+          </span>
         </div>
       )}
       <div className="d-flex p-1 align-items-center fs-6">
-        {showImage && (
-          <Media
-            src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
-            alt=""
-            width="32"
-            height="32"
-            object
-            className="rounded-2 me-1"
-          />
+        {!node && (
+          <Loading inline size="sm" error={error}>Loading {nodeRef}...</Loading>
         )}
-        <span className="me-2 text-ellipsis ps-1">{node.get(labelField)}</span>
-        {showType && (
-          <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
+        {node && (
+          <>
+            {showImage && (
+              <Media
+                src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
+                alt=""
+                width="32"
+                height="32"
+                object
+                className="rounded-2 me-1"
+              />
+            )}
+            <span className="me-2 text-ellipsis ps-1">{node.get(labelField)}</span>
+            {showType && (
+              <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
+            )}
+            {(isPublishable || status === 'deleted') && (
+              <Badge pill className={`status-${status}`}>{status}</Badge>
+            )}
+            {(showLink && (
+              <a href={url} rel="noopener noreferrer" target="_blank" className="m-1 ms-2 me-2">
+                <Icon imgSrc="external" size="sm" />
+              </a>
+            ))}
+          </>
         )}
-        {(isPublishable || status === 'deleted') && (
-          <Badge pill className={`status-${status}`}>{status}</Badge>
-        )}
-        {(showLink && (
-          <a href={url} rel="noopener noreferrer" target="_blank" className="m-1 ms-2 me-2">
-            <Icon imgSrc="external" size="sm" />
-          </a>
-        ))}
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
         {editMode && (
@@ -165,11 +163,7 @@ export default function SortableValues(props) {
               id={id}
               index={index}
               nodeRef={id}
-              onRemove={(event) => {
-                event.stopPropagation();
-                event.preventDefault();
-                handleRemove(index);
-              }}
+              onRemove={() => handleRemove(index)}
             />
           ))}
         </ul>

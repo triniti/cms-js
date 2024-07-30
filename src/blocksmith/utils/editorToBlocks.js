@@ -66,6 +66,7 @@ const appendNode = (editor, $node, container) => {
 // eh, should we accept the lexical output as gospel? maybe.
 const sanitizeHtml = (html) => {
   return html
+    .replaceAll(' style=""', '')
     .replaceAll('<span>', '')
     .replaceAll('</span>', '')
     .replaceAll('<b>', '')
@@ -74,7 +75,6 @@ const sanitizeHtml = (html) => {
     .replaceAll('</i>', '</em>')
     .replaceAll('<em><em>', '<em>')
     .replaceAll('</em></em>', '</em>')
-    .replaceAll(' style=""', '');
     ;
 };
 
