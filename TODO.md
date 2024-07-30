@@ -1,7 +1,6 @@
 # TODO
 
 * raven -- refactor and simplify! more can be done here, need to think more on this.
-* add title length warning on article "title"
 * add save and close and save and publish on article screen? does anyone even use this?
 * lock node features?
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."

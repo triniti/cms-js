@@ -4,6 +4,7 @@
 ## v1.0.0-beta.7
 * slug-field :: ensure slug is lowercase when saved. (also fixed on create-article-modal)
 * node-picker-field :: move sortable feature outside of the select.
+* Add seo title field with custom warning component for seo recommended length.
 
 
 ## v1.0.0-beta.6
