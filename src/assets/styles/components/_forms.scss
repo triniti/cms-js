@@ -134,9 +134,10 @@ textarea.form-control {
 
 .form-control-lg {
   line-height: 1.8;
+  border-radius: $border-radius;
 }
 
-.form-control-xlg {
+.lh-xl {
   line-height: 2.5;
 }
 

@@ -62,6 +62,12 @@
   padding: 0;
   list-style: none;
   margin-bottom: 0.5rem;
+
+  .alert {
+    margin-bottom: 0;
+    --bs-alert-padding-x: .625rem;
+    --bs-alert-padding-y: .25rem;
+  }
 }
 
 .sortable-item {
