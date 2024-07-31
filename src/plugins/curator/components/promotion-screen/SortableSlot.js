@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Badge, Button, CardText } from 'reactstrap';
+import { Badge, Button } from 'reactstrap';
 import { useField } from 'react-final-form';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -50,7 +50,7 @@ export default function SortableSlot(props) {
       style={style}
     >
       {editMode && (
-        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
+        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
           {!asOverlay && (
             <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
               <Icon imgSrc="drag" />
@@ -59,23 +59,21 @@ export default function SortableSlot(props) {
           {asOverlay && <span className="sortable-drag-handle btn-hover btn-hover-bg"><Icon imgSrc="drag" /></span>}
         </div>
       )}
-      <div className="d-flex px-2">
-        <CardText>
-          {widget && (
-            <>
-              <Badge color="light" pill className="me-2">{name}</Badge>
-              <a href={nodeUrl(widget, 'view')} target="_blank">{widget.get('title')}</a>
-              <Badge color={renderingColors[rendering]} pill className="ms-2">{rendering}</Badge>
-            </>
-          )}
-          {!widget && (
-            <>
-              <Badge color="light" pill className="me-2">{name}</Badge>
-              {widget_ref}
-              <Badge color={renderingColors[rendering]} pill className="ms-2">{rendering}</Badge>
-            </>
-          )}
-        </CardText>
+      <div className="d-flex p-1 ps-2 align-items-center fs-6">
+        {widget && (
+          <>
+            <Badge color="light" pill className="me-2">{name}</Badge>
+            <a href={nodeUrl(widget, 'view')} target="_blank" className="text-ellipsis me-2">{widget.get('title')}</a>
+            <Badge color={renderingColors[rendering]} pill>{rendering}</Badge>
+          </>
+        )}
+        {!widget && (
+          <>
+            <Badge color="light" pill className="me-2">{name}</Badge>
+            <span className="text-ellipsis me-2">{widget_ref}</span>
+            <Badge color={renderingColors[rendering]} pill>{rendering}</Badge>
+          </>
+        )}
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
         <CreateModalButton

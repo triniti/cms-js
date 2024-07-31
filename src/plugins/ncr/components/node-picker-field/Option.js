@@ -7,7 +7,7 @@ import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
 
 export default function Option(props) {
-  const { showImage = true, showType = false } = props.selectProps;
+  const { labelField = 'title', showImage = true, showType = false } = props.selectProps;
   const nodeRef = props.data.value;
   const { node, pbjxError } = useNode(nodeRef);
 
@@ -36,7 +36,7 @@ export default function Option(props) {
           className="rounded-2"
         />
       )}
-      <span>{node.get('title')}</span>
+      <span>{node.get(labelField)}</span>
       {showType && (
         <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
       )}

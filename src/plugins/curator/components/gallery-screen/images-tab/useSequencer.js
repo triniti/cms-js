@@ -250,14 +250,12 @@ export default (response) => {
 
       if (!changed) {
         if (isDirty) {
-          delete config.used;
           setIds([...config.ids]);
           setSeqs([...config.seqs]);
         }
       } else {
         const newSeqs = arrayMove(seqs, oldIndex, newIndex);
         move(newSeqs, newIds, oldIndex, newIndex, config);
-        delete config.used;
         setIds(newIds);
         setSeqs(newSeqs);
       }

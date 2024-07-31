@@ -30,11 +30,11 @@ function CreateArticleModal(props) {
     try {
       await progressIndicator.show('Creating Article...');
       if (slug && isValidDatedSlug(slug)) {
-        values.slug = slug;
+        values.slug = slug.toLowerCase();
       } else if (slug && !isValidDatedSlug(slug)) {
-        values.slug = addDateToSlug(slug);
+        values.slug = addDateToSlug(slug).toLowerCase();
       } else {
-        values.slug = addDateToSlug(createSlug(values.title));
+        values.slug = addDateToSlug(createSlug(values.title)).toLowerCase();
       }
       await dispatch(createNode(values, form, pbj));
 
@@ -50,11 +50,11 @@ function CreateArticleModal(props) {
 
   const handleBlur = (e) => {
     if (e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value)));
+      setSlug(addDateToSlug(createSlug(e.target.value.toLowerCase())));
     }
   };
 
-  const handleChange = (e) => setSlug(e.target.value);
+  const handleChange = (e) => setSlug(e.target.value ? e.target.value.toLowerCase() : e.target.value);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && valid) {

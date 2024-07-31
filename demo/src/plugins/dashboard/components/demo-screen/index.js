@@ -3640,15 +3640,13 @@ function DemoScreen() {
         <CardBody>
           <ul className="sortable-list">
             <li className="sortable-item d-flex flex-nowrap align-items-center">
-              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-                <Button color="hover" className="sortable-drag-handle btn-hover-bg mb-0"><Icon imgSrc="drag" /></Button>
+              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
+                <button className="sortable-drag-handle btn-hover btn-hover-bg mb-0"><Icon imgSrc="drag" /></button>
               </div>
-              <div className="d-flex px-2">
-                <p className="card-text">
-                  <Badge color="light" pill className="me-2">html-head</Badge>
-                  <a href="#">ad :: desktop :: gridler15</a>
-                  <Badge color="primary" pill className="ms-2">lazy</Badge>
-                </p>
+              <div className="d-flex p-1 ps-2 align-items-center fs-6">
+                <Badge color="light" pill className="me-2">html-head</Badge>
+                <a href="#" className="text-ellipsis me-2">ad :: desktop :: gridler15</a>
+                <Badge color="primary" pill>lazy</Badge>
               </div>
               <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
                 <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="pencil" /></Button>
@@ -3656,15 +3654,13 @@ function DemoScreen() {
               </div>
             </li>
             <li className="sortable-item d-flex flex-nowrap align-items-center">
-              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-                <Button color="hover" className="sortable-drag-handle btn-hover-bg mb-0"><Icon imgSrc="drag" /></Button>
+              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
+                <button className="sortable-drag-handle btn-hover btn-hover-bg mb-0"><Icon imgSrc="drag" /></button>
               </div>
-              <div className="d-flex px-2">
-                <p className="card-text">
-                  <Badge color="light" pill className="me-2">html-head</Badge>
-                  <a href="#">code :: desktop :: main :: wibbitz</a>
-                  <Badge color="danger" pill className="ms-2">server</Badge>
-                </p>
+              <div className="d-flex p-1 ps-2 align-items-center fs-6">
+                <Badge color="light" pill className="me-2">html-head</Badge>
+                <a href="#" className="text-ellipsis me-2">code :: desktop :: main :: wibbitz</a>
+                <Badge color="danger" pill>server</Badge>
               </div>
               <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
                 <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="pencil" /></Button>
@@ -3672,15 +3668,13 @@ function DemoScreen() {
               </div>
             </li>
             <li className="sortable-item d-flex flex-nowrap align-items-center">
-              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 px-2 border-end">
-                <Button color="hover" className="sortable-drag-handle btn-hover-bg mb-0"><Icon imgSrc="drag" /></Button>
+              <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
+                <button className="sortable-drag-handle btn-hover btn-hover-bg mb-0"><Icon imgSrc="drag" /></button>
               </div>
-              <div className="d-flex px-2">
-                <p className="card-text">
-                  <Badge color="light" pill className="me-2">footer</Badge>
-                  <a href="#">code :: desktop :: jumbotron-top</a>
-                  <Badge color="secondary" pill className="ms-2">client</Badge>
-                </p>
+              <div className="d-flex p-1 ps-2 align-items-center fs-6">
+                <Badge color="light" pill className="me-2">footer</Badge>
+                <a href="#" className="text-ellipsis me-2">code :: desktop :: jumbotron-top</a>
+                <Badge color="secondary" pill>client</Badge>
               </div>
               <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
                 <Button color="hover" className="me-0 mb-0 rounded-circle"><Icon imgSrc="pencil" /></Button>

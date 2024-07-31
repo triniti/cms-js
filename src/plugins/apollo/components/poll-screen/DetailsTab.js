@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SwitchField, TextField, UrlField } from '@triniti/cms/components/index.js';
+import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
@@ -15,7 +16,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
-          <TextField name="title" label="Title" required />
+          <SeoTitleField />
           <TextField name="question" label="Question" />
           <UrlField name="question_url" label="Question URL" />
           <SwitchField name="allow_multiple_responses" label="Allow Multiple Responses" />

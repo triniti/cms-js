@@ -12,7 +12,13 @@ const noop = (event) => {
 };
 
 export default function SingleValue(props) {
-  const { showImage = true, showLink = true, showType = false, urlTemplate = 'view' } = props.selectProps;
+  const {
+    labelField = 'title',
+    showImage = true,
+    showLink = true,
+    showType = false,
+    urlTemplate = 'view'
+  } = props.selectProps;
   const nodeRef = props.data.value;
   const { node, pbjxError } = useNode(nodeRef);
 
@@ -28,7 +34,7 @@ export default function SingleValue(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate) || nodeUrl(node, 'view');
+  const url = nodeUrl(node, urlTemplate);
 
   return (
     <components.SingleValue {...props}>
@@ -43,7 +49,7 @@ export default function SingleValue(props) {
             className="rounded-2"
           />
         )}
-        <span>{node.get('title')}</span>
+        <span>{node.get(labelField)}</span>
       </a>
       {showType && (
         <Badge pill color="light">{schema.getQName().getMessage()}</Badge>

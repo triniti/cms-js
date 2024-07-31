@@ -90,7 +90,7 @@ export default function NodeStatusCard(props) {
       </Table>
 
       {isPublishable && (
-        <CardBody className="py-3">
+        <CardBody className="py-3 pe-1">
           <PublishForm nodeRef={nodeRef} node={node} onStatusUpdated={handleStatusUpdated} />
         </CardBody>
       )}

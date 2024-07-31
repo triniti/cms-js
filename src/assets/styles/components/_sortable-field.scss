@@ -62,6 +62,12 @@
   padding: 0;
   list-style: none;
   margin-bottom: 0.5rem;
+
+  .alert {
+    margin-bottom: 0;
+    --bs-alert-padding-x: .625rem;
+    --bs-alert-padding-y: .25rem;
+  }
 }
 
 .sortable-item {
@@ -92,12 +98,22 @@
       border-color: #494e5a;  // todo use variable
     }
   }
+  &:focus-visible,
+  .form-group &:active {
+    box-shadow: 0 0 0 2px rgba($secondary, .3), $shadow-depth-5;
+    border-color: $secondary;
+    outline: none;
+
+    [data-bs-theme=dark] & {
+      border-color: #494e5a;  // todo use variable
+    }
+  }
 }
 
 .sortable-drag-handle {
   display: flex;
   width: 12px;
-  padding: 15px;
+  padding: 8px 15px;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
