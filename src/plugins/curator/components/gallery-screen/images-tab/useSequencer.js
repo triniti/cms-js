@@ -184,13 +184,6 @@ const move = (seqs, ids, oldIndex, newIndex, config) => {
   if (!isValidSeq(seqs)) {
     resetSeq(seqs, config);
   }
-
-  try {
-    // one last attempt to re-use exising seq values
-    resequence(seqs, ids, config);
-  } catch (e) {
-    console.error(e, { seqs, ids, oldIndex, newIndex, config });
-  }
 };
 
 export default (response) => {
