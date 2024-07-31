@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.9
+* Add aspect-ratio-field with friendly labels.
+
+
 ## v1.0.0-beta.8
 * Add headline-fragments-card and HeadlineFragmentsSubscriber to handle the special headline fragments fields.
 * Wrapped try/catch around last resequenceing in gallery images useSequencer.js
