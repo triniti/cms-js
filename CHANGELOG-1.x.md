@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.8
+* Add headline-fragments-card and HeadlineFragmentsSubscriber to handle the special headline fragments fields.
+* Wrapped try/catch around last resequenceing in gallery images useSequencer.js
+* Added new INIT_FORM event processing (pbjx lifecycle) so subscribers can set the initial values used in with-form.
+
+
 ## v1.0.0-beta.7
 * slug-field :: ensure slug is lowercase when saved. (also fixed on create-article-modal)
 * node-picker-field :: move sortable feature outside of the select.
