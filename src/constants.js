@@ -34,6 +34,14 @@ export const actionTypes = {
 };
 
 /**
+ * Suffixes are typically used by {@see Pbjx.trigger}
+ *
+ * @see {FormEvent}
+ */
+export const SUFFIX_INIT_FORM = 'init_form';
+export const SUFFIX_SUBMIT_FORM = 'submit_form';
+
+/**
  * Common statuses for managing state changes for async operations.
  * Use these constants for consistency and clarity when creating
  * actions, reducers, selectors that need to know about the "state".

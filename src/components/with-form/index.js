@@ -1,14 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { getInstance } from '@triniti/app/main.js';
+import noop from 'lodash-es/noop.js';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import registerForm from '@triniti/cms/actions/registerForm.js';
 import unregisterForm from '@triniti/cms/actions/unregisterForm.js';
+import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import FormEvent from '@triniti/cms/events/FormEvent.js';
+import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
+import { SUFFIX_INIT_FORM } from '@triniti/cms/constants.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import { FormContextProvider } from '@triniti/cms/components/useFormContext.js';
 import Loading from '@triniti/cms/components/loading/index.js';
-import noop from 'lodash-es/noop.js';
 
 const defaultHandleSubmit = values => console.info('defaultHandleSubmit', values);
 
@@ -35,9 +40,24 @@ export default function withForm(Component, config = {}) {
     useEffect(() => {
       if (delegateRef.current.shouldReinitialize) {
         delegateRef.current.reinitialize = true;
-        setInitialValues(FormMarshaler.marshal(pbj, { skipValidation: true }));
+        (async () => {
+          try {
+            const app = getInstance();
+            const pbjx = await app.getPbjx();
+            const data = FormMarshaler.marshal(pbj, { skipValidation: true });
+            const event = new FormEvent(pbj, formName, data, props);
+            await pbjx.trigger(pbj, SUFFIX_INIT_FORM, event);
+            setInitialValues(data);
+          } catch (e) {
+            dispatch(sendAlert({
+              type: 'danger',
+              message: `Error initializing the form. Please try refreshing the page. ${getFriendlyErrorMessage(e)}`,
+            }));
+            setInitialValues({});
+          }
+        })().catch(console.error);
       }
-    }, [pbj, setInitialValues]);
+    }, [pbj]);
 
     if (!initialValues) {
       return <Loading fixed>Loading Form...</Loading>;

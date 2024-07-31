@@ -39,6 +39,7 @@ export default function StoryTab(props) {
           />
         </CardBody>
       </Card>
+
       {schema.hasMixin('triniti:news:mixin:headline-fragments') && (
         <HeadlineFragmentsCard />
       )}
