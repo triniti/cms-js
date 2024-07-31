@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
+import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import Blocksmith from '@triniti/cms/blocksmith/index.js';
-import { DatePickerField, KeyValuesField, NumberField, SwitchField, TextField } from '@triniti/cms/components/index.js';
+import { DatePickerField, KeyValuesField, NumberField, SwitchField } from '@triniti/cms/components/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import slottingKeys from '@triniti/app/config/slottingKeys.js';
 
@@ -19,7 +20,7 @@ export default function StoryTab(props) {
       <Card>
         <CardHeader>Story</CardHeader>
         <CardBody className="pb-0">
-          <TextField name="title" label="Title" required />
+          <SeoTitleField />
           <SlugField withDatedSlug />
           {schema.hasMixin('triniti:curator:mixin:teaserable') && (
             <DatePickerField name="order_date" label="Order Date" />

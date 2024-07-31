@@ -26,6 +26,13 @@ const datedSlugValidator = (value) => {
   return 'Slug requires date, e.g. YYYY/MM/DD/some-title';
 }
 
+const parseSlug = (value) => {
+  return value ? createSlug(value).toLowerCase() : value;
+};
+
+const parseDatedSlug = (value) => {
+  return value ? createSlug(value, true).toLowerCase() : value;
+};
 
 function RenameForm(props) {
   const dispatch = useDispatch();
@@ -51,7 +58,7 @@ function RenameForm(props) {
       await progressIndicator.show(`Renaming ${label}...`);
 
       const oldSlug = pbj.get('slug');
-      const newSlug = createSlug(values.slug || '', withDatedSlug);
+      const newSlug = createSlug(values.slug || '', withDatedSlug).toLowerCase();
 
       if (oldSlug !== newSlug) {
         await dispatch(renameNode(nodeRef, oldSlug, newSlug));
@@ -79,6 +86,7 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
+            parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />
         </Form>

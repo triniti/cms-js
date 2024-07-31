@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { DatePickerField, SelectField, TextField } from '@triniti/cms/components/index.js';
 import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
+import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
@@ -20,7 +21,7 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
-          <TextField name="title" label="Title" required />
+          <SeoTitleField />
           <SlugField />
 
           {schema.hasMixin('triniti:curator:mixin:teaserable') && (

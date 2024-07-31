@@ -15,11 +15,13 @@ export default function SingleSelectField(props) {
     name,
     label,
     description,
+    nestedPbj,
     pbjName,
     debounceTimeout = 400,
     isClearable = true,
     readOnly = false,
     required = false,
+    labelField = 'title',
     showImage = true,
     components = defaultComponents,
     loadOptions = defaultLoadOptions,
@@ -30,11 +32,7 @@ export default function SingleSelectField(props) {
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props }, formContext);
 
-  const rootClassName = classNames(
-    groupClassName,
-    'form-group',
-  );
-
+  const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
     'select',
     showImage && 'select-with-image',
@@ -62,6 +60,7 @@ export default function SingleSelectField(props) {
         debounceTimeout={debounceTimeout}
         loadOptions={loadOptions}
         showImage={showImage}
+        labelField={labelField}
         components={components}
         additional={{ page: 1, request }}
         onChange={selected => input.onChange(selected ? selected.value : undefined)}

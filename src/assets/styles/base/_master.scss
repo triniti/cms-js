@@ -163,6 +163,14 @@ a {
   text-decoration: none !important;
 }
 
+.text-ellipsis {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 button,
 input,
 optgroup,

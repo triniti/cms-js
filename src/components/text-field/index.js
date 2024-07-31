@@ -11,9 +11,11 @@ export default function TextField(props) {
     parse,
     format,
     validator,
+    Warning,
     nestedPbj,
     pbjName,
     required,
+    className = '',
     groupClassName = '',
     ...rest
   } = props;
@@ -22,8 +24,9 @@ export default function TextField(props) {
   const { input, meta } = useField({ ...props }, formContext);
 
   const rootClassName = classNames(groupClassName, 'form-group');
-  const className = classNames(
+  const classes = classNames(
     'form-control',
+    className,
     meta.touched && !meta.valid && 'is-invalid',
     meta.touched && meta.valid && 'is-valid',
   );
@@ -34,7 +37,7 @@ export default function TextField(props) {
       <input
         id={name}
         name={name}
-        className={className}
+        className={classes}
         readOnly={!editMode}
         required={required}
         {...input}
@@ -42,6 +45,7 @@ export default function TextField(props) {
       />
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
+      {editMode && Warning && <Warning value={input.value} />}
     </div>
   );
 }

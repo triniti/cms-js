@@ -1,9 +1,8 @@
 import React from 'react';
 import { components } from 'react-select';
 import { Badge, Media } from 'reactstrap';
-import { Icon } from '@triniti/cms/components/index.js';
+import { Icon, Loading } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js'
-import Loading from '@triniti/cms/components/loading/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
@@ -13,7 +12,13 @@ const noop = (event) => {
 };
 
 export default function MultiValueLabel(props) {
-  const { showImage = true, showLink = true, showType = false, urlTemplate = 'view' } = props.selectProps;
+  const {
+    labelField = 'title',
+    showImage = true,
+    showLink = true,
+    showType = false,
+    urlTemplate = 'view'
+  } = props.selectProps;
   const nodeRef = props.data.value;
   const { node, pbjxError } = useNode(nodeRef);
 
@@ -29,7 +34,7 @@ export default function MultiValueLabel(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate) || nodeUrl(node, 'view');
+  const url = nodeUrl(node, urlTemplate);
 
   return (
     <components.MultiValueLabel {...props}>
@@ -43,7 +48,7 @@ export default function MultiValueLabel(props) {
           className="rounded-2"
         />
       )}
-      <span>{node.get('title')}</span>
+      <span>{node.get(labelField)}</span>
       {showType && (
         <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
       )}
