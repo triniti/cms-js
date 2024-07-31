@@ -14,65 +14,72 @@ export default function TopArticles(props) {
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
   const { title, request } = props;
-  const { response, pbjxError } = useRequest(request, true);
+  const { response, pbjxError, run, isRunning } = useRequest(request, true);
   const navigate = useNavigate();
 
   return (
     <>
-      {(!response || pbjxError) && <Loading error={pbjxError} />}
       {response && (
         <Card className="card-shadow">
           <CardHeader className="pe-3">
             {title}
+            <span>
+              <Button color="light" size="sm" onClick={() => run()} disabled={isRunning}>
+                <Icon imgSrc="refresh" />
+              </Button>
+            </span>
           </CardHeader>
           <CardBody className="p-0">
-            <Table responsive>
-              <thead>
-              <tr>
-                <th>Title</th>
-                <th>Slotting</th>
-                <th>Order Date</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {response.get('nodes', []).map(node => {
-                const handleRowClick = createRowClickHandler(navigate, node);
+            {(isRunning || !response || pbjxError) && <Loading error={pbjxError} />}
+            {!isRunning && response && (
+              <Table responsive>
+                <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Slotting</th>
+                  <th>Order Date</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {response.get('nodes', []).map(node => {
+                  const handleRowClick = createRowClickHandler(navigate, node);
 
-                return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                    <td>{node.get('title')}</td>
-                    <td>
-                      {node.has('slotting')
-                        ? Object.entries(node.get('slotting')).map(([key, slot]) => (
-                          <span key={`${key}:${slot}`}>{key}:{slot}</span>
-                        )) : null}
-                    </td>
-                    <td>{formatDate(node.get('order_date'))}</td>
-                    <td className="td-icons" data-ignore-row-click>
-                      <Link to={nodeUrl(node, 'view')}>
-                        <Button tag="span" color="hover" className="rounded-circle">
-                          <Icon imgSrc="eye" alt="view" />
-                        </Button>
-                      </Link>
-                      {canUpdate && (
-                        <Link to={nodeUrl(node, 'edit')}>
+                  return (
+                    <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
+                      <td>{node.get('title')}</td>
+                      <td>
+                        {node.has('slotting')
+                          ? Object.entries(node.get('slotting')).map(([key, slot]) => (
+                            <span key={`${key}:${slot}`}>{key}:{slot}</span>
+                          )) : null}
+                      </td>
+                      <td>{formatDate(node.get('order_date'))}</td>
+                      <td className="td-icons" data-ignore-row-click>
+                        <Link to={nodeUrl(node, 'view')}>
                           <Button tag="span" color="hover" className="rounded-circle">
-                            <Icon imgSrc="pencil" alt="edit" />
+                            <Icon imgSrc="eye" alt="view" />
                           </Button>
                         </Link>
-                      )}
-                      <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                        <Button tag="span" color="hover" className="rounded-circle">
-                          <Icon imgSrc="external" alt="open" />
-                        </Button>
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
-              </tbody>
-            </Table>
+                        {canUpdate && (
+                          <Link to={nodeUrl(node, 'edit')}>
+                            <Button tag="span" color="hover" className="rounded-circle">
+                              <Icon imgSrc="pencil" alt="edit" />
+                            </Button>
+                          </Link>
+                        )}
+                        <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                          <Button tag="span" color="hover" className="rounded-circle">
+                            <Icon imgSrc="external" alt="open" />
+                          </Button>
+                        </a>
+                      </td>
+                    </tr>
+                  );
+                })}
+                </tbody>
+              </Table>
+            )}
           </CardBody>
         </Card>
       )}
