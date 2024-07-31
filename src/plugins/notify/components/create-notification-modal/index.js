@@ -42,11 +42,12 @@ function CreateNotificationModal(props) {
 
   return (
     <Modal isOpen centered backdrop="static">
-      {(!response || pbjxError) && <Loading fixed size="lg" error={pbjxError} />}
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Notification</ModalHeader>
           <ModalBody>
+            {(!response || pbjxError) && <Loading error={pbjxError} />}
+
             {response && response.has('nodes') && (
               <ListGroup>
                 {response.get('nodes').map(node => {
