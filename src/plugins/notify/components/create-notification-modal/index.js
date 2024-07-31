@@ -83,7 +83,6 @@ function CreateNotificationModal(props) {
               onClick={props.toggle}
               icon="close-sm"
               color="light"
-              tabIndex="-1"
             />
           </ModalFooter>
         </>
