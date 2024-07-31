@@ -5,7 +5,7 @@
   "description": "A single page app for managing triniti schemas and services.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/triniti/cms-js.git"
+    "url": "git+https://github.com/triniti/cms-js.git"
   },
   "type": "module",
   "scripts": {
