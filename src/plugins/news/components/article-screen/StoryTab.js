@@ -5,6 +5,7 @@ import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-fiel
 import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import { DatePickerField, KeyValuesField, NumberField, SwitchField } from '@triniti/cms/components/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
+import HeadlineFragmentsCard from '@triniti/cms/plugins/news/components/headline-fragments-card/index.js';
 import slottingKeys from '@triniti/app/config/slottingKeys.js';
 
 export default function StoryTab(props) {
@@ -38,6 +39,10 @@ export default function StoryTab(props) {
           />
         </CardBody>
       </Card>
+
+      {schema.hasMixin('triniti:news:mixin:headline-fragments') && (
+        <HeadlineFragmentsCard />
+      )}
     </>
   );
 }

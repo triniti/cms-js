@@ -20,7 +20,7 @@ import incrementer from '@triniti/cms/utils/incrementer.js';
  */
 
 export const SEQ_STEP = 500;
-const MAX_RECURSION = 500;
+const MAX_RECURSION = 5000;
 
 const getNewSeq = (upper, lower, direction) => {
   if (direction === 'up') {
@@ -175,10 +175,21 @@ const move = (seqs, ids, oldIndex, newIndex, config) => {
     resetSeq(seqs, config);
   }
 
-  resequence(seqs, ids, config);
+  try {
+    resequence(seqs, ids, config);
+  } catch (e) {
+    console.error(e, { seqs, ids, oldIndex, newIndex, config });
+  }
+
   if (!isValidSeq(seqs)) {
     resetSeq(seqs, config);
+  }
+
+  try {
+    // one last attempt to re-use exising seq values
     resequence(seqs, ids, config);
+  } catch (e) {
+    console.error(e, { seqs, ids, oldIndex, newIndex, config });
   }
 };
 
