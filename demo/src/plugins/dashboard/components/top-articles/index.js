@@ -29,7 +29,7 @@ export default function TopArticles(props) {
       <CardBody className="p-0">
         {(!response || pbjxError) && <Loading error={pbjxError} />}
         {response && (
-          <Table responsive>
+          <Table hover responsive>
             <thead>
             <tr>
               <th>Title</th>
@@ -50,22 +50,22 @@ export default function TopArticles(props) {
                         <span key={`${key}:${slot}`}>{key}:{slot}</span>
                       )) : null}
                   </td>
-                  <td>{formatDate(node.get('order_date'))}</td>
+                  <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
-                      <Button tag="span" color="hover" className="rounded-circle">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="eye" alt="view" />
                       </Button>
                     </Link>
                     {canUpdate && (
                       <Link to={nodeUrl(node, 'edit')}>
-                        <Button tag="span" color="hover" className="rounded-circle">
+                        <Button color="hover" tag="span">
                           <Icon imgSrc="pencil" alt="edit" />
                         </Button>
                       </Link>
                     )}
                     <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                      <Button tag="span" color="hover" className="rounded-circle">
+                      <Button color="hover" tag="span">
                         <Icon imgSrc="external" alt="open" />
                       </Button>
                     </a>
