@@ -6,7 +6,6 @@ import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef.js';
 
 export default (worker, action) => async (dispatch, getState, app) => {
   const { nodeRef, pbj } = action;
-
   let event;
 
   try {

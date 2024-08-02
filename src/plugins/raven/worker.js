@@ -225,14 +225,17 @@ class Raven {
   }
 
   async subscribe(action) {
+    console.info(`${LOG_PREFIX}subscribe`, action.nodeRef);
     this.#nodeRef = action.nodeRef;
   }
 
   async unsubscribe() {
+    console.info(`${LOG_PREFIX}unsubscribe`);
     this.#nodeRef = null;
   }
 
   async joinCollaboration(action) {
+    console.info(`${LOG_PREFIX}joinCollaboration`, action.nodeRef);
     this.#nodeRef = action.nodeRef;
     this.#collaborating = true;
     await this.#publish({
@@ -243,7 +246,8 @@ class Raven {
   }
 
   async leaveCollaboration(action) {
-    if (!this.#collaborating || !this.#nodeRef) {
+    console.info(`${LOG_PREFIX}leaveCollaboration`, action.nodeRef);
+    if (!this.#collaborating) {
       return;
     }
 
