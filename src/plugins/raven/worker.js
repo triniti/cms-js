@@ -247,7 +247,6 @@ class Raven {
       return;
     }
 
-    this.#nodeRef = null;
     this.#collaborating = false;
     await this.#publish({
       type: actionTypes.COLLABORATOR_LEFT,
