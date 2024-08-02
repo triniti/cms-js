@@ -3,7 +3,6 @@ import startCase from 'lodash-es/startCase.js';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Loading, withForm } from '@triniti/cms/components/index.js';
-import useRaven from '@triniti/cms/plugins/raven/components/useRaven.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes.js';
@@ -27,7 +26,6 @@ export default function withNodeScreen(Screen, config) {
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
     const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
     const canUpdate = policy.isGranted(`${qname}:update`);
-    useRaven(nodeRef, editMode, canUpdate, urls.viewMode);
 
     useEffect(() => {
       if (editMode && !canUpdate) {

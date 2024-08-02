@@ -2,12 +2,15 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getInstance } from '@triniti/app/main.js';
+import { useFormContext } from '@triniti/cms/components/index.js';
+import toast from '@triniti/cms/utils/toast.js';
 import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration.js';
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration.js';
 import subscribe from '@triniti/cms/plugins/raven/actions/subscribe.js';
 import unsubscribe from '@triniti/cms/plugins/raven/actions/unsubscribe.js';
 
-export default (nodeRef, editMode, canCollaborate, viewModeUrl) => {
+export default (nodeRef, editMode, canCollaborate) => {
+  const formContext = useFormContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useRef(false);
@@ -29,14 +32,15 @@ export default (nodeRef, editMode, canCollaborate, viewModeUrl) => {
         return;
       }
 
-      const pbj = event.getMessage();
-
-      if (editModeRef.current) {
-        console.log('useRaven.editMode', event.isMine(), pbj.toObject());
+      if (!editModeRef.current) {
+        toast({ title: 'Updated to latest version.' });
+        formContext.delegate.shouldReinitialize = true;
+        formContext.delegate.refreshNode();
         return;
       }
 
-      console.log('useRaven.viewMode', event.isMine(), pbj.toObject());
+      const pbj = event.getMessage();
+      console.log('useRaven.editMode', event.isMine(), pbj.toObject());
     };
 
     const app = getInstance();
