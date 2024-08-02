@@ -2,19 +2,14 @@ export const PLUGIN_PREFIX = 'iam/';
 const t = id => `${PLUGIN_PREFIX}${id}`;
 
 export const serviceIds = {
-  PREFIX: PLUGIN_PREFIX,
-
-  AUTHORIZER: t('AUTHORIZER'),
-  AUTH0_SESSION_KEY: t('AUTH0_SESSION_KEY'),
-  AUTH0_RETURN_TO: t('AUTH0_RETURN_TO'),
+  AUTHORIZER: t('authorizer'),
+  AUTH0_SESSION_KEY: t('auth0_session_key'),
+  AUTH0_RETURN_TO: t('auth0_return_to'),
 };
 
 export const actionTypes = {
-  PREFIX: PLUGIN_PREFIX,
-
-  LOGIN_ACCEPTED: t('LOGIN_ACCEPTED'),
-  LOGIN_REJECTED: t('LOGIN_REJECTED'),
-  LOGOUT_COMPLETED: t('LOGOUT_COMPLETED'),
-
-  USER_LOADED: t('USER_LOADED'),
+  LOGIN_ACCEPTED: t('login_accepted'),
+  LOGIN_REJECTED: t('login_rejected'),
+  LOGOUT_COMPLETED: t('logout_completed'),
+  USER_LOADED: t('user_loaded'),
 };

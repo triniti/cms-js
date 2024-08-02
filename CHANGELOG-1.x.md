@@ -3,6 +3,7 @@
 
 ## v1.0.0-beta.9
 * Add aspect-ratio-field with friendly labels.
+* Add raven worker phase 1, listening and reporting but no user interruption yet.
 
 
 ## v1.0.0-beta.8

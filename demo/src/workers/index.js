@@ -1,6 +1,5 @@
 import startWorkers from '@triniti/cms/actions/startWorkers.js';
-//import HelloWorker from './hello.js';
-//import RavenWorker from './raven.js';
+import RavenWorker from './raven.js';
 
 /**
  * Derives the path from the generated bundle code from webpack
@@ -19,14 +18,6 @@ const derivePath = fn => {
 };
 
 export default (app) => {
-  const workers = {
-    //hello: derivePath(HelloWorker),
-    //raven: derivePath(RavenWorker),
-  };
-
-  //app.setParameter('hello.worker', new Worker(workers.hello));
-  //app.setParameter('raven.worker', new Worker(workers.raven));
-  app.getRedux().dispatch(startWorkers(app));
-
-  return workers;
+  const raven = new Worker(derivePath(RavenWorker));
+  app.getRedux().dispatch(startWorkers(app, { raven }));
 };

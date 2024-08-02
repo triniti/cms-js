@@ -54,10 +54,5 @@ export default () => async (dispatch, getState) => {
   const roles = Object.values(envelope.get('derefs', {}));
   const policy = new Policy(roles);
 
-  dispatch({
-    type: actionTypes.USER_LOADED,
-    user,
-    policy,
-    wss: envelope.getFromMap('links', 'wss')
-  });
+  dispatch({ type: actionTypes.USER_LOADED, user, policy });
 };

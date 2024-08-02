@@ -1,6 +1,7 @@
 import { serviceIds } from '@gdbots/pbjx/constants.js';
 import ContainerAwareServiceLocator from '@gdbots/pbjx/ContainerAwareServiceLocator.js';
 import HttpTransport from '@gdbots/pbjx/transports/HttpTransport.js';
+import InMemoryTransport from '@gdbots/pbjx/transports/InMemoryTransport.js';
 import Pbjx from '@gdbots/pbjx/Pbjx.js';
 
 /**
@@ -20,6 +21,7 @@ export default async (app) => {
     .setParameter(serviceIds.REQUEST_BUS_TRANSPORT, 'http')
     .set(serviceIds.LOCATOR, locator)
     .set(serviceIds.TRANSPORT_HTTP, new HttpTransport(locator, endpoint))
+    .set(serviceIds.TRANSPORT_IN_MEMORY, new InMemoryTransport(locator))
     .set(serviceIds.PBJX, pbjx)
     .set(serviceIds.DISPATCHER, app.getDispatcher());
 
