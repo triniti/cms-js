@@ -14,7 +14,8 @@ class Raven {
   #pbjxTopic = `${APP_VENDOR}-pbjx/${this.#appEnv}/`;
   #accessToken = null;
   #userRef = null;
-  #nodeRef = null; // the node a user is collaborating with.
+  #nodeRef = null; // the node a user is subscribed to and/or collaborating with.
+  #collaborating = false;
 
   #isConnected() {
     return this.#client && this.#client.connected;
@@ -58,13 +59,17 @@ class Raven {
 
     if (topic.startsWith(this.#pbjxTopic) && message._schema) {
       console.info(`${LOG_PREFIX}mqtt/message/pbj`, topic, message);
-      self.postMessage(message);
-      if (!this.#nodeRef) {
-        // we are not collaborating on any nodes right now, ignore
+      if (!this.#nodeRef || !message.node_ref) {
+        // we are not subscribed to any nodes right now, ignore
         return;
       }
 
-      // extract node ref from event and only post ones that match nodeRef
+      const nodeRef = message.node_ref;
+      if (this.#nodeRef !== nodeRef) {
+        return;
+      }
+
+      self.postMessage({ type: actionTypes.PUBLISH_EVENT, nodeRef, pbj: message });
       return;
     }
 
@@ -188,7 +193,7 @@ class Raven {
 
     await this.#publish({ type: actionTypes.CONNECTED, userRef: this.#userRef });
 
-    if (this.#nodeRef) {
+    if (this.#nodeRef && this.#collaborating) {
       await this.joinCollaboration({ nodeRef: this.#nodeRef });
     }
   }
@@ -219,8 +224,17 @@ class Raven {
     return this.connect({ accessToken: this.#accessToken, userRef: this.#userRef });
   }
 
+  async subscribe(action) {
+    this.#nodeRef = action.nodeRef;
+  }
+
+  async unsubscribe() {
+    this.#nodeRef = null;
+  }
+
   async joinCollaboration(action) {
     this.#nodeRef = action.nodeRef;
+    this.#collaborating = true;
     await this.#publish({
       type: actionTypes.COLLABORATOR_JOINED,
       userRef: this.#userRef,
@@ -229,12 +243,21 @@ class Raven {
   }
 
   async leaveCollaboration(action) {
+    if (!this.#collaborating || !this.#nodeRef) {
+      return;
+    }
+
     this.#nodeRef = null;
+    this.#collaborating = false;
     await this.#publish({
       type: actionTypes.COLLABORATOR_LEFT,
       userRef: this.#userRef,
       nodeRef: action.nodeRef,
     });
+  }
+
+  async heartbeat() {
+    console.info(`${LOG_PREFIX}heartbeat`);
   }
 
   async test() {

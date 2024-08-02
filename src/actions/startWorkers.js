@@ -1,22 +1,23 @@
 import { actionTypes } from '@triniti/cms/constants.js';
-import dispatchPbj from '@triniti/cms/plugins/raven/actions/dispatchPbj.js';
+import publishEvent from '@triniti/cms/plugins/raven/actions/publishEvent.js';
+import { actionTypes as ravenActionTypes } from '@triniti/cms/plugins/raven/constants.js';
 
 const start = { method: 'start', appEnv: APP_ENV, apiEndpoint: API_ENDPOINT };
 
 export default (app, workers) => (dispatch) => {
   const onMessage = (event) => {
-    const data = event.data || {};
-    if (!data.type && !data._schema) {
+    const action = event.data || {};
+    if (!action.type) {
       // ignore, worker is emitting a message we don't process
       return;
     }
 
-    if (data._schema) {
-      dispatch(dispatchPbj(event.target, data));
+    if (action.type === ravenActionTypes.PUBLISH_EVENT) {
+      dispatch(publishEvent(event.target, action));
       return;
     }
 
-    dispatch(data);
+    dispatch(action);
   };
 
   for (const [key, worker] of Object.entries(workers)) {

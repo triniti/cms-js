@@ -27,7 +27,7 @@ export default function withNodeScreen(Screen, config) {
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
     const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
     const canUpdate = policy.isGranted(`${qname}:update`);
-    useRaven(nodeRef, editMode && canUpdate, urls.viewMode);
+    useRaven(nodeRef, editMode, canUpdate, urls.viewMode);
 
     useEffect(() => {
       if (editMode && !canUpdate) {

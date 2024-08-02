@@ -7,6 +7,8 @@ export const serviceIds = {
 
 export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
+  PUBLISH_EVENT: t('publish_event'),
+  EVENT_PUBLISHED: t('event_published'),
   CONNECTING: t('connecting'),
   CONNECTED: t('connected'),
   CONNECT_FAILED: t('connect_failed'),
@@ -23,6 +25,8 @@ export const methods = {
   DISCONNECT: 'disconnect',
   JOIN_COLLABORATION: 'joinCollaboration',
   LEAVE_COLLABORATION: 'leaveCollaboration',
+  SUBSCRIBE: 'subscribe',
+  UNSUBSCRIBE: 'unsubscribe',
   HEARTBEAT: 'heartbeat',
 };
 
