@@ -80,6 +80,11 @@ class Raven {
         return;
       }
 
+      if (message.type === actionTypes.HEARTBEAT && message.nodeRef !== this.#nodeRef) {
+        // ignore heartbeats unless its on our subscribed node.
+        return;
+      }
+
       message.fromWss = true;
       self.postMessage(message);
       return;
@@ -284,6 +289,12 @@ class Raven {
 
   async heartbeat(action) {
     console.info(`${LOG_PREFIX}heartbeat`, action);
+
+    if (!this.#collaborating) {
+      await this.joinCollaboration({ nodeRef: action.nodeRef, ts: action.ts });
+      return;
+    }
+
     await this.#publish({
       type: actionTypes.HEARTBEAT,
       userRef: this.#userRef,

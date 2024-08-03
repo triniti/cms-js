@@ -7,6 +7,7 @@ import { useFormContext } from '@triniti/cms/components/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
+import heartbeat from '@triniti/cms/plugins/raven/actions/heartbeat.js';
 import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration.js';
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration.js';
 import subscribe from '@triniti/cms/plugins/raven/actions/subscribe.js';
@@ -86,11 +87,39 @@ export default (nodeRef, editMode, canCollaborate) => {
   }, [nodeRef]);
 
   useEffect(() => {
-    if (editMode && canCollaborate) {
+    let heartbeatInterval = null;
+    const startCollaboration = () => {
+      if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+      }
+
       dispatch(joinCollaboration(nodeRef));
+      heartbeatInterval = setInterval(() => {
+        dispatch(heartbeat(nodeRef));
+      }, 10000);
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        startCollaboration();
+      } else {
+        if (heartbeatInterval) {
+          clearInterval(heartbeatInterval);
+          heartbeatInterval = null;
+        }
+      }
+    };
+
+    if (editMode && canCollaborate) {
+      startCollaboration();
+      document.addEventListener('visibilitychange', handleVisibilityChange);
     }
 
     return () => {
+      if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       dispatch(leaveCollaboration(nodeRef));
     };
   }, [nodeRef, editMode, canCollaborate]);
