@@ -4,15 +4,6 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import artifactUrl from '@triniti/cms/plugins/ovp/artifactUrl.js';
 
-function VideoAsset({ id }) {
-  const previewUrl = id.getExt() === 'mxf' ? artifactUrl(id, 'video') : damUrl(id);
-  return (
-    <div className="ratio ratio-16x9">
-      <video controls src={previewUrl} />
-    </div>
-  );
-}
-
 export default function VideoPreviewCard(props) {
   const { nodeRef } = props;
   const { node } = useNode(nodeRef);
@@ -20,6 +11,9 @@ export default function VideoPreviewCard(props) {
   if (!node) {
     return null;
   }
+
+  const id = node.get('_id');
+  const previewUrl = id.getExt() === 'mxf' ? artifactUrl(id, 'video') : damUrl(id);
 
   return (
     <Card>
@@ -29,7 +23,9 @@ export default function VideoPreviewCard(props) {
         </span>
       </CardHeader>
 
-      <VideoAsset id={node.get('_id')} />
+      <div className="ratio ratio-16x9">
+        <video controls src={previewUrl} />
+      </div>
     </Card>
   );
 }
