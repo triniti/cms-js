@@ -1,5 +1,6 @@
 import Plugin from '@triniti/cms/Plugin.js';
 import { actionTypes } from '@triniti/cms/plugins/iam/constants.js';
+import reducer from '@triniti/cms/plugins/raven/reducers/index.js';
 import connect from '@triniti/cms/plugins/raven/actions/connect.js';
 import disconnect from '@triniti/cms/plugins/raven/actions/disconnect.js';
 
@@ -9,6 +10,7 @@ export default class RavenPlugin extends Plugin {
   }
 
   async configure(app) {
+    this.reducer = reducer;
     const dispatcher = app.getDispatcher();
 
     dispatcher.addListener(actionTypes.USER_LOADED, (event) => {

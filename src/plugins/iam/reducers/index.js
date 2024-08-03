@@ -6,7 +6,6 @@ export const initialState = {
   isAuthenticated: false,
   policy: null,
   user: null,
-  wss: null,
 };
 
 const onLoginAccepted = (state, action) => ({
@@ -22,7 +21,6 @@ const onUserLoaded = (state, action) => ({
   ...state,
   policy: action.policy,
   user: action.user,
-  wss: action.wss,
 });
 
 export default createReducer(initialState, {

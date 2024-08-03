@@ -194,7 +194,7 @@ class Raven {
     await this.#publish({ type: actionTypes.CONNECTED, userRef: this.#userRef });
 
     if (this.#nodeRef && this.#collaborating) {
-      await this.joinCollaboration({ nodeRef: this.#nodeRef });
+      await this.joinCollaboration({ nodeRef: this.#nodeRef, ts: Math.floor(Date.now() / 1000) });
     }
   }
 
@@ -242,6 +242,7 @@ class Raven {
       type: actionTypes.COLLABORATOR_JOINED,
       userRef: this.#userRef,
       nodeRef: this.#nodeRef,
+      ts: action.ts,
     });
   }
 
@@ -259,8 +260,14 @@ class Raven {
     });
   }
 
-  async heartbeat() {
-    console.info(`${LOG_PREFIX}heartbeat`);
+  async heartbeat(action) {
+    console.info(`${LOG_PREFIX}heartbeat`, action);
+    await this.#publish({
+      type: actionTypes.HEARTBEAT,
+      userRef: this.#userRef,
+      nodeRef: this.#nodeRef,
+      ts: action.ts,
+    });
   }
 
   async test() {

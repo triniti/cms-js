@@ -6,5 +6,5 @@ export default (nodeRef) => async (dispatch, getState, app) => {
   }
 
   const raven = await app.get(serviceIds.RAVEN_WORKER);
-  raven.postMessage({ method: methods.HEARTBEAT, nodeRef });
+  raven.postMessage({ method: methods.HEARTBEAT, nodeRef, ts: Math.floor(Date.now() / 1000) });
 };

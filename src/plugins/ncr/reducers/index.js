@@ -69,7 +69,7 @@ const onReceivedNodes = (prevState, { nodes }) => {
   const state = { ...prevState };
   addNodes(state, nodes);
   return state;
-}
+};
 
 export default createReducer(initialState, {
   [pbjxActionTypes.ENVELOPE_RECEIVED]: onPbjxEnvelopeReceived,

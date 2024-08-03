@@ -1,7 +1,5 @@
 # TODO
 
-* slug field :: allow - at end while typing
-* slug field :: auto sluggify on change? and show errors on change?
 * raven -- refactor and simplify! more can be done here, need to think more on this.
 * add save and close and save and publish on article screen? does anyone even use this?
 * lock node features?
