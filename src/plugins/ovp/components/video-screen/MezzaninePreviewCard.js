@@ -1,14 +1,16 @@
 import React from 'react';
-import { Card, CardHeader } from 'reactstrap';
+import { Card, CardBody, CardHeader } from 'reactstrap';
 import AssetPreview from '@triniti/cms/plugins/dam/components/asset-preview/index.js';
 
 export default function MezzaninePreviewCard(props) {
   const { nodeRef } = props;
 
   return (
-    <Card>
+    <Card className="border-top border-dark-subtle">
       <CardHeader>Preview</CardHeader>
-      <AssetPreview id={nodeRef.getId()} />
+      <CardBody className="p-0">
+        <AssetPreview id={nodeRef.getId()} />
+      </CardBody>
     </Card>
   );
 }
