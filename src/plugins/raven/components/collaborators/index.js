@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { UncontrolledTooltip } from 'reactstrap';
+import { formatDistanceToNow } from 'date-fns';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import getCollaborators from '@triniti/cms/plugins/raven/selectors/getCollaborators.js';
 
-function UserIcon(props) {
-  const { nodeRef } = props;
+function UserAvatar(props) {
+  const { nodeRef, ts } = props;
   const { node } = useNode(nodeRef);
 
   let initials = '??';
@@ -23,6 +24,7 @@ function UserIcon(props) {
   }
 
   const target = `initials-${nodeRef.replaceAll(':', '_')}`;
+  const active = formatDistanceToNow(ts * 1000, { includeSeconds: true });
 
   return (
     <>
@@ -30,7 +32,7 @@ function UserIcon(props) {
         {initials}
       </span>
       <UncontrolledTooltip placement="top" target={target}>
-        {title}
+        {title}<br/>({active} ago)
       </UncontrolledTooltip>
     </>
   );
@@ -41,8 +43,8 @@ export default function Collaborators(props) {
   const users = useSelector((state) => getCollaborators(state, nodeRef));
 
   return (
-    <div>
-      {users.map((ref) => <UserIcon key={ref} nodeRef={ref} />)}
+    <div className="screen-primary-actions-collaborators">
+      {Object.keys(users).map((ref) => <UserAvatar key={ref} nodeRef={ref} ts={users[ref]} />)}
     </div>
   );
 }

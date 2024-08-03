@@ -194,7 +194,11 @@ class Raven {
     await this.#publish({ type: actionTypes.CONNECTED, userRef: this.#userRef });
 
     if (this.#nodeRef && this.#collaborating) {
-      await this.joinCollaboration({ nodeRef: this.#nodeRef, ts: Math.floor(Date.now() / 1000) });
+      await this.joinCollaboration({
+        nodeRef: this.#nodeRef,
+        ts: Math.floor(Date.now() / 1000),
+        fromConnect: true,
+      });
     }
   }
 
@@ -204,6 +208,12 @@ class Raven {
       this.#status = connectionStatus.DISCONNECTED;
       return;
     }
+
+    if (this.#nodeRef && this.#collaborating) {
+      await this.leaveCollaboration({ nodeRef: this.#nodeRef });
+    }
+
+    await this.unsubscribe();
 
     try {
       await this.#publish({ type: actionTypes.DISCONNECTED, userRef: this.#userRef });
@@ -216,6 +226,10 @@ class Raven {
   }
 
   async reconnect() {
+    if (this.#isConnected()) {
+      return;
+    }
+
     if (!this.#accessToken || !this.#userRef) {
       console.error(`${LOG_PREFIX}reconnect/no_token`);
       return;
@@ -227,6 +241,7 @@ class Raven {
   async subscribe(action) {
     console.info(`${LOG_PREFIX}subscribe`, action.nodeRef);
     this.#nodeRef = action.nodeRef;
+    await this.reconnect();
   }
 
   async unsubscribe() {
@@ -238,12 +253,19 @@ class Raven {
     console.info(`${LOG_PREFIX}joinCollaboration`, action.nodeRef);
     this.#nodeRef = action.nodeRef;
     this.#collaborating = true;
-    await this.#publish({
-      type: actionTypes.COLLABORATOR_JOINED,
-      userRef: this.#userRef,
-      nodeRef: this.#nodeRef,
-      ts: action.ts,
-    });
+    if (this.#isConnected()) {
+      await this.#publish({
+        type: actionTypes.COLLABORATOR_JOINED,
+        userRef: this.#userRef,
+        nodeRef: this.#nodeRef,
+        ts: action.ts,
+      });
+      return;
+    }
+
+    if (!action.fromConnect) {
+      await this.reconnect();
+    }
   }
 
   async leaveCollaboration(action) {
