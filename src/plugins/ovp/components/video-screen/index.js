@@ -103,7 +103,7 @@ function VideoScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
-          {node.get('mezzanine_ref') && <VideoPreviewCard nodeRef={node.get('mezzanine_ref')} />}
+          {node.has('mezzanine_ref') && <VideoPreviewCard nodeRef={node.get('mezzanine_ref')} />}
         </>
       }
     >
