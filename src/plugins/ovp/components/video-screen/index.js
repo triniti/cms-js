@@ -9,6 +9,7 @@ import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/i
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import VideoPreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/VideoPreviewCard.js';
 
 function VideoScreen(props) {
   const {
@@ -102,6 +103,7 @@ function VideoScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          {node.has('mezzanine_ref') && <VideoPreviewCard nodeRef={node.get('mezzanine_ref')} />}
         </>
       }
     >
