@@ -5,7 +5,7 @@
 * Add aspect-ratio-field with friendly labels.
 * raven :: phase 1, alerting user of stale data when in edit mode and automatic reinitializing when in view mode.
 * slug-field :: while user is typing allow last character to be / or -, validation will still occur but doesn't prevent typing out a new slug.
-
+* Update lexical packages to 0.17.0
 
 ## v1.0.0-beta.8
 * Add headline-fragments-card and HeadlineFragmentsSubscriber to handle the special headline fragments fields.
