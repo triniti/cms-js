@@ -3,7 +3,8 @@
 
 ## v1.0.0-beta.9
 * Add aspect-ratio-field with friendly labels.
-* Add raven worker phase 1, listening and reporting but no user interruption yet.
+* raven :: phase 1, alerting user of stale data when in edit mode and automatic reinitializing when in view mode.
+* slug-field :: while user is typing allow last character to be / or -, validation will still occur but doesn't prevent typing out a new slug.
 
 
 ## v1.0.0-beta.8

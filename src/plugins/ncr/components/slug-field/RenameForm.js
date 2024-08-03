@@ -23,15 +23,25 @@ const datedSlugValidator = (value) => {
     return undefined;
   }
 
-  return 'Slug requires date, e.g. YYYY/MM/DD/some-title';
+  return 'Expected format YYYY/MM/DD/some-title-here';
 }
 
 const parseSlug = (value) => {
-  return value ? createSlug(value).toLowerCase() : value;
+  let ending = '';
+  if (value && (value.endsWith('/') || value.endsWith('-'))) {
+    ending = value.substring(value.length, value.length - 1);
+  }
+
+  return value ? createSlug(value).toLowerCase() + ending : value;
 };
 
 const parseDatedSlug = (value) => {
-  return value ? createSlug(value, true).toLowerCase() : value;
+  let ending = '';
+  if (value && (value.endsWith('/') || value.endsWith('-'))) {
+    ending = value.substring(value.length, value.length - 1);
+  }
+
+  return value ? createSlug(value, true).toLowerCase() + ending : value;
 };
 
 function RenameForm(props) {
