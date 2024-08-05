@@ -7,6 +7,7 @@ export const serviceIds = {
 
 export const actionTypes = {
   PREFIX: PLUGIN_PREFIX,
+  PRUNE_COLLABORATORS: t('prune_collaborators'),
   PUBLISH_EVENT: t('publish_event'),
   EVENT_PUBLISHED: t('event_published'),
   CONNECTING: t('connecting'),

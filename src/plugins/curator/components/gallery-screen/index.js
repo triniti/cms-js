@@ -56,7 +56,7 @@ function GalleryScreen(props) {
       ]}
       primaryActions={
         <>
-          <Collaborators nodeRef={nodeRef} />
+          <Collaborators nodeRef={nodeRef} editMode={editMode} />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton

@@ -46,7 +46,6 @@ class Raven {
     }
 
     const fullTopic = `${this.#appTopic}${topic}`;
-    console.info(`${LOG_PREFIX}publish`, fullTopic, action);
     try {
       await this.#client.publishAsync(fullTopic, JSON.stringify(action));
     } catch (e) {
@@ -58,7 +57,6 @@ class Raven {
     this.#status = connectionStatus.CONNECTED;
 
     if (topic.startsWith(this.#pbjxTopic) && message._schema) {
-      console.info(`${LOG_PREFIX}mqtt/message/pbj`, topic, message);
       if (!this.#nodeRef || !message.node_ref) {
         // we are not subscribed to any nodes right now, ignore
         return;
@@ -69,7 +67,7 @@ class Raven {
         return;
       }
 
-      self.postMessage({ type: actionTypes.PUBLISH_EVENT, nodeRef, pbj: message });
+      self.postMessage({ type: actionTypes.PUBLISH_EVENT, nodeRef, pbj: message, fromWss: true });
       return;
     }
 
@@ -80,11 +78,7 @@ class Raven {
         return;
       }
 
-      if (message.type === actionTypes.HEARTBEAT && message.nodeRef !== this.#nodeRef) {
-        // ignore heartbeats unless its on our subscribed node.
-        return;
-      }
-
+      message.isMine = message.userRef && (message.userRef === this.#userRef);
       message.fromWss = true;
       self.postMessage(message);
       return;
@@ -116,7 +110,7 @@ class Raven {
     if (this.#isConnected()) {
       this.#status = connectionStatus.CONNECTED;
       console.info(`${LOG_PREFIX}already_connected`);
-      self.postMessage({ type: actionTypes.CONNECTED, userRef: this.#userRef });
+      self.postMessage({ type: actionTypes.CONNECTED, userRef: this.#userRef, isMine: true });
       return;
     }
 
@@ -141,7 +135,7 @@ class Raven {
           // clientId: may want to use hash of user ref + random here
           will: {
             topic: `${this.#appTopic}raven`,
-            payload: JSON.stringify({ type: actionTypes.DISCONNECTED, userRef: this.#userRef }),
+            payload: JSON.stringify({ type: actionTypes.DISCONNECTED, userRef: this.#userRef, fromWill: true }),
             qos: 0,
             retain: false,
           },
@@ -170,7 +164,7 @@ class Raven {
         console.info(`${LOG_PREFIX}mqtt/close`);
         this.#client = null;
         this.#status = connectionStatus.DISCONNECTED;
-        self.postMessage({ type: actionTypes.DISCONNECTED, userRef: this.#userRef });
+        self.postMessage({ type: actionTypes.DISCONNECTED, userRef: this.#userRef, isMine: true });
       });
     });
 
@@ -226,7 +220,7 @@ class Raven {
     } catch (e) {
       console.error(`${LOG_PREFIX}disconnect/error`, e.message);
       this.#status = connectionStatus.DISCONNECTED;
-      self.postMessage({ type: actionTypes.DISCONNECTED, userRef: this.#userRef });
+      self.postMessage({ type: actionTypes.DISCONNECTED, userRef: this.#userRef, isMine: true });
     }
   }
 
@@ -288,8 +282,6 @@ class Raven {
   }
 
   async heartbeat(action) {
-    console.info(`${LOG_PREFIX}heartbeat`, action);
-
     if (!this.#collaborating) {
       await this.joinCollaboration({ nodeRef: action.nodeRef, ts: action.ts });
       return;

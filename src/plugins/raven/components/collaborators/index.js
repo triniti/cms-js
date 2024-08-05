@@ -39,7 +39,7 @@ function UserAvatar(props) {
 }
 
 export default function Collaborators(props) {
-  const { nodeRef } = props;
+  const { nodeRef, editMode } = props;
   const users = useSelector((state) => getCollaborators(state, nodeRef));
 
   return (
@@ -48,4 +48,3 @@ export default function Collaborators(props) {
     </div>
   );
 }
-
