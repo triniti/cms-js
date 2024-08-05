@@ -32,6 +32,7 @@ export default function TopArticles(props) {
             <thead>
             <tr>
               <th>Title</th>
+              <th></th>
               <th>Slotting</th>
               <th>Order Date</th>
               <th></th>
@@ -42,10 +43,8 @@ export default function TopArticles(props) {
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                  <td>
-                    {node.get('title')}
-                    <Collaborators nodeRef={node.generateNodeRef().toString()} />
-                  </td>
+                  <td>{node.get('title')}</td>
+                  <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                   <td>
                     {node.has('slotting')
                       ? Object.entries(node.get('slotting')).map(([key, slot]) => (

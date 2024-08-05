@@ -3,6 +3,7 @@ import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchWidgetsSort from '@triniti/schemas/triniti/curator/enums/SearchWidgetsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
