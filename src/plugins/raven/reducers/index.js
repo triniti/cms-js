@@ -21,6 +21,12 @@ const onConnected = (prevState, action) => {
 const onConnectFailed = (state) => ({ ...state, status: connectionStatus.FAILED });
 
 const onDisconnected = (prevState, action) => {
+  if (action.isMine && action.fromWss) {
+    // this means we're still connected, user closed
+    // another tab/browser but THIS tab is still connected.
+    return prevState;
+  }
+
   const state = { ...prevState };
   if (action.isMine && !action.fromWss) {
     state.status = connectionStatus.DISCONNECTED;
