@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { UncontrolledTooltip } from 'reactstrap';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import getCollaborators from '@triniti/cms/plugins/raven/selectors/getCollaborators.js';
+import WarningModal from '@triniti/cms/plugins/raven/components/collaborators/WarningModal.js';
 
 function UserAvatar(props) {
   const { nodeRef } = props;
@@ -37,12 +38,17 @@ function UserAvatar(props) {
 }
 
 export default function Collaborators(props) {
-  const { nodeRef, editMode = false, onPermalink = false } = props;
+  const { nodeRef, editMode = false, onPermalink = false, viewModeUrl = null } = props;
   const users = useSelector((state) => getCollaborators(state, nodeRef));
 
   return (
     <div className={onPermalink ? 'screen-primary-actions-collaborators' : ''}>
       {Object.keys(users).map((ref) => <UserAvatar key={ref} nodeRef={ref} ts={users[ref]} />)}
+      {onPermalink && editMode && (
+        <div style={{ position: 'fixed', bottom: 0, right: 0, width: '1px' }}>
+          <WarningModal nodeRef={nodeRef} users={users} viewModeUrl={viewModeUrl} />
+        </div>
+      )}
     </div>
   );
 }
