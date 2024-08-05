@@ -98,6 +98,15 @@ class Raven {
     console.info(`${LOG_PREFIX}start`, action);
   }
 
+  async setToken(action) {
+    this.#accessToken = action.accessToken;
+    this.#userRef = action.userRef;
+
+    if (!this.#isConnected()) {
+      await this.connect(action);
+    }
+  }
+
   async connect(action) {
     this.#accessToken = action.accessToken;
     this.#userRef = action.userRef;

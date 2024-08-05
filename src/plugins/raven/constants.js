@@ -21,6 +21,7 @@ export const actionTypes = {
 
 export const methods = {
   START: 'start',
+  SET_TOKEN: 'setToken',
   CONNECT: 'connect',
   RECONNECT: 'reconnect',
   DISCONNECT: 'disconnect',

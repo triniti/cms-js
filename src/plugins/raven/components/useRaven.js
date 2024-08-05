@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
 import { getInstance } from '@triniti/app/main.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
@@ -12,21 +11,8 @@ import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaborat
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration.js';
 import subscribe from '@triniti/cms/plugins/raven/actions/subscribe.js';
 import unsubscribe from '@triniti/cms/plugins/raven/actions/unsubscribe.js';
-
-const showStaleDataAlert = async (nodeRef, username) => {
-  const result = await Swal.fire({
-    title: 'STALE DATA',
-    html: `<strong>${username}</strong> updated this ${nodeRef.getLabel()}.<br/>If you save, you may overwrite their changes.`,
-    position: 'top-end',
-    grow: 'row',
-    icon: 'warning',
-    toast: true,
-    showCloseButton: true,
-    showConfirmButton: false,
-  });
-
-  return !!result.value;
-};
+import shouldShowStaleDataWarning from '@triniti/cms/plugins/raven/utils/shouldShowStaleDataWarning.js';
+import showStaleDataWarning from '@triniti/cms/plugins/raven/utils/showStaleDataWarning.js';
 
 export default (nodeRef, editMode, canCollaborate) => {
   const formContext = useFormContext();
@@ -65,6 +51,11 @@ export default (nodeRef, editMode, canCollaborate) => {
       }
 
       const pbj = event.getMessage();
+      const node = app.select(getNode, nodeRef);
+      if (!shouldShowStaleDataWarning(pbj.generateMessageRef(), null, node)) {
+        return;
+      }
+
       const ref = NodeRef.fromString(`${nodeRef}`);
       const userRef = pbj.has('ctx_user_ref') ? NodeRef.fromMessageRef(pbj.get('ctx_user_ref')) : '';
       let username = 'SYSTEM';
@@ -75,7 +66,7 @@ export default (nodeRef, editMode, canCollaborate) => {
         }
       }
 
-      await showStaleDataAlert(ref, username);
+      await showStaleDataWarning(ref, username);
     };
 
     app.getDispatcher().addListener(`raven.${nodeRef}`, listener);

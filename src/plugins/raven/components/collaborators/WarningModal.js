@@ -83,7 +83,13 @@ export default function WarningModal(props) {
         <Icon imgSrc="notification" alert size="lg" color="warning" border className="icon-modal" />
         <h2>Stop!</h2>
         <p className="text-modal">This {type} is being edited by:</p>
-        {Object.keys(users).map((ref) => <UserName key={ref} nodeRef={ref} ts={users[ref]} />)}
+        {Object.keys(users).map((ref) => {
+          if (ref === myUserRef) {
+            return null;
+          }
+
+          return <UserName key={ref} nodeRef={ref} ts={users[ref]} />;
+        })}
         <div className="modal-actions">
           <Button block color="primary" onClick={handleContinueInViewMode} className="btn-modal">
             Continue in View Mode
