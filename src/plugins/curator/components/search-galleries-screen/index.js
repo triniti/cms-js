@@ -72,10 +72,10 @@ function SearchGalleriesScreen(props) {
                         className="rounded-2"
                       />
                     </td>
-                    <td>{node.get('title')}</td>
-                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
-                    <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
+                    <td className="td-title">{node.get('title')}</td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+                    <td className="td-date">{formatDate(node.get('order_date'))}</td>
+                    <td className="td-date">{formatDate(node.get('published_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

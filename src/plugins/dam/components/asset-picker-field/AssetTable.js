@@ -33,9 +33,9 @@ export default function AssetTable(props) {
                   <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                 )}
               </td>
-              <td className="text-nowrap">{node.get('mime_type')}</td>
+              <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
               <td>{formatBytes(node.get('file_size'))}</td>
-              <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
+              <td className="td-date">{formatDate(node.get('created_at'))}</td>
               <td className="td-icons">
                 <ActionButton
                   text="Select"

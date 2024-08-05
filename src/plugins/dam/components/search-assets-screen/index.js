@@ -116,10 +116,10 @@ function SearchAssetsScreen(props) {
                         <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                       )}
                     </td>
-                    <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
                     <td className="text-nowrap d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
-                    <td className="text-nowrap d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
+                    <td className="td-date d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
                     <td data-ignore-row-click className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

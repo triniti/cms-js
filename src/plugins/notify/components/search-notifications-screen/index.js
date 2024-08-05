@@ -72,15 +72,15 @@ function SearchNotificationsScreen(props) {
 
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${sendStatus} cursor-pointer`} onClick={handleRowClick}>
-                    <td>{node.get('title')}</td>
-                    <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
+                    <td className="td-title">{node.get('title')}</td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap">
                       {type}
                       {type === 'apple-news' && ` (${node.get('apple_news_operation')})`}
                     </td>
                     <td className="text-nowrap">{sendStatus}</td>
-                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('created_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('send_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

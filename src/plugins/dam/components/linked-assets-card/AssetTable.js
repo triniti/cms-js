@@ -38,7 +38,7 @@ export default function AssetTable(props) {
             </td>
             <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
             <td className="d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
-            <td className="text-nowrap d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
+            <td className="td-date d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
             <td className="td-icons">
               <Link to={nodeUrl(node, 'view')} target={inModal ? '_blank' : ''} rel={inModal ? 'noopener noreferrer' : ''}>
                 <Button color="hover" tag="span">

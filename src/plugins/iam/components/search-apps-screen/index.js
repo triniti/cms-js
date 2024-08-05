@@ -41,13 +41,13 @@ function SearchAppsScreen(props) {
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className="cursor-pointer" onClick={handleRowClick}>
-                  <td>
+                  <td className="td-title">
                     {node.get('title')}
                     <Badge className="ms-1" color="light" pill>
                       {ref.getLabel().replace('-app', '')}
                     </Badge>
                   </td>
-                  <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
+                  <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">

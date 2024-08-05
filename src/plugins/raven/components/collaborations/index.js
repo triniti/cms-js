@@ -23,14 +23,14 @@ function TableRow(props) {
 
   return (
     <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-      <td>
+      <td className="td-title">
         {node.get('title')}
         <Badge className="ms-1" color="light" pill>
           {schema.getCurie().getMessage().replace('-teaser', '')}
         </Badge>
       </td>
-      <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
-      <td className="text-nowrap">{formatDate(node.get('published_at', node.get('created_at')))}</td>
+      <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+      <td className="td-date">{formatDate(node.get('published_at', node.get('created_at')))}</td>
       <td className="td-icons" data-ignore-row-click>
         <Link to={nodeUrl(node, 'view')}>
           <Button color="hover" tag="span">

@@ -71,7 +71,7 @@ function SearchTeasersScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
-                <th></th>
+                <th className="px-3"></th>
                 <th>Slotting</th>
                 <th>Order Date</th>
                 <th>Published At</th>
@@ -96,20 +96,20 @@ function SearchTeasersScreen(props) {
                         className="rounded-2"
                       />
                     </td>
-                    <td>
+                    <td className="td-title">
                       {node.get('title')}
                       <Badge className="ms-1" color="light" pill>
                         {ref.getLabel().replace('-teaser', '')}
                       </Badge>
                     </td>
-                    <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
-                    <td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
+                    <td className="text-break">
                       {node.has('slotting') ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={key}>{key}:{slot} </span>
                       )) : null}
                     </td>
-                    <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('order_date'))}</td>
+                    <td className="td-date">{formatDate(node.get('published_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
