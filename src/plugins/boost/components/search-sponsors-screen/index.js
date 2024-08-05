@@ -48,6 +48,7 @@ function SearchSponsorsScreen(props) {
               <thead>
               <tr>
                 <th>Title</th>
+                <th></th>
                 <th>Created At</th>
                 <th>Published At</th>
                 <th></th>
@@ -59,6 +60,7 @@ function SearchSponsorsScreen(props) {
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>

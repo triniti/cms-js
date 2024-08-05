@@ -48,6 +48,7 @@ function SearchUsersScreen(props) {
               <thead>
               <tr>
                 <th>Name</th>
+                <th></th>
                 <th>Email</th>
                 <th>Staff</th>
                 <th>Created At</th>
@@ -61,6 +62,7 @@ function SearchUsersScreen(props) {
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td data-ignore-row-click><a href={`mailto:${node.get('email')}`} rel="noopener noreferrer">{node.get('email')}</a></td>
                     <td>{node.get('is_staff') ? 'Yes' : 'No'}</td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>

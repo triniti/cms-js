@@ -51,6 +51,7 @@ function SearchGalleriesScreen(props) {
               <tr>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th></th>
                 <th>Order Date</th>
                 <th>Published At</th>
                 <th></th>
@@ -72,6 +73,7 @@ function SearchGalleriesScreen(props) {
                       />
                     </td>
                     <td>{node.get('title')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>

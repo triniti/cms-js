@@ -32,7 +32,7 @@ function SearchNotificationsScreen(props) {
   return (
     <Screen
       header="Notifications"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Notification" icon="plus-outline" modal={CreateNotificationModal} />}
@@ -54,6 +54,7 @@ function SearchNotificationsScreen(props) {
               <thead>
               <tr>
                 <th>Title</th>
+                <th></th>
                 <th>Type</th>
                 <th>Status</th>
                 <th>Created At</th>
@@ -63,15 +64,16 @@ function SearchNotificationsScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
-                const schema = node.schema();
+                const ref = node.generateNodeRef();
                 const sendStatus = node.get('send_status').toString();
-                const type = schema.getCurie().getMessage().replace('-notification', '');
-                const canUpdate = editable[sendStatus] && policy.isGranted(`${schema.getQName()}:update`);
+                const type = ref.getLabel().replace('-notification', '');
+                const canUpdate = editable[sendStatus] && policy.isGranted(`${ref.getQName()}:update`);
                 const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${sendStatus} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap">
                       {type}
                       {type === 'apple-news' && ` (${node.get('apple_news_operation')})`}

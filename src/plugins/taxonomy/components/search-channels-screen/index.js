@@ -41,6 +41,7 @@ function SearchChannelsScreen(props) {
               return (
                 <tr key={`${node.get('_id')}`} className="cursor-pointer" onClick={handleRowClick}>
                   <td>{node.get('title')}</td>
+                  <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tabIndex="-1">

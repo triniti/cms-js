@@ -36,17 +36,18 @@ function SearchAppsScreen(props) {
           <Table hover responsive>
             <tbody>
             {response.get('nodes').map(node => {
-              const schema = node.schema();
-              const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+              const ref = node.generateNodeRef();
+              const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className="cursor-pointer" onClick={handleRowClick}>
                   <td>
                     {node.get('title')}
                     <Badge className="ms-1" color="light" pill>
-                      {schema.getCurie().getMessage().replace('-app', '')}
+                      {ref.getLabel().replace('-app', '')}
                     </Badge>
                   </td>
+                  <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">

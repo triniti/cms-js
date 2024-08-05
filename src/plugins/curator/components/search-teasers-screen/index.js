@@ -71,6 +71,7 @@ function SearchTeasersScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th></th>
                 <th>Slotting</th>
                 <th>Order Date</th>
                 <th>Published At</th>
@@ -79,8 +80,8 @@ function SearchTeasersScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
-                const schema = node.schema();
-                const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const ref = node.generateNodeRef();
+                const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
@@ -98,9 +99,10 @@ function SearchTeasersScreen(props) {
                     <td>
                       {node.get('title')}
                       <Badge className="ms-1" color="light" pill>
-                        {schema.getCurie().getMessage().replace('-teaser', '')}
+                        {ref.getLabel().replace('-teaser', '')}
                       </Badge>
                     </td>
+                    <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
                     <td>
                       {node.has('slotting') ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={key}>{key}:{slot} </span>

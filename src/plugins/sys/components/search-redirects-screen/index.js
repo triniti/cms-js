@@ -49,6 +49,7 @@ function SearchRedirectsScreen(props) {
               <tr>
                 <th>Request URI</th>
                 <th>Redirect URI</th>
+                <th></th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th></th>
@@ -61,6 +62,7 @@ function SearchRedirectsScreen(props) {
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>
                     <td>{node.get('redirect_to')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>

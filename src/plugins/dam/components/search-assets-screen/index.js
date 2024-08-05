@@ -88,6 +88,7 @@ function SearchAssetsScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '44px' }}></th>
                 <th className="text-break w-100">Title</th>
+                <th></th>
                 <th className="d-none d-sm-table-cell">Mime Type</th>
                 <th className="d-none d-md-table-cell">File Size</th>
                 <th className="d-none d-lg-table-cell">Created At</th>
@@ -96,8 +97,8 @@ function SearchAssetsScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
-                const schema = node.schema();
-                const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const ref = node.generateNodeRef();
+                const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
                 const seq = node.get('gallery_seq');
                 const transcodingStatus = `${node.get('transcoding_status', '')}`;
                 const handleRowClick = createRowClickHandler(navigate, node);
@@ -115,6 +116,7 @@ function SearchAssetsScreen(props) {
                         <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                       )}
                     </td>
+                    <td className="text-nowrap"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
                     <td className="text-nowrap d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
                     <td className="text-nowrap d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>

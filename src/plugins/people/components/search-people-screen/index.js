@@ -51,6 +51,7 @@ function SearchPeopleScreen(props) {
               <tr>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th></th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th></th>
@@ -72,6 +73,7 @@ function SearchPeopleScreen(props) {
                       />
                     </td>
                     <td>{node.get('title')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
                     <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
