@@ -1,12 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { UncontrolledTooltip } from 'reactstrap';
-import { formatDistanceToNow } from 'date-fns';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import getCollaborators from '@triniti/cms/plugins/raven/selectors/getCollaborators.js';
 
 function UserAvatar(props) {
-  const { nodeRef, ts } = props;
+  const { nodeRef } = props;
   const { node } = useNode(nodeRef);
 
   let initials = '??';
@@ -24,7 +23,6 @@ function UserAvatar(props) {
   }
 
   const target = `initials-${nodeRef.replaceAll(':', '_')}`;
-  const active = formatDistanceToNow(ts * 1000, { includeSeconds: true });
 
   return (
     <>
@@ -32,7 +30,7 @@ function UserAvatar(props) {
         {initials}
       </span>
       <UncontrolledTooltip placement="top" target={target}>
-        {title}<br/>({active} ago)
+        {title}
       </UncontrolledTooltip>
     </>
   );
