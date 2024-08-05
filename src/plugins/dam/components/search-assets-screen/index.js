@@ -90,8 +90,8 @@ function SearchAssetsScreen(props) {
                 <th className="text-break w-100">Title</th>
                 <th></th>
                 <th className="d-none d-sm-table-cell">Mime Type</th>
-                <th className="d-none d-md-table-cell">File Size</th>
-                <th className="d-none d-lg-table-cell">Created At</th>
+                <th className="d-none d-sm-table-cell">File Size</th>
+                <th className="d-none d-md-table-cell">Created At</th>
                 <th></th>
               </tr>
               </thead>
@@ -118,8 +118,8 @@ function SearchAssetsScreen(props) {
                     </td>
                     <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
-                    <td className="text-nowrap d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
-                    <td className="td-date d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
+                    <td className="text-nowrap d-none d-sm-table-cell">{formatBytes(node.get('file_size'))}</td>
+                    <td className="td-date d-none d-md-table-cell">{formatDate(node.get('created_at'))}</td>
                     <td data-ignore-row-click className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

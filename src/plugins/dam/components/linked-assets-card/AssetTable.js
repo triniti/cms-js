@@ -18,8 +18,8 @@ export default function AssetTable(props) {
         <th style={{ width: '44px' }}></th>
         <th>Title</th>
         <th className="d-none d-sm-table-cell">Mime Type</th>
-        <th className="d-none d-md-table-cell">File Size</th>
-        <th className="d-none d-lg-table-cell">Created At</th>
+        <th className="d-none d-sm-table-cell">File Size</th>
+        <th className="d-none d-md-table-cell">Created At</th>
         <th></th>
       </tr>
       </thead>
@@ -37,8 +37,8 @@ export default function AssetTable(props) {
               )}
             </td>
             <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
-            <td className="d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
-            <td className="td-date d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
+            <td className="d-none d-sm-table-cell">{formatBytes(node.get('file_size'))}</td>
+            <td className="td-date d-none d-md-table-cell">{formatDate(node.get('created_at'))}</td>
             <td className="td-icons">
               <Link to={nodeUrl(node, 'view')} target={inModal ? '_blank' : ''} rel={inModal ? 'noopener noreferrer' : ''}>
                 <Button color="hover" tag="span">
