@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import startCase from 'lodash-es/startCase.js';
 import { useDispatch } from 'react-redux';
 //import { useBlocker } from 'react-router';
@@ -16,7 +17,7 @@ import duplicateNode from '@triniti/cms/plugins/ncr/actions/duplicateNode.js';
 import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 import useBlocker from '@triniti/cms/plugins/ncr/components/with-node-screen/useBlocker.js';
-import { useEffect } from 'react';
+import useRaven from '@triniti/cms/plugins/raven/components/useRaven.js';
 
 const okayToDelete = async (nodeRef) => {
   const result = await Swal.fire({
@@ -58,8 +59,12 @@ export default (props) => {
     refreshNode,
     nodeRef,
     node,
+    qname,
+    policy,
     urls
   } = props;
+
+  useRaven(nodeRef, editMode, policy.isGranted(`${qname}:update`));
 
   useBlocker(async (transition) => {
     const nextUri = transition.pathname;
@@ -204,6 +209,8 @@ export default (props) => {
   delegate.handleStatusUpdated = async (action, publishAt) => {
     await refreshNode();
   };
+
+  delegate.refreshNode = refreshNode;
 
   return delegate;
 };

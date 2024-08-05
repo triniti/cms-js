@@ -3,6 +3,7 @@ import { Button, Card, Media, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchPeopleSort from '@triniti/schemas/triniti/people/enums/SearchPeopleSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -50,6 +51,7 @@ function SearchPeopleScreen(props) {
               <tr>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th></th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th></th>
@@ -70,9 +72,10 @@ function SearchPeopleScreen(props) {
                         className="rounded-2"
                       />
                     </td>
-                    <td>{node.get('title')}</td>
-                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('updated_at'))}</td>
+                    <td className="td-title">{node.get('title')}</td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+                    <td className="td-date">{formatDate(node.get('created_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('updated_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

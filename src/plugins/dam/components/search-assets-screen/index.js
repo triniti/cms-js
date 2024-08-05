@@ -4,6 +4,7 @@ import { Badge, Button, Card, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
@@ -87,16 +88,17 @@ function SearchAssetsScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '44px' }}></th>
                 <th className="text-break w-100">Title</th>
+                <th></th>
                 <th className="d-none d-sm-table-cell">Mime Type</th>
-                <th className="d-none d-md-table-cell">File Size</th>
-                <th className="d-none d-lg-table-cell">Created At</th>
+                <th className="d-none d-sm-table-cell">File Size</th>
+                <th className="d-none d-md-table-cell">Created At</th>
                 <th></th>
               </tr>
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
-                const schema = node.schema();
-                const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const ref = node.generateNodeRef();
+                const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
                 const seq = node.get('gallery_seq');
                 const transcodingStatus = `${node.get('transcoding_status', '')}`;
                 const handleRowClick = createRowClickHandler(navigate, node);
@@ -114,9 +116,10 @@ function SearchAssetsScreen(props) {
                         <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>
                       )}
                     </td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
-                    <td className="text-nowrap d-none d-md-table-cell">{formatBytes(node.get('file_size'))}</td>
-                    <td className="text-nowrap d-none d-lg-table-cell">{formatDate(node.get('created_at'))}</td>
+                    <td className="text-nowrap d-none d-sm-table-cell">{formatBytes(node.get('file_size'))}</td>
+                    <td className="td-date d-none d-md-table-cell">{formatDate(node.get('created_at'))}</td>
                     <td data-ignore-row-click className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

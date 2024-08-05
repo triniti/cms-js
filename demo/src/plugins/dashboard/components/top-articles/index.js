@@ -6,8 +6,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import formatDate from '@triniti/cms/utils/formatDate.js';
-//import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
-import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 export default function TopArticles(props) {
@@ -33,6 +32,7 @@ export default function TopArticles(props) {
             <thead>
             <tr>
               <th>Title</th>
+              <th className="px-3"></th>
               <th>Slotting</th>
               <th>Order Date</th>
               <th></th>
@@ -43,14 +43,15 @@ export default function TopArticles(props) {
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                  <td>{node.get('title')}</td>
-                  <td>
+                  <td className="td-title">{node.get('title')}</td>
+                  <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+                  <td className="text-break">
                     {node.has('slotting')
                       ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={`${key}:${slot}`}>{key}:{slot}</span>
                       )) : null}
                   </td>
-                  <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
+                  <td className="td-date">{formatDate(node.get('order_date'))}</td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">

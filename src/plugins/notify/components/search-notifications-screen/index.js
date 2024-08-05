@@ -3,6 +3,7 @@ import { Button, Card, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchNotificationsSort from '@triniti/schemas/triniti/notify/enums/SearchNotificationsSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useCuries from '@triniti/cms/plugins/pbjx/components/useCuries.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
@@ -31,7 +32,7 @@ function SearchNotificationsScreen(props) {
   return (
     <Screen
       header="Notifications"
-      contentWidth="1200px"
+      contentWidth="1600px"
       primaryActions={
         <>
           {canCreate && <CreateModalButton text="Create Notification" icon="plus-outline" modal={CreateNotificationModal} />}
@@ -53,6 +54,7 @@ function SearchNotificationsScreen(props) {
               <thead>
               <tr>
                 <th>Title</th>
+                <th></th>
                 <th>Type</th>
                 <th>Status</th>
                 <th>Created At</th>
@@ -62,22 +64,23 @@ function SearchNotificationsScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
-                const schema = node.schema();
+                const ref = node.generateNodeRef();
                 const sendStatus = node.get('send_status').toString();
-                const type = schema.getCurie().getMessage().replace('-notification', '');
-                const canUpdate = editable[sendStatus] && policy.isGranted(`${schema.getQName()}:update`);
+                const type = ref.getLabel().replace('-notification', '');
+                const canUpdate = editable[sendStatus] && policy.isGranted(`${ref.getQName()}:update`);
                 const handleRowClick = createRowClickHandler(navigate, node);
 
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${sendStatus} cursor-pointer`} onClick={handleRowClick}>
-                    <td>{node.get('title')}</td>
+                    <td className="td-title">{node.get('title')}</td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="text-nowrap">
                       {type}
                       {type === 'apple-news' && ` (${node.get('apple_news_operation')})`}
                     </td>
                     <td className="text-nowrap">{sendStatus}</td>
-                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('created_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('send_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

@@ -25,23 +25,21 @@ export default function withNodeScreen(Screen, config) {
     const policy = usePolicy();
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
     const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
+    const canUpdate = policy.isGranted(`${qname}:update`);
 
     useEffect(() => {
-      if (editMode && !policy.isGranted(`${qname}:update`)) {
+      if (editMode && !canUpdate) {
         navigate(urls.viewMode);
       }
-    }, [editMode, policy]);
+    }, [editMode, canUpdate]);
 
     useEffect(() => () => dispatch(pruneNodes()), []);
-
-    //todo: raven needs some tlc, wonky atm, also note sure here is the right place for this
-    //useRaven({ editMode, node, nodeRef });
 
     if (!node) {
       return <Loading error={pbjxError}>Loading {startCase(label)}...</Loading>;
     }
 
-    if (editMode && !policy.isGranted(`${qname}:update`)) {
+    if (editMode && !canUpdate) {
       return <Loading>Redirecting to view mode...</Loading>;
     }
 

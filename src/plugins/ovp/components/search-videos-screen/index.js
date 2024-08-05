@@ -3,6 +3,7 @@ import { Button, Card, Input, Media, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchVideosSort from '@triniti/schemas/triniti/ovp/enums/SearchVideosSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -65,6 +66,7 @@ function SearchVideosScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th></th>
                 <th>Order Date</th>
                 <th>Published At</th>
                 <th></th>
@@ -86,9 +88,10 @@ function SearchVideosScreen(props) {
                         className="rounded-2"
                       />
                     </td>
-                    <td>{node.get('title')}</td>
-                    <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
+                    <td className="td-title">{node.get('title')}</td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+                    <td className="td-date">{formatDate(node.get('order_date'))}</td>
+                    <td className="td-date">{formatDate(node.get('published_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

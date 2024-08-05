@@ -5,7 +5,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodeStatus from '@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
 import TopArticles from '../top-articles/index.js';
-//import ActiveEditsTable from '@triniti/cms/plugins/raven/components/active-edits-table/index.js';
+import Collaborations from '@triniti/cms/plugins/raven/components/collaborations/index.js';
 
 const HomePagePublished = withRequest(TopArticles, 'triniti:news:request:search-articles-request', {
   channel: 'homepage-published',
@@ -27,18 +27,19 @@ const HomePageDraft = withRequest(TopArticles, 'triniti:news:request:search-arti
   }
 });
 
-export default function DashboardScreen({ tab = 'default' }) {
+export default function DashboardScreen({ tab = 'news' }) {
   return (
     <Screen
-      title="Dashboard"
+      activeNav="Dashboard"
+      title={tab === 'news' ? 'Dashboard' : 'Active Edits'}
       tabs={[
-        { to: '/', text: 'News' },
-        { to: '/active-edits', text: 'Active Edits' },
+        { text: 'News', to: '/' },
+        { text: 'Active Edits', to: '/active-edits' },
       ]}
-      contentWidth="100%"
+      contentWidth={tab === 'news' ? '100%' : '1008px'}
     >
       <TabContent activeTab={tab}>
-        <TabPane tabId='default'>
+        <TabPane tabId="news">
           <Row>
             <Col md={6}>
               <HomePagePublished title="Homepage Published" />
@@ -51,7 +52,9 @@ export default function DashboardScreen({ tab = 'default' }) {
         <TabPane tabId="active-edits">
           <Row>
             <Col lg="12">
-              <p>active edits coming soon.</p>
+              {tab === 'active-edits' && (
+                <Collaborations />
+              )}
             </Col>
           </Row>
         </TabPane>

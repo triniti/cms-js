@@ -1,4 +1,4 @@
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code.js';
 import clearAlerts from '@triniti/cms/actions/clearAlerts.js';
 import logout from '@triniti/cms/plugins/iam/actions/logout.js';
@@ -23,7 +23,7 @@ export default (envelope) => (dispatch) => {
   if (envelope.get('code') === Code.UNAUTHENTICATED.getValue()) {
     setTimeout(() => {
       dispatch(clearAlerts());
-      swal.fire({
+      Swal.fire({
         title: 'Authentication Required',
         icon: 'error',
         showCancelButton: true,

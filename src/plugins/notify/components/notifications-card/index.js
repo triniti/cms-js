@@ -74,8 +74,8 @@ function NotificationsCard(props) {
                       {type === 'apple-news' && ` (${node.get('apple_news_operation')})`}
                     </td>
                     <td className="text-nowrap">{sendStatus}</td>
-                    <td className="text-nowrap">{formatDate(node.get('created_at'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('send_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('created_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('send_at'))}</td>
                     <td className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

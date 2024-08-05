@@ -3,6 +3,7 @@ import { Badge, Button, Card, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchAppsSort from '@gdbots/schemas/gdbots/iam/enums/SearchAppsSort.js';
 import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
@@ -35,17 +36,18 @@ function SearchAppsScreen(props) {
           <Table hover responsive>
             <tbody>
             {response.get('nodes').map(node => {
-              const schema = node.schema();
-              const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+              const ref = node.generateNodeRef();
+              const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className="cursor-pointer" onClick={handleRowClick}>
-                  <td>
+                  <td className="td-title">
                     {node.get('title')}
                     <Badge className="ms-1" color="light" pill>
-                      {schema.getCurie().getMessage().replace('-app', '')}
+                      {ref.getLabel().replace('-app', '')}
                     </Badge>
                   </td>
+                  <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">

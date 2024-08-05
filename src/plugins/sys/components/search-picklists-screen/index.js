@@ -3,6 +3,7 @@ import { Button, Card, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchPicklistsSort from '@triniti/schemas/triniti/sys/enums/SearchPicklistsSort.js';
 import { CreateModalButton, Icon, Loading, Screen } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
@@ -39,7 +40,8 @@ function SearchPicklistsScreen(props) {
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className="cursor-pointer" onClick={handleRowClick}>
-                  <td>{node.get('title')}</td>
+                  <td className="td-title">{node.get('title')}</td>
+                  <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                   <td className="td-icons" data-ignore-row-click>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">

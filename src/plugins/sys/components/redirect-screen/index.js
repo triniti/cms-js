@@ -3,6 +3,7 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import DetailsTab from '@triniti/cms/plugins/sys/components/redirect-screen/DetailsTab.js';
@@ -46,6 +47,7 @@ function RedirectScreen(props) {
       ]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} editMode={editMode} viewModeUrl={urls.viewMode} onPermalink />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton

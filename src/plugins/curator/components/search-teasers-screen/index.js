@@ -3,6 +3,7 @@ import { Badge, Button, Card, Input, Media, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchTeasersSort from '@triniti/schemas/triniti/curator/enums/SearchTeasersSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -70,6 +71,7 @@ function SearchTeasersScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th className="px-3"></th>
                 <th>Slotting</th>
                 <th>Order Date</th>
                 <th>Published At</th>
@@ -78,8 +80,8 @@ function SearchTeasersScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
-                const schema = node.schema();
-                const canUpdate = policy.isGranted(`${schema.getQName()}:update`);
+                const ref = node.generateNodeRef();
+                const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
@@ -94,19 +96,20 @@ function SearchTeasersScreen(props) {
                         className="rounded-2"
                       />
                     </td>
-                    <td>
+                    <td className="td-title">
                       {node.get('title')}
                       <Badge className="ms-1" color="light" pill>
-                        {schema.getCurie().getMessage().replace('-teaser', '')}
+                        {ref.getLabel().replace('-teaser', '')}
                       </Badge>
                     </td>
-                    <td>
+                    <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
+                    <td className="text-break">
                       {node.has('slotting') ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={key}>{key}:{slot} </span>
                       )) : null}
                     </td>
-                    <td className="text-nowrap">{formatDate(node.get('order_date'))}</td>
-                    <td className="text-nowrap">{formatDate(node.get('published_at'))}</td>
+                    <td className="td-date">{formatDate(node.get('order_date'))}</td>
+                    <td className="td-date">{formatDate(node.get('published_at'))}</td>
                     <td className="td-icons" data-ignore-row-click>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">

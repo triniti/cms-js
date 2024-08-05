@@ -4,7 +4,6 @@
 * add save and close and save and publish on article screen? does anyone even use this?
 * lock node features?
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
-* slug field :: auto sluggify on change? and show errors on change?
 * ncr -- updateNode.js fix merging/state if updates occurred while editting, then restore expected_etag check
 * blocksmith -- copy / paste block (text already works)
 * blocksmith -- sometimes cursor disappears after drag/drop
