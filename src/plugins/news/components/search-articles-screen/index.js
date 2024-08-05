@@ -3,6 +3,7 @@ import { Button, Card, Input, Media, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
 import { CreateModalButton, Icon, Loading, Pager, Screen, withForm } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xs.jpg';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
@@ -65,6 +66,7 @@ function SearchArticlesScreen(props) {
                 <th><Input type="checkbox" checked={batch.hasAll()} onChange={batch.toggleAll} /></th>
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
+                <th></th>
                 <th>Slotting</th>
                 <th>Order Date</th>
                 <th>Published At</th>
@@ -75,8 +77,10 @@ function SearchArticlesScreen(props) {
               {response.get('nodes', []).map(node => {
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
-                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                  <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`}
+                      onClick={handleRowClick}>
+                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)}
+                                                     checked={batch.has(node)} /></td>
                     <td className="text-center py-2 pe-1">
                       <Media
                         src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
@@ -88,6 +92,7 @@ function SearchArticlesScreen(props) {
                       />
                     </td>
                     <td>{node.get('title')}</td>
+                    <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td>
                       {node.has('slotting') ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={key}>{key}:{slot} </span>

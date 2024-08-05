@@ -29,7 +29,7 @@ function TableRow(props) {
           {schema.getCurie().getMessage().replace('-teaser', '')}
         </Badge>
       </td>
-      <td><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+      <td className="text-nowrap"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
       <td className="text-nowrap">{formatDate(node.get('published_at', node.get('created_at')))}</td>
       <td className="td-icons" data-ignore-row-click>
         <Link to={nodeUrl(node, 'view')}>

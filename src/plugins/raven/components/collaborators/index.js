@@ -39,11 +39,11 @@ function UserAvatar(props) {
 }
 
 export default function Collaborators(props) {
-  const { nodeRef, editMode } = props;
+  const { nodeRef, editMode = false, onPermalink = false } = props;
   const users = useSelector((state) => getCollaborators(state, nodeRef));
 
   return (
-    <div className="screen-primary-actions-collaborators">
+    <div className={onPermalink ? 'screen-primary-actions-collaborators' : ''}>
       {Object.keys(users).map((ref) => <UserAvatar key={ref} nodeRef={ref} ts={users[ref]} />)}
     </div>
   );

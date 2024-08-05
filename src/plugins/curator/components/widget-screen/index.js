@@ -3,6 +3,7 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import DetailsTab from '@triniti/cms/plugins/curator/components/widget-screen/DetailsTab.js';
 import DataSourceTab from '@triniti/cms/plugins/curator/components/widget-screen/DataSourceTab.js';
 import CodeTab from '@triniti/cms/plugins/curator/components/widget-screen/CodeTab.js';
@@ -53,6 +54,7 @@ function WidgetScreen(props) {
       ]}
       primaryActions={
         <>
+          <Collaborators nodeRef={nodeRef} editMode={editMode} onPermalink />
           {isRefreshing && <Badge color="light" pill><span className="badge-animated">Refreshing Node</span></Badge>}
           {!isRefreshing && dirty && hasValidationErrors && <Badge color="danger" pill>Form Has Errors</Badge>}
           <ActionButton
