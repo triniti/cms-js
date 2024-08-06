@@ -12,12 +12,6 @@ export default class Plugin {
      * @type {?Function}
      */
     this.reducer = null;
-
-    /**
-     * @link https://redux-saga.js.org/
-     * @type {?Function}
-     */
-    this.saga = null;
   }
 
   /**
@@ -46,20 +40,6 @@ export default class Plugin {
    */
   getReducer() {
     return this.reducer;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  hasSaga() {
-    return this.saga !== null;
-  }
-
-  /**
-   * @returns {?Function}
-   */
-  getSaga() {
-    return this.saga;
   }
 
   /**
