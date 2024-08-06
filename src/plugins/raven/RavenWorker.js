@@ -2,10 +2,10 @@ import mqtt from 'mqtt';
 import { actionTypes as appActionTypes } from '@triniti/cms/constants.js';
 import { actionTypes, connectionStatus } from '@triniti/cms/plugins/raven/constants.js';
 
-const LOG_PREFIX = `raven.v${APP_VERSION}/`;
+const LOG_PREFIX = `raven_worker.v${APP_VERSION}/`;
 const MAX_CONNECT_ATTEMPTS = 5;
 
-class Raven {
+class RavenWorker {
   #endpoint = null;
   #appEnv = 'dev';
   #client = null;
@@ -231,6 +231,9 @@ class Raven {
       this.#status = connectionStatus.DISCONNECTED;
       self.postMessage({ type: actionTypes.DISCONNECTED, userRef: this.#userRef, isMine: true });
     }
+
+    this.#accessToken = null;
+    this.#userRef = null;
   }
 
   async reconnect() {
@@ -255,6 +258,7 @@ class Raven {
   async unsubscribe() {
     console.info(`${LOG_PREFIX}unsubscribe`);
     this.#nodeRef = null;
+    this.#collaborating = false;
   }
 
   async joinCollaboration(action) {
@@ -317,7 +321,7 @@ class Raven {
   }
 }
 
-const raven = new Raven();
+const raven = new RavenWorker();
 
 self.onmessage = (event) => {
   const action = event.data || {};

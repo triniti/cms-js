@@ -5,7 +5,7 @@ import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 import shouldShowStaleDataWarning from '@triniti/cms/plugins/raven/utils/shouldShowStaleDataWarning.js';
 import showStaleDataWarning from '@triniti/cms/plugins/raven/utils/showStaleDataWarning.js';
-import { methods, serviceIds } from '@triniti/cms/plugins/raven/constants.js';
+import { actionTypes, methods, serviceIds } from '@triniti/cms/plugins/raven/constants.js';
 
 export default (nodeRef) => async (dispatch, getState, app) => {
   if (!app.has(serviceIds.RAVEN_WORKER)) {
@@ -18,54 +18,38 @@ export default (nodeRef) => async (dispatch, getState, app) => {
   }
 
   const raven = await app.get(serviceIds.RAVEN_WORKER);
+  const server = await app.get(serviceIds.RAVEN_SERVER);
+
   const accessToken = getAccessToken(state);
   const userRef = getUserRef(state);
   raven.postMessage({ method: methods.SET_TOKEN, userRef, accessToken });
 
-  const formData = new FormData();
-  let data;
+  const action = { method: methods.HEARTBEAT, nodeRef, ts: Math.floor(Date.now() / 1000) };
+  raven.postMessage(action);
+  const data = await server.heartbeat(action);
 
-  try {
-    formData.append('node_ref', nodeRef);
-    const response = await fetch(`${API_ENDPOINT}/raven/heartbeat/`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      credentials: 'include',
-      method: 'POST',
-      body: formData,
-    });
-    data = await response.json();
-  } catch (e) {
-    console.error('raven.heartbeat.failed', nodeRef, e.message);
-    data = { ok: false };
-  }
-
-  const node = getNode(state, nodeRef);
-  if (data.ok && shouldShowStaleDataWarning(data.last_event_ref, data.etag, node)) {
-    const ref = NodeRef.fromString(`${nodeRef}`);
-    const updaterRef = data.updater_ref ? NodeRef.fromString(data.updater_ref) : '';
-    let username = 'SYSTEM';
-    if (updaterRef) {
-      const user = getNode(state, updaterRef);
-      if (user) {
-        username = user.get('title');
+  if (data.ok) {
+    const node = getNode(state, nodeRef);
+    if (shouldShowStaleDataWarning(data.last_event_ref, data.etag, node)) {
+      const ref = NodeRef.fromString(`${nodeRef}`);
+      const updaterRef = data.updater_ref ? NodeRef.fromString(data.updater_ref) : '';
+      let username = 'SYSTEM';
+      if (updaterRef) {
+        const user = getNode(state, updaterRef);
+        if (user) {
+          username = user.get('title');
+        }
       }
+
+      await showStaleDataWarning(ref, username);
     }
 
-    await showStaleDataWarning(ref, username);
-
-    // todo: make this a single operation if we still need it.
-    /*
-    Object.entries(data.collaborators || {}).forEach(([uref, ts]) => {
-      if (uref === userRef) {
+    Object.entries(data.collaborators || {}).forEach(([key, ts]) => {
+      if (key === userRef) {
         return;
       }
 
-      dispatch({ type: actionTypes.HEARTBEAT, userRef: uref, nodeRef, ts });
+      dispatch({ type: actionTypes.HEARTBEAT, userRef: key, nodeRef, ts });
     });
-     */
   }
-
-  raven.postMessage({ method: methods.HEARTBEAT, nodeRef, ts: Math.floor(Date.now() / 1000) });
 };

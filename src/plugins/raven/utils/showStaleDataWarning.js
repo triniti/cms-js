@@ -15,5 +15,4 @@ export default async (nodeRef, username) => {
     showCloseButton: true,
     showConfirmButton: false,
   });
-
 };
