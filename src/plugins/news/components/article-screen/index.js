@@ -35,8 +35,14 @@ function ArticleScreen(props) {
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
+  const isLocked = node.get('is_locked');
+
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+  const canLock = policy.isGranted(`${qname}:lock`) && !isLocked;
+  const canUnlock = policy.isGranted(`${qname}:unlock`) && isLocked;
+
+  const showDropdown = canDelete || canLock || canUnlock;
 
   return (
     <Screen
@@ -90,19 +96,39 @@ function ArticleScreen(props) {
               />
             </>
           )}
-          {canDelete && (
+          {showDropdown && (
             <UncontrolledDropdown>
               <DropdownToggle className="px-1 me-0 mb-0" color="light" outline>
                 <Icon imgSrc="more-vertical" alt="More Actions" size="md" />
               </DropdownToggle>
               <DropdownMenu end className="px-2 dropdown-menu-arrow-right">
-                <ActionButton
-                  text="Delete"
-                  onClick={delegate.handleDelete}
-                  icon="trash"
-                  color="danger"
-                  outline
-                />
+                {canDelete &&
+                  <ActionButton
+                    text="Delete"
+                    onClick={delegate.handleDelete}
+                    icon="trash"
+                    color="danger"
+                    outline
+                  />
+                }
+                {canLock &&
+                  <ActionButton
+                    text="Lock"
+                    onClick={delegate.handleLock}
+                    icon="locked"
+                    color="danger"
+                    outline
+                  />
+                }
+                {canUnlock &&
+                  <ActionButton
+                    text="Unlock"
+                    onClick={delegate.handleUnlock}
+                    icon="unlocked"
+                    color="danger"
+                    outline
+                  />
+                }
               </DropdownMenu>
             </UncontrolledDropdown>
           )}

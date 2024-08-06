@@ -24,6 +24,7 @@ function SearchArticlesScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:article:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
+  const canUnlock = policy.isGranted(`${APP_VENDOR}:article:unlock`);
   const batch = useBatch(response);
   const navigate = useNavigate();
 
@@ -67,6 +68,7 @@ function SearchArticlesScreen(props) {
                 <th style={{ width: '32px' }} className="py-2 pe-1"></th>
                 <th>Title</th>
                 <th className="px-3"></th>
+                <th></th>
                 <th>Slotting</th>
                 <th>Order Date</th>
                 <th>Published At</th>
@@ -75,6 +77,10 @@ function SearchArticlesScreen(props) {
               </thead>
               <tbody>
               {response.get('nodes', []).map(node => {
+                const isLocked = node.get('is_locked');
+                if (isLocked && !canUnlock) {
+                  return;
+                }
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
@@ -91,6 +97,7 @@ function SearchArticlesScreen(props) {
                     </td>
                     <td className="td-title">{node.get('title')}</td>
                     <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+                    <td>{isLocked && (<Icon imgSrc="locked" alt="locked" />)}</td>
                     <td className="text-break">
                       {node.has('slotting') ? Object.entries(node.get('slotting')).map(([key, slot]) => (
                         <span key={key}>{key}:{slot} </span>

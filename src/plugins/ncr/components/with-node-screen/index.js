@@ -8,6 +8,7 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes.js';
 import useDelegate from '@triniti/cms/plugins/ncr/components/with-node-screen/useDelegate.js';
 import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams.js';
+import toast from '@triniti/cms/utils/toast.js';
 
 
 export { useDelegate, useParams };
@@ -26,12 +27,20 @@ export default function withNodeScreen(Screen, config) {
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
     const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
     const canUpdate = policy.isGranted(`${qname}:update`);
+    const isLocked = node?.get('is_locked');
 
     useEffect(() => {
       if (editMode && !canUpdate) {
         navigate(urls.viewMode);
       }
     }, [editMode, canUpdate]);
+
+    useEffect(() => {
+      if (isLocked && !policy.isGranted(`${qname}:unlock`)) {
+        toast({ title: 'Node is locked.', icon: 'error' });
+        navigate(urls.leave);
+      }
+    }, [isLocked, policy]);
 
     useEffect(() => () => dispatch(pruneNodes()), []);
 

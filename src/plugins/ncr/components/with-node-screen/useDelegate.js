@@ -14,6 +14,8 @@ import toast from '@triniti/cms/utils/toast.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import deleteNode from '@triniti/cms/plugins/ncr/actions/deleteNode.js';
 import duplicateNode from '@triniti/cms/plugins/ncr/actions/duplicateNode.js';
+import lockNode from '@triniti/cms/plugins/ncr/actions/lockNode.js';
+import unlockNode from '@triniti/cms/plugins/ncr/actions/unlockNode.js';
 import updateNode from '@triniti/cms/plugins/ncr/actions/updateNode.js';
 import publishNode from '@triniti/cms/plugins/ncr/actions/publishNode.js';
 import useBlocker from '@triniti/cms/plugins/ncr/components/with-node-screen/useBlocker.js';
@@ -41,6 +43,32 @@ const okayToLeave = async () => {
     reverseButtons: true,
     allowOutsideClick: false,
     allowEscapeKey: false,
+  });
+
+  return !!result.value;
+};
+
+const okayToLock = async (nodeRef) => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: 'Node will be locked from other users.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: `Lock ${startCase(nodeRef.getLabel())}`,
+    reverseButtons: true,
+  });
+
+  return !!result.value;
+};
+
+const okayToUnlock = async (nodeRef) => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: 'Node will be unlocked from other users.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: `Unlock ${startCase(nodeRef.getLabel())}`,
+    reverseButtons: true,
   });
 
   return !!result.value;
@@ -152,6 +180,25 @@ export default (props) => {
     }
   };
 
+  delegate.handleLock = async () => {
+    const ref = NodeRef.fromString(nodeRef);
+    if (!await okayToLock(ref)) {
+      return;
+    }
+
+    try {
+      await progressIndicator.show(`Locking ${startCase(ref.getLabel())}...`);
+      await dispatch(lockNode(nodeRef));
+      await progressIndicator.close();
+      toast({ title: `${startCase(ref.getLabel())} Locked.` });
+      dispatch(clearAlerts());
+      await refreshNode();
+    } catch (e) {
+      await progressIndicator.close();
+      dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
+    }
+  };
+
   delegate.handleSave = async (event) => {
     const action = event.target?.value || 'save';
     delegate.handleSubmit = async (values) => {
@@ -208,6 +255,27 @@ export default (props) => {
 
   delegate.handleStatusUpdated = async (action, publishAt) => {
     await refreshNode();
+  };
+
+  delegate.handleUnlock = async () => {
+    const ref = NodeRef.fromString(nodeRef);
+    if (!await okayToUnlock(ref)) {
+      return;
+    }
+
+    console.log('here', urls)
+
+    try {
+      await progressIndicator.show(`Unlocking ${startCase(ref.getLabel())}...`);
+      await dispatch(unlockNode(nodeRef));
+      await progressIndicator.close();
+      toast({ title: `${startCase(ref.getLabel())} Unlocked.` });
+      dispatch(clearAlerts());
+      await refreshNode();
+    } catch (e) {
+      await progressIndicator.close();
+      dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
+    }
   };
 
   delegate.refreshNode = refreshNode;

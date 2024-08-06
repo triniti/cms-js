@@ -12,6 +12,7 @@ import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 export default function TopArticles(props) {
   const policy = usePolicy();
   const canUpdate = policy.isGranted(`${APP_VENDOR}:article:update`);
+  const canUnlock = policy.isGranted(`${APP_VENDOR}:article:unlock`);
   const { title, request } = props;
   const { response, pbjxError, run, isRunning } = useRequest(request, true);
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function TopArticles(props) {
             <tr>
               <th>Title</th>
               <th className="px-3"></th>
+              <th></th>
               <th>Slotting</th>
               <th>Order Date</th>
               <th></th>
@@ -40,11 +42,16 @@ export default function TopArticles(props) {
             </thead>
             <tbody>
             {response.get('nodes', []).map(node => {
+              const isLocked = node.get('is_locked');
+              if (isLocked && !canUnlock) {
+                return;
+              }
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                   <td className="td-title">{node.get('title')}</td>
                   <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
+                  <td>{isLocked && (<Icon imgSrc="locked" alt="locked" />)}</td>
                   <td className="text-break">
                     {node.has('slotting')
                       ? Object.entries(node.get('slotting')).map(([key, slot]) => (
