@@ -258,7 +258,6 @@ class RavenWorker {
   async unsubscribe() {
     console.info(`${LOG_PREFIX}unsubscribe`);
     this.#nodeRef = null;
-    this.#collaborating = false;
   }
 
   async joinCollaboration(action) {
