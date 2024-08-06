@@ -277,11 +277,11 @@ class Raven {
   }
 
   async leaveCollaboration(action) {
-    console.info(`${LOG_PREFIX}leaveCollaboration`, action.nodeRef);
     if (!this.#collaborating) {
       return;
     }
 
+    console.info(`${LOG_PREFIX}leaveCollaboration`, action.nodeRef);
     this.#collaborating = false;
     await this.#publish({
       type: actionTypes.COLLABORATOR_LEFT,

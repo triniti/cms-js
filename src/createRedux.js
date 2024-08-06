@@ -1,8 +1,6 @@
 import camelCase from 'lodash-es/camelCase.js';
 import { applyMiddleware, combineReducers, compose, legacy_createStore as createStore } from 'redux';
 import { withExtraArgument } from 'redux-thunk';
-import createSagaMiddleware from 'redux-saga';
-import { all, fork } from 'redux-saga/effects';
 import ActionEvent from '@triniti/cms/events/ActionEvent.js';
 import appReducer from '@triniti/cms/reducers/index.js';
 import { serviceIds } from '@triniti/cms/constants.js';
@@ -32,26 +30,12 @@ const createBroadcastMiddleware = app => () => next => action => {
  */
 export default async (app, preloadedState) => {
   const reducers = { app: appReducer };
-  const sagas = [];
 
-  app.getPlugins().forEach((plugin) => {
+  for (const plugin of app.getPlugins()) {
     if (plugin.hasReducer()) {
       reducers[camelCase(plugin.getName())] = plugin.getReducer();
     }
-
-    if (plugin.hasSaga()) {
-      sagas.push(plugin.getSaga());
-    }
-  });
-
-  const middlewares = [withExtraArgument(app)];
-  let sagaMiddleware;
-  if (sagas) {
-    sagaMiddleware = createSagaMiddleware();
-    middlewares.push(sagaMiddleware);
   }
-
-  middlewares.push(createBroadcastMiddleware(app));
 
   let composer;
   if (!app.getParameter('is_production')) {
@@ -68,16 +52,10 @@ export default async (app, preloadedState) => {
     composer = compose;
   }
 
+  const middlewares = [withExtraArgument(app), createBroadcastMiddleware(app)];
   const enhancer = composer(applyMiddleware(...middlewares));
   const store = createStore(combineReducers(reducers), preloadedState, enhancer);
   app.set(serviceIds.REDUX_STORE, store);
-
-  if (sagaMiddleware) {
-    const rootSaga = function* createRootSaga() {
-      yield all(sagas.map(saga => fork(saga, app)));
-    };
-    sagaMiddleware.run(rootSaga);
-  }
 
   return store;
 };

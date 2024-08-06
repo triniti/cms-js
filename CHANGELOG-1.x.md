@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.10
+* Remove all redux-saga, it's no longer needed.
+* Raven, add additional check to ensure user leaves collaboration (in case of async heartbeat rejoining them after switching to view mode).
+
+
 ## v1.0.0-beta.9
 * Add aspect-ratio-field with friendly labels.
 * Update lexical packages to 0.17.0.
