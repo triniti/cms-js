@@ -28,6 +28,7 @@ registerGlobals({ web_base_url: webBaseUrl });
 window.DAM_BASE_URL = damBaseUrl;
 window.IMAGE_BASE_URL = imageBaseUrl;
 window.VIDEO_BASE_URL = ovpBaseUrl;
+window.WEB_BASE_URL = webBaseUrl;
 
 registerTemplates({
   'pbj.json-schema': `https://schemas.${tld}/json-schema/{vendor}/{package}{/category}/{message}/{version}.json`,
