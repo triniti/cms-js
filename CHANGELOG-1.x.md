@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.11
+* Raven :: Make minor adjustments to sequence of actions when unmounting in useRaven.js, leaveCollaboration, then unsubscribe.
+
+
 ## v1.0.0-beta.10
 * Remove all redux-saga, it's no longer needed.
 * Raven :: Add additional check to ensure user leaves collaboration (in case of async heartbeat rejoining them after switching to view mode).

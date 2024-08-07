@@ -72,8 +72,9 @@ export default (nodeRef, editMode, canCollaborate) => {
     app.getDispatcher().addListener(`raven.${nodeRef}`, listener);
 
     return () => {
-      dispatch(unsubscribe(nodeRef));
       app.getDispatcher().removeListener(`raven.${nodeRef}`, listener);
+      dispatch(leaveCollaboration(nodeRef));
+      dispatch(unsubscribe(nodeRef));
     };
   }, [nodeRef]);
 
@@ -111,7 +112,6 @@ export default (nodeRef, editMode, canCollaborate) => {
         clearInterval(heartbeatInterval);
       }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      dispatch(leaveCollaboration(nodeRef));
     };
   }, [nodeRef, editMode, canCollaborate]);
 
