@@ -2,6 +2,7 @@ export const PLUGIN_PREFIX = 'ncr/';
 const t = id => `${PLUGIN_PREFIX}${id}`;
 
 export const serviceIds = {
+  LOCKABLE_ENRICHER: t('lockable_enricher'),
   PUBLISH_NODE_VALIDATOR: t('publish_node_validator'),
 };
 

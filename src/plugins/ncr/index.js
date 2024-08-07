@@ -21,11 +21,16 @@ export default class NcrPlugin extends Plugin {
       pbjxEvent.getMessage().clear('old_node');
     });
 
+    app.register(serviceIds.LOCKABLE_ENRICHER, async () => {
+      const LockableEnricher = (await import('@triniti/cms/plugins/ncr/LockableEnricher.js')).default;
+      return new LockableEnricher(app);
+    });
+    app.subscribe('triniti:news:request:search-articles-request.enrich', serviceIds.LOCKABLE_ENRICHER, 'enrichSearchArticles');
+
     app.register(serviceIds.PUBLISH_NODE_VALIDATOR, async () => {
       const PublishNodeValidator = (await import('@triniti/cms/plugins/ncr/PublishNodeValidator.js')).default;
       return new PublishNodeValidator(app);
     });
-
     app.subscribe('gdbots:ncr:command:publish-node.validate', serviceIds.PUBLISH_NODE_VALIDATOR, 'validate');
   }
 }
