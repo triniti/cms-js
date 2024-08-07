@@ -41,7 +41,7 @@ function CreatePollModal(props) {
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" required />
-          <TextField name="question" label="Question" required />
+          <TextField name="question" label="Question" />
         </Form>
       </ModalBody>
       <ModalFooter>

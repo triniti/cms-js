@@ -4,6 +4,7 @@ const ignored = {
   'apple-news-article-synced': true,
   'article-slotting-removed': true,
   'gallery-asset-reordered': true,
+  'gallery-image-count-updated': true,
   'node-labels-updated': true,
   'ovp.medialive': true,
   'teaser-slotting-removed': true,

@@ -6,5 +6,9 @@ export default () => async (dispatch, getState, app) => {
   }
 
   const raven = await app.get(serviceIds.RAVEN_WORKER);
-  raven.postMessage({ method: methods.DISCONNECT });
+  const server = await app.get(serviceIds.RAVEN_SERVER);
+
+  const action = { method: methods.DISCONNECT };
+  raven.postMessage(action);
+  await server.disconnect(action);
 };

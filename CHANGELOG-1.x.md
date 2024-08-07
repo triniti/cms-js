@@ -1,11 +1,27 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.12
+* Make create modal less jumpy by moving the suspensed modal div to bottom right position absolute.
+* Do not unmount taxonomy tab as the field state can get lost if the component is unmounted (user switches tab) before saving.
+
+
+## v1.0.0-beta.11
+* Raven :: Make minor adjustments to sequence of actions when unmounting in useRaven.js, leaveCollaboration, then unsubscribe.
+
+
+## v1.0.0-beta.10
+* Remove all redux-saga, it's no longer needed.
+* Raven :: Add additional check to ensure user leaves collaboration (in case of async heartbeat rejoining them after switching to view mode).
+* Raven :: Renamed worker.js to RavenWorker.js.
+* Raven :: Added RavenServer.js as a backup option in case the worker is flakey. Set `raven/raven_server_enabled` parameter to false to disable.
+
+
 ## v1.0.0-beta.9
 * Add aspect-ratio-field with friendly labels.
 * Update lexical packages to 0.17.0.
 * Add MezzaninePreviewCard to sidebar on video screen.
-* raven :: alerting user of stale data when in edit mode and automatic reinitializing when in view mode.
+* Raven :: alerting user of stale data when in edit mode and automatic reinitializing when in view mode.
 * slug-field :: while user is typing allow last character to be / or -, validation will still occur but doesn't prevent typing out a new slug.
 
 

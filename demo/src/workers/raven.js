@@ -1,2 +1,2 @@
-import '@triniti/cms/plugins/raven/worker.js';
+import '@triniti/cms/plugins/raven/RavenWorker.js';
 export default self;

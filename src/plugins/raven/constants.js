@@ -2,7 +2,9 @@ export const PLUGIN_PREFIX = 'raven/';
 const t = id => `${PLUGIN_PREFIX}${id}`;
 
 export const serviceIds = {
-  RAVEN_WORKER: 'raven_worker',
+  RAVEN_SERVER_ENABLED: t('raven_server_enabled'),
+  RAVEN_SERVER: t('raven_server'),
+  RAVEN_WORKER: t('raven_worker'),
 };
 
 export const actionTypes = {

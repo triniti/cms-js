@@ -23,7 +23,7 @@ export default (app, workers) => (dispatch) => {
   for (const [key, worker] of Object.entries(workers)) {
     worker.addEventListener('message', onMessage);
     worker.postMessage(start);
-    app.set(`${key}_worker`, worker);
+    app.set(`${key}/${key}_worker`, worker);
   }
 
   return { type: actionTypes.WORKERS_STARTED, app, workers };

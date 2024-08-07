@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getInstance } from '@triniti/app/main.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
+import isCollaboratingSelector from '@triniti/cms/plugins/raven/selectors/isCollaborating.js';
 import heartbeat from '@triniti/cms/plugins/raven/actions/heartbeat.js';
 import joinCollaboration from '@triniti/cms/plugins/raven/actions/joinCollaboration.js';
 import leaveCollaboration from '@triniti/cms/plugins/raven/actions/leaveCollaboration.js';
@@ -16,10 +16,10 @@ import showStaleDataWarning from '@triniti/cms/plugins/raven/utils/showStaleData
 
 export default (nodeRef, editMode, canCollaborate) => {
   const formContext = useFormContext();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useRef(false);
   const editModeRef = useRef(editMode);
+  const isCollaborating = useSelector((state) => isCollaboratingSelector(state, nodeRef));
   editModeRef.current = editMode;
 
   useEffect(() => {
@@ -72,8 +72,9 @@ export default (nodeRef, editMode, canCollaborate) => {
     app.getDispatcher().addListener(`raven.${nodeRef}`, listener);
 
     return () => {
-      dispatch(unsubscribe(nodeRef));
       app.getDispatcher().removeListener(`raven.${nodeRef}`, listener);
+      dispatch(leaveCollaboration(nodeRef));
+      dispatch(unsubscribe(nodeRef));
     };
   }, [nodeRef]);
 
@@ -111,7 +112,20 @@ export default (nodeRef, editMode, canCollaborate) => {
         clearInterval(heartbeatInterval);
       }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      dispatch(leaveCollaboration(nodeRef));
     };
   }, [nodeRef, editMode, canCollaborate]);
+
+  useEffect(() => {
+    if (editMode) {
+      return;
+    }
+
+    // in some cases a heartbeat has gone out (async) but the
+    // user has switched to view mode which can leave the user
+    // stuck collaborating until pruneCollaborators runs again
+    // minor nit but worth addressing.
+    if (isCollaborating) {
+      dispatch(leaveCollaboration(nodeRef));
+    }
+  }, [nodeRef, editMode, isCollaborating]);
 };
