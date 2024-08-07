@@ -47,13 +47,15 @@ export default function CreateModalButton(props) {
   return (
     <>
       <ActionButton color={color} onClick={toggle} {...rest} />
-      {isOpen && (
-        <ErrorBoundary asModal toggle={toggle}>
-          <Suspense fallback={<></>}>
-            <ModalComponent toggle={toggle} {...finalModalProps} />
-          </Suspense>
-        </ErrorBoundary>
-      )}
+      <div style={{ position: 'fixed', bottom: 0, right: 0, width: '1px' }}>
+        {isOpen && (
+          <ErrorBoundary asModal toggle={toggle}>
+            <Suspense fallback={<></>}>
+              <ModalComponent toggle={toggle} {...finalModalProps} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </div>
     </>
   );
 }
