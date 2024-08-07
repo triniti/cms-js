@@ -2,7 +2,7 @@
 
 
 ## v1.0.0-beta.12
-* Make create modal just jumpy by moving the suspensed modal div to bottom right position absolute.
+* Make create modal less jumpy by moving the suspensed modal div to bottom right position absolute.
 
 
 ## v1.0.0-beta.11
