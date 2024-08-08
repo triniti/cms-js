@@ -67,10 +67,10 @@ export default function Navbar() {
         <NavbarRS className="app-env-navbar m-0 p-0" light>
           <ListGroup flush className="list-group-horizontal mb-0 p-0">
             <ListGroupItem className="mb-0">
-              <Icon imgSrc="bolt-solid" /> {APP_ENV}
+              <Icon imgSrc="bolt-outline" /> {APP_ENV}
             </ListGroupItem>
             <ListGroupItem className="mb-0">
-              <Icon imgSrc="tag-solid" /> v{APP_VERSION}
+              <Icon imgSrc="tag-outline-slanted" /> v{APP_VERSION}
             </ListGroupItem>
             <ListGroupItem className="mb-0">
               <Icon imgSrc="code" /> Build: {APP_BUILD}
@@ -85,7 +85,7 @@ export default function Navbar() {
               <Icon imgSrc="globe" /> <a href={WEB_BASE_URL} target="_blank">Web</a>
             </ListGroupItem>
             <ListGroupItem className="mb-0">
-              <Icon imgSrc="cog" /> <a href={`${API_ENDPOINT}/health-check/`} target="_blank">API Status</a>
+              <Icon imgSrc="cog-outline" /> <a href={`${API_ENDPOINT}/health-check/`} target="_blank">API Status</a>
             </ListGroupItem>
           </ListGroup>
         </NavbarRS>
