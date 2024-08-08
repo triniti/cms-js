@@ -6,11 +6,8 @@ import ChannelPickerField from '@triniti/cms/plugins/taxonomy/components/channel
 import HashtagPickerField from '@triniti/cms/plugins/taxonomy/components/hashtag-picker-field/index.js';
 
 export default function TaxonomyTab(props) {
-  const { node, tab } = props;
+  const { node } = props;
   const schema = node.schema();
-  if (tab !== 'taxonomy') {
-   return null;
-  }
 
   return (
     <Card>

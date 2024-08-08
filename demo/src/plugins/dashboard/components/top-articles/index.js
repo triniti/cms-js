@@ -43,7 +43,10 @@ export default function TopArticles(props) {
               const handleRowClick = createRowClickHandler(navigate, node);
               return (
                 <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                  <td className="td-title">{node.get('title')}</td>
+                  <td className="td-title">
+                    {node.get('is_locked') && <Icon imgSrc="locked-solid" alt="locked" className="me-1" />}
+                    {node.get('title')}
+                  </td>
                   <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                   <td className="text-break">
                     {node.has('slotting')
