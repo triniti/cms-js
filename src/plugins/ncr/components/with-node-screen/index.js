@@ -8,7 +8,6 @@ import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes.js';
 import useDelegate from '@triniti/cms/plugins/ncr/components/with-node-screen/useDelegate.js';
 import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams.js';
-import toast from '@triniti/cms/utils/toast.js';
 
 
 export { useDelegate, useParams };
@@ -37,10 +36,9 @@ export default function withNodeScreen(Screen, config) {
 
     useEffect(() => {
       if (isLocked && !policy.isGranted(`${qname}:unlock`)) {
-        toast({ title: 'Node is locked.', icon: 'error' });
         navigate(urls.leave);
       }
-    }, [isLocked, policy]);
+    }, [node, policy]);
 
     useEffect(() => () => dispatch(pruneNodes()), []);
 
