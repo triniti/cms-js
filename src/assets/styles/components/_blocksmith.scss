@@ -60,8 +60,8 @@
   }
 }
 
-.blocksmith-block-selected {
-  border: 1px solid red;
+.blocksmith-block-selected .block-preview-card {
+  // box-shadow: $focus-ring-box-shadow !important;
 }
 
 .blocksmith-block {
