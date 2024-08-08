@@ -263,8 +263,6 @@ export default (props) => {
       return;
     }
 
-    console.log('here', urls)
-
     try {
       await progressIndicator.show(`Unlocking ${startCase(ref.getLabel())}...`);
       await dispatch(unlockNode(nodeRef));
