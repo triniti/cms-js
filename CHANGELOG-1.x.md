@@ -6,6 +6,7 @@
 * Do not unmount taxonomy tab as the field state can get lost if the component is unmounted (user switches tab) before saving.
 * Adds lock/unlock features to article screen. Also adds LockableEnricher so locked nodes won't be returned unless user has permission.
 
+
 ## v1.0.0-beta.11
 * Raven :: Make minor adjustments to sequence of actions when unmounting in useRaven.js, leaveCollaboration, then unsubscribe.
 
