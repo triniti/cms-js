@@ -2,7 +2,7 @@
 
 
 ## v1.0.0-beta.13
-* stuff?
+* Add app env navbar when not in prod for reasons.
 
 
 ## v1.0.0-beta.12
