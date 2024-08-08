@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.13
+* stuff?
+
+
 ## v1.0.0-beta.12
 * Make create modal less jumpy by moving the suspensed modal div to bottom right position absolute.
 * Do not unmount taxonomy tab as the field state can get lost if the component is unmounted (user switches tab) before saving.
