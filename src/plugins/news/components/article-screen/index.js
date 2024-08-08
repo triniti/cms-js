@@ -42,7 +42,7 @@ function ArticleScreen(props) {
   const canLock = policy.isGranted(`${qname}:lock`) && !isLocked;
   const canUnlock = policy.isGranted(`${qname}:unlock`) && isLocked;
 
-  const showDropdown = canDelete || canLock || canUnlock;
+  const showMoreActions = canDelete || canLock || canUnlock;
 
   return (
     <Screen
@@ -96,7 +96,7 @@ function ArticleScreen(props) {
               />
             </>
           )}
-          {showDropdown && (
+          {showMoreActions && (
             <UncontrolledDropdown>
               <DropdownToggle className="px-1 me-0 mb-0" color="light" outline>
                 <Icon imgSrc="more-vertical" alt="More Actions" size="md" />
