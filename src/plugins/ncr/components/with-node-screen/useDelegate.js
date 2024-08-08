@@ -51,7 +51,7 @@ const okayToLeave = async () => {
 const okayToLock = async (nodeRef) => {
   const result = await Swal.fire({
     title: 'Are you sure?',
-    text: 'Node will be locked from other users.',
+    text: 'Other users WILL NOT be able to see this node.',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: `Lock ${startCase(nodeRef.getLabel())}`,
@@ -64,7 +64,7 @@ const okayToLock = async (nodeRef) => {
 const okayToUnlock = async (nodeRef) => {
   const result = await Swal.fire({
     title: 'Are you sure?',
-    text: 'Node will be unlocked from other users.',
+    text: 'Other users WILL be able to see this node.',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: `Unlock ${startCase(nodeRef.getLabel())}`,
@@ -190,9 +190,9 @@ export default (props) => {
       await progressIndicator.show(`Locking ${startCase(ref.getLabel())}...`);
       await dispatch(lockNode(nodeRef));
       await progressIndicator.close();
-      toast({ title: `${startCase(ref.getLabel())} Locked.` });
+      toast({ title: `${startCase(ref.getLabel())} locked.` });
       dispatch(clearAlerts());
-      await refreshNode();
+      setTimeout(refreshNode);
     } catch (e) {
       await progressIndicator.close();
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
@@ -267,9 +267,9 @@ export default (props) => {
       await progressIndicator.show(`Unlocking ${startCase(ref.getLabel())}...`);
       await dispatch(unlockNode(nodeRef));
       await progressIndicator.close();
-      toast({ title: `${startCase(ref.getLabel())} Unlocked.` });
+      toast({ title: `${startCase(ref.getLabel())} unlocked.` });
       dispatch(clearAlerts());
-      await refreshNode();
+      setTimeout(refreshNode);
     } catch (e) {
       await progressIndicator.close();
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));

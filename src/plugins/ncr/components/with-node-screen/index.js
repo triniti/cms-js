@@ -9,7 +9,6 @@ import pruneNodes from '@triniti/cms/plugins/ncr/actions/pruneNodes.js';
 import useDelegate from '@triniti/cms/plugins/ncr/components/with-node-screen/useDelegate.js';
 import useParams from '@triniti/cms/plugins/ncr/components/with-node-screen/useParams.js';
 
-
 export { useDelegate, useParams };
 
 const defaultFormConfig = {
@@ -26,7 +25,7 @@ export default function withNodeScreen(Screen, config) {
     const { editMode, nodeRef, qname, label, tab, urls } = useParams(props, config);
     const { node, refreshNode, isRefreshing, setNode, pbjxError } = useNode(nodeRef, true);
     const canUpdate = policy.isGranted(`${qname}:update`);
-    const isLocked = node?.get('is_locked');
+    const canUnlock = policy.isGranted(`${qname}:unlock`);
 
     useEffect(() => {
       if (editMode && !canUpdate) {
@@ -35,10 +34,14 @@ export default function withNodeScreen(Screen, config) {
     }, [editMode, canUpdate]);
 
     useEffect(() => {
-      if (isLocked && !policy.isGranted(`${qname}:unlock`)) {
+      if (!node || canUnlock) {
+        return;
+      }
+
+      if (node.get('is_locked', false)) {
         navigate(urls.leave);
       }
-    }, [node, policy]);
+    }, [node, canUnlock]);
 
     useEffect(() => () => dispatch(pruneNodes()), []);
 

@@ -35,12 +35,13 @@ function ArticleScreen(props) {
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
+  const isLockable = schema.hasMixin('gdbots:ncr:mixin:lockable');
   const isLocked = node.get('is_locked');
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
-  const canLock = policy.isGranted(`${qname}:lock`) && !isLocked;
-  const canUnlock = policy.isGranted(`${qname}:unlock`) && isLocked;
+  const canLock = isLockable && !isLocked && policy.isGranted(`${qname}:lock`);
+  const canUnlock = isLockable && isLocked && policy.isGranted(`${qname}:unlock`);
 
   const showMoreActions = canDelete || canLock || canUnlock;
 
@@ -49,6 +50,7 @@ function ArticleScreen(props) {
       header={node.get('title')}
       activeNav="Content"
       activeSubNav="Articles"
+      badge={node.get('is_locked') ? 'locked' : null}
       breadcrumbs={[
         { text: 'Articles', to: '/news/articles' },
         { text: node.get('title') },
@@ -102,7 +104,25 @@ function ArticleScreen(props) {
                 <Icon imgSrc="more-vertical" alt="More Actions" size="md" />
               </DropdownToggle>
               <DropdownMenu end className="px-2 dropdown-menu-arrow-right">
-                {canDelete &&
+                {canLock && (
+                  <ActionButton
+                    text="Lock"
+                    onClick={delegate.handleLock}
+                    icon="locked"
+                    color="warning"
+                    outline
+                  />
+                )}
+                {canUnlock && (
+                  <ActionButton
+                    text="Unlock"
+                    onClick={delegate.handleUnlock}
+                    icon="unlocked"
+                    color="warning"
+                    outline
+                  />
+                )}
+                {canDelete && (
                   <ActionButton
                     text="Delete"
                     onClick={delegate.handleDelete}
@@ -110,25 +130,7 @@ function ArticleScreen(props) {
                     color="danger"
                     outline
                   />
-                }
-                {canLock &&
-                  <ActionButton
-                    text="Lock"
-                    onClick={delegate.handleLock}
-                    icon="locked"
-                    color="danger"
-                    outline
-                  />
-                }
-                {canUnlock &&
-                  <ActionButton
-                    text="Unlock"
-                    onClick={delegate.handleUnlock}
-                    icon="unlocked"
-                    color="danger"
-                    outline
-                  />
-                }
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}
