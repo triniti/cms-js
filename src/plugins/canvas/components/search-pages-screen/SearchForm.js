@@ -36,7 +36,7 @@ export default function SearchForm(props) {
     form.getRegisteredFields().forEach(field => request.schema().hasField(field) && request.clear(field));
     const values = FormMarshaler.marshal(request);
     values.count = 25;
-    values.sort = SearchPagesSort.TITLE_ASC.getValue();
+    values.sort = SearchPagesSort.ORDER_DATE_DESC.getValue();
     form.reset(values);
     form.submit();
   };

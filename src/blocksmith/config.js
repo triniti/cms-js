@@ -12,8 +12,7 @@ const config = {
     ListItemNode,
   ],
   onError: (error) => {
-    // todo: send errors to raven?
-    console.error('blocksmith.error', error);
+    window.dispatchEvent(new CustomEvent('blocksmith.error', { detail: error }));
   },
   // todo: remove need for all this theme stuff and just style the elements
   // like .blocksmith h1, .blocksmith ol, etc.  we don't need theming fanciness rn

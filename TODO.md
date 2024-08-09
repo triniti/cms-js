@@ -1,13 +1,11 @@
 # TODO
 
-* sort by order date desc instead of title on pages.
 * add save and close and save and publish on article screen? does anyone even use this?
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
 * ncr -- updateNode.js fix merging/state if updates occurred while editting, then restore expected_etag check
 * blocksmith -- copy / paste block (text already works)
 * blocksmith -- sometimes cursor disappears after drag/drop
 * blocksmith -- fix bug in blocksmith/utils/blocksToEditor.js that isn't recognizing "<mark>"
-* blocksmith -- send errors (see config) to raven errors endpoint.
 * blocksmith -- add emojis inserter thingy
 * with-form -- finish up this save dirty and handleRestore form when leaving page so we can restore it on mount again.
 * review/simplify node history and reverting.

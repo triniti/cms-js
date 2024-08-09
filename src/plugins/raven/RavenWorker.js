@@ -27,7 +27,6 @@ class RavenWorker {
         'Content-Type': 'application/json; charset=utf-8',
         Authorization: `Bearer ${this.#accessToken}`,
       },
-      credentials: 'include',
     });
 
     const data = await response.json();

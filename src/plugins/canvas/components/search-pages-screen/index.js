@@ -106,7 +106,7 @@ function SearchPagesScreen(props) {
 export default withRequest(withForm(SearchPagesScreen), 'triniti:canvas:request:search-pages-request', {
   persist: true,
   initialData: {
-    sort: SearchPagesSort.TITLE_ASC.getValue(),
+    sort: SearchPagesSort.ORDER_DATE_DESC.getValue(),
     track_total_hits: true,
   }
 });
