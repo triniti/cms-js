@@ -1,6 +1,9 @@
 # CHANGELOG
 
 
+## v1.0.0-beta.14
+* ??
+
 ## v1.0.0-beta.13
 * Add app env navbar when not in prod for reasons.
 * Raven :: set token when subscribing as well, in case user is disconnected this will allow reconnect to happen.
