@@ -1,5 +1,6 @@
 import Plugin from '@triniti/cms/Plugin.js';
 import { actionTypes as iamActionTypes } from '@triniti/cms/plugins/iam/constants.js';
+import RavenServer from '@triniti/cms/plugins/raven/RavenServer.js';
 import reducer from '@triniti/cms/plugins/raven/reducers/index.js';
 import connect from '@triniti/cms/plugins/raven/actions/connect.js';
 import disconnect from '@triniti/cms/plugins/raven/actions/disconnect.js';
@@ -17,10 +18,8 @@ export default class RavenPlugin extends Plugin {
     let pruneIntervalId = null;
 
     app.setParameter(serviceIds.RAVEN_SERVER_ENABLED, true);
-    app.register(serviceIds.RAVEN_SERVER, async () => {
-      const RavenServer = (await import('@triniti/cms/plugins/raven/RavenServer.js')).default;
-      return new RavenServer(app);
-    });
+    const server = new RavenServer(app);
+    app.register(serviceIds.RAVEN_SERVER, server);
 
     dispatcher.addListener(iamActionTypes.USER_LOADED, (event) => {
       const action = event.getAction();

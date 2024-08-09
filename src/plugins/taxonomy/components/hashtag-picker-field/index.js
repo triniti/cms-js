@@ -80,6 +80,12 @@ function HashtagPickerField(props) {
         isMulti
         inputValue={q}
         onInputChange={(value, action) => {
+          if (action.action === 'set-value') {
+            request.clear('prefix');
+            setQ('');
+            return;
+          }
+
           if (action.action === 'input-change') {
             const formatted = formatHashtag(value);
             request.set('prefix', formatted);
@@ -94,6 +100,7 @@ function HashtagPickerField(props) {
         }}
         cachedUniqs={[q]}
         hideSelectedOptions={false}
+        allowCreateWhileLoading
         value={currentOptions}
         debounceTimeout={debounceTimeout}
         additional={{ request }}

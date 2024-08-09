@@ -40,7 +40,10 @@ export default async (q, lastOptions, additional) => {
       },
     };
   } catch (e) {
-    console.error('HashtagPickerField', e, q, lastOptions, additional, request.toObject());
+    if (e.name !== 'AssertionFailed') {
+      console.error('HashtagPickerField', e, q, lastOptions, additional, request.toObject());
+    }
+
     return {
       options: [],
       hasMore: false,

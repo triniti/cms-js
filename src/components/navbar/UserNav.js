@@ -7,7 +7,6 @@ import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
 import changeTheme from '@triniti/cms/actions/changeTheme.js';
 import getTheme from '@triniti/cms/selectors/getTheme.js';
 import Icon from '@triniti/cms/components/icon/index.js';
-import getStatus from '@triniti/cms/plugins/raven/selectors/getStatus.js';
 
 const okToLogout = async () => {
   const result = await Swal.fire({
@@ -21,12 +20,12 @@ const okToLogout = async () => {
   return result.value;
 };
 
-export default function UserNav() {
+export default function UserNav(props) {
+  const { ravenStatus = 'disconnected' } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(getUser);
   const theme = useSelector(getTheme);
-  const ravenStatus = useSelector(getStatus);
 
   if (!user) {
     return null;
