@@ -2,7 +2,8 @@
 
 
 ## v1.0.0-beta.14
-* ??
+* Blocksmith :: Enable select (just click the block) so you can copy/cut/paste them.
+
 
 ## v1.0.0-beta.13
 * Add app env navbar when not in prod for reasons.
