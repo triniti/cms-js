@@ -65,7 +65,7 @@ function SearchRedirectsScreen(props) {
                     <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
                     <td className="td-date">{formatDate(node.get('created_at'))}</td>
                     <td className="td-date">{formatDate(node.get('updated_at'))}</td>
-                    <td className="td-icons" data-ignore-row-click>
+                    <td className="td-icons" data-ignore-row-click={true}>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tabIndex="-1">
                           <Icon imgSrc="eye" alt="view" />

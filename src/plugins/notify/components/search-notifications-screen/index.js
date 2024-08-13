@@ -81,7 +81,7 @@ function SearchNotificationsScreen(props) {
                     <td className="text-nowrap">{sendStatus}</td>
                     <td className="td-date">{formatDate(node.get('created_at'))}</td>
                     <td className="td-date">{formatDate(node.get('send_at'))}</td>
-                    <td className="td-icons" data-ignore-row-click>
+                    <td className="td-icons" data-ignore-row-click={true}>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />

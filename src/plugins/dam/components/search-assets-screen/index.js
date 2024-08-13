@@ -105,8 +105,8 @@ function SearchAssetsScreen(props) {
 
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
-                    <td data-ignore-row-click className="text-center"><AssetIcon id={node.get('_id')} /></td>
+                    <td data-ignore-row-click={true}><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                    <td data-ignore-row-click={true} className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td className="text-break w-100">
                       {seq > 0 && (
                         <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
@@ -120,7 +120,7 @@ function SearchAssetsScreen(props) {
                     <td className="text-nowrap d-none d-sm-table-cell">{node.get('mime_type')}</td>
                     <td className="text-nowrap d-none d-sm-table-cell">{formatBytes(node.get('file_size'))}</td>
                     <td className="td-date d-none d-md-table-cell">{formatDate(node.get('created_at'))}</td>
-                    <td data-ignore-row-click className="td-icons">
+                    <td data-ignore-row-click={true} className="td-icons">
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />

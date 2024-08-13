@@ -55,7 +55,7 @@ export default function TopArticles(props) {
                       )) : null}
                   </td>
                   <td className="td-date">{formatDate(node.get('order_date'))}</td>
-                  <td className="td-icons" data-ignore-row-click>
+                  <td className="td-icons" data-ignore-row-click={true}>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">
                         <Icon imgSrc="eye" alt="view" />

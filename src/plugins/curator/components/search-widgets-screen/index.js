@@ -81,7 +81,7 @@ function SearchWidgetsScreen(props) {
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                    <td data-ignore-row-click={true}><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="td-title">
                       {node.get('title')}
                       <Badge className="ms-1" color="light" pill>
@@ -91,7 +91,7 @@ function SearchWidgetsScreen(props) {
                     <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
                     <td className="td-date">{formatDate(node.get('created_at'))}</td>
                     <td className="td-date">{formatDate(node.get('updated_at'))}</td>
-                    <td className="td-icons" data-ignore-row-click>
+                    <td className="td-icons" data-ignore-row-click={true}>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />
