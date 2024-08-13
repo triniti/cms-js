@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v1.0.0
+* Blocksmith :: Enable select (just click the block) so you can copy/cut/paste them.
+* person-picker-field :: show image in the select.
+* gallery screen :: images tab, make the link to image asset edit mode.
+
+
 ## v1.0.0-beta.13
 * Add app env navbar when not in prod for reasons.
 * Raven :: set token when subscribing as well, in case user is disconnected this will allow reconnect to happen.

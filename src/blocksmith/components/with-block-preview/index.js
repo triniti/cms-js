@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import startCase from 'lodash-es/startCase.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
 import { Button, Card, CardBody, CardHeader } from 'reactstrap';
 import { useFormContext, withPbj, Loading, Icon } from '@triniti/cms/components/index.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
@@ -29,6 +30,7 @@ const okayToDelete = async () => {
 function BlockPreview(props) {
   const {
     Component,
+    onClick,
     onDelete,
     onOpen,
     onInsertBlock,
@@ -51,7 +53,7 @@ function BlockPreview(props) {
   const title = config.blocks[type]?.title || startCase(type);
 
   return (
-    <div className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
+    <div onClick={onClick} className={`blocksmith-block blocksmith-${type} blocksmith-block-node-status-${nodeStatus}`}>
       <Card className="mb-0 block-preview-card">
         <CardHeader className="block-preview-header">
           <span className="d-inline-flex">
@@ -103,6 +105,7 @@ export default function withBlockPreview(Component) {
     const ModalComponent = useMemo(() => withPbj(resolveComponent(curie, 'modal'), curie, pbj), [curie, pbj]);
     const BlockPreviewWithPbj = useMemo(() => withPbj(BlockPreview, curie, pbj), [curie, pbj]);
     const [editor] = useLexicalComposerContext();
+    const [isSelected, setSelected] = useLexicalNodeSelection(nodeKey);
     const formContext = useFormContext();
     const { editMode } = formContext;
 
@@ -115,6 +118,11 @@ export default function withBlockPreview(Component) {
       event.preventDefault();
       event.stopPropagation();
       toggleModal();
+    };
+
+    const handleClick = (event) => {
+      event.stopPropagation();
+      setSelected(!isSelected);
     };
 
     const handleDelete = async (event) => {
@@ -155,6 +163,7 @@ export default function withBlockPreview(Component) {
           editMode={editMode}
           containerFormContext={formContext}
           onOpen={handleOpen}
+          onClick={handleClick}
           onDelete={handleDelete}
           canDelete={canDelete}
           canUpdate={canUpdate}

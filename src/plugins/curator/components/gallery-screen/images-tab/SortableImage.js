@@ -75,9 +75,8 @@ export default function SortableImage(props) {
               </>
             )}
             {isHovering && (
-              <a href={nodeUrl(image, 'view')} target="_blank" rel="noopener noreferrer"
-                 className='d-inline-block p-2 pb-1 text-white opacity-75'>
-                <Icon imgSrc="external" alt="view" size="md" />
+              <a href={nodeUrl(image, 'edit')} target="_blank" rel="noopener noreferrer" className="d-inline-block p-2 pb-1 text-white opacity-75">
+                <Icon imgSrc="pencil" alt="edit" size="md" />
               </a>
             )}
           </ButtonToolbar>
