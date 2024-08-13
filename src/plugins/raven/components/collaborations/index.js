@@ -26,7 +26,7 @@ function TableRow(props) {
       <td className="td-title">
         {node.get('title')}
         <Badge className="ms-1" color="light" pill>
-          {schema.getCurie().getMessage().replace('-teaser', '')}
+          {schema.getCurie().getMessage()}
         </Badge>
       </td>
       <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
