@@ -16,6 +16,10 @@
     "pub": "npm run build && cd dist && npm publish --access public",
     "test": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--experimental-loader @node-loader/babel -r ./bootstrap.cjs\" tape-es './src/**/*.test.js*' | faucet"
   },
+  "peerDependencies": {
+    "@gdbots/schemas": "^3.0.0",
+    "@triniti/schemas": "^3.0.0"
+  },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
     "@dnd-kit/core": "^6.1.0",
