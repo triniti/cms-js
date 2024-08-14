@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.1
+* When creating a new teaser that has a target, default sync_with_target to true.
+
+
 ## v1.0.0
 * Blocksmith :: Enable select (just click the block) so you can copy/cut/paste them.
 * person-picker-field :: show image in the select.
