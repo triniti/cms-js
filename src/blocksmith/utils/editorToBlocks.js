@@ -1,90 +1,9 @@
-import { $getRoot, $isElementNode } from 'lexical';
-import { isHTMLElement } from '@lexical/utils';
+import { $getRoot } from 'lexical';
 import { $isBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm.js';
+import nodeToHtml from '@triniti/cms/blocksmith/utils/nodeToHtml.js';
 
-const removeAttributes = (element) => {
-  if (!isHTMLElement(element)) {
-    return;
-  }
-
-  element.removeAttribute('class');
-  element.removeAttribute('dir');
-  element.removeAttribute('style');
-  element.removeAttribute('title');
-  element.removeAttribute('value');
-
-  for (const child of element.children) {
-    removeAttributes(child);
-  }
-};
-
-const appendNode = (editor, $node, container) => {
-  const shouldExclude = $isElementNode($node) && $node.excludeFromCopy('html');
-  const $children = $isElementNode($node) ? $node.getChildren() : [];
-  const $registeredNode = editor._nodes.get($node.getType());
-
-  // Use HTMLConfig overrides, if available.
-  let exportOutput;
-  if ($registeredNode && $registeredNode.exportDOM !== undefined) {
-    exportOutput = $registeredNode.exportDOM(editor, $node);
-  } else {
-    exportOutput = $node.exportDOM(editor);
-  }
-
-  const { element, after } = exportOutput;
-  if (!element) {
-    return;
-  }
-
-  removeAttributes(element);
-  const fragment = document.createDocumentFragment();
-  for (let i = 0; i < $children.length; i++) {
-    appendNode(editor, $children[i], fragment);
-  }
-
-  if (shouldExclude) {
-    container.append(fragment);
-    return;
-  }
-
-  if (isHTMLElement(element)) {
-    element.append(fragment);
-  }
-
-  container.append(element);
-
-  if (after) {
-    const newElement = after.call($node, element);
-    removeAttributes(newElement);
-    if (newElement) {
-      element.replaceWith(newElement);
-    }
-  }
-};
-
-// eh, should we accept the lexical output as gospel? maybe.
-const sanitizeHtml = (html) => {
-  return html
-    .replaceAll(' style=""', '')
-    .replaceAll('<span>', '')
-    .replaceAll('</span>', '')
-    .replaceAll('<b>', '')
-    .replaceAll('</b>', '')
-    .replaceAll('<i>', '<em>')
-    .replaceAll('</i>', '</em>')
-    .replaceAll('<em><em>', '<em>')
-    .replaceAll('</em></em>', '</em>')
-    ;
-};
-
-const nodeToHtml = (editor, $node) => {
-  const container = document.createElement('div');
-  appendNode(editor, $node, container);
-  return sanitizeHtml(container.innerHTML) || '';
-};
-
-const EMPTY_TEXT_BLOCKS = ['<p><br></p>', '<ol><li></li></ol>', '<ul><li></li></ul>'];
+const EMPTY_TEXT_BLOCKS = ['<p><br></p>', '<p>&nbsp;</p>', '<p></p>', '<ol><li></li></ol>', '<ul><li></li></ul>'];
 const isEmptyBlock = (block) => {
   if (!block._schema.includes('text-block')) {
     return false;
@@ -95,6 +14,8 @@ const isEmptyBlock = (block) => {
       return true;
     }
   }
+
+  return false;
 };
 
 // do we need to handle css_class and updated_date on text? one wonders. i hope the fuck not.
