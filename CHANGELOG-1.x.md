@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v1.0.2
+* Blocksmith :: Default blocks with aspect_ratio to auto
+* Blocksmith :: Sanitize after paste did in fact need to be subscribed at a higher priority to run.
+
+
 ## v1.0.1
 * When creating a new teaser that has a target, default sync_with_target to true.
 * Blocksmith :: Sanitize pasted content so copy pasta from MS Office products doesn't result in extra empty paragraphs.

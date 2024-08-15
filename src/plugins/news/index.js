@@ -9,7 +9,7 @@ export default class NewsPlugin extends Plugin {
   async configure(app) {
     app.register(serviceIds.HEADLINE_FRAGMENTS_SUBSCRIBER, async () => {
       const HeadlineFragmentsSubscriber = (await import('@triniti/cms/plugins/news/HeadlineFragmentsSubscriber.js')).default;
-      return new HeadlineFragmentsSubscriber(app);
+      return new HeadlineFragmentsSubscriber();
     });
 
     app.subscribe('triniti:news:mixin:headline-fragments.init_form', serviceIds.HEADLINE_FRAGMENTS_SUBSCRIBER, 'initForm');

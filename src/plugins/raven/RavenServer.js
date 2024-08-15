@@ -18,6 +18,10 @@ export default class RavenServer {
     window.addEventListener('blocksmith.error', this.onError);
   }
 
+  testOnError(message = 'test onError') {
+    window.dispatchEvent(new CustomEvent('blocksmith.error', { detail: new Error(message) }));
+  }
+
   isEnabled() {
     return this.#app.getParameter(serviceIds.RAVEN_SERVER_ENABLED);
   }
