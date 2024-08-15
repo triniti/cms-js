@@ -26,12 +26,12 @@ function TableRow(props) {
       <td className="td-title">
         {node.get('title')}
         <Badge className="ms-1" color="light" pill>
-          {schema.getCurie().getMessage().replace('-teaser', '')}
+          {schema.getCurie().getMessage()}
         </Badge>
       </td>
       <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={node.generateNodeRef().toString()} /></td>
       <td className="td-date">{formatDate(node.get('published_at', node.get('created_at')))}</td>
-      <td className="td-icons" data-ignore-row-click>
+      <td className="td-icons" data-ignore-row-click={true}>
         <Link to={nodeUrl(node, 'view')}>
           <Button color="hover" tag="span">
             <Icon imgSrc="eye" alt="view" />

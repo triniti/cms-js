@@ -48,7 +48,7 @@ function SearchAppsScreen(props) {
                     </Badge>
                   </td>
                   <td className="text-nowrap px-1 py-1"><Collaborators nodeRef={ref.toString()} /></td>
-                  <td className="td-icons" data-ignore-row-click>
+                  <td className="td-icons" data-ignore-row-click={true}>
                     <Link to={nodeUrl(node, 'view')}>
                       <Button color="hover" tag="span">
                         <Icon imgSrc="eye" alt="view" />

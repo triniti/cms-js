@@ -1,6 +1,6 @@
 {
   "name": "@triniti/cms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "Apache-2.0",
   "description": "A single page app for managing triniti schemas and services.",
   "repository": {
@@ -15,6 +15,10 @@
     "clean": "rm -rf ./dist",
     "pub": "npm run build && cd dist && npm publish --access public",
     "test": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--experimental-loader @node-loader/babel -r ./bootstrap.cjs\" tape-es './src/**/*.test.js*' | faucet"
+  },
+  "peerDependencies": {
+    "@gdbots/schemas": "^3.0.0",
+    "@triniti/schemas": "^3.0.0"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",

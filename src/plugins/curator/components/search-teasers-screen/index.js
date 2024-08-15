@@ -85,7 +85,7 @@ function SearchTeasersScreen(props) {
                 const handleRowClick = createRowClickHandler(navigate, node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
-                    <td data-ignore-row-click><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
+                    <td data-ignore-row-click={true}><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td className="text-center py-2 pe-1">
                       <Media
                         src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
@@ -110,7 +110,7 @@ function SearchTeasersScreen(props) {
                     </td>
                     <td className="td-date">{formatDate(node.get('order_date'))}</td>
                     <td className="td-date">{formatDate(node.get('published_at'))}</td>
-                    <td className="td-icons" data-ignore-row-click>
+                    <td className="td-icons" data-ignore-row-click={true}>
                       <Link to={nodeUrl(node, 'view')}>
                         <Button color="hover" tag="span">
                           <Icon imgSrc="eye" alt="view" />
