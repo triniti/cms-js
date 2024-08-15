@@ -7,6 +7,7 @@ import {
   $getRoot,
   createCommand,
   COMMAND_PRIORITY_EDITOR,
+  COMMAND_PRIORITY_HIGH,
   PASTE_COMMAND,
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
@@ -141,7 +142,7 @@ export default function BlocksmithPlugin(props) {
           sanitizeNodes(editor);
         });
         return false;
-      }, COMMAND_PRIORITY_EDITOR),
+      }, COMMAND_PRIORITY_HIGH),
     );
   }, [editor]);
 
