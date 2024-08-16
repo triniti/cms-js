@@ -1,5 +1,6 @@
 # TODO
 
+* convert svgs to load via url instead of inline sourced.  seems a bit heavy/inefficient to inline them especially when icons are repeated many times per screen.
 * asset preview in uploader (non image) doesn't fill container.
 * add save and close and save and publish on article screen? does anyone even use this?
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
