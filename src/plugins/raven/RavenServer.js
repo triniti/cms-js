@@ -2,6 +2,7 @@ import base64 from 'base-64';
 import utf8 from 'utf8';
 import { serviceIds } from '@triniti/cms/plugins/raven/constants.js';
 import getAccessToken from '@triniti/cms/plugins/iam/selectors/getAccessToken.js';
+import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated.js';
 
 const LOG_PREFIX = `raven_server.v${APP_VERSION}/`;
 
@@ -15,6 +16,10 @@ export default class RavenServer {
     this.onError = this.onError.bind(this);
     window.addEventListener('error', this.onError);
     window.addEventListener('blocksmith.error', this.onError);
+  }
+
+  testOnError(message = 'test onError') {
+    window.dispatchEvent(new CustomEvent('blocksmith.error', { detail: new Error(message) }));
   }
 
   isEnabled() {
@@ -145,6 +150,10 @@ export default class RavenServer {
 
     this.#prevErrorMessage = error.message;
     console.error(`${LOG_PREFIX}onError`, evt, error);
+
+    if (!this.#app.select(isAuthenticated, true)) {
+      return;
+    }
 
     const data = {
       ctx_app: {

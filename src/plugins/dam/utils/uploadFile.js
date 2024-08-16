@@ -6,6 +6,10 @@ export default async (options) => {
   let error;
 
   try {
+    if (!s3PresignedUrl) {
+      throw new Error('Invalid s3PresignedUrl');
+    }
+
     const response = await fetch(s3PresignedUrl, {
       signal: controller.signal,
       method: 'PUT',

@@ -33,6 +33,7 @@ export default function withTeaserModal(ModalFields) {
         const content = getContent(values.target_ref);
         if (content) {
           values.title = content.get('title');
+          values.sync_with_target = true;
         }
         await dispatch(createNode(values, form, pbj));
         props.toggle();

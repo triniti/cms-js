@@ -6,7 +6,9 @@ import {
   $getSelection,
   $getRoot,
   createCommand,
-  COMMAND_PRIORITY_EDITOR
+  COMMAND_PRIORITY_EDITOR,
+  COMMAND_PRIORITY_HIGH,
+  PASTE_COMMAND,
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getNearestBlockElementAncestorOrThrow, mergeRegister } from '@lexical/utils';
@@ -19,12 +21,14 @@ import blocksToEditor from '@triniti/cms/blocksmith/utils/blocksToEditor.js';
 import editorToBlocks from '@triniti/cms/blocksmith/utils/editorToBlocks.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm.js';
+import sanitizeNodes from '@triniti/cms/blocksmith/utils/sanitizeNodes.js';
 
 export const INSERT_BLOCK_COMMAND = createCommand();
 export const REMOVE_BLOCK_COMMAND = createCommand();
 export const REPLACE_BLOCK_COMMAND = createCommand();
 export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
 export const BLOCKSMITH_HYDRATION = 'blocksmith.hydration';
+export const BLOCKSMITH_SANITIZE = 'blocksmith.sanitize';
 
 export default function BlocksmithPlugin(props) {
   const { name = 'blocks', isVisible = false } = props;
@@ -133,6 +137,12 @@ export default function BlocksmithPlugin(props) {
         }
         return true;
       }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(PASTE_COMMAND, () => {
+        setTimeout(() => {
+          sanitizeNodes(editor);
+        });
+        return false;
+      }, COMMAND_PRIORITY_HIGH),
     );
   }, [editor]);
 
