@@ -178,7 +178,7 @@ export default function AssetForm(props) {
     return (
       <React.Fragment key={key}>
         <Loading color="dark">
-          Uploading {upload.name}
+          Uploading {upload.file.name}
         </Loading>
         {upload.cancelable && (
           <div className="d-flex justify-content-center">
@@ -192,7 +192,7 @@ export default function AssetForm(props) {
   }
 
   if (pbjxError) {
-    return <Loading key={key} error={`${upload.name}: ${pbjxError}`} />;
+    return <Loading key={key} error={`${upload.file.name}: ${pbjxError}`} />;
   }
 
   return (

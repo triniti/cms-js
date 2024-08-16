@@ -19,7 +19,7 @@ function UploadingItem(props) {
       onClick={handleClick}
     >
       <Spinner className="me-2" width="16" strokeWidth="8" size="sm" color="info" />
-      {upload.name}
+      {upload.file.name}
     </Button>
   );
 }
@@ -39,7 +39,7 @@ function CompletedItem(props) {
       onClick={handleClick}
     >
       <Icon imgSrc="check-outline" className="me-2" />
-      {upload.name}
+      {upload.file.name}
     </Button>
   );
 }
@@ -59,7 +59,7 @@ function FailedItem(props) {
       onClick={handleClick}
     >
       <Icon imgSrc="warning-outline-triangle" className="me-2" />
-      {upload.name} <Badge color="black" pill className="bg-opacity-25">{upload.status}</Badge>
+      {upload.file.name} <Badge color="black" pill className="bg-opacity-25">{upload.status}</Badge>
     </Button>
   );
 }
