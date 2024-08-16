@@ -1,5 +1,6 @@
 # TODO
 
+* asset preview in uploader (non image) doesn't fill container.
 * add save and close and save and publish on article screen? does anyone even use this?
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
 * ncr -- updateNode.js fix merging/state if updates occurred while editting, then restore expected_etag check

@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.3
+* dam :: uploader-modal, lowercase extension in file name when getting upload urls so the server side resolution of file name to type works.
+
+
 ## v1.0.2
 * Blocksmith :: Default blocks with aspect_ratio to auto
 * Blocksmith :: Sanitize after paste did in fact need to be subscribed at a higher priority to run.

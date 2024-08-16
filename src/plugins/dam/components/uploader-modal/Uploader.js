@@ -41,8 +41,8 @@ const getFileExtension = (file) => {
 
 const getCleanFileName = (file) => {
   const name = file.name.replace(/[^\w.]/g, '');
-  const ext = getFileExtension(file);
-  return name.replace(`.${ext}`, '') + '.' + ext;
+  const ext = getFileExtension(file) || '';
+  return name.replace(`.${ext}`, '') + '.' + ext.toLowerCase();
 };
 
 const getUploadUrls = async (files, app) => {
