@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v1.0.4
+* When creating a new teaser that has a target, copy over description and image_ref as well.
+* Wrap poll stats card answer text.
+* Remove gallery_seq from rendering in search assets screen, not really needed any more.
+
+
 ## v1.0.3
 * dam :: uploader-modal, lowercase extension in file name when getting upload urls so the server side resolution of file name to type works.
 
