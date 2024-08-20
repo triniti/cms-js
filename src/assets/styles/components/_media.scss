@@ -156,3 +156,16 @@
   background-color: var(--#{$prefix}dropdown-bg);
   --#{$prefix}border-color: var(--#{$prefix}light-border-subtle);
 }
+
+.dam-asset-preview {
+
+  .ratio-3x2,
+  .ratio-16x9 {
+    --bs-aspect-ratio: 100%;
+
+    video {
+      object-fit: cover;
+      border-radius: 6px;
+    }
+  }
+}

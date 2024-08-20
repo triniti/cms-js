@@ -14,12 +14,14 @@ function UploadingItem(props) {
     <Button
       outline
       size="sm"
-      className="d-flex justify-content-start text-truncate w-100 ms-0 me-0"
+      className="d-flex justify-content-start w-100 ms-0 me-0"
       color="light"
       onClick={handleClick}
     >
       <Spinner className="me-2" width="16" strokeWidth="8" size="sm" color="info" />
-      {upload.file.name}
+      <span className="text-truncate w-100 text-start">
+        {upload.file.name}
+      </span>
     </Button>
   );
 }
@@ -34,12 +36,14 @@ function CompletedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-flex justify-content-start text-truncate w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={"d-flex justify-content-start w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="success"
       onClick={handleClick}
     >
       <Icon imgSrc="check-outline" className="me-2" />
-      {upload.file.name}
+      <span className="text-truncate w-100 text-start">
+        {upload.file.name}
+      </span>
     </Button>
   );
 }
@@ -54,12 +58,14 @@ function FailedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-flex justify-content-start text-truncate w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={"d-flex justify-content-start w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="danger"
       onClick={handleClick}
     >
       <Icon imgSrc="warning-outline-triangle" className="me-2" />
-      {upload.file.name} <Badge color="black" pill className="bg-opacity-25">{upload.status}</Badge>
+      <span className="text-truncate w-100 text-start">
+        {upload.file.name} <Badge color="black" pill className="bg-opacity-25">{upload.status}</Badge>
+      </span>
     </Button>
   );
 }
