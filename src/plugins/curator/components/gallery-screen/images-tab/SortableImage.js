@@ -31,8 +31,8 @@ export default function SortableImage(props) {
   const style = {
     minWidth: '100px',
     width: 'calc(10% - 16px)',
-    boxShadow: isDragging ? "0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)" : undefined,
-    borderColor: isDragging ? "var(--bs-body-bg) !important" : undefined,
+    boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
+    borderColor: isDragging ? 'var(--bs-body-bg) !important' : undefined,
     transform: CSS.Transform.toString(transform),
     transition,
   };

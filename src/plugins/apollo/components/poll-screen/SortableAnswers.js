@@ -51,15 +51,14 @@ export default function SortableAnswers() {
             }
           };
 
-          const items = fields.value.map(o => `${o._id}`);
+          const items = fields.value.map(o => o._id);
 
           return (
             <DndContext onDragEnd={handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
               <SortableContext items={items} strategy={verticalListSortingStrategy}>
                 <ul className="sortable-list">
                   {fields.map((fname, index) => {
-                    const o = fields.value[index];
-                    const id = `${o._id}`;
+                    const id = fields.value[index]._id;
                     const handleRemove = () => fields.remove(index);
                     const handleUpdate = pbj => fields.update(index, pbj.toObject());
                     return (
