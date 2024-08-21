@@ -627,6 +627,10 @@ $focus-ring-opacity:    .5; // .25 !default
 $focus-ring-color:      rgba($secondary, $focus-ring-opacity) !default; // rgba($primary, $focus-ring-opacity) !default
 $focus-ring-blur:       0 !default;
 $focus-ring-box-shadow: 0 0 0 1px var(--#{$prefix}body-bg), 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color !default;
+$focus-ring-color-danger:      rgba($danger, $focus-ring-opacity) !default;
+$focus-ring-box-shadow-danger: 0 0 0 1px var(--#{$prefix}body-bg), 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color-danger !default;
+$focus-ring-color-success:      rgba($success, $focus-ring-opacity) !default;
+$focus-ring-box-shadow-success: 0 0 0 1px var(--#{$prefix}body-bg), 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color-success !default;
 // scss-docs-end focus-ring-variables
 
 // scss-docs-start caret-variables

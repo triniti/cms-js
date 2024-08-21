@@ -684,3 +684,11 @@ div:not(.ratio) > iframe {
   margin-left: auto;
   margin-right: auto;
 }
+
+.focus-ring-box-shadow-danger {
+  box-shadow: $focus-ring-box-shadow-danger;
+}
+
+.focus-ring-box-shadow-success {
+  box-shadow: $focus-ring-box-shadow-success;
+}
