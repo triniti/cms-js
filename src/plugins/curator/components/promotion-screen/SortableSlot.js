@@ -49,13 +49,13 @@ export default function SortableSlot(props) {
     <li
       ref={setNodeRef}
       key={id}
-      className="sortable-item d-flex flex-nowrap align-items-center"
+      className="sortable-item d-flex flex-nowrap align-items-center ps-1"
       data-id={id}
       data-index={index}
       style={style}
     >
       {editMode && (
-        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
+        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1">
           <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
             <Icon imgSrc="drag" />
           </button>
