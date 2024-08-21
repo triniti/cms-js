@@ -30,8 +30,9 @@ export default function SortableImage(props) {
 
   const style = {
     minWidth: '100px',
-    width: 'calc(10% - 8px)',
-    opacity: isDragging ? 0.4 : undefined,
+    width: 'calc(10% - 16px)',
+    boxShadow: isDragging ? "0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)" : undefined,
+    borderColor: isDragging ? "var(--bs-body-bg) !important" : undefined,
     transform: CSS.Transform.toString(transform),
     transition,
   };
@@ -40,7 +41,7 @@ export default function SortableImage(props) {
     <div
       ref={setNodeRef}
       key={id}
-      className="m-1"
+      className="border m-2 p-0 rounded-3 overflow-hidden"
       data-id={id}
       data-index={index}
       style={style}
@@ -53,7 +54,7 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        className={`border mb-0 ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`mb-0 ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
         style={{ cursor: 'grab' }}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0">
