@@ -36,7 +36,7 @@ function CompletedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-flex justify-content-start w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={'d-flex justify-content-start w-100' + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="success"
       onClick={handleClick}
     >
@@ -58,7 +58,7 @@ function FailedItem(props) {
   return (
     <Button
       size="sm"
-      className={"d-flex justify-content-start w-100" + (isActive ? ' active focus-ring-box-shadow' : '')}
+      className={'d-flex justify-content-start w-100' + (isActive ? ' active focus-ring-box-shadow' : '')}
       color="danger"
       onClick={handleClick}
     >

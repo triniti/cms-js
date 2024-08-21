@@ -5,6 +5,7 @@
 * When creating a new teaser that has a target, copy over description and image_ref as well.
 * Wrap poll stats card answer text.
 * Remove gallery_seq from rendering in search assets screen, not really needed any more.
+* Remove need for drag overlay in sortables.
 
 
 ## v1.0.3

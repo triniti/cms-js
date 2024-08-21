@@ -17,10 +17,9 @@ const renderingColors = {
 
 export default function SortableSlot(props) {
   const { editMode } = useFormContext();
-  const { asOverlay = false, onRemove, onUpdate, name: fieldName } = props;
+  const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
   const { name, widget_ref, rendering, _schema } = input.value;
-  const key = `${name}-${widget_ref}`;
   const curie = schemaToCurie(_schema);
   const { node: widget } = useNode(widget_ref);
 
@@ -31,7 +30,10 @@ export default function SortableSlot(props) {
     setNodeRef,
     transform = null,
     transition,
-  } = asOverlay ? {} : useSortable({ id: key });
+  } = useSortable({
+    id,
+    disabled: !editMode,
+  });
 
   const style = {
     opacity: isDragging ? 0.4 : undefined,
@@ -39,27 +41,25 @@ export default function SortableSlot(props) {
     transition,
   };
 
-  const conditionalProps = asOverlay ? {} : { ref: setNodeRef, 'data-id': key };
   const SlotModalWithPbj = useMemo(() => withPbj(SlotModal, curie, input.value), [curie, input.value]);
 
   return (
     <li
-      {...conditionalProps}
-      key={key}
+      ref={setNodeRef}
+      key={id}
       className="sortable-item d-flex flex-nowrap align-items-center"
+      data-id={id}
+      data-index={index}
       style={style}
     >
       {editMode && (
         <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
-          {!asOverlay && (
-            <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
-              <Icon imgSrc="drag" />
-            </button>
-          )}
-          {asOverlay && <span className="sortable-drag-handle btn-hover btn-hover-bg"><Icon imgSrc="drag" /></span>}
+          <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
+            <Icon imgSrc="drag" />
+          </button>
         </div>
       )}
-      <div className="d-flex p-1 ps-2 align-items-center fs-6">
+      <div className="d-flex p-1 align-items-center fs-6">
         {widget && (
           <>
             <Badge color="light" pill className="me-2">{name}</Badge>
