@@ -1,6 +1,5 @@
 # TODO
 
-* create-teaser-modal :: should we mirror what server side TeaserTransformer does in a subscriber?
 * add save and close and save and publish on article screen? does anyone even use this?
 * add presets to date picker field so user can have drop down of "+1 year, +5 year, etc."
 * ncr -- updateNode.js fix merging/state if updates occurred while editting, then restore expected_etag check
@@ -12,4 +11,5 @@
 * send purge cache command when asset variant is replaced.
 * dynamically determine duration of uploaded video or audio (like image dimensions)?
 * add alert when leaving gallery images tab with unsaved reordering
+* create-teaser-modal :: should we mirror what server side TeaserTransformer does in a subscriber?
 * Add node labels component (and maybe a batch operation?)
