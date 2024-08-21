@@ -2,6 +2,7 @@
 
 .spinner-border {
   color: $text-muted;
+  flex-shrink: 0;
 
   &.text-light {
     color: $text-muted !important;

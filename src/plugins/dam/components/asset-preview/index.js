@@ -8,7 +8,7 @@ import { Icon } from '@triniti/cms/components/index.js';
 function ArchiveAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
-      <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
+      <div className="ratio ratio-16x9 bg-body-secondary rounded-3">
         <Icon
           imgSrc="zip"
           className="position-absolute top-50 start-50 translate-middle"
@@ -30,7 +30,7 @@ function AudioAsset({ downloadUrl }) {
 function CodeAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
-      <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
+      <div className="ratio ratio-3x2 bg-body-secondary rounded-3">
         <Icon
           imgSrc="code"
           className="position-absolute top-50 start-50 translate-middle"
@@ -46,7 +46,7 @@ function CodeAsset({ downloadUrl }) {
 function DocumentAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
-      <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
+      <div className="ratio ratio-3x2 bg-body-secondary rounded-3">
         <Icon
           imgSrc="document"
           className="position-absolute top-50 start-50 translate-middle"
@@ -62,8 +62,10 @@ function DocumentAsset({ downloadUrl }) {
 function ImageAsset({ id, downloadUrl }) {
   const previewUrl = damUrl(id, '1by1', 'sm');
   return (
-    <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-inline-block rounded-3">
-      <Media src={previewUrl} alt="" width="100%" height="auto" object className="rounded-3" />
+    <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
+      <div className="ratio ratio-1x1 bg-body-secondary rounded-3">
+        <Media src={previewUrl} alt="" width="100%" height="auto" object className="rounded-3" />
+      </div>
     </a>
   );
 }
@@ -71,7 +73,7 @@ function ImageAsset({ id, downloadUrl }) {
 function UnknownAsset({ downloadUrl }) {
   return (
     <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-block rounded-3">
-      <div className="ratio ratio-16x9 bg-body-secondary rounded-3 mb-3">
+      <div className="ratio ratio-3x2 bg-body-secondary rounded-3">
         <Icon
           imgSrc="question-outline"
           className="position-absolute top-50 start-50 translate-middle"

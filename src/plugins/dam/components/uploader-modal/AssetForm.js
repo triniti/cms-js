@@ -39,7 +39,7 @@ function AssetDetails(props) {
     <>
       <Row key={`${id}-preview`} className="mb-4">
         <Col sm={4}>
-          <div className="ratio ratio-1x1">
+          <div className="w-100 dam-asset-preview ratio ratio-1x1">
             <AssetPreview id={node.get('_id')} />
           </div>
         </Col>

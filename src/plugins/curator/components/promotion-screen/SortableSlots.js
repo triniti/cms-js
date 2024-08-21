@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import isEmpty from 'lodash-es/isEmpty.js';
-import noop from 'lodash-es/noop.js';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
 import { FieldArray } from 'react-final-form-arrays';
 import { CreateModalButton, useFormContext, withPbj } from '@triniti/cms/components/index.js';
@@ -8,7 +7,6 @@ import SlotModal from '@triniti/cms/plugins/curator/components/promotion-screen/
 import SortableSlot from '@triniti/cms/plugins/curator/components/promotion-screen/SortableSlot.js';
 import {
   DndContext,
-  DragOverlay,
   closestCenter,
   KeyboardSensor,
   PointerSensor,
@@ -24,7 +22,6 @@ import {
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
 export default function SortableSlots() {
-  const [activeIndex, setActiveIndex] = useState(null);
   const { editMode, form } = useFormContext();
   const { push } = form.mutators;
   const sensors = useSensors(
@@ -45,11 +42,6 @@ export default function SortableSlots() {
             return <input className="form-control" readOnly value="No slots" />;
           }
 
-          const handleDragCancel = () => setActiveIndex(null);
-          const handleDragStart = (event) => {
-            const index = fields.value.findIndex(o => `${o.name}-${o.widget_ref}` === event.active.id);
-            setActiveIndex(index);
-          };
           const handleDragEnd = (event) => {
             const { active, over } = event;
             const oldIndex = fields.value.findIndex(o => `${o.name}-${o.widget_ref}` === active.id);
@@ -57,25 +49,24 @@ export default function SortableSlots() {
             if (active.id !== over.id) {
               fields.move(oldIndex, newIndex);
             }
-            setActiveIndex(null);
           };
 
+          const items = fields.value.map(o => `${o.name}-${o.widget_ref}`);
+
           return (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragCancel={handleDragCancel}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext items={fields.value || []} strategy={verticalListSortingStrategy}>
+            <DndContext onDragEnd={handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
+              <SortableContext items={items} strategy={verticalListSortingStrategy}>
                 <ul className="sortable-list">
                   {fields.map((fname, index) => {
+                    const o = fields.value[index];
+                    const id = `${o.name}-${o.widget_ref}`;
                     const handleRemove = () => fields.remove(index);
                     const handleUpdate = pbj => fields.update(index, pbj.toObject());
                     return (
                       <SortableSlot
-                        key={fname}
+                        key={id}
+                        id={id}
+                        index={index}
                         name={fname}
                         pbjName="slots"
                         onDragEnd={handleDragEnd}
@@ -86,18 +77,6 @@ export default function SortableSlots() {
                   })}
                 </ul>
               </SortableContext>
-              <DragOverlay>
-                {activeIndex !== null && (
-                  <SortableSlot
-                    name={`slots[${activeIndex}]`}
-                    pbjName="slots"
-                    onDragEnd={noop}
-                    onRemove={noop}
-                    onUpdate={noop}
-                    asOverlay
-                  />
-                )}
-              </DragOverlay>
             </DndContext>
           );
         }}

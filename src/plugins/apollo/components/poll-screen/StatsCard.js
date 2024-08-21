@@ -34,18 +34,18 @@ export default function StatsCard(props) {
       <Table className="border-bottom border-light mb-0">
         <tbody>
         <tr>
-          <th className="nowrap pe-0" scope="row">Total Votes:</th>
-          <td>{numberFormatter.format(total)}</td>
-          <td>&nbsp;</td>
+          <th className="pe-1 nowrap" scope="row">Total Votes:</th>
+          <td className="nowrap pe-2" style={{ width: '1%' }}>{numberFormatter.format(total)}</td>
+          <td className="nowrap pe-5">&nbsp;</td>
         </tr>
         {node.has('answer_votes') && Object.entries(node.get('answer_votes')).map(([key, value]) => {
           const percent = value / total;
           const answer = answers[key] ? answers[key].get('title') : key;
           return (
             <tr key={key}>
-              <th className="nowrap pe-0" scope="row">{answer}:</th>
-              <td>{numberFormatter.format(value)}</td>
-              <td className="w-100">
+              <th className="pe-1" scope="row">{answer}:</th>
+              <td className="nowrap pe-2" style={{ width: '1%' }}>{numberFormatter.format(value)}</td>
+              <td className="nowrap pe-5" style={{ width: '1%' }}>
                 <Badge color="light">{percentFormatter.format(percent)}</Badge>
               </td>
             </tr>

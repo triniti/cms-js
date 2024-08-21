@@ -50,7 +50,9 @@ function SortableValue(props) {
   });
 
   const style = {
-    opacity: isDragging ? 0.4 : undefined,
+    opacity: isDragging ? 0.75 : undefined,
+    boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
+    borderColor: isDragging ? 'var(--bs-secondary)' : undefined,
     transform: CSS.Transform.toString(transform),
     transition,
   };

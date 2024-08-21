@@ -99,7 +99,6 @@ function SearchAssetsScreen(props) {
               {response.get('nodes', []).map(node => {
                 const ref = node.generateNodeRef();
                 const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
-                const seq = node.get('gallery_seq');
                 const transcodingStatus = `${node.get('transcoding_status', '')}`;
                 const handleRowClick = createRowClickHandler(navigate, node);
 
@@ -108,9 +107,6 @@ function SearchAssetsScreen(props) {
                     <td data-ignore-row-click={true}><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
                     <td data-ignore-row-click={true} className="text-center"><AssetIcon id={node.get('_id')} /></td>
                     <td className="text-break w-100">
-                      {seq > 0 && (
-                        <Badge pill color="light" className="me-1">Seq:{seq}</Badge>
-                      )}
                       {node.get('title')}
                       {transcodingStatus && (
                         <Badge pill className={`ms-1 status-${transcodingStatus}`}>Transcoding:{transcodingStatus}</Badge>

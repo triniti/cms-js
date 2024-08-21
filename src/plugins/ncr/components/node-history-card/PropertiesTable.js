@@ -7,7 +7,7 @@ export default function PropertiesTable({ data }) {
     <Table striped responsive>
       <thead>
       <tr>
-        <th style={{ width: "200px" }}>Field</th>
+        <th style={{ width: '200px' }}>Field</th>
         <th>Data</th>
       </tr>
       </thead>

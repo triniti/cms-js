@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import isEmpty from 'lodash-es/isEmpty.js';
-import noop from 'lodash-es/noop.js';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
 import { FieldArray } from 'react-final-form-arrays';
 import { CreateModalButton, useFormContext, withPbj } from '@triniti/cms/components/index.js';
@@ -8,7 +7,6 @@ import AnswerModal from '@triniti/cms/plugins/apollo/components/poll-screen/Answ
 import SortableAnswer from '@triniti/cms/plugins/apollo/components/poll-screen/SortableAnswer.js';
 import {
   DndContext,
-  DragOverlay,
   closestCenter,
   KeyboardSensor,
   PointerSensor,
@@ -24,7 +22,6 @@ import {
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
 export default function SortableAnswers() {
-  const [activeIndex, setActiveIndex] = useState(null);
   const { editMode, form } = useFormContext();
   const { push } = form.mutators;
   const sensors = useSensors(
@@ -45,11 +42,6 @@ export default function SortableAnswers() {
             return <input className="form-control" readOnly value="No answers" />;
           }
 
-          const handleDragCancel = () => setActiveIndex(null);
-          const handleDragStart = (event) => {
-            const index = fields.value.findIndex(o => o._id === event.active.id);
-            setActiveIndex(index);
-          };
           const handleDragEnd = (event) => {
             const { active, over } = event;
             const oldIndex = fields.value.findIndex(o => o._id === active.id);
@@ -57,25 +49,23 @@ export default function SortableAnswers() {
             if (active.id !== over.id) {
               fields.move(oldIndex, newIndex);
             }
-            setActiveIndex(null);
           };
 
+          const items = fields.value.map(o => o._id);
+
           return (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragCancel={handleDragCancel}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext items={fields.value || []} strategy={verticalListSortingStrategy}>
+            <DndContext onDragEnd={handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
+              <SortableContext items={items} strategy={verticalListSortingStrategy}>
                 <ul className="sortable-list">
                   {fields.map((fname, index) => {
+                    const id = fields.value[index]._id;
                     const handleRemove = () => fields.remove(index);
                     const handleUpdate = pbj => fields.update(index, pbj.toObject());
                     return (
                       <SortableAnswer
-                        key={fname}
+                        key={id}
+                        id={id}
+                        index={index}
                         name={fname}
                         pbjName="answers"
                         onDragEnd={handleDragEnd}
@@ -86,18 +76,6 @@ export default function SortableAnswers() {
                   })}
                 </ul>
               </SortableContext>
-              <DragOverlay>
-                {activeIndex !== null && (
-                  <SortableAnswer
-                    name={`answers[${activeIndex}]`}
-                    pbjName="answers"
-                    onDragEnd={noop}
-                    onRemove={noop}
-                    onUpdate={noop}
-                    asOverlay
-                  />
-                )}
-              </DragOverlay>
             </DndContext>
           );
         }}

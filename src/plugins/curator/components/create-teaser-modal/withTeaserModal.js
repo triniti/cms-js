@@ -13,7 +13,7 @@ import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 
-const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
+const getTarget = ref => getNode(getInstance().getRedux().getState(), ref);
 
 export default function withTeaserModal(ModalFields) {
   return withForm(function TeaserModal(props) {
@@ -30,11 +30,41 @@ export default function withTeaserModal(ModalFields) {
     delegate.handleSubmit = async (values) => {
       try {
         await progressIndicator.show(`Creating ${label}...`);
-        const content = getContent(values.target_ref);
-        if (content) {
-          values.title = content.get('title');
+        const target = getTarget(values.target_ref);
+        if (target) {
+          const targetSchema = target.schema();
           values.sync_with_target = true;
+          values.title = target.get('display_title', target.get('title'));
+
+          if (target.has('image_ref')) {
+            values.image_ref = target.get('image_ref').toString();
+          }
+
+          if (targetSchema.hasMixin('triniti:dam:mixin:image-asset')) {
+            values.image_ref = values.target_ref;
+          }
+
+          if (target.has('description')) {
+            values.description = target.get('description');
+          }
+
+          if (!values.description && target.has('meta_description')) {
+            values.description = target.get('meta_description');
+          }
+
+          if (!values.description && target.has('blocks')) {
+            const firstTextBlock = target.get('blocks').find((block) => {
+              return block.schema().hasMixin('triniti:canvas:mixin:text-block') && block.has('text');
+            });
+
+            if (firstTextBlock) {
+              values.description = firstTextBlock.get('text')
+                .replace(/(<span.+?>|<a.+?>|<\/?(a|p|ul|ol|span|strong|em|del|u)>)/g, '')
+                .replace(/(<br>|<\/li><li>)/g, ' ');
+            }
+          }
         }
+
         await dispatch(createNode(values, form, pbj));
         props.toggle();
         await progressIndicator.close();
