@@ -100,8 +100,21 @@ export default function PublishForm(props) {
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
     }
   };
-  const handleCancel = () => setAction(null);
-  const handleSelect = evt => setAction(kebabCase(evt.target.innerText));
+
+  const handleCancel = () => {
+    setAction(null);
+    setPublishAt(node.get('published_at') || new Date());
+  };
+
+  const handleSelect = (evt) => {
+    const newAction = kebabCase(evt.target.innerText);
+    if (newAction === 'publish') {
+      setPublishAt(new Date());
+    } else {
+      setPublishAt(node.get('published_at') || new Date());
+    }
+    setAction(newAction);
+  };
 
   return (
     <>
