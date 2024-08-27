@@ -39,6 +39,7 @@ export default function SortableSlot(props) {
     opacity: isDragging ? 0.75 : undefined,
     boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
     borderColor: isDragging ? 'var(--bs-secondary)' : undefined,
+    zIndex: isDragging ? '100' : undefined,
     transform: CSS.Transform.toString(transform),
     transition,
   };
@@ -49,13 +50,13 @@ export default function SortableSlot(props) {
     <li
       ref={setNodeRef}
       key={id}
-      className="sortable-item d-flex flex-nowrap align-items-center"
+      className="sortable-item d-flex flex-nowrap align-items-center ps-1"
       data-id={id}
       data-index={index}
       style={style}
     >
       {editMode && (
-        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1 ps-1">
+        <div className="d-inline-flex flex-shrink-0 align-self-stretch my-1">
           <button className="sortable-drag-handle btn-hover btn-hover-bg" {...attributes} {...listeners}>
             <Icon imgSrc="drag" />
           </button>

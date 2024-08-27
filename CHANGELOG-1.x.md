@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v1.0.5
+* node-status-card :: When going from schedule to publish make sure to reset the publish date to now.
+* sortables style improvements.
+
+
 ## v1.0.4
 * When creating a new teaser that has a target, copy over description and image_ref as well.
 * Wrap poll stats card answer text.
