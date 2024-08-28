@@ -27,6 +27,12 @@ function ArticleBlockPreview(props) {
             <th className="nowrap ps-2 pt-0" scope="row">Title:</th>
             <td className="w-100 text-break pt-0">{block.get('title', node.get('title'))}</td>
           </tr>
+          {block.has('link_text') && (
+            <tr>
+              <th className="nowrap ps-2" scope="row">Link Text:</th>
+              <td className="w-100 text-break">{block.get('link_text')}</td>
+            </tr>
+          )}
           <tr>
             <th colSpan={2} className="nowrap ps-2 fs-5" scope="row">
               <Badge color="dark" className={`rounded-pill status-${status}`}>{status}</Badge>
