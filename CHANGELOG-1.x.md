@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.6
+* key-values-field :: allow key to start with a number.
+
+
 ## v1.0.5
 * node-status-card :: When going from schedule to publish make sure to reset the publish date to now.
 * sortables style improvements.
