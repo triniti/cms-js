@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## vN.N.N
+* poll-status-card :: fixing default value.
 
 ## v1.0.6
 * key-values-field :: allow key to start with a number.
