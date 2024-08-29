@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## vN.N.N
+* poll-status-card :: fixing default value.
 
 ## v1.0.5
 * node-status-card :: When going from schedule to publish make sure to reset the publish date to now.
