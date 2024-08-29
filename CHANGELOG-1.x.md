@@ -1,11 +1,10 @@
 # CHANGELOG
 
-## vN.N.N
-* poll-status-card :: fixing default value.
 
 ## v1.0.6
 * key-values-field :: allow key to start with a number.
 * Blocksmith :: article-block-preview, add link_text to table.
+* poll-screen :: fixing default value on answers in StatsCard.
 
 
 ## v1.0.5
@@ -37,7 +36,7 @@
 ## v1.0.0
 * Blocksmith :: Enable select (just click the block) so you can copy/cut/paste them.
 * person-picker-field :: show image in the select.
-* gallery screen :: images tab, make the link to image asset edit mode.
+* gallery-screen :: images tab, make the link to image asset edit mode.
 
 
 ## v1.0.0-beta.13
