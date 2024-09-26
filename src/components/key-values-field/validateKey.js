@@ -1,4 +1,4 @@
-export const VALID_KEY_PATTERN = /^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,126}$/;
+export const VALID_KEY_PATTERN = /^[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,126}$/;
 
 const allowMutantKeys = { sendgrid_senders: true };
 

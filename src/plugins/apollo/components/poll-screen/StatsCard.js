@@ -17,7 +17,7 @@ export default function StatsCard(props) {
   }
 
   const total = node.get('votes');
-  const answers = poll.get('answers').reduce((acc, val) => {
+  const answers = poll.get('answers', []).reduce((acc, val) => {
     acc[`${val.get('_id')}`] = val;
     return acc;
   }, {});
