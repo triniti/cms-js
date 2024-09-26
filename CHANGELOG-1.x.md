@@ -5,6 +5,7 @@
 * key-values-field :: allow key to start with a number.
 * Blocksmith :: article-block-preview, add link_text to table.
 * poll-screen :: fixing default value on answers in StatsCard.
+* upgrade to date-fns 4.1.x
 
 
 ## v1.0.5
