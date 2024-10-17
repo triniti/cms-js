@@ -86,11 +86,14 @@ function BlockPreview(props) {
         </CardBody>
 
         {editMode && (
-          <Button color="insert-block" onClick={onInsertBlock}>
-            <div className="rounded-circle btn-primary p-1">
-              <Icon imgSrc="plus" alt="Insert Block" size="md" />
-            </div>
-          </Button>
+          <div className="insert-block-buttons">
+            <Button color="primary" className="rounded-pill" size="sm" onClick={onInsertBlock}>
+              Text
+            </Button>
+            <Button color="primary" className="rounded-circle p-1" size="sm" onClick={onInsertBlock}>
+              <Icon imgSrc="plus" alt="Insert Block" size="sd" />
+            </Button>
+          </div>
         )}
       </Card>
     </div>

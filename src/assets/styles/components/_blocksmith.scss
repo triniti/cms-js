@@ -176,31 +176,33 @@
   }
 }
 
-.btn-insert-block {
+.insert-block-buttons {
   position: absolute;
-  bottom: -15px;
+  bottom: -21px;
   margin: 0 .5rem;
   padding: 0;
   width: calc(100% - 1rem);
   min-height: 30px;
   border: none;
   box-shadow: none !important;
+  text-align: center;
 
-  > div {
+  > .btn {
     color: $white;
-    background-color: var(--#{$prefix}btn-bg);
     box-shadow: $box-shadow;
     opacity: 0;
     transition: opacity $transition;
+    font-weight: 700;
+    text-transform: uppercase;
   }
   &:hover {
-    > div {
+    > .btn {
       opacity: 1;
     }
   }
   .blocksmith-input > div:last-child & {
     padding-bottom: 18px;
-    bottom: -33px;
+    bottom: -39px;
   }
 }
 
