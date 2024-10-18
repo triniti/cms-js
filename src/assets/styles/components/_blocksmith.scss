@@ -193,7 +193,7 @@
     opacity: 0;
     transition: opacity $transition;
     font-weight: 700;
-    text-transform: uppercase;
+    padding-left: .625rem;
   }
   &:hover {
     > .btn {

@@ -88,10 +88,10 @@ function BlockPreview(props) {
         {editMode && (
           <div className="insert-block-buttons">
             <Button color="primary" className="rounded-pill" size="sm" onClick={onInsertBlock}>
-              Text
+              <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Text
             </Button>
-            <Button color="primary" className="rounded-circle p-1" size="sm" onClick={onInsertBlock}>
-              <Icon imgSrc="plus" alt="Insert Block" size="sd" />
+            <Button color="primary" className="rounded-pill" size="sm" onClick={onInsertBlock}>
+              <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Insert Block
             </Button>
           </div>
         )}

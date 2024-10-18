@@ -38,7 +38,7 @@ function ImageBlockPreview(props) {
           </tr>
           {block.has('aspect_ratio') && (
             <tr>
-              <th className="nowrap ps-2" scope="row">Ratio:</th>
+              <th className="nowrap ps-2" scope="row">Aspect Ratio:</th>
               <td className="w-100 text-break">{version}</td>
             </tr>
           )}
