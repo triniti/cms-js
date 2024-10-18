@@ -36,6 +36,12 @@ function ImageBlockPreview(props) {
               {block.get('title') || node.get('display_title') || node.get('title')}
             </td>
           </tr>
+          {block.has('aspect_ratio') && (
+            <tr>
+              <th className="nowrap ps-2" scope="row">Ratio:</th>
+              <td className="w-100 text-break">{version}</td>
+            </tr>
+          )}
           {block.has('caption') && (
             <tr>
               <th className="nowrap ps-2" scope="row">Caption:</th>
