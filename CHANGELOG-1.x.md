@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.7
+* Blocksmith :: Add insert text and block to bottom of block preview.
+
+
 ## v1.0.6
 * key-values-field :: allow key to start with a number.
 * Blocksmith :: article-block-preview, add link_text to table.
