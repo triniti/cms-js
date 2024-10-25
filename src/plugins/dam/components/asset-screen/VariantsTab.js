@@ -9,22 +9,11 @@ import sendAlert from '@triniti/cms/actions/sendAlert.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import uploadFile from '@triniti/cms/plugins/dam/utils/uploadFile.js';
+import { aspectRatios } from '@triniti/cms/plugins/dam/constants.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import { Loading } from '@triniti/cms/components/index.js';
 
-const variants = {
-  '16by9': 'Widescreen - 16:9',
-  '5by4': 'Horizontal - 5:4',
-  '4by3': 'Horizontal - 4:3',
-  '3by2': 'Horizontal - 3:2',
-  '1by1': 'Square - 1:1',
-  '2by3': 'Vertical - 2:3',
-  '3by4': 'Vertical - 3:4',
-  '4by5': 'Vertical - 4:5',
-  '5by6': 'Gallery - 5:6',
-  '6by5': 'Gallery - 6:5',
-  '9by16': 'Long Vertical - 9:16',
-};
+const variants = aspectRatios;
 
 const getUploadUrl = async (assetId, version) => {
   const filename = `${assetId.getUuid()}_${version}.${assetId.getExt()}`;
