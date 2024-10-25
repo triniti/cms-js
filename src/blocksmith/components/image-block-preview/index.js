@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, Button, Col, Media, Row, Table } from 'reactstrap';
+import { aspectRatios } from '@triniti/cms/plugins/dam/constants.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
@@ -7,7 +8,7 @@ import withBlockPreview from '@triniti/cms/blocksmith/components/with-block-prev
 
 function ImageBlockPreview(props) {
   const { block, node } = props;
-  const ratio = `${block.get('aspect_ratio', '1by1')}`;
+  const ratio = `${block.get('aspect_ratio', 'auto')}`;
   const version = ratio === 'auto' ? '1by1' : ratio;
   const imageUrl = damUrl(node.get('_id'), version, 'sm');
   const status = node.get('status').getValue();
@@ -36,12 +37,10 @@ function ImageBlockPreview(props) {
               {block.get('title') || node.get('display_title') || node.get('title')}
             </td>
           </tr>
-          {block.has('aspect_ratio') && (
-            <tr>
-              <th className="nowrap ps-2" scope="row">Aspect Ratio:</th>
-              <td className="w-100 text-break">{version}</td>
-            </tr>
-          )}
+          <tr>
+            <th className="nowrap ps-2" scope="row">Aspect Ratio:</th>
+            <td className="w-100 text-break">{aspectRatios[ratio] || ratio.toUpperCase()}</td>
+          </tr>
           {block.has('caption') && (
             <tr>
               <th className="nowrap ps-2" scope="row">Caption:</th>

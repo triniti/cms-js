@@ -3,6 +3,7 @@
 
 ## v1.0.7
 * Blocksmith :: Add insert text and block to bottom of block preview.
+* Blocksmith :: Add human friendly aspect ratio to document, gallery and image block preview.
 
 
 ## v1.0.6
