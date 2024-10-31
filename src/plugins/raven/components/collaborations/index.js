@@ -20,9 +20,8 @@ function TableRow(props) {
     return null;
   }
 
-  const ref = node.generateNodeRef();
-  const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
   const schema = node.schema();
+  const canUpdate = policy.isGranted(`${schema.getQName().getMessage()}:update`);
   const handleRowClick = createRowClickHandler(navigate, node);
 
   return (
