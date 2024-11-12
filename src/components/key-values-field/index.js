@@ -21,6 +21,7 @@ export default function KeyValuesField(props) {
     required,
     groupClassName = '',
     selectKeyProps,
+    newValue,
     ...rest
   } = props;
   const { editMode, form } = useFormContext();
@@ -66,7 +67,7 @@ export default function KeyValuesField(props) {
         }}
       </FieldArray>
       {editMode && (
-        <Button outline color="light" onClick={() => push(name)}>
+        <Button outline color="light" onClick={() => push(name, newValue)}>
           <Icon imgSrc="plus-outline" size="sm" className="me-2" /> Add
         </Button>
       )}

@@ -3,6 +3,7 @@
 
 ## v1.0.8
 * Raven :: Adding edit button back into collaborations list.
+* key-values-field :: Adding `newValue` support.
 
 
 ## v1.0.7
