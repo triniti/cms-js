@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <script>
+      function getUrlParameters() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        const paramsObject = {};
+      
+        for (const [key, value] of params.entries()) {
+            paramsObject[key] = value;
+        }
+        
+        return paramsObject;
+      }
+      
+      const params = getUrlParameters();
+    </script>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <div id="igmedia"></div>
+  </body>
+  <script async defer>
+    switch(params.type) {
+      case 'fbpost':
+        if (!document.getElementById('fb-root')) {
+          const body = document.body.firstChild;
+          const fbRoot = document.createElement('div');
+          fbRoot.setAttribute('id', 'fb-root');
+          body.parentNode.insertBefore(fbRoot, body);
+        }
+
+        (function(d, s, id) {
+          let js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        setTimeout((t) => {
+          if (window.FB) {
+            window.FB.XFBML.parse(t.fbPost.parentNode);
+          }
+        }, 0, this);
+
+        document.open();
+        document.write('<div class="fb-post" data-href="' + params.href + '" data-show-text="' + (params.show_text || true) + '"data-width="' + params.width + '"><' + '/div>');
+        document.close();
+        break;
+      case 'igmedia':
+        document.open();
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.instagram.com/embed.js';
+        script.onload = () => {
+          window.instgrm.Embeds.process();
+        };
+        document.getElementById('igmedia').appendChild(script);
+
+        const instagramBlock = document.createElement('blockquote');
+        instagramBlock.className = 'instagram-media';
+        if (params['hidecaption'] === 'false') {
+          instagramBlock.setAttribute('data-instgrm-captioned', '');
+        }
+        instagramBlock.setAttribute('data-instgrm-permalink', params.url);
+        document.getElementById('igmedia').appendChild(instagramBlock);
+        document.close();
+        break;
+      default:
+        break;
+    }
+
+  </script>
+</html>
