@@ -1,9 +1,12 @@
 # CHANGELOG
 
 
-## v1.0.8
+## v1.1.0
 * Raven :: Adding edit button back into collaborations list.
 * key-values-field :: Adding `newValue` support.
+* timeline-screen :: Add code tab.
+* Update lexical packages to 0.24.0.
+* Update @dnd-kit packages latest.
 
 
 ## v1.0.7

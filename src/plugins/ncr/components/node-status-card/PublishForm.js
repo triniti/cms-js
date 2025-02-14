@@ -159,7 +159,7 @@ export default function PublishForm(props) {
         <Row>
           <Col>
             <div className="form-group">
-              <DatePicker.default
+              <DatePicker
                 selected={publishAt}
                 onChange={date => date && setPublishAt(date)}
                 inline

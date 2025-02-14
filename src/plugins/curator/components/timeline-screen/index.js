@@ -5,6 +5,7 @@ import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import DetailsTab from '@triniti/cms/plugins/curator/components/timeline-screen/DetailsTab.js';
+import CodeTab from '@triniti/cms/plugins/common/components/code-tab/index.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
@@ -46,6 +47,7 @@ function TimelineScreen(props) {
         { text: 'Details', to: urls.tab('details') },
         { text: 'Taxonomy', to: urls.tab('taxonomy') },
         { text: 'SEO', to: urls.tab('seo') },
+        { text: 'Code', to: urls.tab('code') },
         { text: 'History', to: urls.tab('history') },
         { text: 'Raw', to: urls.tab('raw') },
       ]}
@@ -117,6 +119,9 @@ function TimelineScreen(props) {
           </TabPane>
           <TabPane tabId="seo">
             <SeoTab {...props} />
+          </TabPane>
+          <TabPane tabId="code">
+            <CodeTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />
