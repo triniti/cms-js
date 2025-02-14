@@ -58,6 +58,15 @@ module.exports = (webpackEnv = {}) => {
     context: resolve(__dirname, 'src'),
     resolve: {
       extensions: ['*', '.js', '.jsx', '.json'],
+      fallback: {
+        buffer: require.resolve('buffer/'),
+        crypto: require.resolve('crypto-browserify'),
+        fs: false,
+        path: require.resolve('path-browserify'),
+        stream: require.resolve('stream-browserify'),
+        util: require.resolve('util/'),
+        vm: false,
+      }
     },
     externals: {},
     module: {
@@ -148,8 +157,15 @@ module.exports = (webpackEnv = {}) => {
         chunkFilename: 'chunks/[id].css',
       }),
 
+      /*
       new NodePolyfillPlugin({
-        additionalAliases: ['process'],
+        additionalAliases: ['buffer', 'Buffer', 'process'],
+      }),
+       */
+
+      new webpack.ProvidePlugin({
+        process: 'process/browser.js',
+        Buffer: ['buffer', 'Buffer'],
       }),
 
       new webpack.DefinePlugin(Object.entries(env).reduce((acc, pair) => {

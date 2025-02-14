@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.1.0
+* Raven :: Adding edit button back into collaborations list.
+* key-values-field :: Adding `newValue` support.
+* timeline-screen :: Add code tab.
+* Update lexical packages to 0.24.0.
+* Update @dnd-kit packages latest.
+
+
 ## v1.0.7
 * Blocksmith :: Add insert text and block to bottom of block preview.
 * Blocksmith :: Add human friendly aspect ratio to document, gallery and image block preview.

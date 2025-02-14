@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Badge, Button, Card, CardBody, Table } from 'reactstrap';
 import { Icon } from '@triniti/cms/components/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import getCollaborations from '@triniti/cms/plugins/raven/selectors/getCollaborations.js';
@@ -14,11 +15,13 @@ function TableRow(props) {
   const { nodeRef } = props;
   const navigate = useNavigate();
   const { node } = useNode(nodeRef);
+  const policy = usePolicy();
   if (!node) {
     return null;
   }
 
   const schema = node.schema();
+  const canUpdate = policy.isGranted(`${schema.getQName().getMessage()}:update`);
   const handleRowClick = createRowClickHandler(navigate, node);
 
   return (
@@ -37,6 +40,13 @@ function TableRow(props) {
             <Icon imgSrc="eye" alt="view" />
           </Button>
         </Link>
+        {canUpdate && (
+          <Link to={nodeUrl(node, 'edit')}>
+            <Button color="hover" tag="span">
+              <Icon imgSrc="pencil" alt="edit" />
+            </Button>
+          </Link>
+        )}
         <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
           <Button color="hover" tag="span">
             <Icon imgSrc="external" alt="open" />

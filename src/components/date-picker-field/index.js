@@ -60,7 +60,7 @@ export default function DatePickerField(props) {
         </InputGroupText>
         {editMode && !readOnly && (
           <>
-            <DatePicker.default
+            <DatePicker
               id={name}
               name={name}
               className={className}
