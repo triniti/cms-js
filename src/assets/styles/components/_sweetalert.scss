@@ -11,17 +11,21 @@
     border-radius: $border-radius-lg;
     font-size: .875rem;
     box-shadow: $shadow-depth-6;
+  }
+  &.swal2-center .swal2-popup {
     padding: 2.5rem 2rem 1.5rem 2rem;
   }
   .swal2-popup .swal2-title {
     color: var(--#{$prefix}body-color);
-    font-size: 1.675rem;
     font-weight: 500;
     letter-spacing: .008em;
 
     &:empty {
       display: none;
     }
+  }
+  &.swal2-center .swal2-popup .swal2-title {
+    font-size: 1.675rem;
   }
   .swal2-popup .swal2-content {
     color: var(--#{$prefix}tertiary-color);

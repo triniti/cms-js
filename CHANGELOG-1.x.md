@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.1.1
+* Fix sizing on sweetalert toastage.
+
+
 ## v1.1.0
 * Raven :: Adding edit button back into collaborations list.
 * key-values-field :: Adding `newValue` support.
