@@ -39,10 +39,6 @@ export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run, galleryRef } = props;
   const [isOpen, setIsOpen] = useState(false);
 
-  if (galleryRef) {
-    request.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
-  }
-
   const toggle = () => setIsOpen(!isOpen);
 
   delegate.handleSubmit = async (values) => {
@@ -85,6 +81,13 @@ export default function SearchForm(props) {
 
     form.submit();
   }, [q, request]);
+
+  useEffect(() => {
+    if (galleryRef) {
+      request.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
+      form.change('gallery_ref', galleryRef);
+    }
+  }, []);
 
   return (
     <Form onSubmit={handleSubmit} autoComplete="off" className="sticky-top shadow-depth-3 w-100">
