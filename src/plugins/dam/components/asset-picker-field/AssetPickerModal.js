@@ -13,7 +13,6 @@ export default function AssetPickerModal(props) {
     header = 'Select Asset',
     defaultTab = 'linked',
     linkedRef,
-    galleryRef,
     uploaderProps = {},
   } = props;
   const [uploaderOpen, setUploaderOpen] = useState(false);
