@@ -36,6 +36,7 @@ export default function AssetPickerField(props) {
     pbjName,
     required = false,
     readOnly = false,
+    galleryRef = '',
     groupClassName = '',
     Preview = DefaultPreview,
     icon = 'document',
@@ -106,6 +107,7 @@ export default function AssetPickerField(props) {
             outline
             modal={AssetPickerModal}
             modalProps={{
+              galleryRef,
               onSelectAsset: handleSelectAsset,
               linkedRef: nodeRef,
               header: `Select ${label}`,

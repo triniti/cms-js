@@ -7,6 +7,7 @@ import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/
 import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/AsideField.js';
 
 function GalleryBlockModal(props) {
+  const { form } = props;
   const { nodeRef: containerRef } = props.containerFormContext;
   return (
     <>
@@ -16,6 +17,7 @@ function GalleryBlockModal(props) {
         label="Poster Image"
         description="When not set, the gallery's image will be used."
         nodeRef={containerRef}
+        galleryRef={form.getFieldState('node_ref')?.value}
       />
       <SwitchField
         name="start_at_poster"

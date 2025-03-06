@@ -1,6 +1,9 @@
 # CHANGELOG
 
 
+## vN.N.N
+* AssetPicker :: Adding support for selecting image from gallery.
+
 ## v1.1.1
 * Fix sizing on sweetalert toastage.
 
