@@ -7,8 +7,8 @@ import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/
 import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/AsideField.js';
 
 function GalleryBlockModal(props) {
-  const { form } = props;
-  const { nodeRef: containerRef } = props.containerFormContext;
+  const { form, containerFormContext } = props;
+  const { nodeRef: containerRef } = containerFormContext;
   return (
     <>
       <GalleryPickerField name="node_ref" label="Gallery" required />
