@@ -3,6 +3,8 @@
 
 ## vN.N.N
 * AssetPicker :: Adding support for selecting image from gallery.
+* SortableImage :: Using uncropped image.
+
 
 ## v1.1.1
 * Fix sizing on sweetalert toastage.
