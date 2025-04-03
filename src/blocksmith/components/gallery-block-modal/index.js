@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFormState } from 'react-final-form';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
 import AspectRatioField from '@triniti/cms/plugins/common/components/aspect-ratio-field/index.js';
 import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field/index.js';
@@ -8,6 +9,7 @@ import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/Asid
 
 function GalleryBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
+  const { values } = useFormState({ subscription: { values: true } });
   return (
     <>
       <GalleryPickerField name="node_ref" label="Gallery" required />
@@ -16,6 +18,7 @@ function GalleryBlockModal(props) {
         label="Poster Image"
         description="When not set, the gallery's image will be used."
         nodeRef={containerRef}
+        galleryRef={values.node_ref}
       />
       <SwitchField
         name="start_at_poster"

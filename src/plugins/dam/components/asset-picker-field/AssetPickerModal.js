@@ -13,6 +13,7 @@ export default function AssetPickerModal(props) {
     header = 'Select Asset',
     defaultTab = 'linked',
     linkedRef,
+    galleryRef,
     uploaderProps = {},
   } = props;
   const [uploaderOpen, setUploaderOpen] = useState(false);
@@ -70,6 +71,13 @@ export default function AssetPickerModal(props) {
                 Search
               </NavLink>
             </NavItem>
+            {galleryRef && (
+              <NavItem>
+                <NavLink data-tab="gallery" active={activeTab === 'gallery'} onClick={handleClickTab}>
+                  Gallery
+                </NavLink>
+              </NavItem>
+            )}
           </Nav>
         )}
 
@@ -98,10 +106,27 @@ export default function AssetPickerModal(props) {
                   onClickTab={handleClickTab}
                   onSelectAsset={handleSelectAsset}
                   onUpload={handleUpload}
+                  galleryRef=""
                 />
               </ErrorBoundary>
             </Suspense>
           </TabPane>
+          {galleryRef && (
+            <TabPane tabId="gallery">
+              <Suspense fallback={<Loading />}>
+                <ErrorBoundary>
+                  <SearchTab
+                    {...props}
+                    activeTab={activeTab}
+                    onClickTab={handleClickTab}
+                    onSelectAsset={handleSelectAsset}
+                    onUpload={handleUpload}
+                    galleryRef={galleryRef}
+                  />
+                </ErrorBoundary>
+              </Suspense>
+            </TabPane>
+          )}
         </TabContent>
       </ModalBody>
 
