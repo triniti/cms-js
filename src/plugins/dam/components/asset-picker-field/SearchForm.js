@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import { Field } from 'react-final-form';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
 import {
   ActionButton,
@@ -35,7 +36,7 @@ const scrollToTop = () => {
 };
 
 export default function SearchForm(props) {
-  const { request, form, formState, delegate, handleSubmit, isRunning, run } = props;
+  const { request, form, formState, delegate, handleSubmit, isRunning, run, galleryRef } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -71,6 +72,15 @@ export default function SearchForm(props) {
     form.submit();
     scrollToTop();
   };
+
+  useEffect(() => {
+    if (galleryRef) {
+      request.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
+      request.set('sort', SearchAssetsSort.GALLERY_SEQ_DESC);
+      form.change('gallery_ref', galleryRef);
+      form.change('sort', SearchAssetsSort.GALLERY_SEQ_DESC.getValue());
+    }
+  }, []);
 
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {

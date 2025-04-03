@@ -9,7 +9,7 @@ import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 export default function SortableImage(props) {
   const { id, index, seq, image, batch, isReordering, canReorder } = props;
   const [isHovering, setIsHovering] = useState(false);
-  const previewUrl = damUrl(image.get('_id'), '1by1', 'sm');
+  const previewUrl = damUrl(image.get('_id'), 'o', 'sm');
   const isSelected = !isReordering && batch.has(image);
   const isSeqDifferent = isReordering && image.get('gallery_seq') !== seq;
 
@@ -59,7 +59,7 @@ export default function SortableImage(props) {
         style={{ cursor: 'grab' }}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0">
-          <BackgroundImage imgSrc={previewUrl} alt="" />
+          <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
         </Media>
         {(isHovering || isSelected) && (
           <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black"></div>

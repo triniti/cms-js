@@ -4,6 +4,8 @@
 ## v1.1.2
 * Update lexical packages to 0.29.0.
 * blocksmith :: restore highlight/mark feature as lexical bug has been resolved https://github.com/facebook/lexical/issues/4641
+* asset-picker-modal :: Adding support for selecting image from gallery (without having to manually do it from the already available picker in the search tab which is already available).
+* gallery-screen :: Use the original (o) uncropped image in SortableImage.
 
 
 ## v1.1.1

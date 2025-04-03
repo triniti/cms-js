@@ -10,8 +10,8 @@ import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/S
 function SearchTab(props) {
   const { onSelectAsset, activeTab, type, searchEnricher, request, delegate } = props;
   request.clear('types').addToSet('types', [type]);
-  const { response, pbjxError, isRunning, run } = useRequest(request, activeTab === 'search', searchEnricher);
-  if (activeTab !== 'search') {
+  const { response, pbjxError, isRunning, run } = useRequest(request, activeTab === 'search' || activeTab === 'gallery', searchEnricher);
+  if (activeTab !== 'search' && activeTab !== 'gallery') {
     return null;
   }
 
