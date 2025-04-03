@@ -1,9 +1,11 @@
 # CHANGELOG
 
 
-## vN.N.N
-* AssetPicker :: Adding support for selecting image from gallery.
-* SortableImage :: Using uncropped image.
+## v1.1.2
+* Update lexical packages to 0.29.0.
+* blocksmith :: restore highlight/mark feature as lexical bug has been resolved https://github.com/facebook/lexical/issues/4641
+* asset-picker-modal :: Adding support for selecting image from gallery.
+* gallery-screen :: Use the original (o) uncropped image in SortableImage.
 
 
 ## v1.1.1
