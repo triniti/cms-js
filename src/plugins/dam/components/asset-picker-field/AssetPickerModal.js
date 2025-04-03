@@ -98,20 +98,6 @@ export default function AssetPickerModal(props) {
             </TabPane>
           )}
           <TabPane tabId="search">
-          <Suspense fallback={<Loading />}>
-              <ErrorBoundary>
-                <SearchTab
-                  {...props}
-                  galleryRef=""
-                  activeTab={activeTab}
-                  onClickTab={handleClickTab}
-                  onSelectAsset={handleSelectAsset}
-                  onUpload={handleUpload}
-                />
-              </ErrorBoundary>
-            </Suspense>
-          </TabPane>
-          <TabPane tabId="gallery">
             <Suspense fallback={<Loading />}>
               <ErrorBoundary>
                 <SearchTab
@@ -120,11 +106,27 @@ export default function AssetPickerModal(props) {
                   onClickTab={handleClickTab}
                   onSelectAsset={handleSelectAsset}
                   onUpload={handleUpload}
-                  galleryRef={galleryRef}
+                  galleryRef=""
                 />
               </ErrorBoundary>
             </Suspense>
           </TabPane>
+          {galleryRef && (
+            <TabPane tabId="gallery">
+              <Suspense fallback={<Loading />}>
+                <ErrorBoundary>
+                  <SearchTab
+                    {...props}
+                    activeTab={activeTab}
+                    onClickTab={handleClickTab}
+                    onSelectAsset={handleSelectAsset}
+                    onUpload={handleUpload}
+                    galleryRef={galleryRef}
+                  />
+                </ErrorBoundary>
+              </Suspense>
+            </TabPane>
+          )}
         </TabContent>
       </ModalBody>
 

@@ -73,6 +73,15 @@ export default function SearchForm(props) {
     scrollToTop();
   };
 
+  useEffect(() => {
+    if (galleryRef) {
+      request.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
+      request.set('sort', SearchAssetsSort.GALLERY_SEQ_DESC);
+      form.change('gallery_ref', galleryRef);
+      form.change('sort', SearchAssetsSort.GALLERY_SEQ_DESC.getValue());
+    }
+  }, []);
+
   const q = useDebounce(formState.values.q || '', 500);
   useEffect(() => {
     if (!request || request.get('q', '') === q.trim()) {
@@ -81,13 +90,6 @@ export default function SearchForm(props) {
 
     form.submit();
   }, [q, request]);
-
-  useEffect(() => {
-    if (galleryRef) {
-      request.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
-      form.change('gallery_ref', galleryRef);
-    }
-  }, []);
 
   return (
     <Form onSubmit={handleSubmit} autoComplete="off" className="sticky-top shadow-depth-3 w-100">
