@@ -58,7 +58,7 @@ export default function SortableImage(props) {
         className={`mb-0 rounded-2 overflow-hidden ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
         style={{ cursor: 'grab' }}
       >
-        <Media className="ratio ratio-1x1 mt-0 mb-0">
+        <Media className="ratio ratio-1x1 mt-0 mb-0 bg-light">
           <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
         </Media>
         {(isHovering || isSelected) && (
