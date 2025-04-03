@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v1.1.2
+* Update lexical packages to 0.29.0.
+* blocksmith :: restore highlight/mark feature as lexical bug has been resolved https://github.com/facebook/lexical/issues/4641
+
+
 ## v1.1.1
 * Fix sizing on sweetalert toastage.
 

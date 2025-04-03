@@ -218,17 +218,12 @@ export default function ToolbarPlugin() {
         >
           <Icon size="sd" imgSrc="strikethrough" />
         </button>
-        {/*
-        this is broken in lexical atm
-        https://github.com/facebook/lexical/issues/4641
-        once fixed we'll re-enable
         <button
           onClick={createHandler(FORMAT_TEXT_COMMAND, 'highlight')}
           className={`toolbar-item ${isHighlight ? 'active' : ''}`}
         >
           <Icon size="sd" imgSrc="highlight" />
         </button>
-        */}
         <button
           onClick={createHandler(isNumberList ? REMOVE_LIST_COMMAND : INSERT_ORDERED_LIST_COMMAND)}
           className={`toolbar-item ${isNumberList ? 'active' : ''}`}
