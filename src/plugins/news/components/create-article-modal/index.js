@@ -5,6 +5,7 @@ import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { addDateToSlug, createSlug, isValidSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
+import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
@@ -68,7 +69,7 @@ function CreateArticleModal(props) {
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <TextField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
+          <SeoTitleField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
           <TextField name="slug" label="Slug" value={slug} onChange={handleChange} onKeyDown={handleKeyDown} />
         </Form>
       </ModalBody>
