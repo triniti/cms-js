@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.1.3
+* Documentation for all `with*` HOCs and `use*` hooks
+* create-article-modal :: Updated TextField to SeoTextField.
+
 
 ## v1.1.2
 * Update lexical packages to 0.29.0.
