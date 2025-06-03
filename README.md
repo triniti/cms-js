@@ -45,6 +45,8 @@ withPbj(Component, curie, initialData = {})
 ```
 Wraps a component with PBJ (Protocol Buffer JSON) functionality. This HOC handles loading states, provides PBJ data to the wrapped component, and uses the `useResolver` hook internally for data resolution.
 
+**Location:** `@triniti/cms/components/with-pbj/index.js`
+
 **Parameters:**
 - `Component` - The React component to wrap
 - `curie` - The PBJ curie identifier
@@ -66,6 +68,8 @@ export default withPbj(MyComponent, 'acme:article:node:1');
 withForm(Component, config = {})
 ```
 Wraps a component with comprehensive form handling capabilities. This HOC provides form state management, initialization, and restoration capabilities. It integrates with Redux for state management and includes built-in error handling and loading states.
+
+**Location:** `@triniti/cms/components/with-form/index.js`
 
 **Parameters:**
 - `Component` - The React component to wrap
@@ -461,4 +465,4 @@ Each of these functions serves a specific purpose in the application's architect
 - Form handling (`withForm`)
 - PBJ data management (`withPbj`, `useResolver`)
 - UI components (`withBlockModal`, `withBlockPreview`)
-- Feature-specific functionality (`withNodeScreen`, `withRequest`, `withTeaserModal`, `withNotificationModal`)
+- Feature-specific functionality (`withNodeScreen`, `withRequest`)
