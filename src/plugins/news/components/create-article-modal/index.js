@@ -69,7 +69,7 @@ function CreateArticleModal(props) {
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <SeoTitleField name="title" label="Title" onBlur={handleBlur} onKeyDown={handleKeyDown} required />
+          <SeoTitleField onBlur={handleBlur} onKeyDown={handleKeyDown} />
           <TextField name="slug" label="Slug" value={slug} onChange={handleChange} onKeyDown={handleKeyDown} />
         </Form>
       </ModalBody>
