@@ -3,6 +3,8 @@
 ## v1.1.3
 * Documentation for all `with*` HOCs and `use*` hooks
 * create-article-modal :: Updated TextField to SeoTextField.
+* widget-screen :: Fixed validation error for required search_request._schema field when loading widgets with search request capability.
+* poll-screen :: Made question field required in both poll screen and create poll modal.
 
 
 ## v1.1.2

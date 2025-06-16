@@ -66,7 +66,6 @@ export default function DataSourceTab(props) {
             label="Content Type"
             options={options}
             isClearable={false}
-            required
           />
           {datasource && (
             <Suspense fallback={<Loading />}>
