@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v1.2.0
+* Documentation for all `with*` HOCs and `use*` hooks
+* create-article-modal :: Updated TextField to SeoTextField.
+* widget-screen :: Fixed validation error for required search_request._schema field when loading widgets with search request capability.
+* poll-screen :: Made question field required in both poll screen and create poll modal.
+* Update final-form and react-final-form packages to latest.  Allegedly no major changes on their end but changed to typescript so they are being cautious.
+* Update lexical packages to 0.32.x.
+
+
 ## v1.1.2
 * Update lexical packages to 0.29.0.
 * blocksmith :: restore highlight/mark feature as lexical bug has been resolved https://github.com/facebook/lexical/issues/4641

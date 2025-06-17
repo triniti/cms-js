@@ -17,7 +17,7 @@ export default function DetailsTab(props) {
         <CardHeader>Details</CardHeader>
         <CardBody>
           <SeoTitleField />
-          <TextField name="question" label="Question" />
+          <TextField name="question" label="Question" required />
           <UrlField name="question_url" label="Question URL" />
           <SwitchField name="allow_multiple_responses" label="Allow Multiple Responses" />
 
