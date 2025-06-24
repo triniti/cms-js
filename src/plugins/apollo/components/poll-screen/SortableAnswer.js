@@ -11,9 +11,7 @@ export default function SortableAnswer(props) {
   const { editMode } = useFormContext();
   const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  const { title, _schema } = input.value;
-  const curie = schemaToCurie(_schema);
-
+  
   const {
     attributes,
     isDragging = false,
@@ -26,6 +24,11 @@ export default function SortableAnswer(props) {
     disabled: !editMode,
   });
 
+  // Provide default values if input.value is undefined
+  const value = input.value || {};
+  const { title = '', _schema = '' } = value;
+  const curie = _schema ? schemaToCurie(_schema) : null;
+
   const style = {
     opacity: isDragging ? 0.75 : undefined,
     boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
@@ -35,7 +38,10 @@ export default function SortableAnswer(props) {
     transition,
   };
 
-  const AnswerModalWithPbj = useMemo(() => withPbj(AnswerModal, curie, input.value), [curie, input.value]);
+  const AnswerModalWithPbj = useMemo(() => {
+    if (!curie || !input.value) return null;
+    return withPbj(AnswerModal, curie, input.value);
+  }, [curie, input.value]);
 
   return (
     <li
@@ -54,21 +60,23 @@ export default function SortableAnswer(props) {
         </div>
       )}
       <div className="d-flex p-1 align-items-center fs-6">
-        <span className="text-ellipsis me-2">{title}</span>
+        <span className="text-ellipsis me-2">{title || 'Loading...'}</span>
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
-        <CreateModalButton
-          text=""
-          color="hover"
-          className="me-0 mb-0 rounded-circle"
-          icon={editMode ? 'pencil' : 'eye'}
-          modal={AnswerModalWithPbj}
-          modalProps={{
-            editMode,
-            curie,
-            onSubmit: onUpdate,
-          }}
-        />
+        {AnswerModalWithPbj && (
+          <CreateModalButton
+            text=""
+            color="hover"
+            className="me-0 mb-0 rounded-circle"
+            icon={editMode ? 'pencil' : 'eye'}
+            modal={AnswerModalWithPbj}
+            modalProps={{
+              editMode,
+              curie,
+              onSubmit: onUpdate,
+            }}
+          />
+        )}
         {editMode && (
           <Button color="hover" className="mb-0 rounded-circle" onClick={onRemove}>
             <Icon imgSrc="trash" alt="Remove" />

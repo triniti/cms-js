@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.2.1
+* Fixed react-final-form v7 compatibility where FieldArray field values could be undefined during initial render, causing destructuring errors in SortableAnswer and SortableSlot components.
+
+
 ## v1.2.0
 * Documentation for all `with*` HOCs and `use*` hooks
 * create-article-modal :: Updated TextField to SeoTextField.

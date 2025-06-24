@@ -19,10 +19,7 @@ export default function SortableSlot(props) {
   const { editMode } = useFormContext();
   const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  const { name, widget_ref, rendering, _schema } = input.value;
-  const curie = schemaToCurie(_schema);
-  const { node: widget } = useNode(widget_ref);
-
+  
   const {
     attributes,
     isDragging = false,
@@ -34,6 +31,12 @@ export default function SortableSlot(props) {
     id,
     disabled: !editMode,
   });
+  
+  // Provide default values if input.value is undefined
+  const value = input.value || {};
+  const { name = '', widget_ref = '', rendering = 'server', _schema = '' } = value;
+  const curie = _schema ? schemaToCurie(_schema) : null;
+  const { node: widget } = useNode(widget_ref || null);
 
   const style = {
     opacity: isDragging ? 0.75 : undefined,
@@ -44,7 +47,10 @@ export default function SortableSlot(props) {
     transition,
   };
 
-  const SlotModalWithPbj = useMemo(() => withPbj(SlotModal, curie, input.value), [curie, input.value]);
+  const SlotModalWithPbj = useMemo(() => {
+    if (!curie || !input.value) return null;
+    return withPbj(SlotModal, curie, input.value);
+  }, [curie, input.value]);
 
   return (
     <li
@@ -65,32 +71,34 @@ export default function SortableSlot(props) {
       <div className="d-flex p-1 align-items-center fs-6">
         {widget && (
           <>
-            <Badge color="light" pill className="me-2">{name}</Badge>
+            <Badge color="light" pill className="me-2">{name || 'unnamed'}</Badge>
             <a href={nodeUrl(widget, 'view')} target="_blank" className="text-ellipsis me-2">{widget.get('title')}</a>
-            <Badge color={renderingColors[rendering]} pill>{rendering}</Badge>
+            <Badge color={renderingColors[rendering] || 'secondary'} pill>{rendering}</Badge>
           </>
         )}
         {!widget && (
           <>
-            <Badge color="light" pill className="me-2">{name}</Badge>
-            <span className="text-ellipsis me-2">{widget_ref}</span>
-            <Badge color={renderingColors[rendering]} pill>{rendering}</Badge>
+            <Badge color="light" pill className="me-2">{name || 'unnamed'}</Badge>
+            <span className="text-ellipsis me-2">{widget_ref || 'Loading...'}</span>
+            <Badge color={renderingColors[rendering] || 'secondary'} pill>{rendering}</Badge>
           </>
         )}
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
-        <CreateModalButton
-          text=""
-          color="hover"
-          className="me-0 mb-0 rounded-circle"
-          icon={editMode ? 'pencil' : 'eye'}
-          modal={SlotModalWithPbj}
-          modalProps={{
-            editMode,
-            curie,
-            onSubmit: onUpdate,
-          }}
-        />
+        {SlotModalWithPbj && (
+          <CreateModalButton
+            text=""
+            color="hover"
+            className="me-0 mb-0 rounded-circle"
+            icon={editMode ? 'pencil' : 'eye'}
+            modal={SlotModalWithPbj}
+            modalProps={{
+              editMode,
+              curie,
+              onSubmit: onUpdate,
+            }}
+          />
+        )}
         {editMode && (
           <Button color="hover" className="mb-0 rounded-circle" onClick={onRemove}>
             <Icon imgSrc="trash" alt="Remove" />
