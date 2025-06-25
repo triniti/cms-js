@@ -20,8 +20,7 @@ export default function SelectKeyField(props) {
   } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
-  const { input, meta } =
-  useField(name, {
+  const { input, meta } = useField(name, {
     validate: (value, allValues) => validateKey(value, allValues, pbjName),
   });
 

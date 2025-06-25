@@ -19,9 +19,6 @@ export default function SortableSlot(props) {
   const { editMode } = useFormContext();
   const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  const { name, widget_ref, rendering, _schema } = input.value;
-  const curie = schemaToCurie(_schema);
-  const { node: widget } = useNode(widget_ref);
 
   const {
     attributes,
@@ -44,7 +41,23 @@ export default function SortableSlot(props) {
     transition,
   };
 
-  const SlotModalWithPbj = useMemo(() => withPbj(SlotModal, curie, input.value), [curie, input.value]);
+  const { node: widget } = useNode(input.value?.widget_ref || null);
+
+  const SlotModalWithPbj = useMemo(() => {
+    if (!input.value || !input.value._schema) {
+      return null;
+    }
+    const curie = schemaToCurie(input.value._schema);
+    return withPbj(SlotModal, curie, input.value);
+  }, [input.value]);
+
+  // Return early if input.value is not ready
+  if (!input.value) {
+    return null;
+  }
+
+  const { name, widget_ref, rendering, _schema } = input.value;
+  const curie = schemaToCurie(_schema);
 
   return (
     <li
@@ -79,18 +92,20 @@ export default function SortableSlot(props) {
         )}
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
-        <CreateModalButton
-          text=""
-          color="hover"
-          className="me-0 mb-0 rounded-circle"
-          icon={editMode ? 'pencil' : 'eye'}
-          modal={SlotModalWithPbj}
-          modalProps={{
-            editMode,
-            curie,
-            onSubmit: onUpdate,
-          }}
-        />
+        {SlotModalWithPbj && (
+          <CreateModalButton
+            text=""
+            color="hover"
+            className="me-0 mb-0 rounded-circle"
+            icon={editMode ? 'pencil' : 'eye'}
+            modal={SlotModalWithPbj}
+            modalProps={{
+              editMode,
+              curie,
+              onSubmit: onUpdate,
+            }}
+          />
+        )}
         {editMode && (
           <Button color="hover" className="mb-0 rounded-circle" onClick={onRemove}>
             <Icon imgSrc="trash" alt="Remove" />

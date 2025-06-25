@@ -11,8 +11,6 @@ export default function SortableAnswer(props) {
   const { editMode } = useFormContext();
   const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  const { title, _schema } = input.value;
-  const curie = schemaToCurie(_schema);
 
   const {
     attributes,
@@ -35,7 +33,21 @@ export default function SortableAnswer(props) {
     transition,
   };
 
-  const AnswerModalWithPbj = useMemo(() => withPbj(AnswerModal, curie, input.value), [curie, input.value]);
+  const AnswerModalWithPbj = useMemo(() => {
+    if (!input.value || !input.value._schema) {
+      return null;
+    }
+    const curie = schemaToCurie(input.value._schema);
+    return withPbj(AnswerModal, curie, input.value);
+  }, [input.value]);
+
+  // Return early if input.value is not ready
+  if (!input.value) {
+    return null;
+  }
+
+  const { title, _schema } = input.value;
+  const curie = schemaToCurie(_schema);
 
   return (
     <li
@@ -57,18 +69,20 @@ export default function SortableAnswer(props) {
         <span className="text-ellipsis me-2">{title}</span>
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
-        <CreateModalButton
-          text=""
-          color="hover"
-          className="me-0 mb-0 rounded-circle"
-          icon={editMode ? 'pencil' : 'eye'}
-          modal={AnswerModalWithPbj}
-          modalProps={{
-            editMode,
-            curie,
-            onSubmit: onUpdate,
-          }}
-        />
+        {AnswerModalWithPbj && (
+          <CreateModalButton
+            text=""
+            color="hover"
+            className="me-0 mb-0 rounded-circle"
+            icon={editMode ? 'pencil' : 'eye'}
+            modal={AnswerModalWithPbj}
+            modalProps={{
+              editMode,
+              curie,
+              onSubmit: onUpdate,
+            }}
+          />
+        )}
         {editMode && (
           <Button color="hover" className="mb-0 rounded-circle" onClick={onRemove}>
             <Icon imgSrc="trash" alt="Remove" />
