@@ -24,11 +24,6 @@ export default function SortableAnswer(props) {
     disabled: !editMode,
   });
 
-  // Provide default values if input.value is undefined
-  const value = input.value || {};
-  const { title = '', _schema = '' } = value;
-  const curie = _schema ? schemaToCurie(_schema) : null;
-
   const style = {
     opacity: isDragging ? 0.75 : undefined,
     boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
@@ -38,10 +33,22 @@ export default function SortableAnswer(props) {
     transition,
   };
 
+  // Create modal component - must be called before any returns
   const AnswerModalWithPbj = useMemo(() => {
-    if (!curie || !input.value) return null;
+    if (!input.value || !input.value._schema) {
+      return null;
+    }
+    const curie = schemaToCurie(input.value._schema);
     return withPbj(AnswerModal, curie, input.value);
-  }, [curie, input.value]);
+  }, [input.value]);
+
+  // Return early if input.value is not ready
+  if (!input.value) {
+    return null;
+  }
+
+  const { title, _schema } = input.value;
+  const curie = schemaToCurie(_schema);
 
   return (
     <li
@@ -60,7 +67,7 @@ export default function SortableAnswer(props) {
         </div>
       )}
       <div className="d-flex p-1 align-items-center fs-6">
-        <span className="text-ellipsis me-2">{title || 'Loading...'}</span>
+        <span className="text-ellipsis me-2">{title}</span>
       </div>
       <div className="flex-grow-0 flex-shrink-0 ms-auto me-sm-2">
         {AnswerModalWithPbj && (

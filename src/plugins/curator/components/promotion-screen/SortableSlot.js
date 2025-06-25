@@ -32,12 +32,6 @@ export default function SortableSlot(props) {
     disabled: !editMode,
   });
   
-  // Provide default values if input.value is undefined
-  const value = input.value || {};
-  const { name = '', widget_ref = '', rendering = 'server', _schema = '' } = value;
-  const curie = _schema ? schemaToCurie(_schema) : null;
-  const { node: widget } = useNode(widget_ref || null);
-
   const style = {
     opacity: isDragging ? 0.75 : undefined,
     boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
@@ -47,10 +41,25 @@ export default function SortableSlot(props) {
     transition,
   };
 
+  // Call useNode hook - must be called before any returns
+  const { node: widget } = useNode(input.value?.widget_ref || null);
+
+  // Create modal component - must be called before any returns
   const SlotModalWithPbj = useMemo(() => {
-    if (!curie || !input.value) return null;
+    if (!input.value || !input.value._schema) {
+      return null;
+    }
+    const curie = schemaToCurie(input.value._schema);
     return withPbj(SlotModal, curie, input.value);
-  }, [curie, input.value]);
+  }, [input.value]);
+  
+  // Return early if input.value is not ready
+  if (!input.value) {
+    return null;
+  }
+  
+  const { name, widget_ref, rendering, _schema } = input.value;
+  const curie = schemaToCurie(_schema);
 
   return (
     <li
@@ -71,16 +80,16 @@ export default function SortableSlot(props) {
       <div className="d-flex p-1 align-items-center fs-6">
         {widget && (
           <>
-            <Badge color="light" pill className="me-2">{name || 'unnamed'}</Badge>
+            <Badge color="light" pill className="me-2">{name}</Badge>
             <a href={nodeUrl(widget, 'view')} target="_blank" className="text-ellipsis me-2">{widget.get('title')}</a>
-            <Badge color={renderingColors[rendering] || 'secondary'} pill>{rendering}</Badge>
+            <Badge color={renderingColors[rendering]} pill>{rendering}</Badge>
           </>
         )}
         {!widget && (
           <>
-            <Badge color="light" pill className="me-2">{name || 'unnamed'}</Badge>
-            <span className="text-ellipsis me-2">{widget_ref || 'Loading...'}</span>
-            <Badge color={renderingColors[rendering] || 'secondary'} pill>{rendering}</Badge>
+            <Badge color="light" pill className="me-2">{name}</Badge>
+            <span className="text-ellipsis me-2">{widget_ref}</span>
+            <Badge color={renderingColors[rendering]} pill>{rendering}</Badge>
           </>
         )}
       </div>
