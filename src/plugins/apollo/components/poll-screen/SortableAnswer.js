@@ -11,7 +11,7 @@ export default function SortableAnswer(props) {
   const { editMode } = useFormContext();
   const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  
+
   const {
     attributes,
     isDragging = false,

@@ -19,7 +19,7 @@ export default function SortableSlot(props) {
   const { editMode } = useFormContext();
   const { id, index, onRemove, onUpdate, name: fieldName } = props;
   const { input } = useField(fieldName);
-  
+
   const {
     attributes,
     isDragging = false,
@@ -31,7 +31,7 @@ export default function SortableSlot(props) {
     id,
     disabled: !editMode,
   });
-  
+
   const style = {
     opacity: isDragging ? 0.75 : undefined,
     boxShadow: isDragging ? '0 0 0 2px rgba(8, 160, 232, 0.3), 0 4px 12px rgba(0,0,0,0.2)' : undefined,
@@ -50,12 +50,12 @@ export default function SortableSlot(props) {
     const curie = schemaToCurie(input.value._schema);
     return withPbj(SlotModal, curie, input.value);
   }, [input.value]);
-  
+
   // Return early if input.value is not ready
   if (!input.value) {
     return null;
   }
-  
+
   const { name, widget_ref, rendering, _schema } = input.value;
   const curie = schemaToCurie(_schema);
 
