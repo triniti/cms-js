@@ -33,7 +33,6 @@ export default function SortableAnswer(props) {
     transition,
   };
 
-  // Create modal component - must be called before any returns
   const AnswerModalWithPbj = useMemo(() => {
     if (!input.value || !input.value._schema) {
       return null;

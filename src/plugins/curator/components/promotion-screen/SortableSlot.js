@@ -41,10 +41,8 @@ export default function SortableSlot(props) {
     transition,
   };
 
-  // Call useNode hook - must be called before any returns
   const { node: widget } = useNode(input.value?.widget_ref || null);
 
-  // Create modal component - must be called before any returns
   const SlotModalWithPbj = useMemo(() => {
     if (!input.value || !input.value._schema) {
       return null;
