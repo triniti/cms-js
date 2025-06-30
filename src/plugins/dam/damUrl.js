@@ -21,6 +21,10 @@ export default (id, version = 'o', quality) => {
     return null;
   }
 
+  if (version === 'original') {
+    version = 'o';
+  }
+
   if (id instanceof NodeRef) {
     const assetId = AssetId.fromString(id.getId());
     const baseUrl = baseUrls[assetId.getType()] || baseUrls.dfault;
