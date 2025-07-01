@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.2.2
+* dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
+
+
 ## v1.2.1
 * Fixed react-final-form v7 compatibility where FieldArray field values could be undefined during initial render, causing destructuring errors in SortableAnswer and SortableSlot components.
 
