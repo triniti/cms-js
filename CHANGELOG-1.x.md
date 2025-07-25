@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
