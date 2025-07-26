@@ -2,7 +2,7 @@
 
 
 ## v1.2.3
-* Fixed batch-operations-card to use the value from the enum for conditional comparisons rather than the enum itself.
+* Fixed batch-operations-card to use the value from enums for conditional comparisons rather than the enum itself.
 
 
 ## v1.2.2
