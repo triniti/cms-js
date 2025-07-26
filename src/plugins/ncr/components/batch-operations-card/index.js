@@ -12,7 +12,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 const BatchOperationModal = lazy(() => import('@triniti/cms/plugins/ncr/components/batch-operation-modal/index.js'));
 
 const publishOperation = async (dispatch, node) => {
-  if (node.get('status') === NodeStatus.PUBLISHED) {
+  if (node.get('status').getValue() === NodeStatus.PUBLISHED.getValue()) {
     throw new Error('Node is already published.');
   }
 
@@ -20,11 +20,11 @@ const publishOperation = async (dispatch, node) => {
 };
 
 const markAsDraftOperation = async (dispatch, node) => {
-  if (node.get('status') === NodeStatus.PUBLISHED) {
+  if (node.get('status').getValue() === NodeStatus.PUBLISHED.getValue()) {
     throw new Error('Node must first be unpublished.');
   }
 
-  if (node.get('status') === NodeStatus.DRAFT) {
+  if (node.get('status').getValue() === NodeStatus.DRAFT.getValue()) {
     throw new Error('Node is already marked as draft.');
   }
 
@@ -32,11 +32,11 @@ const markAsDraftOperation = async (dispatch, node) => {
 };
 
 const markAsPendingOperation = async (dispatch, node) => {
-  if (node.get('status') === NodeStatus.PUBLISHED) {
+  if (node.get('status').getValue() === NodeStatus.PUBLISHED.getValue()) {
     throw new Error('Node must first be unpublished.');
   }
 
-  if (node.get('status') === NodeStatus.PENDING) {
+  if (node.get('status').getValue() === NodeStatus.PENDING.getValue()) {
     throw new Error('Node is already marked as pending.');
   }
 
@@ -44,7 +44,7 @@ const markAsPendingOperation = async (dispatch, node) => {
 };
 
 const unpublishOperation = async (dispatch, node) => {
-  if (node.get('status') !== NodeStatus.PUBLISHED) {
+  if (node.get('status').getValue() !== NodeStatus.PUBLISHED.getValue()) {
     throw new Error('Node is not published.');
   }
 
@@ -52,7 +52,7 @@ const unpublishOperation = async (dispatch, node) => {
 };
 
 const deleteOperation = async (dispatch, node) => {
-  if (node.get('status') === NodeStatus.DELETED) {
+  if (node.get('status').getValue() === NodeStatus.DELETED.getValue()) {
     throw new Error('Node is already deleted.');
   }
 
