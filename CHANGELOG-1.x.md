@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.2.3
+* Fixed batch-operations-card to use the value from the enum for conditional comparisons rather than the enum itself.
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
