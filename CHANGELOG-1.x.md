@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Prevent empty content blocks
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
 
 
