@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+* Fix Swipes disappearing after save
 
 
 ## v1.2.2
