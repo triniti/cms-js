@@ -10,6 +10,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
+import HoverInsertButtons from '@triniti/cms/blocksmith/components/hover-insert-buttons/index.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
@@ -41,7 +42,8 @@ export default function Blocksmith(props) {
             <ToolbarPlugin />
           </>
         )}
-        <div className="position-relative">
+        <div className="position-relative blocksmith-editor-container">
+          {editMode && <HoverInsertButtons />}
           <RichTextPlugin
             contentEditable={
               <div className="blocksmith-editor" ref={editorRef}>

@@ -1,0 +1,20 @@
+@import "@triniti/cms/assets/styles/variables";
+
+.hover-insert-buttons {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
