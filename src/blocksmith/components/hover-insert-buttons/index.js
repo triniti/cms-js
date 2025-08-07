@@ -10,21 +10,8 @@ export default function HoverInsertButtons() {
   const [editor] = useLexicalComposerContext();
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
-    
-    const container = document.querySelector('.blocksmith-editor-container');
-    if (container) {
-      container.addEventListener('mouseenter', handleMouseEnter);
-      container.addEventListener('mouseleave', handleMouseLeave);
-      
-      return () => {
-        container.removeEventListener('mouseenter', handleMouseEnter);
-        container.removeEventListener('mouseleave', handleMouseLeave);
-      };
-    }
-  }, []);
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   const handleInsertTextBlock = (event) => {
     event.preventDefault();
@@ -39,13 +26,19 @@ export default function HoverInsertButtons() {
   };
 
   return (
-    <div className={`hover-insert-buttons ${isHovered ? 'visible' : ''}`}>
-      <Button color="primary" className="rounded-pill" size="sm" onClick={handleInsertTextBlock}>
-        <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Text
-      </Button>
-      <Button color="primary" className="rounded-pill" size="sm" onClick={handleInsertBlock}>
-        <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Block
-      </Button>
+    <div 
+      className="hover-insert-buttons-wrapper"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={`hover-insert-buttons ${isHovered ? 'visible' : ''}`}>
+        <Button color="primary" className="rounded-pill" size="sm" onClick={handleInsertTextBlock}>
+          <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Text
+        </Button>
+        <Button color="primary" className="rounded-pill" size="sm" onClick={handleInsertBlock}>
+          <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Block
+        </Button>
+      </div>
     </div>
   );
 }

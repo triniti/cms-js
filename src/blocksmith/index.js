@@ -42,7 +42,7 @@ export default function Blocksmith(props) {
             <ToolbarPlugin />
           </>
         )}
-        <div className="position-relative blocksmith-editor-container">
+        <div className="position-relative">
           {editMode && <HoverInsertButtons />}
           <RichTextPlugin
             contentEditable={
