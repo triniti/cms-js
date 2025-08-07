@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+* Fixed publish immediately to use server time instead of client time
 
 
 ## v1.2.2
