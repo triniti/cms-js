@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* blocksmith :: ability to add blocks to the top of the editor.
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
