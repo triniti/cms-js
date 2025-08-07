@@ -37,7 +37,7 @@ export default (envelope) => (dispatch) => {
           + '</ol>'
           + '</p>',
       }).then((result) => {
-        if (result.isDismissed && result.dismiss === 'cancel') {
+        if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
           dispatch(logout());
         }
       }).catch(console.error);
