@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'reactstrap';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { Icon } from '@triniti/cms/components/index.js';
 import { INSERT_BLOCK_AT_TOP_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_AT_TOP_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
+import InsertBlockButtons from '@triniti/cms/blocksmith/components/insert-block-buttons/index.js';
 import './styles.scss';
 
 export default function HoverInsertButtons() {
@@ -31,14 +30,11 @@ export default function HoverInsertButtons() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={`hover-insert-buttons ${isHovered ? 'visible' : ''}`}>
-        <Button color="primary" className="rounded-pill" size="sm" onClick={handleInsertTextBlock}>
-          <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Text
-        </Button>
-        <Button color="primary" className="rounded-pill" size="sm" onClick={handleInsertBlock}>
-          <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Block
-        </Button>
-      </div>
+      <InsertBlockButtons
+        className={`hover-insert-buttons ${isHovered ? 'visible' : ''}`}
+        onInsertTextBlock={handleInsertTextBlock}
+        onInsertBlock={handleInsertBlock}
+      />
     </div>
   );
 }

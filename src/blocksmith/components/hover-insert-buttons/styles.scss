@@ -17,7 +17,9 @@
   transform: translateX(-50%);
   z-index: 1030;
   display: flex;
-  padding: 0.5rem;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
   opacity: 0;
   transition: opacity 0.2s ease;
   pointer-events: none;
@@ -25,5 +27,13 @@
   &.visible {
     opacity: 1;
     pointer-events: all;
+  }
+
+  > .btn {
+    color: $white;
+    box-shadow: $box-shadow;
+    font-weight: 700;
+    padding-left: .625rem;
+    padding-right: .625rem;
   }
 }
