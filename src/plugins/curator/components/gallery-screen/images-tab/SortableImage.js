@@ -73,11 +73,11 @@ export default function SortableImage(props) {
           <ButtonToolbar className="position-absolute p-0 w-100 justify-content-between">
             {(isHovering || isSelected) && (
               <>
-              {(isReordering || !canReorder) && <span />}
+                {(isReordering || !canReorder) && <span />}
                 {!isReordering && canReorder && (
-                <Label for={id} className="p-2 mb-0" style={{ zIndex: 2, cursor: 'pointer' }}>
-                  <Input type="checkbox" id={id} onChange={() => batch.toggle(image)} checked={isSelected} />
-                </Label>
+                  <Label for={id} className="p-2 mb-0" style={{ zIndex: 2, cursor: 'pointer' }}>
+                    <Input type="checkbox" id={id} onChange={() => batch.toggle(image)} checked={isSelected} />
+                  </Label>
                 )}
               </>
             )}
