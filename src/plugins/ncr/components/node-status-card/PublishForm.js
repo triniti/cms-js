@@ -91,11 +91,9 @@ export default function PublishForm(props) {
 
     try {
       await progressIndicator.show(`Updating ${label} status...`);
-
-      // For immediate publish, don't send a timestamp - let server determine "now"
       const effectivePublishAt = action === 'publish' ? null : publishAt;
-      await dispatch(actions[action](nodeRef, effectivePublishAt));
 
+      await dispatch(actions[action](nodeRef, effectivePublishAt));
       await onStatusUpdated(action, effectivePublishAt);
       await progressIndicator.close();
       toast({ title: `${label} status updated.` });
@@ -113,7 +111,7 @@ export default function PublishForm(props) {
   const handleSelect = (evt) => {
     const newAction = kebabCase(evt.target.innerText);
     if (newAction === 'publish') {
-      setPublishAt(new Date());
+      setPublishAt(null);
     } else {
       setPublishAt(node.get('published_at') || new Date());
     }
