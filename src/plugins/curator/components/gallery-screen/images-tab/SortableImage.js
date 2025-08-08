@@ -55,7 +55,7 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        className={`mb-0 rounded-2 overflow-hidden ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`mb-0 rounded-2 overflow-hidden gallery-image-container position-relative ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
         style={{ cursor: 'grab' }}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0 bg-light">
@@ -64,14 +64,19 @@ export default function SortableImage(props) {
         {(isHovering || isSelected) && (
           <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black"></div>
         )}
+        <div className="gallery-image-title-overlay">
+          <div className="text-white text-center small text-truncate">
+            {image.get('title')}
+          </div>
+        </div>
         {!isDragging && (
           <ButtonToolbar className="position-absolute p-0 w-100 justify-content-between">
             {(isHovering || isSelected) && (
               <>
-                {(isReordering || !canReorder) && <span />}
+                {(isReordering || !canReorder) && <span/>}
                 {!isReordering && canReorder && (
-                  <Label for={id} className="p-2 mb-0" style={{ zIndex: 2, cursor: 'pointer' }}>
-                    <Input type="checkbox" id={id} onChange={() => batch.toggle(image)} checked={isSelected} />
+                  <Label for={id} className="p-2 mb-0" style={{zIndex: 2, cursor: 'pointer'}}>
+                    <Input type="checkbox" id={id} onChange={() => batch.toggle(image)} checked={isSelected}/>
                   </Label>
                 )}
               </>
