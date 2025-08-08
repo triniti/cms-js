@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+* Add filename preview on image hover in galleries
 
 
 ## v1.2.2
