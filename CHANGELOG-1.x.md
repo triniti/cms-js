@@ -3,7 +3,7 @@
 
 ## vN.N.N
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
-* swipe-field :: Fixed single select field not hydrating data after a successful save.
+* picklist-field :: Fixed single select field not hydrating data after a successful save.
 
 
 ## v1.2.2
