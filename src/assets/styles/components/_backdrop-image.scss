@@ -35,28 +35,3 @@
 .background-image-repeat-x {
   background-repeat: repeat-x !important;
 }
-
-// background image title overlay
-
-.gallery-image-title-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.4);
-  color: white;
-  padding: 8px;
-  opacity: 0;
-  transition: opacity 0.1s ease-in-out;
-}
-
-.gallery-image-title-overlay .text-truncate {
-  white-space: normal;
-  line-height: 1.2;
-  max-height: 2.4em;
-  overflow: hidden;
-}
-
-.gallery-image-container:hover .gallery-image-title-overlay {
-  opacity: 1;
-}

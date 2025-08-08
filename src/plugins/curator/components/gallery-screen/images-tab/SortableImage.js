@@ -5,6 +5,7 @@ import { ButtonToolbar, Card, Input, Label, Media } from 'reactstrap';
 import { BackgroundImage, Icon } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/styles.scss';
 
 export default function SortableImage(props) {
   const { id, index, seq, image, batch, isReordering, canReorder } = props;
@@ -55,20 +56,17 @@ export default function SortableImage(props) {
         onMouseLeave={handleMouseLeave}
         onMouseOver={handleMouseOver}
         inverse
-        className={`mb-0 rounded-2 overflow-hidden gallery-image-container position-relative ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`mb-0 rounded-2 overflow-hidden ${isSelected || isSeqDifferent ? 'selected focus-ring-box-shadow' : ''}`}
         style={{ cursor: 'grab' }}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0 bg-light">
           <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
         </Media>
         {(isHovering || isSelected) && (
-          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black"></div>
-        )}
-        <div className="gallery-image-title-overlay">
-          <div className="text-white text-center small text-truncate">
-            {image.get('title')}
+          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black gallery-image-title-overlay">
+            {isHovering && image.get('title')}
           </div>
-        </div>
+        )}
         {!isDragging && (
           <ButtonToolbar className="position-absolute p-0 w-100 justify-content-between">
             {(isHovering || isSelected) && (
