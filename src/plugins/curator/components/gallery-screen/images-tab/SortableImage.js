@@ -63,8 +63,10 @@ export default function SortableImage(props) {
           <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
         </Media>
         {(isHovering || isSelected) && (
-          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black gallery-image-title-overlay">
-            {isHovering && image.get('title')}
+          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black">
+            {isHovering && (
+              <p className="gallery-image-title-overlay">{image.get('title')}</p>
+            )}
           </div>
         )}
         {!isDragging && (
