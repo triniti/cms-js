@@ -3,7 +3,7 @@
 
 ## vN.N.N
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
-* Fix Swipes disappearing after save
+* swipe-field :: Fixed single select field not hydrating data after a successful save.
 
 
 ## v1.2.2
