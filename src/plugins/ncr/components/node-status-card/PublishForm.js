@@ -111,7 +111,7 @@ export default function PublishForm(props) {
   const handleSelect = (evt) => {
     const newAction = kebabCase(evt.target.innerText);
     if (newAction === 'publish') {
-      setPublishAt(null);
+      setPublishAt(new Date());
     } else {
       setPublishAt(node.get('published_at') || new Date());
     }
