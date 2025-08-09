@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+* Blocksmith :: prevent saving empty text blocks regardless of position
 
 
 ## v1.2.2
