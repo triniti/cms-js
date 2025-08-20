@@ -74,7 +74,6 @@ export default function DataSourceTab(props) {
             name="search_request._schema"
             label="Content Type"
             options={options}
-            isClearable={true}
           />
           {datasource && (
             <Suspense fallback={<Loading />}>
