@@ -1,6 +1,9 @@
 # CHANGELOG
 
 
+## vN.N.N
+* curator :: Widget datasource fixes. Clearable datasource, vendor schema fix, and adding `page` back.
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
