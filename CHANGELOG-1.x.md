@@ -6,7 +6,7 @@
 * Blocksmith :: prevent saving empty text blocks regardless of position
 * Add filename preview on image hover in galleries
 * Fixed single select field not hydrating data.
-* Blocksmith :: update link modal so when opened, its url field is set to autofocus
+* Blocksmith :: update link modal so when opened, its url field is set to focus
 
 
 ## v1.2.2
