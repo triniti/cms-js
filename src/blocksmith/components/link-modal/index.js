@@ -69,14 +69,14 @@ export default function LinkModal(props) {
     setTouched(true);
   };
 
-  const handleModalOpened = () => {
+  const handleOpened = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
   return (
-    <Modal isOpen size="lg" backdrop="static" centered onOpened={handleModalOpened}>
+    <Modal isOpen size="lg" backdrop="static" centered onOpened={handleOpened}>
       <ModalHeader toggle={props.toggle}>{isNew ? 'Add Link' : 'Update Link'}</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleUpdate} autoComplete="off">
