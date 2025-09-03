@@ -37,7 +37,7 @@ export default function SingleSelectField(props) {
     }
 
     setAllOptions([...options, { value: input.value, label: input.value }]);
-  }, []);
+  }, [input.value, ignoreUnknownOptions, options]);
 
   const rootClassName = classNames(groupClassName, 'form-group');
   const classes = classNames(
