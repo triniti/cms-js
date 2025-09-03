@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
-import { Badge, Button, FormText, InputGroup, InputGroupText, Label, UncontrolledTooltip } from 'reactstrap';
+import { Badge, Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, FormText, InputGroup, InputGroupText, Label, UncontrolledTooltip } from 'reactstrap';
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import { Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
 
@@ -16,13 +16,15 @@ export default function DatePickerField(props) {
     nowable,
     isClearable = true,
     readOnly = false,
-    required = false
+    required = false,
+    showPresets = false
   } = props;
 
   const formContext = useFormContext();
   const { editMode } = formContext;
   const showSetToNow = !!nowable || (!formContext.delegate.handleSearchFromFilters && !nestedPbj);
   const { input, meta, pbjField } = useField({ ...props }, formContext);
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
   const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
@@ -51,6 +53,14 @@ export default function DatePickerField(props) {
     input.onChange(now.toISOString());
   };
 
+  const handlePresetDate = (years) => {
+    const now = new Date();
+    const targetDate = new Date(now.getFullYear() + years, now.getMonth(), now.getDate());
+    const value = dateOnly ? targetDate.toISOString().substring(0, 10) : targetDate.toISOString();
+    input.onChange(value);
+    setDropdownOpen(false);
+  };
+
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
@@ -58,6 +68,29 @@ export default function DatePickerField(props) {
         <InputGroupText className="px-2 text-black-50">
           <Icon imgSrc="calendar" size="sd" />
         </InputGroupText>
+        {showPresets && editMode && !readOnly && (
+          <ButtonDropdown 
+            isOpen={dropdownOpen} 
+            toggle={() => setDropdownOpen(!dropdownOpen)}
+            direction="down"
+          >
+            <DropdownToggle 
+              color="light" 
+              outline
+              className="px-2"
+            >
+              <Icon imgSrc="caret-down" size="sd" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={() => handlePresetDate(5)}>
+                5 years from now
+              </DropdownItem>
+              <DropdownItem onClick={() => handlePresetDate(1)}>
+                1 year from now
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+        )}
         {editMode && !readOnly && (
           <>
             <DatePicker

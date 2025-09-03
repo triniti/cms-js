@@ -76,7 +76,7 @@ export default function DetailsTab(props) {
           <TextField name="title" label="Title" />
           <TextField name="display_title" label="Display Title" />
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-            <DatePickerField name="expires_at" label="Expires At" />
+            <DatePickerField name="expires_at" label="Expires At" showPresets />
           )}
           <TextareaField name="description" label="Description" rows={5} />
           {schema.hasField('alt_text') && (

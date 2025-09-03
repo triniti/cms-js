@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## vN.N.N
+* curator :: Widget datasource fixes. Clearable datasource, vendor schema fix, and adding `page` back.
+* Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+* Blocksmith :: prevent saving empty text blocks regardless of position
+* Add filename preview on image hover in galleries
+* Fixed single select field not hydrating data.
+* Add preset date dropdown to DatePickerField component with "5 years from now" and "1 year from now" options.
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
