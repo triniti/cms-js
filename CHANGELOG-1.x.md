@@ -7,7 +7,7 @@
 * Blocksmith :: prevent saving empty text blocks regardless of position
 * Add filename preview on image hover in galleries
 * Fixed single select field not hydrating data.
-* Add preset date dropdown to DatePickerField component with "5 years from now" and "1 year from now" options.
+* Add `showQuickSelect` and `quickSelectOptions` props to DatePickerField component (matching v0.18.4 pattern). Applied to gallery and patch-assets-modal expires_at fields to match v0.18.4 implementation.
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 
 

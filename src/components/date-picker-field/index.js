@@ -17,7 +17,12 @@ export default function DatePickerField(props) {
     isClearable = true,
     readOnly = false,
     required = false,
-    showPresets = false
+    showQuickSelect = false,
+    quickSelectOptions = [
+      { amount: 1, unit: 'year' },
+      { amount: 1, unit: 'month' },
+      { amount: 1, unit: 'week' }
+    ]
   } = props;
 
   const formContext = useFormContext();
@@ -53,9 +58,28 @@ export default function DatePickerField(props) {
     input.onChange(now.toISOString());
   };
 
-  const handlePresetDate = (years) => {
+  const handleQuickSelect = (amount, unit) => {
     const now = new Date();
-    const targetDate = new Date(now.getFullYear() + years, now.getMonth(), now.getDate());
+    let targetDate;
+    
+    // Calculate target date based on unit
+    switch (unit) {
+      case 'year':
+        targetDate = new Date(now.getFullYear() + amount, now.getMonth(), now.getDate());
+        break;
+      case 'month':
+        targetDate = new Date(now.getFullYear(), now.getMonth() + amount, now.getDate());
+        break;
+      case 'week':
+        targetDate = new Date(now.getTime() + (amount * 7 * 24 * 60 * 60 * 1000));
+        break;
+      case 'day':
+        targetDate = new Date(now.getTime() + (amount * 24 * 60 * 60 * 1000));
+        break;
+      default:
+        targetDate = now;
+    }
+    
     const value = dateOnly ? targetDate.toISOString().substring(0, 10) : targetDate.toISOString();
     input.onChange(value);
     setDropdownOpen(false);
@@ -68,7 +92,7 @@ export default function DatePickerField(props) {
         <InputGroupText className="px-2 text-black-50">
           <Icon imgSrc="calendar" size="sd" />
         </InputGroupText>
-        {showPresets && editMode && !readOnly && (
+        {showQuickSelect && editMode && !readOnly && (
           <ButtonDropdown 
             isOpen={dropdownOpen} 
             toggle={() => setDropdownOpen(!dropdownOpen)}
@@ -82,12 +106,18 @@ export default function DatePickerField(props) {
               <Icon imgSrc="caret-down" size="sd" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem onClick={() => handlePresetDate(5)}>
-                5 years from now
-              </DropdownItem>
-              <DropdownItem onClick={() => handlePresetDate(1)}>
-                1 year from now
-              </DropdownItem>
+              {quickSelectOptions.map(({ amount, unit }) => {
+                // Pluralize unit based on amount
+                const pluralUnit = amount === 1 ? unit : `${unit}s`;
+                return (
+                  <DropdownItem 
+                    key={`${amount}-${unit}`}
+                    onClick={() => handleQuickSelect(amount, unit)}
+                  >
+                    {`${amount} ${pluralUnit} from now`}
+                  </DropdownItem>
+                );
+              })}
             </DropdownMenu>
           </ButtonDropdown>
         )}
