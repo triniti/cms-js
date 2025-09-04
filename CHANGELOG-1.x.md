@@ -6,7 +6,7 @@
 * Blocksmith :: prevent saving empty text blocks regardless of position
 * Add filename preview on image hover in galleries
 * Fixed single select field not hydrating data.
-* Add `showQuickSelect` and `quickSelectOptions` props to DatePickerField component (matching v0.18.4 pattern). Applied to gallery and patch-assets-modal expires_at fields to match v0.18.4 implementation.
+* Add `showQuickSelect` and `quickSelectOptions` props to DatePickerField component.
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 
 
