@@ -7,6 +7,7 @@
 * Add filename preview on image hover in galleries
 * Fixed single select field not hydrating data.
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
+* Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
 
 
 ## v1.2.2
