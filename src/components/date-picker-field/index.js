@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
 import { Badge, Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, FormText, InputGroup, InputGroupText, Label, UncontrolledTooltip } from 'reactstrap';
@@ -24,7 +24,7 @@ export default function DatePickerField(props) {
   const { editMode } = formContext;
   const showSetToNow = !!nowable || (!formContext.delegate.handleSearchFromFilters && !nestedPbj);
   const { input, meta, pbjField } = useField({ ...props }, formContext);
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
