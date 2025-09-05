@@ -204,6 +204,7 @@ export default (props) => {
     delegate.handleSubmit = async (values) => {
       try {
         const ref = NodeRef.fromString(nodeRef);
+        let saveAlertText = `${startCase(ref.getLabel())} saved.`
         await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
         await dispatch(updateNode(values, form, node));
 
@@ -211,7 +212,7 @@ export default (props) => {
           delegate.shouldReinitialize = true;
           delegate.onAfterReinitialize = () => {
             progressIndicator.close();
-            toast({ title: `${startCase(ref.getLabel())} saved.` });
+            toast({ title: saveAlertText });
             dispatch(clearAlerts());
             setTimeout(() => {
               navigate(urls.leave);
@@ -222,6 +223,7 @@ export default (props) => {
         }
 
         if (action === 'save-and-publish' && node.schema().hasMixin('gdbots:ncr:mixin:publishable')) {
+          saveAlertText = `${startCase(ref.getLabel())} saved and published`;
           await progressIndicator.update(`Publishing ${startCase(ref.getLabel())}...`);
           await dispatch(publishNode(nodeRef));
         }
@@ -229,7 +231,7 @@ export default (props) => {
         delegate.shouldReinitialize = true;
         delegate.onAfterReinitialize = () => {
           progressIndicator.close();
-          toast({ title: `${startCase(ref.getLabel())} saved.` });
+          toast({ title: saveAlertText });
         };
         setTimeout(refreshNode);
       } catch (e) {

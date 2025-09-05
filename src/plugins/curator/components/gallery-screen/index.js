@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import { ActionButton, FormErrors, Icon, SaveButtonDropDown, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import DetailsTab from '@triniti/cms/plugins/curator/components/gallery-screen/DetailsTab.js';
 import ImagesTab from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/index.js';
@@ -30,9 +30,12 @@ function GalleryScreen(props) {
 
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
+  const isPublished = node.get('status').getValue() === 'published';
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+  const canPublish = policy.isGranted(`${qname}:publish`);
+  const showSavePublish = canPublish && !isPublished;
 
   return (
     <Screen
@@ -69,12 +72,10 @@ function GalleryScreen(props) {
           />
           {canUpdate && (
             <>
-              <ActionButton
-                text="Save"
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                icon="save-diskette"
-                color="primary"
+              <SaveButtonDropDown 
+                isDisabled={submitDisabled}
+                userCanPublish={showSavePublish}
+                delegate={delegate}
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}

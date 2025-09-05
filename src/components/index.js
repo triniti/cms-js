@@ -20,6 +20,7 @@ export Pager from '@triniti/cms/components/pager/index.js';
 export RawPbj from '@triniti/cms/components/raw-pbj/index.js';
 export RawPbjModal from '@triniti/cms/components/raw-pbj-modal/index.js';
 export RouterLink from '@triniti/cms/components/router-link/index.js';
+export SaveButtonDropDown from '@triniti/cms/components/save-button-dropdown/index.js';
 export Screen from '@triniti/cms/components/screen/index.js';
 export SelectField from '@triniti/cms/components/select-field/index.js';
 export SwitchField from '@triniti/cms/components/switch-field/index.js';
