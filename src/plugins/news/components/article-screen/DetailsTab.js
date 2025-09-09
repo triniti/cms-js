@@ -10,6 +10,7 @@ import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-pi
 import UserPickerField from '@triniti/cms/plugins/iam/components/user-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import SyndicationCard from '@triniti/cms/plugins/news/components/article-screen/SyndicationCard.js';
+import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 
 export default function DetailsTab(props) {
   const { node } = props;
@@ -46,7 +47,7 @@ export default function DetailsTab(props) {
         <CardBody>
           <SwitchField name="show_related_articles" label="Show Related Articles" />
           <TextField name="related_articles_heading" label="Related Articles Heading" />
-          <ArticlePickerField name="related_article_refs" label="Related Articles" isMulti sortable />
+          <ArticlePickerField name="related_article_refs" label="Related Articles" isMulti sortable statuses={[NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} />
         </CardBody>
       </Card>
 
