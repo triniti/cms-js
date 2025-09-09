@@ -66,6 +66,8 @@ export default function PublishForm(props) {
   const { nodeRef, node, onStatusUpdated } = props;
   const dispatch = useDispatch();
   const policy = usePolicy();
+  const ref = NodeRef.fromString(nodeRef);
+  const qname = ref.getQName();
 
   const [action, setAction] = useState(null);
   const [publishAt, setPublishAt] = useState(node.get('published_at') || new Date());
@@ -80,13 +82,12 @@ export default function PublishForm(props) {
     setAction(null);
   }, [status]);
 
-  const can = a => allowedActions?.[status][a] && policy.isGranted(`${nodeRef}:${a}`);
+  const can = a => allowedActions?.[status][a] && policy.isGranted(`${qname}:${a}`);
   const handleApply = async () => {
     if (!action) {
       return;
     }
 
-    const ref = NodeRef.fromString(nodeRef);
     const label = startCase(ref.getLabel());
 
     try {
