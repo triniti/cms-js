@@ -5,8 +5,11 @@
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
 * Blocksmith :: prevent saving empty text blocks regardless of position
 * Add filename preview on image hover in galleries
-* Fixed single select field not hydrating data.
 * Fixed publish immediately to use server time instead of client time
+* Fixed single select field not hydrating data.
+* Blocksmith :: update link modal so when opened, its URL field is set to focus.
+* Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
+* ncr :: PublishForm qname fix.
 
 
 ## v1.2.2
