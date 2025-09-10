@@ -8,6 +8,7 @@
 * Fixed single select field not hydrating data.
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 * Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
+* ncr :: PublishForm qname fix.
 * CMSv2 - Filter Article/Gallery Block Selector to Only Show Published or Scheduled Content
 
 
