@@ -6,23 +6,21 @@ import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-fie
 const ArticlePickerFieldWithStatus = (props) => {
   const { statuses, ...otherProps } = props;
 
-  const finalStatuses = statuses;
-
   const ArticlePickerField = useMemo(() => {
     const initialData = {
       sort: SearchArticlesSort.ORDER_DATE_DESC.getValue(),
       autocomplete: true
     };
 
-    if (finalStatuses) {
-      initialData.statuses = finalStatuses;
+    if (statuses) {
+      initialData.statuses = statuses;
     }
 
     return withRequest(NodePickerField, 'triniti:news:request:search-articles-request', {
       channel: 'picker',
       initialData
     });
-  }, [JSON.stringify(finalStatuses)]);
+  }, [JSON.stringify(statuses)]);
 
   return <ArticlePickerField {...otherProps} />;
 };

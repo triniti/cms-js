@@ -10,7 +10,7 @@ function ArticleBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
   return (
     <>
-      <ArticlePickerField name="node_ref" label="Article" required statuses={[NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} />
+      <ArticlePickerField name="node_ref" label="Article" statuses={[NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} required />
       <SwitchField name="show_image" label="Show Image" />
       <ImageAssetPickerField
         name="image_ref"

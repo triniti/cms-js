@@ -6,7 +6,7 @@ import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 function ArticleTeaserModal() {
   return (
     <>
-      <ArticlePickerField name="target_ref" label="Target Article" required statuses={[NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} />
+      <ArticlePickerField name="target_ref" label="Target Article" statuses={[NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} required />
     </>
   );
 }
