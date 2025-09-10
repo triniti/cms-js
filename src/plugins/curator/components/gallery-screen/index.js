@@ -28,14 +28,10 @@ function GalleryScreen(props) {
 
   const delegate = useDelegate(props);
 
-  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
-  const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
-  const isPublished = node.get('status').getValue() === 'published';
+  const { dirty, errors, hasValidationErrors, submitting } = formState;
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
-  const canPublish = policy.isGranted(`${qname}:publish`);
-  const showSavePublish = canPublish && !isPublished;
 
   return (
     <Screen
@@ -73,9 +69,12 @@ function GalleryScreen(props) {
           {canUpdate && (
             <>
               <SaveButtonDropDown 
-                isDisabled={submitDisabled}
-                userCanPublish={showSavePublish}
                 delegate={delegate}
+                formState={formState} 
+                node={node}
+                isRefreshing={isRefreshing}
+                qname={qname}
+                policy={policy} 
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}

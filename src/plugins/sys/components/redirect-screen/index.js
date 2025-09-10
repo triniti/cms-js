@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import { ActionButton, FormErrors, Icon, SaveButtonDropDown, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
@@ -24,8 +24,7 @@ function RedirectScreen(props) {
 
   const delegate = useDelegate(props);
 
-  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
-  const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
+  const { dirty, errors, hasValidationErrors, submitting } = formState;
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
@@ -60,12 +59,13 @@ function RedirectScreen(props) {
           />
           {canUpdate && (
             <>
-              <ActionButton
-                text="Save"
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                icon="save-diskette"
-                color="primary"
+              <SaveButtonDropDown 
+                delegate={delegate}
+                formState={formState} 
+                node={node}
+                isRefreshing={isRefreshing}
+                qname={qname}
+                policy={policy} 
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}

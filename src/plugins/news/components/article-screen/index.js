@@ -32,21 +32,17 @@ function ArticleScreen(props) {
   const delegate = useDelegate(props);
   const schema = node.schema();
 
-  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
-  const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
+  const { dirty, errors, hasValidationErrors, submitting } = formState;
 
-  const isPublished = node.get('status').getValue() === 'published';
   const isLockable = schema.hasMixin('gdbots:ncr:mixin:lockable');
   const isLocked = node.get('is_locked');
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
-  const canPublish = policy.isGranted(`${qname}:publish`);
   const canLock = isLockable && !isLocked && policy.isGranted(`${qname}:lock`);
   const canUnlock = isLockable && isLocked && policy.isGranted(`${qname}:unlock`);
 
   const showMoreActions = canDelete || canLock || canUnlock;
-  const showSavePublish = canPublish && !isPublished;
 
 
   return (
@@ -86,9 +82,12 @@ function ArticleScreen(props) {
           {canUpdate && (
             <>
               <SaveButtonDropDown 
-                isDisabled={submitDisabled}
-                userCanPublish={showSavePublish}
                 delegate={delegate}
+                formState={formState} 
+                node={node}
+                isRefreshing={isRefreshing}
+                qname={qname}
+                policy={policy} 
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
