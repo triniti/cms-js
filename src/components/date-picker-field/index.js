@@ -44,7 +44,7 @@ export default function DatePickerField(props) {
 
   const timeOptions = dateOnly
     ? {dateFormat: 'MM/dd/yyyy'}
-    : {showTimeSelect: true, dateFormat: 'MM/dd/yyyy h:mm a', timeFormat : 'h:mm a', timeCaption: 'Time'};
+    : {showTimeInput: true, dateFormat: 'MM/dd/yyyy h:mm a', timeFormat : 'h:mm a', timeCaption: 'Time'};
 
   const handleSetToNow = () => {
     const now = new Date();
@@ -83,10 +83,10 @@ export default function DatePickerField(props) {
                 size="sd"
                 onClick={handleSetToNow}
               >
-                 <Icon imgSrc="alarm" />
-                 <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
-                   Set to current date and time
-                 </UncontrolledTooltip>
+                <Icon imgSrc="alarm" />
+                <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
+                  Set to current date and time
+                </UncontrolledTooltip>
               </Button>
             )}
           </>

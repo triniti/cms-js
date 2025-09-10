@@ -10,6 +10,7 @@
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 * Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
 * ncr :: PublishForm qname fix.
+* Update DatePickerField to use Input time when selecting date and time.
 
 
 ## v1.2.2
