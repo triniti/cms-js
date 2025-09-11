@@ -20,7 +20,7 @@ const ArticlePickerFieldWithStatus = (props) => {
       channel: 'picker',
       initialData
     });
-  }, [JSON.stringify(statuses)]);
+  }, [statuses?.length, statuses?.join(',')]);
 
   return <ArticlePickerField {...rest} />;
 };
