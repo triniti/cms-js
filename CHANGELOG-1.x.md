@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* blocksmith :: ability to add blocks to the top of the editor.
 * curator :: Widget datasource fixes. Clearable datasource, vendor schema fix, and adding `page` back.
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
 * Blocksmith :: prevent saving empty text blocks regardless of position

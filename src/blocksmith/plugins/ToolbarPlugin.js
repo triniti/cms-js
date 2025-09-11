@@ -27,9 +27,10 @@ import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal
 import BlockSelectorModal from '@triniti/cms/blocksmith/components/block-selector-modal/index.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
-import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import { INSERT_BLOCK_COMMAND, INSERT_BLOCK_AT_TOP_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 
 export const SHOW_BLOCK_SELECTOR_COMMAND = createCommand();
+export const SHOW_BLOCK_SELECTOR_AT_TOP_COMMAND = createCommand();
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -57,9 +58,11 @@ export default function ToolbarPlugin() {
     event.stopPropagation();
     const type = event.currentTarget.dataset.type;
     const afterNodeKey = event.currentTarget.dataset.afterNodeKey;
+    const insertAtTop = event.currentTarget.dataset.insertAtTop === 'true';
 
     if (type === 'text-block') {
-      editor.dispatchCommand(INSERT_BLOCK_COMMAND, { afterNodeKey });
+      const command = insertAtTop ? INSERT_BLOCK_AT_TOP_COMMAND : INSERT_BLOCK_COMMAND;
+      editor.dispatchCommand(command, { afterNodeKey });
       modalRef.current = null;
       setIsModalOpen(false);
       return;
@@ -67,13 +70,13 @@ export default function ToolbarPlugin() {
 
     const curie = `${APP_VENDOR}:canvas:block:${type}`;
     const Component = resolveComponent(curie, 'modal');
-    modalRef.current = (p) => <Component curie={curie} afterNodeKey={afterNodeKey} canCreate {...p} />;
+    modalRef.current = (p) => <Component curie={curie} afterNodeKey={afterNodeKey} insertAtTop={insertAtTop} canCreate {...p} />;
     setIsModalOpen(true);
     setRefreshed(refreshed + 1); // merely forces reload of this component
   };
 
-  const handleShowBlockSelector = (nodeKey) => {
-    modalRef.current = (p) => <BlockSelectorModal afterNodeKey={nodeKey} {...p} />;
+  const handleShowBlockSelector = (nodeKey, insertAtTop = false) => {
+    modalRef.current = (p) => <BlockSelectorModal afterNodeKey={nodeKey} insertAtTop={insertAtTop} {...p} />;
     setIsModalOpen(true);
   };
 
@@ -167,6 +170,10 @@ export default function ToolbarPlugin() {
       ),
       editor.registerCommand(SHOW_BLOCK_SELECTOR_COMMAND, (nodeKey) => {
         handleShowBlockSelector(nodeKey);
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(SHOW_BLOCK_SELECTOR_AT_TOP_COMMAND, () => {
+        handleShowBlockSelector(null, true);
         return true;
       }, COMMAND_PRIORITY_EDITOR),
     );
