@@ -17,7 +17,6 @@ import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import galleryLayouts from '@triniti/app/config/galleryLayouts.js';
-import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 
 export default function DetailsTab(props) {
   const { node } = props;
