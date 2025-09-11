@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Add save & close and save & publish dropdown buttons to all nodes.
 * Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
 * Blocksmith :: prevent saving empty text blocks regardless of position
 * Add filename preview on image hover in galleries
