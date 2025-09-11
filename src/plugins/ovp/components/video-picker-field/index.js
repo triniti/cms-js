@@ -4,7 +4,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 const VideoPickerFieldWithStatus = (props) => {
-  const { statuses, ...otherProps } = props;
+  const { statuses, ...rest } = props;
 
   const VideoPickerField = useMemo(() => {
     const initialData = {
@@ -20,9 +20,9 @@ const VideoPickerFieldWithStatus = (props) => {
       channel: 'picker',
       initialData
     });
-  }, [JSON.stringify(statuses)]);
+  }, [statuses?.length, statuses?.join(',')]);
 
-  return <VideoPickerField {...otherProps} />;
+  return <VideoPickerField {...rest} />;
 };
 
 export default VideoPickerFieldWithStatus;

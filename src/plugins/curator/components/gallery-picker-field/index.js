@@ -4,7 +4,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 const GalleryPickerFieldWithStatus = (props) => {
-  const { statuses, ...otherProps } = props;
+  const { statuses, ...rest } = props;
 
   const GalleryPickerField = useMemo(() => {
     const initialData = {
@@ -20,9 +20,9 @@ const GalleryPickerFieldWithStatus = (props) => {
       channel: 'picker',
       initialData
     });
-  }, [JSON.stringify(statuses)]);
+  }, [statuses?.length, statuses?.join(',')]);
  
-  return <GalleryPickerField {...otherProps} />;
+  return <GalleryPickerField {...rest} />;
 };
 
 export default GalleryPickerFieldWithStatus;

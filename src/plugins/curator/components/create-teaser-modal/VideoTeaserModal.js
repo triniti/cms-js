@@ -6,7 +6,7 @@ import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 function VideoTeaserModal() {
   return (
     <>
-      <VideoPickerField name="target_ref" label="Target Video" statuses={[NodeStatus.PENDING, NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} required />
+      <VideoPickerField name="target_ref" label="Target Video" statuses={[NodeStatus.PUBLISHED]} required />
     </>
   );
 }

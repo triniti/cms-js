@@ -61,9 +61,9 @@ export default function DetailsTab(props) {
       <Card>
         <CardHeader>Related Galleries</CardHeader>
         <CardBody>
-          <GalleryPickerField name="prev_gallery_ref" label="Previous Gallery" statuses={[NodeStatus.PUBLISHED]} />
-          <GalleryPickerField name="next_gallery_ref" label="Next Gallery" statuses={[NodeStatus.PUBLISHED]} />
-          <GalleryPickerField name="related_gallery_refs" label="Related Galleries" statuses={[NodeStatus.PUBLISHED]} isMulti sortable />
+          <GalleryPickerField name="prev_gallery_ref" label="Previous Gallery" />
+          <GalleryPickerField name="next_gallery_ref" label="Next Gallery" />
+          <GalleryPickerField name="related_gallery_refs" label="Related Galleries" isMulti sortable />
         </CardBody>
       </Card>
 

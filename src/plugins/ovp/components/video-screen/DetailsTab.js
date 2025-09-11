@@ -89,7 +89,7 @@ export default function DetailsTab(props) {
           <SwitchField name="recommendations_enabled" label="Recommendations Enabled" />
           <SwitchField name="show_related_videos" label="Show Related Videos" />
           <TextField name="related_videos_heading" label="Related Videos Heading" />
-          <VideoPickerField name="related_video_refs" label="Related Videos" statuses={[NodeStatus.PENDING, NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} isMulti sortable />
+          <VideoPickerField name="related_video_refs" label="Related Videos" statuses={[NodeStatus.PUBLISHED]} isMulti sortable />
         </CardBody>
       </Card>
 

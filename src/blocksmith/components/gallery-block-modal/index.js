@@ -6,13 +6,14 @@ import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/AsideField.js';
+import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 
 function GalleryBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
   const { values } = useFormState({ subscription: { values: true } });
   return (
     <>
-      <GalleryPickerField name="node_ref" label="Gallery" required />
+      <GalleryPickerField name="node_ref" label="Gallery" statuses={[NodeStatus.PUBLISHED]} required />
       <ImageAssetPickerField
         name="poster_image_ref"
         label="Poster Image"
