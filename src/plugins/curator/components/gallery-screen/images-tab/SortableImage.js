@@ -5,6 +5,7 @@ import { ButtonToolbar, Card, Input, Label, Media } from 'reactstrap';
 import { BackgroundImage, Icon } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
+import '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/styles.scss';
 
 export default function SortableImage(props) {
   const { id, index, seq, image, batch, isReordering, canReorder } = props;
@@ -62,7 +63,11 @@ export default function SortableImage(props) {
           <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
         </Media>
         {(isHovering || isSelected) && (
-          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black"></div>
+          <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black">
+            {isHovering && (
+              <p className="gallery-image-title-overlay">{image.get('title')}</p>
+            )}
+          </div>
         )}
         {!isDragging && (
           <ButtonToolbar className="position-absolute p-0 w-100 justify-content-between">

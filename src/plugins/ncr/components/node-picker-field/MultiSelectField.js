@@ -87,7 +87,11 @@ export default function MultiSelectField(props) {
         components={components}
         loadOptions={loadOptions}
         additional={{ page: 1, request }}
-        onChange={selected => input.onChange(selected ? selected.map(o => o.value) : undefined)}
+        onChange={selected => {
+          input.onChange(selected ? selected.map(o => o.value) : undefined);
+          request.clear('q');
+          setQ('');
+        }}
       />
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}

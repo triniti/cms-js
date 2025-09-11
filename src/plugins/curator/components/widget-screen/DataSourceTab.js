@@ -28,10 +28,19 @@ const resolveComponent = (id) => {
 };
 
 export default function DataSourceTab(props) {
-  const { formState } = props;
+  const { formState, form } = props;
   const datasource = formState.values?.search_request?._schema;
   const curies = useCuries('triniti:curator:mixin:widget-search-request:v1');
   const [options, setOptions] = useState();
+
+  // Monitor the schema field and handle clearing properly
+  useEffect(() => {
+    // Check if search_request exists but _schema is undefined (user cleared the field)
+    if ( formState.values.search_request?._schema === undefined) {
+      // Clear the entire search_request to avoid schema validation errors
+      form.change('search_request', null);
+    }
+  }, [formState.values?.search_request?._schema]);
 
   useEffect(() => {
     if (!curies) {
@@ -44,7 +53,7 @@ export default function DataSourceTab(props) {
       .map(curie => {
         return {
           label: curie.split(':').pop().replace('search-', '').replace('-request', ''),
-          value: `pbj:${curie}:1-0-0`,
+          value: `pbj:${curie}:1-0-0`.replace('triniti:', `${APP_VENDOR}:`),
         };
       })
     );
@@ -65,7 +74,6 @@ export default function DataSourceTab(props) {
             name="search_request._schema"
             label="Content Type"
             options={options}
-            isClearable={false}
           />
           {datasource && (
             <Suspense fallback={<Loading />}>

@@ -93,7 +93,15 @@ function AssetDetails(props) {
             {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
               <Row className="align-items-end">
                 <Col sm={8}>
-                  <DatePickerField name="expires_at" label="Expires At" />
+                  <DatePickerField 
+                    name="expires_at" 
+                    label="Expires At" 
+                    showQuickSelect
+                    quickSelectOptions={[
+                      { amount: 5, unit: 'year' },
+                      { amount: 1, unit: 'year' }
+                    ]}
+                  />
                 </Col>
                 <Col sm={4}>
                   <Button

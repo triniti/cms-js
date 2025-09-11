@@ -9,13 +9,7 @@ const isEmptyBlock = (block) => {
     return false;
   }
 
-  for (let i = 0; i < EMPTY_TEXT_BLOCKS.length; i++) {
-    if (block.text === EMPTY_TEXT_BLOCKS[i]) {
-      return true;
-    }
-  }
-
-  return false;
+  return EMPTY_TEXT_BLOCKS.includes(block.text);
 };
 
 // do we need to handle css_class and updated_date on text? one wonders. i hope the fuck not.
@@ -52,23 +46,5 @@ export default (editor) => {
     return blocks;
   }
 
-  do {
-    if (!isEmptyBlock(blocks[0])) {
-      break;
-    }
-    blocks.shift();
-  } while (blocks.length > 0);
-
-  if (blocks.length === 0) {
-    return blocks;
-  }
-
-  do {
-    if (!isEmptyBlock(blocks[blocks.length - 1])) {
-      break;
-    }
-    blocks.pop();
-  } while (blocks.length > 0);
-
-  return blocks;
+  return blocks.filter(block => !isEmptyBlock(block));
 };
