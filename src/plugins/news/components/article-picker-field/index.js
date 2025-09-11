@@ -4,7 +4,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import NodePickerField from '@triniti/cms/plugins/ncr/components/node-picker-field/index.js';
 
 const ArticlePickerFieldWithStatus = (props) => {
-  const { statuses, ...otherProps } = props;
+  const { statuses, ...rest } = props;
 
   const ArticlePickerField = useMemo(() => {
     const initialData = {
@@ -22,7 +22,7 @@ const ArticlePickerFieldWithStatus = (props) => {
     });
   }, [JSON.stringify(statuses)]);
 
-  return <ArticlePickerField {...otherProps} />;
+  return <ArticlePickerField {...rest} />;
 };
 
 export default ArticlePickerFieldWithStatus;
