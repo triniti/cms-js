@@ -8,6 +8,7 @@
 * Add filename preview on image hover in galleries
 * Fixed publish immediately to use server time instead of client time
 * Fixed single select field not hydrating data.
+* Add `showQuickSelect` and `quickSelectOptions` props to DatePickerField component.
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 * Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
 * ncr :: PublishForm qname fix.
