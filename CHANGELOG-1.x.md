@@ -14,6 +14,7 @@
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 * Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
 * ncr :: PublishForm qname fix.
+* uploader-modal :: Populate the AssetForm with the first item to start uploading rather than the first item to finish loading.
 
 
 ## v1.2.2
