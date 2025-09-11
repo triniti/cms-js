@@ -11,7 +11,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
 export default function BlockSelectorModal(props) {
-  const { onInsertBlock, afterNodeKey = null } = props;
+  const { onInsertBlock, afterNodeKey = null, insertAtTop = false } = props;
   const policy = usePolicy();
 
   return (
@@ -33,6 +33,7 @@ export default function BlockSelectorModal(props) {
                 onClick={onInsertBlock}
                 data-type={type}
                 data-after-node-key={afterNodeKey}
+                data-insert-at-top={insertAtTop}
                 className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
                 <Icon imgSrc={icon} size="sd" alt="" className="me-2" />
                 <span className="text">{title}</span>
@@ -56,6 +57,7 @@ export default function BlockSelectorModal(props) {
                 onClick={onInsertBlock}
                 data-type={type}
                 data-after-node-key={afterNodeKey}
+                data-insert-at-top={insertAtTop}
                 className="g-col-6 g-col-sm-4 btn btn-sm btn-light btn-list">
                 <Icon imgSrc={icon} alt="" className="me-2" />
                 <span className="text">{title}</span>
