@@ -9,7 +9,7 @@ function VideoBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
   return (
     <>
-      <VideoPickerField name="node_ref" label="Video" statuses={[NodeStatus.PENDING, NodeStatus.PUBLISHED, NodeStatus.SCHEDULED]} required />
+      <VideoPickerField name="node_ref" label="Video" required />
       <SwitchField name="autoplay" label="Autoplay" />
       <SwitchField name="muted" label="Muted" />
       <NumberField name="start_at" label="Start At" description="Measured in seconds." />

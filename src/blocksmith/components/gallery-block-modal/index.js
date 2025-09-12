@@ -13,7 +13,7 @@ function GalleryBlockModal(props) {
   const { values } = useFormState({ subscription: { values: true } });
   return (
     <>
-      <GalleryPickerField name="node_ref" label="Gallery" statuses={[NodeStatus.PUBLISHED]} required />
+      <GalleryPickerField name="node_ref" label="Gallery" required />
       <ImageAssetPickerField
         name="poster_image_ref"
         label="Poster Image"
