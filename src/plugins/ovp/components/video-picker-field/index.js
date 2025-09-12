@@ -20,7 +20,7 @@ const VideoPickerFieldWithStatus = (props) => {
       channel: 'picker',
       initialData
     });
-  }, [statuses?.length, statuses?.join(',')]);
+  }, statuses);
 
   return <VideoPickerField {...rest} />;
 };

@@ -20,7 +20,7 @@ const GalleryPickerFieldWithStatus = (props) => {
       channel: 'picker',
       initialData
     });
-  }, [statuses?.length, statuses?.join(',')]);
+  }, statuses);
  
   return <GalleryPickerField {...rest} />;
 };
