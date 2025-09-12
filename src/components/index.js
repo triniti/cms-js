@@ -35,7 +35,3 @@ export useField from '@triniti/cms/components/useField.js';
 export useFormContext from '@triniti/cms/components/useFormContext.js';
 export withForm from '@triniti/cms/components/with-form/index.js';
 export withPbj from '@triniti/cms/components/with-pbj/index.js';
-
-export ArticlePicker from '@triniti/cms/components/article-picker/index.js';
-export GalleryPicker from '@triniti/cms/components/gallery-picker/index.js';
-export VideoPicker from '@triniti/cms/components/video-picker/index.js';

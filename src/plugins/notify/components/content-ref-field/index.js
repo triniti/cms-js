@@ -7,7 +7,7 @@ import { ErrorBoundary, Loading, useFormContext } from '@triniti/cms/components/
 
 // todo: enable the other pickers once server side handling exists for other content types, also, could this be simpler?
 export const pickers = {
-  article: lazy(() => import('@triniti/cms/plugins/news/components/article-picker-field/index.js')),
+  article: lazy(() => import('@triniti/cms/plugins/notify/components/content-ref-field/ArticlePickerField.js')),
   // gallery: lazy(() => import('@triniti/cms/plugins/curator/components/gallery-picker-field')),
   // video: lazy(() => import('@triniti/cms/plugins/ovp/components/video-picker-field')),
   none: props => <Field {...props} type="hidden" component="input" value={null} />,
