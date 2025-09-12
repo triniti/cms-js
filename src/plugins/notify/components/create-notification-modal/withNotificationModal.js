@@ -66,7 +66,7 @@ export default function withNotificationModal(ModalFields) {
         <Form onSubmit={handleSubmit} autoComplete="off">
           <ModalBody>
             {hasSubmitErrors && <FormErrors errors={submitErrors} />}
-            <ContentRefField contentRef={contentRef} statuses={[NodeStatus.PUBLISHED, NodeStatus.DRAFT]}/>
+            <ContentRefField contentRef={contentRef} />
             <SendOptionsField contentStatus={contentStatus} />
             {!values.content_ref && (
               <>
