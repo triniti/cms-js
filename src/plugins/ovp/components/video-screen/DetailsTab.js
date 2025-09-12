@@ -17,7 +17,6 @@ import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-pi
 import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field/index.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
 import parseYouTubeId from '@triniti/cms/utils/parseYouTubeId.js';
-import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 
 export default function DetailsTab(props) {
   const { node } = props;
