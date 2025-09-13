@@ -30,7 +30,6 @@ export default function ContentRefField(props) {
     readOnly = false,
     required = false,
     contentRef,
-    statuses,
     ...rest
   } = props;
 
@@ -85,7 +84,6 @@ export default function ContentRefField(props) {
             name={name}
             label={label}
             readOnly={readOnly}
-            statuses={statuses}
             {...rest}
             required={type !== 'none'}
           />
