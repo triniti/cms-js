@@ -15,7 +15,6 @@ import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
 import getNode from '@triniti/cms/plugins/ncr/selectors/getNode.js';
 import ContentRefField from '@triniti/cms/plugins/notify/components/content-ref-field/index.js';
 import SendOptionsField from '@triniti/cms/plugins/notify/components/send-options-field/index.js';
-import NodeStatus from "@gdbots/schemas/gdbots/ncr/enums/NodeStatus.js";
 
 const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
 
