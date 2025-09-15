@@ -92,8 +92,10 @@ export default function PublishForm(props) {
 
     try {
       await progressIndicator.show(`Updating ${label} status...`);
-      await dispatch(actions[action](nodeRef, publishAt));
-      await onStatusUpdated(action, publishAt);
+      const effectivePublishAt = action === 'publish' ? null : publishAt;
+
+      await dispatch(actions[action](nodeRef, effectivePublishAt));
+      await onStatusUpdated(action, effectivePublishAt);
       await progressIndicator.close();
       toast({ title: `${label} status updated.` });
     } catch (e) {
