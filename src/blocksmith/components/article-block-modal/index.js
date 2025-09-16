@@ -1,6 +1,6 @@
 import React from 'react';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
-import ArticlePickerField from '@triniti/cms/plugins/news/components/article-picker-field/index.js';
+import ArticlePickerField from '@triniti/cms/blocksmith/components/article-block-modal/ArticlePickerField.js';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/AsideField.js';

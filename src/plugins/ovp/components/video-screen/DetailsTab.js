@@ -14,7 +14,7 @@ import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-picker-field/index.js';
-import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field/index.js';
+import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-screen/VideoPickerField.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
 import parseYouTubeId from '@triniti/cms/utils/parseYouTubeId.js';
 

@@ -15,6 +15,7 @@
 * Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
 * ncr :: PublishForm qname fix.
 * uploader-modal :: Populate the AssetForm with the first item to start uploading rather than the first item to finish loading.
+* Add override file for customizing picker field behavior
 
 
 ## v1.2.2
