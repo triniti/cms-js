@@ -123,7 +123,15 @@ function AssetDetails(props) {
           <>
             <PicklistField picklist={`${label}-credits`} name="credit" label="Credit" />
             {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-              <DatePickerField name="expires_at" label="Expires At" />
+              <DatePickerField
+                name="expires_at"
+                label="Expires At"
+                showQuickSelect
+                quickSelectOptions={[
+                  { amount: 5, unit: 'year' },
+                  { amount: 1, unit: 'year' }
+                ]}
+              />
             )}
           </>
         )}
