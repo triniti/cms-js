@@ -9,4 +9,3 @@ export default withRequest(NodePickerField, 'triniti:news:request:search-article
     autocomplete: true,
   }
 });
-
