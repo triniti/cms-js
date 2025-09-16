@@ -51,18 +51,17 @@ export default function DatePickerField(props) {
 
   const timeOptions = dateOnly
     ? {dateFormat: 'MM/dd/yyyy'}
-    : {showTimeInput: true, dateFormat: ['MM/dd/yyyy h:mm a', 'MM/dd/yyyy h:mma'], timeFormat : ['h:mm a','h:mma'], timeCaption: 'Time'};
+    : {showTimeSelect: true, dateFormat: 'MM/dd/yyyy h:mm a', timeFormat : 'h:mm a', timeCaption: 'Time'};
 
   const handleSetToNow = () => {
     const now = new Date();
     input.onChange(now.toISOString());
   };
 
-
   const handleQuickSelect = (amount, unit) => {
     const now = new Date();
     let targetDate;
-
+    
     // Calculate target date based on unit
     switch (unit) {
       case 'year':
@@ -80,12 +79,11 @@ export default function DatePickerField(props) {
       default:
         targetDate = now;
     }
-
+    
     const value = dateOnly ? targetDate.toISOString().substring(0, 10) : targetDate.toISOString();
     input.onChange(value);
     setDropdownOpen(false);
   };
-
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
@@ -95,13 +93,13 @@ export default function DatePickerField(props) {
           <Icon imgSrc="calendar" size="sd" />
         </InputGroupText>
         {showQuickSelect && editMode && !readOnly && (
-          <ButtonDropdown
-            isOpen={dropdownOpen}
+          <ButtonDropdown 
+            isOpen={dropdownOpen} 
             toggle={() => setDropdownOpen(!dropdownOpen)}
             direction="down"
           >
-            <DropdownToggle
-              color="light"
+            <DropdownToggle 
+              color="light" 
               outline
               className="px-2"
             >
@@ -112,7 +110,7 @@ export default function DatePickerField(props) {
                 // Pluralize unit based on amount
                 const pluralUnit = amount === 1 ? unit : `${unit}s`;
                 return (
-                  <DropdownItem
+                  <DropdownItem 
                     key={`${amount}-${unit}`}
                     onClick={() => handleQuickSelect(amount, unit)}
                   >
@@ -148,10 +146,10 @@ export default function DatePickerField(props) {
                 size="sd"
                 onClick={handleSetToNow}
               >
-                <Icon imgSrc="alarm" />
-                <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
-                  Set to current date and time
-                </UncontrolledTooltip>
+                 <Icon imgSrc="alarm" />
+                 <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
+                   Set to current date and time
+                 </UncontrolledTooltip>
               </Button>
             )}
           </>

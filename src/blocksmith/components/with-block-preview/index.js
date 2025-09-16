@@ -16,6 +16,7 @@ import {
 } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import config from '@triniti/cms/blocksmith/config.js';
+import InsertBlockButtons from '@triniti/cms/blocksmith/components/insert-block-buttons/index.js';
 
 const okayToDelete = async () => {
   const result = await Swal.fire({
@@ -91,14 +92,10 @@ function BlockPreview(props) {
         </CardBody>
 
         {editMode && (
-          <div className="insert-block-buttons">
-            <Button color="primary" className="rounded-pill" size="sm" onClick={onInsertTextBlock}>
-              <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Text
-            </Button>
-            <Button color="primary" className="rounded-pill" size="sm" onClick={onInsertBlock}>
-              <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Block
-            </Button>
-          </div>
+          <InsertBlockButtons 
+            onInsertTextBlock={onInsertTextBlock}
+            onInsertBlock={onInsertBlock}
+          />
         )}
       </Card>
     </div>

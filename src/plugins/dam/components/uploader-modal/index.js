@@ -84,11 +84,14 @@ export default function UploaderModal(props) {
   };
 
   const handleUploadCompleted = (nameHash) => {
-    if (activeUpload.current || activeUpload.current === nameHash) {
+    if (activeUpload.current) {
       return;
     }
 
-    activeUpload.current = nameHash;
+    if (nameHash === batch.values()[0]?.nameHash) {
+      activeUpload.current = nameHash;
+    }
+    
     batch.refresh();
   };
 
