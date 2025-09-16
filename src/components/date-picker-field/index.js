@@ -51,7 +51,7 @@ export default function DatePickerField(props) {
 
   const timeOptions = dateOnly
     ? {dateFormat: 'MM/dd/yyyy'}
-    : {showTimeSelect: true, dateFormat: 'MM/dd/yyyy h:mm a', timeFormat : 'h:mm a', timeCaption: 'Time'};
+    : {showTimeInput: true, dateFormat: ['MM/dd/yyyy h:mm a', 'MM/dd/yyyy h:mma'], timeFormat : ['h:mm a','h:mma'], timeCaption: 'Time'};
 
   const handleSetToNow = () => {
     const now = new Date();
@@ -61,7 +61,7 @@ export default function DatePickerField(props) {
   const handleQuickSelect = (amount, unit) => {
     const now = new Date();
     let targetDate;
-    
+
     // Calculate target date based on unit
     switch (unit) {
       case 'year':
@@ -79,7 +79,7 @@ export default function DatePickerField(props) {
       default:
         targetDate = now;
     }
-    
+
     const value = dateOnly ? targetDate.toISOString().substring(0, 10) : targetDate.toISOString();
     input.onChange(value);
     setDropdownOpen(false);
@@ -93,13 +93,13 @@ export default function DatePickerField(props) {
           <Icon imgSrc="calendar" size="sd" />
         </InputGroupText>
         {showQuickSelect && editMode && !readOnly && (
-          <ButtonDropdown 
-            isOpen={dropdownOpen} 
+          <ButtonDropdown
+            isOpen={dropdownOpen}
             toggle={() => setDropdownOpen(!dropdownOpen)}
             direction="down"
           >
-            <DropdownToggle 
-              color="light" 
+            <DropdownToggle
+              color="light"
               outline
               className="px-2"
             >
@@ -110,7 +110,7 @@ export default function DatePickerField(props) {
                 // Pluralize unit based on amount
                 const pluralUnit = amount === 1 ? unit : `${unit}s`;
                 return (
-                  <DropdownItem 
+                  <DropdownItem
                     key={`${amount}-${unit}`}
                     onClick={() => handleQuickSelect(amount, unit)}
                   >
