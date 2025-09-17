@@ -51,12 +51,13 @@ export default function DatePickerField(props) {
 
   const timeOptions = dateOnly
     ? {dateFormat: 'MM/dd/yyyy'}
-    : {showTimeInput: true, dateFormat: ['MM/dd/yyyy h:mm a', 'MM/dd/yyyy h:mma'], timeFormat : ['h:mm a','h:mma'], timeCaption: 'Time'};
+    : {showTimeInput: true, dateFormat: ['MM/dd/yyyy h:mm a', 'MM/dd/yyyy h:mma', 'MM/dd/yyyyh:mma', 'MM/dd/yyyyh:mm a'], timeFormat : ['h:mm a','h:mma'], timeCaption: 'Time'};
 
   const handleSetToNow = () => {
     const now = new Date();
     input.onChange(now.toISOString());
   };
+
 
   const handleQuickSelect = (amount, unit) => {
     const now = new Date();
@@ -84,6 +85,7 @@ export default function DatePickerField(props) {
     input.onChange(value);
     setDropdownOpen(false);
   };
+
 
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
@@ -146,10 +148,10 @@ export default function DatePickerField(props) {
                 size="sd"
                 onClick={handleSetToNow}
               >
-                 <Icon imgSrc="alarm" />
-                 <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
-                   Set to current date and time
-                 </UncontrolledTooltip>
+                <Icon imgSrc="alarm" />
+                <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
+                  Set to current date and time
+                </UncontrolledTooltip>
               </Button>
             )}
           </>
