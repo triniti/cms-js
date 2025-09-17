@@ -4,6 +4,8 @@ set -euo pipefail
 # this script enables using the github repo as an npm dependency. it should
 # not be included in any npm version, and the npm script in package.json
 # that calls this script should also be removed before publishing
+#
+# it should probably not even be allowed to reach the default branch
 
 main () {
   local self
