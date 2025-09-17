@@ -21,7 +21,7 @@ main () {
   done
   self="$(readlink -f "${self}")"
 
-  if [[ "${self}" != *"node_modules/@triniti/cms/${self}" ]]; then
+  if [[ "${self}" != *"node_modules/@triniti/cms/$(basename "${self}")" ]]; then
       exit 0 # not being used as a dependency
   fi
 
