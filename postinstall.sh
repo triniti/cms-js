@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 # this script enables using the github repo as an npm dependency. it should
 # not be included in any npm version, and the npm script in package.json
