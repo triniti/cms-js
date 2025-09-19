@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import { ActionButton, FormErrors, Icon, SaveButtonDropDown, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import DetailsTab from '@triniti/cms/plugins/curator/components/timeline-screen/DetailsTab.js';
 import CodeTab from '@triniti/cms/plugins/common/components/code-tab/index.js';
@@ -10,6 +10,7 @@ import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/i
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import SaveButtonDropDown from '@triniti/cms/plugins/ncr/components/save-button-dropdown/index.js';
 
 function TimelineScreen(props) {
   const {
@@ -66,7 +67,7 @@ function TimelineScreen(props) {
           {canUpdate && (
             <>
               <SaveButtonDropDown 
-                delegate={delegate}
+                handleSave={delegate.handleSave}
                 formState={formState} 
                 node={node}
                 isRefreshing={isRefreshing}

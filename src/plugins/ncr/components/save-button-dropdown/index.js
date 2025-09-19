@@ -4,21 +4,21 @@ import { DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { ActionButton, Icon } from '@triniti/cms/components/index.js';
 
 export default function SaveButtonDropDown (props) {
-  const { delegate, formState, node, isRefreshing, qname, policy } = props;
+  const { handleSave, formState, node, isRefreshing, qname, policy } = props;
 
   const { dirty, hasSubmitErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
   const canPublish = policy.isGranted(`${qname}:publish`);
-  const isPublished = node.get('status') === NodeStatus.PUBLISHED;
+  const isPublished = node.get('status').getValue() === NodeStatus.PUBLISHED.getValue();
   const isPublishable = node.schema().hasMixin('gdbots:ncr:mixin:publishable');
   const savePublishDisabled = !canPublish || isPublished || !isPublishable;
-
+  
   return (
     <>
       <UncontrolledDropdown group className="me-2">
         <ActionButton
           text='Save'
-          onClick={delegate.handleSave}
+          onClick={handleSave}
           disabled={submitDisabled}
           icon='save-diskette'
           color='light'
@@ -31,7 +31,7 @@ export default function SaveButtonDropDown (props) {
           <ActionButton
             text='Save & Publish'
             value='save-and-publish'
-            onClick={delegate.handleSave}
+            onClick={handleSave}
             disabled={savePublishDisabled}
             icon='save-diskette'
             className='w-100'
@@ -41,7 +41,7 @@ export default function SaveButtonDropDown (props) {
           <ActionButton
             text='Save & Close'
             value='save-and-close'
-            onClick={delegate.handleSave}
+            onClick={handleSave}
             icon='save-diskette'
             className='w-100'
             color='light'

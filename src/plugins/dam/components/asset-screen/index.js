@@ -3,13 +3,14 @@ import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, Uncontr
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import { ActionButton, FormErrors, Icon, SaveButtonDropDown, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import DetailsTab from '@triniti/cms/plugins/dam/components/asset-screen/DetailsTab.js';
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import VariantsTab from '@triniti/cms/plugins/dam/components/asset-screen/VariantsTab.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import SaveButtonDropDown from '@triniti/cms/plugins/ncr/components/save-button-dropdown/index.js';
 
 function AssetScreen(props) {
   const {
@@ -80,7 +81,7 @@ function AssetScreen(props) {
           {canUpdate && (
             <>
               <SaveButtonDropDown 
-                delegate={delegate}
+                handleSave={delegate.handleSave}
                 formState={formState} 
                 node={node}
                 isRefreshing={isRefreshing}

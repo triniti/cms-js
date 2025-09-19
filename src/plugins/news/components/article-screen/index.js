@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
-import { ActionButton, FormErrors, Icon, SaveButtonDropDown, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
+import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
 import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/index.js';
 import ReactionsCard from '@triniti/cms/plugins/apollo/components/reactions-card/index.js';
 import StatsCard from '@triniti/cms/plugins/news/components/article-screen/StatsCard.js';
@@ -14,6 +14,7 @@ import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/i
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import SaveButtonDropDown from '@triniti/cms/plugins/ncr/components/save-button-dropdown/index.js';
 
 function ArticleScreen(props) {
   const {
@@ -43,7 +44,6 @@ function ArticleScreen(props) {
   const canUnlock = isLockable && isLocked && policy.isGranted(`${qname}:unlock`);
 
   const showMoreActions = canDelete || canLock || canUnlock;
-
 
   return (
     <Screen
@@ -82,7 +82,7 @@ function ArticleScreen(props) {
           {canUpdate && (
             <>
               <SaveButtonDropDown 
-                delegate={delegate}
+                handleSave={delegate.handleSave}
                 formState={formState} 
                 node={node}
                 isRefreshing={isRefreshing}
