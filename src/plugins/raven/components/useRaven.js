@@ -93,13 +93,12 @@ export default (nodeRef, editMode, canCollaborate) => {
 
     const handleVisibilityChange = () => {
       if (!document.hidden) {
+        // Page becomes visible: send immediate heartbeat and restart collaboration
+        dispatch(heartbeat(nodeRef));
         startCollaboration();
-      } else {
-        if (heartbeatInterval) {
-          clearInterval(heartbeatInterval);
-          heartbeatInterval = null;
-        }
       }
+      // Page becomes hidden: keep heartbeats running to maintain "online" status
+      // This ensures user stays visible to other collaborators even when tab is hidden
     };
 
     if (editMode && canCollaborate) {
