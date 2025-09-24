@@ -11,7 +11,7 @@ import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/i
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
-import SaveButtonDropDown from '@triniti/cms/plugins/ncr/components/save-button-dropdown/index.js';
+import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 
 function PageScreen(props) {
   const {
@@ -29,7 +29,8 @@ function PageScreen(props) {
 
   const delegate = useDelegate(props);
 
-  const { dirty, errors, hasValidationErrors, submitting } = formState;
+  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;   
+  const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
@@ -68,13 +69,10 @@ function PageScreen(props) {
           />
           {canUpdate && (
             <>
-              <SaveButtonDropDown 
-                handleSave={delegate.handleSave}
-                formState={formState} 
-                node={node}
-                isRefreshing={isRefreshing}
-                qname={qname}
-                policy={policy} 
+              <SaveNodeButton 
+                onClick={delegate.handleSave}
+                disabled={submitDisabled}
+                nodeRef={nodeRef}
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}

@@ -7,7 +7,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/i
 import DetailsTab from '@triniti/cms/plugins/notify/components/notification-screen/DetailsTab.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
-import SaveButtonDropDown from '@triniti/cms/plugins/ncr/components/save-button-dropdown/index.js';
+import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 
 const editable = { draft: true, scheduled: true };
 
@@ -34,7 +34,8 @@ function NotificationScreen(props) {
     }
   }, []);
 
-  const { dirty, errors, hasValidationErrors, submitting } = formState;
+  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;   
+  const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
@@ -68,13 +69,10 @@ function NotificationScreen(props) {
           />
           {canUpdate && !alreadySent && (
             <>
-              <SaveButtonDropDown 
-                handleSave={delegate.handleSave}
-                formState={formState} 
-                node={node}
-                isRefreshing={isRefreshing}
-                qname={qname}
-                policy={policy} 
+              <SaveNodeButton 
+                onClick={delegate.handleSave}
+                disabled={submitDisabled}
+                nodeRef={nodeRef}
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
