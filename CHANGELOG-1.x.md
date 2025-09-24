@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add save & close and save & publish dropdown buttons to all nodes.
+* raven :: Display users in article edit mode
 * blocksmith :: adding support for embed codes in iframe src input.
 * blocksmith :: ability to add blocks to the top of the editor.
 * curator :: Widget datasource fixes. Clearable datasource, vendor schema fix, and adding `page` back.
@@ -15,6 +16,9 @@
 * Blocksmith :: update link modal so when opened, its URL field is set to focus.
 * Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
 * ncr :: PublishForm qname fix.
+* uploader-modal :: Populate the AssetForm with the first item to start uploading rather than the first item to finish loading.
+* Add override file for customizing picker field behavior
+* Update DatePickerField to use Input time when selecting date and time.
 
 
 ## v1.2.2

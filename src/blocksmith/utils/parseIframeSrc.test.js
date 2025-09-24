@@ -17,12 +17,6 @@ global.DOMParser = class DOMParser {
   }
 };
 
-// Helper function to test parseIframeSrc
-const testParseIframeSrc = (input, expected, description) => {
-  const result = parseIframeSrc(input);
-  return { actual: result, expected, description };
-};
-
 test('parseIframeSrc handles various inputs', (t) => {
   const testCases = [
     ['https://example.com', null, 'Simple URL (not iframe)'],
@@ -38,8 +32,8 @@ test('parseIframeSrc handles various inputs', (t) => {
   ];
 
   testCases.forEach(([input, expected, description]) => {
-    const result = testParseIframeSrc(input, expected, description);
-    t.equal(result.actual, result.expected, result.description);
+    const actual = parseIframeSrc(input);
+    t.equal(actual, expected, description);
   });
   
   t.end();
@@ -49,10 +43,9 @@ test('parseIframeSrc handles parsing errors gracefully', (t) => {
   const originalDOMParser = global.DOMParser;
   global.DOMParser = () => { throw new Error('DOMParser error'); };
   
-  const result = testParseIframeSrc('<iframe src="https://example.com"></iframe>', 'https://example.com', 'Falls back to regex when DOMParser fails');
-  t.equal(result.actual, result.expected, result.description);
+  const actual = parseIframeSrc('<iframe src="https://example.com"></iframe>');
+  t.equal(actual, 'https://example.com', 'Falls back to regex when DOMParser fails');
   
   global.DOMParser = originalDOMParser;
   t.end();
 });
-
