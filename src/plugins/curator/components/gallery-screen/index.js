@@ -73,7 +73,7 @@ function GalleryScreen(props) {
               <SaveNodeButton 
                 onClick={delegate.handleSave}
                 disabled={submitDisabled}
-                nodeRef={nodeRef}
+                node={node}
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}

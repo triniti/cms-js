@@ -62,12 +62,9 @@ function SponsorScreen(props) {
           {canUpdate && (
             <>
               <SaveNodeButton 
-                handelSave={delegate.handelSave}
-                formState={formState} 
+                onClick={delegate.handleSave}
+                disabled={submitDisabled}
                 node={node}
-                isRefreshing={isRefreshing}
-                qname={qname}
-                policy={policy} 
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
