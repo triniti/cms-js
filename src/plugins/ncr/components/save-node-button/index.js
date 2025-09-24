@@ -1,6 +1,5 @@
 import React from 'react';
-import { ActionButton } from '@triniti/cms/components/index.js'; 
-import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
+import { ActionButton } from '@triniti/cms/components/index.js';
 
 export default function SaveNodeButton (props) {
   const { disabled, onClick: handleClick } = props;
