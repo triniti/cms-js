@@ -101,6 +101,13 @@ const onPruneCollaborators = (prevState = {}) => {
   return state;
 };
 
+const onCollaborationsUpdated = (prevState, action) => {
+  const state = { ...prevState };
+  state.collaborations = action.collaborations;
+  state.collaborationsKeys = Object.keys(action.collaborations);
+  return state;
+};
+
 export default createReducer(initialState, {
   [actionTypes.CONNECTING]: onConnecting,
   [actionTypes.CONNECTED]: onConnected,
@@ -110,4 +117,5 @@ export default createReducer(initialState, {
   [actionTypes.COLLABORATOR_LEFT]: onCollaboratorLeft,
   [actionTypes.HEARTBEAT]: onCollaboratorJoinedOrHeartbeat,
   [actionTypes.PRUNE_COLLABORATORS]: onPruneCollaborators,
+  [actionTypes.COLLABORATIONS_UPDATED]: onCollaborationsUpdated,
 });
