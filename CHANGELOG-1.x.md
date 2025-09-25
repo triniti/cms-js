@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * Add save & close and save & publish dropdown buttons to all nodes.
+* raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
 * raven :: Display users in article edit mode
 * blocksmith :: adding support for embed codes in iframe src input.
 * blocksmith :: ability to add blocks to the top of the editor.
