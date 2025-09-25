@@ -108,12 +108,24 @@ function SearchGalleriesRequestFields(props) {
           />
         </Col>
         <Col sm={6} xl={6}>
-          <NumberField
-            nestedPbj={pbj}
-            pbjName="count"
-            name="search_request.count"
-            label="Count"
-          />
+          <Row>
+            <Col sm={6}>
+              <NumberField
+                nestedPbj={pbj}
+                pbjName="page"
+                name="search_request.page"
+                label="Page"
+              />
+            </Col>
+            <Col sm={6}>
+              <NumberField
+                nestedPbj={pbj}
+                pbjName="count"
+                name="search_request.count"
+                label="Count"
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>

@@ -66,6 +66,8 @@ export default function PublishForm(props) {
   const { nodeRef, node, onStatusUpdated } = props;
   const dispatch = useDispatch();
   const policy = usePolicy();
+  const ref = NodeRef.fromString(nodeRef);
+  const qname = ref.getQName();
 
   const [action, setAction] = useState(null);
   const [publishAt, setPublishAt] = useState(node.get('published_at') || new Date());
@@ -80,19 +82,20 @@ export default function PublishForm(props) {
     setAction(null);
   }, [status]);
 
-  const can = a => allowedActions?.[status][a] && policy.isGranted(`${nodeRef}:${a}`);
+  const can = a => allowedActions?.[status][a] && policy.isGranted(`${qname}:${a}`);
   const handleApply = async () => {
     if (!action) {
       return;
     }
 
-    const ref = NodeRef.fromString(nodeRef);
     const label = startCase(ref.getLabel());
 
     try {
       await progressIndicator.show(`Updating ${label} status...`);
-      await dispatch(actions[action](nodeRef, publishAt));
-      await onStatusUpdated(action, publishAt);
+      const effectivePublishAt = action === 'publish' ? null : publishAt;
+
+      await dispatch(actions[action](nodeRef, effectivePublishAt));
+      await onStatusUpdated(action, effectivePublishAt);
       await progressIndicator.close();
       toast({ title: `${label} status updated.` });
     } catch (e) {
