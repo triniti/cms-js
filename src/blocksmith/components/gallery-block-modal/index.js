@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormState } from 'react-final-form';
 import { SwitchField, TextField } from '@triniti/cms/components/index.js';
 import AspectRatioField from '@triniti/cms/plugins/common/components/aspect-ratio-field/index.js';
-import GalleryPickerField from '@triniti/cms/plugins/curator/components/gallery-picker-field/index.js';
+import GalleryPickerField from '@triniti/cms/blocksmith/components/gallery-block-modal/GalleryPickerField.js';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/AsideField.js';

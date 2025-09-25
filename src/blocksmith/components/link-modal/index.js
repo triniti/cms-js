@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import isValidUrl from '@gdbots/pbj/utils/isValidUrl.js';
@@ -22,6 +22,7 @@ export default function LinkModal(props) {
   const [target, setTarget] = useState(selectedLink && selectedLink.target);
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
   const [touched, setTouched] = useState(false);
+  const inputRef = useRef(null);
   const isNew = !selectedLink;
 
   const handleToggle = () => {
@@ -68,8 +69,14 @@ export default function LinkModal(props) {
     setTouched(true);
   };
 
+  const handleOpened = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
-    <Modal isOpen size="lg" backdrop="static" centered>
+    <Modal isOpen size="lg" backdrop="static" centered onOpened={handleOpened}>
       <ModalHeader toggle={props.toggle}>{isNew ? 'Add Link' : 'Update Link'}</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleUpdate} autoComplete="off">
@@ -87,6 +94,7 @@ export default function LinkModal(props) {
                 value={url}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                ref={inputRef}
               />
             </InputGroup>
             {touched && !isValid && <FormText color="danger">Please enter a valid URL.</FormText>}
