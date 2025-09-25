@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## vN.N.N
+* raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
