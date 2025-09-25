@@ -49,16 +49,21 @@ export default function WarningModal(props) {
       return;
     }
 
-    if (shouldBeShown()) {
-      setShowWarning(true);
-    }
-  }, [hasBeenShown, status]);
+    // Add a small delay to ensure initial collaborations are loaded
+    const timer = setTimeout(() => {
+      if (shouldBeShown()) {
+        setShowWarning(true);
+      }
+    }, 1000); // Wait 1 second for initial data
+
+    return () => clearTimeout(timer);
+  }, [hasBeenShown, status, users, myUserRef]);
 
   useEffect(() => {
     if (shouldBeShown()) {
       setShowWarning(true);
     }
-  }, []);
+  }, [users, myUserRef]);
 
   if (!showWarning) {
     return null;
