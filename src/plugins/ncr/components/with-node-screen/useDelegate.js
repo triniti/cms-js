@@ -220,7 +220,7 @@ export default (props) => {
 
     delegate.handleSubmit = async (values) => {
       try {
-        const ref = NodeRef.fromString(nodeRef)
+        const ref = NodeRef.fromString(nodeRef);
 
         await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
         await dispatch(updateNode(values, form, node));
