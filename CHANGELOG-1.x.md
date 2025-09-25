@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* raven :: Warning modal race condition.
 * raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
 * raven :: Display users in article edit mode
 * blocksmith :: adding support for embed codes in iframe src input.
