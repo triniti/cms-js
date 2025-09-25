@@ -84,7 +84,7 @@ function AssetScreen(props) {
               <SaveNodeButton 
                 onClick={delegate.handleSave}
                 disabled={submitDisabled}
-                node={node}
+                nodeRef={nodeRef}
               />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
