@@ -66,22 +66,20 @@ function VideoScreen(props) {
             color="light"
             outline
           />
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
+          />
           {canUpdate && (
-            <>
-              <SaveNodeButton 
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                nodeRef={nodeRef}
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {canDelete && (
             <UncontrolledDropdown>

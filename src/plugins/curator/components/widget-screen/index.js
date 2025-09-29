@@ -28,7 +28,7 @@ function WidgetScreen(props) {
   const delegate = useDelegate(props);
   const schema = node.schema();
 
-  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;   
+  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
   const canDelete = policy.isGranted(`${qname}:delete`);
@@ -66,22 +66,20 @@ function WidgetScreen(props) {
             color="light"
             outline
           />
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
+          />
           {canUpdate && (
-            <>
-              <SaveNodeButton 
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                nodeRef={nodeRef}
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {(canDelete || canDuplicate) && (
             <UncontrolledDropdown>

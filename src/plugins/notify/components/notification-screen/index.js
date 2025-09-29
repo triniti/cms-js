@@ -67,22 +67,22 @@ function NotificationScreen(props) {
             color="light"
             outline
           />
+          {!alreadySent && (
+            <SaveNodeButton 
+              onClick={delegate.handleSave}
+              disabled={submitDisabled}
+              nodeRef={nodeRef}
+            />
+          )}
           {canUpdate && !alreadySent && (
-            <>
-              <SaveNodeButton 
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                nodeRef={nodeRef}
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {canDelete && (
             <UncontrolledDropdown>
