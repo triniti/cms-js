@@ -27,12 +27,12 @@ function PromotionScreen(props) {
 
   const delegate = useDelegate(props);
 
-  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;   
+  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
-  const canDuplicate = policy.isGranted(`${qname}:create`);  
+  const canDuplicate = policy.isGranted(`${qname}:create`);
 
   return (
     <Screen

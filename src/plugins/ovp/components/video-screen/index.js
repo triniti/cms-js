@@ -29,7 +29,7 @@ function VideoScreen(props) {
 
   const delegate = useDelegate(props);
 
-  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;   
+  const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
   const canDelete = policy.isGranted(`${qname}:delete`);
