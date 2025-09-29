@@ -79,14 +79,14 @@ function ArticleScreen(props) {
             icon="back"
             color="light"
             outline
+          />          
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
           />
           {canUpdate && (
             <>
-              <SaveNodeButton 
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                nodeRef={nodeRef}
-              />
               <ActionButton
                 text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
                 onClick={delegate.handleSwitchMode}
