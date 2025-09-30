@@ -86,16 +86,14 @@ function ArticleScreen(props) {
             nodeRef={nodeRef}
           />
           {canUpdate && (
-            <>
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {showMoreActions && (
             <UncontrolledDropdown>
