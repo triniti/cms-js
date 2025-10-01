@@ -88,7 +88,7 @@ export default (nodeRef, editMode, canCollaborate) => {
       dispatch(joinCollaboration(nodeRef));
       heartbeatInterval = setInterval(() => {
         dispatch(heartbeat(nodeRef));
-      }, 10000);
+      }, 3000); // Temporary interval while CMS old and new coexist
     };
 
     const handleVisibilityChange = () => {
