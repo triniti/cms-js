@@ -33,6 +33,19 @@ const okayToDelete = async (nodeRef) => {
   return !!result.value;
 };
 
+const okayToPublish = async () => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: 'Item will be published immediately after updating.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, continue',
+    reverseButtons: true,
+  });
+
+  return !!result.value;
+};
+
 const okayToLeave = async () => {
   const result = await Swal.fire({
     title: 'Are you sure?',
@@ -201,17 +214,23 @@ export default (props) => {
 
   delegate.handleSave = async (event) => {
     const action = event.target?.value || 'save';
+    if (action === 'save-and-publish' && !(await okayToPublish())) {
+      return;
+    }
+
     delegate.handleSubmit = async (values) => {
       try {
         const ref = NodeRef.fromString(nodeRef);
+
         await progressIndicator.show(`Saving ${startCase(ref.getLabel())}...`);
         await dispatch(updateNode(values, form, node));
 
+        let messageTitle = `${startCase(ref.getLabel())} saved.`;
         if (action === 'save-and-close') {
           delegate.shouldReinitialize = true;
           delegate.onAfterReinitialize = () => {
             progressIndicator.close();
-            toast({ title: `${startCase(ref.getLabel())} saved.` });
+            toast({ title: messageTitle });
             dispatch(clearAlerts());
             setTimeout(() => {
               navigate(urls.leave);
@@ -222,6 +241,7 @@ export default (props) => {
         }
 
         if (action === 'save-and-publish' && node.schema().hasMixin('gdbots:ncr:mixin:publishable')) {
+          messageTitle = `${startCase(ref.getLabel())} saved and published.`;
           await progressIndicator.update(`Publishing ${startCase(ref.getLabel())}...`);
           await dispatch(publishNode(nodeRef));
         }
@@ -229,7 +249,7 @@ export default (props) => {
         delegate.shouldReinitialize = true;
         delegate.onAfterReinitialize = () => {
           progressIndicator.close();
-          toast({ title: `${startCase(ref.getLabel())} saved.` });
+          toast({ title: messageTitle });
         };
         setTimeout(refreshNode);
       } catch (e) {
@@ -239,7 +259,7 @@ export default (props) => {
         return { [FORM_ERROR]: message };
       }
     };
-
+    
     await form.submit();
   };
 

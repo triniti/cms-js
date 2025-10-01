@@ -11,6 +11,7 @@ import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
+import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 
 function VideoScreen(props) {
   const {
@@ -65,24 +66,20 @@ function VideoScreen(props) {
             color="light"
             outline
           />
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
+          />
           {canUpdate && (
-            <>
-              <ActionButton
-                text="Save"
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                icon="save-diskette"
-                color="primary"
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {canDelete && (
             <UncontrolledDropdown>

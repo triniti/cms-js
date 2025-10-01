@@ -9,6 +9,7 @@ import DetailsTab from '@triniti/cms/plugins/apollo/components/poll-screen/Detai
 import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 
 function PollScreen(props) {
   const {
@@ -61,24 +62,20 @@ function PollScreen(props) {
             color="light"
             outline
           />
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
+          />
           {canUpdate && (
-            <>
-              <ActionButton
-                text="Save"
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                icon="save-diskette"
-                color="primary"
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {canDelete && (
             <UncontrolledDropdown>

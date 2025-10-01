@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Move save button for all nodes into `SaveNodeButton` component.
 * raven :: Warning modal race condition.
 * raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
 * raven :: Display users in article edit mode
