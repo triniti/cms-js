@@ -23,6 +23,7 @@ export default function Option(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
+  const label = node.has('tags') ? node.get('tags')?.picker_label : null;
 
   return (
     <components.Option {...props}>
@@ -37,6 +38,9 @@ export default function Option(props) {
         />
       )}
       <span>{node.get(labelField)}</span>
+      {label && (
+        <Badge pill className={`label-${label}`}>{label}</Badge>
+      )}
       {showType && (
         <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
       )}
