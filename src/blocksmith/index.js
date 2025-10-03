@@ -9,6 +9,7 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
+import InsertBlockPlugin from '@triniti/cms/blocksmith/plugins/InsertBlockPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import HoverInsertButtons from '@triniti/cms/blocksmith/components/hover-insert-buttons/index.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
@@ -38,6 +39,7 @@ export default function Blocksmith(props) {
         {editMode && (
           <>
             {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} />}
+            <InsertBlockPlugin />
             <HistoryPlugin />
             <ToolbarPlugin />
           </>
