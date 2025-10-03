@@ -29,6 +29,7 @@ export default function HoverInsertButtons() {
       className="hover-insert-buttons-wrapper"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleInsertTextBlock}
     >
       <InsertBlockButtons
         className={`hover-insert-buttons ${isHovered ? 'visible' : ''}`}
