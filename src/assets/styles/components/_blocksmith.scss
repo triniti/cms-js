@@ -71,7 +71,7 @@
 .blocksmith {
 
   .paragraph {
-    padding: 8px 0;
+    padding: 12px 0;
     margin-bottom: 0;
     border-radius: $border-radius-lg;
     background-color: var(--#{$prefix}body-bg);
@@ -182,10 +182,11 @@
   margin: 0 .5rem;
   padding: 0;
   width: calc(100% - 1rem);
-  min-height: 30px;
+  height: 30px;
   border: none;
   box-shadow: none !important;
   text-align: center;
+  z-index: 1;
 
   > .btn {
     color: $white;
@@ -194,6 +195,8 @@
     transition: opacity $transition;
     font-weight: 700;
     padding-left: .625rem;
+    min-height: 25px;
+    height: 25px;
   }
   &:hover {
     > .btn {
