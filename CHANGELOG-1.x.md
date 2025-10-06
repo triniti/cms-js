@@ -21,6 +21,7 @@
 * uploader-modal :: Populate the AssetForm with the first item to start uploading rather than the first item to finish loading.
 * Add override file for customizing picker field behavior
 * Update DatePickerField to use Input time when selecting date and time.
+* Add picker labels to options component in node picker fields.
 
 
 ## v1.2.2
