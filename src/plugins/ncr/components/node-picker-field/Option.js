@@ -23,7 +23,7 @@ export default function Option(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const label = node.has('tags') ? node.get('tags')?.picker_label : null;
+  const label = node.get('tags')?.picker_label;
 
   return (
     <components.Option {...props}>
