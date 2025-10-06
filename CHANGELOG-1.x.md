@@ -21,7 +21,8 @@
 * uploader-modal :: Populate the AssetForm with the first item to start uploading rather than the first item to finish loading.
 * Add override file for customizing picker field behavior
 * Update DatePickerField to use Input time when selecting date and time.
-* blocksmith :: add floating toolbar for text formatting on selection.
+* Add picker labels to options component in node picker fields.
+* Blocksmith :: add floating toolbar for text formatting on selection.
 
 
 ## v1.2.2
