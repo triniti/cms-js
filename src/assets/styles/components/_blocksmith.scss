@@ -98,6 +98,14 @@
   box-shadow: $box-shadow-sm;
 }
 
+.blocksmith .toolbar.floating-toolbar {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: opacity, top, left;
+}
+
 .blocksmith .toolbar-item {
   border: 0;
   display: inline-flex;
