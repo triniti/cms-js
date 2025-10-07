@@ -20,7 +20,7 @@ import {
   REMOVE_LIST_COMMAND
 } from '@lexical/list';
 import { Icon } from '@triniti/cms/components/index.js';
-import getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
+import $getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
 
@@ -64,7 +64,7 @@ function FloatingTextFormatToolbar({
   const isBulletList = blockType === 'bullet';
   const isNumberList = blockType === 'number';
 
-  const updateTextFormatFloatingToolbar = useCallback(() => {
+  const $updateTextFormatFloatingToolbar = useCallback(() => {
     const nativeSelection = window.getSelection();
     const popupElem = popupRef.current;
 
@@ -124,7 +124,7 @@ function FloatingTextFormatToolbar({
 
     const update = () => {
       editor.getEditorState().read(() => {
-        updateTextFormatFloatingToolbar();
+        $updateTextFormatFloatingToolbar();
       });
     };
 
@@ -139,13 +139,13 @@ function FloatingTextFormatToolbar({
         scrollerElem.removeEventListener('scroll', update);
       }
     };
-  }, [editor, updateTextFormatFloatingToolbar, anchorElem]);
+  }, [editor, $updateTextFormatFloatingToolbar, anchorElem]);
 
   useEffect(() => {
     editor.getEditorState().read(() => {
-      updateTextFormatFloatingToolbar();
+      $updateTextFormatFloatingToolbar();
     });
-  }, [editor, updateTextFormatFloatingToolbar]);
+  }, [editor, $updateTextFormatFloatingToolbar]);
 
   const handleFormat = (command, payload = null) => {
     return (event) => {
@@ -276,7 +276,7 @@ function useFloatingTextFormatToolbar(editor) {
     setBlockType('paragraph');
   }, []);
 
-  const $updatePopup = useCallback(() => {
+  const updatePopup = useCallback(() => {
     editor.getEditorState().read(() => {
       const selection = $getSelection();
 
@@ -285,7 +285,7 @@ function useFloatingTextFormatToolbar(editor) {
         return;
       }
 
-      const node = getSelectedNode(selection);
+      const node = $getSelectedNode(selection);
       const parent = node.getParent();
 
       const isTextSelected = $isTextNode(node) || 
@@ -332,27 +332,27 @@ function useFloatingTextFormatToolbar(editor) {
   }, [editor, resetFormats]);
 
   useEffect(() => {
-    document.addEventListener('selectionchange', $updatePopup);
+    document.addEventListener('selectionchange', updatePopup);
     return () => {
-      document.removeEventListener('selectionchange', $updatePopup);
+      document.removeEventListener('selectionchange', updatePopup);
     };
-  }, [$updatePopup]);
+  }, [updatePopup]);
 
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(() => {
-        $updatePopup();
+        updatePopup();
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         () => {
-          $updatePopup();
+          updatePopup();
           return false;
         },
         COMMAND_PRIORITY_LOW
       )
     );
-  }, [editor, $updatePopup]);
+  }, [editor, updatePopup]);
 
   return {
     isText,
@@ -368,7 +368,7 @@ function useFloatingTextFormatToolbar(editor) {
 
 /**
  * Based on Lexical's FloatingTextFormatToolbarPlugin
- * @see https://github.com/facebook/lexical/blob/main/packages/lexical-playground/src/plugins/FloatingTextFormatToolbarPlugin/index.tsx
+ * @see https://github.com/facebook/lexical/tree/0c9e1eb2c8f1fff0852fab3b6a351a0b44bc44cc/packages/lexical-playground/src/plugins/FloatingTextFormatToolbarPlugin
  */
 export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
   const [editor] = useLexicalComposerContext();
