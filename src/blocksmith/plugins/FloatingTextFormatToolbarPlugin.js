@@ -276,7 +276,7 @@ function useFloatingTextFormatToolbar(editor) {
     setBlockType('paragraph');
   }, []);
 
-  const updatePopup = useCallback(() => {
+  const $updatePopup = useCallback(() => {
     editor.getEditorState().read(() => {
       const selection = $getSelection();
 
@@ -332,27 +332,27 @@ function useFloatingTextFormatToolbar(editor) {
   }, [editor, resetFormats]);
 
   useEffect(() => {
-    document.addEventListener('selectionchange', updatePopup);
+    document.addEventListener('selectionchange', $updatePopup);
     return () => {
-      document.removeEventListener('selectionchange', updatePopup);
+      document.removeEventListener('selectionchange', $updatePopup);
     };
-  }, [updatePopup]);
+  }, [$updatePopup]);
 
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(() => {
-        updatePopup();
+        $updatePopup();
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         () => {
-          updatePopup();
+          $updatePopup();
           return false;
         },
         COMMAND_PRIORITY_LOW
       )
     );
-  }, [editor, updatePopup]);
+  }, [editor, $updatePopup]);
 
   return {
     isText,
@@ -366,6 +366,10 @@ function useFloatingTextFormatToolbar(editor) {
   };
 }
 
+/**
+ * Based on Lexical's FloatingTextFormatToolbarPlugin
+ * @see https://github.com/facebook/lexical/blob/main/packages/lexical-playground/src/plugins/FloatingTextFormatToolbarPlugin/index.tsx
+ */
 export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
   const [editor] = useLexicalComposerContext();
   
