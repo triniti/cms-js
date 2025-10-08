@@ -23,6 +23,7 @@
 * Update DatePickerField to use Input time when selecting date and time.
 * Blocksmith :: Add ability to insert blocks after text blocks
 * Add picker labels to options component in node picker fields.
+* Blocksmith :: add floating toolbar for text formatting on selection.
 
 
 ## v1.2.2
