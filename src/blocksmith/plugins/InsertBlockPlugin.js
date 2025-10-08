@@ -7,6 +7,8 @@ import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 
+const BUTTON_OFFSET = 37; // height of buttons plus padding between blocks
+
 export default function InsertBlockPlugin() {
   const [editor] = useLexicalComposerContext();
   const [buttonsStyle, setButtonsStyle] = useState({ display: 'none' });
@@ -14,10 +16,9 @@ export default function InsertBlockPlugin() {
   const [nodeKey, setNodeKey] = useState()
 
   const handleMouseEnterNode = (event, _editor, key) => {
-    const paragraphRect = event.target.getBoundingClientRect();
+    const nodeRect = event.target.getBoundingClientRect();
     const scrollRect = scrollContainer.getBoundingClientRect();
-    // offset by 37, which is the height of the buttons plus the size of the padding between blocks
-    const top = paragraphRect.top + paragraphRect.height + scrollContainer.scrollTop - scrollRect.top - 37;
+    const top = nodeRect.top + nodeRect.height + scrollContainer.scrollTop - scrollRect.top - BUTTON_OFFSET;
     setButtonsStyle({ top: `${top}px` });
     setNodeKey(key);
   }
