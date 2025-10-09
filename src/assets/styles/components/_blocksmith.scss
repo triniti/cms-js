@@ -64,6 +64,10 @@
   box-shadow: $focus-ring-box-shadow !important;
 }
 
+.blocksmith-block {
+  margin: 16px 0;
+}
+
 .blocksmith {
 
   .paragraph {
@@ -195,7 +199,6 @@
     color: $white;
     box-shadow: $box-shadow;
     opacity: 0;
-    transition: opacity $transition;
     font-weight: 700;
     padding-left: .625rem;
     min-height: 25px;
@@ -204,6 +207,7 @@
   &:hover {
     > .btn {
       opacity: 1;
+      transition: opacity $transition;
     }
   }
   .blocksmith-input > div:last-child & {
