@@ -65,17 +65,17 @@
 }
 
 .blocksmith-block {
-  margin: 16px 0;
+  margin: 8px 0;
 }
 
 [data-lexical-decorator="true"] + [data-lexical-decorator="true"] .blocksmith-block {
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .blocksmith {
 
   .paragraph {
-    padding: 12px 0;
+    padding: 8px 0;
     margin-bottom: 0;
     border-radius: $border-radius-lg;
     background-color: var(--#{$prefix}body-bg);
@@ -190,10 +190,8 @@
 
 .insert-block-buttons {
   position: absolute;
-  margin: 0 .5rem;
-  padding: 0;
   width: calc(100% - 1rem);
-  height: 30px;
+  height: 16px;
   border: none;
   box-shadow: none !important;
   text-align: center;
