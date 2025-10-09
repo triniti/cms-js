@@ -68,6 +68,10 @@
   margin: 16px 0;
 }
 
+[data-lexical-decorator="true"] + [data-lexical-decorator="true"] .blocksmith-block {
+  margin-top: 24px;
+}
+
 .blocksmith {
 
   .paragraph {
