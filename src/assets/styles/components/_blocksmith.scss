@@ -65,7 +65,11 @@
 }
 
 .blocksmith-block {
-  padding: 8px 0;
+  margin: 8px 0;
+}
+
+[data-lexical-decorator="true"] + [data-lexical-decorator="true"] .blocksmith-block {
+  margin-top: 16px;
 }
 
 .blocksmith {
@@ -186,26 +190,26 @@
 
 .insert-block-buttons {
   position: absolute;
-  bottom: -22px;
-  margin: 0 .5rem;
-  padding: 0;
   width: calc(100% - 1rem);
-  min-height: 30px;
+  height: 16px;
   border: none;
   box-shadow: none !important;
   text-align: center;
+  z-index: 1;
 
   > .btn {
     color: $white;
     box-shadow: $box-shadow;
     opacity: 0;
-    transition: opacity $transition;
     font-weight: 700;
     padding-left: .625rem;
+    min-height: 25px;
+    height: 25px;
   }
   &:hover {
     > .btn {
       opacity: 1;
+      transition: opacity $transition;
     }
   }
   .blocksmith-input > div:last-child & {
