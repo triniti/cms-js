@@ -37,6 +37,7 @@ const onDisconnected = (prevState, action) => {
     const nodeRefs = Object.keys(state.collaborations);
     for (const nodeRef of nodeRefs) {
       if (isEmpty(state.collaborations[nodeRef])) {
+        delete state.collaborations[nodeRef];
         continue;
       }
 
