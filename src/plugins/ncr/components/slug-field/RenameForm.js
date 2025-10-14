@@ -17,31 +17,23 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
-const slugValidator = value => isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
+const slugValidator = (value) => {
+  const valueWithHyphens = value ? value.replace(/\s+/g, '-') : value;
+  return isValidSlug(valueWithHyphens) ? undefined : 'Only use letters, numbers, dashes and spaces.';
+};
+
 const datedSlugValidator = (value) => {
-  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
+  const valueWithHyphens = value ? value.replace(/\s+/g, '-') : value;
+  if (isValidSlug(valueWithHyphens, true) && DATED_SLUG_PATTERN.test(trimStart(valueWithHyphens))) {
     return undefined;
   }
 
   return 'Expected format YYYY/MM/DD/some-title-here';
 }
 
-const parseSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith('/') || value.endsWith('-'))) {
-    ending = value.substring(value.length, value.length - 1);
-  }
-
-  return value ? createSlug(value).toLowerCase() + ending : value;
-};
-
-const parseDatedSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith('/') || value.endsWith('-'))) {
-    ending = value.substring(value.length, value.length - 1);
-  }
-
-  return value ? createSlug(value, true).toLowerCase() + ending : value;
+const formatSlug = (value, withDated = false) => {
+  if (!value) return value;
+  return createSlug(value, withDated).toLowerCase();
 };
 
 function RenameForm(props) {
@@ -86,6 +78,14 @@ function RenameForm(props) {
 
   // todo: add inline alert about 404 when renaming a published node
 
+  const handleBlur = (event) => {
+    const currentValue = event.target.value;
+    const formattedValue = formatSlug(currentValue, withDatedSlug);
+    if (currentValue !== formattedValue) {
+      form.change('slug', formattedValue);
+    }
+  };
+
   return (
     <Modal isOpen centered size="lg" backdrop="static">
       <ModalHeader toggle={props.toggle}>Rename {label}</ModalHeader>
@@ -96,8 +96,8 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
-            parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
+            onBlur={handleBlur}
           />
         </Form>
       </ModalBody>
