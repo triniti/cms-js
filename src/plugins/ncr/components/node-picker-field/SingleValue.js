@@ -35,6 +35,7 @@ export default function SingleValue(props) {
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
   const url = nodeUrl(node, urlTemplate);
+  const label = node.get('tags')?.picker_label;
 
   return (
     <components.SingleValue {...props}>
@@ -51,6 +52,9 @@ export default function SingleValue(props) {
         )}
         <span>{node.get(labelField)}</span>
       </a>
+      {label && (
+        <Badge pill className={`label-${label}`}>{label}</Badge>
+      )}
       {showType && (
         <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
       )}

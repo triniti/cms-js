@@ -63,12 +63,14 @@ function SortableValue(props) {
   let schema;
   let isPublishable = false;
   let url = null;
+  let label;
 
   if (node) {
     status = `${node.get('status')}`;
     schema = node.schema();
     isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
     url = nodeUrl(node, urlTemplate);
+    label = node.get('tags')?.picker_label;
   } else {
     error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
   }
@@ -106,6 +108,9 @@ function SortableValue(props) {
               />
             )}
             <span className="me-2 text-ellipsis ps-1">{node.get(labelField)}</span>
+            {label && (
+              <Badge pill className={`label-${label} me-1`}>{label}</Badge>
+            )}
             {showType && (
               <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
             )}
