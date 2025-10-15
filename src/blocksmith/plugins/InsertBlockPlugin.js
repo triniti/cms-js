@@ -7,21 +7,21 @@ import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 
-const BUTTON_OFFSET = 37; // height of buttons plus padding between blocks
+const BUTTON_OFFSET = 23; // height of the toolbar minus the padding between blocks
 
 export default function InsertBlockPlugin() {
   const [editor] = useLexicalComposerContext();
   const [buttonsStyle, setButtonsStyle] = useState({ display: 'none' });
-  const scrollContainer = document.querySelector('.screen-body');
-  const [nodeKey, setNodeKey] = useState()
+  const blocksmithEditor = document.querySelector('.blocksmith-editor');
+  const [nodeKey, setNodeKey] = useState();
 
   const handleMouseEnterNode = (event, _editor, key) => {
     const nodeRect = event.target.getBoundingClientRect();
-    const scrollRect = scrollContainer.getBoundingClientRect();
-    const top = nodeRect.top + nodeRect.height + scrollContainer.scrollTop - scrollRect.top - BUTTON_OFFSET;
+    const blocksmithRect = blocksmithEditor.getBoundingClientRect()
+    const top = nodeRect.top + nodeRect.height + BUTTON_OFFSET - blocksmithRect.top;
     setButtonsStyle({ top: `${top}px` });
     setNodeKey(key);
-  }
+  };
 
   const handleMouseEnterBlocksmithNode = (event, _editor, key) => {
     if (!event.target.dataset.lexicalDecorator) {
