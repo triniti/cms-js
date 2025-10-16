@@ -108,6 +108,38 @@
   opacity: 0;
   transition: opacity 0.2s ease;
   will-change: opacity, top, left;
+  background-color: $gray-900;
+  border-radius: 8px;
+
+  .toolbar-item {
+    color: $body-tertiary-color-dark;
+
+    .icon {
+      opacity: 0.75;
+    }
+
+    &:hover:not([disabled]):not(.active) {
+      background-color: rgba($white, 0.1);
+
+      .icon {
+        opacity: 1;
+      }
+    }
+
+    &.active {
+      background-color: rgba($white, 0.15);
+
+      .icon {
+        opacity: 1;
+      }
+    }
+
+    &[aria-label="Highlight"] .icon {
+      color: $dark;
+      filter: none;
+      opacity: 1;
+    }
+  }
 }
 
 .blocksmith .toolbar-item {
