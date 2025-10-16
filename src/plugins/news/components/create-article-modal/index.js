@@ -61,7 +61,7 @@ function CreateArticleModal(props) {
   };
 
   const handleChange = (e) => {
-    setSlug( formatSlug(e.target.value));
+    setSlug(formatSlug(e.target.value));
   };
 
   const handleKeyDown = (e) => {
