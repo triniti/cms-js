@@ -288,8 +288,7 @@ function useFloatingTextFormatToolbar(editor) {
       const node = $getSelectedNode(selection);
       const parent = node.getParent();
 
-      const isTextSelected = $isTextNode(node) || 
-        ($isTextNode(parent) && selection.getTextContent().length > 0);
+      const isTextSelected = !selection.isCollapsed() && selection.getTextContent().trim().length > 0;
 
       if (!isTextSelected) {
         resetFormats();
