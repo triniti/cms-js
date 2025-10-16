@@ -16,11 +16,16 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import pbjUrl from '@gdbots/pbjx/pbjUrl.js';
 import { Icon, Loading } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js'
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import brokenImage from '@triniti/cms/assets/img/broken-image--xxs.jpg';
+
+const noop = event => {
+  event.stopPropagation();
+};
 
 function SortableValue(props) {
   const {
@@ -62,14 +67,16 @@ function SortableValue(props) {
   let status = 'unknown';
   let schema;
   let isPublishable = false;
-  let url = null;
+  let internalUrl = null;
+  let externalUrl = null;
   let label;
 
   if (node) {
     status = `${node.get('status')}`;
     schema = node.schema();
     isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-    url = nodeUrl(node, urlTemplate);
+    internalUrl = nodeUrl(node, urlTemplate);
+    externalUrl = pbjUrl(node, 'canonical');
     label = node.get('tags')?.picker_label;
   } else {
     error = `${pbjxError}`.startsWith('NodeNotFound') ? `${nodeRef} not found.` : pbjxError;
@@ -107,7 +114,9 @@ function SortableValue(props) {
                 className="rounded-2 me-1"
               />
             )}
-            <span className="me-2 text-ellipsis ps-1">{node.get(labelField)}</span>
+            <a href={internalUrl} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="enable-pointer-events">
+              <span className="me-2 text-ellipsis ps-1">{node.get(labelField)}</span>
+            </a>
             {label && (
               <Badge pill className={`label-${label} me-1`}>{label}</Badge>
             )}
@@ -118,7 +127,7 @@ function SortableValue(props) {
               <Badge pill className={`status-${status}`}>{status}</Badge>
             )}
             {(showLink && (
-              <a href={url} rel="noopener noreferrer" target="_blank" className="m-1 ms-2 me-2">
+              <a href={externalUrl} rel="noopener noreferrer" target="_blank" className="m-1 ms-2 me-2">
                 <Icon imgSrc="external" size="sm" />
               </a>
             ))}

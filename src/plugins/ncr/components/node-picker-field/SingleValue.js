@@ -1,6 +1,7 @@
 import React from 'react';
 import { components } from 'react-select';
 import { Badge, Media } from 'reactstrap';
+import pbjUrl from '@gdbots/pbjx/pbjUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js'
 import { Icon, Loading } from '@triniti/cms/components/index.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
@@ -34,12 +35,13 @@ export default function SingleValue(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate);
+  const internalUrl = nodeUrl(node, urlTemplate);
+  const externalUrl = pbjUrl(node, 'canonical');
   const label = node.get('tags')?.picker_label;
 
   return (
     <components.SingleValue {...props}>
-      <a href={url} rel="noopener noreferrer" target="_blank" onMouseDown={noop}>
+      <a href={internalUrl} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="enable-pointer-events">
         {showImage && (
           <Media
             src={node.has('image_ref') ? damUrl(node.get('image_ref'), '1by1', 'xs') : brokenImage}
@@ -62,7 +64,7 @@ export default function SingleValue(props) {
         <Badge pill className={`status-${status}`}>{status}</Badge>
       )}
       {(showLink && (
-        <a href={url} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="m-1 ms-2 me-2 enable-pointer-events">
+        <a href={externalUrl} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="m-1 ms-2 me-2 enable-pointer-events">
           <Icon imgSrc="external" size="sm" />
         </a>
       ))}
