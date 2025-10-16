@@ -47,6 +47,7 @@ function getDOMRangeRect(nativeSelection, rootElement) {
 
 const VERTICAL_GAP = 10;
 const HORIZONTAL_OFFSET = 10;
+const DEFAULT_TOOLBAR_HEIGHT = 50;
 
 function FloatingTextFormatToolbar({
   editor,
@@ -67,56 +68,63 @@ function FloatingTextFormatToolbar({
   const $updateTextFormatFloatingToolbar = useCallback(() => {
     const nativeSelection = window.getSelection();
     const popupElem = popupRef.current;
-
-    if (popupElem === null) {
-      return;
-    }
-
     const rootElement = editor.getRootElement();
-    if (
-      nativeSelection !== null &&
-      !nativeSelection.isCollapsed &&
-      rootElement !== null &&
-      rootElement.contains(nativeSelection.anchorNode)
-    ) {
-      const rangeRect = getDOMRangeRect(nativeSelection, rootElement);
 
-      if (!rangeRect) {
-        popupElem.style.opacity = '0';
-        popupElem.style.top = '-1000px';
-        popupElem.style.left = '-1000px';
-        return;
-      }
-
-      const anchorElementRect = anchorElem.getBoundingClientRect();
-      const popupElemRect = popupElem.getBoundingClientRect();
-      const popupHeight = popupElemRect.height || popupElem.offsetHeight;
-      const popupWidth = popupElemRect.width || popupElem.offsetWidth;
-
-      // Calculate position relative to the anchor element (editor container)
-      let top = rangeRect.top - anchorElementRect.top - popupHeight - VERTICAL_GAP;
-      let left = rangeRect.left - anchorElementRect.left + (rangeRect.width - popupWidth) / 2;
-
-      // Check if toolbar would go above the viewport, if so position below
-      if (rangeRect.top - popupHeight - VERTICAL_GAP < 0) {
-        top = rangeRect.bottom - anchorElementRect.top + VERTICAL_GAP;
-      }
-
-      // Keep toolbar within horizontal bounds
-      if (left < 0) {
-        left = HORIZONTAL_OFFSET;
-      } else if (left + popupWidth > anchorElementRect.width) {
-        left = anchorElementRect.width - popupWidth - HORIZONTAL_OFFSET;
-      }
-
-      popupElem.style.opacity = '1';
-      popupElem.style.top = `${top}px`;
-      popupElem.style.left = `${left}px`;
-    } else {
+    const hidePopup = () => {
       popupElem.style.opacity = '0';
       popupElem.style.top = '-1000px';
       popupElem.style.left = '-1000px';
+    };
+
+    if (!popupElem) return;
+
+    // Early return if no valid selection
+    if (!nativeSelection || nativeSelection.isCollapsed || !rootElement?.contains(nativeSelection.anchorNode)) {
+      hidePopup();
+      return;
     }
+
+    const rangeRect = getDOMRangeRect(nativeSelection, rootElement);
+    const anchorElementRect = anchorElem.getBoundingClientRect();
+
+    // Guard: ensure valid rects with dimensions
+    if (!rangeRect || anchorElementRect.width === 0) {
+      hidePopup();
+      return;
+    }
+
+    // Calculate threshold dynamically from sticky toolbar if present
+    const stickyToolbar = anchorElem.parentElement?.querySelector('.toolbar.sticky-top');
+    const toolbarRect = stickyToolbar?.getBoundingClientRect();
+    const toolbarHeight = (toolbarRect?.height > 0) 
+      ? toolbarRect.height + VERTICAL_GAP 
+      : DEFAULT_TOOLBAR_HEIGHT;
+
+    // Hide if selection is near the sticky toolbar
+    if (rangeRect.top - anchorElementRect.top < toolbarHeight) {
+      hidePopup();
+      return;
+    }
+
+    const popupElemRect = popupElem.getBoundingClientRect();
+    const popupHeight = popupElemRect.height || popupElem.offsetHeight;
+    const popupWidth = popupElemRect.width || popupElem.offsetWidth;
+
+    // Calculate position relative to the anchor element
+    let top = rangeRect.top - anchorElementRect.top - popupHeight - VERTICAL_GAP;
+    let left = rangeRect.left - anchorElementRect.left + (rangeRect.width - popupWidth) / 2;
+
+    // Position below if would go above viewport
+    if (rangeRect.top - popupHeight - VERTICAL_GAP < 0) {
+      top = rangeRect.bottom - anchorElementRect.top + VERTICAL_GAP;
+    }
+
+    // Keep within horizontal bounds
+    left = Math.max(HORIZONTAL_OFFSET, Math.min(left, anchorElementRect.width - popupWidth - HORIZONTAL_OFFSET));
+
+    popupElem.style.opacity = '1';
+    popupElem.style.top = `${top}px`;
+    popupElem.style.left = `${left}px`;
   }, [editor, anchorElem]);
 
   useEffect(() => {
