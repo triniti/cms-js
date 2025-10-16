@@ -70,7 +70,7 @@ function RenameForm(props) {
   // todo: add inline alert about 404 when renaming a published node
 
   const formatSlug = (value) => {
-    if (!value || value.trim() === '' || value.trim() === '/' || value[value.length-1] === ' ') return value;
+    if (!value || value[value.length-1] === ' ') return value;
     return trimStart(value).replace(/\s+/g, '-').toLowerCase();
   };
 
