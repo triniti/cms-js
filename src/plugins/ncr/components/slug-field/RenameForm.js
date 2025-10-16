@@ -18,13 +18,11 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
 const slugValidator = (value) => {
-  const valueWithHyphens = value ? value.replace(/\s+/g, '-') : value;
-  return isValidSlug(valueWithHyphens) ? undefined : 'Only use letters and numbers.';
+  return isValidSlug(value) ? undefined : 'Only use letters and numbers.';
 };
 
 const datedSlugValidator = (value) => {
-  const valueWithHyphens = value ? value.replace(/\s+/g, '-') : value;
-  if (isValidSlug(valueWithHyphens, true) && DATED_SLUG_PATTERN.test(trimStart(valueWithHyphens))) {
+  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
     return undefined;
   }
 
