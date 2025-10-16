@@ -19,7 +19,7 @@ const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
 const slugValidator = (value) => {
   const valueWithHyphens = value ? value.replace(/\s+/g, '-') : value;
-  return isValidSlug(valueWithHyphens) ? undefined : 'Only use letters, numbers, dashes and spaces.';
+  return isValidSlug(valueWithHyphens) ? undefined : 'Only use letters and numbers.';
 };
 
 const datedSlugValidator = (value) => {
@@ -30,11 +30,6 @@ const datedSlugValidator = (value) => {
 
   return 'Expected format YYYY/MM/DD/some-title-here';
 }
-
-const formatSlug = (value, withDated = false) => {
-  if (!value) return value;
-  return createSlug(value, withDated).toLowerCase();
-};
 
 function RenameForm(props) {
   const dispatch = useDispatch();
@@ -78,12 +73,12 @@ function RenameForm(props) {
 
   // todo: add inline alert about 404 when renaming a published node
 
-  const handleBlur = (event) => {
-    const currentValue = event.target.value;
-    const formattedValue = formatSlug(currentValue, withDatedSlug);
-    if (currentValue !== formattedValue) {
-      form.change('slug', formattedValue);
+  const formatSlug = (value) => {
+    if (!value || value.trim() === '' || value.trim() === '/') return value;
+    if(value[value.length-1] === ' ') {
+      return value;
     }
+    return trimStart(value).replace(/\s+/g, '-').toLowerCase();
   };
 
   return (
@@ -97,7 +92,7 @@ function RenameForm(props) {
             label="New Slug"
             required
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
-            onBlur={handleBlur}
+            format={formatSlug}
           />
         </Form>
       </ModalBody>
