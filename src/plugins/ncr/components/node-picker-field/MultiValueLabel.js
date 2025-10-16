@@ -35,6 +35,7 @@ export default function MultiValueLabel(props) {
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
   const url = nodeUrl(node, urlTemplate);
+  const label = node.get('tags')?.picker_label;
 
   return (
     <components.MultiValueLabel {...props}>
@@ -49,6 +50,9 @@ export default function MultiValueLabel(props) {
         />
       )}
       <span>{node.get(labelField)}</span>
+      {label && (
+        <Badge pill className={`label-${label}`}>{label}</Badge>
+      )}
       {showType && (
         <Badge pill color="light">{schema.getQName().getMessage()}</Badge>
       )}
