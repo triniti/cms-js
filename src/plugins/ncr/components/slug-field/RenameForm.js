@@ -17,9 +17,7 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
-const slugValidator = (value) => {
-  return isValidSlug(value) ? undefined : 'Only use letters and numbers.';
-};
+const slugValidator = value => isValidSlug(value) ? undefined : 'Only use letters and numbers.';
 
 const datedSlugValidator = (value) => {
   if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
@@ -72,10 +70,7 @@ function RenameForm(props) {
   // todo: add inline alert about 404 when renaming a published node
 
   const formatSlug = (value) => {
-    if (!value || value.trim() === '' || value.trim() === '/') return value;
-    if(value[value.length-1] === ' ') {
-      return value;
-    }
+    if (!value || value.trim() === '' || value.trim() === '/' || value[value.length-1] === ' ') return value;
     return trimStart(value).replace(/\s+/g, '-').toLowerCase();
   };
 
