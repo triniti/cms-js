@@ -55,7 +55,14 @@ function CreateArticleModal(props) {
     }
   };
 
-  const handleChange = (e) => setSlug(e.target.value ? e.target.value.toLowerCase() : e.target.value);
+  const formatSlug = (value) => {
+    if (!value || value[value.length-1] === ' ') return value;
+    return trimStart(value).replace(/\s+/g, '-').toLowerCase();
+  };
+
+  const handleChange = (e) => {
+    setSlug( formatSlug(e.target.value));
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && valid) {
