@@ -16,14 +16,16 @@ import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-pi
 import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-picker-field/index.js';
 import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-screen/VideoPickerField.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
+import TranscodingErrorAlert from '@triniti/cms/plugins/ovp/components/video-screen/TranscodingErrorAlert.js';
 import parseYouTubeId from '@triniti/cms/utils/parseYouTubeId.js';
 
 export default function DetailsTab(props) {
-  const { node } = props;
+  const { node, nodeRef } = props;
   const schema = node.schema();
 
   return (
     <>
+      <TranscodingErrorAlert nodeRef={nodeRef} />
       <Card>
         <CardHeader>Details</CardHeader>
         <CardBody>
