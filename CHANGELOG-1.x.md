@@ -24,6 +24,7 @@
 * Blocksmith :: Add ability to insert blocks after text blocks
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
+* dam/ovp :: Add transcoding error alert to Details tab for failed video assets.
 
 
 ## v1.2.2
