@@ -14,6 +14,7 @@ export default function TranscodeableCard(props) {
   const videoId = node.get('_id');
   const imageId = AssetId.fromString(`image_jpg_${videoId.getDate()}_${videoId.getUuid()}`);
   const imageUrl = expand('node.view', { label: 'image-asset', _id: imageId.toString() });
+  const hasFailed = status === TranscodingStatus.FAILED || status === TranscodingStatus.CANCELED;
 
   return (
     <Card>
@@ -43,7 +44,14 @@ export default function TranscodeableCard(props) {
           </tbody>
         </Table>
       )}
-      {status !== TranscodingStatus.COMPLETED && (
+      {hasFailed && (
+        <CardBody>
+          <Alert color="danger">
+            <strong>Transcoding Failed</strong>
+          </Alert>
+        </CardBody>
+      )}
+      {!hasFailed && status !== TranscodingStatus.COMPLETED && (
         <CardBody>
           <Alert color="danger">No artifacts will be available until transcoding is completed.</Alert>
         </CardBody>
