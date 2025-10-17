@@ -126,7 +126,7 @@ function SortableValue(props) {
             {(isPublishable || status === 'deleted') && (
               <Badge pill className={`status-${status}`}>{status}</Badge>
             )}
-            {(showLink && (
+            {(showLink && externalUrl && (
               <a href={externalUrl} rel="noopener noreferrer" target="_blank" className="m-1 ms-2 me-2">
                 <Icon imgSrc="external" size="sm" />
               </a>
