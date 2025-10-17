@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, Button, Col, Media, Row, Table } from 'reactstrap';
+import pbjUrl from '@gdbots/pbjx/pbjUrl.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import { Icon } from '@triniti/cms/components/index.js';
@@ -9,14 +10,15 @@ function VideoBlockPreview(props) {
   const { block, node } = props;
   const imageUrl = damUrl(block.get('poster_image_ref', node.get('poster_image_ref', node.get('image_ref'))), '16by9', 'sm');
   const status = node.get('status').getValue();
-  const url = nodeUrl(node, 'view');
+  const internalUrl = nodeUrl(node, 'view');
+  const externalUrl = pbjUrl(node, 'canonical');
   const launchText = block.get('launch_text', node.get('launch_text'));
 
   return (
     <Row className="gx-2">
       {imageUrl && (
         <Col xs={2}>
-          <a href={url} className="hover-box-shadow d-inline-block rounded-2" target="_blank">
+          <a href={internalUrl} className="hover-box-shadow d-inline-block rounded-2" target="_blank">
             <Media src={imageUrl} className="rounded-2 ratio-16x9" alt="" width="100%" height="auto" object />
           </a>
         </Col>
@@ -27,7 +29,9 @@ function VideoBlockPreview(props) {
           <tr>
             <th className="nowrap ps-2 pt-0" scope="row">Title:</th>
             <td className="w-100 text-break pt-0">
-              {block.get('title', node.get('title'))}
+              <a href={internalUrl} target="_blank">
+                {block.get('title', node.get('title'))}}
+              </a>
             </td>
           </tr>
           {launchText && (
@@ -39,7 +43,7 @@ function VideoBlockPreview(props) {
           <tr>
             <th colSpan={2} className="nowrap ps-2 fs-5" scope="row">
               <Badge color="dark" className={`rounded-pill status-${status}`}>{status}</Badge>
-              <a href={url} className="ms-2" target="_blank">
+              <a href={externalUrl} className="ms-2" target="_blank">
                 <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
                   <Icon imgSrc="external" alt="view" />
                 </Button>
