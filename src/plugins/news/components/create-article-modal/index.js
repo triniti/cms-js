@@ -56,8 +56,13 @@ function CreateArticleModal(props) {
   };
 
   const formatSlug = (value) => {
-    if (!value || value[value.length-1] === ' ') return value;
-    return trimStart(value).replace(/\s+/g, '-').toLowerCase();
+    if (!value) return value;
+    if (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-')) {
+      const lastChar = value[value.length - 1];
+      const slug = createSlug(value.slice(0, -1).toLowerCase(), true);
+      return slug ? `${slug}${lastChar}` : value;
+    }
+    return createSlug(value.toLowerCase(), true);
   };
 
   const handleChange = (e) => {
