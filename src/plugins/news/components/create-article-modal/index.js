@@ -17,6 +17,15 @@ import trimStart from 'lodash-es/trimStart.js';
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
+const parseDatedSlug = (value) => {
+  let ending = '';
+  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
+    ending = value[value.length - 1];
+  }
+
+  return value ? createSlug(value, true).toLowerCase() + ending : value;
+};
+
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,18 +64,8 @@ function CreateArticleModal(props) {
     }
   };
 
-  const formatSlug = (value) => {
-    if (!value) return value;
-    if (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-')) {
-      const lastChar = value[value.length - 1];
-      const slug = createSlug(value.slice(0, -1).toLowerCase(), true);
-      return slug ? `${slug}${lastChar}` : value;
-    }
-    return createSlug(value.toLowerCase(), true);
-  };
-
   const handleChange = (e) => {
-    setSlug(formatSlug(e.target.value));
+    setSlug(parseDatedSlug(e.target.value));
   };
 
   const handleKeyDown = (e) => {

@@ -27,6 +27,24 @@ const datedSlugValidator = (value) => {
   return 'Expected format YYYY/MM/DD/some-title-here';
 }
 
+const parseSlug = (value) => {
+  let ending = '';
+  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
+    ending = value[value.length - 1];
+  }
+
+  return value ? createSlug(value.toLowerCase()) + ending : value;
+};
+
+const parseDatedSlug = (value) => {
+  let ending = '';
+  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
+    ending = value[value.length - 1];
+  }
+
+  return value ? createSlug(value.toLowerCase(), true) + ending : value;
+};
+
 function RenameForm(props) {
   const dispatch = useDispatch();
 
@@ -69,16 +87,6 @@ function RenameForm(props) {
 
   // todo: add inline alert about 404 when renaming a published node
 
-  const formatSlug = (value) => {
-    if (!value) return value;
-    if (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-')) {
-      const lastChar = value[value.length - 1];
-      const slug = createSlug(value.slice(0, -1).toLowerCase(), withDatedSlug);
-      return slug ? `${slug}${lastChar}` : value;
-    }
-    return createSlug(value.toLowerCase(), withDatedSlug);
-  };
-
   return (
     <Modal isOpen centered size="lg" backdrop="static">
       <ModalHeader toggle={props.toggle}>Rename {label}</ModalHeader>
@@ -89,8 +97,8 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
+            parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
-            format={formatSlug}
           />
         </Form>
       </ModalBody>
