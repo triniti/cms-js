@@ -42,11 +42,13 @@ function ArticleBlockPreview(props) {
           <tr>
             <th colSpan={2} className="nowrap ps-2 fs-5" scope="row">
               <Badge color="dark" className={`rounded-pill status-${status}`}>{status}</Badge>
-              <a href={externalUrl} className="ms-2" target="_blank">
-                <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
-                  <Icon imgSrc="external" alt="view" />
-                </Button>
-              </a>
+              {externalUrl && (
+                <a href={externalUrl} className="ms-2" target="_blank">
+                  <Button color="hover" tag="span" size="sm" className="mb-0 me-0 p-0" style={{ minHeight: 'initial' }}>
+                    <Icon imgSrc="external" alt="view" />
+                  </Button>
+                </a>
+              )}
             </th>
           </tr>
           </tbody>
