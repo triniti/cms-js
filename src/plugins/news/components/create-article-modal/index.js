@@ -22,8 +22,8 @@ const parseDatedSlug = (value) => {
   if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
     ending = value[value.length - 1];
   }
-
-  return value ? createSlug(value, true).toLowerCase() + ending : value;
+  const slug = createSlug(value.toLowerCase(), true);
+  return slug ? slug + ending : value;
 };
 
 function CreateArticleModal(props) {

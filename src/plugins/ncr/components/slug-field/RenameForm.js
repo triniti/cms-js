@@ -32,8 +32,8 @@ const parseSlug = (value) => {
   if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
     ending = value[value.length - 1];
   }
-
-  return value ? createSlug(value.toLowerCase()) + ending : value;
+  const slug = createSlug(value.toLowerCase());
+  return slug ? slug + ending : value;
 };
 
 const parseDatedSlug = (value) => {
@@ -41,8 +41,8 @@ const parseDatedSlug = (value) => {
   if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
     ending = value[value.length - 1];
   }
-
-  return value ? createSlug(value.toLowerCase(), true) + ending : value;
+  const slug = createSlug(value.toLowerCase(), true);
+  return slug ? slug + ending : value;
 };
 
 function RenameForm(props) {
