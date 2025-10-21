@@ -24,6 +24,7 @@
 * Blocksmith :: Add ability to insert blocks after text blocks
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
+* Update internal/external links for node picker fields and block previews
 * Allow Spaces in Slug Fields.
 
 

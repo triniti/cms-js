@@ -262,6 +262,10 @@ $status-height:         320px;
   .select__single-value {
     margin-left: 4px;
 
+    a {
+      position: relative;
+    }
+
     [data-bs-theme=dark] & {
       color: var(--#{$prefix}body-color);
     }
