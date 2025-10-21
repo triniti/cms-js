@@ -1,6 +1,7 @@
 import React from 'react';
 import { components } from 'react-select';
 import { Badge, Media } from 'reactstrap';
+import pbjUrl from '@gdbots/pbjx/pbjUrl.js';
 import { Icon, Loading } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js'
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
@@ -34,7 +35,8 @@ export default function MultiValueLabel(props) {
   const status = `${node.get('status')}`;
   const schema = node.schema();
   const isPublishable = schema.hasMixin('gdbots:ncr:mixin:publishable');
-  const url = nodeUrl(node, urlTemplate);
+  const internalUrl = nodeUrl(node, urlTemplate);
+  const externalUrl = pbjUrl(node, 'canonical');
   const label = node.get('tags')?.picker_label;
 
   return (
@@ -49,7 +51,9 @@ export default function MultiValueLabel(props) {
           className="rounded-2"
         />
       )}
-      <span>{node.get(labelField)}</span>
+      <a href={internalUrl} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="enable-pointer-events">
+        <span>{node.get(labelField)}</span>
+      </a>
       {label && (
         <Badge pill className={`label-${label}`}>{label}</Badge>
       )}
@@ -59,8 +63,8 @@ export default function MultiValueLabel(props) {
       {(isPublishable || status === 'deleted') && (
         <Badge pill className={`status-${status}`}>{status}</Badge>
       )}
-      {(showLink && (
-        <a href={url} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="m-1 ms-2 me-2 enable-pointer-events">
+      {(showLink && externalUrl && (
+        <a href={externalUrl} rel="noopener noreferrer" target="_blank" onMouseDown={noop} className="m-1 ms-2 me-2 enable-pointer-events">
           <Icon imgSrc="external" size="sm" />
         </a>
       ))}
