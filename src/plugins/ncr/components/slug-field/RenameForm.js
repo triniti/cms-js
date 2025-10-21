@@ -17,10 +17,14 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
-const slugValidator = value => isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
+const slugValidator = (value) => {
+  const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
+  return isValidSlug(trimmedValue) ? undefined : 'Only use letters, numbers and dashes.';
+};
 
 const datedSlugValidator = (value) => {
-  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
+  const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
+  if (isValidSlug(trimmedValue, true) && DATED_SLUG_PATTERN.test(trimStart(trimmedValue))) {
     return undefined;
   }
 
