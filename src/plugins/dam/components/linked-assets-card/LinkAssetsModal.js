@@ -16,6 +16,7 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -87,6 +88,11 @@ function LinkAssetsModal(props) {
     );
   }
 
+  const hasNodes = response?.has('nodes');
+  const nodes = hasNodes ? response.get('nodes') : [];
+  const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
+  const showGrid = props.resultsView === 'image-grid' && allImages;
+
   return (
     <Modal isOpen backdrop="static" size="xl" centered>
       <ModalHeader toggle={handleClose}>Link Assets</ModalHeader>
@@ -97,12 +103,16 @@ function LinkAssetsModal(props) {
 
           {response && (
             <div className="border-top border-light-subtle border-3">
-              {!response.has('nodes') && (
+              {!hasNodes && (
                 <p className="p-5">No assets found.</p>
               )}
 
-              {response.has('nodes') && (
-                <AssetTable nodes={response.get('nodes')} batch={batch} inModal />
+              {hasNodes && (
+                showGrid ? (
+                  <ImageGrid nodes={nodes} batch={batch} />
+                ) : (
+                  <AssetTable nodes={nodes} batch={batch} inModal />
+                )
               )}
 
               <Pager

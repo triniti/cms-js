@@ -16,6 +16,7 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import unlinkAssets from '@triniti/cms/plugins/dam/actions/unlinkAssets.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
+import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/LinkAssetsModal.js'));
@@ -69,6 +70,11 @@ function LinkedAssetsCard(props) {
     run();
   };
 
+  const hasNodes = response?.has('nodes');
+  const nodes = hasNodes ? response.get('nodes') : [];
+  const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
+  const showGrid = props.displayView === 'image-grid' && allImages;
+
   return (
     <>
       <Card>
@@ -104,14 +110,20 @@ function LinkedAssetsCard(props) {
         <CardBody className="p-0">
           {(!response || pbjxError) && <Loading error={pbjxError} />}
 
-          {response && !response.has('nodes') && (
+          {response && !hasNodes && (
             <CardText className="p-5">
               No assets have been linked to this {request.get('linked_ref').getLabel()}.
             </CardText>
           )}
 
-          {response && response.has('nodes') && (
-            <AssetTable nodes={response.get('nodes')} batch={batch} />
+          {response && hasNodes && (
+            showGrid ? (
+              <div className="p-2">
+                <ImageGrid nodes={nodes} batch={batch} />
+              </div>
+            ) : (
+              <AssetTable nodes={nodes} batch={batch} />
+            )
           )}
         </CardBody>
       </Card>
