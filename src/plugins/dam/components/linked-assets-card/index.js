@@ -17,6 +17,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import unlinkAssets from '@triniti/cms/plugins/dam/actions/unlinkAssets.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
 import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
+import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/LinkAssetsModal.js'));
@@ -73,7 +74,19 @@ function LinkedAssetsCard(props) {
   const hasNodes = response?.has('nodes');
   const nodes = hasNodes ? response.get('nodes') : [];
   const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
-  const showGrid = props.displayView === 'image-grid' && allImages;
+  
+  // Check which component to use based on displayView value
+  let Component;
+  if (props.displayView === 'asset-grid') {
+    // generic grid for all asset types
+    Component = AssetCardGrid;
+  } else if (props.displayView === 'image-grid' && allImages) {
+    // image-specific grid only if all are images
+    Component = ImageGrid;
+  } else {
+    // table
+    Component = AssetTable;
+  }
 
   return (
     <>
@@ -99,6 +112,8 @@ function LinkedAssetsCard(props) {
                 modalProps={{
                   linkedRef,
                   onClose: handleLinkedAssets,
+                  // passing through the display preference
+                  resultsView: props.displayView,
                 }}
               />
             )}
@@ -117,12 +132,12 @@ function LinkedAssetsCard(props) {
           )}
 
           {response && hasNodes && (
-            showGrid ? (
-              <div className="p-2">
-                <ImageGrid nodes={nodes} batch={batch} />
-              </div>
+            Component === AssetTable ? (
+              <Component nodes={nodes} batch={batch} />
             ) : (
-              <AssetTable nodes={nodes} batch={batch} />
+              <div className="p-2">
+                <Component nodes={nodes} batch={batch} />
+              </div>
             )
           )}
         </CardBody>

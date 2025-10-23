@@ -5,17 +5,26 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading, Pager, withForm } from '@triniti/cms/components/index.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetTable.js';
 import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
+import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 
 function SearchTab(props) {
-  const { onSelectAsset, activeTab, type, searchEnricher, request, delegate } = props;
+  const { onSelectAsset, activeTab, type, searchEnricher, request, delegate, viewMode } = props;
   request.clear('types').addToSet('types', [type]);
   const { response, pbjxError, isRunning, run } = useRequest(request, activeTab === 'search' || activeTab === 'gallery', searchEnricher);
   if (activeTab !== 'search' && activeTab !== 'gallery') {
     return null;
   }
 
-  const Component = type === 'image-asset' ? ImageGrid : AssetTable;
+  // Allows overriding using viewMode prop, otherwise just uses type-specific defaults
+  let Component;
+  if (viewMode === 'grid') {
+    Component = AssetCardGrid;
+  } else if (viewMode === 'table') {
+    Component = AssetTable;
+  } else {
+    Component = type === 'image-asset' ? ImageGrid : AssetTable;
+  }
 
   return (
     <div id="asset-picker-search-body" className="scrollable-container bg-gray-400 modal-scrollable--tabs">

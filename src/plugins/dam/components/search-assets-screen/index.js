@@ -19,6 +19,7 @@ import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
+import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -37,7 +38,16 @@ function SearchAssetsScreen(props) {
 
   const nodes = response?.get('nodes', []);
   const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
-  const showGrid = props.resultsView === 'image-grid' && allImages;
+
+  let showGrid = false;
+  let GridComponent = null;
+  if (props.resultsView === 'asset-grid') {
+    showGrid = true;
+    GridComponent = AssetCardGrid;
+  } else if (props.resultsView === 'image-grid' && allImages) {
+    showGrid = true;
+    GridComponent = ImageGrid;
+  }
 
   return (
     <Screen
@@ -88,7 +98,7 @@ function SearchAssetsScreen(props) {
 
           {showGrid ? (
             <div className="border-top border-light-subtle border-3 p-2">
-              <ImageGrid
+              <GridComponent
                 nodes={nodes}
                 batch={batch}
                 onDoubleClick={(nodeRef) => {

@@ -6,9 +6,10 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading } from '@triniti/cms/components/index.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetTable.js';
 import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
+import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
 
 function LinkedTab(props) {
-  const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request } = props;
+  const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request, viewMode } = props;
   request.set('linked_ref', linkedRef ? NodeRef.fromString(`${linkedRef}`) : null);
   request.clear('types').addToSet('types', [type]);
   const { response, pbjxError } = useRequest(request, activeTab === 'linked', searchEnricher);
@@ -16,7 +17,15 @@ function LinkedTab(props) {
     return null;
   }
 
-  const Component = type === 'image-asset' ? ImageGrid : AssetTable;
+  // Allows overriding using viewMode prop, otherwise just uses type-specific defaults
+  let Component;
+  if (viewMode === 'grid') {
+    Component = AssetCardGrid;
+  } else if (viewMode === 'table') {
+    Component = AssetTable;
+  } else {
+    Component = type === 'image-asset' ? ImageGrid : AssetTable;
+  }
 
   return (
     <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
