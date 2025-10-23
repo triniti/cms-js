@@ -26,10 +26,20 @@ const parseDatedSlug = (value) => {
   return slug ? slug + ending : value;
 };
 
+const slugValidator = (value) => {
+  if (!value) return undefined;
+  if (value.includes('/')) {
+    if (!DATED_SLUG_PATTERN.test(trimStart(value))) {
+      return 'Expected format YYYY/MM/DD/some-title-here.';
+    }
+  }
+  const trimmedValue = value?.trim().replace(/\s+/g, '-') ?? value;
+  return isValidSlug(trimmedValue, true) ? undefined : 'Only use letters, numbers and dashes.';
+};
+
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [slug, setSlug] = useState('');
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -39,10 +49,10 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      if (slug && isValidDatedSlug(slug)) {
-        values.slug = slug.toLowerCase();
-      } else if (slug && !isValidDatedSlug(slug)) {
-        values.slug = addDateToSlug(slug).toLowerCase();
+      if (values.slug && isValidDatedSlug(values.slug)) {
+        values.slug = values.slug.toLowerCase();
+      } else if (values.slug && !isValidDatedSlug(values.slug)) {
+        values.slug = addDateToSlug(values.slug).toLowerCase();
       } else {
         values.slug = addDateToSlug(createSlug(values.title)).toLowerCase();
       }
@@ -59,13 +69,9 @@ function CreateArticleModal(props) {
   };
 
   const handleBlur = (e) => {
-    if (e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value.toLowerCase())));
+    if (e.target.value) {
+      form.change('slug', addDateToSlug(parseDatedSlug(e.target.value)));
     }
-  };
-
-  const handleChange = (e) => {
-    setSlug(parseDatedSlug(e.target.value));
   };
 
   const handleKeyDown = (e) => {
@@ -81,7 +87,13 @@ function CreateArticleModal(props) {
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <SeoTitleField onBlur={handleBlur} onKeyDown={handleKeyDown} />
-          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} onKeyDown={handleKeyDown} />
+          <TextField 
+            name="slug" 
+            label="Slug" 
+            parse={parseDatedSlug}
+            validator={slugValidator}
+            onKeyDown={handleKeyDown}
+          />
         </Form>
       </ModalBody>
       <ModalFooter>
