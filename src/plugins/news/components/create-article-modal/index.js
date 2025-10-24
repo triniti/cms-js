@@ -29,7 +29,7 @@ const parseDatedSlug = (value) => {
 const slugValidator = (value) => {
   if (!value) return undefined;
   if (value.includes('/')) {
-    if (!DATED_SLUG_PATTERN.test(trimStart(value))) {
+    if (!isValidDatedSlug(value)) {
       return 'Expected format YYYY/MM/DD/some-title-here.';
     }
   }
