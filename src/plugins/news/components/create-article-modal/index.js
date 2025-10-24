@@ -27,14 +27,11 @@ const parseDatedSlug = (value) => {
 };
 
 const slugValidator = (value) => {
-  if (!value) return undefined;
-  if (value.includes('/')) {
-    if (!isValidDatedSlug(value)) {
-      return 'Expected format YYYY/MM/DD/some-title-here.';
-    }
+  const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
+  if (isValidDatedSlug(trimmedValue)) {
+    return undefined;
   }
-  const trimmedValue = value?.trim().replace(/\s+/g, '-') ?? value;
-  return isValidSlug(trimmedValue, true) ? undefined : 'Only use letters, numbers and dashes.';
+  return 'Expected format YYYY/MM/DD/some-title-here';
 };
 
 function CreateArticleModal(props) {
