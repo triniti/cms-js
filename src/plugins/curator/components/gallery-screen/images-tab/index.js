@@ -1,17 +1,15 @@
 import React, { lazy } from 'react';
-import { Button, Card, CardBody, CardHeader, CardText, Row, Spinner } from 'reactstrap';
+import { Card, CardBody, CardText, Row } from 'reactstrap';
 import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
-import { ActionButton, CreateModalButton, Icon, Loading, Pager } from '@triniti/cms/components/index.js';
+import Header from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/Header.js';
+import { Loading, Pager } from '@triniti/cms/components/index.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useDelegate from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/useDelegate.js';
 import SortableImage from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/SortableImage.js';
 
-const AddImagesModal = lazy(() => import('@triniti/cms/plugins/curator/components/gallery-screen/images-tab/AddImagesModal.js'));
-const PatchAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/patch-assets-modal/index.js'));
-
-function ImagesTab(props) {
+function ImagesTab (props) {
   const { nodeRef, request } = props;
   const delegate = useDelegate(props);
   const {
@@ -19,8 +17,6 @@ function ImagesTab(props) {
     ids,
     seqs,
     images,
-    total,
-    canPatch,
     canReorder,
     isReordering,
     response,
@@ -38,78 +34,12 @@ function ImagesTab(props) {
 
   return (
     <Card>
-      <CardHeader>
-        <span>Images{total > 0 ? ` (${total})` : ''} {isRunning && <Spinner />}</span>
-        <span>
-          {canReorder && isReordering && (
-            <>
-              <ActionButton
-                text="Revert"
-                icon="revert"
-                size="sm"
-                color="light"
-                onClick={delegate.handleRevertReordering}
-              />
-              <ActionButton
-                text="Save Reordering"
-                icon="save-diskette"
-                size="sm"
-                color="primary"
-                onClick={delegate.handleReorderImages}
-              />
-            </>
-          )}
-          {canReorder && !isReordering && (
-            <>
-              {batch.size > 0 && (
-                <>
-                  {canPatch && (
-                    <CreateModalButton
-                      text={`Patch Images (${batch.size})`}
-                      color="light"
-                      icon="edit"
-                      size="sm"
-                      modal={PatchAssetsModal}
-                      modalProps={() => ({
-                        nodes: Array.from(batch.values()),
-                        onComplete: batch.reset,
-                      })}
-                    />
-                  )}
-                  <ActionButton
-                    text={`Remove Images (${batch.size})`}
-                    icon="minus-outline"
-                    size="sm"
-                    color="danger"
-                    onClick={delegate.handleRemoveImages}
-                  />
-                </>
-              )}
-              {batch.size === 0 && (
-                <CreateModalButton
-                  text="Add Images"
-                  icon="plus-outline"
-                  size="sm"
-                  modal={AddImagesModal}
-                  modalProps={{
-                    galleryRef: nodeRef,
-                    gallerySeqIncrementer: delegate.incrementer,
-                    onClose: delegate.handleImagesAdded,
-                  }}
-                />
-              )}
-            </>
-          )}
-          {!isReordering && batch.size === 0 && (
-            <Button color="light" size="sm" onClick={delegate.handleRefresh} disabled={isRunning}>
-              <Icon imgSrc="refresh" />
-            </Button>
-          )}
-        </span>
-      </CardHeader>
       <CardBody className="p-0">
         {((!ids.length && isRunning) || pbjxError) && <Loading error={pbjxError} />}
-
+        <Header 
+          delegate={delegate} 
+          nodeRef={nodeRef} 
+        />
         {!isRunning && !ids.length && (
           <CardText className="p-5">
             No images have been added to this gallery.
