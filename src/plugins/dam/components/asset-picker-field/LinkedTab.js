@@ -9,7 +9,7 @@ import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/Im
 import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
 
 function LinkedTab(props) {
-  const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request, viewMode } = props;
+  const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request, displayView } = props;
   request.set('linked_ref', linkedRef ? NodeRef.fromString(`${linkedRef}`) : null);
   request.clear('types').addToSet('types', [type]);
   const { response, pbjxError } = useRequest(request, activeTab === 'linked', searchEnricher);
@@ -17,11 +17,11 @@ function LinkedTab(props) {
     return null;
   }
 
-  // Allows overriding using viewMode prop, otherwise just uses type-specific defaults
+  // Allows overriding using displayView prop, otherwise just uses type-specific defaults
   let Component;
-  if (viewMode === 'grid') {
+  if (displayView === 'asset-grid') {
     Component = AssetCardGrid;
-  } else if (viewMode === 'table') {
+  } else if (displayView === 'table') {
     Component = AssetTable;
   } else {
     Component = type === 'image-asset' ? ImageGrid : AssetTable;

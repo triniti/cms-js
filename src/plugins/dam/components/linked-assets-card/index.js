@@ -75,16 +75,12 @@ function LinkedAssetsCard(props) {
   const nodes = hasNodes ? response.get('nodes') : [];
   const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
   
-  // Check which component to use based on displayView value
   let Component;
   if (props.displayView === 'asset-grid') {
-    // generic grid for all asset types
     Component = AssetCardGrid;
   } else if (props.displayView === 'image-grid' && allImages) {
-    // image-specific grid only if all are images
     Component = ImageGrid;
   } else {
-    // table
     Component = AssetTable;
   }
 
@@ -112,8 +108,7 @@ function LinkedAssetsCard(props) {
                 modalProps={{
                   linkedRef,
                   onClose: handleLinkedAssets,
-                  // passing through the display preference
-                  resultsView: props.displayView,
+                  displayView: props.displayView,
                 }}
               />
             )}

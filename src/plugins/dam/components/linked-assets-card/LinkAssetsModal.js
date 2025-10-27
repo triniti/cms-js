@@ -94,14 +94,11 @@ function LinkAssetsModal(props) {
   const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
   
   let Component;
-  if (props.resultsView === 'asset-grid') {
-    // generic grid for all asset types
+  if (props.displayView === 'asset-grid') {
     Component = AssetCardGrid;
-  } else if (props.resultsView === 'image-grid' && allImages) {
-    // image-specific grid only if all are images
+  } else if (props.displayView === 'image-grid' && allImages) {
     Component = ImageGrid;
   } else {
-    // table
     Component = AssetTable;
   }
 

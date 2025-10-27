@@ -41,10 +41,10 @@ function SearchAssetsScreen(props) {
 
   let showGrid = false;
   let GridComponent = null;
-  if (props.resultsView === 'asset-grid') {
+  if (props.displayView === 'asset-grid') {
     showGrid = true;
     GridComponent = AssetCardGrid;
-  } else if (props.resultsView === 'image-grid' && allImages) {
+  } else if (props.displayView === 'image-grid' && allImages) {
     showGrid = true;
     GridComponent = ImageGrid;
   }
@@ -101,12 +101,6 @@ function SearchAssetsScreen(props) {
               <GridComponent
                 nodes={nodes}
                 batch={batch}
-                onDoubleClick={(nodeRef) => {
-                  navigate(nodeUrl({ 
-                    schema: () => nodeRef.getCurie(), 
-                    get: (field) => field === '_id' ? nodeRef.getId() : null
-                  }, 'view'));
-                }}
               />
             </div>
           ) : (

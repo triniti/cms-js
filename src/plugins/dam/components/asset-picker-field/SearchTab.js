@@ -9,18 +9,18 @@ import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-fiel
 import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 
 function SearchTab(props) {
-  const { onSelectAsset, activeTab, type, searchEnricher, request, delegate, viewMode } = props;
+  const { onSelectAsset, activeTab, type, searchEnricher, request, delegate, displayView } = props;
   request.clear('types').addToSet('types', [type]);
   const { response, pbjxError, isRunning, run } = useRequest(request, activeTab === 'search' || activeTab === 'gallery', searchEnricher);
   if (activeTab !== 'search' && activeTab !== 'gallery') {
     return null;
   }
 
-  // Allows overriding using viewMode prop, otherwise just uses type-specific defaults
+  // Allows overriding using displayView prop, otherwise just uses type-specific defaults
   let Component;
-  if (viewMode === 'grid') {
+  if (displayView === 'asset-grid') {
     Component = AssetCardGrid;
-  } else if (viewMode === 'table') {
+  } else if (displayView === 'table') {
     Component = AssetTable;
   } else {
     Component = type === 'image-asset' ? ImageGrid : AssetTable;

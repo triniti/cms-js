@@ -11,7 +11,7 @@ import { BackgroundImage } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
 export default function ImageGrid(props) {
-  const { nodes, onSelectAsset, batch, onDoubleClick } = props;
+  const { nodes, onSelectAsset, batch } = props;
 
   return (
     <Container fluid className="gallery-grid-container h-100">
@@ -25,17 +25,9 @@ export default function ImageGrid(props) {
           
           const handleClick = () => {
             if (batch) {
-              // Multi-select mode with batch
               batch.toggle(node);
             } else if (onSelectAsset) {
-              // Single-select mode
               onSelectAsset(nodeRef);
-            }
-          };
-          
-          const handleDoubleClick = () => {
-            if (onDoubleClick) {
-              onDoubleClick(nodeRef);
             }
           };
 
@@ -43,7 +35,6 @@ export default function ImageGrid(props) {
             <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
               <Card
                 onClick={handleClick}
-                onDoubleClick={handleDoubleClick}
                 inverse
                 tag="button"
                 className={`p-1 mb-0 image-grid-card cursor-pointer ${selected ? 'selected' : ''}`}
