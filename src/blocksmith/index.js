@@ -7,7 +7,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
-import LinkPlugin from '@triniti/cms/blocksmith/plugins/CustomLinkPlugin.js';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import { useFormContext } from '@triniti/cms/components/index.js';

@@ -1,5 +1,5 @@
 import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
-import LinkNode from '@triniti/cms/blocksmith/nodes/CustomLinkNode.js';
+import { LinkNode } from '@lexical/link';
 import { ListItemNode, ListNode } from '@lexical/list';
 import customConfig from '@triniti/app/config/blocksmith.js';
 
