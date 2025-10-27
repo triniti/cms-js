@@ -3,9 +3,7 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading, Pager, withForm } from '@triniti/cms/components/index.js';
-import AssetTable from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetTable.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
-import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
+import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 
 function SearchTab(props) {
@@ -16,15 +14,7 @@ function SearchTab(props) {
     return null;
   }
 
-  // Allows overriding using displayView prop, otherwise just uses type-specific defaults
-  let Component;
-  if (displayView === 'asset-grid') {
-    Component = AssetCardGrid;
-  } else if (displayView === 'table') {
-    Component = AssetTable;
-  } else {
-    Component = type === 'image-asset' ? ImageGrid : AssetTable;
-  }
+  const Component = getAssetDisplayView(displayView, [], type);
 
   return (
     <div id="asset-picker-search-body" className="scrollable-container bg-gray-400 modal-scrollable--tabs">

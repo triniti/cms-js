@@ -4,9 +4,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading } from '@triniti/cms/components/index.js';
-import AssetTable from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetTable.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
-import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
+import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
 
 function LinkedTab(props) {
   const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request, displayView } = props;
@@ -17,15 +15,7 @@ function LinkedTab(props) {
     return null;
   }
 
-  // Allows overriding using displayView prop, otherwise just uses type-specific defaults
-  let Component;
-  if (displayView === 'asset-grid') {
-    Component = AssetCardGrid;
-  } else if (displayView === 'table') {
-    Component = AssetTable;
-  } else {
-    Component = type === 'image-asset' ? ImageGrid : AssetTable;
-  }
+  const Component = getAssetDisplayView(displayView, [], type);
 
   return (
     <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">

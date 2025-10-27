@@ -16,8 +16,7 @@ import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
-import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
+import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -91,16 +90,7 @@ function LinkAssetsModal(props) {
 
   const hasNodes = response?.has('nodes');
   const nodes = hasNodes ? response.get('nodes') : [];
-  const allImages = nodes.length > 0 && nodes.every(n => `${n.get('mime_type', '')}`.startsWith('image/'));
-  
-  let Component;
-  if (props.displayView === 'asset-grid') {
-    Component = AssetCardGrid;
-  } else if (props.displayView === 'image-grid' && allImages) {
-    Component = ImageGrid;
-  } else {
-    Component = AssetTable;
-  }
+  const Component = getAssetDisplayView(props.displayView, nodes);
 
   return (
     <Modal isOpen backdrop="static" size="xl" centered>
