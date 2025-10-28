@@ -28,12 +28,11 @@ const parseDatedSlug = (value) => {
 
 const slugValidator = (value) => {
   const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
-  if (trimmedValue.includes('/')) {
-    if (!isValidDatedSlug(trimmedValue)) {
-      return 'Expected format YYYY/MM/DD/some-title-here.';
-    }
+  if (isValidDatedSlug(trimmedValue)) {
+    return undefined;
   }
-  return isValidSlug(trimmedValue, true) ? undefined : 'Only use letters, numbers and dashes.';
+
+  return 'Expected format YYYY/MM/DD/some-title-here';
 };
 
 function CreateArticleModal(props) {
