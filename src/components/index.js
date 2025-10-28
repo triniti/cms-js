@@ -21,6 +21,7 @@ export RawPbj from '@triniti/cms/components/raw-pbj/index.js';
 export RawPbjModal from '@triniti/cms/components/raw-pbj-modal/index.js';
 export RouterLink from '@triniti/cms/components/router-link/index.js';
 export Screen from '@triniti/cms/components/screen/index.js';
+export SearchClearButton from '@triniti/cms/components/search-clear-button/index.js';
 export SelectField from '@triniti/cms/components/select-field/index.js';
 export SwitchField from '@triniti/cms/components/switch-field/index.js';
 export TextField from '@triniti/cms/components/text-field/index.js';

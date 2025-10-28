@@ -19,6 +19,7 @@ import {
   DatePickerField,
   Icon,
   NumberField,
+  SearchClearButton,
   SelectField,
   useDebounce
 } from '@triniti/cms/components/index.js';
@@ -122,6 +123,10 @@ export default function SearchForm(props) {
                 <Icon imgSrc="search" />
               </Button>
             </InputGroup>
+            <SearchClearButton
+              show={(formState.values.q || '').length > 0 && !isRunning}
+              onClear={() => form.change('q', '')}
+            />
             {isRunning && (
               <Badge color="light" pill className="badge-searching">
                 <span className="badge-animated">Searching</span>

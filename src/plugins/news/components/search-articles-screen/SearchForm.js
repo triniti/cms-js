@@ -3,7 +3,7 @@ import { Badge, Button, Card, CardBody, CardFooter, Col, Collapse, Form, InputGr
 import { Field } from 'react-final-form';
 import SearchArticlesSort from '@triniti/schemas/triniti/news/enums/SearchArticlesSort.js';
 import FormMarshaler from '@triniti/cms/utils/FormMarshaler.js';
-import { ActionButton, DatePickerField, Icon, NumberField, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';
+import { ActionButton, DatePickerField, Icon, NumberField, SearchClearButton, TrinaryField, useDebounce } from '@triniti/cms/components/index.js';
 import { scrollToTop } from '@triniti/cms/components/screen/index.js';
 import NodeStatusField from '@triniti/cms/plugins/ncr/components/node-status-field/index.js';
 import SortField from '@triniti/cms/plugins/ncr/components/sort-field/index.js';
@@ -83,6 +83,10 @@ export default function SearchForm(props) {
                 <Icon imgSrc="search" />
               </Button>
             </InputGroup>
+            <SearchClearButton
+              show={(formState.values.q || '').length > 0 && !isRunning}
+              onClear={() => form.change('q', '')}
+            />
             {isRunning && (
               <Badge color="light" pill className="badge-searching">
                 <span className="badge-animated">Searching</span>

@@ -93,6 +93,17 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none; // hide x clear icon in Safari
 }
 
+// clear button overlay for search inputs
+.btn-search-clear {
+  position: absolute !important;
+  top: 50%;
+  right: 3rem;
+  transform: translateY(-50%);
+  z-index: 11;
+  padding: .25rem;
+  line-height: 1;
+}
+
 // removal of the glow on objects on focus
 a,
 button,
