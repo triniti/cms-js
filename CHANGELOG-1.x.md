@@ -25,6 +25,7 @@
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
 * Update internal/external links for node picker fields and block previews
+* Adds "x" clear button component for search inputs
 
 
 ## v1.2.2
