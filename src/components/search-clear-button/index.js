@@ -2,17 +2,16 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import Icon from '@triniti/cms/components/icon/index.js';
 
-export default function SearchClearButton({ show, onClear, className }) {
+export default function SearchClearButton({ show, onClear, inputRef, className }) {
   if (!show) return null;
 
   const handleClear = () => {
     onClear();
     setTimeout(() => {
-      const searchInput = document.querySelector('input[type="search"][name="q"]');
-      if (searchInput) {
-        searchInput.focus();
+      if (inputRef?.current) {
+        inputRef.current.focus();
       }
-    }, 100);
+    }, 0);
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Badge,
   Button,
@@ -33,6 +33,7 @@ import AppPickerField from '@triniti/cms/plugins/iam/components/app-picker-field
 export default function SearchForm(props) {
   const { request, form, formState, delegate, handleSubmit, isRunning, run, curies } = props;
   const [isOpen, setIsOpen] = useState(false);
+  const searchInputRef = useRef(null);
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -106,7 +107,17 @@ export default function SearchForm(props) {
                 <span className="me-1 d-none d-md-block">Filters</span>
               </Button>
               <NotificationSendStatusField />
-              <Field name="q" type="search" component="input" className="form-control" placeholder="Search Notifications" />
+              <Field name="q">
+                {({ input }) => (
+                  <input
+                    {...input}
+                    ref={searchInputRef}
+                    type="search"
+                    className="form-control"
+                    placeholder="Search Notifications"
+                  />
+                )}
+              </Field>
               <Button color="secondary" disabled={isRunning} type="submit">
                 <Icon imgSrc="search" />
               </Button>
@@ -114,6 +125,7 @@ export default function SearchForm(props) {
             <SearchClearButton
               show={(formState.values.q || '').length > 0 && !isRunning}
               onClear={() => form.change('q', '')}
+              inputRef={searchInputRef}
             />
             {isRunning && (
               <Badge color="light" pill className="badge-searching">
