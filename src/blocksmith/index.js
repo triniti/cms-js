@@ -20,7 +20,7 @@ import config from '@triniti/cms/blocksmith/config.js';
 export default function Blocksmith(props) {
   const { editMode, pbj } = useFormContext();
   const editorRef = useRef(null);
-  const [liveWordCount, setLiveWordCount] = useState(0);
+  const [liveWordCount, setLiveWordCount] = useState(pbj.get('word_count'));
   config.editable = editMode;
 
   const handleWordCountChanged = wordCount => {
