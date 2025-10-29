@@ -15,7 +15,7 @@ const PatchAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/
 function ImagesTab(props) {
   const { nodeRef, request } = props;
   const delegate = useDelegate(props);
-  const MAX_IMAGES_PER_ROW = 10;
+  const MAX_IMAGES_PER_ROW = 11;
   const MIN_IMAGES_PER_ROW = 1;
   const [ imagesPerRow, setImagesPerRow ] = useState(7);
   const {
@@ -41,13 +41,13 @@ function ImagesTab(props) {
   );
 
   const handleIncreaseImagesPerRow = () => {
-    if (imagesPerRow < MAX_IMAGES_PER_ROW) {
+    if (imagesPerRow <= MAX_IMAGES_PER_ROW) {
       setImagesPerRow(imagesPerRow + 1);
     }
   };
 
   const handleDecreaseImagesPerRow = () => {
-    if (imagesPerRow > MIN_IMAGES_PER_ROW) {
+    if (imagesPerRow >= MIN_IMAGES_PER_ROW) {
       setImagesPerRow(imagesPerRow - 1);
     }
   };
@@ -62,6 +62,8 @@ function ImagesTab(props) {
         <span>Images{total > 0 ? ` (${total})` : ''} {isRunning && <Spinner />}</span>
         <ResizeGallerySlider 
           imagesPerRow={imagesPerRow}
+          maxImagesPerRow={MAX_IMAGES_PER_ROW}
+
           onIncreaseImagesPerRow={handleIncreaseImagesPerRow}
           onDecreaseImagesPerRow={handleDecreaseImagesPerRow}
           onSlideImagesPerRow={handleSlideImagesPerRow}

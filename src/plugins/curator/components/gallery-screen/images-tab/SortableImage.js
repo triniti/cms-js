@@ -30,7 +30,6 @@ export default function SortableImage(props) {
   });
 
   const style = {
-    minWidth: '100px',
     width: `calc((100% / ${imagesPerRow}) - 16px)`,
     boxShadow: isDragging ? '0 4px 12px rgba(0,0,0,0.5)' : undefined,
     borderColor: isDragging ? 'var(--bs-body-bg) !important' : undefined,

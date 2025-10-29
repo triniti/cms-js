@@ -3,8 +3,8 @@ import { Button, Input } from 'reactstrap';
 import { Icon } from '@triniti/cms/components/index.js';
 
 const ResizeGallerySlider = ({
-  imagesPerRow = 7,
-  maxImagesPerRow = 10,
+  imagesPerRow,
+  maxImagesPerRow,
   minImagesPerRow = 1,
   onIncreaseImagesPerRow,
   onDecreaseImagesPerRow,
