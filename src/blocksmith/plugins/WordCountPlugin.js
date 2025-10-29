@@ -3,8 +3,8 @@ import { $getRoot } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister } from '@lexical/utils';
 import { $isBlocksmithNode } from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
-import countWords from '@triniti/cms/blocksmith/utils/countWords.js';
 
+const countWords = text => text.trim().split((/\s+/)).filter(word => word.length).length;
 
 export default function WordCountPlugin({ onWordCountChanged, title = '', }) {
   const [editor] = useLexicalComposerContext();
