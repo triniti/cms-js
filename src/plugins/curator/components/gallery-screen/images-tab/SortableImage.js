@@ -42,7 +42,7 @@ export default function SortableImage(props) {
     <div
       ref={setNodeRef}
       key={id}
-      className="border mt-2 mb-2 ms-2 me-2 p-0 rounded-2"
+      className="border m-2 p-0 rounded-2"
       data-id={id}
       data-index={index}
       style={style}
