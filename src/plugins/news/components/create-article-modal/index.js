@@ -17,7 +17,7 @@ import trimStart from 'lodash-es/trimStart.js';
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
-const parseDatedSlug = (value) => {
+const parseSlug = (value) => {
   let ending = '';
   if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
     ending = value[value.length - 1];
@@ -27,11 +27,9 @@ const parseDatedSlug = (value) => {
 };
 
 const slugValidator = (value) => {
-  const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
-  if (isValidDatedSlug(trimmedValue)) {
+  if (isValidDatedSlug(value?.trim())) {
     return undefined;
   }
-
   return 'Expected format YYYY/MM/DD/some-title-here';
 };
 
@@ -68,7 +66,7 @@ function CreateArticleModal(props) {
 
   const handleBlur = (e) => {
     if (e.target.value) {
-      form.change('slug', addDateToSlug(parseDatedSlug(e.target.value)));
+      form.change('slug', addDateToSlug(parseSlug(e.target.value)));
     }
   };
 
@@ -88,7 +86,7 @@ function CreateArticleModal(props) {
           <TextField 
             name="slug" 
             label="Slug" 
-            parse={parseDatedSlug}
+            parse={parseSlug}
             validator={slugValidator}
             onKeyDown={handleKeyDown}
           />

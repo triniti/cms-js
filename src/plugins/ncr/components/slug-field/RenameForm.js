@@ -18,16 +18,13 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
 const slugValidator = (value) => {
-  const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
-  return isValidSlug(trimmedValue) ? undefined : 'Only use letters, numbers and dashes.';
+  return isValidSlug(value?.trim()) ? undefined : 'Only use letters, numbers and dashes.';
 };
 
 const datedSlugValidator = (value) => {
-  const trimmedValue = value ? value.trim().replace(/\s+/g, '-') : value;
-  if (isValidSlug(trimmedValue, true) && DATED_SLUG_PATTERN.test(trimStart(trimmedValue))) {
+  if (isValidSlug(value?.trim(), true) && DATED_SLUG_PATTERN.test(trimStart(value?.trim()))) {
     return undefined;
   }
-
   return 'Expected format YYYY/MM/DD/some-title-here';
 }
 
