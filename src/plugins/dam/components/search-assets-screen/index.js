@@ -47,8 +47,8 @@ function SearchAssetsScreen(props) {
               icon="cloud-upload"
               modal={UploaderModal}
               modalProps={{
-                onDone: (ref, refs) => {
-                  if (!refs.length) {
+                onDone: (assetRef, assets) => {
+                  if (!assets.length) {
                     return;
                   }
 
