@@ -17,6 +17,13 @@ import trimStart from 'lodash-es/trimStart.js';
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
+const slugValidator = (value) => {
+  if (isValidDatedSlug(value)) {
+    return undefined;
+  }
+  return 'Expected format YYYY/MM/DD/some-title-here';
+};
+
 const parseSlug = (value) => {
   let ending = '';
   if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
@@ -24,13 +31,6 @@ const parseSlug = (value) => {
   }
   const slug = createSlug(value.toLowerCase(), true);
   return slug ? slug + ending : value;
-};
-
-const slugValidator = (value) => {
-  if (isValidDatedSlug(value?.trim())) {
-    return undefined;
-  }
-  return 'Expected format YYYY/MM/DD/some-title-here';
 };
 
 function CreateArticleModal(props) {
@@ -85,7 +85,9 @@ function CreateArticleModal(props) {
           <SeoTitleField onBlur={handleBlur} onKeyDown={handleKeyDown} />
           <TextField 
             name="slug" 
-            label="Slug" 
+            label="Slug"
+            format={value => value?.trim()}
+            formatOnBlur
             parse={parseSlug}
             validator={slugValidator}
             onKeyDown={handleKeyDown}

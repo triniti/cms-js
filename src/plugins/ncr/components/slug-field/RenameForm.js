@@ -18,11 +18,11 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
 const slugValidator = (value) => {
-  return isValidSlug(value?.trim()) ? undefined : 'Only use letters, numbers and dashes.';
+  return isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
 };
 
 const datedSlugValidator = (value) => {
-  if (isValidSlug(value?.trim(), true) && DATED_SLUG_PATTERN.test(trimStart(value?.trim()))) {
+  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
     return undefined;
   }
   return 'Expected format YYYY/MM/DD/some-title-here';
@@ -98,6 +98,8 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
+            format={value => value?.trim()}
+            formatOnBlur
             parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />
