@@ -21,13 +21,6 @@ export default function WordCountPlugin({ onWordCountChanged, title = '', }) {
     editor.read(() => {
       const root = $getRoot();
       paragraphWordCount = countWords(root.getTextContent());
-      decoratorWordCount = (root.getChildren().filter(node => $isBlocksmithNode(node))).reduce((acc, curr) => {
-        if (![`${APP_VENDOR}:canvas:block:quote-block`, `${APP_VENDOR}:canvas:block:heading-block`].includes(curr.getCurie())) {
-          return acc;
-        }
-        return acc + countWords(curr.getPbj()?.text || '');
-      }, 0);
-      onWordCountChanged(paragraphWordCount + decoratorWordCount + titleWordCount);
     });
 
     return mergeRegister(
