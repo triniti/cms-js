@@ -26,6 +26,7 @@
 * Blocksmith :: add floating toolbar for text formatting on selection.
 * Update internal/external links for node picker fields and block previews
 * Enable Selective Removal Within Linked Text
+* Add images to galleries in the order they were selected/uploaded
 
 
 ## v1.2.2
