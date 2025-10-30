@@ -26,6 +26,7 @@
 * Blocksmith :: add floating toolbar for text formatting on selection.
 * Update internal/external links for node picker fields and block previews
 * Blocksmith :: add live word count in edit mode
+* Enable Selective Removal Within Linked Text
 
 
 ## v1.2.2
