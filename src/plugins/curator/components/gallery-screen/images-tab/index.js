@@ -63,7 +63,6 @@ function ImagesTab(props) {
         <ResizeGallerySlider 
           imagesPerRow={imagesPerRow}
           maxImagesPerRow={MAX_IMAGES_PER_ROW}
-
           onIncreaseImagesPerRow={handleIncreaseImagesPerRow}
           onDecreaseImagesPerRow={handleDecreaseImagesPerRow}
           onSlideImagesPerRow={handleSlideImagesPerRow}

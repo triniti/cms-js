@@ -10,11 +10,11 @@ const ResizeGallerySlider = ({
   onDecreaseImagesPerRow,
   onSlideImagesPerRow,
 }) => (
-  <div className="resize-gallery-slider d-inline-flex align-items-center" style={{ width: '10rem' }}>
+  <div className="resize-gallery-slider d-inline-flex align-items-center" style={{ width: '15rem' }}>
     <Button
-      className="rounded-circle"
       disabled={imagesPerRow === maxImagesPerRow}
       onClick={onIncreaseImagesPerRow}
+      className="rounded-circle"
       size="xs"
       color="light"
     >
@@ -33,7 +33,7 @@ const ResizeGallerySlider = ({
     <Button
       disabled={imagesPerRow === minImagesPerRow}
       onClick={onDecreaseImagesPerRow}
-      className="ms-2 rounded-circle"
+      className="rounded-circle"
       size="xs"
       color="light"
     >
