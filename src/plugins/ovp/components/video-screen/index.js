@@ -12,6 +12,7 @@ import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
 import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
+import TranscodingErrorAlert from '@triniti/cms/plugins/ovp/components/video-screen/TranscodingErrorAlert.js';
 
 function VideoScreen(props) {
   const {
@@ -108,6 +109,7 @@ function VideoScreen(props) {
     >
       {!editMode && <ViewModeWarning />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
+      <TranscodingErrorAlert nodeRef={nodeRef} />
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
           <TabPane tabId="details">

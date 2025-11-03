@@ -28,7 +28,7 @@
 * Blocksmith :: add live word count in edit mode
 * Enable Selective Removal Within Linked Text
 * Allow Spaces in Slug Fields.
-* Add transcoding error alert to Details tab for failed video assets.
+* Add transcoding error alert to all tabs on video and asset screens for failed transcoding.
 
 
 ## v1.2.2

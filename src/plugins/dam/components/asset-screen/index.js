@@ -11,6 +11,7 @@ import VariantsTab from '@triniti/cms/plugins/dam/components/asset-screen/Varian
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
+import TranscodingErrorAlert from '@triniti/cms/plugins/dam/components/asset-screen/TranscodingErrorAlert.js';
 
 function AssetScreen(props) {
   const {
@@ -120,6 +121,7 @@ function AssetScreen(props) {
     >
       {!editMode && <ViewModeWarning />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
+      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && <TranscodingErrorAlert node={node} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
           <TabPane tabId="details">

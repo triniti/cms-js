@@ -15,7 +15,6 @@ import GalleryCard from '@triniti/cms/plugins/dam/components/asset-screen/Galler
 import LinkedNodesCard from '@triniti/cms/plugins/dam/components/asset-screen/LinkedNodesCard.js';
 import TranscodeableCard from '@triniti/cms/plugins/dam/components/asset-screen/TranscodeableCard.js';
 import TranscribeableCard from '@triniti/cms/plugins/dam/components/asset-screen/TranscribeableCard.js';
-import TranscodingErrorAlert from '@triniti/cms/plugins/dam/components/asset-screen/TranscodingErrorAlert.js';
 import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
 import formatBytes from '@triniti/cms/utils/formatBytes.js';
 
@@ -26,9 +25,6 @@ export default function DetailsTab(props) {
 
   return (
     <>
-      {schema.hasMixin('triniti:ovp:mixin:transcodeable') && (
-        <TranscodingErrorAlert node={node} />
-      )}
       <Card>
         <CardHeader>{startCase(label)}</CardHeader>
         <CardBody>
