@@ -3,7 +3,7 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading, Pager, withForm } from '@triniti/cms/components/index.js';
-import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 
 function SearchTab(props) {
@@ -26,7 +26,7 @@ function SearchTab(props) {
           )}
 
           {response.has('nodes') && (
-            <AssetViewer
+            <AssetPresenter
               displayView={displayView}
               nodes={response.get('nodes')}
               type={type}

@@ -4,7 +4,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading } from '@triniti/cms/components/index.js';
-import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 
 function LinkedTab(props) {
   const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request, displayView } = props;
@@ -28,7 +28,7 @@ function LinkedTab(props) {
           )}
 
           {response.has('nodes') && (
-            <AssetViewer
+            <AssetPresenter
               displayView={displayView}
               nodes={response.get('nodes')}
               type={type}

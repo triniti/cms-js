@@ -15,7 +15,7 @@ import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import unlinkAssets from '@triniti/cms/plugins/dam/actions/unlinkAssets.js';
-import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 
 const LinkAssetsModal = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/LinkAssetsModal.js'));
@@ -116,7 +116,7 @@ function LinkedAssetsCard(props) {
 
           {response && hasNodes && (
             <div className="p-2">
-              <AssetViewer displayView={props.displayView} nodes={nodes} batch={batch} />
+              <AssetPresenter displayView={props.displayView} nodes={nodes} batch={batch} />
             </div>
           )}
         </CardBody>

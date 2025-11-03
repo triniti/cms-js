@@ -14,7 +14,7 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
-import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
@@ -105,7 +105,7 @@ function LinkAssetsModal(props) {
               )}
 
               {hasNodes && (
-                <AssetViewer displayView={props.displayView} nodes={nodes} batch={batch} inModal />
+                <AssetPresenter displayView={props.displayView} nodes={nodes} batch={batch} inModal />
               )}
 
               <Pager

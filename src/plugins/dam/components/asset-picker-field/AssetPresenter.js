@@ -3,7 +3,7 @@ import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-fiel
 import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
 import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
 
-export default function AssetViewer({ displayView, nodes = [], type, ...props }) {
+export default function AssetPresenter({ displayView, nodes = [], type, ...props }) {
   let Component;
 
   if (displayView === 'asset-card-grid') {

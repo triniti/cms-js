@@ -17,7 +17,7 @@ import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen
 import BatchOperationsCard from '@triniti/cms/plugins/dam/components/search-assets-screen/BatchOperationsCard.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
-import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
@@ -86,7 +86,7 @@ function SearchAssetsScreen(props) {
 
           {props.displayView ? (
             <div className="border-top border-light-subtle border-3 p-2">
-              <AssetViewer
+              <AssetPresenter
                 displayView={props.displayView}
                 nodes={nodes}
                 batch={batch}
