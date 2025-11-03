@@ -3,7 +3,7 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading, Pager, withForm } from '@triniti/cms/components/index.js';
-import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
+import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 
 function SearchTab(props) {
@@ -13,8 +13,6 @@ function SearchTab(props) {
   if (activeTab !== 'search' && activeTab !== 'gallery') {
     return null;
   }
-
-  const Component = getAssetDisplayView(displayView, [], type);
 
   return (
     <div id="asset-picker-search-body" className="scrollable-container bg-gray-400 modal-scrollable--tabs">
@@ -28,7 +26,12 @@ function SearchTab(props) {
           )}
 
           {response.has('nodes') && (
-            <Component nodes={response.get('nodes')} onSelectAsset={onSelectAsset} />
+            <AssetViewer
+              displayView={displayView}
+              nodes={response.get('nodes')}
+              type={type}
+              onSelectAsset={onSelectAsset}
+            />
           )}
 
           <Pager

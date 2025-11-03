@@ -4,7 +4,7 @@ import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading } from '@triniti/cms/components/index.js';
-import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
+import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
 
 function LinkedTab(props) {
   const { onSelectAsset, onClickTab, onUpload, searchEnricher, activeTab, linkedRef, type, request, displayView } = props;
@@ -14,8 +14,6 @@ function LinkedTab(props) {
   if (activeTab !== 'linked') {
     return null;
   }
-
-  const Component = getAssetDisplayView(displayView, [], type);
 
   return (
     <div className="scrollable-container bg-gray-400 modal-scrollable--tabs">
@@ -30,7 +28,12 @@ function LinkedTab(props) {
           )}
 
           {response.has('nodes') && (
-            <Component nodes={response.get('nodes')} onSelectAsset={onSelectAsset} />
+            <AssetViewer
+              displayView={displayView}
+              nodes={response.get('nodes')}
+              type={type}
+              onSelectAsset={onSelectAsset}
+            />
           )}
         </div>
       )}

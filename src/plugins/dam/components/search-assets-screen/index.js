@@ -17,8 +17,8 @@ import SearchForm from '@triniti/cms/plugins/dam/components/search-assets-screen
 import BatchOperationsCard from '@triniti/cms/plugins/dam/components/search-assets-screen/BatchOperationsCard.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
+import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
 import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
-import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -36,7 +36,6 @@ function SearchAssetsScreen(props) {
   }
 
   const nodes = response?.get('nodes', []);
-  const GridComponent = props.displayView ? getAssetDisplayView(props.displayView, nodes) : null;
 
   return (
     <Screen
@@ -85,9 +84,10 @@ function SearchAssetsScreen(props) {
             in <strong>{response.get('time_taken').toLocaleString()}</strong> milliseconds.
           </div>
 
-          {GridComponent ? (
+          {props.displayView ? (
             <div className="border-top border-light-subtle border-3 p-2">
-              <GridComponent
+              <AssetViewer
+                displayView={props.displayView}
                 nodes={nodes}
                 batch={batch}
               />

@@ -14,9 +14,8 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
-import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
+import AssetViewer from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetViewer.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
-import getAssetDisplayView from '@triniti/cms/plugins/dam/utils/getAssetDisplayView.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
 
@@ -90,7 +89,6 @@ function LinkAssetsModal(props) {
 
   const hasNodes = response?.has('nodes');
   const nodes = hasNodes ? response.get('nodes') : [];
-  const Component = getAssetDisplayView(props.displayView, nodes);
 
   return (
     <Modal isOpen backdrop="static" size="xl" centered>
@@ -107,11 +105,7 @@ function LinkAssetsModal(props) {
               )}
 
               {hasNodes && (
-                Component === AssetTable ? (
-                  <Component nodes={nodes} batch={batch} inModal />
-                ) : (
-                  <Component nodes={nodes} batch={batch} />
-                )
+                <AssetViewer displayView={props.displayView} nodes={nodes} batch={batch} inModal />
               )}
 
               <Pager
