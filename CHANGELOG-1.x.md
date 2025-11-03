@@ -25,7 +25,10 @@
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
 * Update internal/external links for node picker fields and block previews
-* dam/ovp :: Add transcoding error alert to Details tab for failed video assets.
+* Blocksmith :: add live word count in edit mode
+* Enable Selective Removal Within Linked Text
+* Allow Spaces in Slug Fields.
+* Add transcoding error alert to Details tab for failed video assets.
 
 
 ## v1.2.2
