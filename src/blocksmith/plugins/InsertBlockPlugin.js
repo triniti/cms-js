@@ -7,7 +7,7 @@ import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { SHOW_BLOCK_SELECTOR_COMMAND } from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 
-const BUTTON_OFFSET = 23; // height of the toolbar minus the padding between blocks
+const BUTTON_OFFSET = 80; // height of the toolbar plus the card header minus the padding between blocks
 
 export default function InsertBlockPlugin() {
   const [editor] = useLexicalComposerContext();

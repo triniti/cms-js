@@ -17,31 +17,33 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 // more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 
-const slugValidator = value => isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
+const slugValidator = (value) => {
+  return isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
+};
+
 const datedSlugValidator = (value) => {
   if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
     return undefined;
   }
-
   return 'Expected format YYYY/MM/DD/some-title-here';
 }
 
 const parseSlug = (value) => {
   let ending = '';
-  if (value && (value.endsWith('/') || value.endsWith('-'))) {
-    ending = value.substring(value.length, value.length - 1);
+  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
+    ending = value[value.length - 1];
   }
-
-  return value ? createSlug(value).toLowerCase() + ending : value;
+  const slug = createSlug(value.toLowerCase());
+  return slug ? slug + ending : value;
 };
 
 const parseDatedSlug = (value) => {
   let ending = '';
-  if (value && (value.endsWith('/') || value.endsWith('-'))) {
-    ending = value.substring(value.length, value.length - 1);
+  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
+    ending = value[value.length - 1];
   }
-
-  return value ? createSlug(value, true).toLowerCase() + ending : value;
+  const slug = createSlug(value.toLowerCase(), true);
+  return slug ? slug + ending : value;
 };
 
 function RenameForm(props) {
@@ -96,6 +98,8 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
+            format={value => value?.trim()}
+            formatOnBlur
             parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />

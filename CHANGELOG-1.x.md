@@ -25,8 +25,11 @@
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
 * Update internal/external links for node picker fields and block previews
+* Blocksmith :: add live word count in edit mode
 * Enable Selective Removal Within Linked Text
 * Add images to galleries in the order they were selected/uploaded
+* Allow Spaces in Slug Fields.
+* Use grid view for gallery blocks and asset tabs
 
 
 ## v1.2.2
