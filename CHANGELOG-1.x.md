@@ -28,7 +28,8 @@
 * Blocksmith :: add live word count in edit mode
 * Enable Selective Removal Within Linked Text
 * Allow Spaces in Slug Fields.
-* Show clear search button on search inputs.
+* Use grid view for gallery blocks and asset tabs
+* Display clear search button on search inputs.
 
 
 ## v1.2.2
