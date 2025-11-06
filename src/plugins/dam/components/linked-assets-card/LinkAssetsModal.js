@@ -40,8 +40,8 @@ function LinkAssetsModal(props) {
     props.toggle();
   };
 
-  const handleUploaderDone = (ref, refs) => {
-    if (!refs || !refs.length) {
+  const handleUploaderDone = (assetRef, assets) => {
+    if (!assetRef || !assets.length) {
       if (uploaderOpen) {
         setUploaderOpen(false);
       }

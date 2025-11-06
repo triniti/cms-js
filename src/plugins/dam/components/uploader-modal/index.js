@@ -59,7 +59,7 @@ export default function UploaderModal(props) {
       .filter(o => o.status === uploadStatus.COMPLETED)
       .map(o => o.result)
     );
-    await onDone(assetRef, assets.map(a => a.generateNodeRef()));
+    await onDone(assetRef, assets);
     props.toggle();
   };
 
