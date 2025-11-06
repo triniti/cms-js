@@ -36,7 +36,7 @@ function TranscodingErrorAlert(props) {
 
   return (
     <Alert color="danger" className="my-3">
-      <strong>Transcoding Status: {capitalize(status.getValue())}</strong>
+      <strong>Transcoding Status: {capitalize(status)}</strong>
     </Alert>
   );
 }
