@@ -27,7 +27,10 @@
 * Update internal/external links for node picker fields and block previews
 * Blocksmith :: add live word count in edit mode
 * Enable Selective Removal Within Linked Text
+* Add images to galleries in the order they were selected/uploaded
 * Allow Spaces in Slug Fields.
+* Use grid view for gallery blocks and asset tabs
+* Display clear search button on search inputs.
 * Add transcoding error alert to all tabs on video and asset screens for failed transcoding.
 
 

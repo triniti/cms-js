@@ -3,19 +3,16 @@ import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSor
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { Loading, Pager, withForm } from '@triniti/cms/components/index.js';
-import AssetTable from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetTable.js';
-import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/asset-picker-field/SearchForm.js';
 
 function SearchTab(props) {
-  const { onSelectAsset, activeTab, type, searchEnricher, request, delegate } = props;
+  const { onSelectAsset, activeTab, type, searchEnricher, request, delegate, displayView } = props;
   request.clear('types').addToSet('types', [type]);
   const { response, pbjxError, isRunning, run } = useRequest(request, activeTab === 'search' || activeTab === 'gallery', searchEnricher);
   if (activeTab !== 'search' && activeTab !== 'gallery') {
     return null;
   }
-
-  const Component = type === 'image-asset' ? ImageGrid : AssetTable;
 
   return (
     <div id="asset-picker-search-body" className="scrollable-container bg-gray-400 modal-scrollable--tabs">
@@ -29,7 +26,12 @@ function SearchTab(props) {
           )}
 
           {response.has('nodes') && (
-            <Component nodes={response.get('nodes')} onSelectAsset={onSelectAsset} />
+            <AssetPresenter
+              displayView={displayView}
+              nodes={response.get('nodes')}
+              type={type}
+              onSelectAsset={onSelectAsset}
+            />
           )}
 
           <Pager
