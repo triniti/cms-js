@@ -24,6 +24,7 @@
 * Blocksmith :: Add ability to insert blocks after text blocks
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
+* Blocksmith :: floating toolbar to include link and unlink.
 * Update internal/external links for node picker fields and block previews
 * Blocksmith :: add live word count in edit mode
 * Enable Selective Removal Within Linked Text
