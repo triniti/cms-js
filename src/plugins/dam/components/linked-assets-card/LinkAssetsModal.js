@@ -14,7 +14,7 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
-import AssetTable from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
+import AssetPresenter from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetPresenter.js';
 import SearchForm from '@triniti/cms/plugins/dam/components/linked-assets-card/SearchForm.js';
 
 const UploaderModal = lazy(() => import('@triniti/cms/plugins/dam/components/uploader-modal/index.js'));
@@ -40,8 +40,8 @@ function LinkAssetsModal(props) {
     props.toggle();
   };
 
-  const handleUploaderDone = (ref, refs) => {
-    if (!refs || !refs.length) {
+  const handleUploaderDone = (assetRef, assets) => {
+    if (!assetRef || !assets.length) {
       if (uploaderOpen) {
         setUploaderOpen(false);
       }
@@ -87,6 +87,9 @@ function LinkAssetsModal(props) {
     );
   }
 
+  const hasNodes = response?.has('nodes');
+  const nodes = hasNodes ? response.get('nodes') : [];
+
   return (
     <Modal isOpen backdrop="static" size="xl" centered>
       <ModalHeader toggle={handleClose}>Link Assets</ModalHeader>
@@ -97,12 +100,12 @@ function LinkAssetsModal(props) {
 
           {response && (
             <div className="border-top border-light-subtle border-3">
-              {!response.has('nodes') && (
+              {!hasNodes && (
                 <p className="p-5">No assets found.</p>
               )}
 
-              {response.has('nodes') && (
-                <AssetTable nodes={response.get('nodes')} batch={batch} inModal />
+              {hasNodes && (
+                <AssetPresenter displayView={props.displayView} nodes={nodes} batch={batch} inModal />
               )}
 
               <Pager
