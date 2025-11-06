@@ -158,12 +158,6 @@ function FloatingTextFormatToolbar({
   const handleInsertLink = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    modalRef.current = (p) => (
-      <LinkModal
-        {...p}
-        selectedLink={isLink && selectedLink ? selectedLink : null}
-      />
-    );
     setIsModalOpen(true);
   };
 
