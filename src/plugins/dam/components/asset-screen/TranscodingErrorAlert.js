@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'reactstrap';
+import capitalize from 'lodash-es/capitalize.js';
 import TranscodingStatus from '@triniti/schemas/triniti/ovp/enums/TranscodingStatus.js';
 
 function TranscodingErrorAlert(props) {
@@ -11,8 +12,8 @@ function TranscodingErrorAlert(props) {
   }
 
   return (
-    <Alert color="danger" className="mb-3">
-      <strong>TRANSCODING STATUS: {status.getValue().toUpperCase()}</strong>
+    <Alert color="danger" className="my-3">
+      <strong>Transcoding Status: {capitalize(status.getValue())}</strong>
     </Alert>
   );
 }

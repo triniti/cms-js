@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'reactstrap';
+import capitalize from 'lodash-es/capitalize.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import TranscodingStatus from '@triniti/schemas/triniti/ovp/enums/TranscodingStatus.js';
 import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
@@ -34,8 +35,8 @@ function TranscodingErrorAlert(props) {
   const status = asset.get('transcoding_status');
 
   return (
-    <Alert color="danger" className="mb-3">
-      <strong>TRANSCODING STATUS: {status.getValue().toUpperCase()}</strong>
+    <Alert color="danger" className="my-3">
+      <strong>Transcoding Status: {capitalize(status.getValue())}</strong>
     </Alert>
   );
 }
