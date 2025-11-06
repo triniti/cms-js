@@ -77,13 +77,6 @@ const createAsset = async (upload, app, dispatch, batch) => {
     asset.addToSet('linked_refs', [NodeRef.fromString(`${linkedRef}`)]);
   }
 
-  if (galleryRef) {
-    asset.set('gallery_ref', NodeRef.fromString(`${galleryRef}`));
-    if (upload.gallerySeq !== null) {
-      asset.set('gallery_seq', upload.gallerySeq);
-    }
-  }
-
   await assetEnricher(asset, upload, app);
   const CreateNodeV1 = await MessageResolver.resolveCurie('gdbots:ncr:command:create-node:v1');
   const command = CreateNodeV1.create().set('node', asset);
@@ -160,10 +153,6 @@ export default function Uploader(props) {
         running: true,
         gallerySeq: null,
       };
-
-      if (batch.config.galleryRef && batch.config.gallerySeqIncrementer) {
-        upload.gallerySeq = batch.config.gallerySeqIncrementer();
-      }
 
       const process = async () => {
         if (upload.status === uploadStatus.COMPLETED) {
