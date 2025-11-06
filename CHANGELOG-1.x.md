@@ -32,6 +32,7 @@
 * Allow Spaces in Slug Fields.
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
+* Add transcoding and transcription error alerts to all tabs.
 
 
 ## v1.2.2
