@@ -29,6 +29,7 @@
 * Enable Selective Removal Within Linked Text
 * Allow Spaces in Slug Fields.
 * Use grid view for gallery blocks and asset tabs
+* Blocksmith :: Default values for divider-block fields
 
 
 ## v1.2.2
