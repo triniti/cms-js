@@ -5,7 +5,6 @@ import {
   $getSelection,
   $isRangeSelection,
   $isRootOrShadowRoot,
-  $isTextNode,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
@@ -58,12 +57,13 @@ function FloatingTextFormatToolbar({
   isStrikethrough,
   isHighlight,
   blockType,
+  selectedLink,
 }) {
   const popupRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isBulletList = blockType === 'bullet';
   const isNumberList = blockType === 'number';
-
+  const modalRef = useRef(null);
   const $updateTextFormatFloatingToolbar = useCallback(() => {
     const nativeSelection = window.getSelection();
     const popupElem = popupRef.current;
@@ -158,6 +158,12 @@ function FloatingTextFormatToolbar({
   const handleInsertLink = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    modalRef.current = (p) => (
+      <LinkModal
+        {...p}
+        selectedLink={isLink && selectedLink ? selectedLink : null}
+      />
+    );
     setIsModalOpen(true);
   };
 
@@ -202,14 +208,24 @@ function FloatingTextFormatToolbar({
             <Icon imgSrc="link" />
           </button>
         ) : (
-          <button
-            onClick={handleFormat(TOGGLE_LINK_COMMAND)}
-            className="toolbar-item active"
-            aria-label="Remove link"
-            type="button"
-          >
-            <Icon imgSrc="unlink" />
-          </button>
+          <>
+            <button
+              onClick={handleInsertLink}
+              className="toolbar-item active"
+              aria-label="Edit link"
+              type="button"
+            >
+              <Icon imgSrc="link" />
+            </button>
+            <button
+              onClick={handleFormat(TOGGLE_LINK_COMMAND)}
+              className="toolbar-item active"
+              aria-label="Remove link"
+              type="button"
+            >
+              <Icon imgSrc="unlink" />
+            </button>
+          </>
         )}
         <button
           onClick={handleFormat(isBulletList ? REMOVE_LIST_COMMAND : INSERT_UNORDERED_LIST_COMMAND)}
@@ -248,7 +264,8 @@ function FloatingTextFormatToolbar({
         <BlocksmithModal
           toggle={toggleModal}
           isOpen={isModalOpen}
-          modal={LinkModal}
+          modal={modalRef.current ? modalRef.current : LinkModal}
+          selectedLink={isLink && selectedLink ? selectedLink : null}
         />
       )}
     </>
@@ -258,6 +275,7 @@ function FloatingTextFormatToolbar({
 function useFloatingTextFormatToolbar(editor) {
   const [isText, setIsText] = useState(false);
   const [isLink, setIsLink] = useState(false);
+  const [selectedLink, setSelectedLink] = useState(null);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
@@ -287,7 +305,6 @@ function useFloatingTextFormatToolbar(editor) {
 
       const node = $getSelectedNode(selection);
       const parent = node.getParent();
-
       const isTextSelected = !selection.isCollapsed() && selection.getTextContent().trim().length > 0;
 
       if (!isTextSelected) {
@@ -303,7 +320,16 @@ function useFloatingTextFormatToolbar(editor) {
       setIsStrikethrough(selection.hasFormat('strikethrough'));
       setIsHighlight(selection.hasFormat('highlight'));
 
-      setIsLink($isLinkNode(parent) || $isLinkNode(node));
+      if ($isLinkNode(parent)) {
+        setIsLink(true);
+        setSelectedLink(parent.exportJSON());
+      } else if ($isLinkNode(node)) {
+        setIsLink(true);
+        setSelectedLink(node.exportJSON());
+      } else {
+        setIsLink(false);
+        setSelectedLink(null);
+      }
 
       const anchorNode = selection.anchor.getNode();
       let element = anchorNode.getKey() === 'root'
@@ -362,6 +388,7 @@ function useFloatingTextFormatToolbar(editor) {
     isStrikethrough,
     isHighlight,
     blockType,
+    selectedLink,
   };
 }
 
@@ -371,7 +398,7 @@ function useFloatingTextFormatToolbar(editor) {
  */
 export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
   const [editor] = useLexicalComposerContext();
-  
+
   const {
     isText,
     isLink,
@@ -381,6 +408,7 @@ export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
     isStrikethrough,
     isHighlight,
     blockType,
+    selectedLink,
   } = useFloatingTextFormatToolbar(editor);
 
   if (!editor.isEditable()) {
@@ -399,6 +427,7 @@ export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
         isStrikethrough={isStrikethrough}
         isHighlight={isHighlight}
         blockType={blockType}
+        selectedLink={selectedLink}
       />
     ),
     anchorElem
