@@ -30,6 +30,7 @@
 * Add images to galleries in the order they were selected/uploaded
 * Allow Spaces in Slug Fields.
 * Use grid view for gallery blocks and asset tabs
+* Display clear search button on search inputs.
 
 
 ## v1.2.2
