@@ -246,7 +246,7 @@ function FloatingTextFormatToolbar({
           toggle={toggleModal}
           isOpen={isModalOpen}
           modal={LinkModal}
-          selectedLink={!!selectedLink ? selectedLink : null}
+          selectedLink={selectedLink}
         />
       )}
     </>
