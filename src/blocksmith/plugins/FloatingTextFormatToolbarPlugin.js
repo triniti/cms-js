@@ -62,7 +62,6 @@ function FloatingTextFormatToolbar({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isBulletList = blockType === 'bullet';
   const isNumberList = blockType === 'number';
-  const modalRef = useRef(null);
   const $updateTextFormatFloatingToolbar = useCallback(() => {
     const nativeSelection = window.getSelection();
     const popupElem = popupRef.current;
@@ -246,7 +245,7 @@ function FloatingTextFormatToolbar({
         <BlocksmithModal
           toggle={toggleModal}
           isOpen={isModalOpen}
-          modal={modalRef.current ? modalRef.current : LinkModal}
+          modal={LinkModal}
           selectedLink={!!selectedLink ? selectedLink : null}
         />
       )}
