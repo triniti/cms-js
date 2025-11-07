@@ -50,7 +50,6 @@ const HORIZONTAL_OFFSET = 10;
 function FloatingTextFormatToolbar({
   editor,
   anchorElem,
-  isLink,
   isBold,
   isItalic,
   isUnderline,
@@ -194,13 +193,13 @@ function FloatingTextFormatToolbar({
         </button>
         <button
           onClick={handleInsertLink}
-          className={`toolbar-item${isLink ? ' active' : ''}`}
-          aria-label={isLink ? 'Edit link' : 'Insert link'}
+          className={`toolbar-item${!!selectedLink ? ' active' : ''}`}
+          aria-label={!!selectedLink ? 'Edit link' : 'Insert link'}
           type="button"
         >
           <Icon imgSrc="link" />
         </button>
-        {isLink && (
+        {!!selectedLink && (
           <button
             onClick={handleFormat(TOGGLE_LINK_COMMAND)}
             className="toolbar-item active"
@@ -248,7 +247,7 @@ function FloatingTextFormatToolbar({
           toggle={toggleModal}
           isOpen={isModalOpen}
           modal={modalRef.current ? modalRef.current : LinkModal}
-          selectedLink={isLink && selectedLink ? selectedLink : null}
+          selectedLink={!!selectedLink ? selectedLink : null}
         />
       )}
     </>
@@ -257,7 +256,6 @@ function FloatingTextFormatToolbar({
 
 function useFloatingTextFormatToolbar(editor) {
   const [isText, setIsText] = useState(false);
-  const [isLink, setIsLink] = useState(false);
   const [selectedLink, setSelectedLink] = useState(null);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -268,7 +266,6 @@ function useFloatingTextFormatToolbar(editor) {
 
   const resetFormats = useCallback(() => {
     setIsText(false);
-    setIsLink(false);
     setIsBold(false);
     setIsItalic(false);
     setIsUnderline(false);
@@ -304,13 +301,10 @@ function useFloatingTextFormatToolbar(editor) {
       setIsHighlight(selection.hasFormat('highlight'));
 
       if ($isLinkNode(parent)) {
-        setIsLink(true);
         setSelectedLink(parent.exportJSON());
       } else if ($isLinkNode(node)) {
-        setIsLink(true);
         setSelectedLink(node.exportJSON());
       } else {
-        setIsLink(false);
         setSelectedLink(null);
       }
 
@@ -364,7 +358,6 @@ function useFloatingTextFormatToolbar(editor) {
 
   return {
     isText,
-    isLink,
     isBold,
     isItalic,
     isUnderline,
@@ -384,7 +377,6 @@ export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
 
   const {
     isText,
-    isLink,
     isBold,
     isItalic,
     isUnderline,
@@ -403,7 +395,6 @@ export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
       <FloatingTextFormatToolbar
         editor={editor}
         anchorElem={anchorElem}
-        isLink={isLink}
         isBold={isBold}
         isItalic={isItalic}
         isUnderline={isUnderline}
