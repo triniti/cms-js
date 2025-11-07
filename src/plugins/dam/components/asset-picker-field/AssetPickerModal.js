@@ -27,7 +27,7 @@ export default function AssetPickerModal(props) {
       return;
     }
 
-    await onSelectAsset(ref);
+    await onSelectAsset(assetRef);
     props.toggle();
   };
 
