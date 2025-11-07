@@ -192,34 +192,23 @@ function FloatingTextFormatToolbar({
         >
           <Icon size="sd" imgSrc="underline" />
         </button>
-        {!isLink ? (
+        <button
+          onClick={handleInsertLink}
+          className={`toolbar-item${isLink ? ' active' : ''}`}
+          aria-label={isLink ? 'Edit link' : 'Insert link'}
+          type="button"
+        >
+          <Icon imgSrc="link" />
+        </button>
+        {isLink && (
           <button
-            onClick={handleInsertLink}
-            className="toolbar-item"
-            aria-label="Insert link"
+            onClick={handleFormat(TOGGLE_LINK_COMMAND)}
+            className="toolbar-item active"
+            aria-label="Remove link"
             type="button"
           >
-            <Icon imgSrc="link" />
+            <Icon imgSrc="unlink" />
           </button>
-        ) : (
-          <>
-            <button
-              onClick={handleInsertLink}
-              className="toolbar-item active"
-              aria-label="Edit link"
-              type="button"
-            >
-              <Icon imgSrc="link" />
-            </button>
-            <button
-              onClick={handleFormat(TOGGLE_LINK_COMMAND)}
-              className="toolbar-item active"
-              aria-label="Remove link"
-              type="button"
-            >
-              <Icon imgSrc="unlink" />
-            </button>
-          </>
         )}
         <button
           onClick={handleFormat(isBulletList ? REMOVE_LIST_COMMAND : INSERT_UNORDERED_LIST_COMMAND)}
