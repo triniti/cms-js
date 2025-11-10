@@ -22,6 +22,7 @@ import { Icon } from '@triniti/cms/components/index.js';
 import $getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
+import classnames from "classnames";
 
 function getDOMRangeRect(nativeSelection, rootElement) {
   if (nativeSelection.rangeCount === 0) {
@@ -62,6 +63,7 @@ function FloatingTextFormatToolbar({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isBulletList = blockType === 'bullet';
   const isNumberList = blockType === 'number';
+  const isLink = !!selectedLink;
   const $updateTextFormatFloatingToolbar = useCallback(() => {
     const nativeSelection = window.getSelection();
     const popupElem = popupRef.current;
@@ -153,7 +155,7 @@ function FloatingTextFormatToolbar({
     };
   };
 
-  const handleInsertLink = (event) => {
+  const handleOpenLinkModal = (event) => {
     event.preventDefault();
     event.stopPropagation();
     setIsModalOpen(true);
@@ -191,14 +193,14 @@ function FloatingTextFormatToolbar({
           <Icon size="sd" imgSrc="underline" />
         </button>
         <button
-          onClick={handleInsertLink}
-          className={`toolbar-item${!!selectedLink ? ' active' : ''}`}
-          aria-label={!!selectedLink ? 'Edit link' : 'Insert link'}
+          onClick={handleOpenLinkModal}
+          className={classnames('toolbar-item', { active: isLink })}
+          aria-label={`${isLink ? 'Edit' : 'Insert'} link`}
           type="button"
         >
           <Icon imgSrc="link" />
         </button>
-        {!!selectedLink && (
+        {isLink && (
           <button
             onClick={handleFormat(TOGGLE_LINK_COMMAND)}
             className="toolbar-item active"
