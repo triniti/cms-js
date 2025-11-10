@@ -15,16 +15,34 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import startMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/startMediaLiveChannel.js';
 import stopMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/stopMediaLiveChannel.js';
 
+const defaultMedialive = {
+  channelState: ChannelState.UNKNOWN.getValue(),
+  inputs: [],
+  originEndpoints: [],
+  cdnEndpoints: [],
+};
+
 export default function MediaLiveCard(props) {
-  const { node, nodeRef, medialive, refresh, isRefreshing } = props;
+  const {
+    node,
+    nodeRef,
+    medialive = defaultMedialive,
+    refresh,
+    isRefreshing = false,
+    showNodeActions = true,
+    className = ''
+  } = props;
+
   const dispatch = useDispatch();
   const policy = usePolicy();
   const nodeStatus = node.get('status').getValue();
+  const channelState = medialive?.channelState || ChannelState.UNKNOWN.getValue();
 
-  const isIdle = medialive.channelState === ChannelState.IDLE.getValue();
-  const isRunning = medialive.channelState === ChannelState.RUNNING.getValue();
+  const isIdle = channelState === ChannelState.IDLE.getValue();
+  const isRunning = channelState === ChannelState.RUNNING.getValue();
+  const isUnknown = channelState === ChannelState.UNKNOWN.getValue();
   const canUpdateVideo = policy.isGranted(`${APP_VENDOR}:video:update`);
-  const canStartChannel = !isRefreshing && isIdle && policy.isGranted('triniti:ovp.medialive:command:start-channel');
+  const canStartChannel = !isRefreshing && (isIdle || isUnknown) && policy.isGranted('triniti:ovp.medialive:command:start-channel');
   const canStopChannel = !isRefreshing && isRunning && policy.isGranted('triniti:ovp.medialive:command:stop-channel');
 
   const handleStartChannel = async () => {
@@ -85,36 +103,41 @@ export default function MediaLiveCard(props) {
   };
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
-        <div className="w-100">
-          {node.get('title')}{isRefreshing && <Spinner />}
-          {node.isInMap('tags', 'livestream_label') && (
-            <Badge color="light" className="ms-2">{node.getFromMap('tags', 'livestream_label')}</Badge>
-          )}
-          <Badge className={`status-${nodeStatus} ms-2`}>
-            {nodeStatus}
-          </Badge>
-        </div>
-        <div className="ms-auto text-nowrap">
-          <Link to={nodeUrl(node, 'view')}>
-            <Button color="hover" tag="span">
-              <Icon imgSrc="eye" alt="view" />
-            </Button>
-          </Link>
-          {canUpdateVideo && (
-            <Link to={nodeUrl(node, 'edit')}>
+        {showNodeActions && (
+          <div className="w-100">
+            {node.get('title')}{isRefreshing && <Spinner />}
+            {node.isInMap('tags', 'livestream_label') && (
+              <Badge color="light" className="ms-2">{node.getFromMap('tags', 'livestream_label')}</Badge>
+            )}
+            <Badge className={`status-${nodeStatus} ms-2`}>
+              {nodeStatus}
+            </Badge>
+          </div>
+        )}
+
+        {showNodeActions && (
+          <div className="ms-auto text-nowrap">
+            <Link to={nodeUrl(node, 'view')}>
               <Button color="hover" tag="span">
-                <Icon imgSrc="pencil" alt="edit" />
+                <Icon imgSrc="eye" alt="view" />
               </Button>
             </Link>
-          )}
-          <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-            <Button color="hover" tag="span">
-              <Icon imgSrc="external" alt="open" />
-            </Button>
-          </a>
-        </div>
+            {canUpdateVideo && (
+              <Link to={nodeUrl(node, 'edit')}>
+                <Button color="hover" tag="span">
+                  <Icon imgSrc="pencil" alt="edit" />
+                </Button>
+              </Link>
+            )}
+            <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+              <Button color="hover" tag="span">
+                <Icon imgSrc="external" alt="open" />
+              </Button>
+            </a>
+          </div>
+        )}
       </CardHeader>
 
       <CardBody className="p-2">
@@ -126,36 +149,44 @@ export default function MediaLiveCard(props) {
             disabled={isRunning ? !canStopChannel : !canStartChannel}
           />
           <ActionButton text="Refresh State" onClick={refresh} color="light" outline disabled={isRefreshing} />
-          <Label className="d-inline">State: {medialive.channelState}</Label>
+          <Label className="d-inline">State: {channelState}</Label>
           <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />
         </CardText>
 
-        <Table>
-          <tbody>
-          <tr>
-            <th className="nowrap" scope="row">Channel ARN:</th>
-            <td className="w-100 text-break">{node.get('medialive_channel_arn')}</td>
-          </tr>
-          {medialive.inputs.map((value, index) => (
-            <tr key={value}>
-              <th className="nowrap" scope="row">Ingest Endpoint #{index + 1}:</th>
-              <td className="w-100 text-break">{value}</td>
-            </tr>
-          ))}
-          {medialive.originEndpoints.map((value, index) => (
-            <tr key={value}>
-              <th className="nowrap" scope="row">Origin Endpoint #{index + 1}:</th>
-              <td className="w-100 text-break">{value}</td>
-            </tr>
-          ))}
-          {medialive.cdnEndpoints.map((value, index) => (
-            <tr key={value}>
-              <th className="nowrap" scope="row">CDN Endpoint #{index + 1}:</th>
-              <td className="w-100 text-break">{value}</td>
-            </tr>
-          ))}
-          </tbody>
-        </Table>
+        {showNodeActions && (
+            <Table>
+              <tbody>
+              <tr>
+                <th className="nowrap" scope="row">Channel ARN:</th>
+                <td className="w-100 text-break">{node.get('medialive_channel_arn')}</td>
+              </tr>
+              {medialive.inputs.map((value, index) => (
+                  <tr key={`input-${value}-${index}`}>
+                    <th className="nowrap" scope="row">Ingest Endpoint #{index + 1}:</th>
+                    <td className="w-100 text-break">{value}</td>
+                  </tr>
+              ))}
+              {medialive.originEndpoints.map((value, index) => (
+                  <tr key={`origin-${value}-${index}`}>
+                    <th className="nowrap" scope="row">Origin Endpoint #{index + 1}:</th>
+                    <td className="w-100 text-break">{value}</td>
+                  </tr>
+              ))}
+              {medialive.cdnEndpoints.map((value, index) => (
+                  <tr key={`cdn-${value}-${index}`}>
+                    <th className="nowrap" scope="row">CDN Endpoint #{index + 1}:</th>
+                    <td className="w-100 text-break">{value}</td>
+                  </tr>
+              ))}
+              {medialive.error && (
+                  <tr>
+                    <th className="nowrap text-danger" scope="row">Error:</th>
+                    <td className="w-100 text-break text-danger">{medialive.error}</td>
+                  </tr>
+              )}
+              </tbody>
+            </Table>
+        )}
       </CardBody>
     </Card>
   );

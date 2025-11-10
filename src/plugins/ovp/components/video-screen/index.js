@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
@@ -12,6 +12,9 @@ import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
 import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
+import MediaLiveCard from '@triniti/cms/plugins/ovp/components/livestreams-screen/MediaLiveCard.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import { useResolver } from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 
 function VideoScreen(props) {
   const {
@@ -24,7 +27,8 @@ function VideoScreen(props) {
     nodeRef,
     policy,
     tab,
-    urls
+    urls,
+    refreshNode,
   } = props;
 
   const delegate = useDelegate(props);
@@ -34,6 +38,51 @@ function VideoScreen(props) {
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+
+  const schema = node.schema();
+  const hasMedialiveChannel = schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && node.has('medialive_channel_arn');
+  const medialiveRequest = useResolver('triniti:ovp:request:search-videos-request', hasMedialiveChannel ? {
+    channel: `video-medialive-${nodeRef}`,
+    initialData: {
+      count: 1,
+      page: 1,
+      q: `_id:${node.get('_id')}`,
+      derefs: ['medialive_channel_state'],
+    },
+  } : null);
+
+  const {
+    response: medialiveResponse,
+    run: runMedialiveRequest,
+    isRunning: isRunningMedialiveRequest,
+  } = useRequest(medialiveRequest, Boolean(medialiveRequest));
+
+  const medialive = (() => {
+    const key = nodeRef.toString();
+    const metas = medialiveResponse ? medialiveResponse.get('metas', {}) : {};
+
+    return Object.entries(metas)
+      .reduce((newObj, [name, value]) => {
+        if (!name.startsWith(key)) {
+          return newObj;
+        }
+
+        const newName = name.replace(`${key}.`, '');
+        if (newName.startsWith('medialive_channel_state')) {
+          newObj.channelState = value;
+        } else if (newName.startsWith('medialive_input_')) {
+          newObj.inputs.push(value);
+        } else if (newName.startsWith('mediapackage_origin_endpoint_')) {
+          newObj.originEndpoints.push(value);
+        } else if (newName.startsWith('mediapackage_cdn_endpoint_')) {
+          newObj.cdnEndpoints.push(value);
+        } else {
+          newObj[newName] = value;
+        }
+
+        return newObj;
+      }, { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] });
+  })();
 
   return (
     <Screen
@@ -102,6 +151,16 @@ function VideoScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          {hasMedialiveChannel && (
+            <MediaLiveCard
+              node={node}
+              nodeRef={nodeRef}
+              medialive={medialive}
+              refresh={refreshNode}
+              isRefreshing={isRefreshing || isRunningMedialiveRequest}
+              showNodeActions={false}
+            />
+          )}
           {node.has('mezzanine_ref') && <MezzaninePreviewCard nodeRef={node.get('mezzanine_ref')} />}
         </>
       }
