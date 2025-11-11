@@ -28,7 +28,7 @@ function VideoScreen(props) {
     policy,
     tab,
     urls,
-    refreshNode,
+    refreshNode
   } = props;
 
   const delegate = useDelegate(props);

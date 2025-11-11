@@ -36,13 +36,11 @@ export default function MediaLiveCard(props) {
   const dispatch = useDispatch();
   const policy = usePolicy();
   const nodeStatus = node.get('status').getValue();
-  const channelState = medialive?.channelState || ChannelState.UNKNOWN.getValue();
 
-  const isIdle = channelState === ChannelState.IDLE.getValue();
-  const isRunning = channelState === ChannelState.RUNNING.getValue();
-  const isUnknown = channelState === ChannelState.UNKNOWN.getValue();
+  const isIdle = medialive.channelState === ChannelState.IDLE.getValue();
+  const isRunning = medialive.channelState === ChannelState.RUNNING.getValue();
   const canUpdateVideo = policy.isGranted(`${APP_VENDOR}:video:update`);
-  const canStartChannel = !isRefreshing && (isIdle || isUnknown) && policy.isGranted('triniti:ovp.medialive:command:start-channel');
+  const canStartChannel = !isRefreshing && isIdle && policy.isGranted('triniti:ovp.medialive:command:start-channel');
   const canStopChannel = !isRefreshing && isRunning && policy.isGranted('triniti:ovp.medialive:command:stop-channel');
 
   const handleStartChannel = async () => {
@@ -150,7 +148,7 @@ export default function MediaLiveCard(props) {
           />
           <ActionButton text="Refresh State" onClick={refresh} color="light" outline disabled={isRefreshing} />
           <span className={className && className.includes('sidebar') ? 'd-block w-100 mt-2' : ''}>
-            <Label className="d-inline">State: {channelState}</Label>
+            <Label className="d-inline">State: {medialive.channelState}</Label>
             <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />
           </span>
         </CardText>
@@ -180,12 +178,6 @@ export default function MediaLiveCard(props) {
                     <td className="w-100 text-break">{value}</td>
                   </tr>
               ))}
-              {medialive.error && (
-                  <tr>
-                    <th className="nowrap text-danger" scope="row">Error:</th>
-                    <td className="w-100 text-break text-danger">{medialive.error}</td>
-                  </tr>
-              )}
               </tbody>
             </Table>
         )}
