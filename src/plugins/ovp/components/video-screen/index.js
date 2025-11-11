@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
@@ -41,12 +41,13 @@ function VideoScreen(props) {
 
   const schema = node.schema();
   const hasMedialiveChannel = schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && node.has('medialive_channel_arn');
-  const medialiveRequest = useResolver('triniti:ovp:request:search-videos-request', hasMedialiveChannel ? {
+  const medialiveChannelArn = node.get('medialive_channel_arn');
+  const medialiveRequest = useResolver('triniti:ovp:request:search-videos-request', hasMedialiveChannel && medialiveChannelArn ? {
     channel: `video-medialive-${nodeRef}`,
     initialData: {
       count: 1,
       page: 1,
-      q: `_id:${node.get('_id')}`,
+      q: `medialive_channel_arn:"${medialiveChannelArn}"`,
       derefs: ['medialive_channel_state'],
     },
   } : null);
@@ -58,8 +59,19 @@ function VideoScreen(props) {
   } = useRequest(medialiveRequest, Boolean(medialiveRequest));
 
   const medialive = (() => {
-    const key = nodeRef.toString();
-    const metas = medialiveResponse ? medialiveResponse.get('metas', {}) : {};
+    if (!medialiveResponse) {
+      return { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] };
+    }
+
+    const nodes = medialiveResponse.get('nodes', []);
+    if (nodes.length === 0) {
+      return { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] };
+    }
+
+    const responseNode = nodes[0];
+    const responseNodeRef = responseNode.generateNodeRef();
+    const key = responseNodeRef.toString();
+    const metas = medialiveResponse.get('metas', {});
 
     return Object.entries(metas)
       .reduce((newObj, [name, value]) => {
@@ -83,6 +95,11 @@ function VideoScreen(props) {
         return newObj;
       }, { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] });
   })();
+
+  const handleRefreshMedialive = () => {
+    runMedialiveRequest();
+    refreshNode();
+  };
 
   return (
     <Screen
@@ -156,7 +173,7 @@ function VideoScreen(props) {
               node={node}
               nodeRef={nodeRef}
               medialive={medialive}
-              refresh={refreshNode}
+              refresh={handleRefreshMedialive}
               isRefreshing={isRefreshing || isRunningMedialiveRequest}
               showNodeActions={false}
             />
