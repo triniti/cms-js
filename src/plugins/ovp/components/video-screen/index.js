@@ -62,15 +62,7 @@ function VideoScreen(props) {
     if (!medialiveResponse) {
       return { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] };
     }
-
-    const nodes = medialiveResponse.get('nodes', []);
-    if (nodes.length === 0) {
-      return { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] };
-    }
-
-    const responseNode = nodes[0];
-    const responseNodeRef = responseNode.generateNodeRef();
-    const key = responseNodeRef.toString();
+    const key = nodeRef.toString();
     const metas = medialiveResponse.get('metas', {});
 
     return Object.entries(metas)
