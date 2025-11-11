@@ -101,7 +101,7 @@ export default function MediaLiveCard(props) {
   };
 
   return (
-    <Card className={className}>
+    <Card>
       <CardHeader>
         {showNodeActions && (
           <div className="w-100">
