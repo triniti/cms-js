@@ -32,6 +32,7 @@
 * Allow Spaces in Slug Fields.
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
+* Add start channel button in liveStream video sidebar
 
 
 ## v1.2.2
