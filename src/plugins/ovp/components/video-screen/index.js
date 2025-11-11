@@ -176,6 +176,7 @@ function VideoScreen(props) {
               refresh={handleRefreshMedialive}
               isRefreshing={isRefreshing || isRunningMedialiveRequest}
               showNodeActions={false}
+              className="media-live-card-sidebar"
             />
           )}
           {node.has('mezzanine_ref') && <MezzaninePreviewCard nodeRef={node.get('mezzanine_ref')} />}

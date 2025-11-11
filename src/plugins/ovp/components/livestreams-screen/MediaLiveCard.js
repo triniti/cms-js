@@ -149,8 +149,10 @@ export default function MediaLiveCard(props) {
             disabled={isRunning ? !canStopChannel : !canStartChannel}
           />
           <ActionButton text="Refresh State" onClick={refresh} color="light" outline disabled={isRefreshing} />
-          <Label className="d-inline">State: {channelState}</Label>
-          <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />
+          <span className={className && className.includes('sidebar') ? 'd-block w-100 mt-2' : ''}>
+            <Label className="d-inline">State: {channelState}</Label>
+            <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />
+          </span>
         </CardText>
 
         {showNodeActions && (
