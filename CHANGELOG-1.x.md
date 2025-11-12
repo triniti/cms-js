@@ -34,6 +34,7 @@
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
+* Add button for duplicaticating nodes on teasers search screen.
 
 
 ## v1.2.2
