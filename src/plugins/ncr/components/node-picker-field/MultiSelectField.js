@@ -112,10 +112,7 @@ export default function MultiSelectField(props) {
       if (value) setCachedQuery(value);
       return;
     }
-    if (action.action === 'menu-close') {
-      handleMenuClose();
-    }
-  }, [request, handleMenuClose]);
+  }, [request]);
   
   const handleMenuOpen = useCallback(() => {
     setMenuIsOpen(true);
