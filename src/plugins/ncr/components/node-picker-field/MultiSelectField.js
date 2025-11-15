@@ -100,6 +100,11 @@ export default function MultiSelectField(props) {
     return loadOptions(searchToUse, loadedOptions, additional);
   }, [request, loadOptions]);
   
+  const handleMenuClose = useCallback(() => {
+    setMenuIsOpen(false);
+    clearQuery();
+  }, [clearQuery]);
+  
   const handleInputChange = useCallback((value, action) => {
     if (action.action === 'input-change') {
       request.set('q', value);
@@ -108,10 +113,9 @@ export default function MultiSelectField(props) {
       return;
     }
     if (action.action === 'menu-close') {
-      setMenuIsOpen(false);
-      clearQuery();
+      handleMenuClose();
     }
-  }, [request, clearQuery]);
+  }, [request, handleMenuClose]);
   
   const handleMenuOpen = useCallback(() => {
     setMenuIsOpen(true);
@@ -161,7 +165,7 @@ export default function MultiSelectField(props) {
         menuIsOpen={menuIsOpen}
         onInputChange={handleInputChange}
         onMenuOpen={handleMenuOpen}
-        onMenuClose={() => setMenuIsOpen(false)}
+        onMenuClose={handleMenuClose}
         cachedUniqs={[cachedQuery]}
         hideSelectedOptions={false}
         value={currentOptions}
