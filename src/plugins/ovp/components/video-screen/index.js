@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import { Badge, Card, CardBody, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
@@ -13,7 +13,7 @@ import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
 import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 import ProcessingErrorAlert from '@triniti/cms/plugins/ovp/components/video-screen/ProcessingErrorAlert.js';
-import MediaLiveCard from '@triniti/cms/plugins/ovp/components/livestreams-screen/MediaLiveCard.js';
+import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { useResolver } from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 
@@ -162,15 +162,17 @@ function VideoScreen(props) {
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
           {hasMedialiveChannel && (
-            <MediaLiveCard
-              node={node}
-              nodeRef={nodeRef}
-              medialive={medialive}
-              refresh={handleRefreshMedialive}
-              isRefreshing={isRefreshing || isRunningMedialiveRequest}
-              showNodeActions={false}
-              className="media-live-card-sidebar"
-            />
+            <Card>
+              <CardBody className="p-2">
+                <MediaLiveChannelControls
+                  nodeRef={nodeRef}
+                  medialive={medialive}
+                  refresh={handleRefreshMedialive}
+                  isRefreshing={isRefreshing || isRunningMedialiveRequest}
+                  statusOnNewLine
+                />
+              </CardBody>
+            </Card>
           )}
           {node.has('mezzanine_ref') && <MezzaninePreviewCard nodeRef={node.get('mezzanine_ref')} />}
         </>
