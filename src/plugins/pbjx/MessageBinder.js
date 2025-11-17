@@ -1,5 +1,5 @@
 import AppV1 from '@gdbots/schemas/gdbots/contexts/AppV1.js';
-import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef.js';
+import getUser from '@triniti/cms/plugins/iam/selectors/getUser.js';
 
 export default class MessageBinder {
   /**
@@ -33,10 +33,15 @@ export default class MessageBinder {
     }
 
     if (!message.has('ctx_user_ref')) {
-      const state = this.app.getRedux().getState();
-      const userRef = getUserRef(state);
-      if (userRef) {
-        message.set('ctx_user_ref', userRef);
+      try {
+        const state = this.app.getRedux().getState();
+        const user = getUser(state);
+        if (user) {
+          const userRef = user.generateMessageRef();
+          message.set('ctx_user_ref', userRef);
+        }
+      } catch (e) {
+        console.error('MessageBinder: Error setting ctx_user_ref', e.message);
       }
     }
   }
