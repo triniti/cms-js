@@ -63,9 +63,6 @@ export default function AssetCardGrid (props) {
                   )}
                 </Media>
               </Card>
-              <UncontrolledTooltip target={key} placement="bottom">
-                {title}
-              </UncontrolledTooltip>
             </Col>
           );
         })}

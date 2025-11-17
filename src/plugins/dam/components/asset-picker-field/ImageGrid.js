@@ -7,7 +7,6 @@ import {
   Container,
   Media,
   Row,
-  UncontrolledTooltip,
 } from 'reactstrap';
 import { BackgroundImage } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
@@ -52,9 +51,6 @@ export default function ImageGrid(props) {
                   )}
                 </Media>
               </Card>
-              <UncontrolledTooltip target={key} placement="bottom">
-                {title}
-              </UncontrolledTooltip>
             </Col>
           );
         })}
