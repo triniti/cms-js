@@ -1,4 +1,5 @@
 import AppV1 from '@gdbots/schemas/gdbots/contexts/AppV1.js';
+import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef.js';
 
 export default class MessageBinder {
   /**
@@ -15,7 +16,7 @@ export default class MessageBinder {
   }
 
   /**
-   * Binds the current app to all command and requests.
+   * Binds the current app and user to all command and requests.
    * This gives us precise detail about what client app,
    * version, etc. that is posting messages to our api.
    *
@@ -29,6 +30,14 @@ export default class MessageBinder {
 
     if (!message.has('ctx_app')) {
       message.set('ctx_app', this.ctxApp);
+    }
+
+    if (!message.has('ctx_user_ref')) {
+      const state = this.app.getRedux().getState();
+      const userRef = getUserRef(state);
+      if (userRef) {
+        message.set('ctx_user_ref', userRef);
+      }
     }
   }
 }
