@@ -130,10 +130,26 @@ export default function Screen(props) {
 
         {tabs.length > 0 && (
           <Nav underline className="screen-navtabs">
-            {tabs.map((tab) => {
+            {tabs.map((tab, index) => {
               if (!tab) {
                 return null;
               }
+
+              // If tab has a component property, render that component
+              if (tab.component) {
+                const Component = tab.component;
+                return (
+                  <Component
+                    key={index}
+                    text={tab.text}
+                    to={tab.to}
+                    activeTab={activeTab}
+                    {...(tab.componentProps || {})}
+                  />
+                );
+              }
+
+              // Otherwise, treat it as a simple config object
               const isActive = kebabCase(tab.text) === activeTab;
               return (
                 <NavItem key={tab.to} onClick={() => scrollToTop('auto')} active={isActive}>

@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Screen :: Adding support for a component in tabs.
 * NCR MultiSelectField :: Adding ability to mutli select options while holding modifier key.
 * Move save button for all nodes into `SaveNodeButton` component.
 * raven :: Warning modal race condition.
