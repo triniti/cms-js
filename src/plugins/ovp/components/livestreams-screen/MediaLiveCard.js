@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, CardBody } from 'reactstrap';
 import ChannelState from '@triniti/schemas/triniti/ovp.medialive/enums/ChannelState.js';
-import MediaLiveCardHeader from '@triniti/cms/plugins/ovp/components/media-live-card-header/index.js';
-import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
-import MediaLiveChannelDetails from '@triniti/cms/plugins/ovp/components/media-live-channel-details/index.js';
+import MediaLiveCardHeader from '@triniti/cms/plugins/ovp/components/livestreams-screen/mediaLiveCardHeader.js';
+import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/livestreams-screen/mediaLiveChannelControls.js';
+import MediaLiveChannelDetails from '@triniti/cms/plugins/ovp/components/livestreams-screen/mediaLiveChannelDetails.js';
 
 const defaultMedialive = {
   channelState: ChannelState.UNKNOWN.getValue(),
