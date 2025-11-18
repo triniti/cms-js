@@ -17,6 +17,7 @@ import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-pi
 import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-screen/VideoPickerField.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
 import parseYouTubeId from '@triniti/cms/utils/parseYouTubeId.js';
+import MezzanineCard from './MezzanineCard.js';
 
 export default function DetailsTab(props) {
   const { node } = props;
@@ -60,6 +61,8 @@ export default function DetailsTab(props) {
           <SwitchField name="sharing_enabled" label="Sharing Enabled" />
         </CardBody>
       </Card>
+
+      <MezzanineCard {...props} />
 
       {schema.hasMixin('triniti:ovp.jwplayer:mixin:has-media') && (
         <Card>

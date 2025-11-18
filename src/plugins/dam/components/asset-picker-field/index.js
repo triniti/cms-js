@@ -21,9 +21,9 @@ const validate = (value) => {
 };
 
 function DefaultPreview(props) {
-  const { assetRef } = props;
+  const { assetRef, title } = props;
   return (
-    <input className="form-control mb-2" readOnly value={assetRef.getId()} />
+    <input className="form-control mb-2" readOnly value={title || assetRef.getId()} />
   );
 }
 
@@ -31,6 +31,7 @@ export default function AssetPickerField(props) {
   const {
     name,
     label,
+    title,
     description,
     nestedPbj,
     pbjName,
@@ -41,6 +42,7 @@ export default function AssetPickerField(props) {
     icon = 'document',
     ...rest
   } = props;
+
   const formContext = useFormContext();
   const { editMode, pbj } = formContext;
   const { input, meta } = useField({ ...props, validate }, formContext);
@@ -91,7 +93,7 @@ export default function AssetPickerField(props) {
         </>
       )}
 
-      {assetRef && Preview && <Preview key={`${assetRef.getId()}-preview`} assetRef={assetRef} url={assetUrl} />}
+      {assetRef && Preview && <Preview key={`${assetRef.getId()}-preview`} assetRef={assetRef} url={assetUrl} title={title}/>}
 
       {!assetRef && (!editMode || readOnly) && (
         <input className="form-control" readOnly value={`No ${label} selected`} />
