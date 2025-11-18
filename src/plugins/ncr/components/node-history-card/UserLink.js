@@ -8,12 +8,8 @@ export default function UserLink({ userRef }) {
   const nodeRef = userRef ? NodeRef.fromMessageRef(userRef) : null;
   const { node: user } = useNode(nodeRef);
 
-  if (!userRef) {
-    return 'SYSTEM';
-  }
-
   if (!user) {
-    return 'Loading...';
+    return 'SYSTEM';
   }
 
   return <Link to={nodeUrl(user, 'view')}>{user.get('title') || user.get('email')}</Link>;
