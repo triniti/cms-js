@@ -35,6 +35,7 @@
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
+* Update parseYouTubeId to handle more types of urls
 
 
 ## v1.2.2
