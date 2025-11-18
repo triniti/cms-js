@@ -19,12 +19,11 @@ export default function MediaLiveCard(props) {
     medialive = defaultMedialive,
     refresh,
     isRefreshing = false,
-    showNodeActions = true,
   } = props;
 
   return (
     <Card>
-      {showNodeActions && <MediaLiveCardHeader node={node} isRefreshing={isRefreshing} />}
+      <MediaLiveCardHeader node={node} isRefreshing={isRefreshing} />
       <CardBody className="p-2">
         <MediaLiveChannelControls
           nodeRef={nodeRef}
@@ -32,9 +31,7 @@ export default function MediaLiveCard(props) {
           refresh={refresh}
           isRefreshing={isRefreshing}
         />
-        {showNodeActions && (
-          <MediaLiveChannelDetails node={node} medialive={medialive} />
-        )}
+        <MediaLiveChannelDetails node={node} medialive={medialive} />
       </CardBody>
     </Card>
   );
