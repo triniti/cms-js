@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
@@ -12,8 +12,6 @@ import SortableValues from '@triniti/cms/plugins/ncr/components/node-picker-fiel
 
 const defaultComponents = { MultiValueLabel, Option };
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
-const isMac = typeof navigator !== 'undefined' && /Mac/i.test(navigator.userAgent);
-const isModifierPressed = (e) => isMac ? e.metaKey : e.ctrlKey;
 
 export default function MultiSelectField(props) {
   const {
@@ -38,110 +36,19 @@ export default function MultiSelectField(props) {
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props, isEqual }, formContext);
-  
   const [q, setQ] = useState(request.get('q'));
-  const [cachedQuery, setCachedQuery] = useState('');
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const modifierKeyPressedRef = useRef(false);
-  const cachedQueryRef = useRef(cachedQuery);
-  
+
   const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
     'select',
     showImage && 'select-with-image',
     sortable && 'select-stacked',
     meta.touched && !meta.valid && 'is-invalid',
-    meta.touched && meta.valid && 'is-valid'
+    meta.touched && meta.valid && 'is-valid',
   );
+
   const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: v })) : [];
-  
-  const clearQuery = useCallback(() => {
-    request.clear('q');
-    setQ('');
-    setCachedQuery('');
-  }, [request]);
-  
-  // Track modifier key state
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (isModifierPressed(e)) modifierKeyPressedRef.current = true;
-    };
-    const handleKeyUp = (e) => {
-      if (!isModifierPressed(e)) modifierKeyPressedRef.current = false;
-    };
-    const handleMouseDown = (e) => {
-      if (isModifierPressed(e)) modifierKeyPressedRef.current = true;
-    };
-    
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
-    document.addEventListener('mousedown', handleMouseDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
-      document.removeEventListener('mousedown', handleMouseDown);
-    };
-  }, []);
-  
-  // Sync cached query ref and ensure request has cached query when input is empty
-  useEffect(() => {
-    cachedQueryRef.current = cachedQuery;
-    if (!q && cachedQuery && request.get('q') !== cachedQuery) {
-      request.set('q', cachedQuery);
-    }
-  }, [q, cachedQuery, request]);
-  
-  // Wrapper for loadOptions to use cached query for cache key matching
-  const wrappedLoadOptions = useCallback((search, loadedOptions, additional) => {
-    const searchToUse = (!search && cachedQueryRef.current) ? cachedQueryRef.current : search;
-    if (!search && cachedQueryRef.current) {
-      request.set('q', cachedQueryRef.current);
-    }
-    return loadOptions(searchToUse, loadedOptions, additional);
-  }, [request, loadOptions]);
-  
-  const handleMenuClose = useCallback(() => {
-    setMenuIsOpen(false);
-    clearQuery();
-  }, [clearQuery]);
-  
-  const handleInputChange = useCallback((value, action) => {
-    if (action.action === 'input-change') {
-      request.set('q', value);
-      setQ(value);
-      if (value) setCachedQuery(value);
-      return;
-    }
-  }, [request]);
-  
-  const handleMenuOpen = useCallback(() => {
-    setMenuIsOpen(true);
-    if (!q && cachedQuery) {
-      setQ(cachedQuery);
-      request.set('q', cachedQuery);
-    }
-  }, [q, cachedQuery, request]);
-  
-  const handleChange = useCallback((selected) => {
-    const wasModifierPressed = modifierKeyPressedRef.current;
-    const queryToCache = (wasModifierPressed && cachedQuery) 
-      ? cachedQuery 
-      : (q || request.get('q') || '');
-    
-    input.onChange(selected ? selected.map(o => o.value) : undefined);
-    
-    if (wasModifierPressed && queryToCache) {
-      if (queryToCache !== cachedQuery) setCachedQuery(queryToCache);
-      setQ(queryToCache);
-      request.set('q', queryToCache);
-      setMenuIsOpen(true);
-    } else {
-      setMenuIsOpen(false);
-      clearQuery();
-      modifierKeyPressedRef.current = false;
-    }
-  }, [input, q, cachedQuery, request, clearQuery]);
-  
+
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
@@ -159,20 +66,32 @@ export default function MultiSelectField(props) {
         controlShouldRenderValue={!sortable}
         isMulti
         inputValue={q}
-        menuIsOpen={menuIsOpen}
-        onInputChange={handleInputChange}
-        onMenuOpen={handleMenuOpen}
-        onMenuClose={handleMenuClose}
-        cachedUniqs={[cachedQuery]}
+        onInputChange={(value, action) => {
+          if (action.action === 'input-change') {
+            request.set('q', value);
+            setQ(value);
+            return;
+          }
+
+          if (action.action === 'menu-close') {
+            request.clear('q');
+            setQ('');
+          }
+        }}
+        cachedUniqs={[q]}
         hideSelectedOptions={false}
         value={currentOptions}
         debounceTimeout={debounceTimeout}
         showImage={showImage}
         labelField={labelField}
         components={components}
-        loadOptions={wrappedLoadOptions}
+        loadOptions={loadOptions}
         additional={{ page: 1, request }}
-        onChange={handleChange}
+        onChange={selected => {
+          input.onChange(selected ? selected.map(o => o.value) : undefined);
+          request.clear('q');
+          setQ('');
+        }}
       />
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
