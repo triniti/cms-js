@@ -1,11 +1,12 @@
 import React from 'react';
 import {
   Card,
+  CardImgOverlay,
+  CardTitle,
   Col,
   Container,
   Media,
   Row,
-  UncontrolledTooltip,
 } from 'reactstrap';
 import { BackgroundImage } from '@triniti/cms/components/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
@@ -22,6 +23,7 @@ export default function ImageGrid(props) {
           const nodeRef = node.generateNodeRef();
           const previewUrl = damUrl(id, '1by1', 'sm');
           const selected = batch?.has(node);
+          const title = node.get('title');
           
           const handleClick = () => {
             if (batch) {
@@ -42,11 +44,13 @@ export default function ImageGrid(props) {
                 <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
                        style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
                   <BackgroundImage imgSrc={previewUrl} alt="" />
+                  {title && (
+                    <CardImgOverlay>
+                      <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
+                    </CardImgOverlay>
+                  )}
                 </Media>
               </Card>
-              <UncontrolledTooltip target={key} placement="bottom">
-                {node.get('title')}
-              </UncontrolledTooltip>
             </Col>
           );
         })}
