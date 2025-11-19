@@ -13,13 +13,7 @@ const defaultMedialive = {
 };
 
 export default function MediaLiveCard(props) {
-  const {
-    node,
-    nodeRef,
-    medialive = defaultMedialive,
-    refresh,
-    isRefreshing = false,
-  } = props;
+  const { node, nodeRef, medialive = defaultMedialive, refresh, isRefreshing = false } = props;
 
   return (
     <Card>

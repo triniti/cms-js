@@ -14,14 +14,7 @@ import startMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/startMediaLi
 import stopMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/stopMediaLiveChannel.js';
 
 export default function MediaLiveChannelControls(props) {
-    const {
-        nodeRef,
-        medialive,
-        refresh,
-        isRefreshing = false,
-        statusOnNewLine = false,
-    } = props;
-
+    const { nodeRef, medialive, refresh, isRefreshing = false, statusOnNewLine = false } = props;
     const dispatch = useDispatch();
     const policy = usePolicy();
 
@@ -29,10 +22,6 @@ export default function MediaLiveChannelControls(props) {
     const isRunning = medialive.channelState === ChannelState.RUNNING.getValue();
     const canStartChannel = !isRefreshing && isIdle && policy.isGranted('triniti:ovp.medialive:command:start-channel');
     const canStopChannel = !isRefreshing && isRunning && policy.isGranted('triniti:ovp.medialive:command:stop-channel');
-
-    const nodeRefValue = typeof nodeRef === 'string'
-        ? nodeRef
-        : nodeRef?.toString?.() || '';
 
     const handleStartChannel = async () => {
         const result = await Swal.fire({
@@ -51,7 +40,7 @@ export default function MediaLiveChannelControls(props) {
 
         try {
             await progressIndicator.show('Starting Channel...');
-            await dispatch(startMediaLiveChannel(nodeRefValue));
+            await dispatch(startMediaLiveChannel(nodeRef));
             await delay(5000);
             await progressIndicator.close();
             toast({ title: 'Channel started.' });
@@ -80,7 +69,7 @@ export default function MediaLiveChannelControls(props) {
 
         try {
             await progressIndicator.show('Stopping Channel...');
-            await dispatch(stopMediaLiveChannel(nodeRefValue));
+            await dispatch(stopMediaLiveChannel(nodeRef));
             await delay(5000);
             await progressIndicator.close();
             toast({ title: 'Channel stopped.' });
