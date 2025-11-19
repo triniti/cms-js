@@ -1,9 +1,8 @@
 import React from 'react';
 import AssetCardGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetCardGrid.js';
-import AssetTableLinked from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
 import AssetTablePicker from '@triniti/cms/plugins/dam/components/asset-picker-field/AssetTable.js';
 import ImageGrid from '@triniti/cms/plugins/dam/components/asset-picker-field/ImageGrid.js';
-
+import AssetTableLinked from '@triniti/cms/plugins/dam/components/linked-assets-card/AssetTable.js';
 
 export default function AssetPresenter({ displayView, nodes = [], type, batch, ...props }) {
   let Component;
