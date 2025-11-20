@@ -91,7 +91,7 @@ function LinkAssetsModal(props) {
   const nodes = hasNodes ? response.get('nodes') : [];
 
   return (
-    <Modal isOpen backdrop="static" size="xl" centered>
+    <Modal isOpen size="xl" centered toggle={handleClose}>
       <ModalHeader toggle={handleClose}>Link Assets</ModalHeader>
       <ModalBody className="p-0">
         <div id="asset-linker-search-body" className="scrollable-container modal-scrollable--tabs">

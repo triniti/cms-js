@@ -83,7 +83,7 @@ export default function WarningModal(props) {
   const type = startCase(NodeRef.fromString(nodeRef).getLabel()).toLowerCase();
 
   return (
-    <Modal keyboard={false} isOpen size="sd" backdrop="static" centered modalClassName="animate-center">
+    <Modal isOpen size="sd" centered toggle={handleContinueInViewMode} modalClassName="animate-center">
       <ModalBody className="text-center">
         <Icon imgSrc="notification" alert size="lg" color="warning" border className="icon-modal" />
         <h2>Stop!</h2>
