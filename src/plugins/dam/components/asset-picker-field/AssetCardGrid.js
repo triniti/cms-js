@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, Col, Container, Media, Row, UncontrolledTooltip } from 'reactstrap';
+import { Card, CardImgOverlay, CardTitle, Col, Container, Media, Row } from 'reactstrap';
 import { BackgroundImage } from '@triniti/cms/components/index.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 
-export default function AssetCardGrid(props) {
+export default function AssetCardGrid (props) {
   const { nodes, batch, onSelectAsset } = props;
 
   const getPreviewUrl = (node) => {
@@ -29,6 +29,7 @@ export default function AssetCardGrid(props) {
           const nodeRef = node.generateNodeRef();
           const previewUrl = getPreviewUrl(node);
           const selected = batch?.has?.(node);
+          const title = node.get('title');
           
           const handleClick = () => {
             if (batch) {
@@ -39,7 +40,7 @@ export default function AssetCardGrid(props) {
           };
 
           return (
-            <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
+            <Col key={key} id={key} xs={12} sm={6} md={4} lg={3}>
               <Card
                 onClick={handleClick}
                 inverse
@@ -55,11 +56,13 @@ export default function AssetCardGrid(props) {
                       <AssetIcon id={id} />
                     </div>
                   )}
+                  {title && (
+                    <CardImgOverlay>
+                      <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
+                    </CardImgOverlay>
+                  )}
                 </Media>
               </Card>
-              <UncontrolledTooltip target={key} placement="bottom">
-                {node.get('title')}
-              </UncontrolledTooltip>
             </Col>
           );
         })}
