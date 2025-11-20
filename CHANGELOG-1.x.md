@@ -35,6 +35,7 @@
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
 * Add mezzanine card to video details tab and display title instead of id for mezzanine asset.
+* Update parseYouTubeId to handle more types of urls
 
 
 ## v1.2.2
