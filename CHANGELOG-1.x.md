@@ -34,6 +34,8 @@
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
+* Update parseYouTubeId to handle more types of urls
+* Fetch event's ctx_user_ref for history card.
 * Add start channel button in liveStream video sidebar
 
 
