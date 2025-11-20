@@ -35,6 +35,7 @@
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
 * Update parseYouTubeId to handle more types of urls
+* Restore escape key and background click for exiting modals
 
 
 ## v1.2.2
