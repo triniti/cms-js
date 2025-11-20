@@ -3,7 +3,6 @@
 
 ## vN.N.N
 * Screen :: Adding support for a component in tabs.
-* NCR MultiSelectField :: Adding ability to mutli select options while holding modifier key.
 * Move save button for all nodes into `SaveNodeButton` component.
 * raven :: Warning modal race condition.
 * raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
@@ -36,6 +35,8 @@
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
+* Update parseYouTubeId to handle more types of urls
+* Fetch event's ctx_user_ref for history card.
 
 
 ## v1.2.2
