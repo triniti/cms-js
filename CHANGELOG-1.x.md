@@ -35,6 +35,7 @@
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
 * Update parseYouTubeId to handle more types of urls
+* Fetch event's ctx_user_ref for history card.
 * Restore escape key and background click for exiting modals
 
 
