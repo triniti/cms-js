@@ -20,13 +20,13 @@ export default function LinkModal(props) {
   const { selectedLink } = props;
   const [url, setUrl] = useState(selectedLink ? selectedLink.url : '');
   const [target, setTarget] = useState(selectedLink && selectedLink.target);
-  const [noFollow, setNoFollow] = useState(!!(selectedLink && selectedLink.rel && selectedLink.rel.includes('nofollow')));
+  const [noFollow, setNoFollow] = useState(!!selectedLink?.rel?.includes?.('nofollow'));
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
   const [touched, setTouched] = useState(false);
   const inputRef = useRef(null);
   const isNew = !selectedLink;
 
-  const handleToggle = () => {
+  const handleClose = () => {
     setUrl('');
     setNoFollow(false);
     setTarget(null);
@@ -51,14 +51,14 @@ export default function LinkModal(props) {
       payload.rel += ' nofollow';
     }
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, payload);
-    handleToggle();
+    handleClose();
   };
 
   const handleRemove = (event) => {
     event.preventDefault();
     event.stopPropagation();
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    handleToggle();
+    handleClose();
   };
 
   const handleChange = (event) => {
@@ -132,7 +132,7 @@ export default function LinkModal(props) {
       <ModalFooter>
         <ActionButton
           text="Close"
-          onClick={handleToggle}
+          onClick={handleClose}
           icon="close-sm"
           color="light"
           tabIndex="-1"
