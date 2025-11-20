@@ -14,48 +14,6 @@ import SortableValues from '@triniti/cms/plugins/ncr/components/node-picker-fiel
 const defaultComponents = { MultiValueLabel, Option };
 const isEqual = (a, b) => fastDeepEqual(a, b) || (isEmpty(a) && isEmpty(b));
 
-function CustomAsyncPaginate({
-  options,
-  defaultOptions,
-  additional,
-  loadOptions,
-  loadOptionsOnMenuOpen,
-  debounceTimeout,
-  filterOption,
-  reduceOptions,
-  shouldLoadMore,
-  components: defaultComponents,
-  value,
-  onChange,
-  cacheUniqs,
-  ...rest
-}) {
-  const asyncPaginateProps = useAsyncPaginate({
-    options,
-    defaultOptions,
-    additional,
-    loadOptions,
-    loadOptionsOnMenuOpen,
-    debounceTimeout,
-    filterOption: filterOption !== undefined ? filterOption : null,
-    reduceOptions,
-    shouldLoadMore,
-    cacheUniqs,
-  });
-
-  const components = useComponents(defaultComponents);
-
-  return (
-    <ReactSelect
-      {...asyncPaginateProps}
-      {...rest}
-      components={components}
-      value={value}
-      onChange={onChange}
-    />
-  );
-}
-
 export default function MultiSelectField(props) {
   const {
     groupClassName = '',
@@ -80,7 +38,8 @@ export default function MultiSelectField(props) {
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props, isEqual }, formContext);
   
-  const [cachedOptions, setCachedOptions] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
+  const componentsMap = useComponents(components);
   
   const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
@@ -92,25 +51,46 @@ export default function MultiSelectField(props) {
   );
   const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: v })) : [];
   
-  // Wrapper for loadOptions that caches the last successful search results
-  const wrappedLoadOptions = useCallback(async (search, loadedOptions, additional) => {
-    const searchQuery = search || '';
-    
-    // Always load new results when search query changes
-    const result = await loadOptions(searchQuery, loadedOptions, additional);
-    
-    // Cache the results options
-    if (searchQuery.trim()) {
-      setCachedOptions(result.options);
-    }
-    
-    return result;
-  }, [loadOptions]);
-  
+  const {
+    inputValue: asyncInputValue,
+    onInputChange: asyncOnInputChange,
+    ...asyncPaginateProps
+  } = useAsyncPaginate({
+    loadOptions,
+    debounceTimeout,
+    additional: { page: 1, request },
+    filterOption: null,
+  });
+
   const handleMenuClose = useCallback(() => {
-    // Clear cache when menu closes so next open is fresh
-    setCachedOptions(null);
+    setSearchValue('');
   }, []);
+  
+  const handleInputChange = useCallback((value, { action }) => {
+    if (action === 'input-change') {
+      setSearchValue(value);
+      return value;
+    }
+
+    if (action === 'menu-close' || action === 'input-blur') {
+      setSearchValue('');
+      return '';
+    }
+
+    if (action === 'set-value') {
+      return searchValue;
+    }
+
+    return value;
+  }, [searchValue]);
+
+  const handleAsyncInputChange = useCallback((value, meta) => {
+    const nextValue = handleInputChange(value, meta);
+    if (typeof nextValue !== 'undefined') {
+      return asyncOnInputChange?.(nextValue, meta);
+    }
+    return asyncOnInputChange?.(value, meta);
+  }, [handleInputChange, asyncOnInputChange]);
   
   const handleChange = useCallback((selected) => {
     input.onChange(selected ? selected.map(o => o.value) : undefined);
@@ -120,7 +100,8 @@ export default function MultiSelectField(props) {
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
       {sortable && input.value.length > 0 && <SortableValues input={input} {...props} editMode={editMode} />}
-      <CustomAsyncPaginate
+      <ReactSelect
+        {...asyncPaginateProps}
         {...rest}
         id={name}
         name={name}
@@ -133,13 +114,11 @@ export default function MultiSelectField(props) {
         isMulti
         hideSelectedOptions={false}
         value={currentOptions}
-        debounceTimeout={debounceTimeout}
         showImage={showImage}
         labelField={labelField}
-        components={components}
-        loadOptions={wrappedLoadOptions}
-        defaultOptions={cachedOptions || true}
-        additional={{ page: 1, request }}
+        components={componentsMap}
+        inputValue={searchValue || asyncInputValue || ''}
+        onInputChange={handleAsyncInputChange}
         onChange={handleChange}
         onBlur={(e) => {
           handleMenuClose();
