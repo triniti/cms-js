@@ -20,6 +20,7 @@ export default function LinkModal(props) {
   const { selectedLink } = props;
   const [url, setUrl] = useState(selectedLink ? selectedLink.url : '');
   const [target, setTarget] = useState(selectedLink && selectedLink.target);
+  const [noFollow, setNoFollow] = useState(selectedLink && selectedLink.rel && selectedLink.rel.includes('nofollow'));
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
   const [touched, setTouched] = useState(false);
   const inputRef = useRef(null);
@@ -27,6 +28,7 @@ export default function LinkModal(props) {
 
   const handleToggle = () => {
     setUrl('');
+    setNoFollow(false);
     setTarget(null);
     setIsValid(false);
     setTouched(false);
@@ -43,7 +45,10 @@ export default function LinkModal(props) {
 
     const payload = { url, target, rel: 'noreferrer' };
     if (target === '_blank') {
-      payload.rel = 'noopener noreferrer';
+      payload.rel += ' noopener';
+    }
+    if (noFollow) {
+      payload.rel += ' nofollow';
     }
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, payload);
     handleToggle();
@@ -110,6 +115,17 @@ export default function LinkModal(props) {
               onChange={event => setTarget(event.target.checked ? '_blank' : null)}
             />
             <Label className="form-check-label" htmlFor="link-target">Open in new tab?</Label>
+          </div>
+          <div className="form-check">
+            <input
+              id="link-no-follow"
+              name="no-follow"
+              className="form-check-input"
+              type="checkbox"
+              checked={noFollow}
+              onChange={event => setNoFollow(event.target.checked)}
+            />
+            <Label className="form-check-label" htmlFor="link-no-follow">No Follow?</Label>
           </div>
         </Form>
       </ModalBody>
