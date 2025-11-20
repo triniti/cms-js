@@ -14,86 +14,86 @@ import startMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/startMediaLi
 import stopMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/stopMediaLiveChannel.js';
 
 export default function MediaLiveChannelControls(props) {
-    const { nodeRef, medialive, refresh, isRefreshing = false, statusOnNewLine = false } = props;
-    const dispatch = useDispatch();
-    const policy = usePolicy();
+  const { nodeRef, medialive, refresh, isRefreshing = false, statusOnNewLine = false } = props;
+  const dispatch = useDispatch();
+  const policy = usePolicy();
 
-    const isIdle = medialive.channelState === ChannelState.IDLE.getValue();
-    const isRunning = medialive.channelState === ChannelState.RUNNING.getValue();
-    const canStartChannel = !isRefreshing && isIdle && policy.isGranted('triniti:ovp.medialive:command:start-channel');
-    const canStopChannel = !isRefreshing && isRunning && policy.isGranted('triniti:ovp.medialive:command:stop-channel');
+  const isIdle = medialive.channelState === ChannelState.IDLE.getValue();
+  const isRunning = medialive.channelState === ChannelState.RUNNING.getValue();
+  const canStartChannel = !isRefreshing && isIdle && policy.isGranted('triniti:ovp.medialive:command:start-channel');
+  const canStopChannel = !isRefreshing && isRunning && policy.isGranted('triniti:ovp.medialive:command:stop-channel');
 
-    const handleStartChannel = async () => {
-        const result = await Swal.fire({
-            title: 'Are you sure?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, START!',
-            reverseButtons: true,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-        });
+  const handleStartChannel = async () => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, START!',
+      reverseButtons: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
 
-        if (!result.value) {
-            return;
-        }
+    if (!result.value) {
+      return;
+    }
 
-        try {
-            await progressIndicator.show('Starting Channel...');
-            await dispatch(startMediaLiveChannel(nodeRef));
-            await delay(5000);
-            await progressIndicator.close();
-            toast({ title: 'Channel started.' });
-            refresh();
-        } catch (e) {
-            await progressIndicator.close();
-            dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
-        }
-    };
+    try {
+      await progressIndicator.show('Starting Channel...');
+      await dispatch(startMediaLiveChannel(nodeRef));
+      await delay(5000);
+      await progressIndicator.close();
+      toast({title: 'Channel started.'});
+      refresh();
+    } catch (e) {
+      await progressIndicator.close();
+      dispatch(sendAlert({type: 'danger', message: getFriendlyErrorMessage(e)}));
+    }
+  };
 
-    const handleStopChannel = async () => {
-        const result = await Swal.fire({
-            title: 'Are you sure?',
-            text: 'To stream again, you will have to stop the encoders, restart the channel, and then restart the encoders.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, STOP!',
-            reverseButtons: true,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-        });
+  const handleStopChannel = async () => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'To stream again, you will have to stop the encoders, restart the channel, and then restart the encoders.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, STOP!',
+      reverseButtons: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
 
-        if (!result.value) {
-            return;
-        }
+    if (!result.value) {
+      return;
+    }
 
-        try {
-            await progressIndicator.show('Stopping Channel...');
-            await dispatch(stopMediaLiveChannel(nodeRef));
-            await delay(5000);
-            await progressIndicator.close();
-            toast({ title: 'Channel stopped.' });
-            refresh();
-        } catch (e) {
-            await progressIndicator.close();
-            dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
-        }
-    };
+    try {
+      await progressIndicator.show('Stopping Channel...');
+      await dispatch(stopMediaLiveChannel(nodeRef));
+      await delay(5000);
+      await progressIndicator.close();
+      toast({title: 'Channel stopped.'});
+      refresh();
+    } catch (e) {
+      await progressIndicator.close();
+      dispatch(sendAlert({type: 'danger', message: getFriendlyErrorMessage(e)}));
+    }
+  };
 
-    return (
-        <CardText className="pt-2 ms-4">
-            <ActionButton
-                text={isRunning ? 'Stop Channel' : 'Start Channel'}
-                onClick={isRunning ? handleStopChannel : handleStartChannel}
-                color={isRunning ? 'danger' : 'dark'}
-                disabled={isRunning ? !canStopChannel : !canStartChannel}
-            />
-            <ActionButton text="Refresh State" onClick={refresh} color="light" outline disabled={isRefreshing} />
-            {isRefreshing && <Spinner className="ms-2" size="sm" />}
-            <span className={statusOnNewLine ? 'd-block w-100 mt-2' : ''}>
+  return (
+    <CardText className="pt-2 ms-4">
+      <ActionButton
+        text={isRunning ? 'Stop Channel' : 'Start Channel'}
+        onClick={isRunning ? handleStopChannel : handleStartChannel}
+        color={isRunning ? 'danger' : 'dark'}
+        disabled={isRunning ? !canStopChannel : !canStartChannel}
+      />
+      <ActionButton text="Refresh State" onClick={refresh} color="light" outline disabled={isRefreshing}/>
+      {isRefreshing && <Spinner className="ms-2" size="sm"/>}
+      <span className={statusOnNewLine ? 'd-block w-100 mt-2' : ''}>
         <Label className="d-inline">State: {medialive.channelState}</Label>
-        <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'} />
+        <Icon imgSrc="circle" color={isRunning ? 'danger' : 'dark'}/>
       </span>
-        </CardText>
-    );
+    </CardText>
+  );
 }
