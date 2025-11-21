@@ -13,10 +13,41 @@ import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendly
 import startMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/startMediaLiveChannel.js';
 import stopMediaLiveChannel from '@triniti/cms/plugins/ovp/actions/stopMediaLiveChannel.js';
 
+export function processMedialiveMetas(metas, nodeRef) {
+  if (!metas) {
+    return { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] };
+  }
+  const key = nodeRef.toString();
+
+  return Object.entries(metas)
+    .reduce((newObj, [name, value]) => {
+      if (!name.startsWith(key)) {
+        return newObj;
+      }
+
+      const newName = name.replace(`${key}.`, '');
+      if (newName.startsWith('medialive_channel_state')) {
+        newObj.channelState = value;
+      } else if (newName.startsWith('medialive_input_')) {
+        newObj.inputs.push(value);
+      } else if (newName.startsWith('mediapackage_origin_endpoint_')) {
+        newObj.originEndpoints.push(value);
+      } else if (newName.startsWith('mediapackage_cdn_endpoint_')) {
+        newObj.cdnEndpoints.push(value);
+      } else {
+        newObj[newName] = value;
+      }
+
+      return newObj;
+    }, { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] });
+}
+
 export default function MediaLiveChannelControls(props) {
-  const { nodeRef, medialive, refresh, isRefreshing = false, statusOnNewLine = false } = props;
+  const { nodeRef, metas, refresh, isRefreshing = false, statusOnNewLine = false } = props;
   const dispatch = useDispatch();
   const policy = usePolicy();
+
+  const medialive = processMedialiveMetas(metas, nodeRef);
 
   const isIdle = medialive.channelState === ChannelState.IDLE.getValue();
   const isRunning = medialive.channelState === ChannelState.RUNNING.getValue();

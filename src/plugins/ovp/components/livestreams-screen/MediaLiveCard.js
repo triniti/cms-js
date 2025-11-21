@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@triniti/cms/components/index.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
-import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
+import MediaLiveChannelControls, { processMedialiveMetas } from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
 
 export default function MediaLiveCard(props) {
-  const { node, nodeRef, medialive, refresh, isRefreshing } = props;
+  const { node, nodeRef, metas, refresh, isRefreshing } = props;
   const policy = usePolicy();
   const nodeStatus = node.get('status').getValue();
   const canUpdateVideo = policy.isGranted(`${APP_VENDOR}:video:update`);
+  const medialive = processMedialiveMetas(metas, nodeRef);
 
   return (
     <Card>
@@ -48,7 +49,7 @@ export default function MediaLiveCard(props) {
       <CardBody className="p-2">
         <MediaLiveChannelControls
           nodeRef={nodeRef}
-          medialive={medialive}
+          metas={metas}
           refresh={refresh}
           isRefreshing={isRefreshing}
         />

@@ -59,36 +59,6 @@ function VideoScreen(props) {
     isRunning: isRunningMedialiveRequest,
   } = useRequest(medialiveRequest, Boolean(medialiveRequest));
 
-  const medialive = (() => {
-    if (!medialiveResponse) {
-      return { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] };
-    }
-    const key = nodeRef.toString();
-    const metas = medialiveResponse.get('metas', {});
-
-    return Object.entries(metas)
-      .reduce((newObj, [name, value]) => {
-        if (!name.startsWith(key)) {
-          return newObj;
-        }
-
-        const newName = name.replace(`${key}.`, '');
-        if (newName.startsWith('medialive_channel_state')) {
-          newObj.channelState = value;
-        } else if (newName.startsWith('medialive_input_')) {
-          newObj.inputs.push(value);
-        } else if (newName.startsWith('mediapackage_origin_endpoint_')) {
-          newObj.originEndpoints.push(value);
-        } else if (newName.startsWith('mediapackage_cdn_endpoint_')) {
-          newObj.cdnEndpoints.push(value);
-        } else {
-          newObj[newName] = value;
-        }
-
-        return newObj;
-      }, { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] });
-  })();
-
   const handleRefreshMedialive = () => {
     runMedialiveRequest();
     refreshNode();
@@ -166,7 +136,7 @@ function VideoScreen(props) {
               <CardBody className="p-2">
                 <MediaLiveChannelControls
                   nodeRef={nodeRef}
-                  medialive={medialive}
+                  metas={medialiveResponse ? medialiveResponse.get('metas', {}) : {}}
                   refresh={handleRefreshMedialive}
                   isRefreshing={isRefreshing || isRunningMedialiveRequest}
                   statusOnNewLine
