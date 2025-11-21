@@ -13,7 +13,7 @@ import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
 import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 import ProcessingErrorAlert from '@triniti/cms/plugins/ovp/components/video-screen/ProcessingErrorAlert.js';
-import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/video-screen/MediaLiveChannelControls.js';
+import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import { useResolver } from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
 
