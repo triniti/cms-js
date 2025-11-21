@@ -5,7 +5,6 @@ import {
   $getSelection,
   $isRangeSelection,
   $isRootOrShadowRoot,
-  $isTextNode,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
@@ -23,6 +22,7 @@ import { Icon } from '@triniti/cms/components/index.js';
 import $getSelectedNode from '@triniti/cms/blocksmith/utils/getSelectedNode.js';
 import LinkModal from '@triniti/cms/blocksmith/components/link-modal/index.js';
 import BlocksmithModal from '@triniti/cms/blocksmith/components/blocksmith-modal/index.js';
+import classnames from "classnames";
 
 function getDOMRangeRect(nativeSelection, rootElement) {
   if (nativeSelection.rangeCount === 0) {
@@ -51,19 +51,19 @@ const HORIZONTAL_OFFSET = 10;
 function FloatingTextFormatToolbar({
   editor,
   anchorElem,
-  isLink,
   isBold,
   isItalic,
   isUnderline,
   isStrikethrough,
   isHighlight,
   blockType,
+  selectedLink,
 }) {
   const popupRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isBulletList = blockType === 'bullet';
   const isNumberList = blockType === 'number';
-
+  const isLink = !!selectedLink;
   const $updateTextFormatFloatingToolbar = useCallback(() => {
     const nativeSelection = window.getSelection();
     const popupElem = popupRef.current;
@@ -155,7 +155,7 @@ function FloatingTextFormatToolbar({
     };
   };
 
-  const handleInsertLink = (event) => {
+  const handleOpenLinkModal = (event) => {
     event.preventDefault();
     event.stopPropagation();
     setIsModalOpen(true);
@@ -192,16 +192,15 @@ function FloatingTextFormatToolbar({
         >
           <Icon size="sd" imgSrc="underline" />
         </button>
-        {!isLink ? (
-          <button
-            onClick={handleInsertLink}
-            className="toolbar-item"
-            aria-label="Insert link"
-            type="button"
-          >
-            <Icon imgSrc="link" />
-          </button>
-        ) : (
+        <button
+          onClick={handleOpenLinkModal}
+          className={classnames('toolbar-item', { active: isLink })}
+          aria-label={`${isLink ? 'Edit' : 'Insert'} link`}
+          type="button"
+        >
+          <Icon imgSrc="link" />
+        </button>
+        {isLink && (
           <button
             onClick={handleFormat(TOGGLE_LINK_COMMAND)}
             className="toolbar-item active"
@@ -249,6 +248,7 @@ function FloatingTextFormatToolbar({
           toggle={toggleModal}
           isOpen={isModalOpen}
           modal={LinkModal}
+          selectedLink={selectedLink}
         />
       )}
     </>
@@ -257,7 +257,7 @@ function FloatingTextFormatToolbar({
 
 function useFloatingTextFormatToolbar(editor) {
   const [isText, setIsText] = useState(false);
-  const [isLink, setIsLink] = useState(false);
+  const [selectedLink, setSelectedLink] = useState(null);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
@@ -267,7 +267,6 @@ function useFloatingTextFormatToolbar(editor) {
 
   const resetFormats = useCallback(() => {
     setIsText(false);
-    setIsLink(false);
     setIsBold(false);
     setIsItalic(false);
     setIsUnderline(false);
@@ -287,7 +286,6 @@ function useFloatingTextFormatToolbar(editor) {
 
       const node = $getSelectedNode(selection);
       const parent = node.getParent();
-
       const isTextSelected = !selection.isCollapsed() && selection.getTextContent().trim().length > 0;
 
       if (!isTextSelected) {
@@ -303,7 +301,13 @@ function useFloatingTextFormatToolbar(editor) {
       setIsStrikethrough(selection.hasFormat('strikethrough'));
       setIsHighlight(selection.hasFormat('highlight'));
 
-      setIsLink($isLinkNode(parent) || $isLinkNode(node));
+      if ($isLinkNode(parent)) {
+        setSelectedLink(parent.exportJSON());
+      } else if ($isLinkNode(node)) {
+        setSelectedLink(node.exportJSON());
+      } else {
+        setSelectedLink(null);
+      }
 
       const anchorNode = selection.anchor.getNode();
       let element = anchorNode.getKey() === 'root'
@@ -355,13 +359,13 @@ function useFloatingTextFormatToolbar(editor) {
 
   return {
     isText,
-    isLink,
     isBold,
     isItalic,
     isUnderline,
     isStrikethrough,
     isHighlight,
     blockType,
+    selectedLink,
   };
 }
 
@@ -371,16 +375,16 @@ function useFloatingTextFormatToolbar(editor) {
  */
 export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
   const [editor] = useLexicalComposerContext();
-  
+
   const {
     isText,
-    isLink,
     isBold,
     isItalic,
     isUnderline,
     isStrikethrough,
     isHighlight,
     blockType,
+    selectedLink,
   } = useFloatingTextFormatToolbar(editor);
 
   if (!editor.isEditable()) {
@@ -392,13 +396,13 @@ export default function FloatingTextFormatToolbarPlugin({ anchorElem }) {
       <FloatingTextFormatToolbar
         editor={editor}
         anchorElem={anchorElem}
-        isLink={isLink}
         isBold={isBold}
         isItalic={isItalic}
         isUnderline={isUnderline}
         isStrikethrough={isStrikethrough}
         isHighlight={isHighlight}
         blockType={blockType}
+        selectedLink={selectedLink}
       />
     ),
     anchorElem

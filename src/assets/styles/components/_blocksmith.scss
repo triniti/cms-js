@@ -1,3 +1,5 @@
+@import '../variables';
+
 // blocksmith
 
 .blocksmith-input {
@@ -104,7 +106,7 @@
 
 .blocksmith .toolbar.floating-toolbar {
   position: absolute;
-  z-index: 10000;
+  z-index: $zindex-floating-tooltip;
   opacity: 0;
   transition: opacity 0.2s ease;
   will-change: opacity, top, left;

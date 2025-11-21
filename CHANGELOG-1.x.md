@@ -24,6 +24,7 @@
 * Blocksmith :: Add ability to insert blocks after text blocks
 * Add picker labels to options component in node picker fields.
 * Blocksmith :: add floating toolbar for text formatting on selection.
+* Blocksmith :: floating toolbar to include link and unlink.
 * Update internal/external links for node picker fields and block previews
 * Add back gallery zoom
 * Blocksmith :: add live word count in edit mode
@@ -33,6 +34,8 @@
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
+* Update parseYouTubeId to handle more types of urls
+* Fetch event's ctx_user_ref for history card.
 * Blocksmith :: Default values for divider-block fields
 
 
