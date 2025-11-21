@@ -14,8 +14,8 @@ export default function MezzanineCard(props) {
       <Card>
         <CardHeader>Mezzanine</CardHeader>
         <CardBody>
-          <VideoAssetPickerField name="mezzanine_ref" label="Mezzanine Asset" />
-          <UrlField name="mezzanine_url" label="Mezzanine URL" />
+          <VideoAssetPickerField name="mezzanine_ref" label="Mezzanine Asset"/>
+          <UrlField name="mezzanine_url" label="Mezzanine URL"/>
         </CardBody>
       </Card>
 
