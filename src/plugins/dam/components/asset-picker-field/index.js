@@ -4,6 +4,8 @@ import { Badge, Button, FormText, Label } from 'reactstrap';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { ActionButton, CreateModalButton, Icon, useField, useFormContext } from '@triniti/cms/components/index.js';
 import { expand } from '@gdbots/pbjx/pbjUrl.js';
+import getNode from "../../../ncr/selectors/getNode.js";
+import { useSelector } from "react-redux";
 
 const AssetPickerModal = lazy(() => import('@triniti/cms/plugins/dam/components/asset-picker-field/AssetPickerModal.js'));
 
@@ -21,9 +23,9 @@ const validate = (value) => {
 };
 
 function DefaultPreview(props) {
-  const { assetRef } = props;
+  const { asset, assetRef } = props;
   return (
-    <input className="form-control mb-2" readOnly value={assetRef.getId()} />
+    <input className="form-control mb-2" readOnly value={asset?.get('title', assetRef.getId())} />
   );
 }
 
@@ -31,6 +33,7 @@ export default function AssetPickerField(props) {
   const {
     name,
     label,
+    title,
     description,
     nestedPbj,
     pbjName,
@@ -41,6 +44,7 @@ export default function AssetPickerField(props) {
     icon = 'document',
     ...rest
   } = props;
+
   const formContext = useFormContext();
   const { editMode, pbj } = formContext;
   const { input, meta } = useField({ ...props, validate }, formContext);
@@ -74,6 +78,8 @@ export default function AssetPickerField(props) {
     assetRef = null;
   }
 
+  const asset = useSelector(state => getNode(state, assetRef));
+
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && (
@@ -91,7 +97,7 @@ export default function AssetPickerField(props) {
         </>
       )}
 
-      {assetRef && Preview && <Preview key={`${assetRef.getId()}-preview`} assetRef={assetRef} url={assetUrl} />}
+      {assetRef && Preview && <Preview key={`${assetRef.getId()}-preview`} assetRef={assetRef} url={assetUrl} asset={asset}/>}
 
       {!assetRef && (!editMode || readOnly) && (
         <input className="form-control" readOnly value={`No ${label} selected`} />
