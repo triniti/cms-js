@@ -37,6 +37,7 @@
 * Add mezzanine card to video details tab and display title instead of id for mezzanine asset.
 * Update parseYouTubeId to handle more types of urls
 * Fetch event's ctx_user_ref for history card.
+* Blocksmith :: Add nofollow option for contextual links.
 
 
 ## v1.2.2
