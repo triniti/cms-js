@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Screen :: Adding support for a component in tabs.
 * Move save button for all nodes into `SaveNodeButton` component.
 * raven :: Warning modal race condition.
 * raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
