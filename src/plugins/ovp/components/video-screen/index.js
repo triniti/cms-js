@@ -15,7 +15,8 @@ import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button
 import ProcessingErrorAlert from '@triniti/cms/plugins/ovp/components/video-screen/ProcessingErrorAlert.js';
 import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
-import { useResolver } from '@triniti/cms/plugins/pbjx/components/with-request/index.js';
+import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 function VideoScreen(props) {
   const {
@@ -42,22 +43,23 @@ function VideoScreen(props) {
 
   const schema = node.schema();
   const hasMedialiveChannel = schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && node.has('medialive_channel_arn');
-  const medialiveChannelArn = node.get('medialive_channel_arn');
-  const medialiveRequest = useResolver('triniti:ovp:request:search-videos-request', hasMedialiveChannel && medialiveChannelArn ? {
-    channel: `video-medialive-${nodeRef}`,
-    initialData: {
-      count: 1,
-      page: 1,
-      q: `medialive_channel_arn:"${medialiveChannelArn}"`,
-      derefs: ['medialive_channel_state'],
-    },
-  } : null);
+
+  const medialiveRequest = React.useMemo(() => {
+    if (!hasMedialiveChannel || !nodeRef) {
+      return null;
+    }
+    return GetNodeRequestV1.create()
+      .set('node_ref', NodeRef.fromString(`${nodeRef}`))
+      .addToSet('derefs', ['medialive_channel_state']);
+  }, [hasMedialiveChannel, nodeRef]);
 
   const {
     response: medialiveResponse,
     run: runMedialiveRequest,
     isRunning: isRunningMedialiveRequest,
   } = useRequest(medialiveRequest, Boolean(medialiveRequest));
+
+  const medialiveMetas = medialiveResponse ? medialiveResponse.get('metas', {}) : {};
 
   const handleRefreshMedialive = () => {
     runMedialiveRequest();
@@ -136,7 +138,7 @@ function VideoScreen(props) {
               <CardBody className="p-2">
                 <MediaLiveChannelControls
                   nodeRef={nodeRef}
-                  metas={medialiveResponse ? medialiveResponse.get('metas', {}) : {}}
+                  metas={medialiveMetas}
                   refresh={handleRefreshMedialive}
                   isRefreshing={isRefreshing || isRunningMedialiveRequest}
                   statusOnNewLine

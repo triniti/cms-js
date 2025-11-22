@@ -21,11 +21,10 @@ export function processMedialiveMetas(metas, nodeRef) {
 
   return Object.entries(metas)
     .reduce((newObj, [name, value]) => {
-      if (!name.startsWith(key)) {
+      if (name.includes('.') && !name.startsWith(key)) {
         return newObj;
       }
-
-      const newName = name.replace(`${key}.`, '');
+      const newName = name.startsWith(key) ? name.replace(`${key}.`, '') : name;
       if (newName.startsWith('medialive_channel_state')) {
         newObj.channelState = value;
       } else if (newName.startsWith('medialive_input_')) {
