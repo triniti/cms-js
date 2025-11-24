@@ -66,31 +66,23 @@ export default function MultiSelectField(props) {
     setSearchValue('');
   };
   
-  const handleInputChange = useCallback((value, { action }) => {
+  const handleInputChange = useCallback((value, meta) => {
+    const { action } = meta;
+    let nextValue;
+
     if (action === 'input-change') {
       setSearchValue(value);
-      return value;
-    }
-
-    if (action === 'menu-close' || action === 'input-blur') {
+      nextValue = value;
+    } else if (action === 'menu-close' || action === 'input-blur') {
       setSearchValue('');
-      return '';
+      nextValue = '';
+    } else if (action === 'set-value') {
+      nextValue = searchValue;
     }
 
-    if (action === 'set-value') {
-      return searchValue;
-    }
-
-    return value;
-  }, [searchValue]);
-
-  const handleAsyncInputChange = useCallback((value, meta) => {
-    const nextValue = handleInputChange(value, meta);
-    if (typeof nextValue !== 'undefined') {
-      return asyncOnInputChange?.(nextValue, meta);
-    }
-    return asyncOnInputChange?.(value, meta);
-  }, [handleInputChange, asyncOnInputChange]);
+    const valueForAsync = typeof nextValue !== 'undefined' ? nextValue : value;
+    return asyncOnInputChange ? asyncOnInputChange(valueForAsync, meta) : valueForAsync;
+  }, [searchValue, asyncOnInputChange]);
   
   const handleChange = useCallback((selected) => {
     input.onChange(selected ? selected.map(o => o.value) : undefined);
@@ -118,7 +110,7 @@ export default function MultiSelectField(props) {
         labelField={labelField}
         components={componentsMap}
         inputValue={searchValue || asyncInputValue || ''}
-        onInputChange={handleAsyncInputChange}
+        onInputChange={handleInputChange}
         onChange={handleChange}
         onBlur={(e) => {
           handleMenuClose();
