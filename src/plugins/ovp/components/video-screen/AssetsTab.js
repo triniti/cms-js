@@ -11,7 +11,6 @@ import {
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import AudioAssetPickerField from '@triniti/cms/plugins/dam/components/audio-asset-picker-field/index.js';
 import CaptionAssetPickerField from '@triniti/cms/plugins/dam/components/caption-asset-picker-field/index.js';
-import MezzanineCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzanineCard.js';
 import videoLanguages from '@triniti/app/config/videoLanguages.js';
 
 const LinkedAssetsCard = lazy(() => import('@triniti/cms/plugins/dam/components/linked-assets-card/index.js'));
@@ -38,8 +37,6 @@ export default function AssetsTab(props) {
           )}
         </CardBody>
       </Card>
-
-      <MezzanineCard {...props} />
 
       <Card>
         <CardHeader>Captions</CardHeader>
