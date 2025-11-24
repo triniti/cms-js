@@ -35,7 +35,7 @@ export default function CreateTeaserModal(props) {
   const ComponentWithPbj = curie && withPbj(resolveComponent(curie), curie);
 
   return (
-    <Modal isOpen centered size="lg" backdrop="static">
+    <Modal isOpen centered size="lg" toggle={props.toggle}>
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Teaser</ModalHeader>

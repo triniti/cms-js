@@ -108,7 +108,7 @@ function AddImagesModal(props) {
   }
 
   return (
-    <Modal isOpen backdrop="static" size="xxl" centered>
+    <Modal isOpen size="xxl" centered toggle={handleClose}>
       <ModalHeader toggle={handleClose}>Add Images</ModalHeader>
       <ModalBody className="p-0">
         <div id="asset-linker-search-body" className="scrollable-container modal-scrollable--tabs">

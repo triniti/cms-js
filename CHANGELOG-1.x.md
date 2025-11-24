@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* Screen :: Adding support for a component in tabs.
 * Move save button for all nodes into `SaveNodeButton` component.
 * raven :: Warning modal race condition.
 * raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
@@ -38,6 +39,8 @@
 * Update parseYouTubeId to handle more types of urls
 * Fetch event's ctx_user_ref for history card.
 * Blocksmith :: Add nofollow option for contextual links.
+* Blocksmith :: Default values for divider-block fields
+* Restore escape key and background click for exiting modals
 * Add start channel button in liveStream video sidebar
 
 
