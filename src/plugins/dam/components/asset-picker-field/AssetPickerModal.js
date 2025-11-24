@@ -56,7 +56,7 @@ export default function AssetPickerModal(props) {
   }
 
   return (
-    <Modal isOpen backdrop="static" size="xxl" centered>
+    <Modal isOpen size="xxl" centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="p-0">
         {linkedRef && (

@@ -19,7 +19,7 @@ function ErrorDetails({ error, errorInfo }) {
 
 function ErrorModal(props) {
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>An Unexpected Error Occurred</ModalHeader>
       <ModalBody className="modal-scrollable p-3">
         <ErrorDetails {...props} />

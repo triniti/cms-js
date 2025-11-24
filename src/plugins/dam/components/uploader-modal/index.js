@@ -104,7 +104,7 @@ export default function UploaderModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static" size="lg" centered>
+    <Modal isOpen size="lg" centered toggle={handleDone}>
       <ModalHeader toggle={handleDone}>Upload Files</ModalHeader>
       <ModalBody className="p-0 modal-scrollable">
         <div className="d-flex flex-column flex-md-row flex-nowrap">

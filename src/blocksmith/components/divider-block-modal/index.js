@@ -17,8 +17,8 @@ function DividerBlockModal() {
   return (
     <>
       <TextField name="text" label="Text" />
-      <SelectField name="stroke_color" label="Color" options={colors} />
-      <SelectField name="stroke_style" label="Style" options={styles} />
+      <SelectField name="stroke_color" label="Color" options={colors} isClearable={false} />
+      <SelectField name="stroke_style" label="Style" options={styles} isClearable={false} />
     </>
   );
 }
