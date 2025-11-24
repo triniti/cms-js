@@ -62,9 +62,9 @@ export default function MultiSelectField(props) {
     filterOption: null,
   });
 
-  const handleMenuClose = useCallback(() => {
+  const handleMenuClose = () => {
     setSearchValue('');
-  }, []);
+  };
   
   const handleInputChange = useCallback((value, { action }) => {
     if (action === 'input-change') {
