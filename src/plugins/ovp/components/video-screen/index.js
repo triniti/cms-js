@@ -57,13 +57,12 @@ function VideoScreen(props) {
     response: medialiveResponse,
     run: runMedialiveRequest,
     isRunning: isRunningMedialiveRequest,
-  } = useRequest(medialiveRequest, Boolean(medialiveRequest));
+  } = useRequest(medialiveRequest);
 
   const medialiveMetas = medialiveResponse ? medialiveResponse.get('metas', {}) : {};
 
   const handleRefreshMedialive = () => {
     runMedialiveRequest();
-    refreshNode();
   };
 
   return (
@@ -140,7 +139,7 @@ function VideoScreen(props) {
                   nodeRef={nodeRef}
                   metas={medialiveMetas}
                   refresh={handleRefreshMedialive}
-                  isRefreshing={isRefreshing || isRunningMedialiveRequest}
+                  isRefreshing={isRunningMedialiveRequest}
                   statusOnNewLine
                 />
               </CardBody>
