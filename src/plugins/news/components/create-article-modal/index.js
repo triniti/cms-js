@@ -77,7 +77,7 @@ function CreateArticleModal(props) {
   };
 
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>Create Article</ModalHeader>
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}

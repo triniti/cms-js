@@ -49,7 +49,7 @@ function BlockModal(props) {
   const title = config.blocks[type]?.title || startCase(type);
 
   return (
-    <Modal isOpen backdrop="static" size="lg" centered>
+    <Modal isOpen size="lg" centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>
         <Icon imgSrc={icon} size="lg" className="me-2" />
         {title}

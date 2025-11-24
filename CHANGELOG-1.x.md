@@ -40,6 +40,7 @@
 * Fetch event's ctx_user_ref for history card.
 * Blocksmith :: Add nofollow option for contextual links.
 * Blocksmith :: Default values for divider-block fields
+* Restore escape key and background click for exiting modals
 
 
 ## v1.2.2
