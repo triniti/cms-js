@@ -41,6 +41,7 @@
 * Blocksmith :: Add nofollow option for contextual links.
 * Blocksmith :: Default values for divider-block fields
 * Restore escape key and background click for exiting modals
+* Add start channel button in liveStream video sidebar
 
 
 ## v1.2.2
