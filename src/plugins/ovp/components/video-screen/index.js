@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Card, CardBody, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
@@ -134,6 +134,16 @@ function VideoScreen(props) {
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
           {hasMedialiveChannel && (
             <Card>
+              <CardHeader>
+                <span>
+                  LiveStreams
+                  {node.isInMap('tags', 'livestream_label') && (
+                    <span className="ms-1">
+                      ({node.getFromMap('tags', 'livestream_label')})
+                    </span>
+                  )}
+                </span>
+              </CardHeader>
               <CardBody className="p-2">
                 <MediaLiveChannelControls
                   nodeRef={nodeRef}
