@@ -15,7 +15,7 @@ export default function BlockSelectorModal(props) {
   const policy = usePolicy();
 
   return (
-    <Modal isOpen size="md" backdrop="static" centered>
+    <Modal isOpen size="md" toggle={props.toggle} centered>
       <ModalHeader toggle={props.toggle}>Insert Block</ModalHeader>
       <ModalBody>
         <div className="grid gap-3 row-gap-2">
