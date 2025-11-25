@@ -136,11 +136,11 @@ function VideoScreen(props) {
             <Card>
               <CardHeader>
                 <span>
-                  Livestreams
+                  Livestream
                   {node.isInMap('tags', 'livestream_label') && (
-                    <span className="ms-1">
-                      ({node.getFromMap('tags', 'livestream_label')})
-                    </span>
+                    <Badge color="light" pill className="ms-2">
+                      {node.getFromMap('tags', 'livestream_label')}
+                    </Badge>
                   )}
                 </span>
               </CardHeader>
