@@ -11,12 +11,11 @@ import toast from '@triniti/cms/utils/toast.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import duplicateNode from '@triniti/cms/plugins/ncr/actions/duplicateNode.js';
 
-export default (props) => {
+export default () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { delegate } = props;
 
-  delegate.handleDuplicate = async (node) => {
+  return async (node) => {
     const ref = NodeRef.fromNode(node);
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -43,7 +42,5 @@ export default (props) => {
       await progressIndicator.close();
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
     }
-  };
-
-  return delegate;
+  }
 };
