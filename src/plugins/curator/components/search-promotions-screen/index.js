@@ -10,6 +10,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/curator/components/search-promotions-screen/SearchForm.js';
+import useDuplicateNode from '@triniti/cms/plugins/curator/components/useDuplicateNode.js';
 import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
 
 const CreatePromotionModal = lazy(() => import('@triniti/cms/plugins/curator/components/create-promotion-modal/index.js'));
@@ -20,7 +21,9 @@ function SearchPromotionsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:promotion:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:promotion:update`);
+  const canDuplicate = policy.isGranted(`${APP_VENDOR}:promotion:duplicate`);
   const navigate = useNavigate();
+  const duplicateNode = useDuplicateNode();
 
   return (
     <Screen
@@ -57,6 +60,7 @@ function SearchPromotionsScreen(props) {
               <tbody>
               {response.get('nodes', []).map(node => {
                 const handleRowClick = createRowClickHandler(navigate, node);
+                const handleDuplicatePromotion = () => duplicateNode(node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td>{node.get('title')}</td>
@@ -75,6 +79,11 @@ function SearchPromotionsScreen(props) {
                             <Icon imgSrc="pencil" alt="edit" />
                           </Button>
                         </Link>
+                      )}
+                      {canDuplicate && (
+                        <Button color="hover" tag="span" onClick={handleDuplicatePromotion}>
+                          <Icon imgSrc="documents" alt="copy" />
+                        </Button>
                       )}
                     </td>
                   </tr>
