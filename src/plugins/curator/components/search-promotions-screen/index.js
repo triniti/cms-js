@@ -21,7 +21,6 @@ function SearchPromotionsScreen(props) {
   const policy = usePolicy();
   const canCreate = policy.isGranted(`${APP_VENDOR}:promotion:create`);
   const canUpdate = policy.isGranted(`${APP_VENDOR}:promotion:update`);
-  const canDuplicate = policy.isGranted(`${APP_VENDOR}:promotion:duplicate`);
   const navigate = useNavigate();
   const duplicateNode = useDuplicateNode();
 
@@ -80,7 +79,7 @@ function SearchPromotionsScreen(props) {
                           </Button>
                         </Link>
                       )}
-                      {canDuplicate && (
+                      {canCreate && (
                         <Button color="hover" tag="span" onClick={handleDuplicatePromotion}>
                           <Icon imgSrc="documents" alt="copy" />
                         </Button>

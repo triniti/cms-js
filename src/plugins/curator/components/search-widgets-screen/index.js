@@ -80,7 +80,7 @@ function SearchWidgetsScreen(props) {
               {response.get('nodes', []).map(node => {
                 const ref = node.generateNodeRef();
                 const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
-                const canDuplicate = policy.isGranted(`${ref.getQName()}:duplicate`);
+                const canDuplicate = policy.isGranted(`${ref.getQName()}:create`);
                 const handleRowClick = createRowClickHandler(navigate, node);
                 const handleDuplicateWidget = () => duplicateNode(node);
                 return (
