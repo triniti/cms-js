@@ -36,6 +36,7 @@
 * Use grid view for gallery blocks and asset tabs
 * Display clear search button on search inputs.
 * Add transcoding and transcription error alerts to all tabs.
+* Add button for duplicating nodes on teasers search screen.
 * Add mezzanine card to video details tab and display title instead of id for mezzanine asset.
 * Update parseYouTubeId to handle more types of urls
 * Fetch event's ctx_user_ref for history card.
