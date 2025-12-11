@@ -44,6 +44,7 @@
 * Blocksmith :: Default values for divider-block fields
 * Restore escape key and background click for exiting modals
 * Add start channel button in liveStream video sidebar
+* Fix Transcoding error alert on Video pages to focus on mezzanine asset solely
 
 
 ## v1.2.2
