@@ -161,7 +161,7 @@ function VideoScreen(props) {
     >
       {!editMode && <ViewModeWarning />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
-      <ProcessingErrorAlert nodeRef={nodeRef} />
+      {node.has('mezzanine_ref') && <ProcessingErrorAlert mezzanineRef={node.get('mezzanine_ref')} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
           <TabPane tabId="details">
