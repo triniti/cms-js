@@ -18,7 +18,9 @@ import {
   DROP_COMMAND,
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { NodeEventPlugin } from '@lexical/react/LexicalNodeEventPlugin';
 import { calculateZoomLevel, isHTMLElement, mergeRegister } from '@lexical/utils';
+import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { Point } from '@triniti/cms/blocksmith/utils/point.js';
 import { Rect } from '@triniti/cms/blocksmith/utils/rect.js';
 import { Icon } from '@triniti/cms/components/index.js';
@@ -325,9 +327,12 @@ export default function DraggableBlockPlugin({ anchorElem }) {
       if (node) {
         nodeKey = node.getKey();
       }
+    }, {
+      onUpdate: () => {
+        isDraggingBlockRef.current = true;
+        dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey);
+      }
     });
-    isDraggingBlockRef.current = true;
-    dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey);
   };
 
   const onDragEnd = () => {
@@ -341,6 +346,16 @@ export default function DraggableBlockPlugin({ anchorElem }) {
 
   return createPortal(
     <>
+      <NodeEventPlugin
+        nodeType={BlocksmithNode}
+        eventType={'dragstart'}
+        eventListener={onDragStart}
+      />
+      <NodeEventPlugin
+        nodeType={BlocksmithNode}
+        eventType={'dragend'}
+        eventListener={onDragEnd}
+      />
       <div
         className="draggable-block-menu"
         ref={menuRef}

@@ -279,6 +279,16 @@
   will-change: transform;
 }
 
+[data-lexical-decorator=true][draggable=true] {
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+  a, button {
+    cursor: pointer;
+  }
+}
+
 
 // Blocks
 // Divider Block
