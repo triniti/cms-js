@@ -8,7 +8,7 @@ import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/styles.scss';
 
 export default function SortableImage(props) {
-  const { id, index, seq, image, batch, isReordering, canReorder } = props;
+  const { id, index, imagesPerRow, seq, image, batch, isReordering, canReorder } = props;
   const [isHovering, setIsHovering] = useState(false);
   const previewUrl = damUrl(image.get('_id'), 'o', 'sm');
   const isSelected = !isReordering && batch.has(image);
@@ -30,8 +30,7 @@ export default function SortableImage(props) {
   });
 
   const style = {
-    minWidth: '100px',
-    width: 'calc(10% - 16px)',
+    width: `calc((100% / ${imagesPerRow}) - 16px)`,
     boxShadow: isDragging ? '0 4px 12px rgba(0,0,0,0.5)' : undefined,
     borderColor: isDragging ? 'var(--bs-body-bg) !important' : undefined,
     zIndex: isDragging ? '100' : undefined,

@@ -14,5 +14,14 @@ export default class BlockSubscriber {
     if (schema.hasField('aspect_ratio') && (!data.aspect_ratio || data.aspect_ratio === AspectRatio.UNKNOWN.getValue())) {
       data.aspect_ratio = AspectRatio.AUTO.getValue();
     }
+
+    if (schema.getCurie().getMessage() === 'divider-block') {
+      if (!data.stroke_color) {
+        data.stroke_color = 'primary';
+      }
+      if (!data.stroke_style) {
+        data.stroke_style = 'solid';
+      }
+    }
   }
 }

@@ -20,13 +20,15 @@ export default function LinkModal(props) {
   const { selectedLink } = props;
   const [url, setUrl] = useState(selectedLink ? selectedLink.url : '');
   const [target, setTarget] = useState(selectedLink && selectedLink.target);
+  const [noFollow, setNoFollow] = useState(!!selectedLink?.rel?.includes?.('nofollow'));
   const [isValid, setIsValid] = useState(!url || isValidUrl(url));
   const [touched, setTouched] = useState(false);
   const inputRef = useRef(null);
   const isNew = !selectedLink;
 
-  const handleToggle = () => {
+  const handleClose = () => {
     setUrl('');
+    setNoFollow(false);
     setTarget(null);
     setIsValid(false);
     setTouched(false);
@@ -43,17 +45,20 @@ export default function LinkModal(props) {
 
     const payload = { url, target, rel: 'noreferrer' };
     if (target === '_blank') {
-      payload.rel = 'noopener noreferrer';
+      payload.rel += ' noopener';
+    }
+    if (noFollow) {
+      payload.rel += ' nofollow';
     }
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, payload);
-    handleToggle();
+    handleClose();
   };
 
   const handleRemove = (event) => {
     event.preventDefault();
     event.stopPropagation();
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    handleToggle();
+    handleClose();
   };
 
   const handleChange = (event) => {
@@ -76,7 +81,7 @@ export default function LinkModal(props) {
   };
 
   return (
-    <Modal isOpen size="lg" backdrop="static" centered onOpened={handleOpened}>
+    <Modal isOpen size="lg" centered onOpened={handleOpened} toggle={handleClose}>
       <ModalHeader toggle={props.toggle}>{isNew ? 'Add Link' : 'Update Link'}</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleUpdate} autoComplete="off">
@@ -111,12 +116,23 @@ export default function LinkModal(props) {
             />
             <Label className="form-check-label" htmlFor="link-target">Open in new tab?</Label>
           </div>
+          <div className="form-check">
+            <input
+              id="link-no-follow"
+              name="no-follow"
+              className="form-check-input"
+              type="checkbox"
+              checked={noFollow}
+              onChange={event => setNoFollow(event.target.checked)}
+            />
+            <Label className="form-check-label" htmlFor="link-no-follow">No Follow?</Label>
+          </div>
         </Form>
       </ModalBody>
       <ModalFooter>
         <ActionButton
           text="Close"
-          onClick={handleToggle}
+          onClick={handleClose}
           icon="close-sm"
           color="light"
           tabIndex="-1"

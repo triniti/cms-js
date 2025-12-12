@@ -32,34 +32,13 @@ function LivestreamsScreen(props) {
       {response && response.get('nodes', []).map(node => {
         const nodeRef = node.generateNodeRef();
         const key = nodeRef.toString();
-        const medialive = Object.entries(response.get('metas', {}))
-          .reduce((newObj, [name, value]) => {
-            if (!name.startsWith(key)) {
-              return newObj;
-            }
-
-            const newName = name.replace(`${key}.`, '');
-            if (newName.startsWith('medialive_channel_state')) {
-              newObj.channelState = value;
-            } else if (newName.startsWith('medialive_input_')) {
-              newObj.inputs.push(value);
-            } else if (newName.startsWith('mediapackage_origin_endpoint_')) {
-              newObj.originEndpoints.push(value);
-            } else if (newName.startsWith('mediapackage_cdn_endpoint_')) {
-              newObj.cdnEndpoints.push(value);
-            } else {
-              newObj[newName] = value;
-            }
-
-            return newObj;
-          }, { channelState: 'unknown', inputs: [], originEndpoints: [], cdnEndpoints: [] });
 
         return (
           <MediaLiveCard
             key={key}
             node={node}
             nodeRef={nodeRef}
-            medialive={medialive}
+            metas={response.get('metas', {})}
             refresh={run}
             isRefreshing={isRunning}
           />

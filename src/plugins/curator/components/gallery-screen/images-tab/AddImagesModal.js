@@ -51,14 +51,15 @@ function AddImagesModal(props) {
     props.toggle();
   };
 
-  const handleUploaderDone = (ref, refs) => {
-    if (!refs || !refs.length) {
+  const handleUploaderDone = async (assetRef, assets) => {
+    if (!assetRef || !assets.length) {
       if (uploaderOpen) {
         setUploaderOpen(false);
       }
       return;
     }
 
+    await addImagesToGallery(assets.reverse());
     onClose();
     props.toggle();
   };
@@ -67,17 +68,21 @@ function AddImagesModal(props) {
     setUploaderOpen(true);
   };
 
-  const handleAddImages = async () => {
+  const handleAddImages = () => {
+    addImagesToGallery(Array.from(batch.values()).reverse());
+  };
+
+  const addImagesToGallery = async (assets) => {
     try {
       await progressIndicator.show('Adding Images...');
       const gallerySeqs = {};
-      for (const asset of batch.values()) {
+      for (const asset of assets) {
         gallerySeqs[asset.get('_id').toString()] = gallerySeqIncrementer();
       }
 
       await dispatch(reorderGalleryAssets(galleryRef, gallerySeqs));
       // delay to give time for all assets to be updated in elastic search.
-      await delay(clamp(500 * batch.size, 3000, 10000));
+      await delay(clamp(500 * assets.length, 3000, 10000));
       run();
       await progressIndicator.close();
       toast({ title: 'Images added.' });
@@ -85,7 +90,7 @@ function AddImagesModal(props) {
       await progressIndicator.close();
       dispatch(sendAlert({ type: 'danger', message: getFriendlyErrorMessage(e) }));
     }
-  };
+  }
 
   if (uploaderOpen) {
     return (
@@ -103,7 +108,7 @@ function AddImagesModal(props) {
   }
 
   return (
-    <Modal isOpen backdrop="static" size="xxl" centered>
+    <Modal isOpen size="xxl" centered toggle={handleClose}>
       <ModalHeader toggle={handleClose}>Add Images</ModalHeader>
       <ModalBody className="p-0">
         <div id="asset-linker-search-body" className="scrollable-container modal-scrollable--tabs">

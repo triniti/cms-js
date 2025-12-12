@@ -41,7 +41,7 @@ function CreateNotificationModal(props) {
   const ComponentWithPbj = curie && withPbj(resolveComponent(curie), curie);
 
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Notification</ModalHeader>

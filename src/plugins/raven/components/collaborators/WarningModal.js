@@ -97,9 +97,9 @@ export default function WarningModal(props) {
   const type = startCase(NodeRef.fromString(nodeRef).getLabel()).toLowerCase();
 
   return (
-    <Modal isOpen size='sd' toggle={handleContinueInViewMode} centered modalClassName='animate-center'>
-      <ModalBody className='text-center'>
-        <Icon imgSrc='notification' alert size='lg' color='warning' border className='icon-modal' />
+    <Modal isOpen size="sd" centered toggle={handleContinueInViewMode} modalClassName="animate-center">
+      <ModalBody className="text-center">
+        <Icon imgSrc="notification" alert size="lg" color="warning" border className="icon-modal" />
         <h2>Stop!</h2>
         <p className='text-modal'>This {type} is being edited by:</p>
         {Object.keys(users).map((ref) => {

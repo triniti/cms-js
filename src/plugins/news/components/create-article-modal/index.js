@@ -17,10 +17,25 @@ import trimStart from 'lodash-es/trimStart.js';
 const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
+const slugValidator = (value) => {
+  if (isValidDatedSlug(value)) {
+    return undefined;
+  }
+  return 'Expected format YYYY/MM/DD/some-title-here';
+};
+
+const parseSlug = (value) => {
+  let ending = '';
+  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
+    ending = value[value.length - 1];
+  }
+  const slug = createSlug(value.toLowerCase(), true);
+  return slug ? slug + ending : value;
+};
+
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [slug, setSlug] = useState('');
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -30,10 +45,10 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      if (slug && isValidDatedSlug(slug)) {
-        values.slug = slug.toLowerCase();
-      } else if (slug && !isValidDatedSlug(slug)) {
-        values.slug = addDateToSlug(slug).toLowerCase();
+      if (values.slug && isValidDatedSlug(values.slug)) {
+        values.slug = values.slug.toLowerCase();
+      } else if (values.slug && !isValidDatedSlug(values.slug)) {
+        values.slug = addDateToSlug(values.slug).toLowerCase();
       } else {
         values.slug = addDateToSlug(createSlug(values.title)).toLowerCase();
       }
@@ -50,12 +65,10 @@ function CreateArticleModal(props) {
   };
 
   const handleBlur = (e) => {
-    if (e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value.toLowerCase())));
+    if (e.target.value) {
+      form.change('slug', addDateToSlug(parseSlug(e.target.value)));
     }
   };
-
-  const handleChange = (e) => setSlug(e.target.value ? e.target.value.toLowerCase() : e.target.value);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && valid) {
@@ -64,13 +77,21 @@ function CreateArticleModal(props) {
   };
 
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>Create Article</ModalHeader>
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
           <SeoTitleField onBlur={handleBlur} onKeyDown={handleKeyDown} />
-          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} onKeyDown={handleKeyDown} />
+          <TextField 
+            name="slug" 
+            label="Slug"
+            format={value => value?.trim()}
+            formatOnBlur
+            parse={parseSlug}
+            validator={slugValidator}
+            onKeyDown={handleKeyDown}
+          />
         </Form>
       </ModalBody>
       <ModalFooter>

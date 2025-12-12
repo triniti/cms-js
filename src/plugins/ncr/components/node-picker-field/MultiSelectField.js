@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { AsyncPaginate } from 'react-select-async-paginate';
+import React, { useState, useCallback } from 'react';
+import ReactSelect from 'react-select';
+import { useAsyncPaginate, useComponents } from 'react-select-async-paginate';
 import classNames from 'classnames';
 import { Badge, FormText, Label } from 'reactstrap';
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
@@ -36,25 +37,63 @@ export default function MultiSelectField(props) {
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input, meta } = useField({ ...props, isEqual }, formContext);
-  const [q, setQ] = useState(request.get('q'));
-
+  
+  const [searchValue, setSearchValue] = useState('');
+  const componentsMap = useComponents(components);
+  
   const rootClassName = classNames(groupClassName, 'form-group');
   const className = classNames(
     'select',
     showImage && 'select-with-image',
     sortable && 'select-stacked',
     meta.touched && !meta.valid && 'is-invalid',
-    meta.touched && meta.valid && 'is-valid',
+    meta.touched && meta.valid && 'is-valid'
   );
-
   const currentOptions = input.value.length ? input.value.map(v => ({ value: v, label: v })) : [];
+  
+  const {
+    inputValue: asyncInputValue,
+    onInputChange: asyncOnInputChange,
+    ...asyncPaginateProps
+  } = useAsyncPaginate({
+    loadOptions,
+    debounceTimeout,
+    additional: { page: 1, request },
+    filterOption: null,
+  });
 
+  const handleMenuClose = () => {
+    setSearchValue('');
+  };
+  
+  const handleInputChange = useCallback((value, meta) => {
+    const { action } = meta;
+    let nextValue;
+
+    if (action === 'input-change') {
+      setSearchValue(value);
+      nextValue = value;
+    } else if (action === 'menu-close' || action === 'input-blur') {
+      setSearchValue('');
+      nextValue = '';
+    } else if (action === 'set-value') {
+      nextValue = searchValue;
+    }
+
+    const valueForAsync = typeof nextValue !== 'undefined' ? nextValue : value;
+    return asyncOnInputChange ? asyncOnInputChange(valueForAsync, meta) : valueForAsync;
+  }, [searchValue, asyncOnInputChange]);
+  
+  const handleChange = useCallback((selected) => {
+    input.onChange(selected ? selected.map(o => o.value) : undefined);
+  }, [input]);
+  
   return (
     <div className={rootClassName} id={`form-group-${pbjName || name}`}>
       {label && <Label htmlFor={name}>{label}{required && <Badge className="ms-1" color="light" pill>required</Badge>}</Label>}
       {sortable && input.value.length > 0 && <SortableValues input={input} {...props} editMode={editMode} />}
-      <AsyncPaginate
-        {...input}
+      <ReactSelect
+        {...asyncPaginateProps}
         {...rest}
         id={name}
         name={name}
@@ -65,33 +104,19 @@ export default function MultiSelectField(props) {
         closeMenuOnSelect={false}
         controlShouldRenderValue={!sortable}
         isMulti
-        inputValue={q}
-        onInputChange={(value, action) => {
-          if (action.action === 'input-change') {
-            request.set('q', value);
-            setQ(value);
-            return;
-          }
-
-          if (action.action === 'menu-close') {
-            request.clear('q');
-            setQ('');
-          }
-        }}
-        cachedUniqs={[q]}
         hideSelectedOptions={false}
         value={currentOptions}
-        debounceTimeout={debounceTimeout}
         showImage={showImage}
         labelField={labelField}
-        components={components}
-        loadOptions={loadOptions}
-        additional={{ page: 1, request }}
-        onChange={selected => {
-          input.onChange(selected ? selected.map(o => o.value) : undefined);
-          request.clear('q');
-          setQ('');
+        components={componentsMap}
+        inputValue={searchValue || asyncInputValue || ''}
+        onInputChange={handleInputChange}
+        onChange={handleChange}
+        onBlur={(e) => {
+          handleMenuClose();
+          input.onBlur(e);
         }}
+        onFocus={input.onFocus}
       />
       {description && <FormText color="dark">{description}</FormText>}
       {meta.touched && !meta.valid && <FormText color="danger">{meta.error}</FormText>}
