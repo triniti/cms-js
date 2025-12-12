@@ -8,11 +8,8 @@ export default function ProcessingErrorAlert({ node }) {
   const transcodingStatus = node.get('transcoding_status', TranscodingStatus.UNKNOWN);
   const transcriptionStatus = node.get('transcription_status', TranscriptionStatus.UNKNOWN);
 
-  const transcodingFailed = transcodingStatus === TranscodingStatus.FAILED || 
-                           transcodingStatus === TranscodingStatus.CANCELED;
-
-  const transcriptionFailed = transcriptionStatus === TranscriptionStatus.FAILED || 
-                             transcriptionStatus === TranscriptionStatus.CANCELED;
+  const transcodingFailed = transcodingStatus === TranscodingStatus.FAILED || transcodingStatus === TranscodingStatus.CANCELED;
+  const transcriptionFailed = transcriptionStatus === TranscriptionStatus.FAILED || transcriptionStatus === TranscriptionStatus.CANCELED;
 
   if (!transcodingFailed && !transcriptionFailed) {
     return null;
