@@ -13,6 +13,9 @@ export default (node, template) => {
     case 'view':
       return expand('node.view', vars(node));
 
+    case 'search':
+      return expand(`${vars(node).label}.search`, vars(node));
+
     default:
       return pbjUrl(node, template);
   }
