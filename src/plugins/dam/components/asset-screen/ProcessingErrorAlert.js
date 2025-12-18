@@ -9,10 +9,10 @@ export default function ProcessingErrorAlert({ node }) {
   const transcriptionStatus = node.get('transcription_status', TranscriptionStatus.UNKNOWN);
 
   const transcodingFailed = transcodingStatus === TranscodingStatus.FAILED || 
-                           transcodingStatus === TranscodingStatus.CANCELED;
+                          transcodingStatus === TranscodingStatus.CANCELED;
 
   const transcriptionFailed = transcriptionStatus === TranscriptionStatus.FAILED || 
-                             transcriptionStatus === TranscriptionStatus.CANCELED;
+                            transcriptionStatus === TranscriptionStatus.CANCELED;
 
   if (!transcodingFailed && !transcriptionFailed) {
     return null;
