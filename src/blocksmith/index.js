@@ -21,10 +21,19 @@ export default function Blocksmith(props) {
   const { editMode, pbj } = useFormContext();
   const editorRef = useRef(null);
   const [liveWordCount, setLiveWordCount] = useState(pbj.get('word_count'));
+  const [isDragging, setIsDragging] = useState(false);
   config.editable = editMode;
 
   const handleWordCountChanged = wordCount => {
     setLiveWordCount(wordCount);
+  }
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  }
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
   }
 
   return (
@@ -43,7 +52,7 @@ export default function Blocksmith(props) {
         <ListPlugin />
         {editMode && (
           <>
-            {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} />}
+            {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} onDragStart={handleDragStart} onDragEnd={handleDragEnd} />}
             {editorRef.current && <FloatingTextFormatToolbarPlugin anchorElem={editorRef.current} />}
             <WordCountPlugin
               onWordCountChanged={handleWordCountChanged}
@@ -55,7 +64,7 @@ export default function Blocksmith(props) {
           </>
         )}
         <div className="position-relative">
-          {editMode && <HoverInsertButtons />}
+          {editMode && <HoverInsertButtons isDragging={isDragging} />}
           <RichTextPlugin
             contentEditable={
               <div className="blocksmith-editor" ref={editorRef}>
