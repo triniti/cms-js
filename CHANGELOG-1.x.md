@@ -44,6 +44,7 @@
 * Blocksmith :: Default values for divider-block fields
 * Restore escape key and background click for exiting modals
 * Add start channel button in liveStream video sidebar
+* Blocksmith :: add ability to drag preview blocks and drag blocks to the top of the editor
 
 
 ## v1.2.2
