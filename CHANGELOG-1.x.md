@@ -44,6 +44,8 @@
 * Blocksmith :: Default values for divider-block fields
 * Restore escape key and background click for exiting modals
 * Add start channel button in liveStream video sidebar
+* raven :: Warning modal copy updates
+* Fix Transcoding error alert on Video pages to focus on mezzanine asset solely
 * Blocksmith :: add ability to drag preview blocks and drag blocks to the top of the editor
 
 

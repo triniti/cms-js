@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, Card, CardBody, CardHeader, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import ProcessingErrorAlert from '@triniti/cms/plugins/dam/components/asset-screen/ProcessingErrorAlert.js';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
@@ -10,9 +11,9 @@ import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/i
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
 import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
-import ProcessingErrorAlert from '@triniti/cms/plugins/ovp/components/video-screen/ProcessingErrorAlert.js';
 import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
 import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1.js';
@@ -34,6 +35,7 @@ function VideoScreen(props) {
   } = props;
 
   const delegate = useDelegate(props);
+  const { node: mezzanineAsset } = useNode(node.get('mezzanine_ref'));
 
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
@@ -161,7 +163,7 @@ function VideoScreen(props) {
     >
       {!editMode && <ViewModeWarning />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
-      <ProcessingErrorAlert nodeRef={nodeRef} />
+      {mezzanineAsset && <ProcessingErrorAlert node={mezzanineAsset} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
           <TabPane tabId="details">
