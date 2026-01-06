@@ -9,7 +9,7 @@ export default function HoverInsertButtons({ isDragging }) {
   const [editor] = useLexicalComposerContext();
   const [isHovered, setIsHovered] = useState(false);
 
-  // pointer must be able to pass through while dragging so that blocks can be placrd at the top
+  // pointer must be able to pass through while dragging so that blocks can be placed at the top
   const pointerEvents = isDragging ? 'none' : 'all';
 
   const handleMouseEnter = () => setIsHovered(true);
