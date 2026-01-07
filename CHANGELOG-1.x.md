@@ -47,6 +47,7 @@
 * raven :: Warning modal copy updates
 * Fix Transcoding error alert on Video pages to focus on mezzanine asset solely
 * Blocksmith :: add ability to drag preview blocks and drag blocks to the top of the editor
+* Restore ability to click and edit linked assets from assets tab
 
 
 ## v1.2.2
