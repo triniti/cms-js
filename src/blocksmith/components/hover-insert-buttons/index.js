@@ -5,9 +5,12 @@ import { SHOW_BLOCK_SELECTOR_AT_TOP_COMMAND } from '@triniti/cms/blocksmith/plug
 import InsertBlockButtons from '@triniti/cms/blocksmith/components/insert-block-buttons/index.js';
 import './styles.scss';
 
-export default function HoverInsertButtons() {
+export default function HoverInsertButtons({ isDragging }) {
   const [editor] = useLexicalComposerContext();
   const [isHovered, setIsHovered] = useState(false);
+
+  // disable pointer events on the wrapper while dragging so that its dragover event doesn't get fired instead of the editor's dragover event
+  const pointerEvents = isDragging ? 'none' : 'all';
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
@@ -30,6 +33,7 @@ export default function HoverInsertButtons() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleInsertTextBlock}
+      style={{ pointerEvents }}
     >
       <InsertBlockButtons
         className={`hover-insert-buttons ${isHovered ? 'visible' : ''}`}

@@ -18,10 +18,13 @@ import {
   DROP_COMMAND,
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { NodeEventPlugin } from '@lexical/react/LexicalNodeEventPlugin';
 import { calculateZoomLevel, isHTMLElement, mergeRegister } from '@lexical/utils';
+import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { Point } from '@triniti/cms/blocksmith/utils/point.js';
 import { Rect } from '@triniti/cms/blocksmith/utils/rect.js';
 import { Icon } from '@triniti/cms/components/index.js';
+import noop from 'lodash-es/noop.js';
 
 const SPACE = 1;
 const TARGET_LINE_HALF_HEIGHT = 2;
@@ -202,7 +205,7 @@ const hideTargetLine = (targetLineElem) => {
   }
 };
 
-export default function DraggableBlockPlugin({ anchorElem }) {
+export default function DraggableBlockPlugin({ anchorElem, onDragStart = noop, onDragEnd = noop }) {
   const [editor] = useLexicalComposerContext();
   const scrollerElem = anchorElem.parentElement;
 
@@ -312,11 +315,13 @@ export default function DraggableBlockPlugin({ anchorElem }) {
     );
   }, [anchorElem, editor]);
 
-  const onDragStart = (event) => {
+  const handleDragStart = (event) => {
     const dataTransfer = event.dataTransfer;
     if (!dataTransfer || !draggableBlockElem) {
       return;
     }
+
+    onDragStart();
 
     setDragImage(dataTransfer, draggableBlockElem);
     let nodeKey = '';
@@ -325,14 +330,18 @@ export default function DraggableBlockPlugin({ anchorElem }) {
       if (node) {
         nodeKey = node.getKey();
       }
+    }, {
+      onUpdate: () => {
+        isDraggingBlockRef.current = true;
+        dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey);
+      }
     });
-    isDraggingBlockRef.current = true;
-    dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey);
   };
 
-  const onDragEnd = () => {
+  const handleDragEnd = () => {
     isDraggingBlockRef.current = false;
     hideTargetLine(targetLineRef.current);
+    onDragEnd();
   };
 
   if (!editor.isEditable()) {
@@ -341,12 +350,22 @@ export default function DraggableBlockPlugin({ anchorElem }) {
 
   return createPortal(
     <>
+      <NodeEventPlugin
+        nodeType={BlocksmithNode}
+        eventType={'dragstart'}
+        eventListener={handleDragStart}
+      />
+      <NodeEventPlugin
+        nodeType={BlocksmithNode}
+        eventType={'dragend'}
+        eventListener={handleDragEnd}
+      />
       <div
         className="draggable-block-menu"
         ref={menuRef}
         draggable={true}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
         <Icon imgSrc="drag" />
       </div>

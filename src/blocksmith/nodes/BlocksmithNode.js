@@ -63,6 +63,12 @@ export default class BlocksmithNode extends DecoratorBlockNode {
     return this.__pbj;
   }
 
+  createDOM(config, _editor) {
+    const dom = super.createDOM(config);
+    dom.draggable = _editor._editable;
+    return dom;
+  }
+
   decorate(_editor, config) {
     const theme = config.theme.blocksmith || {};
     const classes = {
