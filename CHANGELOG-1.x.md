@@ -46,6 +46,7 @@
 * Add start channel button in liveStream video sidebar
 * raven :: Warning modal copy updates
 * Fix Transcoding error alert on Video pages to focus on mezzanine asset solely
+* Restore ability to click and edit linked assets from assets tab
 
 
 ## v1.2.2
