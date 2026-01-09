@@ -62,13 +62,13 @@ function AssetCard ({ node, batch, onSelectAsset }) {
             </CardImgOverlay>
           )}
         </Media>
-        <div className="position-absolute p-0 w-100 d-flex justify-content-end" style={{ top: 0 }}>
+        <div className="position-absolute p-0 d-flex justify-content-end" style={{ top: '10px', right: '10px' }}>
           {isHovering && (
             <a
               href={nodeUrl(node, 'edit')}
               target="_blank"
               rel="noopener noreferrer"
-              className="d-inline-block p-2 pb-1 text-white opacity-75"
+              className="d-inline-block text-white opacity-75"
               onClick={(e) => e.stopPropagation()}
             >
               <Icon imgSrc="pencil" alt="edit" size="md" />
