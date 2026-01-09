@@ -42,7 +42,7 @@ function AssetCard ({ node, batch, onSelectAsset }) {
         onMouseEnter={handleMouseEnter}
         onClick={handleClick}
         inverse
-        className={`mb-0 rounded-2 cursor-pointer overflow-hidden ${selected ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`p-1 mb-0 image-grid-card cursor-pointer overflow-hidden ${selected ? 'selected focus-ring-box-shadow' : ''}`}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
           style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
