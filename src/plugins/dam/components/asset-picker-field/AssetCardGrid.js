@@ -34,7 +34,7 @@ function AssetCard ({ node, batch, onSelectAsset }) {
   };
 
   return (
-    <Col key={key} id={key} xs={12} sm={6} md={4} lg={3}>
+    <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
       <Card
         onBlur={handleMouseLeave}
         onFocus={handleMouseEnter}
