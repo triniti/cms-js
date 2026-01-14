@@ -34,7 +34,7 @@ function AssetCard ({ node, batch, onSelectAsset }) {
   };
 
   return (
-    <Col key={key} id={key} xs={12} sm={6} md={4} lg={3}>
+    <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
       <Card
         onBlur={handleMouseLeave}
         onFocus={handleMouseEnter}
@@ -42,7 +42,7 @@ function AssetCard ({ node, batch, onSelectAsset }) {
         onMouseEnter={handleMouseEnter}
         onClick={handleClick}
         inverse
-        className={`mb-0 rounded-2 cursor-pointer overflow-hidden ${selected ? 'selected focus-ring-box-shadow' : ''}`}
+        className={`p-1 mb-0 image-grid-card cursor-pointer overflow-hidden ${selected ? 'selected focus-ring-box-shadow' : ''}`}
       >
         <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
           style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
@@ -62,13 +62,13 @@ function AssetCard ({ node, batch, onSelectAsset }) {
             </CardImgOverlay>
           )}
         </Media>
-        <div className="position-absolute p-0 w-100 d-flex justify-content-end" style={{ top: 0 }}>
+        <div className="position-absolute p-0 d-flex justify-content-end" style={{ top: '10px', right: '10px' }}>
           {isHovering && (
             <a
               href={nodeUrl(node, 'edit')}
               target="_blank"
               rel="noopener noreferrer"
-              className="d-inline-block p-2 pb-1 text-white opacity-75"
+              className="d-inline-block text-white opacity-75"
               onClick={(e) => e.stopPropagation()}
             >
               <Icon imgSrc="pencil" alt="edit" size="md" />
