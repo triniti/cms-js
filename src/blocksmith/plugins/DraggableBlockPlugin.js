@@ -167,12 +167,16 @@ const setMenuPosition = (targetElem, floatingElem, anchorElem) => {
   floatingElem.style.transform = `translate(${left}px, ${top}px)`;
 };
 
-const setDragImage = (dataTransfer, draggableBlockElem) => {
+const setDragImage = (dataTransfer, draggableBlockElem, event) => {
   const { transform } = draggableBlockElem.style;
 
   // Remove dragImage borders
   draggableBlockElem.style.transform = 'translateZ(0)';
-  dataTransfer.setDragImage(draggableBlockElem, 0, 0);
+  // Calculate position for dragImage
+  const { left: blockElemLeft, top: blockElemTop } = draggableBlockElem.getBoundingClientRect();
+  const xOffset = event.x - blockElemLeft;
+  const yOffset = event.y - blockElemTop;
+  dataTransfer.setDragImage(draggableBlockElem, xOffset, yOffset);
 
   setTimeout(() => {
     draggableBlockElem.style.transform = transform;
@@ -323,7 +327,7 @@ export default function DraggableBlockPlugin({ anchorElem, onDragStart = noop, o
 
     onDragStart();
 
-    setDragImage(dataTransfer, draggableBlockElem);
+    setDragImage(dataTransfer, draggableBlockElem, event);
     let nodeKey = '';
     editor.update(() => {
       const node = $getNearestNodeFromDOMNode(draggableBlockElem);
