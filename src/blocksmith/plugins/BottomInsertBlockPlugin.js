@@ -4,7 +4,7 @@ import { Icon } from '@triniti/cms/components/index.js';
 import { INSERT_BLOCK_COMMAND } from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-export default function PersistentInsertTextBlockPlugin () {
+export default function BottomInsertBlockPlugin () {
   const [editor] = useLexicalComposerContext();
 
   return (
