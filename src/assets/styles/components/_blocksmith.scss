@@ -192,7 +192,7 @@
 
 .insert-block-buttons {
   position: absolute;
-  width: calc(100% - 1rem);
+  width: 100%;
   height: 16px;
   border: none;
   box-shadow: none !important;
@@ -217,6 +217,19 @@
   .blocksmith-input > div:last-child & {
     padding-bottom: 18px;
     bottom: -40px;
+  }
+}
+
+.bottom-insert-block-button {
+  text-align: center;
+
+  > .btn {
+    color: $white;
+    box-shadow: $box-shadow;
+    font-weight: 700;
+    min-height: 25px;
+    height: 25px;
+    text-align: center;
   }
 }
 

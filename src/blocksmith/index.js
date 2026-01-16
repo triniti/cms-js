@@ -80,7 +80,7 @@ export default function Blocksmith(props) {
             ErrorBoundary={LexicalErrorBoundary}
           />
         </div>
-        <BottomInsertBlockPlugin />
+        {editMode && <BottomInsertBlockPlugin />}
       </Card>
     </LexicalComposer>
   );

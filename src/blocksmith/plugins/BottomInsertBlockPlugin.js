@@ -8,7 +8,7 @@ export default function BottomInsertBlockPlugin () {
   const [editor] = useLexicalComposerContext();
 
   return (
-    <div className="persistent-insert-text-button" style={{textAlign: 'center'}}>
+    <div className="bottom-insert-block-button">
       <Button color="primary" className="rounded-pill" size="sm" onClick={() => editor.dispatchCommand(INSERT_BLOCK_COMMAND, {})}>
         <Icon imgSrc="plus" alt="Insert Block" size="xs" className="me-1" />Text
       </Button>
