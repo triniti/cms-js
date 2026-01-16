@@ -49,6 +49,7 @@
 * Blocksmith :: add ability to drag preview blocks and drag blocks to the top of the editor
 * Restore ability to click and edit linked assets from assets tab
 * Align Asset Linking Module Styling with Gallery Image Upload Component
+* Blocksmith :: adjust drag image position when dragging blocks in the editor
 
 
 ## v1.2.2
