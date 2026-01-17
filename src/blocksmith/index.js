@@ -11,6 +11,7 @@ import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.j
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
 import FloatingTextFormatToolbarPlugin from '@triniti/cms/blocksmith/plugins/FloatingTextFormatToolbarPlugin.js';
 import InsertBlockPlugin from '@triniti/cms/blocksmith/plugins/InsertBlockPlugin.js';
+import BottomInsertBlockPlugin from '@triniti/cms/blocksmith/plugins/BottomInsertBlockPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
 import WordCountPlugin from '@triniti/cms/blocksmith/plugins/WordCountPlugin.js';
 import HoverInsertButtons from '@triniti/cms/blocksmith/components/hover-insert-buttons/index.js';
@@ -79,6 +80,7 @@ export default function Blocksmith(props) {
             ErrorBoundary={LexicalErrorBoundary}
           />
         </div>
+        {editMode && <BottomInsertBlockPlugin />}
       </Card>
     </LexicalComposer>
   );
