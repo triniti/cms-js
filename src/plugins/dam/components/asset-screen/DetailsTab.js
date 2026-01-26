@@ -57,6 +57,12 @@ export default function DetailsTab(props) {
                     <td className="w-100">{node.get('duration')} seconds</td>
                   </tr>
                 )}
+                {schema.hasMixin('triniti:dam:mixin:video-asset') && (
+                  <tr>
+                    <th className="nowrap ps-2" scope="row">Vertical:</th>
+                    <td className="w-100">{node.get('is_vertical') ? 'Yes' : 'No'}</td>
+                  </tr>
+                )}
                 {schema.hasMixin('triniti:dam:mixin:image-asset') && (
                   <tr>
                     <th className="nowrap ps-2" scope="row">Dimensions:</th>
