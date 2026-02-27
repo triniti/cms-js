@@ -98,9 +98,8 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
-            format={value => value?.trim()}
+            format={withDatedSlug ? parseDatedSlug : parseSlug}
             formatOnBlur
-            parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />
         </Form>

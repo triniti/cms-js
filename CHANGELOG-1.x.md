@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* ncr :: Slug rename modal - apply slug normalization on blur instead of on every keystroke to prevent cursor jumping when typing in the middle of the slug.
 * NCR MultiSelectField :: Preserve dropdown results after selection in input fields.
 * Screen :: Adding support for a component in tabs.
 * Move save button for all nodes into `SaveNodeButton` component.
