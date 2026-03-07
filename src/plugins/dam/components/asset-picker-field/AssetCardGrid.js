@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Card, CardImgOverlay, CardTitle, Col, Container, Media, Row } from 'reactstrap';
+import { Card, CardImgOverlay, CardTitle, Container, Media, Row } from 'reactstrap';
 import { BackgroundImage, Icon } from '@triniti/cms/components/index.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
 import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
-function AssetCard ({ node, batch, onSelectAsset }) {
+function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
   const [isHovering, setIsHovering] = useState(false);
-
   const id = node.get('_id');
   const key = `asset-${id.toString()}`;
   let previewUrl = null;
@@ -34,7 +33,7 @@ function AssetCard ({ node, batch, onSelectAsset }) {
   };
 
   return (
-    <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
+    <div key={key} id={key} style={{ width: `calc(100% / ${imagesPerRow ?? 3})` }}>
       <Card
         onBlur={handleMouseLeave}
         onFocus={handleMouseEnter}
@@ -76,13 +75,13 @@ function AssetCard ({ node, batch, onSelectAsset }) {
           )}
         </div>
       </Card>
-    </Col>
+    </div>
   );
 }
 
 export default function AssetCardGrid (props) {
-  const { nodes, batch, onSelectAsset } = props;
-
+  const { nodes, batch, onSelectAsset, imagesPerRow } = props;
+  
   return (
     <Container fluid className="gallery-grid-container h-100">
       <Row className="m-0 g-2">
@@ -92,6 +91,7 @@ export default function AssetCardGrid (props) {
             node={node}
             batch={batch}
             onSelectAsset={onSelectAsset}
+            imagesPerRow={imagesPerRow}
           />
         ))}
       </Row>
