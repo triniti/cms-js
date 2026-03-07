@@ -53,7 +53,7 @@
 * Blocksmith :: adjust drag image position when dragging blocks in the editor
 * asset linker modal should default to image assets only
 * Display `is_vertical` field on video asset details tab and video mezzanine card.
-
+* Improve Linking Assets UX: Match image size between modal and asset linker
 
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
