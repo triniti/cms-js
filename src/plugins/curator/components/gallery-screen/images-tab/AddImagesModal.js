@@ -141,7 +141,7 @@ function AddImagesModal(props) {
                             <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark">
                               <BackgroundImage imgSrc={previewUrl} alt="" />
                             </Media>
-                            {title  && (
+                            {title && (
                               <CardImgOverlay>
                                 <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
                               </CardImgOverlay>

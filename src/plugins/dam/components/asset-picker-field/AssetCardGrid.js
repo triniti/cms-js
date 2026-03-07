@@ -46,7 +46,7 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
         <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
           style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
           {previewUrl ? (
-            <BackgroundImage imgSrc={previewUrl} alt="" />
+            <BackgroundImage imgSrc={previewUrl} alt="" size="contain" />
           ) : (
             <div className="d-flex align-items-center justify-content-center w-100 h-100">
               <AssetIcon id={id} />
