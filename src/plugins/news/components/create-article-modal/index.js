@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
@@ -18,7 +18,7 @@ const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
 const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
 
 const slugValidator = (value) => {
-  if (isValidDatedSlug(value)) {
+  if (!value || isValidDatedSlug(value)) {
     return undefined;
   }
   return 'Expected format YYYY/MM/DD/some-title-here';
@@ -65,8 +65,12 @@ function CreateArticleModal(props) {
   };
 
   const handleBlur = (e) => {
-    if (e.target.value) {
-      form.change('slug', addDateToSlug(parseSlug(e.target.value)));
+    const trimmedValue = e.target.value?.trim();
+    if (trimmedValue !== e.target.value) {
+      form.change('title', trimmedValue);
+    }
+    if (trimmedValue) {
+      form.change('slug', addDateToSlug(parseSlug(trimmedValue)));
     }
   };
 
