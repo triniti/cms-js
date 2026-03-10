@@ -44,9 +44,10 @@ function LinkedAssetsCard(props) {
   const canLink = policy.isGranted('triniti:dam:command:link-assets');
   const canUnlink = policy.isGranted('triniti:dam:command:unlink-assets');
   const batch = useBatch(response);
+  const DEFAULT_IMAGES_PER_ROW = 7;
   const MAX_IMAGES_PER_ROW = 12;
   const MIN_IMAGES_PER_ROW = 1;
-  const [ imagesPerRow, setImagesPerRow ] = useState(7);
+  const [ imagesPerRow, setImagesPerRow ] = useState(DEFAULT_IMAGES_PER_ROW);
 
   const handleUnlinkAssets = async () => {
     if (!await okayToUnlink()) {
@@ -80,7 +81,7 @@ function LinkedAssetsCard(props) {
   };
 
   const handleDecreaseImagesPerRow = () => {
-    if (imagesPerRow >= MIN_IMAGES_PER_ROW) {
+    if (imagesPerRow > MIN_IMAGES_PER_ROW) {
       setImagesPerRow(imagesPerRow - 1);
     }
   };
@@ -102,7 +103,7 @@ function LinkedAssetsCard(props) {
           <ResizeGallerySlider 
             imagesPerRow={imagesPerRow}
             maxImagesPerRow={MAX_IMAGES_PER_ROW}
-            minIMagesPerRpw={MIN_IMAGES_PER_ROW}
+            minImagesPerRow={MIN_IMAGES_PER_ROW}
             onIncreaseImagesPerRow={handleIncreaseImagesPerRow}
             onDecreaseImagesPerRow={handleDecreaseImagesPerRow}
             onSlideImagesPerRow={handleSlideImagesPerRow}
