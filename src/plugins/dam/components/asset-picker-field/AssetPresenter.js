@@ -13,7 +13,7 @@ export default function AssetPresenter({ displayView, nodes = [], type, batch, .
     Component = ImageGrid;
   } else {
     // Use linked-assets-card AssetTable when batch is provided, otherwise use picker AssetTable
-    Component = batch ? AssetCardGrid : AssetTablePicker;
+    Component = batch ? AssetTableLinked : AssetTablePicker;
   }
 
   return <Component nodes={nodes} batch={batch} {...props} />;

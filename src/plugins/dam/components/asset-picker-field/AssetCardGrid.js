@@ -33,7 +33,7 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
   };
 
   return (
-    <div key={key} id={key} style={{ width: `calc(100% / ${imagesPerRow ?? 3})` }}>
+    <div key={key} id={key} style={{ width: `calc(100% / ${imagesPerRow ?? 6})` }}>
       <Card
         onBlur={handleMouseLeave}
         onFocus={handleMouseEnter}
