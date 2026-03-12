@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardImgOverlay, CardTitle, Container, Media, Row } from 'reactstrap';
+import { Card, CardImgOverlay, CardTitle, Col, Container, Media, Row } from 'reactstrap';
 import { BackgroundImage, Icon } from '@triniti/cms/components/index.js';
 import AssetIcon from '@triniti/cms/plugins/dam/components/asset-icon/index.js';
 import damUrl from '@triniti/cms/plugins/dam/damUrl.js';
@@ -32,8 +32,13 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
     }
   };
 
+  const Component = imagesPerRow ? "div" : Col;
+  const layout = imagesPerRow
+    ? { style: { width: `calc(100% / ${imagesPerRow})` } }
+    : { xs:12, sm: 6, md: 4, lg: 3, xl: "2p" }
+
   return (
-    <div key={key} id={key} style={{ width: `calc(100% / ${imagesPerRow ?? 6})` }}>
+    <Component key={key} id={key} {...layout}>
       <Card
         onBlur={handleMouseLeave}
         onFocus={handleMouseEnter}
@@ -55,12 +60,12 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
           {(isHovering || selected) && (
             <div className="position-absolute w-100 h-100 bg-opacity-50 bg-black" />
           )}
-          {title && (
-            <CardImgOverlay>
-              <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
-            </CardImgOverlay>
-          )}
         </Media>
+        {title && (
+          <CardImgOverlay>
+            <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
+          </CardImgOverlay>
+        )}
         <div className="position-absolute p-0 d-flex justify-content-end" style={{ top: '10px', right: '10px' }}>
           {isHovering && (
             <a
@@ -75,13 +80,13 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
           )}
         </div>
       </Card>
-    </div>
+    </Component>
   );
 }
 
 export default function AssetCardGrid (props) {
   const { nodes, batch, onSelectAsset, imagesPerRow } = props;
-  
+
   return (
     <Container fluid className="gallery-grid-container h-100">
       <Row className="m-0 g-2">
