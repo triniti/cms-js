@@ -131,7 +131,7 @@ function AddImagesModal(props) {
                       const previewUrl = damUrl(id, '1by1', 'sm');
                       const title = node.get('title');
                       return (
-                        <Col key={key} id={key} xs={12} sm={6} md={4}>
+                        <Col key={key} id={key} xs={12} sm={6} md={4} xl='2p'>
                           <Card
                             inverse
                             tag="button"
