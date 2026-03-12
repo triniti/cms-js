@@ -28,22 +28,11 @@ const datedSlugValidator = (value) => {
   return 'Expected format YYYY/MM/DD/some-title-here';
 }
 
-const parseSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
-    ending = value[value.length - 1];
-  }
-  const slug = createSlug(value.toLowerCase());
-  return slug ? slug + ending : value;
-};
-
-const parseDatedSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
-    ending = value[value.length - 1];
-  }
-  const slug = createSlug(value.toLowerCase(), true);
-  return slug ? slug + ending : value;
+/** Normalizes input to a valid slug with no trailing space/dash/slash so validation passes. */
+const formatSlug = (value, dated) => {
+  const trimmed = (value ?? '').trim().toLowerCase();
+  const slug = createSlug(trimmed, dated);
+  return slug ?? trimmed;
 };
 
 function RenameForm(props) {
@@ -98,7 +87,7 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
-            format={value => (withDatedSlug ? parseDatedSlug : parseSlug)(value?.trim() ?? '')}
+            format={value => formatSlug(value ?? '', withDatedSlug)}
             formatOnBlur
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />

@@ -24,13 +24,12 @@ const slugValidator = (value) => {
   return 'Expected format YYYY/MM/DD/some-title-here';
 };
 
-const parseSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
-    ending = value[value.length - 1];
-  }
-  const slug = createSlug(value.toLowerCase(), true);
-  return slug ? slug + ending : value;
+/** Normalizes to a valid dated slug with no trailing space/dash/slash so validation passes. */
+const formatDatedSlug = (value) => {
+  const trimmed = (value ?? '').trim().toLowerCase();
+  const slug = createSlug(trimmed, true);
+  const dated = slug ? addDateToSlug(slug).toLowerCase() : '';
+  return dated || trimmed;
 };
 
 function CreateArticleModal(props) {
@@ -64,9 +63,13 @@ function CreateArticleModal(props) {
     }
   };
 
-  const handleBlur = (e) => {
-    if (e.target.value) {
-      form.change('slug', addDateToSlug(parseSlug(e.target.value)));
+  const handleTitleBlur = (e) => {
+    const titleValue = (e.target.value ?? '').trim();
+    if (!titleValue) return;
+    const currentSlug = form.getState().values.slug;
+    const hasSlug = typeof currentSlug === 'string' && currentSlug.trim().length > 0;
+    if (!hasSlug) {
+      form.change('slug', formatDatedSlug(titleValue));
     }
   };
 
@@ -82,13 +85,12 @@ function CreateArticleModal(props) {
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <SeoTitleField onBlur={handleBlur} onKeyDown={handleKeyDown} />
-          <TextField 
-            name="slug" 
+          <SeoTitleField onBlur={handleTitleBlur} onKeyDown={handleKeyDown} />
+          <TextField
+            name="slug"
             label="Slug"
-            format={value => value?.trim()}
+            format={formatDatedSlug}
             formatOnBlur
-            parse={parseSlug}
             validator={slugValidator}
             onKeyDown={handleKeyDown}
           />
