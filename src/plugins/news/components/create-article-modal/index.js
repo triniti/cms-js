@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
@@ -65,6 +65,9 @@ function CreateArticleModal(props) {
 
   const handleTitleBlur = (e) => {
     const titleValue = (e.target.value ?? '').trim();
+    if (titleValue !== (e.target.value ?? '')) {
+      form.change('title', titleValue);
+    }
     if (!titleValue) return;
     const currentSlug = form.getState().values.slug;
     const hasSlug = typeof currentSlug === 'string' && currentSlug.trim().length > 0;
