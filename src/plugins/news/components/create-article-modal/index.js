@@ -26,10 +26,8 @@ function CreateArticleModal(props) {
       await progressIndicator.show('Creating Article...');
       const rawSlug = (values.slug ?? '').trim();
       const rawTitle = (values.title ?? '').trim();
-      if (rawSlug && isValidDatedSlug(rawSlug)) {
-        values.slug = rawSlug.toLowerCase();
-      } else if (rawSlug && !isValidDatedSlug(rawSlug)) {
-        values.slug = formatDatedSlug(rawSlug);
+      if (rawSlug) {
+        values.slug = isValidDatedSlug(rawSlug) ? rawSlug : formatDatedSlug(rawSlug);
       } else {
         values.slug = formatDatedSlug(rawTitle);
       }
@@ -47,14 +45,13 @@ function CreateArticleModal(props) {
   };
 
   const handleTitleBlur = (e) => {
-    const titleValue = (e.target.value ?? '').trim();
-    if (titleValue !== (e.target.value ?? '')) {
+    const titleValue = e.target.value.trim();
+    if (titleValue !== e.target.value) {
       form.change('title', titleValue);
     }
     if (!titleValue) return;
     const currentSlug = form.getState().values.slug;
-    const hasSlug = typeof currentSlug === 'string' && currentSlug.trim().length > 0;
-    if (!hasSlug) {
+    if (!currentSlug?.trim()) {
       form.change('slug', formatDatedSlug(titleValue));
     }
   };

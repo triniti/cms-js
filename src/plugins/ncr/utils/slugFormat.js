@@ -16,7 +16,6 @@
  *   submit leading/trailing spaces.
  */
 
-import trimStart from 'lodash-es/trimStart.js';
 import { addDateToSlug, createSlug, isValidSlug } from '@gdbots/pbj/utils/index.js';
 
 export const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
@@ -25,15 +24,12 @@ export const slugValidator = (value) => {
   return isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
 };
 
-export const datedSlugValidator = (value) => {
-  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
-    return undefined;
-  }
-  return 'Expected format YYYY/MM/DD/some-title-here';
-};
-
 export const isValidDatedSlug = (value) =>
-  isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
+  isValidSlug(value, true) && DATED_SLUG_PATTERN.test(value.trimStart());
+
+export const datedSlugValidator = (value) => {
+  return isValidDatedSlug(value) ? undefined : 'Expected format YYYY/MM/DD/some-title-here';
+};
 
 /** Normalizes to a valid slug with no trailing space/dash/slash. Use as format (with formatOnBlur), not parse. */
 export function formatSlug(value, dated = false) {
@@ -49,4 +45,3 @@ export function formatDatedSlug(value) {
   const dated = slug ? addDateToSlug(slug).toLowerCase() : '';
   return dated || trimmed;
 }
-
