@@ -3,34 +3,15 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { addDateToSlug, createSlug, isValidSlug } from '@gdbots/pbj/utils/index.js';
+import { addDateToSlug, createSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
+import { datedSlugValidator, formatDatedSlug, isValidDatedSlug } from '@triniti/cms/plugins/ncr/utils/slugFormat.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import trimStart from 'lodash-es/trimStart.js';
-
-// more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
-const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
-const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
-
-const slugValidator = (value) => {
-  if (isValidDatedSlug(value)) {
-    return undefined;
-  }
-  return 'Expected format YYYY/MM/DD/some-title-here';
-};
-
-/** Normalizes to a valid dated slug with no trailing space/dash/slash so validation passes. */
-const formatDatedSlug = (value) => {
-  const trimmed = (value ?? '').trim().toLowerCase();
-  const slug = createSlug(trimmed, true);
-  const dated = slug ? addDateToSlug(slug).toLowerCase() : '';
-  return dated || trimmed;
-};
 
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
@@ -44,13 +25,16 @@ function CreateArticleModal(props) {
   delegate.handleSubmit = async (values) => {
     try {
       await progressIndicator.show('Creating Article...');
-      if (values.slug && isValidDatedSlug(values.slug)) {
-        values.slug = values.slug.toLowerCase();
-      } else if (values.slug && !isValidDatedSlug(values.slug)) {
-        values.slug = addDateToSlug(values.slug).toLowerCase();
+      const rawSlug = (values.slug ?? '').trim();
+      const rawTitle = (values.title ?? '').trim();
+      if (rawSlug && isValidDatedSlug(rawSlug)) {
+        values.slug = rawSlug.toLowerCase();
+      } else if (rawSlug && !isValidDatedSlug(rawSlug)) {
+        values.slug = addDateToSlug(createSlug(rawSlug, true)).toLowerCase();
       } else {
-        values.slug = addDateToSlug(createSlug(values.title)).toLowerCase();
+        values.slug = addDateToSlug(createSlug(rawTitle)).toLowerCase();
       }
+      if (rawTitle) values.title = rawTitle;
       await dispatch(createNode(values, form, pbj));
 
       props.toggle();
@@ -94,7 +78,7 @@ function CreateArticleModal(props) {
             label="Slug"
             format={formatDatedSlug}
             formatOnBlur
-            validator={slugValidator}
+            validator={datedSlugValidator}
             onKeyDown={handleKeyDown}
           />
         </Form>

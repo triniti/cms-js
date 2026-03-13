@@ -3,37 +3,13 @@ import { useDispatch } from 'react-redux';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import startCase from 'lodash-es/startCase.js';
-import trimStart from 'lodash-es/trimStart.js';
-import createSlug from '@gdbots/pbj/utils/createSlug.js';
-import isValidSlug from '@gdbots/pbj/utils/isValidSlug.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
 import renameNode from '@triniti/cms/plugins/ncr/actions/renameNode.js';
+import { datedSlugValidator, formatSlug, slugValidator } from '@triniti/cms/plugins/ncr/utils/slugFormat.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-
-
-// more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
-const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
-
-const slugValidator = (value) => {
-  return isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
-};
-
-const datedSlugValidator = (value) => {
-  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
-    return undefined;
-  }
-  return 'Expected format YYYY/MM/DD/some-title-here';
-}
-
-/** Normalizes input to a valid slug with no trailing space/dash/slash so validation passes. */
-const formatSlug = (value, dated) => {
-  const trimmed = (value ?? '').trim().toLowerCase();
-  const slug = createSlug(trimmed, dated);
-  return slug ?? trimmed;
-};
 
 function RenameForm(props) {
   const dispatch = useDispatch();
@@ -59,7 +35,7 @@ function RenameForm(props) {
       await progressIndicator.show(`Renaming ${label}...`);
 
       const oldSlug = pbj.get('slug');
-      const newSlug = createSlug(values.slug || '', withDatedSlug).toLowerCase();
+      const newSlug = formatSlug(values.slug ?? '', withDatedSlug).toLowerCase();
 
       if (oldSlug !== newSlug) {
         await dispatch(renameNode(nodeRef, oldSlug, newSlug));
