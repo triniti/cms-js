@@ -50,4 +50,3 @@ export function formatDatedSlug(value) {
   return dated || trimmed;
 }
 
-export { createSlug, addDateToSlug };

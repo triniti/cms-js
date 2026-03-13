@@ -35,7 +35,7 @@ function RenameForm(props) {
       await progressIndicator.show(`Renaming ${label}...`);
 
       const oldSlug = pbj.get('slug');
-      const newSlug = formatSlug(values.slug ?? '', withDatedSlug).toLowerCase();
+      const newSlug = formatSlug(values.slug, withDatedSlug);
 
       if (oldSlug !== newSlug) {
         await dispatch(renameNode(nodeRef, oldSlug, newSlug));
@@ -63,7 +63,7 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
-            format={value => formatSlug(value ?? '', withDatedSlug)}
+            format={value => formatSlug(value, withDatedSlug)}
             formatOnBlur
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />

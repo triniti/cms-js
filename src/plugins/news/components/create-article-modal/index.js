@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { addDateToSlug, createSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
@@ -30,9 +29,9 @@ function CreateArticleModal(props) {
       if (rawSlug && isValidDatedSlug(rawSlug)) {
         values.slug = rawSlug.toLowerCase();
       } else if (rawSlug && !isValidDatedSlug(rawSlug)) {
-        values.slug = addDateToSlug(createSlug(rawSlug, true)).toLowerCase();
+        values.slug = formatDatedSlug(rawSlug);
       } else {
-        values.slug = addDateToSlug(createSlug(rawTitle)).toLowerCase();
+        values.slug = formatDatedSlug(rawTitle);
       }
       if (rawTitle) values.title = rawTitle;
       await dispatch(createNode(values, form, pbj));
