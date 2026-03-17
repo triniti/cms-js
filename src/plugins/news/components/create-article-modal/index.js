@@ -21,7 +21,8 @@ const slugValidator = (value) => {
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const lastAutoFilledSlug = useRef('');
+  // true once the user has typed directly in the slug field; false when we auto-fill it.
+  const slugUserEdited = useRef(false);
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -30,12 +31,11 @@ function CreateArticleModal(props) {
   delegate.handleCreate = form.submit;
   delegate.handleSubmit = async (values) => {
     try {
-      await progressIndicator.show('Creating Article...');
+      progressIndicator.show('Creating Article...');
       const rawSlug = (values.slug ?? '').trim();
       const rawTitle = (values.title ?? '').trim();
-      if (!rawSlug || rawSlug === lastAutoFilledSlug.current) {
-        // Empty or auto-filled from a possibly stale title (e.g. user pressed Enter
-        // without blurring after changing the title) — always regenerate from current title.
+      if (!rawSlug || !slugUserEdited.current) {
+        // Slug is empty or was auto-filled — always generate fresh from the current title.
         values.slug = formatDatedSlug(rawTitle);
       } else {
         values.slug = isValidDatedSlug(rawSlug) ? rawSlug : formatDatedSlug(rawSlug);
@@ -60,16 +60,22 @@ function CreateArticleModal(props) {
     }
     if (!titleValue) return;
     const currentSlug = form.getState().values.slug?.trim() ?? '';
-    if (!currentSlug || currentSlug === lastAutoFilledSlug.current) {
-      const newSlug = formatDatedSlug(titleValue);
-      lastAutoFilledSlug.current = newSlug;
-      form.change('slug', newSlug);
+    if (!currentSlug || !slugUserEdited.current) {
+      slugUserEdited.current = false;
+      form.change('slug', formatDatedSlug(titleValue));
     }
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && valid) {
-      setTimeout(form.submit);
+      e.preventDefault();
+      const { values } = form.getState();
+      const currentSlug = values.slug?.trim() ?? '';
+      if (!currentSlug || !slugUserEdited.current) {
+        slugUserEdited.current = false;
+        form.change('slug', formatDatedSlug((values.title ?? '').trim()));
+      }
+      form.submit();
     }
   };
 
@@ -86,6 +92,7 @@ function CreateArticleModal(props) {
             format={formatDatedSlug}
             formatOnBlur
             validator={slugValidator}
+            onInput={() => { slugUserEdited.current = true; }}
             onKeyDown={handleKeyDown}
           />
         </Form>
