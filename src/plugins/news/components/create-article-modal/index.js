@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
@@ -12,9 +12,16 @@ import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 
+// Slug is optional on create — if left empty it's generated from the title on submit.
+const slugValidator = (value) => {
+  if (!value?.trim()) return undefined;
+  return datedSlugValidator(value);
+};
+
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const lastAutoFilledSlug = useRef('');
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -50,9 +57,11 @@ function CreateArticleModal(props) {
       form.change('title', titleValue);
     }
     if (!titleValue) return;
-    const currentSlug = form.getState().values.slug;
-    if (!currentSlug?.trim()) {
-      form.change('slug', formatDatedSlug(titleValue));
+    const currentSlug = form.getState().values.slug?.trim() ?? '';
+    if (!currentSlug || currentSlug === lastAutoFilledSlug.current) {
+      const newSlug = formatDatedSlug(titleValue);
+      lastAutoFilledSlug.current = newSlug;
+      form.change('slug', newSlug);
     }
   };
 
@@ -74,7 +83,7 @@ function CreateArticleModal(props) {
             label="Slug"
             format={formatDatedSlug}
             formatOnBlur
-            validator={datedSlugValidator}
+            validator={slugValidator}
             onKeyDown={handleKeyDown}
           />
         </Form>
