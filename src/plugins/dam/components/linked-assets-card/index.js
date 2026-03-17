@@ -75,7 +75,7 @@ function LinkedAssetsCard(props) {
   };
   
   const handleIncreaseImagesPerRow = () => {
-    if (imagesPerRow <= MAX_IMAGES_PER_ROW) {
+    if (imagesPerRow < MAX_IMAGES_PER_ROW) {
       setImagesPerRow(imagesPerRow + 1);
     }
   };
