@@ -32,10 +32,10 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
     }
   };
 
-  const Component = imagesPerRow ? "div" : Col;
+  const Component = imagesPerRow ? 'div' : Col;
   const layout = imagesPerRow
     ? { style: { width: `calc(100% / ${imagesPerRow})` } }
-    : { xs:12, sm: 6, md: 4, lg: 3, xl: "2p" }
+    : { xs: 12, sm: 6, md: 4, lg: 3, xl: '2p' };
 
   return (
     <Component key={key} id={key} {...layout}>
@@ -48,10 +48,12 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
         inverse
         className={`p-1 mb-0 image-grid-card cursor-pointer overflow-hidden ${selected ? 'selected focus-ring-box-shadow' : ''}`}
       >
-        <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
-          style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
+        <Media
+          className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
+          style={{ '--bs-border-color': 'var(--bs-body-bg)' }}
+        >
           {previewUrl ? (
-            <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat"/>
+            <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
           ) : (
             <div className="d-flex align-items-center justify-content-center w-100 h-100">
               <AssetIcon id={id} />
