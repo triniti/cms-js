@@ -33,20 +33,22 @@ function CreateArticleModal(props) {
       await progressIndicator.show('Creating Article...');
       const rawSlug = (values.slug ?? '').trim();
       const rawTitle = (values.title ?? '').trim();
-      if (rawSlug) {
-        values.slug = isValidDatedSlug(rawSlug) ? rawSlug : formatDatedSlug(rawSlug);
-      } else {
+      if (!rawSlug || rawSlug === lastAutoFilledSlug.current) {
+        // Empty or auto-filled from a possibly stale title (e.g. user pressed Enter
+        // without blurring after changing the title) — always regenerate from current title.
         values.slug = formatDatedSlug(rawTitle);
+      } else {
+        values.slug = isValidDatedSlug(rawSlug) ? rawSlug : formatDatedSlug(rawSlug);
       }
       if (rawTitle) values.title = rawTitle;
       await dispatch(createNode(values, form, pbj));
 
       props.toggle();
-      await progressIndicator.close();
-      await navigate(nodeUrl(pbj, 'edit'));
+      progressIndicator.close();
+      navigate(nodeUrl(pbj, 'edit'));
       toast({ title: 'Article created.' });
     } catch (e) {
-      await progressIndicator.close();
+      progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
     }
   };

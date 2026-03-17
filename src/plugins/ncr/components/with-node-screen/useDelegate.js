@@ -259,7 +259,7 @@ export default (props) => {
         return { [FORM_ERROR]: message };
       }
     };
-    
+
     await form.submit();
   };
 
