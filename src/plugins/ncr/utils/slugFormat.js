@@ -7,7 +7,7 @@
  *   could keep typing. It caused validation errors and manual cleanup. Now we
  *   always store a clean slug.
  * - One format, no parse. Use formatSlug/formatDatedSlug with formatOnBlur.
- *   Don’t add a parse that puts trailing characters back.
+ *   parse runs on every keystroke, stripping trailing dashes mid-word.
  * - Normalize on submit. Even if the user never blurs, trim and format before
  *   saving so we never persist whitespace or trailing chars.
  * - Create Article: Only fill slug from title when the slug field is empty.
