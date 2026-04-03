@@ -11,11 +11,11 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
   const key = `asset-${id.toString()}`;
   let previewUrl = null;
   if (node.has('image_ref')) {
-    previewUrl = damUrl(node.get('image_ref'), '1by1', 'sm');
+    previewUrl = damUrl(node.get('image_ref'), 'o', 'sm');
   } else {
     const mimeType = `${node.get('mime_type', '')}`;
     if (mimeType.startsWith('image/')) {
-      previewUrl = damUrl(node.get('_id'), '1by1', 'sm');
+      previewUrl = damUrl(node.get('_id'), 'o', 'sm');
     }
   }
   const selected = batch?.has?.(node);
@@ -49,7 +49,7 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
         className={`p-1 mb-0 image-grid-card cursor-pointer overflow-hidden ${selected ? 'selected focus-ring-box-shadow' : ''}`}
       >
         <Media
-          className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
+          className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-light"
           style={{ '--bs-border-color': 'var(--bs-body-bg)' }}
         >
           {previewUrl ? (
