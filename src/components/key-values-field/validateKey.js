@@ -1,4 +1,4 @@
-import { AllowMutantKeys } from './AllowMutantKeys.js';
+import AllowedMutantKeys from './AllowedMutantKeys.js';
 
 export const VALID_KEY_PATTERN = /^[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,126}$/;
 
@@ -7,7 +7,7 @@ export default (value, allValues, pbjName) => {
     return 'Required';
   }
 
-  const isMutantKeysAllowed = AllowMutantKeys(allValues);
+  const isMutantKeysAllowed = AllowedMutantKeys(allValues);
   if (!isMutantKeysAllowed[pbjName] && !VALID_KEY_PATTERN.test(value)) {
     return 'Only use letters, numbers and underscores.';
   }
