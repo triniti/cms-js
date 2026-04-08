@@ -287,9 +287,9 @@ h3.card-title {
     border-radius: $border-radius $border-radius 0 0;
   }
   .resize-gallery-slider {
-    position: absolute;
+    position: absolute;  
     left: 45%;
-    margin-left: -7.5rem;
+    transform: translateX(-50%);
   }
 }
 
