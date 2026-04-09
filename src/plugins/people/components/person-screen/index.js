@@ -108,7 +108,7 @@ function PersonScreen(props) {
             <DetailsTab {...props} />
           </TabPane>
           <TabPane tabId="seo">
-            <SeoTab {...props} showAlternateUrls />
+            <SeoTab {...props} />
           </TabPane>
           <TabPane tabId="history">
             <HistoryTab {...props} />

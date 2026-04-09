@@ -13,8 +13,12 @@ const seoAlternateUrlValidator = (value) => {
     return 'Required';
   }
 
-  if (!normalized.startsWith('https://')) {
-    return 'Must start with https://.';
+  try {
+    if (new URL(normalized).protocol !== 'https:') {
+      return 'Must use https://.';
+    }
+  } catch {
+    return 'Must be a valid URL.';
   }
 
   return undefined;
@@ -40,9 +44,10 @@ function DescriptionWarning(props) {
 }
 
 export default function SeoTab(props) {
-  const { node, showAlternateUrls = false } = props;
+  const { node } = props;
   const schema = node.schema();
-  const showSeoAlternateUrls = showAlternateUrls && schema.hasField('seo_alternate_urls');
+  const showSeoAlternateUrls = schema.hasMixin('triniti:people:mixin:person')
+    && schema.hasField('seo_alternate_urls');
 
   return (
     <Card>
@@ -65,7 +70,6 @@ export default function SeoTab(props) {
               label="Alternate URLs"
               component={UrlField}
               parse={normalizeSeoAlternateUrl}
-              format={normalizeSeoAlternateUrl}
               validator={seoAlternateUrlValidator}
             />
             <FormText color="dark" className="mt-n2 mb-3">
