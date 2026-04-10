@@ -192,6 +192,10 @@ h3.card-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    &.card-title--no-text-wrap {
+      white-space: normal;
+    }
   }
 }
 
@@ -288,7 +292,7 @@ h3.card-title {
   }
   .resize-gallery-slider {
     position: absolute;  
-    left: 45%;
+    left: 50%;
     transform: translateX(-50%);
   }
 }

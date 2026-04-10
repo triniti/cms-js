@@ -35,7 +35,7 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
   const Component = imagesPerRow ? 'div' : Col;
   const layout = imagesPerRow
     ? { style: { width: `calc(100% / ${imagesPerRow})` } }
-    : { xs: 12, sm: 6, md: 4, lg: 3, xl: '2p' };
+    : { xs: 12, sm: 6, md: 4, lg: 3, xl: 2 };
 
   return (
     <Component key={key} id={key} {...layout}>
@@ -65,7 +65,7 @@ function AssetCard ({ node, batch, imagesPerRow, onSelectAsset }) {
         </Media>
         {title && (
           <CardImgOverlay>
-            <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
+            <CardTitle tag="h3" className={`${isHovering ? 'card-title--no-text-wrap ' : ''}h5 mb-0 text-start`}>{title}</CardTitle>
           </CardImgOverlay>
         )}
         <div className="position-absolute p-0 d-flex justify-content-end" style={{ top: '10px', right: '10px' }}>

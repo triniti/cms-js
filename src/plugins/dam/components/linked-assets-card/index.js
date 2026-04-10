@@ -36,7 +36,7 @@ const okayToUnlink = async () => {
 };
 
 function LinkedAssetsCard(props) {
-  const { linkedRef, request } = props;
+  const { displayView, linkedRef, request } = props;
   request.set('linked_ref', NodeRef.fromString(`${linkedRef}`));
   const { response, pbjxError, isRunning, run } = useRequest(request);
   const dispatch = useDispatch();
@@ -44,6 +44,7 @@ function LinkedAssetsCard(props) {
   const canLink = policy.isGranted('triniti:dam:command:link-assets');
   const canUnlink = policy.isGranted('triniti:dam:command:unlink-assets');
   const batch = useBatch(response);
+  const isAssetCardLayout = displayView === 'asset-card-grid';
   const DEFAULT_IMAGES_PER_ROW = 7;
   const MAX_IMAGES_PER_ROW = 12;
   const MIN_IMAGES_PER_ROW = 1;
@@ -100,14 +101,14 @@ function LinkedAssetsCard(props) {
           <span style={{position: 'relative'}}>
             Linked Assets {isRunning && <Spinner style={{position: 'absolute', top: '5px'}} />}
           </span>
-          <ResizeGallerySlider 
+          {isAssetCardLayout && <ResizeGallerySlider 
             imagesPerRow={imagesPerRow}
             maxImagesPerRow={MAX_IMAGES_PER_ROW}
             minImagesPerRow={MIN_IMAGES_PER_ROW}
             onIncreaseImagesPerRow={handleIncreaseImagesPerRow}
             onDecreaseImagesPerRow={handleDecreaseImagesPerRow}
             onSlideImagesPerRow={handleSlideImagesPerRow}
-          />
+          />}
           <span>
             {canUnlink && batch.size > 0 && (
               <ActionButton
@@ -127,7 +128,7 @@ function LinkedAssetsCard(props) {
                 modalProps={{
                   linkedRef,
                   onClose: handleLinkedAssets,
-                  displayView: props.displayView,
+                  displayView,
                 }}
               />
             )}
@@ -147,7 +148,7 @@ function LinkedAssetsCard(props) {
 
           {response && hasNodes && (
             <div className="p-2">
-              <AssetPresenter displayView={props.displayView} nodes={nodes} batch={batch} imagesPerRow={imagesPerRow} />
+              <AssetPresenter displayView={displayView} nodes={nodes} batch={batch} imagesPerRow={imagesPerRow} />
             </div>
           )}
         </CardBody>
