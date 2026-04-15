@@ -13,7 +13,7 @@ export default function EmailAppFields() {
         <EncryptedField name="sendgrid_api_key" label="API Key" />
         <NumberField name="sendgrid_suppression_group_id" label="Suppression Group ID" />
         <KeyValuesField name="sendgrid_senders" label="Senders" component={NumberField} relaxValidation />
-        <KeyValuesField name="sendgrid_lists" label="Lists" component={NumberField} relaxValidation />
+        <KeyValuesField name="sendgrid_lists" label="Lists" component={NumberField} />
       </CardBody>
     </Card>
   );

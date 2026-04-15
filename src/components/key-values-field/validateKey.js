@@ -1,6 +1,6 @@
 export const VALID_KEY_PATTERN = /^[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,126}$/;
 
-export default (value, keyValues, relaxValidation = false) => {
+export default (value, fieldValues, relaxValidation = false) => {
   if (value === undefined || value === null || !`${value}`.length) {
     return 'Required';
   }
@@ -9,7 +9,7 @@ export default (value, keyValues, relaxValidation = false) => {
     return 'Only use letters, numbers and underscores.';
   }
 
-  const used = (keyValues || []).map(o => o && o.key).filter(v => v === value);
+  const used = (fieldValues || []).map(o => o && o.key).filter(v => v === value);
   if (used.length > 1) {
     return 'Duplicate Key';
   }
