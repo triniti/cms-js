@@ -16,12 +16,13 @@ export default function SelectKeyField(props) {
     options = [],
     ignoreUnknownOptions = false,
     readOnly = false,
+    relaxValidation,
     ...rest
   } = props;
   const formContext = useFormContext();
   const { editMode } = formContext;
   const { input, meta } = useField(name, {
-    validate: (value, allValues) => validateKey(value, allValues, pbjName),
+    validate: (value, allValues) => validateKey(value, allValues[pbjName], relaxValidation),
   });
 
   const [allOptions, setAllOptions] = useState(options);
