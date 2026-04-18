@@ -3,48 +3,13 @@ import { useDispatch } from 'react-redux';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import startCase from 'lodash-es/startCase.js';
-import trimStart from 'lodash-es/trimStart.js';
-import createSlug from '@gdbots/pbj/utils/createSlug.js';
-import isValidSlug from '@gdbots/pbj/utils/isValidSlug.js';
 import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 import { ActionButton, FormErrors, TextField, withForm } from '@triniti/cms/components/index.js';
 import renameNode from '@triniti/cms/plugins/ncr/actions/renameNode.js';
+import { datedSlugValidator, formatSlug, slugValidator } from '@triniti/cms/plugins/ncr/utils/slugFormat.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-
-
-// more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
-const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
-
-const slugValidator = (value) => {
-  return isValidSlug(value) ? undefined : 'Only use letters, numbers and dashes.';
-};
-
-const datedSlugValidator = (value) => {
-  if (isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value))) {
-    return undefined;
-  }
-  return 'Expected format YYYY/MM/DD/some-title-here';
-}
-
-const parseSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
-    ending = value[value.length - 1];
-  }
-  const slug = createSlug(value.toLowerCase());
-  return slug ? slug + ending : value;
-};
-
-const parseDatedSlug = (value) => {
-  let ending = '';
-  if (value && (value.endsWith(' ') || value.endsWith('/') || value.endsWith('-'))) {
-    ending = value[value.length - 1];
-  }
-  const slug = createSlug(value.toLowerCase(), true);
-  return slug ? slug + ending : value;
-};
 
 function RenameForm(props) {
   const dispatch = useDispatch();
@@ -70,7 +35,7 @@ function RenameForm(props) {
       await progressIndicator.show(`Renaming ${label}...`);
 
       const oldSlug = pbj.get('slug');
-      const newSlug = createSlug(values.slug || '', withDatedSlug).toLowerCase();
+      const newSlug = formatSlug(values.slug, withDatedSlug);
 
       if (oldSlug !== newSlug) {
         await dispatch(renameNode(nodeRef, oldSlug, newSlug));
@@ -98,9 +63,8 @@ function RenameForm(props) {
             name="slug"
             label="New Slug"
             required
-            format={value => value?.trim()}
+            format={value => formatSlug(value, withDatedSlug)}
             formatOnBlur
-            parse={withDatedSlug ? parseDatedSlug : parseSlug}
             validator={withDatedSlug ? datedSlugValidator : slugValidator}
           />
         </Form>

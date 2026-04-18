@@ -22,6 +22,7 @@ export default function KeyValuesField(props) {
     groupClassName = '',
     selectKeyProps,
     newValue,
+    relaxValidation,
     ...rest
   } = props;
   const { editMode, form } = useFormContext();
@@ -42,7 +43,13 @@ export default function KeyValuesField(props) {
           return fields.map((fname, index) => (
             <Row className="gx-2" key={fname}>
               <Col xs="4">
-                <KeyFieldComponent name={`${fname}.key`} pbjName={name} required {...selectKeyProps} />
+                <KeyFieldComponent 
+                  name={`${fname}.key`} 
+                  pbjName={name}
+                  relaxValidation={relaxValidation}
+                  required 
+                  {...selectKeyProps} 
+                />
               </Col>
               <Col>
                 <Component

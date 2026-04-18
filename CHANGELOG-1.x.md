@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* ncr :: Slug rename modal - apply slug normalization on blur instead of on every keystroke to prevent cursor jumping when typing in the middle of the slug.
 * NCR MultiSelectField :: Preserve dropdown results after selection in input fields.
 * Screen :: Adding support for a component in tabs.
 * Move save button for all nodes into `SaveNodeButton` component.
@@ -54,6 +55,8 @@
 * asset linker modal should default to image assets only
 * Display `is_vertical` field on video asset details tab and video mezzanine card.
 * Improve Linking Assets UX: Match image size between modal and asset linker
+* Customizable keyValuesField validateKeys.
+
 
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
