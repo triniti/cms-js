@@ -10,9 +10,9 @@ import AsideField from '@triniti/cms/blocksmith/components/with-block-modal/Asid
 
 function GalleryBlockModal(props) {
   const { nodeRef: containerRef } = props.containerFormContext;
-  const { values } = useFormState({ subscription: { values: true } });
-  const { node: gallery } = useNode(values.node_ref || null);
-  const launchText = values.launch_text || gallery?.get('launch_text') || '';
+  const { values = {} } = useFormState({ subscription: { values: true } });
+  const { node: gallery } = useNode(values.node_ref);
+  const launchText = values.launch_text || gallery?.get('launch_text', '') || '';
 
   return (
     <>
