@@ -1,28 +1,11 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, FormText } from 'reactstrap';
-import { DatePickerField, FlatArrayField, SelectField, SwitchField, TextareaField, UrlField } from '@triniti/cms/components/index.js';
+import { DatePickerField, SelectField, SwitchField, TextareaField } from '@triniti/cms/components/index.js';
+import SeoAlternateUrlsField from '@triniti/cms/plugins/common/components/seo-alternate-urls-field/index.js';
 import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 
 const removeLinkBreaks = value => value && value.replace('\n', ' ');
-const normalizeSeoAlternateUrl = value => `${value || ''}`.trim();
-
-const seoAlternateUrlValidator = (value) => {
-  const normalized = normalizeSeoAlternateUrl(value);
-  if (!normalized) {
-    return 'Required';
-  }
-
-  try {
-    if (new URL(normalized).protocol !== 'https:') {
-      return 'Must use https://.';
-    }
-  } catch {
-    return 'Must be a valid URL.';
-  }
-
-  return undefined;
-};
 
 function DescriptionWarning(props) {
   const { value } = props;
@@ -43,12 +26,7 @@ function DescriptionWarning(props) {
   );
 }
 
-export default function SeoTab(props) {
-  const { node } = props;
-  const schema = node.schema();
-  const showSeoAlternateUrls = schema.hasMixin('triniti:people:mixin:person')
-    && schema.hasField('seo_alternate_urls');
-
+export default function SeoTab() {
   return (
     <Card>
       <CardHeader>SEO</CardHeader>
@@ -63,20 +41,7 @@ export default function SeoTab(props) {
           Warning={DescriptionWarning}
         />
         <SelectField name="meta_keywords" label="Meta Keywords" allowOther isMulti />
-        {showSeoAlternateUrls && (
-          <>
-            <FlatArrayField
-              name="seo_alternate_urls"
-              label="Alternate URLs"
-              component={UrlField}
-              parse={normalizeSeoAlternateUrl}
-              validator={seoAlternateUrlValidator}
-            />
-            <FormText color="dark" className="mt-n2 mb-3">
-              Enter one full URL per row. URLs must start with https://.
-            </FormText>
-          </>
-        )}
+        <SeoAlternateUrlsField />
         <ImageAssetPickerField name="seo_image_ref" label="SEO Image" />
         <DatePickerField name="seo_published_at" label="SEO Published At" />
         <SwitchField name="is_unlisted" label="Unlisted" />

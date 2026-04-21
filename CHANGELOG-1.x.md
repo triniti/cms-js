@@ -1,4 +1,4 @@
-# CHANGELOG
+****# CHANGELOG
 
 
 ## vN.N.N
@@ -55,7 +55,7 @@
 * asset linker modal should default to image assets only
 * Display `is_vertical` field on video asset details tab and video mezzanine card.
 * Customizable keyValuesField validateKeys.
-* Add support for seo_alternate_urls field on People SEO tab.
+* Add SeoAlternateUrlsField to SEO tab.
 
 
 ## v1.2.2
