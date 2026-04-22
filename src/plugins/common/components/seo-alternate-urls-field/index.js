@@ -4,14 +4,6 @@ import { FlatArrayField, UrlField, useFormContext } from '@triniti/cms/component
 
 const normalizeSeoAlternateUrl = value => `${value || ''}`.trim();
 
-const supportsSeoAlternateUrls = (schema) => {
-  if (!schema || typeof schema.hasField !== 'function') {
-    return false;
-  }
-
-  return schema.hasField('seo_alternate_urls');
-};
-
 const getNormalizedUrls = (allValues, fieldName) => {
   const values = Array.isArray(allValues?.[fieldName]) ? allValues[fieldName] : [];
   return values
@@ -20,7 +12,7 @@ const getNormalizedUrls = (allValues, fieldName) => {
     .map(value => value.toLowerCase());
 };
 
-const createSeoAlternateUrlValidator = (fieldName = 'seo_alternate_urls') => (value, allValues) => {
+const seoAlternateUrlValidator = (value, allValues, meta) => {
   const normalized = normalizeSeoAlternateUrl(value);
   if (!normalized) {
     return 'Required';
@@ -34,7 +26,8 @@ const createSeoAlternateUrlValidator = (fieldName = 'seo_alternate_urls') => (va
     return 'Must be a valid URL.';
   }
 
-  const duplicateCount = getNormalizedUrls(allValues, fieldName)
+  const baseName = meta?.name?.replace(/\[\d+]$/, '') || 'seo_alternate_urls';
+  const duplicateCount = getNormalizedUrls(allValues, baseName)
     .filter(url => url === normalized.toLowerCase())
     .length;
 
@@ -52,9 +45,8 @@ export default function SeoAlternateUrlsField(props) {
     ...rest
   } = props;
   const { pbj } = useFormContext();
-  const schema = pbj.schema();
 
-  if (!supportsSeoAlternateUrls(schema)) {
+  if (!pbj.schema().hasField(name)) {
     return null;
   }
 
@@ -66,7 +58,7 @@ export default function SeoAlternateUrlsField(props) {
         label={label}
         component={UrlField}
         parse={normalizeSeoAlternateUrl}
-        validator={createSeoAlternateUrlValidator(name)}
+        validator={seoAlternateUrlValidator}
       />
       <FormText color="dark" className="mt-n2 mb-3">
         {description}
