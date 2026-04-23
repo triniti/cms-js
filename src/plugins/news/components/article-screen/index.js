@@ -52,6 +52,7 @@ function ArticleScreen(props) {
       activeNav="Content"
       activeSubNav="Articles"
       badge={node.get('is_locked') ? 'locked' : null}
+      contentWidth={tab === 'assets' ? '100%' : '1008px'}
       breadcrumbs={[
         { text: 'Articles', to: '/news/articles' },
         { text: node.get('title') },
