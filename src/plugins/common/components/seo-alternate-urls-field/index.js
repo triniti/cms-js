@@ -12,7 +12,7 @@ const getNormalizedUrls = (allValues, fieldName) => {
     .map(value => value.toLowerCase());
 };
 
-const seoAlternateUrlValidator = (value, allValues, meta) => {
+const seoAlternateUrlValidator = (value, allValues) => {
   const normalized = normalizeSeoAlternateUrl(value);
   if (!normalized) {
     return 'Required';
@@ -26,8 +26,7 @@ const seoAlternateUrlValidator = (value, allValues, meta) => {
     return 'Must be a valid URL.';
   }
 
-  const baseName = meta?.name?.replace(/\[\d+]$/, '') || 'seo_alternate_urls';
-  const duplicateCount = getNormalizedUrls(allValues, baseName)
+  const duplicateCount = getNormalizedUrls(allValues, 'seo_alternate_urls')
     .filter(url => url === normalized.toLowerCase())
     .length;
 
@@ -38,30 +37,24 @@ const seoAlternateUrlValidator = (value, allValues, meta) => {
 };
 
 export default function SeoAlternateUrlsField(props) {
-  const {
-    name = 'seo_alternate_urls',
-    label = 'Alternate URLs',
-    description = 'Enter one full URL per row. URLs must start with https://.',
-    ...rest
-  } = props;
   const { pbj } = useFormContext();
 
-  if (!pbj.schema().hasField(name)) {
+  if (!pbj.schema().hasField('seo_alternate_urls')) {
     return null;
   }
 
   return (
     <>
       <FlatArrayField
-        {...rest}
-        name={name}
-        label={label}
+        {...props}
+        name="seo_alternate_urls"
+        label="Alternate URLs"
         component={UrlField}
         parse={normalizeSeoAlternateUrl}
         validator={seoAlternateUrlValidator}
       />
       <FormText color="dark" className="mt-n2 mb-3">
-        {description}
+        Enter one full URL per row. URLs must start with https://.
       </FormText>
     </>
   );
