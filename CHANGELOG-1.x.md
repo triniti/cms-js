@@ -56,6 +56,7 @@
 * Display `is_vertical` field on video asset details tab and video mezzanine card.
 * Improve Linking Assets UX: Match image size between modal and asset linker
 * Customizable keyValuesField validateKeys.
+* Add SeoAlternateUrlsField to SEO tab.
 
 
 ## v1.2.2
