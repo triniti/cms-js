@@ -3,6 +3,8 @@ import clamp from 'lodash-es/clamp.js';
 import noop from 'lodash-es/noop.js';
 import {
   Card,
+  CardImgOverlay,
+  CardTitle,
   Col,
   Container,
   Media,
@@ -11,7 +13,6 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
-  UncontrolledTooltip
 } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import SearchAssetsSort from '@triniti/schemas/triniti/dam/enums/SearchAssetsSort.js';
@@ -127,22 +128,25 @@ function AddImagesModal(props) {
                     {response.get('nodes').map(node => {
                       const id = node.get('_id');
                       const key = `image-${id.toString()}`;
-                      const previewUrl = damUrl(id, '1by1', 'sm');
+                      const previewUrl = damUrl(id, 'o', 'sm');
+                      const title = node.get('title');
                       return (
-                        <Col key={key} id={key} xs={12} sm={6} md={4} lg={3} xl="2p">
+                        <Col key={key} id={key} xs={12} sm={6} md={4} xl='2p'>
                           <Card
                             inverse
                             tag="button"
                             className={`p-1 mb-0 image-grid-card cursor-pointer ${batch.has(node) ? 'selected' : ''}`}
                             onClick={() => batch.toggle(node)}
                           >
-                            <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark">
-                              <BackgroundImage imgSrc={previewUrl} alt="" />
+                            <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-light">
+                              <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
                             </Media>
+                            {title && (
+                              <CardImgOverlay>
+                                <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>
+                              </CardImgOverlay>
+                            )}
                           </Card>
-                          <UncontrolledTooltip target={key} placement="bottom">
-                            {node.get('title')}
-                          </UncontrolledTooltip>
                         </Col>
                       );
                     })}

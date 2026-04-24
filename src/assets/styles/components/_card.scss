@@ -189,6 +189,13 @@ h3.card-title {
 
   .card-title {
     display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &.card-title--no-text-wrap {
+      white-space: normal;
+    }
   }
 }
 
@@ -282,6 +289,11 @@ h3.card-title {
   }
   .rounded > &:first-child {
     border-radius: $border-radius $border-radius 0 0;
+  }
+  .resize-gallery-slider {
+    position: absolute;  
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 

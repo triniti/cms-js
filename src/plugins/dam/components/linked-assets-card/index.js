@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, CardText, Spinner } from 'reactstrap';
 import clamp from 'lodash-es/clamp.js';
 import Swal from 'sweetalert2';
@@ -10,6 +10,7 @@ import delay from '@triniti/cms/utils/delay.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import sendAlert from '@triniti/cms/actions/sendAlert.js';
+import ResizeGallerySlider from '@triniti/cms/plugins/curator/components/gallery-screen/images-tab/ResizeGallerySlider.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
@@ -35,7 +36,7 @@ const okayToUnlink = async () => {
 };
 
 function LinkedAssetsCard(props) {
-  const { linkedRef, request } = props;
+  const { displayView, linkedRef, request } = props;
   request.set('linked_ref', NodeRef.fromString(`${linkedRef}`));
   const { response, pbjxError, isRunning, run } = useRequest(request);
   const dispatch = useDispatch();
@@ -43,6 +44,11 @@ function LinkedAssetsCard(props) {
   const canLink = policy.isGranted('triniti:dam:command:link-assets');
   const canUnlink = policy.isGranted('triniti:dam:command:unlink-assets');
   const batch = useBatch(response);
+  const isAssetCardLayout = displayView === 'asset-card-grid';
+  const DEFAULT_IMAGES_PER_ROW = 7;
+  const MAX_IMAGES_PER_ROW = 12;
+  const MIN_IMAGES_PER_ROW = 1;
+  const [ imagesPerRow, setImagesPerRow ] = useState(DEFAULT_IMAGES_PER_ROW);
 
   const handleUnlinkAssets = async () => {
     if (!await okayToUnlink()) {
@@ -68,6 +74,22 @@ function LinkedAssetsCard(props) {
     // note that the modal would have already done the linking
     run();
   };
+  
+  const handleIncreaseImagesPerRow = () => {
+    if (imagesPerRow < MAX_IMAGES_PER_ROW) {
+      setImagesPerRow(imagesPerRow + 1);
+    }
+  };
+
+  const handleDecreaseImagesPerRow = () => {
+    if (imagesPerRow > MIN_IMAGES_PER_ROW) {
+      setImagesPerRow(imagesPerRow - 1);
+    }
+  };
+
+  const handleSlideImagesPerRow = (e) => {
+    setImagesPerRow(parseFloat(e.target.value));
+  };
 
   const hasNodes = response?.has('nodes');
   const nodes = hasNodes ? response.get('nodes') : [];
@@ -76,7 +98,17 @@ function LinkedAssetsCard(props) {
     <>
       <Card>
         <CardHeader>
-          <span>Linked Assets {isRunning && <Spinner />}</span>
+          <span style={{position: 'relative'}}>
+            Linked Assets {isRunning && <Spinner style={{position: 'absolute', top: '5px'}} />}
+          </span>
+          {isAssetCardLayout && <ResizeGallerySlider 
+            imagesPerRow={imagesPerRow}
+            maxImagesPerRow={MAX_IMAGES_PER_ROW}
+            minImagesPerRow={MIN_IMAGES_PER_ROW}
+            onIncreaseImagesPerRow={handleIncreaseImagesPerRow}
+            onDecreaseImagesPerRow={handleDecreaseImagesPerRow}
+            onSlideImagesPerRow={handleSlideImagesPerRow}
+          />}
           <span>
             {canUnlink && batch.size > 0 && (
               <ActionButton
@@ -96,7 +128,7 @@ function LinkedAssetsCard(props) {
                 modalProps={{
                   linkedRef,
                   onClose: handleLinkedAssets,
-                  displayView: props.displayView,
+                  displayView,
                 }}
               />
             )}
@@ -116,7 +148,7 @@ function LinkedAssetsCard(props) {
 
           {response && hasNodes && (
             <div className="p-2">
-              <AssetPresenter displayView={props.displayView} nodes={nodes} batch={batch} />
+              <AssetPresenter displayView={displayView} nodes={nodes} batch={batch} imagesPerRow={imagesPerRow} />
             </div>
           )}
         </CardBody>
