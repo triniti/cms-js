@@ -13,7 +13,7 @@ function Preview(props) {
       <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="hover-box-shadow d-inline-block rounded-3 overflow-hidden position-relative">
         <Media src={previewUrl} alt="" width={200} height={200} object className="rounded-3" />
         {launchText && (
-          <div className="position-absolute bottom-0 start-0 end-0 px-2 py-1 text-white text-break bg-black bg-opacity-75 lh-sm">
+          <div className="position-absolute bottom-0 start-0 end-0 px-2 py-1 text-white text-break text-uppercase bg-black bg-opacity-75 lh-sm">
             {launchText}
           </div>
         )}
