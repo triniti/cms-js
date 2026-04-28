@@ -57,6 +57,7 @@
 * Improve Linking Assets UX: Match image size between modal and asset linker
 * Customizable keyValuesField validateKeys.
 * Add SeoAlternateUrlsField to SEO tab.
+* Show the gallery's launch text on the poster image preview.
 
 
 ## v1.2.2
