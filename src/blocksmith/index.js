@@ -8,6 +8,7 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import AppPlugins from '@triniti/cms/blocksmith/plugins/AppPlugins.js';
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
 import FloatingTextFormatToolbarPlugin from '@triniti/cms/blocksmith/plugins/FloatingTextFormatToolbarPlugin.js';
 import InsertBlockPlugin from '@triniti/cms/blocksmith/plugins/InsertBlockPlugin.js';
@@ -51,6 +52,7 @@ export default function Blocksmith(props) {
         <BlocksmithPlugin {...props} />
         <LinkPlugin />
         <ListPlugin />
+        <AppPlugins {...props} />
         {editMode && (
           <>
             {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} onDragStart={handleDragStart} onDragEnd={handleDragEnd} />}
