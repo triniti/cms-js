@@ -9,7 +9,6 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
-import EdgeSelectionPlugin from '@triniti/cms/blocksmith/plugins/EdgeSelectionPlugin.js';
 import FloatingTextFormatToolbarPlugin from '@triniti/cms/blocksmith/plugins/FloatingTextFormatToolbarPlugin.js';
 import InsertBlockPlugin from '@triniti/cms/blocksmith/plugins/InsertBlockPlugin.js';
 import BottomInsertBlockPlugin from '@triniti/cms/blocksmith/plugins/BottomInsertBlockPlugin.js';
@@ -56,7 +55,6 @@ export default function Blocksmith(props) {
           <>
             {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} onDragStart={handleDragStart} onDragEnd={handleDragEnd} />}
             {editorRef.current && <FloatingTextFormatToolbarPlugin anchorElem={editorRef.current} />}
-            <EdgeSelectionPlugin />
             <WordCountPlugin
               onWordCountChanged={handleWordCountChanged}
               title={pbj.get('title', '')}

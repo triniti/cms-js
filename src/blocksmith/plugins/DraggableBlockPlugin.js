@@ -216,12 +216,33 @@ export default function DraggableBlockPlugin({ anchorElem, onDragStart = noop, o
   const menuRef = useRef(null);
   const targetLineRef = useRef(null);
   const isDraggingBlockRef = useRef(false);
+  const isSelectingTextRef = useRef(false);
   const [draggableBlockElem, setDraggableBlockElem] = useState(null);
 
   useEffect(() => {
+    const onMouseDown = (event) => {
+      if (event.button !== 0) {
+        return;
+      }
+      const target = event.target;
+      if (!isHTMLElement(target) || isOnMenu(target)) {
+        return;
+      }
+      isSelectingTextRef.current = true;
+    };
+
+    const onMouseUp = () => {
+      isSelectingTextRef.current = false;
+    };
+
     const onMouseMove = (event) => {
       const target = event.target;
       if (!isHTMLElement(target)) {
+        setDraggableBlockElem(null);
+        return;
+      }
+
+      if (isSelectingTextRef.current) {
         setDraggableBlockElem(null);
         return;
       }
@@ -234,13 +255,18 @@ export default function DraggableBlockPlugin({ anchorElem, onDragStart = noop, o
     };
 
     const onMouseLeave = () => setDraggableBlockElem(null);
-    scrollerElem?.addEventListener('mousemove', onMouseMove);
-    scrollerElem?.addEventListener('mouseleave', onMouseLeave);
 
-    return () => {
-      scrollerElem?.removeEventListener('mousemove', onMouseMove);
-      scrollerElem?.removeEventListener('mouseleave', onMouseLeave);
-    }
+    const controller = new AbortController();
+    const { signal } = controller;
+    scrollerElem?.addEventListener('mousedown', onMouseDown, { signal });
+    scrollerElem?.addEventListener('mousemove', onMouseMove, { signal });
+    scrollerElem?.addEventListener('mouseleave', onMouseLeave, { signal });
+    // mouseup on document so we still hear the release if the user drags outside the scroller.
+    // blur on window so we reset state when the window loses focus mid-gesture (blur doesn't bubble).
+    document.addEventListener('mouseup', onMouseUp, { signal });
+    window.addEventListener('blur', onMouseUp, { signal });
+
+    return () => controller.abort();
   }, [scrollerElem, anchorElem, editor]);
 
   useEffect(() => {
