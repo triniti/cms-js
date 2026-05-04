@@ -3,6 +3,7 @@
 
 ## vN.N.N
 * blocksmith :: hide drag handle during text-selection drag to prevent it from collapsing the browser's native selection focus.
+* blocksmith :: Add `AppPlugins` extension point for app-level Lexical plugins.
 * ncr :: Slug rename modal - apply slug normalization on blur instead of on every keystroke to prevent cursor jumping when typing in the middle of the slug.
 * NCR MultiSelectField :: Preserve dropdown results after selection in input fields.
 * Screen :: Adding support for a component in tabs.
@@ -58,6 +59,7 @@
 * Improve Linking Assets UX: Match image size between modal and asset linker
 * Customizable keyValuesField validateKeys.
 * Add SeoAlternateUrlsField to SEO tab.
+* Show the gallery's launch text on the poster image preview.
 
 
 ## v1.2.2

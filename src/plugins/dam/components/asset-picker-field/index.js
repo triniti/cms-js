@@ -41,6 +41,7 @@ export default function AssetPickerField(props) {
     readOnly = false,
     groupClassName = '',
     Preview = DefaultPreview,
+    previewProps = {},
     icon = 'document',
     ...rest
   } = props;
@@ -97,7 +98,7 @@ export default function AssetPickerField(props) {
         </>
       )}
 
-      {assetRef && Preview && <Preview key={`${assetRef.getId()}-preview`} assetRef={assetRef} url={assetUrl} asset={asset}/>}
+      {assetRef && Preview && <Preview key={`${assetRef.getId()}-preview`} assetRef={assetRef} url={assetUrl} asset={asset} {...previewProps}/>}
 
       {!assetRef && (!editMode || readOnly) && (
         <input className="form-control" readOnly value={`No ${label} selected`} />
