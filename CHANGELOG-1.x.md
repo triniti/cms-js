@@ -2,7 +2,7 @@
 
 
 ## vN.N.N
-* blocksmith :: hide drag handle during text-selection drag to prevent it from collapsing the browser's native selection focus.
+* blocksmith :: scope text-selection drag guard to editable text so non-text blocks (image, gallery, divider, etc.) stay grab-and-droppable from anywhere on the block.
 * blocksmith :: Add `AppPlugins` extension point for app-level Lexical plugins.
 * ncr :: Slug rename modal - apply slug normalization on blur instead of on every keystroke to prevent cursor jumping when typing in the middle of the slug.
 * NCR MultiSelectField :: Preserve dropdown results after selection in input fields.
