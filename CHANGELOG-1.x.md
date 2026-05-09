@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* deps :: Pin `final-form` to `5.0.0`, `final-form-arrays` to `4.0.0`, `react-final-form` to `7.0.0`. `final-form` 5.0.1 breaks form submit.
 * blocksmith :: scope text-selection drag guard to editable text so non-text blocks (image, gallery, divider, etc.) stay grab-and-droppable from anywhere on the block.
 * blocksmith :: Add `AppPlugins` extension point for app-level Lexical plugins.
 * ncr :: Slug rename modal - apply slug normalization on blur instead of on every keystroke to prevent cursor jumping when typing in the middle of the slug.
