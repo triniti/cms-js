@@ -1,4 +1,4 @@
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
 
 const EDIT_PATHS = [
   { path: '/ncr/:label/:id/:tab/edit', end: true, caseSensitive: false },
