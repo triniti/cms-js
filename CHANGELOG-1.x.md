@@ -60,7 +60,7 @@
 * Customizable keyValuesField validateKeys.
 * Add SeoAlternateUrlsField to SEO tab.
 * Show the gallery's launch text on the poster image preview.
-* Add support for liveblog posting
+* Add CMS support for live blog timelines and live blog update teasers.
 
 
 ## v1.2.2
