@@ -85,6 +85,7 @@ function SearchTeasersScreen(props) {
                 const ref = node.generateNodeRef();
                 const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
                 const canDuplicate = policy.isGranted(`${ref.getQName()}:create`);
+                const canonicalUrl = nodeUrl(node, 'canonical');
                 const handleRowClick = createRowClickHandler(navigate, node);
                 const handleDuplicateTeaser = () => duplicateNode(node);
                 return (
@@ -127,11 +128,13 @@ function SearchTeasersScreen(props) {
                           </Button>
                         </Link>
                       )}
-                      <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
-                        <Button color="hover" tag="span">
-                          <Icon imgSrc="external" alt="open" />
-                        </Button>
-                      </a>
+                      {canonicalUrl && (
+                        <a href={canonicalUrl} target="_blank" rel="noopener noreferrer">
+                          <Button color="hover" tag="span">
+                            <Icon imgSrc="external" alt="open" />
+                          </Button>
+                        </a>
+                      )}
                       {canDuplicate && (
                         <Button color="hover" tag="span" onClick={handleDuplicateTeaser}>
                           <Icon imgSrc="documents" alt="copy" />

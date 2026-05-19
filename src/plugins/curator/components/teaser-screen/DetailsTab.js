@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
+import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import {
   DatePickerField,
   ErrorBoundary,
@@ -32,7 +33,7 @@ const resolveComponent = (label) => {
 };
 
 export default function DetailsTab(props) {
-  const { label, node } = props;
+  const { label, node, tab } = props;
   const FieldsComponent = resolveComponent(label);
   const schema = node.schema();
 
@@ -70,7 +71,11 @@ export default function DetailsTab(props) {
           <UrlField name="credit_url" label="Credit URL" />
           <TextField name="cta_text" label="Call To Action" />
           <TextareaField name="description" label="Description" rows={5} />
-          <TimelinePickerField name="timeline_ref" label="Timeline" />
+          <TimelinePickerField
+            name="timeline_ref"
+            label="Timeline"
+            required={schema.hasMixin('triniti:curator:mixin:live-blog-update-teaser')}
+          />
 
           {schema.hasMixin('triniti:boost:mixin:sponsorable') && (
             <SponsorPickerField name="sponsor_ref" label="Sponsor" />
@@ -88,6 +93,10 @@ export default function DetailsTab(props) {
           />
         </CardBody>
       </Card>
+
+      {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
+        <Blocksmith isVisible={tab === 'details'} />
+      )}
 
       <AdvertisingFields />
       <TaggableFields />
