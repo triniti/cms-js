@@ -43,6 +43,9 @@ export default function DetailsTab(props) {
           )}
 
           <TimelinePickerField name="related_timeline_refs" label="Related Timelines" isMulti />
+          {schema.hasField('is_live_blog') && (
+            <SwitchField name="is_live_blog" label="Live Blog" />
+          )}
           <SwitchField name="allow_comments" label="Allow Comments" />
         </CardBody>
       </Card>
