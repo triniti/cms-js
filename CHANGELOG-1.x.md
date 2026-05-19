@@ -61,6 +61,7 @@
 * Customizable keyValuesField validateKeys.
 * Add SeoAlternateUrlsField to SEO tab.
 * Show the gallery's launch text on the poster image preview.
+* Image modal selectors to match Asset linker modal
 
 
 ## v1.2.2
