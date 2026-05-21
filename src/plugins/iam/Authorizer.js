@@ -4,6 +4,8 @@ import PermissionDenied from '@triniti/cms/plugins/iam/exceptions/PermissionDeni
 import getPolicy from '@triniti/cms/plugins/iam/selectors/getPolicy.js';
 import isAuthenticated from '@triniti/cms/plugins/iam/selectors/isAuthenticated.js';
 import logout from '@triniti/cms/plugins/iam/actions/logout.js';
+import isInEditMode from '@triniti/cms/plugins/iam/utils/isInEditMode.js';
+import reloadForAuthExpired from '@triniti/cms/plugins/iam/utils/reloadForAuthExpired.js';
 
 const MIXINS_TO_ACTION = {
   'gdbots:ncr:mixin:create-node': 'create',
@@ -49,6 +51,11 @@ export default class Authorizer {
     const redux = this.app.getRedux();
     const state = redux.getState();
     if (!isAuthenticated(state, true)) {
+      if (!isInEditMode()) {
+        reloadForAuthExpired();
+        throw new AuthenticationRequired();
+      }
+
       Swal.fire({
         title: 'Authentication Expired',
         icon: 'error',
