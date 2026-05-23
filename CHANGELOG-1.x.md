@@ -62,6 +62,7 @@
 * Customizable keyValuesField validateKeys.
 * Add SeoAlternateUrlsField to SEO tab.
 * Show the gallery's launch text on the poster image preview.
+* livestream sort: updated-at-desc
 
 
 ## v1.2.2
