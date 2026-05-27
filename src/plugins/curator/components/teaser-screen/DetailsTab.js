@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import startCase from 'lodash-es/startCase.js';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import Blocksmith from '@triniti/cms/blocksmith/index.js';
 import {
   DatePickerField,
   ErrorBoundary,
@@ -11,15 +10,16 @@ import {
   SwitchField,
   TextareaField,
   TextField,
-  UrlField
+  UrlField,
 } from '@triniti/cms/components/index.js';
-import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
-import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
-import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import AdvertisingFields from '@triniti/cms/plugins/common/components/advertising-fields/index.js';
-import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
+import Blocksmith from '@triniti/cms/blocksmith/index.js';
+import ImageAssetPickerField from '@triniti/cms/plugins/dam/components/image-asset-picker-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import slottingKeys from '@triniti/app/config/slottingKeys.js';
+import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
+import TaggableFields from '@triniti/cms/plugins/common/components/taggable-fields/index.js';
+import TimelinePickerField from '@triniti/cms/plugins/curator/components/timeline-picker-field/index.js';
 
 const components = {};
 const resolveComponent = (label) => {
@@ -28,12 +28,16 @@ const resolveComponent = (label) => {
   }
 
   const file = startCase(label).replace(/\s/g, '');
-  components[label] = lazy(() => import(`@triniti/cms/plugins/curator/components/teaser-screen/${file}Fields.js`));
+  components[label] = lazy(() =>
+    import(
+      `@triniti/cms/plugins/curator/components/teaser-screen/${file}Fields.js`
+    ).catch(() => ({ default: () => null })),
+  );
   return components[label];
 };
 
 export default function DetailsTab(props) {
-  const { label, node, tab } = props;
+  const { label, node } = props;
   const FieldsComponent = resolveComponent(label);
   const schema = node.schema();
 
@@ -93,11 +97,9 @@ export default function DetailsTab(props) {
           />
         </CardBody>
       </Card>
-
       {schema.hasMixin('triniti:canvas:mixin:has-blocks') && (
-        <Blocksmith isVisible={tab === 'details'} />
+        <Blocksmith />
       )}
-
       <AdvertisingFields />
       <TaggableFields />
     </>
