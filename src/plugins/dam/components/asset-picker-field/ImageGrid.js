@@ -21,7 +21,7 @@ export default function ImageGrid(props) {
           const id = node.get('_id');
           const key = `image-${id.toString()}`;
           const nodeRef = node.generateNodeRef();
-          const previewUrl = damUrl(id, '1by1', 'sm');
+          const previewUrl = damUrl(id, 'o', 'sm');
           const selected = batch?.has(node);
           const title = node.get('title');
           
@@ -41,9 +41,9 @@ export default function ImageGrid(props) {
                 tag="button"
                 className={`p-1 mb-0 image-grid-card cursor-pointer ${selected ? 'selected' : ''}`}
               >
-                <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-dark"
+                <Media className="ratio ratio-1x1 mt-0 mb-0 border border-4 bg-light"
                        style={{ '--bs-border-color': 'var(--bs-body-bg)' }}>
-                  <BackgroundImage imgSrc={previewUrl} alt="" />
+                  <BackgroundImage imgSrc={previewUrl} alt="" className="background-image-contain background-image-no-repeat" />
                   {title && (
                     <CardImgOverlay>
                       <CardTitle tag="h3" className="h5 mb-0 text-start">{title}</CardTitle>

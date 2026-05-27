@@ -228,6 +228,12 @@ export default function DraggableBlockPlugin({ anchorElem, onDragStart = noop, o
       if (!isHTMLElement(target) || isOnMenu(target)) {
         return;
       }
+      // Only guard against selection focus theft when mousedown lands in editable
+      // text. Decorator blocks render as contenteditable=false, so grabbing one
+      // should leave the flag clear and let native browser dragstart proceed.
+      if (!target.isContentEditable) {
+        return;
+      }
       isSelectingTextRef.current = true;
     };
 
