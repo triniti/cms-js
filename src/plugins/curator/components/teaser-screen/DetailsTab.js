@@ -29,9 +29,8 @@ const resolveComponent = (label) => {
 
   const file = startCase(label).replace(/\s/g, '');
   components[label] = lazy(() =>
-    import(
-      `@triniti/cms/plugins/curator/components/teaser-screen/${file}Fields.js`
-    ).catch(() => ({ default: () => null })),
+    import(`@triniti/cms/plugins/curator/components/teaser-screen/${file}Fields.js`)
+      .catch(() => ({ default: () => null })),
   );
   return components[label];
 };
