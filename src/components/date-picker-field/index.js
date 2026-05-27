@@ -149,7 +149,7 @@ export default function DatePickerField(props) {
                 onClick={handleSetToNow}
               >
                 <Icon imgSrc="alarm" />
-                <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`}>
+                <UncontrolledTooltip target={`set-to-now-${name.replace('.', '_')}`} fade={false}>
                   Set to current date and time
                 </UncontrolledTooltip>
               </Button>
