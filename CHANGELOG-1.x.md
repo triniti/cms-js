@@ -63,6 +63,7 @@
 * Add SeoAlternateUrlsField to SEO tab.
 * Show the gallery's launch text on the poster image preview.
 * livestream sort: updated-at-desc
+* Image modal selectors to match Asset linker modal
 
 
 ## v1.2.2
