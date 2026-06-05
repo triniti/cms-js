@@ -53,6 +53,6 @@ export default withRequest(LivestreamsScreen, 'triniti:ovp:request:search-videos
   initialData: {
     derefs: ['medialive_channel_state'],
     q: '+_exists_:medialive_channel_arn',
-    sort: SearchVideosSort.TITLE_ASC.getValue(),
+    sort: SearchVideosSort.UPDATED_AT_DESC.getValue(),
   }
 });
