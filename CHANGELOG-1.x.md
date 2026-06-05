@@ -62,6 +62,7 @@
 * Customizable keyValuesField validateKeys.
 * Add SeoAlternateUrlsField to SEO tab.
 * Show the gallery's launch text on the poster image preview.
+* Add CMS support for live blog timelines and live blog update teasers.
 * livestream sort: updated-at-desc
 * Image modal selectors to match Asset linker modal
 

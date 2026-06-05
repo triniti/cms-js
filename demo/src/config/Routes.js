@@ -104,6 +104,7 @@ export default () => (
     <Route path="/ncr/ios-app/:id/*" element={<AppScreen label="ios-app" />} />
     <Route path="/ncr/ios-notification/:id/*" element={<NotificationScreen label="ios-notification" />} />
     <Route path="/ncr/link-teaser/:id/*" element={<TeaserScreen label="link-teaser" />} />
+    <Route path="/ncr/live-blog-update-teaser/:id/*" element={<TeaserScreen label="live-blog-update-teaser" />} />
     <Route path="/ncr/media-list-widget/:id/*" element={<WidgetScreen label="media-list-widget" />} />
     <Route path="/ncr/page/:id/*" element={<PageScreen />} />
     <Route path="/ncr/page-teaser/:id/*" element={<TeaserScreen label="page-teaser" />} />

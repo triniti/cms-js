@@ -4787,13 +4787,13 @@ function DemoScreen() {
         </CardHeader>
         <CardBody>
           <p>Somewhere in here is a <a href="#" id="UncontrolledTooltipExample">tooltip</a>.</p>
-          <UncontrolledTooltip placement="top" target="UncontrolledTooltipExample">
+          <UncontrolledTooltip placement="top" target="UncontrolledTooltipExample" fade={false}>
             Hello world!
           </UncontrolledTooltip>
         </CardBody>
         <CardBody>
           <Button id="ScheduleUpdateTooltip">Click me</Button>
-          <UncontrolledTooltip placement="right" target="ScheduleUpdateTooltip">
+          <UncontrolledTooltip placement="right" target="ScheduleUpdateTooltip" fade={false}>
             placement="right"
           </UncontrolledTooltip>
         </CardBody>

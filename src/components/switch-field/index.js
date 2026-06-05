@@ -68,7 +68,7 @@ export default function SwitchField(props) {
       {tooltip && (
         <>
           <Icon imgSrc="info-outline" id={`${domId}-tooltip`} className="ms-1 align-self-start mb-2" />
-          <UncontrolledTooltip target={`${domId}-tooltip`} placement="right" className="mb-2">{tooltip}</UncontrolledTooltip>
+          <UncontrolledTooltip target={`${domId}-tooltip`} placement="right" className="mb-2" fade={false}>{tooltip}</UncontrolledTooltip>
         </>
       )}
     </div>

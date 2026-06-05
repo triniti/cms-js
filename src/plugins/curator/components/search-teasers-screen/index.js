@@ -127,7 +127,7 @@ function SearchTeasersScreen(props) {
                           </Button>
                         </Link>
                       )}
-                      <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                     <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
                         <Button color="hover" tag="span">
                           <Icon imgSrc="external" alt="open" />
                         </Button>
