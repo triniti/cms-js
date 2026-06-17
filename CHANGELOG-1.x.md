@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* dam :: Batch upload "Apply to All" no longer erases unsaved display title and alt text on the active asset form.
 * iam :: Auto-reload on expired auth outside edit screens. Keep "Authentication Required" modal only in edit mode so in-progress work isn't lost.
 * deps :: Pin `final-form` to `5.0.0`, `final-form-arrays` to `4.0.0`, `react-final-form` to `7.0.0`. `final-form` 5.0.1 breaks form submit.
 * blocksmith :: scope text-selection drag guard to editable text so non-text blocks (image, gallery, divider, etc.) stay grab-and-droppable from anywhere on the block.

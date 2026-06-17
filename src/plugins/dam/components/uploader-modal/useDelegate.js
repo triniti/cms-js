@@ -76,6 +76,8 @@ export default (props) => {
     try {
       await progressIndicator.show(`Applying [${field}] to ${refs.length} assets...`);
       await dispatch(patchAssets(refs, { [field]: value }));
+      form.setConfig('keepDirtyOnReinitialize', true);
+      delegate.keepDirtyOnReinitialize = true;
       delegate.shouldReinitialize = true;
       delegate.onAfterReinitialize = () => {
         progressIndicator.close();
