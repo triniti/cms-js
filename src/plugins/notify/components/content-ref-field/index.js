@@ -56,30 +56,28 @@ export default function ContentRefField(props) {
 
   return (
     <div className={contentRef ? 'd-none' : ''}>
-      {options.length > 1 && (
-        <div className={rootClassName} id={`form-group-${selectName}`}>
-          <Label htmlFor={selectName}>
-            Content Type <Badge className="ms-1" color="light" pill>required</Badge>
-          </Label>
-          <ReactSelect
-            id={selectName}
-            name={selectName}
-            className="select"
-            classNamePrefix="select"
-            isDisabled={!editMode || readOnly}
-            options={options}
-            value={currentOption}
-            onChange={(selected) => {
-              if (!selected || selected.value !== type) {
-                contentRefField.input.onChange(undefined);
-                contentRefField.input.onBlur();
-              }
+      <div className={rootClassName} id={`form-group-${selectName}`}>
+        <Label htmlFor={selectName}>
+          Content Type <Badge className="ms-1" color="light" pill>required</Badge>
+        </Label>
+        <ReactSelect
+          id={selectName}
+          name={selectName}
+          className="select"
+          classNamePrefix="select"
+          isDisabled={!editMode || readOnly}
+          options={options}
+          value={currentOption}
+          onChange={(selected) => {
+            if (!selected || selected.value !== type) {
+              contentRefField.input.onChange(undefined);
+              contentRefField.input.onBlur();
+            }
 
-              setType(selected.value);
-            }}
-          />
-        </div>
-      )}
+            setType(selected.value);
+          }}
+        />
+      </div>
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
           <ContentPickerField
