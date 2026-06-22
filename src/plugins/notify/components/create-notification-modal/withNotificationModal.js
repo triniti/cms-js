@@ -44,16 +44,14 @@ export default function withNotificationModal(ModalFields, modalOptions = {}) {
         const content = getContent(values.content_ref);
         if (content) {
           values.title = content.get('title');
-        } else {
+        }
+
+        if (hideSendOptions || !content) {
           values.send_on_publish = false;
         }
 
-        if (values.send_on_publish || hideSendOptions) {
+        if (hideSendOptions || values.send_on_publish) {
           values.send_at = null;
-        }
-
-        if (hideSendOptions) {
-          values.send_on_publish = false;
         }
 
         await dispatch(createNode(values, form, pbj));
