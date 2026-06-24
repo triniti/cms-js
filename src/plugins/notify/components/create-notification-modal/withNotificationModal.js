@@ -18,7 +18,11 @@ import SendOptionsField from '@triniti/cms/plugins/notify/components/send-option
 
 const getContent = ref => getNode(getInstance().getRedux().getState(), ref);
 
-export default function withNotificationModal(ModalFields) {
+const articleContentRefOptions = [{ label: 'Article', value: 'article' }];
+
+export default function withNotificationModal(ModalFields, modalOptions = {}) {
+  const { hideSendOptions = false, articleOnly = false } = modalOptions;
+
   return withForm(function NotificationModal(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -40,11 +44,13 @@ export default function withNotificationModal(ModalFields) {
         const content = getContent(values.content_ref);
         if (content) {
           values.title = content.get('title');
-        } else {
+        }
+
+        if (hideSendOptions || !content) {
           values.send_on_publish = false;
         }
 
-        if (values.send_on_publish) {
+        if (hideSendOptions || values.send_on_publish) {
           values.send_at = null;
         }
 
@@ -65,9 +71,12 @@ export default function withNotificationModal(ModalFields) {
         <Form onSubmit={handleSubmit} autoComplete="off">
           <ModalBody>
             {hasSubmitErrors && <FormErrors errors={submitErrors} />}
-            <ContentRefField contentRef={contentRef} />
-            <SendOptionsField contentStatus={contentStatus} />
-            {!values.content_ref && (
+            <ContentRefField
+              contentRef={contentRef}
+              options={articleOnly ? articleContentRefOptions : undefined}
+            />
+            {!hideSendOptions && <SendOptionsField contentStatus={contentStatus} />}
+            {!articleOnly && !values.content_ref && (
               <>
                 <TextField name="title" label="Title" required />
                 <TextareaField name="body" label="Body" rows={5} required />

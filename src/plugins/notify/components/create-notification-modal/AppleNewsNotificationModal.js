@@ -4,4 +4,7 @@ function AppleNewsNotificationModal() {
   return null;
 }
 
-export default withNotificationModal(AppleNewsNotificationModal);
+export default withNotificationModal(AppleNewsNotificationModal, {
+  hideSendOptions: true,
+  articleOnly: true,
+});
