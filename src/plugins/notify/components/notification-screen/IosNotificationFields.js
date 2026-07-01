@@ -7,7 +7,7 @@ export default function IosNotificationFields() {
     <Card>
       <CardHeader>iOS Configuration</CardHeader>
       <CardBody>
-        <PicklistField picklist="ios-notification-fcm-topics" name="fcm_topics" label="FCM Topics" />
+        <PicklistField picklist="ios-notification-fcm-topics" name="fcm_topics" label="FCM Topics" isMulti />
       </CardBody>
     </Card>
   );
