@@ -66,6 +66,7 @@
 * Add CMS support for live blog timelines and live blog update teasers.
 * livestream sort: updated-at-desc
 * Image modal selectors to match Asset linker modal
+* Fix error adding fcm_topics to iOS notifications
 
 
 ## v1.2.2
