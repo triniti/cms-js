@@ -77,9 +77,6 @@ export default function withForm(Component, config = {}) {
               if (delegate.reinitialize) {
                 delegate.shouldReinitialize = false;
                 delegate.reinitialize = false;
-                const keepDirty = delegate.keepDirtyOnReinitialize ?? config.keepDirtyOnReinitialize;
-                delete delegate.keepDirtyOnReinitialize;
-                form.setConfig('keepDirtyOnReinitialize', keepDirty);
                 setTimeout(() => {
                   form.batch(() => {
                     form.reset();
