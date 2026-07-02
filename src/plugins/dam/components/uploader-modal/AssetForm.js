@@ -148,7 +148,7 @@ export default function AssetForm(props) {
   const { batch, controls, uploadHash } = props;
   const upload = batch.get(uploadHash);
   const [nodeRef, setNodeRef] = useState(null);
-  const { node, refreshNode, setNode, isRefreshing, pbjxError } = useNode(nodeRef);
+  const { node, refreshNode, setNode, isRefreshing, pbjxError } = useNode(nodeRef, true);
   const status = upload ? upload.status : null;
   const key = `${uploadHash}-${status || ''}`;
 
