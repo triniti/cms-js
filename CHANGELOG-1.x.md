@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* ncr :: Fix `useNode` refreshNode sometimes skipping the refetch, which froze the batch uploader's "Saving..." spinner after Apply to All.
 * dam :: Batch upload "Apply to All" no longer erases unsaved display title and alt text on the active asset form.
 * Polish apple news modal
 * iam :: Auto-reload on expired auth outside edit screens. Keep "Authentication Required" modal only in edit mode so in-progress work isn't lost.
