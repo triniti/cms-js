@@ -3,7 +3,7 @@ import { FormText } from 'reactstrap';
 import { TextField, useFormContext } from '@triniti/cms/components/index.js';
 import withBlockModal from '@triniti/cms/blocksmith/components/with-block-modal/index.js';
 
-const EMBED_PATTERN = /.*tiktok\.com\/[^\/]+\/video\/(\d+).*/;
+const EMBED_PATTERN = /.*tiktok\.com\/@?([\w\.]+)\/video\/(\d+).*/;
 
 function TiktokEmbedBlockModal() {
   const { editMode, form } = useFormContext();
@@ -22,8 +22,13 @@ function TiktokEmbedBlockModal() {
     }
 
     setEmbedError(null);
-    const id = value.match(EMBED_PATTERN)[1] || undefined;
-    form.change('tiktok_id', id);
+    const matches = value.match(EMBED_PATTERN);
+    const userName = matches[1] || undefined;
+    const id = matches[2] || undefined;
+    form.batch(() => {
+      form.change('user_name', userName);
+      form.change('tiktok_id', id);
+    });
   };
 
   return (
@@ -39,6 +44,7 @@ function TiktokEmbedBlockModal() {
           {embed && embedError && <FormText color="danger">{embedError}</FormText>}
         </div>
       )}
+      <TextField name="user_name" label="TikTok Username" />
       <TextField name="tiktok_id" label="TikTok ID" required />
     </>
   );

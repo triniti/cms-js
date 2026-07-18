@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* blocksmith :: Parse and save TikTok username in tiktok-embed-block modal.
 * notify :: Remove Apple News option from create notification modal.
 * ncr :: Fix `useNode` refreshNode sometimes skipping the refetch, which froze the batch uploader's "Saving..." spinner after Apply to All.
 * dam :: Batch upload "Apply to All" no longer erases unsaved display title and alt text on the active asset form.
