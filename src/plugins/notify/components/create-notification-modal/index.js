@@ -53,6 +53,11 @@ function CreateNotificationModal(props) {
                 {response.get('nodes').map(node => {
                     const ref = node.generateNodeRef();
                     const qname = ref.getQName();
+                    // apple news no longer supports programmatic notifications
+                    if (qname.getMessage() === 'apple-news-app') {
+                      return;
+                    }
+
                     const vendor = qname.getVendor();
                     const label = qname.getMessage().replace('-app', '-notification');
                     const canCreate = policy.isGranted(`${vendor}:${label}:create`);
