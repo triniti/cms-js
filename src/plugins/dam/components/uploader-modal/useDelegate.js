@@ -76,14 +76,21 @@ export default (props) => {
     try {
       await progressIndicator.show(`Applying [${field}] to ${refs.length} assets...`);
       await dispatch(patchAssets(refs, { [field]: value }));
-      form.setConfig('keepDirtyOnReinitialize', true);
+      const dirtyEntries = Object.keys(formState.dirtyFields)
+        .filter(fieldName =>  fieldName !== field)
+        .map(fieldName => [fieldName, formState.values[fieldName]]);
       delegate.shouldReinitialize = true;
       delegate.onAfterReinitialize = () => {
-        // reinitialize runs restart(), which clears touched on every field. Re-mark the
+        // reinitialize runs restart(), which clears touched on every field. Restore and re-mark the
         // fields that still hold unsaved edits so they keep their green (edited) indicator;
         // the applied field now matches the server (pristine) and is left unmarked.
-        const { dirtyFields } = form.getState();
-        Object.keys(dirtyFields).forEach((name) => form.blur(name));
+        form.batch(() => {
+          dirtyEntries
+            .forEach(([fieldName, value]) => {
+              form.change(fieldName, value);
+              form.blur(fieldName);
+            });
+        });
         progressIndicator.close();
         toast({ title: `Applied [${field}] to ${refs.length} assets.` });
       };
