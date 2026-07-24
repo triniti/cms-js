@@ -81,13 +81,16 @@ export default (props) => {
         .map(fieldName => [fieldName, formState.values[fieldName]]);
       delegate.shouldReinitialize = true;
       delegate.onAfterReinitialize = () => {
-        // manually restore stored form dirty entries
-        dirtyEntries
-          .forEach(([fieldName, value]) => {
-            form.change(fieldName, value);
-            // Re-mark the fields that still hold unsaved values so they keep their green (edited) indicator.
-            form.blur(fieldName);
-          });
+        // reinitialize runs restart(), which clears touched on every field. Restore and re-mark the
+        // fields that still hold unsaved edits so they keep their green (edited) indicator;
+        // the applied field now matches the server (pristine) and is left unmarked.
+        form.batch(() => {
+          dirtyEntries
+            .forEach(([fieldName, value]) => {
+              form.change(fieldName, value);
+              form.blur(fieldName);
+            });
+        });
         progressIndicator.close();
         toast({ title: `Applied [${field}] to ${refs.length} assets.` });
       };
