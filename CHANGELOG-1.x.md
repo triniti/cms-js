@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* dam :: Adjust batch upload form's "Apply To All" issue fix to address a new regression that after saving ( ex. adding people on arrticle ), the save button remains enabled.
 * blocksmith :: Parse and save TikTok username in tiktok-embed-block modal.
 * notify :: Remove Apple News option from create notification modal.
 * ncr :: Fix `useNode` refreshNode sometimes skipping the refetch, which froze the batch uploader's "Saving..." spinner after Apply to All.
