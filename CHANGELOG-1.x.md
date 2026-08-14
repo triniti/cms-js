@@ -2,6 +2,7 @@
 
 
 ## vN.N.N
+* ncr :: Update node history card value renderer to display links from a group or set of valid URLs.
 * dam :: Adjust batch upload form's "Apply To All" fix to address a new regression that after saving an article, the save button remains enabled.
 * blocksmith :: Parse and save TikTok username in tiktok-embed-block modal.
 * notify :: Remove Apple News option from create notification modal.
