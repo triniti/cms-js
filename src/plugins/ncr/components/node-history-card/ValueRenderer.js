@@ -24,7 +24,7 @@ export default function ValueRenderer({ value }) {
     }
   }
 
-  if (URL_REGEX.test(value)) {
+  if (typeof value === 'string' && URL_REGEX.test(value)) {
     if (value.match(URL_REGEX)) {
       return <a href={value.match(URL_REGEX)[0]} rel="noopener noreferrer" target="_blank">{value.match(URL_REGEX)[0]}</a>;
     }
