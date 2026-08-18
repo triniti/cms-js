@@ -30,7 +30,7 @@ function UserAvatar(props) {
       <span id={target} className="avatar-initials avatar-initials-sm badge-indicator">
         {initials}
       </span>
-      <UncontrolledTooltip placement="top" target={target}>
+      <UncontrolledTooltip placement="top" target={target} fade={false}>
         {title}
       </UncontrolledTooltip>
     </>

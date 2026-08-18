@@ -13,6 +13,7 @@ import withRequest from '@triniti/cms/plugins/pbjx/components/with-request/index
 import formatDate from '@triniti/cms/utils/formatDate.js';
 import usePolicy from '@triniti/cms/plugins/iam/components/usePolicy.js';
 import SearchForm from '@triniti/cms/plugins/curator/components/search-teasers-screen/SearchForm.js';
+import useDuplicateNode from '@triniti/cms/plugins/curator/components/useDuplicateNode.js';
 import BatchOperationsCard from '@triniti/cms/plugins/ncr/components/batch-operations-card/index.js';
 import useBatch from '@triniti/cms/plugins/ncr/components/useBatch.js';
 import createRowClickHandler from '@triniti/cms/utils/createRowClickHandler.js';
@@ -26,6 +27,7 @@ function SearchTeasersScreen(props) {
   const canCreate = policy.isGranted(`${APP_VENDOR}:teaser:create`);
   const batch = useBatch(response);
   const navigate = useNavigate();
+  const duplicateNode = useDuplicateNode();
 
   const curies = useCuries('triniti:curator:mixin:teaser:v1');
   if (!curies) {
@@ -82,7 +84,9 @@ function SearchTeasersScreen(props) {
               {response.get('nodes', []).map(node => {
                 const ref = node.generateNodeRef();
                 const canUpdate = policy.isGranted(`${ref.getQName()}:update`);
+                const canDuplicate = policy.isGranted(`${ref.getQName()}:create`);
                 const handleRowClick = createRowClickHandler(navigate, node);
+                const handleDuplicateTeaser = () => duplicateNode(node);
                 return (
                   <tr key={`${node.get('_id')}`} className={`status-${node.get('status')} cursor-pointer`} onClick={handleRowClick}>
                     <td data-ignore-row-click={true}><Input type="checkbox" onChange={() => batch.toggle(node)} checked={batch.has(node)} /></td>
@@ -123,11 +127,16 @@ function SearchTeasersScreen(props) {
                           </Button>
                         </Link>
                       )}
-                      <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
+                     <a href={nodeUrl(node, 'canonical')} target="_blank" rel="noopener noreferrer">
                         <Button color="hover" tag="span">
                           <Icon imgSrc="external" alt="open" />
                         </Button>
                       </a>
+                      {canDuplicate && (
+                        <Button color="hover" tag="span" onClick={handleDuplicateTeaser}>
+                          <Icon imgSrc="documents" alt="copy" />
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 );

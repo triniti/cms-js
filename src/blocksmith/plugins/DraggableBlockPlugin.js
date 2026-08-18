@@ -18,10 +18,13 @@ import {
   DROP_COMMAND,
 } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { NodeEventPlugin } from '@lexical/react/LexicalNodeEventPlugin';
 import { calculateZoomLevel, isHTMLElement, mergeRegister } from '@lexical/utils';
+import BlocksmithNode from '@triniti/cms/blocksmith/nodes/BlocksmithNode.js';
 import { Point } from '@triniti/cms/blocksmith/utils/point.js';
 import { Rect } from '@triniti/cms/blocksmith/utils/rect.js';
 import { Icon } from '@triniti/cms/components/index.js';
+import noop from 'lodash-es/noop.js';
 
 const SPACE = 1;
 const TARGET_LINE_HALF_HEIGHT = 2;
@@ -164,12 +167,16 @@ const setMenuPosition = (targetElem, floatingElem, anchorElem) => {
   floatingElem.style.transform = `translate(${left}px, ${top}px)`;
 };
 
-const setDragImage = (dataTransfer, draggableBlockElem) => {
+const setDragImage = (dataTransfer, draggableBlockElem, event) => {
   const { transform } = draggableBlockElem.style;
 
   // Remove dragImage borders
   draggableBlockElem.style.transform = 'translateZ(0)';
-  dataTransfer.setDragImage(draggableBlockElem, 0, 0);
+  // Calculate position for dragImage
+  const { left: blockElemLeft, top: blockElemTop } = draggableBlockElem.getBoundingClientRect();
+  const xOffset = event.x - blockElemLeft;
+  const yOffset = event.y - blockElemTop;
+  dataTransfer.setDragImage(draggableBlockElem, xOffset, yOffset);
 
   setTimeout(() => {
     draggableBlockElem.style.transform = transform;
@@ -202,19 +209,46 @@ const hideTargetLine = (targetLineElem) => {
   }
 };
 
-export default function DraggableBlockPlugin({ anchorElem }) {
+export default function DraggableBlockPlugin({ anchorElem, onDragStart = noop, onDragEnd = noop }) {
   const [editor] = useLexicalComposerContext();
   const scrollerElem = anchorElem.parentElement;
 
   const menuRef = useRef(null);
   const targetLineRef = useRef(null);
   const isDraggingBlockRef = useRef(false);
+  const isSelectingTextRef = useRef(false);
   const [draggableBlockElem, setDraggableBlockElem] = useState(null);
 
   useEffect(() => {
+    const onMouseDown = (event) => {
+      if (event.button !== 0) {
+        return;
+      }
+      const target = event.target;
+      if (!isHTMLElement(target) || isOnMenu(target)) {
+        return;
+      }
+      // Only guard against selection focus theft when mousedown lands in editable
+      // text. Decorator blocks render as contenteditable=false, so grabbing one
+      // should leave the flag clear and let native browser dragstart proceed.
+      if (!target.isContentEditable) {
+        return;
+      }
+      isSelectingTextRef.current = true;
+    };
+
+    const onMouseUp = () => {
+      isSelectingTextRef.current = false;
+    };
+
     const onMouseMove = (event) => {
       const target = event.target;
       if (!isHTMLElement(target)) {
+        setDraggableBlockElem(null);
+        return;
+      }
+
+      if (isSelectingTextRef.current) {
         setDraggableBlockElem(null);
         return;
       }
@@ -227,13 +261,18 @@ export default function DraggableBlockPlugin({ anchorElem }) {
     };
 
     const onMouseLeave = () => setDraggableBlockElem(null);
-    scrollerElem?.addEventListener('mousemove', onMouseMove);
-    scrollerElem?.addEventListener('mouseleave', onMouseLeave);
 
-    return () => {
-      scrollerElem?.removeEventListener('mousemove', onMouseMove);
-      scrollerElem?.removeEventListener('mouseleave', onMouseLeave);
-    }
+    const controller = new AbortController();
+    const { signal } = controller;
+    scrollerElem?.addEventListener('mousedown', onMouseDown, { signal });
+    scrollerElem?.addEventListener('mousemove', onMouseMove, { signal });
+    scrollerElem?.addEventListener('mouseleave', onMouseLeave, { signal });
+    // mouseup on document so we still hear the release if the user drags outside the scroller.
+    // blur on window so we reset state when the window loses focus mid-gesture (blur doesn't bubble).
+    document.addEventListener('mouseup', onMouseUp, { signal });
+    window.addEventListener('blur', onMouseUp, { signal });
+
+    return () => controller.abort();
   }, [scrollerElem, anchorElem, editor]);
 
   useEffect(() => {
@@ -312,27 +351,33 @@ export default function DraggableBlockPlugin({ anchorElem }) {
     );
   }, [anchorElem, editor]);
 
-  const onDragStart = (event) => {
+  const handleDragStart = (event) => {
     const dataTransfer = event.dataTransfer;
     if (!dataTransfer || !draggableBlockElem) {
       return;
     }
 
-    setDragImage(dataTransfer, draggableBlockElem);
+    onDragStart();
+
+    setDragImage(dataTransfer, draggableBlockElem, event);
     let nodeKey = '';
     editor.update(() => {
       const node = $getNearestNodeFromDOMNode(draggableBlockElem);
       if (node) {
         nodeKey = node.getKey();
       }
+    }, {
+      onUpdate: () => {
+        isDraggingBlockRef.current = true;
+        dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey);
+      }
     });
-    isDraggingBlockRef.current = true;
-    dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey);
   };
 
-  const onDragEnd = () => {
+  const handleDragEnd = () => {
     isDraggingBlockRef.current = false;
     hideTargetLine(targetLineRef.current);
+    onDragEnd();
   };
 
   if (!editor.isEditable()) {
@@ -341,12 +386,22 @@ export default function DraggableBlockPlugin({ anchorElem }) {
 
   return createPortal(
     <>
+      <NodeEventPlugin
+        nodeType={BlocksmithNode}
+        eventType={'dragstart'}
+        eventListener={handleDragStart}
+      />
+      <NodeEventPlugin
+        nodeType={BlocksmithNode}
+        eventType={'dragend'}
+        eventListener={handleDragEnd}
+      />
       <div
         className="draggable-block-menu"
         ref={menuRef}
         draggable={true}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
         <Icon imgSrc="drag" />
       </div>

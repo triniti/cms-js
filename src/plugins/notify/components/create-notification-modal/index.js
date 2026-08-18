@@ -41,7 +41,7 @@ function CreateNotificationModal(props) {
   const ComponentWithPbj = curie && withPbj(resolveComponent(curie), curie);
 
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create Notification</ModalHeader>
@@ -53,6 +53,11 @@ function CreateNotificationModal(props) {
                 {response.get('nodes').map(node => {
                     const ref = node.generateNodeRef();
                     const qname = ref.getQName();
+                    // apple news no longer supports programmatic notifications
+                    if (qname.getMessage() === 'apple-news-app') {
+                      return;
+                    }
+
                     const vendor = qname.getVendor();
                     const label = qname.getMessage().replace('-app', '-notification');
                     const canCreate = policy.isGranted(`${vendor}:${label}:create`);

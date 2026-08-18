@@ -25,6 +25,10 @@ export default class PublishNodeValidator {
       return;
     }
 
+    if (node.schema().hasMixin('triniti:curator:mixin:live-blog-update-teaser')) {
+      return;
+    }
+
     if (!node.schema().hasField('seo_image_ref')) {
       return;
     }

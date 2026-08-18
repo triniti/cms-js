@@ -93,7 +93,15 @@ function AssetDetails(props) {
             {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
               <Row className="align-items-end">
                 <Col sm={8}>
-                  <DatePickerField name="expires_at" label="Expires At" />
+                  <DatePickerField 
+                    name="expires_at" 
+                    label="Expires At" 
+                    showQuickSelect
+                    quickSelectOptions={[
+                      { amount: 5, unit: 'year' },
+                      { amount: 1, unit: 'year' }
+                    ]}
+                  />
                 </Col>
                 <Col sm={4}>
                   <Button
@@ -115,7 +123,15 @@ function AssetDetails(props) {
           <>
             <PicklistField picklist={`${label}-credits`} name="credit" label="Credit" />
             {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-              <DatePickerField name="expires_at" label="Expires At" />
+              <DatePickerField
+                name="expires_at"
+                label="Expires At"
+                showQuickSelect
+                quickSelectOptions={[
+                  { amount: 5, unit: 'year' },
+                  { amount: 1, unit: 'year' }
+                ]}
+              />
             )}
           </>
         )}
@@ -132,7 +148,7 @@ export default function AssetForm(props) {
   const { batch, controls, uploadHash } = props;
   const upload = batch.get(uploadHash);
   const [nodeRef, setNodeRef] = useState(null);
-  const { node, refreshNode, setNode, isRefreshing, pbjxError } = useNode(nodeRef);
+  const { node, refreshNode, setNode, isRefreshing, pbjxError } = useNode(nodeRef, true);
   const status = upload ? upload.status : null;
   const key = `${uploadHash}-${status || ''}`;
 

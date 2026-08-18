@@ -24,6 +24,8 @@ import marshalToFinalForm from '@triniti/cms/blocksmith/utils/marshalToFinalForm
 import sanitizeNodes from '@triniti/cms/blocksmith/utils/sanitizeNodes.js';
 
 export const INSERT_BLOCK_COMMAND = createCommand();
+export const INSERT_BLOCK_AT_BOTTOM_COMMAND = createCommand();
+export const INSERT_BLOCK_AT_TOP_COMMAND = createCommand();
 export const REMOVE_BLOCK_COMMAND = createCommand();
 export const REPLACE_BLOCK_COMMAND = createCommand();
 export const BLOCKSMITH_DIRTY = 'blocksmith.dirty';
@@ -118,6 +120,46 @@ export default function BlocksmithPlugin(props) {
 
         const $root = $getRoot();
         $root.append($node);
+        $node[selectMethod]();
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(INSERT_BLOCK_AT_TOP_COMMAND, (payload) => {
+        const { newPbj = null } = payload;
+        let $node;
+        let selectMethod;
+        if (!newPbj) {
+          $node = $createParagraphNode();
+          selectMethod = 'select';
+        } else {
+          const curie = newPbj.schema().getCurie().toString();
+          $node = $createBlocksmithNode(curie, newPbj.toObject());
+          selectMethod = 'selectEnd';
+        }
+
+        const $root = $getRoot();
+        const $firstChild = $root.getFirstChild();
+        if ($firstChild) {
+          $firstChild.insertBefore($node);
+        } else {
+          $root.append($node);
+        }
+        $node[selectMethod]();
+        return true;
+      }, COMMAND_PRIORITY_EDITOR),
+      editor.registerCommand(INSERT_BLOCK_AT_BOTTOM_COMMAND, (payload) => {
+        const { newPbj = null } = payload;
+        let $node;
+        let selectMethod;
+        if (!newPbj) {
+          $node = $createParagraphNode();
+          selectMethod = 'select';
+        } else {
+          const curie = newPbj.schema().getCurie().toString();
+          $node = $createBlocksmithNode(curie, newPbj.toObject());
+          selectMethod = 'selectEnd';
+        }
+
+        $getRoot().append($node);
         $node[selectMethod]();
         return true;
       }, COMMAND_PRIORITY_EDITOR),

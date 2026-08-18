@@ -19,6 +19,7 @@ export const actionTypes = {
   COLLABORATOR_JOINED: t('collaborator_joined'),
   COLLABORATOR_LEFT: t('collaborator_left'),
   HEARTBEAT: t('heartbeat'),
+  COLLABORATIONS_UPDATED: t('collaborations_updated'),
 };
 
 export const methods = {

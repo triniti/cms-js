@@ -25,7 +25,7 @@ export default function CreateAppModal(props) {
   const ComponentWithPbj = curie && withPbj(CreateAppForm, curie);
 
   return (
-    <Modal isOpen backdrop="static">
+    <Modal isOpen toggle={props.toggle}>
       {!curie && (
         <>
           <ModalHeader toggle={props.toggle}>Create App</ModalHeader>

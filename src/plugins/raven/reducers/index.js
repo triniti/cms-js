@@ -5,7 +5,7 @@ import { actionTypes, connectionStatus } from '@triniti/cms/plugins/raven/consta
 export const initialState = {
   collaborationsKeys: [],
   collaborations: {},
-  status: connectionStatus.DISCONNECTED,
+  status: connectionStatus.DISCONNECTED
 };
 
 const onConnecting = (state) => ({ ...state, status: connectionStatus.CONNECTING });
@@ -32,17 +32,23 @@ const onDisconnected = (prevState, action) => {
     state.status = connectionStatus.DISCONNECTED;
   }
 
-  const nodeRefs = Object.keys(state.collaborations);
-  for (const nodeRef of nodeRefs) {
-    if (isEmpty(state.collaborations[nodeRef])) {
-      continue;
-    }
+  // Only process collaborations cleanup if we have a userRef
+  if (action.userRef) {
+    const nodeRefs = Object.keys(state.collaborations);
+    for (const nodeRef of nodeRefs) {
+      if (isEmpty(state.collaborations[nodeRef])) {
+        delete state.collaborations[nodeRef];
+        continue;
+      }
 
-    delete state.collaborations[nodeRef][action.userRef];
+      delete state.collaborations[nodeRef][action.userRef];
 
-    if (isEmpty(state.collaborations[nodeRef])) {
-      delete state.collaborations[nodeRef];
+      if (isEmpty(state.collaborations[nodeRef])) {
+        delete state.collaborations[nodeRef];
+      }
     }
+  } else {
+    console.warn('raven/onDisconnected: no userRef provided', action);
   }
 
   state.collaborationsKeys = Object.keys(state.collaborations);
@@ -50,14 +56,44 @@ const onDisconnected = (prevState, action) => {
 };
 
 const onCollaboratorJoinedOrHeartbeat = (prevState, action) => {
+  // Validate required fields
+  if (!action.nodeRef || !action.userRef) {
+    console.error('raven/onCollaboratorJoinedOrHeartbeat: missing required fields', {
+      nodeRef: action.nodeRef,
+      userRef: action.userRef,
+      action
+    });
+    return prevState;
+  }
+
+  // Extra safety check - ensure nodeRef is a string and not undefined
+  if (typeof action.nodeRef !== 'string' || action.nodeRef === 'undefined') {
+    console.error('raven/onCollaboratorJoinedOrHeartbeat: invalid nodeRef', {
+      nodeRef: action.nodeRef,
+      nodeRefType: typeof action.nodeRef,
+      action
+    });
+    return prevState;
+  }
+
   const state = { ...prevState };
   state.collaborations[action.nodeRef] = { ...state.collaborations[action.nodeRef] };
-  state.collaborations[action.nodeRef][action.userRef] = action.ts;
+  state.collaborations[action.nodeRef][action.userRef] = action.ts || Math.floor(Date.now() / 1000);
   state.collaborationsKeys = Object.keys(state.collaborations);
   return state;
 };
 
 const onCollaboratorLeft = (prevState = {}, action) => {
+  // Validate required fields
+  if (!action.nodeRef || !action.userRef) {
+    console.error('raven/onCollaboratorLeft: missing required fields', {
+      nodeRef: action.nodeRef,
+      userRef: action.userRef,
+      action
+    });
+    return prevState;
+  }
+
   const state = { ...prevState };
   if (isEmpty(state.collaborations[action.nodeRef])) {
     delete state.collaborations[action.nodeRef];
@@ -101,6 +137,13 @@ const onPruneCollaborators = (prevState = {}) => {
   return state;
 };
 
+const onCollaborationsUpdated = (prevState, action) => {
+  const state = { ...prevState };
+  state.collaborations = action.collaborations;
+  state.collaborationsKeys = Object.keys(action.collaborations);
+  return state;
+};
+
 export default createReducer(initialState, {
   [actionTypes.CONNECTING]: onConnecting,
   [actionTypes.CONNECTED]: onConnected,
@@ -110,4 +153,5 @@ export default createReducer(initialState, {
   [actionTypes.COLLABORATOR_LEFT]: onCollaboratorLeft,
   [actionTypes.HEARTBEAT]: onCollaboratorJoinedOrHeartbeat,
   [actionTypes.PRUNE_COLLABORATORS]: onPruneCollaborators,
+  [actionTypes.COLLABORATIONS_UPDATED]: onCollaborationsUpdated,
 });

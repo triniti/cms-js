@@ -19,15 +19,15 @@ export default function AssetPickerModal(props) {
   const [uploaderOpen, setUploaderOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(linkedRef ? defaultTab : 'search');
 
-  const handleSelectAsset = async (ref) => {
-    if (!ref) {
+  const handleSelectAsset = async (assetRef) => {
+    if (!assetRef) {
       if (uploaderOpen) {
         setUploaderOpen(false);
       }
       return;
     }
 
-    await onSelectAsset(ref);
+    await onSelectAsset(assetRef);
     props.toggle();
   };
 
@@ -56,7 +56,7 @@ export default function AssetPickerModal(props) {
   }
 
   return (
-    <Modal isOpen backdrop="static" size="xxl" centered>
+    <Modal isOpen size="xxl" centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>{header}</ModalHeader>
       <ModalBody className="p-0">
         {linkedRef && (

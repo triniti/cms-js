@@ -1,3 +1,5 @@
+@import '../variables';
+
 // blocksmith
 
 .blocksmith-input {
@@ -65,7 +67,11 @@
 }
 
 .blocksmith-block {
-  padding: 8px 0;
+  margin: 8px 0;
+}
+
+[data-lexical-decorator="true"] + [data-lexical-decorator="true"] .blocksmith-block {
+  margin-top: 16px;
 }
 
 .blocksmith {
@@ -96,6 +102,14 @@
   padding: 4px;
   background-color: var(--#{$prefix}body-bg);
   box-shadow: $box-shadow-sm;
+}
+
+.blocksmith .toolbar.floating-toolbar {
+  position: absolute;
+  z-index: $zindex-floating-tooltip;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: opacity, top, left;
 }
 
 .blocksmith .toolbar-item {
@@ -178,31 +192,44 @@
 
 .insert-block-buttons {
   position: absolute;
-  bottom: -22px;
-  margin: 0 .5rem;
-  padding: 0;
-  width: calc(100% - 1rem);
-  min-height: 30px;
+  width: 100%;
+  height: 16px;
   border: none;
   box-shadow: none !important;
   text-align: center;
+  z-index: 1;
 
   > .btn {
     color: $white;
     box-shadow: $box-shadow;
     opacity: 0;
-    transition: opacity $transition;
     font-weight: 700;
     padding-left: .625rem;
+    min-height: 25px;
+    height: 25px;
   }
   &:hover {
     > .btn {
       opacity: 1;
+      transition: opacity $transition;
     }
   }
   .blocksmith-input > div:last-child & {
     padding-bottom: 18px;
     bottom: -40px;
+  }
+}
+
+.bottom-insert-block-button {
+  text-align: center;
+
+  > .btn {
+    color: $white;
+    box-shadow: $box-shadow;
+    font-weight: 700;
+    min-height: 25px;
+    height: 25px;
+    text-align: center;
   }
 }
 
@@ -263,6 +290,16 @@
   opacity: 0;
   border-radius: 3px;
   will-change: transform;
+}
+
+[data-lexical-decorator=true][draggable=true] {
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+  a, button {
+    cursor: pointer;
+  }
 }
 
 

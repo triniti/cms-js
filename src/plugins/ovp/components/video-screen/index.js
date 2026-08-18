@@ -1,5 +1,6 @@
 import React from 'react';
-import { Badge, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, DropdownMenu, DropdownToggle, Form, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
+import ProcessingErrorAlert from '@triniti/cms/plugins/dam/components/asset-screen/ProcessingErrorAlert.js';
 import withNodeScreen, { useDelegate } from '@triniti/cms/plugins/ncr/components/with-node-screen/index.js';
 import NodeStatusCard from '@triniti/cms/plugins/ncr/components/node-status-card/index.js';
 import { ActionButton, FormErrors, Icon, Screen, ViewModeWarning } from '@triniti/cms/components/index.js';
@@ -10,7 +11,13 @@ import TaxonomyTab from '@triniti/cms/plugins/taxonomy/components/taxonomy-tab/i
 import SeoTab from '@triniti/cms/plugins/common/components/seo-tab/index.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import MezzaninePreviewCard from '@triniti/cms/plugins/ovp/components/video-screen/MezzaninePreviewCard.js';
+import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
+import MediaLiveChannelControls from '@triniti/cms/plugins/ovp/components/media-live-channel-controls/index.js';
+import useRequest from '@triniti/cms/plugins/pbjx/components/useRequest.js';
+import GetNodeRequestV1 from '@gdbots/schemas/gdbots/ncr/request/GetNodeRequestV1.js';
+import NodeRef from '@gdbots/pbj/well-known/NodeRef.js';
 
 function VideoScreen(props) {
   const {
@@ -23,16 +30,42 @@ function VideoScreen(props) {
     nodeRef,
     policy,
     tab,
-    urls
+    urls,
+    refreshNode
   } = props;
 
   const delegate = useDelegate(props);
+  const { node: mezzanineAsset } = useNode(node.get('mezzanine_ref'));
 
   const { dirty, errors, hasSubmitErrors, hasValidationErrors, submitting, valid } = formState;
   const submitDisabled = submitting || isRefreshing || !dirty || (!valid && !hasSubmitErrors);
 
   const canDelete = policy.isGranted(`${qname}:delete`);
   const canUpdate = policy.isGranted(`${qname}:update`);
+
+  const schema = node.schema();
+  const hasMedialiveChannel = schema.hasMixin('triniti:ovp.medialive:mixin:has-channel') && node.has('medialive_channel_arn');
+
+  const medialiveRequest = React.useMemo(() => {
+    if (!hasMedialiveChannel || !nodeRef) {
+      return null;
+    }
+    return GetNodeRequestV1.create()
+      .set('node_ref', NodeRef.fromString(`${nodeRef}`))
+      .addToSet('derefs', ['medialive_channel_state']);
+  }, [hasMedialiveChannel, nodeRef]);
+
+  const {
+    response: medialiveResponse,
+    run: runMedialiveRequest,
+    isRunning: isRunningMedialiveRequest,
+  } = useRequest(medialiveRequest);
+
+  const medialiveMetas = medialiveResponse ? medialiveResponse.get('metas', {}) : {};
+
+  const handleRefreshMedialive = () => {
+    runMedialiveRequest();
+  };
 
   return (
     <Screen
@@ -65,24 +98,20 @@ function VideoScreen(props) {
             color="light"
             outline
           />
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
+          />
           {canUpdate && (
-            <>
-              <ActionButton
-                text="Save"
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                icon="save-diskette"
-                color="primary"
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {canDelete && (
             <UncontrolledDropdown>
@@ -105,12 +134,36 @@ function VideoScreen(props) {
       sidebar={
         <>
           <NodeStatusCard nodeRef={nodeRef} onStatusUpdated={delegate.handleStatusUpdated} />
+          {hasMedialiveChannel && (
+            <Card>
+              <CardHeader>
+                <span>
+                  Livestream
+                  {node.isInMap('tags', 'livestream_label') && (
+                    <Badge color="light" pill className="ms-2">
+                      {node.getFromMap('tags', 'livestream_label')}
+                    </Badge>
+                  )}
+                </span>
+              </CardHeader>
+              <CardBody className="p-2">
+                <MediaLiveChannelControls
+                  nodeRef={nodeRef}
+                  metas={medialiveMetas}
+                  refresh={handleRefreshMedialive}
+                  isRefreshing={isRunningMedialiveRequest}
+                  statusOnNewLine
+                />
+              </CardBody>
+            </Card>
+          )}
           {node.has('mezzanine_ref') && <MezzaninePreviewCard nodeRef={node.get('mezzanine_ref')} />}
         </>
       }
     >
       {!editMode && <ViewModeWarning />}
       {dirty && hasValidationErrors && <FormErrors errors={errors} />}
+      {mezzanineAsset && <ProcessingErrorAlert node={mezzanineAsset} />}
       <Form onSubmit={handleSubmit} autoComplete="off">
         <TabContent activeTab={tab}>
           <TabPane tabId="details">

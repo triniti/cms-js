@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Badge, Card, CardHeader } from 'reactstrap';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
@@ -8,40 +8,66 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import BlocksmithPlugin from '@triniti/cms/blocksmith/plugins/BlocksmithPlugin.js';
+import AppPlugins from '@triniti/cms/blocksmith/plugins/AppPlugins.js';
 import DraggableBlockPlugin from '@triniti/cms/blocksmith/plugins/DraggableBlockPlugin.js';
+import FloatingTextFormatToolbarPlugin from '@triniti/cms/blocksmith/plugins/FloatingTextFormatToolbarPlugin.js';
+import InsertBlockPlugin from '@triniti/cms/blocksmith/plugins/InsertBlockPlugin.js';
+import BottomInsertBlockPlugin from '@triniti/cms/blocksmith/plugins/BottomInsertBlockPlugin.js';
 import ToolbarPlugin from '@triniti/cms/blocksmith/plugins/ToolbarPlugin.js';
+import WordCountPlugin from '@triniti/cms/blocksmith/plugins/WordCountPlugin.js';
+import HoverInsertButtons from '@triniti/cms/blocksmith/components/hover-insert-buttons/index.js';
 import { useFormContext } from '@triniti/cms/components/index.js';
 import config from '@triniti/cms/blocksmith/config.js';
 
 export default function Blocksmith(props) {
   const { editMode, pbj } = useFormContext();
   const editorRef = useRef(null);
+  const [liveWordCount, setLiveWordCount] = useState(pbj.get('word_count'));
+  const [isDragging, setIsDragging] = useState(false);
   config.editable = editMode;
+
+  const handleWordCountChanged = wordCount => {
+    setLiveWordCount(wordCount);
+  }
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  }
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  }
 
   return (
     <LexicalComposer initialConfig={config}>
       <Card className="blocksmith">
-        {!editMode && (
-          <CardHeader>
-            Content
-            {pbj.get('word_count') > 0 && (
-              <span className="text-light fs-6 fw-semibold">
-                Word Count: <Badge color="dark" className="fs-6">{pbj.get('word_count')}</Badge>
-              </span>
-            )}
-          </CardHeader>
-        )}
+        <CardHeader>
+          Content
+          {pbj.get('word_count') > 0 && (
+            <span className="text-light fs-6 fw-semibold">
+              Word Count: <Badge color="dark" className="fs-6">{editMode ? liveWordCount : pbj.get('word_count')}</Badge>
+            </span>
+          )}
+        </CardHeader>
         <BlocksmithPlugin {...props} />
         <LinkPlugin />
         <ListPlugin />
+        <AppPlugins {...props} />
         {editMode && (
           <>
-            {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} />}
+            {editorRef.current && <DraggableBlockPlugin anchorElem={editorRef.current} onDragStart={handleDragStart} onDragEnd={handleDragEnd} />}
+            {editorRef.current && <FloatingTextFormatToolbarPlugin anchorElem={editorRef.current} />}
+            <WordCountPlugin
+              onWordCountChanged={handleWordCountChanged}
+              title={pbj.get('title', '')}
+            />
+            <InsertBlockPlugin />
             <HistoryPlugin />
             <ToolbarPlugin />
           </>
         )}
         <div className="position-relative">
+          {editMode && <HoverInsertButtons isDragging={isDragging} />}
           <RichTextPlugin
             contentEditable={
               <div className="blocksmith-editor" ref={editorRef}>
@@ -56,6 +82,7 @@ export default function Blocksmith(props) {
             ErrorBoundary={LexicalErrorBoundary}
           />
         </div>
+        {editMode && <BottomInsertBlockPlugin />}
       </Card>
     </LexicalComposer>
   );

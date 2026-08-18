@@ -2,6 +2,8 @@ import Swal from 'sweetalert2';
 import Code from '@gdbots/schemas/gdbots/pbjx/enums/Code.js';
 import clearAlerts from '@triniti/cms/actions/clearAlerts.js';
 import logout from '@triniti/cms/plugins/iam/actions/logout.js';
+import isInEditMode from '@triniti/cms/plugins/iam/utils/isInEditMode.js';
+import reloadForAuthExpired from '@triniti/cms/plugins/iam/utils/reloadForAuthExpired.js';
 import { actionTypes } from '@triniti/cms/plugins/pbjx/constants.js';
 
 /**
@@ -21,27 +23,32 @@ import { actionTypes } from '@triniti/cms/plugins/pbjx/constants.js';
  */
 export default (envelope) => (dispatch) => {
   if (envelope.get('code') === Code.UNAUTHENTICATED.getValue()) {
-    setTimeout(() => {
+    if (!isInEditMode()) {
       dispatch(clearAlerts());
-      Swal.fire({
-        title: 'Authentication Required',
-        icon: 'error',
-        showCancelButton: true,
-        cancelButtonText: 'Logout',
-        html: '<p><strong>To avoid losing your work:</strong>'
-          + '<ol class="text-start">'
-          + '<li class="pb-2"><mark><u>DO NOT</u></mark> close or refresh.</li>'
-          + '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Log in</strong></a> from a new tab.</li>'
-          + '<li class="pb-2">Once logged in, return to this tab.</li>'
-          + '<li>Click <strong>OK</strong> and then retry your operation.</li>'
-          + '</ol>'
-          + '</p>',
-      }).then((result) => {
-        if (result.isDismissed && result.dismiss === 'cancel') {
-          dispatch(logout());
-        }
-      }).catch(console.error);
-    }, 1000);
+      reloadForAuthExpired();
+    } else {
+      setTimeout(() => {
+        dispatch(clearAlerts());
+        Swal.fire({
+          title: 'Authentication Required',
+          icon: 'error',
+          showCancelButton: true,
+          cancelButtonText: 'Logout',
+          html: '<p><strong>To avoid losing your work:</strong>'
+            + '<ol class="text-start">'
+            + '<li class="pb-2"><mark><u>DO NOT</u></mark> close or refresh.</li>'
+            + '<li class="pb-2"><a href="/" target="_blank" rel="noopener noreferrer"><strong>Log in</strong></a> from a new tab.</li>'
+            + '<li class="pb-2">Once logged in, return to this tab.</li>'
+            + '<li>Click <strong>OK</strong> and then retry your operation.</li>'
+            + '</ol>'
+            + '</p>',
+        }).then((result) => {
+          if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
+            dispatch(logout());
+          }
+        }).catch(console.error);
+      }, 1000);
+    }
   }
 
   return dispatch({

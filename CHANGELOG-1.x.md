@@ -1,6 +1,80 @@
 # CHANGELOG
 
 
+## vN.N.N
+* ncr :: Update node history card value renderer to display links from a group or set of valid URLs.
+* dam :: Adjust batch upload form's "Apply To All" fix to address a new regression that after saving an article, the save button remains enabled.
+* blocksmith :: Parse and save TikTok username in tiktok-embed-block modal.
+* notify :: Remove Apple News option from create notification modal.
+* ncr :: Fix `useNode` refreshNode sometimes skipping the refetch, which froze the batch uploader's "Saving..." spinner after Apply to All.
+* dam :: Batch upload "Apply to All" no longer erases unsaved display title and alt text on the active asset form.
+* Polish apple news modal
+* iam :: Auto-reload on expired auth outside edit screens. Keep "Authentication Required" modal only in edit mode so in-progress work isn't lost.
+* deps :: Pin `final-form` to `5.0.0`, `final-form-arrays` to `4.0.0`, `react-final-form` to `7.0.0`. `final-form` 5.0.1 breaks form submit.
+* blocksmith :: scope text-selection drag guard to editable text so non-text blocks (image, gallery, divider, etc.) stay grab-and-droppable from anywhere on the block.
+* blocksmith :: Add `AppPlugins` extension point for app-level Lexical plugins.
+* ncr :: Slug rename modal - apply slug normalization on blur instead of on every keystroke to prevent cursor jumping when typing in the middle of the slug.
+* NCR MultiSelectField :: Preserve dropdown results after selection in input fields.
+* Screen :: Adding support for a component in tabs.
+* Move save button for all nodes into `SaveNodeButton` component.
+* raven :: Warning modal race condition.
+* raven :: No longer disconnects on hidden browsers and immediately pulls collaborations on connect.
+* raven :: Display users in article edit mode
+* blocksmith :: adding support for embed codes in iframe src input.
+* blocksmith :: ability to add blocks to the top of the editor.
+* curator :: Widget datasource fixes. Clearable datasource, vendor schema fix, and adding `page` back.
+* Use `Swal.DismissReason` enum in `receiveEnvelope.js` and `Authorizer.js`
+* Blocksmith :: prevent saving empty text blocks regardless of position
+* Add filename preview on image hover in galleries
+* Fixed publish immediately to use server time instead of client time
+* Fixed single select field not hydrating data.
+* Add `showQuickSelect` and `quickSelectOptions` props to DatePickerField component.
+* Blocksmith :: update link modal so when opened, its URL field is set to focus.
+* Update MultiSelectField of NodePickerField to clear input value every time the onChange event occurs.
+* ncr :: PublishForm qname fix.
+* uploader-modal :: Populate the AssetForm with the first item to start uploading rather than the first item to finish loading.
+* Add override file for customizing picker field behavior
+* Update DatePickerField to use Input time when selecting date and time.
+* Blocksmith :: Add ability to insert blocks after text blocks
+* Add picker labels to options component in node picker fields.
+* Blocksmith :: add floating toolbar for text formatting on selection.
+* Blocksmith :: floating toolbar to include link and unlink.
+* Update internal/external links for node picker fields and block previews
+* Add back gallery zoom
+* Blocksmith :: add live word count in edit mode
+* Enable Selective Removal Within Linked Text
+* Add images to galleries in the order they were selected/uploaded
+* Allow Spaces in Slug Fields.
+* Use grid view for gallery blocks and asset tabs
+* Display clear search button on search inputs.
+* Add transcoding and transcription error alerts to all tabs.
+* Add button for duplicating nodes on teasers search screen.
+* Add mezzanine card to video details tab and display title instead of id for mezzanine asset.
+* Update parseYouTubeId to handle more types of urls
+* Fetch event's ctx_user_ref for history card.
+* Blocksmith :: Add nofollow option for contextual links.
+* Blocksmith :: Default values for divider-block fields
+* Restore escape key and background click for exiting modals
+* Add start channel button in liveStream video sidebar
+* raven :: Warning modal copy updates
+* Fix Transcoding error alert on Video pages to focus on mezzanine asset solely
+* Blocksmith :: add ability to drag preview blocks and drag blocks to the top of the editor
+* Restore ability to click and edit linked assets from assets tab
+* Align Asset Linking Module Styling with Gallery Image Upload Component
+* Restore Persistent "Insert Block" Button Visibility
+* Blocksmith :: adjust drag image position when dragging blocks in the editor
+* asset linker modal should default to image assets only
+* Display `is_vertical` field on video asset details tab and video mezzanine card.
+* Improve Linking Assets UX: Match image size between modal and asset linker
+* Customizable keyValuesField validateKeys.
+* Add SeoAlternateUrlsField to SEO tab.
+* Show the gallery's launch text on the poster image preview.
+* Add CMS support for live blog timelines and live blog update teasers.
+* livestream sort: updated-at-desc
+* Image modal selectors to match Asset linker modal
+* Fix error adding fcm_topics to iOS notifications
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 

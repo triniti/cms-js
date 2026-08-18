@@ -59,7 +59,7 @@ export default function UploaderModal(props) {
       .filter(o => o.status === uploadStatus.COMPLETED)
       .map(o => o.result)
     );
-    await onDone(assetRef, assets.map(a => a.generateNodeRef()));
+    await onDone(assetRef, assets);
     props.toggle();
   };
 
@@ -84,11 +84,14 @@ export default function UploaderModal(props) {
   };
 
   const handleUploadCompleted = (nameHash) => {
-    if (activeUpload.current || activeUpload.current === nameHash) {
+    if (activeUpload.current) {
       return;
     }
 
-    activeUpload.current = nameHash;
+    if (nameHash === batch.values()[0]?.nameHash) {
+      activeUpload.current = nameHash;
+    }
+    
     batch.refresh();
   };
 
@@ -101,7 +104,7 @@ export default function UploaderModal(props) {
   };
 
   return (
-    <Modal isOpen backdrop="static" size="lg" centered>
+    <Modal isOpen size="lg" centered toggle={handleDone}>
       <ModalHeader toggle={handleDone}>Upload Files</ModalHeader>
       <ModalBody className="p-0 modal-scrollable">
         <div className="d-flex flex-column flex-md-row flex-nowrap">

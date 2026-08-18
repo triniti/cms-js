@@ -5,6 +5,7 @@ import reducer from '@triniti/cms/plugins/raven/reducers/index.js';
 import connect from '@triniti/cms/plugins/raven/actions/connect.js';
 import disconnect from '@triniti/cms/plugins/raven/actions/disconnect.js';
 import pruneCollaborators from '@triniti/cms/plugins/raven/actions/pruneCollaborators.js';
+import fetchInitialCollaborations from '@triniti/cms/plugins/raven/actions/fetchInitialCollaborations.js';
 import { serviceIds } from '@triniti/cms/plugins/raven/constants.js';
 
 export default class RavenPlugin extends Plugin {
@@ -24,6 +25,9 @@ export default class RavenPlugin extends Plugin {
     dispatcher.addListener(iamActionTypes.USER_LOADED, (event) => {
       const action = event.getAction();
       app.getRedux().dispatch(connect(action.user.generateNodeRef().toString()));
+      
+      // Fetch initial collaborations immediately when user is loaded
+      app.getRedux().dispatch(fetchInitialCollaborations());
 
       if (pruneIntervalId) {
         clearInterval(pruneIntervalId);

@@ -7,6 +7,7 @@ import Collaborators from '@triniti/cms/plugins/raven/components/collaborators/i
 import DetailsTab from '@triniti/cms/plugins/boost/components/sponsor-screen/DetailsTab.js';
 import HistoryTab from '@triniti/cms/plugins/ncr/components/history-tab/index.js';
 import RawTab from '@triniti/cms/plugins/ncr/components/raw-tab/index.js';
+import SaveNodeButton from '@triniti/cms/plugins/ncr/components/save-node-button/index.js';
 
 function SponsorScreen(props) {
   const {
@@ -58,24 +59,20 @@ function SponsorScreen(props) {
             color="light"
             outline
           />
+          <SaveNodeButton 
+            onClick={delegate.handleSave}
+            disabled={submitDisabled}
+            nodeRef={nodeRef}
+          />
           {canUpdate && (
-            <>
-              <ActionButton
-                text="Save"
-                onClick={delegate.handleSave}
-                disabled={submitDisabled}
-                icon="save-diskette"
-                color="primary"
-              />
-              <ActionButton
-                text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
-                onClick={delegate.handleSwitchMode}
-                disabled={submitting || isRefreshing}
-                icon={editMode ? 'eye' : 'edit'}
-                color="light"
-                outline
-              />
-            </>
+            <ActionButton
+              text={editMode ? 'Enter View Mode' : 'Enter Edit Mode'}
+              onClick={delegate.handleSwitchMode}
+              disabled={submitting || isRefreshing}
+              icon={editMode ? 'eye' : 'edit'}
+              color="light"
+              outline
+            />
           )}
           {canDelete && (
             <UncontrolledDropdown>

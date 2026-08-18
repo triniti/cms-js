@@ -57,6 +57,12 @@ export default function DetailsTab(props) {
                     <td className="w-100">{node.get('duration')} seconds</td>
                   </tr>
                 )}
+                {schema.hasMixin('triniti:dam:mixin:video-asset') && (
+                  <tr>
+                    <th className="nowrap ps-2" scope="row">Vertical:</th>
+                    <td className="w-100">{node.get('is_vertical') ? 'Yes' : 'No'}</td>
+                  </tr>
+                )}
                 {schema.hasMixin('triniti:dam:mixin:image-asset') && (
                   <tr>
                     <th className="nowrap ps-2" scope="row">Dimensions:</th>
@@ -76,7 +82,15 @@ export default function DetailsTab(props) {
           <TextField name="title" label="Title" />
           <TextField name="display_title" label="Display Title" />
           {schema.hasMixin('gdbots:ncr:mixin:expirable') && (
-            <DatePickerField name="expires_at" label="Expires At" />
+            <DatePickerField 
+              name="expires_at" 
+              label="Expires At" 
+              showQuickSelect
+              quickSelectOptions={[
+                { amount: 5, unit: 'year' },
+                { amount: 1, unit: 'year' }
+              ]}
+            />
           )}
           <TextareaField name="description" label="Description" rows={5} />
           {schema.hasField('alt_text') && (

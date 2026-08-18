@@ -14,9 +14,10 @@ import SlugField from '@triniti/cms/plugins/ncr/components/slug-field/index.js';
 import PicklistField from '@triniti/cms/plugins/sys/components/picklist-field/index.js';
 import SponsorPickerField from '@triniti/cms/plugins/boost/components/sponsor-picker-field/index.js';
 import TeaserPickerField from '@triniti/cms/plugins/curator/components/teaser-picker-field/index.js';
-import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-picker-field/index.js';
+import VideoPickerField from '@triniti/cms/plugins/ovp/components/video-screen/VideoPickerField.js';
 import SyndicationCard from '@triniti/cms/plugins/ovp/components/video-screen/SyndicationCard.js';
 import parseYouTubeId from '@triniti/cms/utils/parseYouTubeId.js';
+import MezzanineCard from './MezzanineCard.js';
 
 export default function DetailsTab(props) {
   const { node } = props;
@@ -60,6 +61,8 @@ export default function DetailsTab(props) {
           <SwitchField name="sharing_enabled" label="Sharing Enabled" />
         </CardBody>
       </Card>
+
+      <MezzanineCard {...props} />
 
       {schema.hasMixin('triniti:ovp.jwplayer:mixin:has-media') && (
         <Card>

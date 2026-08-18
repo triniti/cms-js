@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FORM_ERROR } from 'final-form';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { addDateToSlug, createSlug, isValidSlug } from '@gdbots/pbj/utils/index.js';
 import { ActionButton, FormErrors, TextField, withForm, withPbj } from '@triniti/cms/components/index.js';
 import SeoTitleField from '@triniti/cms/plugins/common/components/seo-title-field/index.js';
 import createNode from '@triniti/cms/plugins/ncr/actions/createNode.js';
+import { datedSlugValidator, formatDatedSlug, isValidDatedSlug } from '@triniti/cms/plugins/ncr/utils/slugFormat.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 import progressIndicator from '@triniti/cms/utils/progressIndicator.js';
 import toast from '@triniti/cms/utils/toast.js';
 import getFriendlyErrorMessage from '@triniti/cms/plugins/pbjx/utils/getFriendlyErrorMessage.js';
-import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
-import trimStart from 'lodash-es/trimStart.js';
 
-// more restrictive DATED_SLUG_PATTERN than what gdbots/pbj does
-const DATED_SLUG_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/[a-z0-9-]+$/;
-const isValidDatedSlug = value => isValidSlug(value, true) && DATED_SLUG_PATTERN.test(trimStart(value));
+// Slug is optional on create — if left empty it's generated from the title on submit.
+const slugValidator = (value) => {
+  if (!value?.trim()) return undefined;
+  return datedSlugValidator(value);
+};
 
 function CreateArticleModal(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [slug, setSlug] = useState('');
+  // true once the user has typed directly in the slug field; false when we auto-fill it.
+  const slugUserEdited = useRef(false);
 
   const { delegate, form, formState, handleSubmit, pbj } = props;
   const { dirty, hasSubmitErrors, submitErrors, submitting, valid } = formState;
@@ -29,48 +31,70 @@ function CreateArticleModal(props) {
   delegate.handleCreate = form.submit;
   delegate.handleSubmit = async (values) => {
     try {
-      await progressIndicator.show('Creating Article...');
-      if (slug && isValidDatedSlug(slug)) {
-        values.slug = slug.toLowerCase();
-      } else if (slug && !isValidDatedSlug(slug)) {
-        values.slug = addDateToSlug(slug).toLowerCase();
+      progressIndicator.show('Creating Article...');
+      const rawSlug = (values.slug ?? '').trim();
+      const rawTitle = (values.title ?? '').trim();
+      if (!rawSlug || !slugUserEdited.current) {
+        // Slug is empty or was auto-filled — always generate fresh from the current title.
+        values.slug = formatDatedSlug(rawTitle);
       } else {
-        values.slug = addDateToSlug(createSlug(values.title)).toLowerCase();
+        values.slug = isValidDatedSlug(rawSlug) ? rawSlug : formatDatedSlug(rawSlug);
       }
+      if (rawTitle) values.title = rawTitle;
       await dispatch(createNode(values, form, pbj));
 
       props.toggle();
-      await progressIndicator.close();
-      await navigate(nodeUrl(pbj, 'edit'));
+      progressIndicator.close();
+      navigate(nodeUrl(pbj, 'edit'));
       toast({ title: 'Article created.' });
     } catch (e) {
-      await progressIndicator.close();
+      progressIndicator.close();
       return { [FORM_ERROR]: getFriendlyErrorMessage(e) };
     }
   };
 
-  const handleBlur = (e) => {
-    if (e.target.value && !slug) {
-      setSlug(addDateToSlug(createSlug(e.target.value.toLowerCase())));
+  const handleTitleBlur = (e) => {
+    const titleValue = e.target.value.trim();
+    if (titleValue !== e.target.value) {
+      form.change('title', titleValue);
+    }
+    if (!titleValue) return;
+    const currentSlug = form.getState().values.slug?.trim() ?? '';
+    if (!currentSlug || !slugUserEdited.current) {
+      slugUserEdited.current = false;
+      form.change('slug', formatDatedSlug(titleValue));
     }
   };
 
-  const handleChange = (e) => setSlug(e.target.value ? e.target.value.toLowerCase() : e.target.value);
-
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && valid) {
-      setTimeout(form.submit);
+      e.preventDefault();
+      const { values } = form.getState();
+      const currentSlug = values.slug?.trim() ?? '';
+      if (!currentSlug || !slugUserEdited.current) {
+        slugUserEdited.current = false;
+        form.change('slug', formatDatedSlug((values.title ?? '').trim()));
+      }
+      form.submit();
     }
   };
 
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>Create Article</ModalHeader>
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
         <Form onSubmit={handleSubmit} autoComplete="off">
-          <SeoTitleField onBlur={handleBlur} onKeyDown={handleKeyDown} />
-          <TextField name="slug" label="Slug" value={slug} onChange={handleChange} onKeyDown={handleKeyDown} />
+          <SeoTitleField onBlur={handleTitleBlur} onKeyDown={handleKeyDown} />
+          <TextField
+            name="slug"
+            label="Slug"
+            format={formatDatedSlug}
+            formatOnBlur
+            validator={slugValidator}
+            onInput={() => { slugUserEdited.current = true; }}
+            onKeyDown={handleKeyDown}
+          />
         </Form>
       </ModalBody>
       <ModalFooter>

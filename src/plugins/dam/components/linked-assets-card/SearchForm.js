@@ -116,7 +116,7 @@ export default function SearchForm(props) {
                 <Icon imgSrc="filter" className="mx-1" />
                 <span className="me-1 d-none d-md-block">Filters</span>
               </Button>
-              <SelectField name="type" options={assetTypes} placeholder="Select Type:" />
+              <SelectField name="type" options={assetTypes} placeholder="Select Type:" initialValue={assetTypes[0].value} />
               <Field name="q" type="search" component="input" className="form-control" placeholder="Search Assets" />
               <Button color="secondary" disabled={isRunning} type="submit">
                 <Icon imgSrc="search" />

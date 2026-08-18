@@ -40,7 +40,9 @@ export default function withNotificationModal(ModalFields) {
         const content = getContent(values.content_ref);
         if (content) {
           values.title = content.get('title');
-        } else {
+        }
+
+        if (!content) {
           values.send_on_publish = false;
         }
 

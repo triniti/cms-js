@@ -9,6 +9,7 @@ import getUserRef from '@triniti/cms/plugins/iam/selectors/getUserRef.js';
 import useNode from '@triniti/cms/plugins/ncr/components/useNode.js';
 import getStatus from '@triniti/cms/plugins/raven/selectors/getStatus.js';
 import { connectionStatus } from '@triniti/cms/plugins/raven/constants.js';
+import nodeUrl from '@triniti/cms/plugins/ncr/nodeUrl.js';
 
 function UserName(props) {
   const { nodeRef } = props;
@@ -27,6 +28,7 @@ function UserName(props) {
 
 export default function WarningModal(props) {
   const { nodeRef, users, viewModeUrl } = props;
+  const { node } = useNode(nodeRef);
   const navigate = useNavigate();
   const myUserRef = useSelector(getUserRef);
   const status = useSelector(getStatus);
@@ -49,16 +51,21 @@ export default function WarningModal(props) {
       return;
     }
 
-    if (shouldBeShown()) {
-      setShowWarning(true);
-    }
-  }, [hasBeenShown, status]);
+    // Add a small delay to ensure initial collaborations are loaded
+    const timer = setTimeout(() => {
+      if (shouldBeShown()) {
+        setShowWarning(true);
+      }
+    }, 1000); // Wait 1 second for initial data
+
+    return () => clearTimeout(timer);
+  }, [hasBeenShown, status, users, myUserRef]);
 
   useEffect(() => {
     if (shouldBeShown()) {
       setShowWarning(true);
     }
-  }, []);
+  }, [users, myUserRef]);
 
   if (!showWarning) {
     return null;
@@ -75,14 +82,26 @@ export default function WarningModal(props) {
     navigate(viewModeUrl);
   };
 
+  const handleReturnToPreviousPage = () => {
+    setHasBeenShown(true);
+    setShowWarning(false);
+
+    if (window.history.length > 2) {
+      navigate(-1);
+    } else {
+      const search = nodeUrl(node, 'search');
+      navigate(search);
+    }
+  };
+
   const type = startCase(NodeRef.fromString(nodeRef).getLabel()).toLowerCase();
 
   return (
-    <Modal keyboard={false} isOpen size="sd" backdrop="static" centered modalClassName="animate-center">
+    <Modal isOpen size="sd" centered toggle={handleContinueInViewMode} modalClassName="animate-center">
       <ModalBody className="text-center">
         <Icon imgSrc="notification" alert size="lg" color="warning" border className="icon-modal" />
         <h2>Stop!</h2>
-        <p className="text-modal">This {type} is being edited by:</p>
+        <p className='text-modal'>This {type} is being edited by:</p>
         {Object.keys(users).map((ref) => {
           if (ref === myUserRef) {
             return null;
@@ -90,15 +109,15 @@ export default function WarningModal(props) {
 
           return <UserName key={ref} nodeRef={ref} ts={users[ref]} />;
         })}
-        <div className="modal-actions">
-          <Button block color="primary" onClick={handleContinueInViewMode} className="btn-modal">
-            Continue in View Mode
+        <div className='modal-actions'>
+          <Button block color='primary' onClick={handleContinueInViewMode} className='btn-modal'>
+            Switch to View Mode (recommended)
           </Button>
-          <Button block color="danger" onClick={handleContinueInEditMode} className="btn-modal">
-            Continue in Edit Mode (tell others you are in here)
+          <Button block color='danger' onClick={handleContinueInEditMode} className='btn-modal'>
+            Continue in edit mode (risk overwriting)
           </Button>
-          <Button block color="secondary" onClick={handleContinueInViewMode} className="btn-modal">
-            Cancel and Wait
+          <Button block color='secondary' onClick={handleReturnToPreviousPage} className='btn-modal'>
+            Return to previous page
           </Button>
         </div>
       </ModalBody>

@@ -17,6 +17,10 @@
   &:focus-visible {
     background-color: var(--#{$prefix}secondary);
     outline: none;
+
+    .card-title {
+      white-space: normal;
+    }
   }
   &.selected {
     background-color: var(--#{$prefix}primary);

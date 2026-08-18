@@ -42,7 +42,7 @@ function PatchAssetsModal(props) {
   };
 
   return (
-    <Modal isOpen centered backdrop="static">
+    <Modal isOpen centered toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>Patch Assets ({nodes.length})</ModalHeader>
       <ModalBody>
         {hasSubmitErrors && <FormErrors errors={submitErrors} />}
@@ -52,7 +52,15 @@ function PatchAssetsModal(props) {
         <Form onSubmit={handleSubmit} autoComplete="off">
           <TextField name="title" label="Title" />
           <TextField name="display_title" label="Display Title" />
-          <DatePickerField name="expires_at" label="Expires At" />
+          <DatePickerField 
+            name="expires_at" 
+            label="Expires At" 
+            showQuickSelect
+            quickSelectOptions={[
+              { amount: 5, unit: 'year' },
+              { amount: 1, unit: 'year' }
+            ]}
+          />
           <TextField name="credit" label="Credit" />
           <UrlField name="credit_url" label="Credit URL" />
           <TextField name="cta_text" label="Call To Action" />

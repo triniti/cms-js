@@ -97,7 +97,10 @@ export default (nodeRef, consistent = false) => {
       return;
     }
 
-    setRefreshCount(refreshCount + 1);
+    // functional update because callers can hold this closure from an old render
+    // (e.g. the uploader modal's save button) computing from the captured count
+    // would set the same value, bail out, and skip the refetch.
+    setRefreshCount(count => count + 1);
   };
 
   return {
