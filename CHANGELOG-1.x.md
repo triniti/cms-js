@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.2.3
+* Fixed date formatting for apple_news_updated_at and jwplayer_synced_at fields
+
+
 ## v1.2.2
 * dam :: Fixed "original" image aspect ratio handling in blocksmith previews by normalizing "original" to "o" in damUrl function.
 
