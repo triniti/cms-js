@@ -38,6 +38,8 @@ export default function DatePickerField(props) {
     dateOnly = true;
     const [year, month, day] = (input.value || '').split('-').map(Number);
     currentDate = input.value ? new Date(year, month - 1, day) : null;
+  } else if (typeof input.value === 'number') {
+    currentDate = new Date(input.value * 1000);
   } else {
     currentDate = input.value ? new Date(input.value) : null;
   }
