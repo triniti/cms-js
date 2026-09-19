@@ -2,7 +2,7 @@
 
 
 ## v1.2.3
-* Fixed date formatting for apple_news_updated_at and jwplayer_synced_at fields
+* Fixed date formatting for timestamp fields
 
 
 ## v1.2.2
